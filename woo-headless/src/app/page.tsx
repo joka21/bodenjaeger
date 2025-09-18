@@ -10,7 +10,7 @@ export default function Home() {
             WooCommerce Store
           </h1>
           <p className="text-lg text-gray-600">
-            Entdecken Sie unsere hochwertigen Produkte
+            Entdecken Sie unsere hchwertigen Produkte
           </p>
         </div>
 
