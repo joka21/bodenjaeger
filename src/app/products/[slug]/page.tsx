@@ -29,7 +29,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Produktbild */}
             <div className="relative aspect-square rounded-lg overflow-hidden">
               <Image
-                src={product.images[0]?.src || "/placeholder.jpg"}
+                src={product.images[0]?.src || "https://via.placeholder.com/600x600/f3f4f6/9ca3af?text=Kein+Bild"}
                 alt={product.images[0]?.alt || product.name}
                 fill
                 className="object-cover"
