@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd woo-headless && npm run build",
+  "outputDirectory": "woo-headless/.next",
+  "installCommand": "cd woo-headless && npm install"
+}
