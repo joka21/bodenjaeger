@@ -1,8 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import { dummyProducts } from "@/lib/dummy-data";
+import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch products from WooCommerce
+  let products: StoreApiProduct[] = [];
+  try {
+    products = await wooCommerceClient.getProducts({
+      per_page: 12,
+      orderby: 'date',
+      order: 'desc'
+    });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    products = [];
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,8 +28,15 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dummyProducts.map((product) => (
+        {products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-600 text-lg">
+              Keine Produkte verfügbar oder Verbindung zu WooCommerce fehlgeschlagen.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {products.map((product) => (
             <div
               key={product.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
@@ -65,8 +85,9 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

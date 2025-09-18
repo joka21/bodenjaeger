@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { dummyProducts } from "@/lib/dummy-data";
+import { wooCommerceClient } from "@/lib/woocommerce";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -8,7 +8,14 @@ interface ProductPageProps {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = dummyProducts.find(p => p.slug === slug);
+
+  let product;
+  try {
+    product = await wooCommerceClient.getProduct(slug);
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    notFound();
+  }
 
   if (!product) {
     notFound();
@@ -149,24 +156,38 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
 // Generate static params for all products
 export async function generateStaticParams() {
-  return dummyProducts.map((product) => ({
-    slug: product.slug,
-  }));
+  try {
+    const products = await wooCommerceClient.getProducts({ per_page: 100 });
+    return products.map((product) => ({
+      slug: product.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = dummyProducts.find(p => p.slug === slug);
 
-  if (!product) {
+  try {
+    const product = await wooCommerceClient.getProduct(slug);
+
+    if (!product) {
+      return {
+        title: 'Produkt nicht gefunden',
+      };
+    }
+
+    return {
+      title: `${product.name} - WooCommerce Store`,
+      description: product.short_description || product.description,
+    };
+  } catch (error) {
+    console.error('Error generating metadata:', error);
     return {
       title: 'Produkt nicht gefunden',
     };
   }
-
-  return {
-    title: `${product.name} - WooCommerce Store`,
-    description: product.short_description || product.description,
-  };
 }
