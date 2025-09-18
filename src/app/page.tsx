@@ -12,6 +12,7 @@ export default async function Home() {
       order: 'desc'
     });
 
+
   } catch (error) {
     console.error('Error fetching products:', error);
     products = [];
@@ -45,7 +46,7 @@ export default async function Home() {
               <Link href={`/products/${product.slug}`}>
                 <div className="relative h-64 overflow-hidden">
                   <Image
-                    src={product.images[0]?.src || "/placeholder.jpg"}
+                    src={product.images[0]?.src || "https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Kein+Bild"}
                     alt={product.images[0]?.alt || product.name}
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
