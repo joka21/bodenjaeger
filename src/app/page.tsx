@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { dummyProducts } from "@/lib/dummy-data";
 
 export default function Home() {
@@ -51,9 +52,12 @@ export default function Home() {
                     </span>
                   )}
 
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                  <Link
+                    href={`/products/${product.slug}`}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block"
+                  >
                     Zum Produkt
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
