@@ -11,6 +11,7 @@ export default async function Home() {
       orderby: 'date',
       order: 'desc'
     });
+
   } catch (error) {
     console.error('Error fetching products:', error);
     products = [];
