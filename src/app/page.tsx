@@ -21,20 +21,24 @@ export default function Home() {
               key={product.id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
-              <div className="relative h-64">
-                <Image
-                  src={product.images[0]?.src || "/placeholder.jpg"}
-                  alt={product.images[0]?.alt || product.name}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
+              <Link href={`/products/${product.slug}`}>
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={product.images[0]?.src || "/placeholder.jpg"}
+                    alt={product.images[0]?.alt || product.name}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              </Link>
 
               <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  {product.name}
-                </h2>
+                <Link href={`/products/${product.slug}`}>
+                  <h2 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                    {product.name}
+                  </h2>
+                </Link>
 
                 <div className="flex items-center justify-between">
                   {product.on_sale ? (
@@ -54,9 +58,9 @@ export default function Home() {
 
                   <Link
                     href={`/products/${product.slug}`}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block text-center"
                   >
-                    Zum Produkt
+                    Details ansehen
                   </Link>
                 </div>
               </div>
