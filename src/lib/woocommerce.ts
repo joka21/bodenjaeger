@@ -229,22 +229,22 @@ class WooCommerceClient {
     }
 
     try {
-      // First, search for the product by slug
-      const products = await this.getProducts({ search: slug, per_page: 100 });
+      // Get all products and filter by slug (most reliable approach)
+      const allProducts = await this.getProducts({ per_page: 100 });
+      const productBySlug = allProducts.find(p => p.slug === slug);
 
-      // Find the exact match by slug
-      const product = products.find(p => p.slug === slug);
-
-      if (!product) {
-        return null;
+      if (productBySlug) {
+        return productBySlug;
       }
 
-      // Get the full product details by ID
-      const endpoint = `/products/${product.id}`;
-      return await this.makeRequest<StoreApiProduct>(endpoint);
+      // Fallback: Try with search parameter
+      const searchResults = await this.getProducts({ search: slug, per_page: 100 });
+      const searchMatch = searchResults.find(p => p.slug === slug);
+
+      return searchMatch || null;
     } catch (error) {
       console.error(`Error fetching product with slug "${slug}":`, error);
-      throw error;
+      return null;
     }
   }
 
