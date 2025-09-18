@@ -117,10 +117,12 @@ interface StoreApiCategory {
 }
 
 class WooCommerceClient {
-  private config: WooCommerceConfig;
-  private baseApiUrl: string;
+  private config: WooCommerceConfig | null = null;
+  private baseApiUrl: string | null = null;
 
-  constructor() {
+  private initializeConfig() {
+    if (this.config) return; // Already initialized
+
     if (!process.env.NEXT_PUBLIC_WORDPRESS_URL) {
       throw new Error('NEXT_PUBLIC_WORDPRESS_URL environment variable is required');
     }
@@ -141,6 +143,12 @@ class WooCommerceClient {
   }
 
   private async makeRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    this.initializeConfig();
+
+    if (!this.baseApiUrl || !this.config) {
+      throw new Error('WooCommerce client not properly initialized');
+    }
+
     const url = `${this.baseApiUrl}${endpoint}`;
 
     // Add basic auth for WooCommerce API
