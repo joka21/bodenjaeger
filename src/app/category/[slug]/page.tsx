@@ -85,13 +85,17 @@ export default function CategoryPage({ params }: PageProps<'/category/[slug]'>) 
 
       const fetchedProducts = await response.json();
 
-      console.log(`📦 Fetched ${fetchedProducts.length} products for category ${categorySlug}`);
+      // Get pagination info from headers
+      const totalProducts = parseInt(response.headers.get('X-WP-Total') || '0');
+      const totalPagesFromAPI = parseInt(response.headers.get('X-WP-TotalPages') || '1');
+
+      console.log(`📦 Fetched ${fetchedProducts.length} products for category ${categorySlug} (${totalProducts} total across ${totalPagesFromAPI} pages)`);
 
       // API now handles category filtering server-side, so we can use the products directly
       setProducts(fetchedProducts);
 
-      // Calculate total pages (simplified)
-      setTotalPages(Math.ceil(fetchedProducts.length / productsPerPage));
+      // Use the total pages from the API
+      setTotalPages(totalPagesFromAPI);
 
     } catch (err) {
       console.error('❌ Error fetching category products:', err);

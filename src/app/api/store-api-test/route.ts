@@ -42,13 +42,24 @@ export async function GET(request: Request) {
 
     const data = await response.json();
 
-    console.log(`✅ Store API returned ${data.length} products`);
+    // Extract pagination information from headers
+    const totalProducts = response.headers.get('X-WP-Total') || '0';
+    const totalPages = response.headers.get('X-WP-TotalPages') || '1';
+
+    console.log(`✅ Store API returned ${data.length} products (${totalProducts} total, ${totalPages} pages)`);
     if (data[0]) {
       console.log('🔍 First product jaeger_meta check:', data[0].jaeger_meta ? 'Found' : 'Missing');
       console.log('📝 First product name:', data[0].name);
     }
 
-    return NextResponse.json(data);
+    // Return the data with pagination headers
+    return NextResponse.json(data, {
+      headers: {
+        'X-WP-Total': totalProducts,
+        'X-WP-TotalPages': totalPages,
+        'Access-Control-Expose-Headers': 'X-WP-Total, X-WP-TotalPages'
+      }
+    });
 
   } catch (error) {
     console.error('❌ Store API proxy error:', error);
