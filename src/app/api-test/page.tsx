@@ -95,7 +95,7 @@ export default function APITestPage() {
         } else {
           throw new Error(`API route failed: ${response.status}`);
         }
-      } catch (apiError) {
+      } catch {
         console.log('API route failed, trying proxy Store API...');
         // Fallback to proxy Store API search
         const searchUrl = `/api/store-api-test?search=${encodeURIComponent(slug)}&per_page=10`;

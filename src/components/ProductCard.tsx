@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { StoreApiProduct } from '@/lib/woocommerce';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface JaegerMeta {
   uvp?: number | null;
@@ -98,10 +99,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="relative aspect-[4/3] bg-gray-100">
         {/* Main Image */}
         {images.length > 0 ? (
-          <img
+          <Image
             src={images[currentImageIndex]?.src}
             alt={images[currentImageIndex]?.alt || product.name}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">

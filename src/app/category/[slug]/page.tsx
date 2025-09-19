@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { wooCommerceClient, type StoreApiProduct } from '@/lib/woocommerce';
+import { useState, useEffect, useCallback } from 'react';
+import { type StoreApiProduct } from '@/lib/woocommerce';
 import ProductCard from '@/components/ProductCard';
 
 interface JaegerMeta {
@@ -63,9 +63,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
 
   useEffect(() => {
     fetchProducts();
-  }, [categorySlug, currentPage]);
+  }, [fetchProducts]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -111,7 +111,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [categorySlug, currentPage, productsPerPage]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -218,7 +218,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
             </svg>
             <h3 className="text-xl font-medium text-gray-900 mb-2">Keine Produkte gefunden</h3>
             <p className="text-gray-600 mb-6">
-              In der Kategorie "{categoryName}" sind derzeit keine Produkte verfügbar.
+              In der Kategorie &ldquo;{categoryName}&rdquo; sind derzeit keine Produkte verfügbar.
             </p>
             <button
               onClick={fetchProducts}
