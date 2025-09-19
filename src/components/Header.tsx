@@ -10,7 +10,7 @@ export default function Header() {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   return (
-    <header className="bg-[#e5e5e5] shadow-md sticky top-0 z-50">
+    <header className="bg-[#222124] shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
