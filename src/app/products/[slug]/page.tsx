@@ -1,20 +1,81 @@
+'use client';
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { wooCommerceClient } from "@/lib/woocommerce";
+import { useState, useEffect } from "react";
+import { type StoreApiProduct } from "@/lib/woocommerce";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const { slug } = await params;
+export default function ProductPage({ params }: ProductPageProps) {
+  const [product, setProduct] = useState<StoreApiProduct | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const { addToCart, isInCart, getItemQuantity } = useCart();
 
-  let product;
-  try {
-    product = await wooCommerceClient.getProduct(slug);
-  } catch (error) {
-    console.error('Error fetching product:', error);
-    notFound();
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        const { slug } = await params;
+        const response = await fetch(`/api/products/${slug}`);
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            notFound();
+            return;
+          }
+          throw new Error('Failed to fetch product');
+        }
+
+        const fetchedProduct = await response.json();
+        setProduct(fetchedProduct);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        notFound();
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProduct();
+  }, [params]);
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product, quantity);
+      setAddedToCart(true);
+      // Reset feedback after 3 seconds
+      setTimeout(() => setAddedToCart(false), 3000);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden p-8">
+            <div className="animate-pulse">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="aspect-square bg-gray-300 rounded-lg"></div>
+                <div className="space-y-4">
+                  <div className="h-8 bg-gray-300 rounded"></div>
+                  <div className="h-6 bg-gray-300 rounded w-1/2"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-300 rounded"></div>
+                    <div className="h-4 bg-gray-300 rounded"></div>
+                    <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (!product) {
@@ -110,17 +171,77 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
               </div>
 
+              {/* Quantity Selector */}
+              {product.stock_status === 'instock' && (
+                <div className="mb-6">
+                  <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
+                    Anzahl:
+                  </label>
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    >
+                      -
+                    </button>
+                    <input
+                      type="number"
+                      id="quantity"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-20 text-center border border-gray-300 rounded-lg py-2"
+                      min="1"
+                    />
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Success Message */}
+              {addedToCart && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="font-medium">
+                    {quantity} {quantity === 1 ? 'Artikel wurde' : 'Artikel wurden'} erfolgreich in den Warenkorb gelegt!
+                  </span>
+                </div>
+              )}
+
               {/* Action Buttons */}
               <div className="space-y-4">
                 <button
-                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-colors ${
+                  onClick={handleAddToCart}
+                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
                     product.stock_status === 'instock'
-                      ? 'bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200'
+                      ? addedToCart
+                        ? 'bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200'
+                        : 'bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200'
                       : 'bg-gray-400 cursor-not-allowed'
                   }`}
                   disabled={product.stock_status !== 'instock'}
                 >
-                  {product.stock_status === 'instock' ? 'In den Warenkorb' : 'Nicht verfügbar'}
+                  {product.stock_status === 'instock'
+                    ? addedToCart
+                      ? (
+                        <span className="flex items-center justify-center">
+                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          Hinzugefügt! ({getItemQuantity(product.id)} im Warenkorb)
+                        </span>
+                      )
+                      : isInCart(product.id)
+                        ? `Weitere ${quantity} hinzufügen (${getItemQuantity(product.id)} bereits im Warenkorb)`
+                        : `In den Warenkorb (${quantity} Stück)`
+                    : 'Nicht verfügbar'
+                  }
                 </button>
 
                 <button className="w-full py-3 px-6 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
@@ -154,40 +275,3 @@ export default async function ProductPage({ params }: ProductPageProps) {
   );
 }
 
-// Generate static params for all products
-export async function generateStaticParams() {
-  try {
-    const products = await wooCommerceClient.getProducts({ per_page: 100 });
-    return products.map((product) => ({
-      slug: product.slug,
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
-}
-
-// Generate metadata for SEO
-export async function generateMetadata({ params }: ProductPageProps) {
-  const { slug } = await params;
-
-  try {
-    const product = await wooCommerceClient.getProduct(slug);
-
-    if (!product) {
-      return {
-        title: 'Produkt nicht gefunden',
-      };
-    }
-
-    return {
-      title: `${product.name} - WooCommerce Store`,
-      description: product.short_description || product.description,
-    };
-  } catch (error) {
-    console.error('Error generating metadata:', error);
-    return {
-      title: 'Produkt nicht gefunden',
-    };
-  }
-}
