@@ -87,20 +87,8 @@ export default function CategoryPage({ params }: PageProps<'/category/[slug]'>) 
 
       console.log(`📦 Fetched ${fetchedProducts.length} products for category ${categorySlug}`);
 
-      // For now, we'll show all products and filter by category name in the product data
-      // TODO: Implement proper category filtering when WooCommerce categories are set up
-      const categoryProducts = fetchedProducts.filter((product: ExtendedProduct) => {
-        // Check if product has category matching our slug
-        const hasCategory = product.categories?.some(cat =>
-          cat.slug === categorySlug ||
-          cat.name.toLowerCase().includes(categorySlug.toLowerCase())
-        );
-
-        // If no specific category match, show all products for now (development)
-        return hasCategory || fetchedProducts.length > 0;
-      });
-
-      setProducts(categoryProducts.length > 0 ? categoryProducts : fetchedProducts);
+      // API now handles category filtering server-side, so we can use the products directly
+      setProducts(fetchedProducts);
 
       // Calculate total pages (simplified)
       setTotalPages(Math.ceil(fetchedProducts.length / productsPerPage));

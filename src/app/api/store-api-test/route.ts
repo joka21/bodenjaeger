@@ -1,13 +1,27 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   console.log('🚀 Store API proxy called');
 
   try {
-    // Simple hardcoded test first
-    const storeApiUrl = 'https://plan-dein-ding.de/wp-json/wc/store/v1/products?per_page=1';
+    // Parse URL parameters from the request
+    const { searchParams } = new URL(request.url);
+    const per_page = searchParams.get('per_page') || '12';
+    const page = searchParams.get('page') || '1';
+    const category = searchParams.get('category');
+    const orderby = searchParams.get('orderby') || 'date';
+    const order = searchParams.get('order') || 'desc';
+
+    // Build the Store API URL with parameters
+    let storeApiUrl = `https://plan-dein-ding.de/wp-json/wc/store/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
+
+    // Add category filter if provided
+    if (category) {
+      storeApiUrl += `&category=${encodeURIComponent(category)}`;
+    }
 
     console.log('🔗 Calling Store API:', storeApiUrl);
+    console.log('📋 Parameters:', { per_page, page, category, orderby, order });
 
     // Make request to WooCommerce Store API
     const response = await fetch(storeApiUrl);
