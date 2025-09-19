@@ -31,11 +31,6 @@ interface ExtendedProduct extends StoreApiProduct {
   jaeger_meta?: JaegerMeta;
 }
 
-interface CategoryPageProps {
-  params: {
-    slug: string;
-  };
-}
 
 // Category mapping for display names
 const categoryNames: Record<string, string> = {
@@ -50,22 +45,27 @@ const categoryNames: Record<string, string> = {
   'zubehoer': 'Zubehör'
 };
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default function CategoryPage({ params }: PageProps<'/category/[slug]'>) {
   const [products, setProducts] = useState<ExtendedProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [resolvedParams, setResolvedParams] = useState<{ slug: string } | null>(null);
 
-  const categorySlug = params.slug;
-  const categoryName = categoryNames[categorySlug] || categorySlug;
   const productsPerPage = 12;
 
+  // Resolve params promise
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    params.then(setResolvedParams);
+  }, [params]);
+
+  const categorySlug = resolvedParams?.slug || '';
+  const categoryName = categoryNames[categorySlug] || categorySlug;
 
   const fetchProducts = useCallback(async () => {
+    if (!categorySlug) return; // Don't fetch if params not resolved yet
+
     try {
       setLoading(true);
       setError(null);
@@ -112,6 +112,10 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       setLoading(false);
     }
   }, [categorySlug, currentPage, productsPerPage]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
