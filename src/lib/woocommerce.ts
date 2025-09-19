@@ -19,6 +19,19 @@ interface StoreApiProduct {
   regular_price: string;
   sale_price: string;
   price_html: string;
+  prices?: {
+    price: string;
+    regular_price: string;
+    sale_price: string;
+    price_range?: null;
+    currency_code: string;
+    currency_symbol: string;
+    currency_minor_unit: number;
+    currency_decimal_separator: string;
+    currency_thousand_separator: string;
+    currency_prefix: string;
+    currency_suffix: string;
+  };
   on_sale: boolean;
   purchasable: boolean;
   total_sales: number;
@@ -85,6 +98,23 @@ interface StoreApiProduct {
   menu_order: number;
   related_ids: number[];
   has_options: boolean;
+  is_purchasable?: boolean;
+  is_in_stock?: boolean;
+  is_on_backorder?: boolean;
+  low_stock_remaining?: number | null;
+  stock_availability?: {
+    text: string;
+    class: string;
+  };
+  add_to_cart?: {
+    text: string;
+    description: string;
+    url: string;
+    single_text: string;
+    minimum: number;
+    maximum: number;
+    multiple_of: number;
+  };
   extensions: Record<string, unknown>;
 }
 
