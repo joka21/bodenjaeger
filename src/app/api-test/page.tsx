@@ -35,7 +35,7 @@ export default function APITestPage() {
   const [selectedProduct, setSelectedProduct] = useState<ExtendedProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [rawResponse, setRawResponse] = useState<any>(null);
+  const [rawResponse, setRawResponse] = useState<string>('');
 
   useEffect(() => {
     fetchProducts();
@@ -55,10 +55,10 @@ export default function APITestPage() {
 
       console.log('📦 Raw Products Response:', fetchedProducts);
 
-      setProducts(fetchedProducts);
+      setProducts(fetchedProducts as ExtendedProduct[]);
 
       if (fetchedProducts.length > 0) {
-        const firstProduct = fetchedProducts[0];
+        const firstProduct = fetchedProducts[0] as ExtendedProduct;
         console.log('🎯 First Product Details:', firstProduct);
         console.log('🔧 Jaeger Meta Fields:', firstProduct.jaeger_meta);
         setSelectedProduct(firstProduct);
@@ -80,10 +80,10 @@ export default function APITestPage() {
       const product = await response.json();
 
       console.log('📦 Single Product Raw Response:', product);
-      console.log('🔧 Single Product Jaeger Meta:', product.jaeger_meta);
+      console.log('🔧 Single Product Jaeger Meta:', (product as ExtendedProduct).jaeger_meta);
 
-      setRawResponse(product);
-      setSelectedProduct(product);
+      setRawResponse(JSON.stringify(product, null, 2));
+      setSelectedProduct(product as ExtendedProduct);
 
     } catch (err) {
       console.error('❌ Error fetching single product:', err);
@@ -105,10 +105,10 @@ export default function APITestPage() {
       console.log('🎯 Direct Store API Response:', data);
 
       if (data && data.length > 0) {
-        console.log('🔧 First Product Jaeger Meta (Direct):', data[0].jaeger_meta);
+        console.log('🔧 First Product Jaeger Meta (Direct):', (data[0] as ExtendedProduct).jaeger_meta);
       }
 
-      setRawResponse(data);
+      setRawResponse(JSON.stringify(data, null, 2));
 
     } catch (err) {
       console.error('❌ Direct API call failed:', err);
@@ -271,7 +271,7 @@ export default function APITestPage() {
             <h2 className="text-xl font-semibold mb-4">Raw API Response</h2>
             <div className="bg-gray-50 p-4 rounded-lg max-h-96 overflow-y-auto">
               <pre className="text-xs text-gray-800">
-                {JSON.stringify(rawResponse, null, 2)}
+                {rawResponse}
               </pre>
             </div>
           </div>
