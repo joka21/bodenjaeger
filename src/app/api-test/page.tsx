@@ -48,11 +48,10 @@ export default function APITestPage() {
 
       console.log('🔍 Fetching products from Store API...');
 
-      // Use direct Store API call since it's public and doesn't need authentication
-      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
-      const apiUrl = `${baseUrl}/wp-json/wc/store/v1/products?per_page=5&orderby=date&order=desc`;
+      // Use our proxy API to avoid CORS issues
+      const apiUrl = `/api/store-api-test?per_page=5&orderby=date&order=desc`;
 
-      console.log('📡 Direct API URL:', apiUrl);
+      console.log('📡 Proxy API URL:', apiUrl);
 
       const response = await fetch(apiUrl);
 
@@ -95,10 +94,9 @@ export default function APITestPage() {
           throw new Error(`API route failed: ${response.status}`);
         }
       } catch (apiError) {
-        console.log('API route failed, trying direct Store API...');
-        // Fallback to direct Store API search
-        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
-        const searchUrl = `${baseUrl}/wp-json/wc/store/v1/products?search=${encodeURIComponent(slug)}&per_page=10`;
+        console.log('API route failed, trying proxy Store API...');
+        // Fallback to proxy Store API search
+        const searchUrl = `/api/store-api-test?search=${encodeURIComponent(slug)}&per_page=10`;
 
         const directResponse = await fetch(searchUrl);
         const searchResults = await directResponse.json();
@@ -124,12 +122,11 @@ export default function APITestPage() {
 
   const testDirectAPICall = async () => {
     try {
-      console.log('🌐 Testing direct WooCommerce Store API call...');
+      console.log('🌐 Testing direct WooCommerce Store API call via proxy...');
 
-      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
-      const apiUrl = `${baseUrl}/wp-json/wc/store/v1/products?per_page=1`;
+      const apiUrl = `/api/store-api-test?per_page=1`;
 
-      console.log('📡 API URL:', apiUrl);
+      console.log('📡 Proxy API URL:', apiUrl);
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -318,6 +315,9 @@ export default function APITestPage() {
             </p>
             <p>
               <strong>Store API Endpoint:</strong> {process.env.NEXT_PUBLIC_WORDPRESS_URL}/wp-json/wc/store/v1/products
+            </p>
+            <p>
+              <strong>Proxy API Endpoint:</strong> /api/store-api-test (used to avoid CORS issues)
             </p>
             <p>
               <strong>Expected jaeger_meta fields:</strong> uvp, show_uvp, paketpreis, paketpreis_s, paketinhalt, einheit_short, verpackungsart_short, verschnitt, text_produktuebersicht, show_text_produktuebersicht, lieferzeit, show_lieferzeit, setangebot_titel, show_setangebot, standard_addition_daemmung, standard_addition_sockelleisten, aktion, show_aktion, angebotspreis_hinweis, show_angebotspreis_hinweis
