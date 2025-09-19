@@ -47,11 +47,20 @@ export default function APITestPage() {
       setError(null);
 
       console.log('🔍 Fetching products from Store API...');
-      const fetchedProducts = await wooCommerceClient.getProducts({
-        per_page: 5,
-        orderby: 'date',
-        order: 'desc'
-      });
+
+      // Use direct Store API call since it's public and doesn't need authentication
+      const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+      const apiUrl = `${baseUrl}/wp-json/wc/store/v1/products?per_page=5&orderby=date&order=desc`;
+
+      console.log('📡 Direct API URL:', apiUrl);
+
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const fetchedProducts = await response.json();
 
       console.log('📦 Raw Products Response:', fetchedProducts);
 
@@ -76,8 +85,31 @@ export default function APITestPage() {
     try {
       console.log(`🔍 Fetching single product: ${slug}`);
 
-      const response = await fetch(`/api/products/${slug}`);
-      const product = await response.json();
+      // Try our API route first, fallback to direct Store API
+      let product;
+      try {
+        const response = await fetch(`/api/products/${slug}`);
+        if (response.ok) {
+          product = await response.json();
+        } else {
+          throw new Error(`API route failed: ${response.status}`);
+        }
+      } catch (apiError) {
+        console.log('API route failed, trying direct Store API...');
+        // Fallback to direct Store API search
+        const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+        const searchUrl = `${baseUrl}/wp-json/wc/store/v1/products?search=${encodeURIComponent(slug)}&per_page=10`;
+
+        const directResponse = await fetch(searchUrl);
+        const searchResults = await directResponse.json();
+
+        // Find product with matching slug
+        product = searchResults.find((p: ExtendedProduct) => p.slug === slug);
+
+        if (!product) {
+          throw new Error(`Product with slug "${slug}" not found`);
+        }
+      }
 
       console.log('📦 Single Product Raw Response:', product);
       console.log('🔧 Single Product Jaeger Meta:', (product as ExtendedProduct).jaeger_meta);
