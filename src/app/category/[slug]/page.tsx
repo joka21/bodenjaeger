@@ -109,6 +109,21 @@ export default function CategoryPage({ params }: PageProps<'/category/[slug]'>) 
     fetchProducts();
   }, [fetchProducts]);
 
+  // Prefetch next page for faster navigation
+  useEffect(() => {
+    if (categorySlug && currentPage < totalPages) {
+      const nextPage = currentPage + 1;
+      const prefetchUrl = `/api/store-api-test?per_page=${productsPerPage}&page=${nextPage}&category=${encodeURIComponent(categorySlug)}&orderby=date&order=desc`;
+
+      // Prefetch with a small delay to not interfere with current page loading
+      const timeoutId = setTimeout(() => {
+        fetch(prefetchUrl).catch(() => {}); // Silent prefetch
+      }, 1000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [categorySlug, currentPage, totalPages, productsPerPage]);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });

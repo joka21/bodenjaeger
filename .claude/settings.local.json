@@ -10,7 +10,8 @@
       "Bash(git push:*)",
       "WebFetch(domain:plan-dein-ding.de)",
       "Bash(npm run dev:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(time curl:*)"
     ],
     "deny": [],
     "ask": []
