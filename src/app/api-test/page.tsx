@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { wooCommerceClient, type StoreApiProduct } from '@/lib/woocommerce';
+import { wooCommerceClient, type StoreApiProduct, type StoreApiCategory } from '@/lib/woocommerce';
 
 interface JaegerMeta {
   uvp?: number | null;
@@ -32,6 +32,7 @@ interface ExtendedProduct extends StoreApiProduct {
 
 export default function APITestPage() {
   const [products, setProducts] = useState<ExtendedProduct[]>([]);
+  const [categories, setCategories] = useState<StoreApiCategory[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<ExtendedProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -39,6 +40,7 @@ export default function APITestPage() {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const fetchProducts = async () => {
@@ -120,6 +122,26 @@ export default function APITestPage() {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      console.log('🏷️ Fetching categories from Store API...');
+
+      // Get main categories (parent: 0)
+      const mainCategories = await wooCommerceClient.getCategories({
+        parent: 0,
+        per_page: 20,
+        orderby: 'name',
+        order: 'asc'
+      });
+
+      console.log('📦 Categories Response:', mainCategories);
+      setCategories(mainCategories);
+
+    } catch (err) {
+      console.error('❌ Error fetching categories:', err);
+    }
+  };
+
   const testDirectAPICall = async () => {
     try {
       console.log('🌐 Testing direct WooCommerce Store API call via proxy...');
@@ -141,6 +163,20 @@ export default function APITestPage() {
 
     } catch (err) {
       console.error('❌ Direct API call failed:', err);
+    }
+  };
+
+  const testCategoriesAPI = async () => {
+    try {
+      console.log('🏷️ Testing Categories API...');
+
+      const categoriesData = await wooCommerceClient.getCategories({ parent: 0 });
+      console.log('🎯 Categories API Response:', categoriesData);
+
+      setRawResponse(JSON.stringify(categoriesData, null, 2));
+
+    } catch (err) {
+      console.error('❌ Categories API call failed:', err);
     }
   };
 
@@ -189,9 +225,48 @@ export default function APITestPage() {
           >
             Test Direct API Call
           </button>
+          <button
+            onClick={testCategoriesAPI}
+            className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            Test Categories API
+          </button>
+          <button
+            onClick={fetchCategories}
+            className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors"
+          >
+            Reload Categories
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Categories List */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-xl font-semibold mb-4">Categories ({categories.length})</h2>
+
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className="p-3 border rounded-lg hover:border-gray-300 transition-colors"
+                >
+                  <h3 className="font-medium text-gray-900">{category.name}</h3>
+                  <p className="text-sm text-gray-600">ID: {category.id} | Slug: {category.slug}</p>
+                  {category.count !== undefined && (
+                    <p className="text-xs text-gray-500">Products: {category.count}</p>
+                  )}
+                  {category.description && (
+                    <p className="text-xs text-gray-500 mt-1">{category.description}</p>
+                  )}
+                </div>
+              ))}
+
+              {categories.length === 0 && (
+                <p className="text-gray-500">No categories found.</p>
+              )}
+            </div>
+          </div>
+
           {/* Products List */}
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold mb-4">Products ({products.length})</h2>

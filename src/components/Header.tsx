@@ -10,29 +10,69 @@ export default function Header() {
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-[#e5e5e5] shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
           <Link href="/" className="flex items-center">
-            <h1 className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
-              WooCommerce Store
+            <h1 className="text-xl font-bold text-white hover:text-gray-200 transition-colors">
+              Bodenjäger
             </h1>
           </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex space-x-6">
+          {/* Main Navigation */}
+          <nav className="hidden lg:flex space-x-6">
+            <div className="relative group">
+              <Link
+                href="/category/vinylboden"
+                className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
+              >
+                Vinylboden
+              </Link>
+              <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                <Link href="/category/klebe-vinyl" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                  Klebe-Vinyl
+                </Link>
+                <Link href="/category/rigid-vinyl" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                  Rigid-Vinyl
+                </Link>
+              </div>
+            </div>
             <Link
-              href="/"
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              href="/category/laminat"
+              className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
             >
-              Home
+              Laminat
             </Link>
             <Link
-              href="/products"
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              href="/category/parkett"
+              className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
             >
-              Produkte
+              Parkett
+            </Link>
+            <Link
+              href="/category/teppichboden"
+              className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
+            >
+              Teppichboden
+            </Link>
+            <Link
+              href="/category/sockelleisten"
+              className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
+            >
+              Sockelleisten
+            </Link>
+            <Link
+              href="/category/daemmung"
+              className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
+            >
+              Dämmung
+            </Link>
+            <Link
+              href="/category/zubehoer"
+              className="text-white hover:text-gray-200 transition-colors font-medium px-3 py-2"
+            >
+              Zubehör
             </Link>
           </nav>
 
@@ -41,7 +81,7 @@ export default function Header() {
             {/* Cart Drawer Button */}
             <button
               onClick={() => setIsCartDrawerOpen(true)}
-              className="relative flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors group"
+              className="relative flex items-center space-x-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-colors group"
             >
               <svg
                 className="w-5 h-5"
@@ -61,7 +101,7 @@ export default function Header() {
               </span>
               {itemCount > 0 && (
                 <div className="flex items-center space-x-1">
-                  <span className="bg-white text-blue-600 text-xs font-bold px-2 py-1 rounded-full">
+                  <span className="bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded-full">
                     {itemCount}
                   </span>
                   <span className="hidden lg:block text-sm">
@@ -70,21 +110,13 @@ export default function Header() {
                 </div>
               )}
             </button>
-
-            {/* Cart Page Link (for mobile/fallback) */}
-            <Link
-              href="/cart"
-              className="hidden text-gray-700 hover:text-blue-600 transition-colors font-medium"
-            >
-              Cart Page
-            </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               type="button"
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              className="text-white hover:text-gray-200 focus:outline-none"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
