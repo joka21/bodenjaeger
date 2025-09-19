@@ -20,22 +20,29 @@ export default function ProductPage({ params }: ProductPageProps) {
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const { slug } = await params;
-        const response = await fetch(`/api/products/${slug}`);
+        const resolvedParams = await params;
+        const { slug } = resolvedParams;
+
+        console.log('Fetching product with slug:', slug);
+        const response = await fetch(`/api/products/${encodeURIComponent(slug)}`);
+
+        console.log('Response status:', response.status);
 
         if (!response.ok) {
           if (response.status === 404) {
+            console.error('Product not found:', slug);
             notFound();
             return;
           }
-          throw new Error('Failed to fetch product');
+          throw new Error(`Failed to fetch product: ${response.status} ${response.statusText}`);
         }
 
         const fetchedProduct = await response.json();
+        console.log('Fetched product:', fetchedProduct);
         setProduct(fetchedProduct);
       } catch (error) {
         console.error('Error fetching product:', error);
-        notFound();
+        setProduct(null);
       } finally {
         setLoading(false);
       }
@@ -109,10 +116,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                   {product.on_sale ? (
                     <div className="flex items-center space-x-3">
                       <span className="text-3xl font-bold text-red-600">
-                        {product.sale_price}€
+                        {product.prices?.price ? (parseFloat(product.prices.price) / 100).toFixed(2) : product.sale_price}€
                       </span>
                       <span className="text-xl text-gray-500 line-through">
-                        {product.regular_price}€
+                        {product.prices?.regular_price ? (parseFloat(product.prices.regular_price) / 100).toFixed(2) : product.regular_price}€
                       </span>
                       <span className="bg-red-100 text-red-800 text-sm font-semibold px-2 py-1 rounded">
                         Sale
@@ -120,7 +127,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                     </div>
                   ) : (
                     <span className="text-3xl font-bold text-gray-900">
-                      {product.price}€
+                      {product.prices?.price ? (parseFloat(product.prices.price) / 100).toFixed(2) : product.price}€
                     </span>
                   )}
                 </div>
@@ -149,11 +156,11 @@ export default function ProductPage({ params }: ProductPageProps) {
                   <div>
                     <span className="font-semibold text-gray-900">Status:</span>
                     <span className={`ml-2 px-2 py-1 rounded text-xs ${
-                      product.stock_status === 'instock'
+                      product.is_in_stock
                         ? 'bg-green-100 text-green-800'
                         : 'bg-red-100 text-red-800'
                     }`}>
-                      {product.stock_status === 'instock' ? 'Auf Lager' : 'Nicht verfügbar'}
+                      {product.is_in_stock ? 'Auf Lager' : 'Nicht verfügbar'}
                     </span>
                   </div>
                   {product.weight && (
@@ -172,7 +179,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               </div>
 
               {/* Quantity Selector */}
-              {product.stock_status === 'instock' && (
+              {product.is_in_stock && (
                 <div className="mb-6">
                   <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
                     Anzahl:
@@ -219,15 +226,15 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <button
                   onClick={handleAddToCart}
                   className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
-                    product.stock_status === 'instock'
+                    product.is_in_stock
                       ? addedToCart
                         ? 'bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200'
                         : 'bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200'
                       : 'bg-gray-400 cursor-not-allowed'
                   }`}
-                  disabled={product.stock_status !== 'instock'}
+                  disabled={!product.is_in_stock}
                 >
-                  {product.stock_status === 'instock'
+                  {product.is_in_stock
                     ? addedToCart
                       ? (
                         <span className="flex items-center justify-center">

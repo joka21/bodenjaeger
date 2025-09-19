@@ -152,15 +152,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         {item.product.on_sale ? (
                           <div className="flex items-center space-x-2">
                             <span className="text-sm font-semibold text-red-600">
-                              €{item.product.sale_price}
+                              €{item.product.prices?.price ? (parseFloat(item.product.prices.price) / 100).toFixed(2) : item.product.sale_price}
                             </span>
                             <span className="text-xs text-gray-500 line-through">
-                              €{item.product.regular_price}
+                              €{item.product.prices?.regular_price ? (parseFloat(item.product.prices.regular_price) / 100).toFixed(2) : item.product.regular_price}
                             </span>
                           </div>
                         ) : (
                           <span className="text-sm font-semibold text-gray-900">
-                            €{item.product.price}
+                            €{item.product.prices?.price ? (parseFloat(item.product.prices.price) / 100).toFixed(2) : item.product.price}
                           </span>
                         )}
                       </div>
@@ -200,7 +200,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       {/* Subtotal */}
                       <div className="mt-2 text-right">
                         <span className="text-sm font-semibold text-gray-900">
-                          Subtotal: €{(parseFloat(item.product.price) * item.quantity).toFixed(2)}
+                          Subtotal: €{((item.product.prices?.price
+                            ? parseFloat(item.product.prices.price) / 100
+                            : parseFloat(item.product.price) || 0) * item.quantity).toFixed(2)}
                         </span>
                       </div>
                     </div>

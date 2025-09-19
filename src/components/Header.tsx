@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ShoppingCart } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './CartDrawer';
 
@@ -44,7 +43,19 @@ export default function Header() {
               onClick={() => setIsCartDrawerOpen(true)}
               className="relative flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors group"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4m-2.4 0L3 3m4 10v6a2 2 0 002 2h8a2 2 0 002-2v-6m-12 0h12"
+                />
+              </svg>
               <span className="hidden sm:block font-medium">
                 Warenkorb
               </span>
