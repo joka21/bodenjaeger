@@ -1,91 +1,29 @@
-'use client';
-
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { useState, useEffect } from "react";
-import { type StoreApiProduct } from "@/lib/woocommerce";
-import { useCart } from "@/contexts/CartContext";
+import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
+import AddToCartButton from "./AddToCartButton";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
-  const [product, setProduct] = useState<StoreApiProduct | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
-  const [addedToCart, setAddedToCart] = useState(false);
-  const { addToCart, isInCart, getItemQuantity } = useCart();
+// Enable ISR - revalidate every 60 seconds
+export const revalidate = 60;
 
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const resolvedParams = await params;
-        const { slug } = resolvedParams;
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { slug } = await params;
 
-        console.log('Fetching product with slug:', slug);
-        const response = await fetch(`/api/products/${encodeURIComponent(slug)}`);
+  let product: StoreApiProduct | null = null;
 
-        console.log('Response status:', response.status);
+  try {
+    // Server-side data fetching (much faster)
+    product = await wooCommerceClient.getProduct(slug);
 
-        if (!response.ok) {
-          if (response.status === 404) {
-            console.error('Product not found:', slug);
-            notFound();
-            return;
-          }
-          throw new Error(`Failed to fetch product: ${response.status} ${response.statusText}`);
-        }
-
-        const fetchedProduct = await response.json();
-        console.log('Fetched product:', fetchedProduct);
-        setProduct(fetchedProduct);
-      } catch (error) {
-        console.error('Error fetching product:', error);
-        setProduct(null);
-      } finally {
-        setLoading(false);
-      }
+    if (!product) {
+      notFound();
     }
-
-    fetchProduct();
-  }, [params]);
-
-  const handleAddToCart = () => {
-    if (product) {
-      addToCart(product, quantity);
-      setAddedToCart(true);
-      // Reset feedback after 3 seconds
-      setTimeout(() => setAddedToCart(false), 3000);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden p-8">
-            <div className="animate-pulse">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="aspect-square bg-gray-300 rounded-lg"></div>
-                <div className="space-y-4">
-                  <div className="h-8 bg-gray-300 rounded"></div>
-                  <div className="h-6 bg-gray-300 rounded w-1/2"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-gray-300 rounded"></div>
-                    <div className="h-4 bg-gray-300 rounded"></div>
-                    <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!product) {
+  } catch (error) {
+    console.error('Error fetching product:', error);
     notFound();
   }
 
@@ -101,7 +39,9 @@ export default function ProductPage({ params }: ProductPageProps) {
                 alt={product.images[0]?.alt || product.name}
                 fill
                 className="object-cover"
-                priority
+                priority={true}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
               />
             </div>
 
@@ -132,12 +72,14 @@ export default function ProductPage({ params }: ProductPageProps) {
                   )}
                 </div>
 
-                <div className="prose prose-gray max-w-none mb-8">
-                  <div
-                    className="text-gray-600 leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: product.description }}
-                  />
-                </div>
+                {product.description && (
+                  <div className="prose prose-gray max-w-none mb-8">
+                    <div
+                      className="text-gray-600 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
+                  </div>
+                )}
 
                 {product.short_description && (
                   <div className="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -180,83 +122,8 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </div>
               </div>
 
-              {/* Quantity Selector */}
-              {product.is_in_stock && (
-                <div className="mb-6">
-                  <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-2">
-                    Anzahl:
-                  </label>
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                    >
-                      -
-                    </button>
-                    <input
-                      type="number"
-                      id="quantity"
-                      value={quantity}
-                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="w-20 text-center border border-gray-300 rounded-lg py-2"
-                      min="1"
-                    />
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Success Message */}
-              {addedToCart && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center">
-                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="font-medium">
-                    {quantity} {quantity === 1 ? 'Artikel wurde' : 'Artikel wurden'} erfolgreich in den Warenkorb gelegt!
-                  </span>
-                </div>
-              )}
-
-              {/* Action Buttons */}
-              <div className="space-y-4">
-                <button
-                  onClick={handleAddToCart}
-                  className={`w-full py-3 px-6 rounded-lg font-semibold text-white transition-all duration-200 ${
-                    product.is_in_stock
-                      ? addedToCart
-                        ? 'bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-200'
-                        : 'bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200'
-                      : 'bg-gray-400 cursor-not-allowed'
-                  }`}
-                  disabled={!product.is_in_stock}
-                >
-                  {product.is_in_stock
-                    ? addedToCart
-                      ? (
-                        <span className="flex items-center justify-center">
-                          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                          Hinzugefügt! ({getItemQuantity(product.id)} im Warenkorb)
-                        </span>
-                      )
-                      : isInCart(product.id)
-                        ? `Weitere ${quantity} hinzufügen (${getItemQuantity(product.id)} bereits im Warenkorb)`
-                        : `In den Warenkorb (${quantity} Stück)`
-                    : 'Nicht verfügbar'
-                  }
-                </button>
-
-                <button className="w-full py-3 px-6 border border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
-                  Zur Wunschliste hinzufügen
-                </button>
-              </div>
+              {/* Client Component for interactive elements */}
+              <AddToCartButton product={product} />
             </div>
           </div>
         </div>
@@ -270,9 +137,12 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
                   <Image
                     src={image.src}
-                    alt={image.alt}
+                    alt={image.alt || `${product.name} Bild ${index + 2}`}
                     fill
                     className="object-cover hover:scale-105 transition-transform"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    quality={80}
+                    loading="lazy"
                   />
                 </div>
               ))}
@@ -284,3 +154,47 @@ export default function ProductPage({ params }: ProductPageProps) {
   );
 }
 
+// Generate static params for most popular products (optional)
+export async function generateStaticParams() {
+  try {
+    const products = await wooCommerceClient.getProducts({
+      per_page: 10, // Top 10 most popular products
+      orderby: 'popularity'
+    });
+
+    return products.map((product) => ({
+      slug: product.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
+}
+
+// Dynamic metadata generation
+export async function generateMetadata({ params }: ProductPageProps) {
+  try {
+    const { slug } = await params;
+    const product = await wooCommerceClient.getProduct(slug);
+
+    if (!product) {
+      return {
+        title: 'Produkt nicht gefunden'
+      };
+    }
+
+    return {
+      title: `${product.name} | Bodenjäger`,
+      description: product.short_description || product.description?.substring(0, 160) || `${product.name} bei Bodenjäger kaufen`,
+      openGraph: {
+        title: product.name,
+        description: product.short_description || product.description?.substring(0, 160),
+        images: product.images?.[0]?.src ? [product.images[0].src] : [],
+      },
+    };
+  } catch (error) {
+    return {
+      title: 'Bodenjäger - Hochwertige Bodenbeläge'
+    };
+  }
+}
