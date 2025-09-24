@@ -133,17 +133,19 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </div>
 
                 <div className="prose prose-gray max-w-none mb-8">
-                  <p className="text-gray-600 leading-relaxed">
-                    {product.description}
-                  </p>
+                  <div
+                    className="text-gray-600 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
                 </div>
 
                 {product.short_description && (
                   <div className="mb-6 p-4 bg-gray-50 rounded-lg">
                     <h3 className="font-semibold text-gray-900 mb-2">Kurzbeschreibung</h3>
-                    <p className="text-gray-600 text-sm">
-                      {product.short_description}
-                    </p>
+                    <div
+                      className="text-gray-600 text-sm"
+                      dangerouslySetInnerHTML={{ __html: product.short_description }}
+                    />
                   </div>
                 )}
 
