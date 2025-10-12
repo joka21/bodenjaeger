@@ -25,12 +25,12 @@ export default function Header() {
             </Link>
 
             {/* Search Field */}
-            <div className="w-[150px]">
+            <div className="w-[200px]">
               <div className="relative w-full h-full flex items-center">
                 <input
                   type="text"
                   placeholder="Suche..."
-                  className="w-full h-12 pl-4 pr-12 rounded-[6%] bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  className="w-full h-12 pl-4 pr-12 rounded-[12%] bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
                 />
                 <img
                   src="/images/Icons/Lupe schieferschwarz.png"
