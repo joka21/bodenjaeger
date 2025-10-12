@@ -25,17 +25,17 @@ export default function Header() {
             </Link>
 
             {/* Search Field */}
-            <div className="flex-1">
+            <div className="w-[150px]">
               <div className="relative w-full h-full flex items-center">
                 <input
                   type="text"
-                  placeholder="Suche nach Produkten..."
-                  className="w-full h-12 pl-12 pr-4 rounded-full bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  placeholder="Suche..."
+                  className="w-full h-12 pl-4 pr-12 rounded-[6%] bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
                 />
                 <img
                   src="/images/Icons/Lupe schieferschwarz.png"
                   alt="Suche"
-                  className="absolute left-4 w-6 h-6 pointer-events-none"
+                  className="absolute right-4 w-6 h-6 pointer-events-none"
                 />
               </div>
             </div>
