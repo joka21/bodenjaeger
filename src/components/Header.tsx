@@ -13,48 +13,62 @@ export default function Header() {
     <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
       <div className="w-full h-[150px] bg-[#2e2d32]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-          <div className="flex items-center justify-between h-full">
-            {/* Logo/Brand */}
-            <Link href="/" className="flex items-center">
-              <h1 className="text-2xl font-bold text-white hover:text-gray-200 transition-colors">
-                Bodenjäger
-              </h1>
+        <div className="w-[1300px] mx-auto h-full">
+          <div className="flex items-center justify-between h-full gap-[1%]">
+            {/* Logo */}
+            <Link href="/" className="flex items-center flex-shrink-0">
+              <img
+                src="/images/logo/logo-bodenjaeger-fff.svg"
+                alt="Bodenjäger Logo"
+                className="h-20"
+              />
             </Link>
 
-            {/* Cart */}
-            <div className="flex items-center space-x-4">
+            {/* Search Field */}
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder="Suche nach Produkten..."
+                className="w-full h-12 px-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+              />
+            </div>
+
+            {/* Icons - Favoriten, Warenkorb, Kundenkonto */}
+            <div className="flex items-center gap-[1%]">
+              {/* Favoriten */}
+              <Link href="/favoriten" className="flex items-center justify-center w-12 h-12 hover:opacity-80 transition-opacity">
+                <img
+                  src="/images/Icons/Favoriten weiß.png"
+                  alt="Favoriten"
+                  className="w-8 h-8"
+                />
+              </Link>
+
+              {/* Warenkorb */}
               <button
                 onClick={() => setIsCartDrawerOpen(true)}
-                className="relative flex items-center space-x-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-colors group"
+                className="relative flex items-center justify-center w-12 h-12 hover:opacity-80 transition-opacity"
               >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m-2.4 0L3 3m4 10v6a2 2 0 002 2h8a2 2 0 002-2v-6m-12 0h12"
-                  />
-                </svg>
-                <span className="hidden sm:block font-medium">
-                  Warenkorb
-                </span>
+                <img
+                  src="/images/Icons/Warenkorb weiß.png"
+                  alt="Warenkorb"
+                  className="w-8 h-8"
+                />
                 {itemCount > 0 && (
-                  <div className="flex items-center space-x-1">
-                    <span className="bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded-full">
-                      {itemCount}
-                    </span>
-                    <span className="hidden lg:block text-sm">
-                      €{totalPrice.toFixed(2)}
-                    </span>
-                  </div>
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+                    {itemCount}
+                  </span>
                 )}
               </button>
+
+              {/* Kundenkonto */}
+              <Link href="/kundenkonto" className="flex items-center justify-center w-12 h-12 hover:opacity-80 transition-opacity">
+                <img
+                  src="/images/Icons/Kundenkonto weiß.png"
+                  alt="Kundenkonto"
+                  className="w-8 h-8"
+                />
+              </Link>
             </div>
           </div>
         </div>
