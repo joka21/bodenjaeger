@@ -26,12 +26,17 @@ bodenjäger/
 │   │   │   └── store-api-test/       # Proxy API für CORS-freie Store API Calls
 │   │   ├── api-test/                 # API Test-Seite für Jaeger Meta Fields
 │   │   ├── cart/                     # Warenkorb-Seite
+│   │   ├── category/[slug]/          # Kategorie-Seiten
 │   │   ├── products/[slug]/          # Produktdetail-Seiten
 │   │   ├── layout.tsx                # Root Layout mit CartProvider
-│   │   └── page.tsx                  # Homepage
+│   │   ├── page.tsx                  # Homepage
+│   │   └── globals.css               # Globale Styles
 │   ├── components/                   # React Komponenten
-│   │   ├── Header.tsx                # Navigation Header mit CartDrawer
-│   │   └── CartDrawer.tsx            # Slide-in Warenkorb Seitenleiste
+│   │   ├── startseite/               # Startseiten-Komponenten (in Entwicklung)
+│   │   ├── ui/                       # UI-Komponenten
+│   │   ├── Header.tsx                # Desktop Header (200px, 2-Section Design)
+│   │   ├── CartDrawer.tsx            # Slide-in Warenkorb Seitenleiste
+│   │   └── ProductCard.tsx           # Produkt-Karten Komponente
 │   ├── contexts/                     # React Context API
 │   │   └── CartContext.tsx           # Warenkorb State Management + LocalStorage
 │   ├── lib/                          # Utilities & APIs
@@ -41,6 +46,11 @@ bodenjäger/
 │       ├── product.ts                # Produkt-Typen
 │       └── wp-store-api-extension/   # WordPress Plugin für Jaeger Meta Fields
 ├── public/                    # Statische Dateien
+│   └── images/               # Bilder-Assets
+│       ├── logo/             # Logo-Dateien (SVG)
+│       ├── Icons/            # UI-Icons (schieferschwarz & weiß)
+│       ├── sliderbilder/     # Slider-Bilder (WebP)
+│       └── Startseite/       # Startseiten-Bilder (Kategorien, Vorteile)
 ├── .env.local                 # Umgebungsvariablen
 └── package.json              # Dependencies
 ```
@@ -88,11 +98,19 @@ bodenjäger/
 
 ## 🎨 UI/UX Design
 - **Design-System**: Modernes, minimalistisches Design
-- **Farbschema**: Grau/Blau Palette mit Hover-Effekten
+- **Farbschema**:
+  - Header Top: `#2e2d32` (150px)
+  - Header Bottom/Navigation: `#4c4c4c` (50px)
+  - Weiße Akzente für Suchfeld und Content
 - **Typografie**: Geist Sans & Geist Mono Fonts
-- **Responsive**: Mobile-first Approach
-- **Icons**: Inline SVG Icons
-- **Animationen**: CSS Transitions für bessere UX
+- **Header Design**:
+  - 200px Gesamthöhe (2 Sektionen)
+  - 1300px Breite für oberen Bereich
+  - Logo (SVG) + Suchfeld (200px, 12% Abrundung) + 3 Icons (Favoriten, Warenkorb, Kundenkonto)
+  - Zentrierte Navigation mit weißer Schrift
+- **Icons**: Custom PNG Icons in schieferschwarz & weiß Varianten
+- **Responsive**: Desktop-First für Header, Mobile-Optimierung geplant
+- **Animationen**: CSS Transitions für Hover-Effekte
 
 ## 📱 Seiten & Routen
 1. **Homepage (`/`)**: Produktübersicht mit WooCommerce Integration
@@ -169,24 +187,29 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 - Store API vs REST API Vergleich
 
 ## 📊 Git-Historie (Letzte Commits):
-1. **CartContext Implementation**: Shopping cart state management hinzugefügt
-2. **404-Fix**: Produktdetail-Seiten Fehler behoben
-3. **Image-Fix**: Next.js 15 Kompatibilität für Bilder
-4. **WooCommerce Integration**: Echte API-Daten statt Dummy-Daten
-5. **WordPress Plugin**: Jaeger Custom Fields Store API Integration
-6. **CartDrawer**: Slide-in Warenkorb-Komponente implementiert
+1. **Header Redesign**: 200px Desktop-Header mit 2-Section Layout implementiert
+2. **Image Assets**: Logo, Icons und Startseiten-Bilder hinzugefügt (56 Dateien)
+3. **Search Field**: Suchfeld mit Lupe-Icon, 200px Breite, 12% Abrundung
+4. **Component Structure**: Startseite-Ordner für Homepage-Komponenten erstellt
+5. **CartDrawer**: Slide-in Warenkorb-Komponente implementiert
+6. **WordPress Plugin**: Jaeger Custom Fields Store API Integration
+7. **WooCommerce Integration**: Echte API-Daten statt Dummy-Daten
 
 ## ⚠️ Aktueller Status & To-Do
 ### 🔄 In Bearbeitung:
-- **WordPress Plugin Deployment**: Plugin muss auf Live-Server installiert werden
-- **Jaeger Meta Fields Testing**: Verifizierung der Custom Fields im Live-System
+- **Startseite Entwicklung**: Homepage-Komponenten werden entwickelt
+- **Header Optimierung**: Desktop-Version fertig, Mobile-Version ausstehend
 
 ### 🎯 Nächste Entwicklungsschritte:
+- Startseiten-Komponenten entwickeln (Slider, Kategorien, Vorteile)
+- Mobile-Header implementieren
+- Suchfunktionalität aktivieren
+- Favoriten-System implementieren
+- Kundenkonto-Seiten entwickeln
 - WordPress Plugin auf Live-Server aktivieren
 - Checkout-Prozess implementieren
 - Benutzer-Authentifizierung
 - Produktfilterung und Suche
-- Kategorien-Navigation
 - Payment Gateway Integration
 - SEO-Optimierung
 
@@ -202,9 +225,22 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 
 ## 📋 Komponenten-Übersicht
 ### Frontend Komponenten:
+- **Header** (src/components/Header.tsx):
+  - 200px Desktop-Header mit 2-Section Design
+  - Obere Sektion (150px): Logo, Suchfeld (200px, 12% rund, Lupe rechts), Icons
+  - Untere Sektion (50px): Navigation mit Kategorien und Dropdowns
+  - Icons: Favoriten, Warenkorb (mit Counter Badge), Kundenkonto
+  - Sticky Position, 1300px Container-Breite
 - **CartDrawer**: Slide-in Warenkorb mit Animationen
-- **Header**: Navigation mit Cart-Icon und Item Counter
-- **Product Pages**: Funktionale "In den Warenkorb" Buttons
+- **ProductCard**: Produkt-Karten Komponente
+- **Startseite-Komponenten** (in Entwicklung): `/components/startseite/`
+
+### Assets & Images:
+- **Logo**: SVG-Logo in weiß (`logo-bodenjaeger-fff.svg`)
+- **Icons**: 36 PNG-Icons in beiden Farbvarianten (schieferschwarz/weiß)
+  - Warenkorb, Favoriten, Kundenkonto, Lupe, Telefon, etc.
+- **Slider-Bilder**: 2 WebP-Bilder (COREtec, primeCORE)
+- **Startseiten-Assets**: 14 WebP-Bilder für Kategorien und Vorteile
 
 ### API & Backend:
 - **Store API Proxy**: `/api/store-api-test` für CORS-freie Entwicklung
@@ -212,6 +248,26 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 - **API Test Interface**: `/api-test` für debugging
 
 ---
-**Status**: Erweiterte E-Commerce Lösung mit WordPress Plugin Integration
-**Letztes Update**: 19. September 2025
+**Status**: E-Commerce Lösung in aktiver Entwicklung - Header & Assets implementiert
+**Letztes Update**: 12. Oktober 2025
 **Entwickler**: Claude Code Zusammenfassung
+
+## 🆕 Neueste Änderungen (12. Oktober 2025)
+### Header Redesign:
+- **200px Desktop-Header** mit 2-Section Design
+  - Top: 150px (#2e2d32) - Logo + Suchfeld + Icons
+  - Bottom: 50px (#4c4c4c) - Navigation
+- **1300px Container-Breite** für oberen Bereich
+- **Suchfeld**: 200px breit, 12% abgerundet, Lupe-Icon rechts
+- **Icons**: Favoriten, Warenkorb (mit Counter), Kundenkonto
+- **Navigation**: Zentrierte Links, Dropdown für Unterkategorien
+
+### Assets hinzugefügt:
+- Logo SVG in weiß
+- 36 UI-Icons (schieferschwarz & weiß)
+- 2 Slider-Bilder (WebP)
+- 14 Startseiten-Bilder (Kategorien & Vorteile)
+
+### Struktur:
+- `/components/startseite/` Ordner erstellt
+- Vorbereitung für Homepage-Entwicklung
