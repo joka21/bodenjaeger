@@ -99,7 +99,7 @@ export default function HeroSlider() {
         aria-roledescription="carousel"
       >
         {/* Main Slider Container */}
-        <div className="flex flex-col lg:flex-row min-h-[400px] md:min-h-[500px] lg:min-h-[600px]">
+        <div className="flex flex-col lg:flex-row min-h-[480px] md:min-h-[600px] lg:min-h-[720px]">
           {/* Left Column - Text Content - 29% width */}
           <div className="bg-[#005189] flex items-center justify-center px-8 py-12 md:px-12 md:py-16 lg:px-16 order-2 lg:order-1 lg:w-[29%]">
             <div
@@ -135,7 +135,7 @@ export default function HeroSlider() {
           </div>
 
           {/* Right Column - Image - 71% width */}
-          <div className="relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] order-1 lg:order-2 lg:w-[71%]">
+          <div className="relative min-h-[480px] md:min-h-[600px] lg:min-h-[720px] order-1 lg:order-2 lg:w-[71%]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
