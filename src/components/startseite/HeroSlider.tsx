@@ -91,7 +91,7 @@ export default function HeroSlider() {
   return (
     <div className="w-full bg-white">
       <div
-        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white rounded-[6%]"
+        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white rounded-[2%]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         role="region"
