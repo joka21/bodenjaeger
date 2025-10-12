@@ -89,9 +89,9 @@ export default function HeroSlider() {
   const currentSlideData = slides[currentSlide];
 
   return (
-    <div className="w-full bg-gray-100">
+    <div className="w-full bg-white">
       <div
-        className="max-w-[1500px] mx-auto relative overflow-hidden"
+        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white rounded-[6%]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         role="region"
