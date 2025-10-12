@@ -21,8 +21,10 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Slider */}
-      <HeroSlider />
+      {/* Hero Slider - Add top padding to account for sticky header (200px) */}
+      <div className="pt-[200px]">
+        <HeroSlider />
+      </div>
 
       {/* Products Section */}
       <div className="py-16">
