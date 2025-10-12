@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
+import HeroSlider from "@/components/startseite/HeroSlider";
 
 export default async function Home() {
   // Fetch products from WooCommerce
@@ -19,16 +20,21 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            WooCommerce Store
-          </h1>
-          <p className="text-lg text-gray-600">
-            Entdecken Sie unsere hochwertigen Produkte
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Slider */}
+      <HeroSlider />
+
+      {/* Products Section */}
+      <div className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Unsere Produkte
+            </h1>
+            <p className="text-lg text-gray-600">
+              Entdecken Sie unsere hochwertigen Bodenbeläge
+            </p>
+          </div>
 
         {products.length === 0 ? (
           <div className="text-center py-12">
@@ -90,6 +96,7 @@ export default async function Home() {
             ))}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
