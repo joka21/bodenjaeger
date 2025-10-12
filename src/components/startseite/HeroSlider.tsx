@@ -99,9 +99,9 @@ export default function HeroSlider() {
         aria-roledescription="carousel"
       >
         {/* Main Slider Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[400px] md:min-h-[500px] lg:min-h-[600px]">
-          {/* Left Column - Text Content */}
-          <div className="bg-[#2e2d32] flex items-center justify-center px-8 py-12 md:px-12 md:py-16 lg:px-16 order-2 lg:order-1">
+        <div className="flex flex-col lg:flex-row min-h-[400px] md:min-h-[500px] lg:min-h-[600px]">
+          {/* Left Column - Text Content - 29% width */}
+          <div className="bg-[#005189] flex items-center justify-center px-8 py-12 md:px-12 md:py-16 lg:px-16 order-2 lg:order-1 lg:w-[29%]">
             <div
               className="max-w-xl transition-opacity duration-500"
               style={{ opacity: isTransitioning ? 0.5 : 1 }}
@@ -114,7 +114,7 @@ export default function HeroSlider() {
               </p>
               <Link
                 href={currentSlideData.buttonLink}
-                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-[#2e2d32] transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-[#005189] transition-all duration-300 group"
               >
                 {currentSlideData.buttonText}
                 <svg
@@ -134,8 +134,8 @@ export default function HeroSlider() {
             </div>
           </div>
 
-          {/* Right Column - Image */}
-          <div className="relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] order-1 lg:order-2">
+          {/* Right Column - Image - 71% width */}
+          <div className="relative min-h-[400px] md:min-h-[500px] lg:min-h-[600px] order-1 lg:order-2 lg:w-[71%]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
