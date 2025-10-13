@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function Footer() {
   return (
     <footer className="w-full mt-auto">
@@ -9,7 +11,40 @@ export default function Footer() {
           backgroundColor: 'var(--color-bg-darkest)'
         }}
       >
-        {/* Content will be added here */}
+        <div className="container mx-auto px-4 h-full">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full py-12">
+            {/* Column 1: Hast du Fragen? */}
+            <div className="text-white">
+              <h3 className="text-2xl font-bold mb-6">Hast du Fragen?</h3>
+              <div className="flex items-start gap-4">
+                <Image
+                  src="/images/Icons/Kontakt weiß.png"
+                  alt="Kontakt"
+                  width={40}
+                  height={40}
+                  className="flex-shrink-0"
+                />
+                <div>
+                  <p className="text-lg font-semibold mb-4">02433938884</p>
+                  <p className="text-sm mb-1">Mo. bis Fr.     9:00  – 18.30 Uhr</p>
+                  <p className="text-sm">Sa.                 9:00 – 14 Uhr</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 2: Über Bodenjäger */}
+            <div className="text-white">
+              <h3 className="text-2xl font-bold mb-6">Über Bodenjäger</h3>
+              {/* Content will be added */}
+            </div>
+
+            {/* Column 3: Kundenservice */}
+            <div className="text-white">
+              <h3 className="text-2xl font-bold mb-6">Kundenservice</h3>
+              {/* Content will be added */}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Section 2: Bottom Bar - 20px height, dark background */}
