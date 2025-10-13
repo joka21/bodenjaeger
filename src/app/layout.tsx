@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { CartProvider } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const poppinsRegular = localFont({
+  src: "./fonts/Poppins-Regular.woff",
+  variable: "--font-poppins-regular",
+  weight: "400",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const poppinsBold = localFont({
+  src: "./fonts/Poppins-Bold.woff",
+  variable: "--font-poppins-bold",
+  weight: "700",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="de">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}
       >
         <CartProvider>
           <Header />
