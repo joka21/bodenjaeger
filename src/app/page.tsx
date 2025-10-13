@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
+import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
+import { mockProducts } from "@/lib/mock-products";
 
 export default async function Home() {
   // Fetch products from WooCommerce
@@ -19,10 +21,20 @@ export default async function Home() {
     products = [];
   }
 
+  // Filter Sale-Produkte (Produkte mit Set-Angebot und Rabatt > 20%)
+  const saleProducts = mockProducts.filter(
+    (product) =>
+      product._show_setangebot === 'yes' &&
+      (product._setangebot_ersparnis_prozent || 0) > 20
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Slider */}
       <HeroSlider />
+
+      {/* Sale Product Slider */}
+      <SaleProductSlider products={saleProducts} />
 
       {/* Products Section */}
       <div className="py-16">
