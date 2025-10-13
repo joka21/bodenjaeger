@@ -35,13 +35,79 @@ export default function Footer() {
             {/* Column 2: Über Bodenjäger */}
             <div className="text-white">
               <h3 className="text-2xl font-bold mb-6">Über Bodenjäger</h3>
-              {/* Content will be added */}
+              <nav>
+                <ul className="space-y-3">
+                  <li>
+                    <a href="/fachmarkt-hueckelhoven" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Fachmarkt Hückelhoven</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/karriere" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Jobs & Karriere</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/datenschutz" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Datenschutzerklärung</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/impressum" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Impressum</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/agb" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>AGB</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
 
             {/* Column 3: Kundenservice */}
             <div className="text-white">
               <h3 className="text-2xl font-bold mb-6">Kundenservice</h3>
-              {/* Content will be added */}
+              <nav>
+                <ul className="space-y-3">
+                  <li>
+                    <a href="/kontakt" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Kontakt</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/service" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Servicebereich</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/versand-lieferzeit" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Versand & Lieferzeit</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/widerruf" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Widerrufsbelehrung & Widerrufsformular</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/blog" className="text-xl hover:underline flex items-start">
+                      <span className="mr-2">&gt;</span>
+                      <span>Blog</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
