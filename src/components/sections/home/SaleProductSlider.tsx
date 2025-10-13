@@ -2,10 +2,10 @@
 
 import { useState, useRef, useEffect } from 'react';
 import StandardProductCard from '@/components/StandardProductCard';
-import { StoreApiProduct } from '@/lib/woocommerce';
+import { MockProduct } from '@/lib/mock-products';
 
 interface SaleProductSliderProps {
-  products: StoreApiProduct[];
+  products: MockProduct[];
   title?: string;
   subtitle?: string;
 }

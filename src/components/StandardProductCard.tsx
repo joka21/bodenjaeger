@@ -3,47 +3,33 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { StoreApiProduct } from '@/lib/woocommerce';
 
 /**
- * Interface für Mock-Produktkarte (für Entwicklung)
- */
-interface MockProduct {
-  id: number;
-  name: string;
-  slug: string;
-  images: Array<{
-    src: string;
-    alt: string;
-  }>;
-  _show_setangebot?: string;
-  _setangebot_einzelpreis?: number;
-  _setangebot_gesamtpreis?: number;
-  _setangebot_ersparnis_prozent?: number;
-  _aktion?: string;
-  _einheit_short?: string;
-}
-
-/**
- * Union Type: Unterstützt sowohl WooCommerce als auch Mock-Produkte
+ * Interface für Standard-Produktkarte basierend auf Backend-Felder Dokumentation
  */
 interface StandardProductCardProps {
-  product: StoreApiProduct | MockProduct;
+  product: {
+    id: number;
+    name: string;
+    slug: string;
+    images: Array<{
+      src: string;
+      alt: string;
+    }>;
+    _show_setangebot?: string;
+    _setangebot_einzelpreis?: number;
+    _setangebot_gesamtpreis?: number;
+    _setangebot_ersparnis_prozent?: number;
+    _aktion?: string;
+    _einheit_short?: string;
+  };
 }
 
 /**
  * Deutsche Preisformatierung: XX,XX €
  */
-const formatPrice = (price: number | string): string => {
-  const numPrice = typeof price === 'string' ? parseFloat(price) : price;
-  return numPrice.toFixed(2).replace('.', ',');
-};
-
-/**
- * Type Guard: Prüft ob Produkt ein WooCommerce-Produkt ist
- */
-const isWooCommerceProduct = (product: StoreApiProduct | MockProduct): product is StoreApiProduct => {
-  return 'price' in product && 'on_sale' in product;
+const formatPrice = (price: number): string => {
+  return price.toFixed(2).replace('.', ',');
 };
 
 /**
@@ -56,7 +42,6 @@ const isWooCommerceProduct = (product: StoreApiProduct | MockProduct): product i
  * - Responsive Design
  * - Hover-Effekte
  * - Vollständig klickbar (Link zu Produktseite)
- * - Unterstützt WooCommerce und Mock-Produkte
  */
 export default function StandardProductCard({ product }: StandardProductCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -64,39 +49,6 @@ export default function StandardProductCard({ product }: StandardProductCardProp
 
   const images = product.images || [];
   const hasMultipleImages = images.length > 1;
-
-  // Extrahiere Daten abhängig vom Produkttyp
-  const isWoo = isWooCommerceProduct(product);
-
-  let showSetAngebot = false;
-  let discountPercent = 0;
-  let vergleichspreis = 0;
-  let aktuellerPreis = 0;
-  let aktionsBadge = '';
-  let unit = 'm²';
-
-  if (isWoo) {
-    // WooCommerce Produkt
-    showSetAngebot = product.on_sale;
-    const regularPrice = parseFloat(product.regular_price || product.price);
-    const salePrice = parseFloat(product.sale_price || product.price);
-
-    if (product.on_sale && regularPrice > 0) {
-      discountPercent = Math.round(((regularPrice - salePrice) / regularPrice) * 100);
-      vergleichspreis = regularPrice;
-      aktuellerPreis = salePrice;
-    } else {
-      aktuellerPreis = parseFloat(product.price);
-    }
-  } else {
-    // Mock Produkt
-    showSetAngebot = product._show_setangebot === 'yes';
-    discountPercent = product._setangebot_ersparnis_prozent ? Math.round(product._setangebot_ersparnis_prozent) : 0;
-    vergleichspreis = product._setangebot_einzelpreis || 0;
-    aktuellerPreis = product._setangebot_gesamtpreis || 0;
-    aktionsBadge = product._aktion || '';
-    unit = product._einheit_short || 'm²';
-  }
 
   // Navigation Funktionen
   const goToPrevious = (e: React.MouseEvent) => {
@@ -111,6 +63,16 @@ export default function StandardProductCard({ product }: StandardProductCardProp
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
+  // Berechne Rabatt-Prozentsatz (gerundet)
+  const discountPercent = product._setangebot_ersparnis_prozent
+    ? Math.round(product._setangebot_ersparnis_prozent)
+    : 0;
+
+  // Zeige Set-Angebot?
+  const showSetAngebot = product._show_setangebot === 'yes';
+
+  // Einheit (Standard: m²)
+  const unit = product._einheit_short || 'm²';
 
   return (
     <article
@@ -150,9 +112,9 @@ export default function StandardProductCard({ product }: StandardProductCardProp
             )}
 
             {/* Aktion-Badge */}
-            {aktionsBadge && (
+            {product._aktion && (
               <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
-                {aktionsBadge}
+                {product._aktion}
               </div>
             )}
           </div>
@@ -241,9 +203,9 @@ export default function StandardProductCard({ product }: StandardProductCardProp
               {/* Preiszeile 1: Set-Angebot + Vergleichspreis */}
               <div className="flex justify-between items-center mb-1">
                 <span className="text-gray-900 text-sm">Set-Angebot</span>
-                {vergleichspreis > 0 && (
+                {product._setangebot_einzelpreis && (
                   <span className="text-gray-500 line-through text-sm">
-                    statt {formatPrice(vergleichspreis)}€/{unit}
+                    statt {formatPrice(product._setangebot_einzelpreis)}€/{unit}
                   </span>
                 )}
               </div>
@@ -251,18 +213,22 @@ export default function StandardProductCard({ product }: StandardProductCardProp
               {/* Preiszeile 2: Gesamt + Aktueller Preis */}
               <div className="flex justify-between items-center">
                 <span className="text-gray-900 font-medium">Gesamt</span>
-                <span className="text-red-600 font-bold text-xl">
-                  {formatPrice(aktuellerPreis)} €/{unit}
-                </span>
+                {product._setangebot_gesamtpreis && (
+                  <span className="text-red-600 font-bold text-xl">
+                    {formatPrice(product._setangebot_gesamtpreis)} €/{unit}
+                  </span>
+                )}
               </div>
             </>
           ) : (
             // Alternative Preisanzeige wenn kein Set-Angebot
             <div className="flex justify-between items-center">
               <span className="text-gray-900 font-medium">Preis</span>
-              <span className="text-gray-900 font-bold text-xl">
-                {formatPrice(aktuellerPreis)} €/{unit}
-              </span>
+              {product._setangebot_gesamtpreis && (
+                <span className="text-gray-900 font-bold text-xl">
+                  {formatPrice(product._setangebot_gesamtpreis)} €/{unit}
+                </span>
+              )}
             </div>
           )}
         </div>
