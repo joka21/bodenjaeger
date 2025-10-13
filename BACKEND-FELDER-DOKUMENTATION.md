@@ -9,15 +9,44 @@
 ## Inhaltsverzeichnis
 
 1. [Produktfelder (Meta-Keys)](#produktfelder-meta-keys)
+   - [Aktions-Badges](#aktions-badges-aktion-1)
+   - [Angebotspreis-Hinweis](#angebotspreis-hinweis)
+   - [Basis-Produktinformationen](#basis-produktinformationen)
 2. [Set-Angebot Felder](#set-angebot-felder)
 3. [Preisberechnungen](#preisberechnungen)
 4. [Zusatzprodukte-System](#zusatzprodukte-system)
 5. [AJAX-Endpoints](#ajax-endpoints)
-6. [Beispiele](#beispiele)
+6. [Aktions-System Integration](#aktions-system-integration)
+7. [WordPress Hooks und Filter](#wordpress-hooks-und-filter)
+8. [Frontend-Integration Beispiele](#frontend-integration-beispiele)
 
 ---
 
 ## Produktfelder (Meta-Keys)
+
+### Aktions-Badges (Aktion 1)
+
+| Meta-Key | Typ | Beschreibung | Beispiel |
+|----------|-----|--------------|----------|
+| `_show_aktion` | `string` | Aktion anzeigen? | `yes` oder `no` |
+| `_aktion` | `string` | Aktionstext | `Restposten`, `Sonderangebot` |
+| `_aktion_text_color` | `string` | Textfarbe CSS-Klasse | `aktion-text-red`, `aktion-text-blue`, `aktion-text-green`, `aktion-text-yellow`, `aktion-text-white`, `aktion-text-black` |
+| `_aktion_text_size` | `string` | Textgröße CSS-Klasse | `aktion-text-sm`, `aktion-text-base`, `aktion-text-lg`, `aktion-text-xl`, `aktion-text-2xl` |
+| `_aktion_button_style` | `string` | Button-Stil CSS-Klasse | `aktion-bg-red`, `aktion-bg-blue`, `aktion-bg-green`, `aktion-bg-yellow`, `aktion-bg-gray` |
+
+**Verwendung:** Diese Badges werden prominent auf Produktseiten und in Produktlisten angezeigt (z.B. "Restposten", "Auslaufmodell").
+
+### Angebotspreis-Hinweis
+
+| Meta-Key | Typ | Beschreibung | Beispiel |
+|----------|-----|--------------|----------|
+| `_show_angebotspreis_hinweis` | `string` | Hinweis anzeigen? | `yes` oder `no` |
+| `_angebotspreis_hinweis` | `string` | Hinweistext (H2-Überschrift) | `Black Sale`, `Sommerschlussverkauf` |
+| `_angebotspreis_text_color` | `string` | Textfarbe CSS-Klasse | `aktion-text-red`, `aktion-text-blue`, etc. |
+| `_angebotspreis_text_size` | `string` | Textgröße CSS-Klasse | `aktion-text-sm`, `aktion-text-base`, etc. |
+| `_angebotspreis_button_style` | `string` | Button-Stil CSS-Klasse | `aktion-bg-red`, `aktion-bg-blue`, etc. |
+
+**Verwendung:** Dieser Hinweis wird als große Überschrift (H2) über dem Angebotspreis angezeigt, um spezielle Verkaufsaktionen hervorzuheben.
 
 ### Basis-Produktinformationen
 
@@ -413,6 +442,224 @@ Paketpreis:            39,96 €
 
 ---
 
+## Aktions-System Integration
+
+### CSS-Klassen für Styling
+
+Das Aktions-System verwendet vordefinierte CSS-Klassen aus `backend/css/aktionen.css`:
+
+#### Textfarben
+- `aktion-text-red` - Rot
+- `aktion-text-blue` - Blau
+- `aktion-text-green` - Grün
+- `aktion-text-yellow` - Gelb
+- `aktion-text-white` - Weiß
+- `aktion-text-black` - Schwarz
+
+#### Textgrößen
+- `aktion-text-sm` - Klein
+- `aktion-text-base` - Normal
+- `aktion-text-lg` - Groß
+- `aktion-text-xl` - Sehr Groß
+- `aktion-text-2xl` - Extra Groß
+
+#### Button-Hintergründe
+- `aktion-bg-red` - Roter Hintergrund
+- `aktion-bg-blue` - Blauer Hintergrund
+- `aktion-bg-green` - Grüner Hintergrund
+- `aktion-bg-yellow` - Gelber Hintergrund
+- `aktion-bg-gray` - Grauer Hintergrund
+
+### Frontend-Ausgabe Beispiel
+
+```php
+<?php
+// Aktion 1 Badge ausgeben
+if (get_post_meta($product_id, '_show_aktion', true) === 'yes') {
+    $aktion_text = get_post_meta($product_id, '_aktion', true);
+    $text_color = get_post_meta($product_id, '_aktion_text_color', true);
+    $text_size = get_post_meta($product_id, '_aktion_text_size', true);
+    $button_style = get_post_meta($product_id, '_aktion_button_style', true);
+
+    $classes = array('aktion-badge', $text_color, $text_size, $button_style);
+    $class_string = implode(' ', array_filter($classes));
+
+    echo '<span class="' . esc_attr($class_string) . '">' . esc_html($aktion_text) . '</span>';
+}
+
+// Angebotspreis Hinweis ausgeben
+if (get_post_meta($product_id, '_show_angebotspreis_hinweis', true) === 'yes') {
+    $hinweis_text = get_post_meta($product_id, '_angebotspreis_hinweis', true);
+    $text_color = get_post_meta($product_id, '_angebotspreis_text_color', true);
+    $text_size = get_post_meta($product_id, '_angebotspreis_text_size', true);
+    $button_style = get_post_meta($product_id, '_angebotspreis_button_style', true);
+
+    $classes = array('angebotspreis-hinweis', $text_color, $text_size, $button_style);
+    $class_string = implode(' ', array_filter($classes));
+
+    echo '<h2 class="' . esc_attr($class_string) . '">' . esc_html($hinweis_text) . '</h2>';
+}
+?>
+```
+
+### Admin-Panel Tab
+
+Das Aktions-System fügt einen eigenen Tab im WooCommerce-Produkteditor hinzu:
+
+**Tab-Name:** "Aktionen" (Priority: 25)
+**Target-ID:** `aktionen_product_data`
+
+#### Struktur:
+1. **Aktion 1 Bereich** (`options_group`)
+   - Checkbox: Aktion anzeigen
+   - Textfeld: Aktionstext
+   - Dropdown: Textfarbe
+   - Dropdown: Textgröße
+   - Dropdown: Button-Stil
+
+2. **Angebotspreis Hinweis Bereich** (`options_group`)
+   - Checkbox: Hinweis anzeigen
+   - Textfeld: Hinweistext (wird als H2 ausgegeben)
+   - Dropdown: Textfarbe
+   - Dropdown: Textgröße
+   - Dropdown: Button-Stil
+
+### Performance-Optimierung
+
+Das Aktions-System lädt CSS nur bei Bedarf:
+
+```php
+// Styles werden NUR auf relevanten Seiten geladen
+function jaeger_enqueue_aktionen_styles() {
+    if (!is_product() && !is_shop() && !is_product_category()) {
+        return;
+    }
+    wp_enqueue_style('jaeger-aktionen-styles', plugins_url('css/aktionen.css', __FILE__));
+}
+```
+
+### Sicherheit
+
+Alle Eingaben werden bei der Speicherung sanitisiert:
+- Textfelder: `sanitize_text_field()`
+- Checkboxen: `yes` oder `no`
+- CSS-Klassen: Validierung gegen vordefinierte Optionen
+
+---
+
+## WordPress Hooks und Filter
+
+### Aktions-System Hooks
+
+#### Actions (add_action)
+
+| Hook | Callback | Priority | Beschreibung |
+|------|----------|----------|--------------|
+| `wp_enqueue_scripts` | `jaeger_enqueue_aktionen_styles` | 10 | Lädt Aktions-CSS nur auf Produkt-/Shop-Seiten |
+| `woocommerce_product_data_tabs` | `jaeger_add_actions_product_data_tab` | - | Fügt "Aktionen"-Tab zum Produkteditor hinzu |
+| `woocommerce_product_data_panels` | `jaeger_add_actions_product_data_panels` | - | Rendert Inhalt des "Aktionen"-Tabs |
+| `woocommerce_process_product_meta` | `jaeger_save_actions_fields` | - | Speichert Aktionsfelder beim Produkt-Speichern |
+
+#### Filter (add_filter)
+
+Das Aktions-System verwendet keine benutzerdefinierten Filter, nur WordPress/WooCommerce Standard-Hooks.
+
+### Asset-Loading
+
+```php
+// Conditional Loading - nur auf relevanten Seiten
+add_action('wp_enqueue_scripts', 'jaeger_enqueue_aktionen_styles');
+
+function jaeger_enqueue_aktionen_styles() {
+    // Prüfe Seitentyp
+    if (!is_product() && !is_shop() && !is_product_category()) {
+        return;
+    }
+
+    // Enqueue CSS
+    wp_enqueue_style(
+        'jaeger-aktionen-styles',
+        plugins_url('css/aktionen.css', __FILE__)
+    );
+}
+```
+
+### Speicher-Hook
+
+```php
+add_action('woocommerce_process_product_meta', 'jaeger_save_actions_fields');
+
+function jaeger_save_actions_fields($post_id) {
+    // Autosave überspringen
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Nonce-Prüfung
+    if (!isset($_POST['woocommerce_meta_nonce']) ||
+        !wp_verify_nonce($_POST['woocommerce_meta_nonce'], 'woocommerce_save_data')) {
+        return;
+    }
+
+    // Berechtigungs-Prüfung
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Nur für Produkte
+    if (get_post_type($post_id) !== 'product') {
+        return;
+    }
+
+    // Felder speichern...
+}
+```
+
+### Tab-Registrierung
+
+```php
+add_filter('woocommerce_product_data_tabs', 'jaeger_add_actions_product_data_tab');
+
+function jaeger_add_actions_product_data_tab($tabs) {
+    // Nur im Admin
+    if (!is_admin()) {
+        return $tabs;
+    }
+
+    $tabs['aktionen'] = array(
+        'label'    => __('Aktionen', 'woocommerce'),
+        'target'   => 'aktionen_product_data',
+        'class'    => array(),
+        'priority' => 25,  // Position im Tab-Menü
+    );
+
+    return $tabs;
+}
+```
+
+### Style-Optionen Caching
+
+```php
+// Cached Style Options (einmal laden, immer verfügbar)
+function jaeger_get_style_options() {
+    static $options = null;
+
+    if ($options === null) {
+        $options = array(
+            'text_colors' => array(/* ... */),
+            'text_sizes' => array(/* ... */),
+            'button_styles' => array(/* ... */)
+        );
+    }
+
+    return $options;
+}
+```
+
+**Vorteil:** Die Style-Optionen werden nur einmal pro Request geladen, nicht bei jedem Funktionsaufruf.
+
+---
+
 ## Frontend-Integration Beispiele
 
 ### 1. Initiale Produktdaten laden
@@ -610,5 +857,6 @@ Browser DevTools → Network Tab → Filter: `admin-ajax.php`
 
 ---
 
-**Letzte Aktualisierung:** 2025-01-13
+**Letzte Aktualisierung:** 2025-10-13
 **Dokumentiert von:** Claude (AI-Assistant)
+**Ergänzt:** Aktions-System (Aktion 1 Badges, Angebotspreis-Hinweis), WordPress Hooks, CSS-Klassen

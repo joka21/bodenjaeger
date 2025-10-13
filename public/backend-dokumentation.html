@@ -315,15 +315,111 @@
                 <li><a href="#zusatzprodukte">4. Zusatzprodukte-System</a></li>
                 <li><a href="#ajax-endpoints">5. AJAX-Endpoints</a></li>
                 <li><a href="#paketpreise">6. Paketpreise vs. m²/lfm-Preise</a></li>
-                <li><a href="#frontend-integration">7. Frontend-Integration</a></li>
-                <li><a href="#probleme">8. Typische Probleme und Lösungen</a></li>
-                <li><a href="#debugging">9. Debugging-Tipps</a></li>
+                <li><a href="#aktions-system">7. Aktions-System Integration</a></li>
+                <li><a href="#wordpress-hooks">8. WordPress Hooks und Filter</a></li>
+                <li><a href="#frontend-integration">9. Frontend-Integration</a></li>
+                <li><a href="#probleme">10. Typische Probleme und Lösungen</a></li>
+                <li><a href="#debugging">11. Debugging-Tipps</a></li>
             </ul>
         </nav>
 
         <!-- SECTION 1: PRODUKTFELDER -->
         <section id="produktfelder">
             <h2>1. Produktfelder (Meta-Keys)</h2>
+
+            <h3>Aktions-Badges (Aktion 1)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Meta-Key</th>
+                        <th>Typ</th>
+                        <th>Beschreibung</th>
+                        <th>Beispiel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>_show_aktion</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Aktion anzeigen?</td>
+                        <td>yes / no</td>
+                    </tr>
+                    <tr>
+                        <td><code>_aktion</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Aktionstext</td>
+                        <td>Restposten, Sonderangebot</td>
+                    </tr>
+                    <tr>
+                        <td><code>_aktion_text_color</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Textfarbe CSS-Klasse</td>
+                        <td>aktion-text-red, aktion-text-blue, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><code>_aktion_text_size</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Textgröße CSS-Klasse</td>
+                        <td>aktion-text-sm, aktion-text-base, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><code>_aktion_button_style</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Button-Stil CSS-Klasse</td>
+                        <td>aktion-bg-red, aktion-bg-blue, etc.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="info-box">
+                <strong>Verwendung:</strong> Diese Badges werden prominent auf Produktseiten und in Produktlisten angezeigt (z.B. "Restposten", "Auslaufmodell").
+            </div>
+
+            <h3>Angebotspreis-Hinweis</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Meta-Key</th>
+                        <th>Typ</th>
+                        <th>Beschreibung</th>
+                        <th>Beispiel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>_show_angebotspreis_hinweis</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Hinweis anzeigen?</td>
+                        <td>yes / no</td>
+                    </tr>
+                    <tr>
+                        <td><code>_angebotspreis_hinweis</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Hinweistext (H2-Überschrift)</td>
+                        <td>Black Sale, Sommerschlussverkauf</td>
+                    </tr>
+                    <tr>
+                        <td><code>_angebotspreis_text_color</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Textfarbe CSS-Klasse</td>
+                        <td>aktion-text-red, aktion-text-blue, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><code>_angebotspreis_text_size</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Textgröße CSS-Klasse</td>
+                        <td>aktion-text-sm, aktion-text-base, etc.</td>
+                    </tr>
+                    <tr>
+                        <td><code>_angebotspreis_button_style</code></td>
+                        <td><span class="badge badge-primary">string</span></td>
+                        <td>Button-Stil CSS-Klasse</td>
+                        <td>aktion-bg-red, aktion-bg-blue, etc.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="info-box">
+                <strong>Verwendung:</strong> Dieser Hinweis wird als große Überschrift (H2) über dem Angebotspreis angezeigt, um spezielle Verkaufsaktionen hervorzuheben.
+            </div>
 
             <h3>Basis-Produktinformationen</h3>
             <table>
@@ -998,9 +1094,234 @@ Paketpreis:            39,96 €
             </div>
         </section>
 
-        <!-- SECTION 7: FRONTEND INTEGRATION -->
+        <!-- SECTION 7: AKTIONS-SYSTEM -->
+        <section id="aktions-system">
+            <h2>7. Aktions-System Integration</h2>
+
+            <h3>CSS-Klassen für Styling</h3>
+            <p>Das Aktions-System verwendet vordefinierte CSS-Klassen aus <code>backend/css/aktionen.css</code>:</p>
+
+            <h4>Textfarben</h4>
+            <ul style="margin: 20px 0; padding-left: 40px;">
+                <li><code>aktion-text-red</code> - Rot</li>
+                <li><code>aktion-text-blue</code> - Blau</li>
+                <li><code>aktion-text-green</code> - Grün</li>
+                <li><code>aktion-text-yellow</code> - Gelb</li>
+                <li><code>aktion-text-white</code> - Weiß</li>
+                <li><code>aktion-text-black</code> - Schwarz</li>
+            </ul>
+
+            <h4>Textgrößen</h4>
+            <ul style="margin: 20px 0; padding-left: 40px;">
+                <li><code>aktion-text-sm</code> - Klein</li>
+                <li><code>aktion-text-base</code> - Normal</li>
+                <li><code>aktion-text-lg</code> - Groß</li>
+                <li><code>aktion-text-xl</code> - Sehr Groß</li>
+                <li><code>aktion-text-2xl</code> - Extra Groß</li>
+            </ul>
+
+            <h4>Button-Hintergründe</h4>
+            <ul style="margin: 20px 0; padding-left: 40px;">
+                <li><code>aktion-bg-red</code> - Roter Hintergrund</li>
+                <li><code>aktion-bg-blue</code> - Blauer Hintergrund</li>
+                <li><code>aktion-bg-green</code> - Grüner Hintergrund</li>
+                <li><code>aktion-bg-yellow</code> - Gelber Hintergrund</li>
+                <li><code>aktion-bg-gray</code> - Grauer Hintergrund</li>
+            </ul>
+
+            <h3>Frontend-Ausgabe Beispiel</h3>
+            <div class="code-block">
+<span class="comment">&lt;?php</span>
+<span class="comment">// Aktion 1 Badge ausgeben</span>
+<span class="keyword">if</span> (<span class="function">get_post_meta</span>($product_id, <span class="string">'_show_aktion'</span>, <span class="keyword">true</span>) === <span class="string">'yes'</span>) {
+    $aktion_text = <span class="function">get_post_meta</span>($product_id, <span class="string">'_aktion'</span>, <span class="keyword">true</span>);
+    $text_color = <span class="function">get_post_meta</span>($product_id, <span class="string">'_aktion_text_color'</span>, <span class="keyword">true</span>);
+    $text_size = <span class="function">get_post_meta</span>($product_id, <span class="string">'_aktion_text_size'</span>, <span class="keyword">true</span>);
+    $button_style = <span class="function">get_post_meta</span>($product_id, <span class="string">'_aktion_button_style'</span>, <span class="keyword">true</span>);
+
+    $classes = <span class="function">array</span>(<span class="string">'aktion-badge'</span>, $text_color, $text_size, $button_style);
+    $class_string = <span class="function">implode</span>(<span class="string">' '</span>, <span class="function">array_filter</span>($classes));
+
+    <span class="keyword">echo</span> <span class="string">'&lt;span class="'</span> . <span class="function">esc_attr</span>($class_string) . <span class="string">'"&gt;'</span> . <span class="function">esc_html</span>($aktion_text) . <span class="string">'&lt;/span&gt;'</span>;
+}
+
+<span class="comment">// Angebotspreis Hinweis ausgeben</span>
+<span class="keyword">if</span> (<span class="function">get_post_meta</span>($product_id, <span class="string">'_show_angebotspreis_hinweis'</span>, <span class="keyword">true</span>) === <span class="string">'yes'</span>) {
+    $hinweis_text = <span class="function">get_post_meta</span>($product_id, <span class="string">'_angebotspreis_hinweis'</span>, <span class="keyword">true</span>);
+    $text_color = <span class="function">get_post_meta</span>($product_id, <span class="string">'_angebotspreis_text_color'</span>, <span class="keyword">true</span>);
+    $text_size = <span class="function">get_post_meta</span>($product_id, <span class="string">'_angebotspreis_text_size'</span>, <span class="keyword">true</span>);
+    $button_style = <span class="function">get_post_meta</span>($product_id, <span class="string">'_angebotspreis_button_style'</span>, <span class="keyword">true</span>);
+
+    $classes = <span class="function">array</span>(<span class="string">'angebotspreis-hinweis'</span>, $text_color, $text_size, $button_style);
+    $class_string = <span class="function">implode</span>(<span class="string">' '</span>, <span class="function">array_filter</span>($classes));
+
+    <span class="keyword">echo</span> <span class="string">'&lt;h2 class="'</span> . <span class="function">esc_attr</span>($class_string) . <span class="string">'"&gt;'</span> . <span class="function">esc_html</span>($hinweis_text) . <span class="string">'&lt;/h2&gt;'</span>;
+}
+<span class="comment">?&gt;</span>
+            </div>
+
+            <h3>Admin-Panel Tab</h3>
+            <p>Das Aktions-System fügt einen eigenen Tab im WooCommerce-Produkteditor hinzu:</p>
+            <div class="info-box">
+                <strong>Tab-Name:</strong> "Aktionen" (Priority: 25)<br>
+                <strong>Target-ID:</strong> <code>aktionen_product_data</code>
+            </div>
+
+            <h4>Struktur:</h4>
+            <ol style="margin: 20px 0; padding-left: 40px;">
+                <li><strong>Aktion 1 Bereich</strong> (<code>options_group</code>)
+                    <ul>
+                        <li>Checkbox: Aktion anzeigen</li>
+                        <li>Textfeld: Aktionstext</li>
+                        <li>Dropdown: Textfarbe</li>
+                        <li>Dropdown: Textgröße</li>
+                        <li>Dropdown: Button-Stil</li>
+                    </ul>
+                </li>
+                <li><strong>Angebotspreis Hinweis Bereich</strong> (<code>options_group</code>)
+                    <ul>
+                        <li>Checkbox: Hinweis anzeigen</li>
+                        <li>Textfeld: Hinweistext (wird als H2 ausgegeben)</li>
+                        <li>Dropdown: Textfarbe</li>
+                        <li>Dropdown: Textgröße</li>
+                        <li>Dropdown: Button-Stil</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>Performance-Optimierung</h3>
+            <p>Das Aktions-System lädt CSS nur bei Bedarf:</p>
+            <div class="code-block">
+<span class="comment">// Styles werden NUR auf relevanten Seiten geladen</span>
+<span class="keyword">function</span> <span class="function">jaeger_enqueue_aktionen_styles</span>() {
+    <span class="keyword">if</span> (!<span class="function">is_product</span>() && !<span class="function">is_shop</span>() && !<span class="function">is_product_category</span>()) {
+        <span class="keyword">return</span>;
+    }
+    <span class="function">wp_enqueue_style</span>(<span class="string">'jaeger-aktionen-styles'</span>, <span class="function">plugins_url</span>(<span class="string">'css/aktionen.css'</span>, __FILE__));
+}
+            </div>
+
+            <h3>Sicherheit</h3>
+            <p>Alle Eingaben werden bei der Speicherung sanitisiert:</p>
+            <ul style="margin: 20px 0; padding-left: 40px;">
+                <li>Textfelder: <code>sanitize_text_field()</code></li>
+                <li>Checkboxen: <code>yes</code> oder <code>no</code></li>
+                <li>CSS-Klassen: Validierung gegen vordefinierte Optionen</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 8: WORDPRESS HOOKS -->
+        <section id="wordpress-hooks">
+            <h2>8. WordPress Hooks und Filter</h2>
+
+            <h3>Aktions-System Hooks</h3>
+
+            <h4>Actions (add_action)</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hook</th>
+                        <th>Callback</th>
+                        <th>Priority</th>
+                        <th>Beschreibung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>wp_enqueue_scripts</code></td>
+                        <td><code>jaeger_enqueue_aktionen_styles</code></td>
+                        <td>10</td>
+                        <td>Lädt Aktions-CSS nur auf Produkt-/Shop-Seiten</td>
+                    </tr>
+                    <tr>
+                        <td><code>woocommerce_product_data_tabs</code></td>
+                        <td><code>jaeger_add_actions_product_data_tab</code></td>
+                        <td>-</td>
+                        <td>Fügt "Aktionen"-Tab zum Produkteditor hinzu</td>
+                    </tr>
+                    <tr>
+                        <td><code>woocommerce_product_data_panels</code></td>
+                        <td><code>jaeger_add_actions_product_data_panels</code></td>
+                        <td>-</td>
+                        <td>Rendert Inhalt des "Aktionen"-Tabs</td>
+                    </tr>
+                    <tr>
+                        <td><code>woocommerce_process_product_meta</code></td>
+                        <td><code>jaeger_save_actions_fields</code></td>
+                        <td>-</td>
+                        <td>Speichert Aktionsfelder beim Produkt-Speichern</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4>Filter (add_filter)</h4>
+            <p>Das Aktions-System verwendet keine benutzerdefinierten Filter, nur WordPress/WooCommerce Standard-Hooks.</p>
+
+            <h3>Asset-Loading</h3>
+            <div class="code-block">
+<span class="comment">// Conditional Loading - nur auf relevanten Seiten</span>
+<span class="function">add_action</span>(<span class="string">'wp_enqueue_scripts'</span>, <span class="string">'jaeger_enqueue_aktionen_styles'</span>);
+
+<span class="keyword">function</span> <span class="function">jaeger_enqueue_aktionen_styles</span>() {
+    <span class="comment">// Prüfe Seitentyp</span>
+    <span class="keyword">if</span> (!<span class="function">is_product</span>() && !<span class="function">is_shop</span>() && !<span class="function">is_product_category</span>()) {
+        <span class="keyword">return</span>;
+    }
+
+    <span class="comment">// Enqueue CSS</span>
+    <span class="function">wp_enqueue_style</span>(
+        <span class="string">'jaeger-aktionen-styles'</span>,
+        <span class="function">plugins_url</span>(<span class="string">'css/aktionen.css'</span>, __FILE__)
+    );
+}
+            </div>
+
+            <h3>Tab-Registrierung</h3>
+            <div class="code-block">
+<span class="function">add_filter</span>(<span class="string">'woocommerce_product_data_tabs'</span>, <span class="string">'jaeger_add_actions_product_data_tab'</span>);
+
+<span class="keyword">function</span> <span class="function">jaeger_add_actions_product_data_tab</span>($tabs) {
+    <span class="comment">// Nur im Admin</span>
+    <span class="keyword">if</span> (!<span class="function">is_admin</span>()) {
+        <span class="keyword">return</span> $tabs;
+    }
+
+    $tabs[<span class="string">'aktionen'</span>] = <span class="function">array</span>(
+        <span class="string">'label'</span>    => <span class="function">__</span>(<span class="string">'Aktionen'</span>, <span class="string">'woocommerce'</span>),
+        <span class="string">'target'</span>   => <span class="string">'aktionen_product_data'</span>,
+        <span class="string">'class'</span>    => <span class="function">array</span>(),
+        <span class="string">'priority'</span> => <span class="number">25</span>,  <span class="comment">// Position im Tab-Menü</span>
+    );
+
+    <span class="keyword">return</span> $tabs;
+}
+            </div>
+
+            <h3>Style-Optionen Caching</h3>
+            <div class="code-block">
+<span class="comment">// Cached Style Options (einmal laden, immer verfügbar)</span>
+<span class="keyword">function</span> <span class="function">jaeger_get_style_options</span>() {
+    <span class="keyword">static</span> $options = <span class="keyword">null</span>;
+
+    <span class="keyword">if</span> ($options === <span class="keyword">null</span>) {
+        $options = <span class="function">array</span>(
+            <span class="string">'text_colors'</span> => <span class="function">array</span>(<span class="comment">/* ... */</span>),
+            <span class="string">'text_sizes'</span> => <span class="function">array</span>(<span class="comment">/* ... */</span>),
+            <span class="string">'button_styles'</span> => <span class="function">array</span>(<span class="comment">/* ... */</span>)
+        );
+    }
+
+    <span class="keyword">return</span> $options;
+}
+            </div>
+            <div class="success-box">
+                <strong>Vorteil:</strong> Die Style-Optionen werden nur einmal pro Request geladen, nicht bei jedem Funktionsaufruf.
+            </div>
+        </section>
+
+        <!-- SECTION 9: FRONTEND INTEGRATION -->
         <section id="frontend-integration">
-            <h2>7. Frontend-Integration Beispiele</h2>
+            <h2>9. Frontend-Integration Beispiele</h2>
 
             <h3>1. Initiale Produktdaten laden</h3>
             <div class="code-block">
@@ -1107,9 +1428,9 @@ Paketpreis:            39,96 €
             </div>
         </section>
 
-        <!-- SECTION 8: PROBLEME -->
+        <!-- SECTION 10: PROBLEME -->
         <section id="probleme">
-            <h2>8. Typische Probleme und Lösungen</h2>
+            <h2>10. Typische Probleme und Lösungen</h2>
 
             <h3>Problem 1: Kategorie-Inkonsistenz</h3>
             <div class="warning-box">
@@ -1156,9 +1477,9 @@ Paketpreis:            39,96 €
             </div>
         </section>
 
-        <!-- SECTION 9: DEBUGGING -->
+        <!-- SECTION 11: DEBUGGING -->
         <section id="debugging">
-            <h2>9. Debugging-Tipps</h2>
+            <h2>11. Debugging-Tipps</h2>
 
             <h3>Backend-Logs prüfen</h3>
             <div class="code-block">
@@ -1198,8 +1519,9 @@ window.setData            <span class="comment">// Aktuelle Set-Daten</span>
             <p><strong>Plugin-Dokumentation:</strong> <code>CLAUDE.md</code> im Plugin-Root</p>
             <p><strong>Technische Fragen:</strong> Siehe Error-Logs oder AJAX-Response-Debug-Ausgaben</p>
             <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
-            <p><strong>Letzte Aktualisierung:</strong> 2025-01-13</p>
+            <p><strong>Letzte Aktualisierung:</strong> 2025-10-13</p>
             <p><strong>Dokumentiert von:</strong> Claude (AI-Assistant)</p>
+            <p><strong>Ergänzt:</strong> Aktions-System (Aktion 1 Badges, Angebotspreis-Hinweis), WordPress Hooks, CSS-Klassen</p>
         </footer>
     </div>
 
