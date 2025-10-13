@@ -132,7 +132,7 @@ export default function DatenschutzPage() {
               Cookies
             </h3>
             <p className="mb-4">
-              Unsere Internetseiten verwenden so genannte „Cookies". Cookies sind kleine
+              Unsere Internetseiten verwenden so genannte &bdquo;Cookies&ldquo;. Cookies sind kleine
               Textdateien und richten auf Ihrem Endgerät keinen Schaden an. Sie werden
               entweder vorübergehend für die Dauer einer Sitzung (Session-Cookies) oder
               dauerhaft (permanente Cookies) auf Ihrem Endgerät gespeichert.

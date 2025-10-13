@@ -99,7 +99,7 @@ export default function VerlegeservicePage() {
 
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
-              So läuft's ab
+              So läuft&apos;s ab
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ol className="space-y-4">

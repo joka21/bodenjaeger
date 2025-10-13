@@ -246,7 +246,7 @@ export default function KontaktPage() {
                   Mit öffentlichen Verkehrsmitteln
                 </p>
                 <p className="text-gray-700">
-                  Bushaltestelle „Hückelhoven Zentrum" ca. 200m entfernt (Linien 401, 404)
+                  Bushaltestelle &bdquo;Hückelhoven Zentrum&ldquo; ca. 200m entfernt (Linien 401, 404)
                 </p>
               </div>
             </div>

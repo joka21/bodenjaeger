@@ -21,7 +21,7 @@ export default function AGBPage() {
             <p className="mb-4">
               Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge über
               die Lieferung von Waren und Dienstleistungen, die zwischen der Bodenjäger
-              GmbH (nachfolgend „Verkäufer" genannt) und dem Kunden (nachfolgend „Käufer"
+              GmbH (nachfolgend &bdquo;Verkäufer&ldquo; genannt) und dem Kunden (nachfolgend &bdquo;Käufer&ldquo;
               genannt) geschlossen werden.
             </p>
             <p className="mb-4">
@@ -39,7 +39,7 @@ export default function AGBPage() {
             <p className="mb-4">
               Die Darstellung der Produkte im Online-Shop stellt kein rechtlich bindendes
               Angebot, sondern eine Aufforderung zur Bestellung dar. Durch Anklicken des
-              Buttons „Kaufen" oder „Bestellen" gibt der Käufer ein verbindliches Angebot
+              Buttons &bdquo;Kaufen&ldquo; oder &bdquo;Bestellen&ldquo; gibt der Käufer ein verbindliches Angebot
               zum Kaufvertragsschluss ab.
             </p>
             <p className="mb-4">
