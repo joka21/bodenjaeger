@@ -3,30 +3,33 @@ import Link from "next/link";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
 import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
-import { mockProducts } from "@/lib/mock-products";
 
 export default async function Home() {
   // Fetch products from WooCommerce
   let products: StoreApiProduct[] = [];
+  let saleProducts: StoreApiProduct[] = [];
+
   try {
+    // Fetch all products
     products = await wooCommerceClient.getProducts({
       per_page: 12,
       orderby: 'date',
       order: 'desc'
     });
 
+    // Fetch sale products specifically
+    saleProducts = await wooCommerceClient.getProducts({
+      per_page: 8,
+      on_sale: true,
+      orderby: 'popularity',
+      order: 'desc'
+    });
 
   } catch (error) {
     console.error('Error fetching products:', error);
     products = [];
+    saleProducts = [];
   }
-
-  // Filter Sale-Produkte (Produkte mit Set-Angebot und Rabatt > 20%)
-  const saleProducts = mockProducts.filter(
-    (product) =>
-      product._show_setangebot === 'yes' &&
-      (product._setangebot_ersparnis_prozent || 0) > 20
-  );
 
   return (
     <div className="min-h-screen bg-gray-50">
