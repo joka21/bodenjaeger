@@ -55,6 +55,12 @@ export default function StyleguidePage() {
       hex: '#4c4c4c',
       usage: 'Dunkler Hintergrund',
     },
+    {
+      name: 'Background Darkest',
+      var: '--color-bg-darkest',
+      hex: '#2e2d32',
+      usage: 'Dunkelster Hintergrund',
+    },
   ]
 
   const fontSizes = [

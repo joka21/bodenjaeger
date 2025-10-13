@@ -15,6 +15,7 @@
   --color-bg-light: #f9f9fb;       /* Heller Hintergrund */
   --color-bg-gray: #e5e5e5;        /* Grauer Hintergrund */
   --color-bg-dark: #4c4c4c;        /* Dunkler Hintergrund */
+  --color-bg-darkest: #2e2d32;     /* Dunkelster Hintergrund */
 
   /* Legacy Variables (für Kompatibilität) */
   --background: #ffffff;
