@@ -56,12 +56,9 @@ export default async function Home() {
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Unsere Produkte
-            </h1>
-            <p className="text-lg text-gray-600">
-              Entdecken Sie unsere hochwertigen Bodenbeläge
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Unsere Bestseller und Böden im Sale
+            </h2>
           </div>
 
         {products.length === 0 ? (
