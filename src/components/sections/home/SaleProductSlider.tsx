@@ -3,25 +3,10 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface SaleProduct {
-  id: number;
-  name: string;
-  slug: string;
-  price: string;
-  regular_price: string;
-  sale_price: string;
-  on_sale: boolean;
-  images: Array<{
-    id: number;
-    src: string;
-    name: string;
-    alt: string;
-  }>;
-}
+import type { StoreApiProduct } from '@/lib/woocommerce';
 
 interface SaleProductSliderProps {
-  products: SaleProduct[];
+  products: StoreApiProduct[];
   title?: string;
   subtitle?: string;
 }
@@ -204,14 +189,39 @@ export default function SaleProductSlider({
                         </div>
                       )}
 
-                      {/* Sale Badge */}
-                      {product.on_sale && product.regular_price && product.sale_price && (
-                        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-                          <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md">
-                            -{Math.round(((parseFloat(product.regular_price) - parseFloat(product.sale_price)) / parseFloat(product.regular_price)) * 100)}%
+                      {/* Badges */}
+                      <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+                        {/* Sale Badge - Berechnung basierend auf UVP wenn vorhanden */}
+                        {(() => {
+                          const jaegerMeta = product.jaeger_meta;
+                          let discountPercent = 0;
+
+                          if (product.on_sale && product.sale_price) {
+                            const salePrice = parseFloat(product.sale_price);
+                            // Verwende UVP wenn verfügbar, sonst regular_price
+                            const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp)
+                              ? jaegerMeta.uvp
+                              : parseFloat(product.regular_price || product.price);
+
+                            if (comparePrice > 0) {
+                              discountPercent = Math.round(((comparePrice - salePrice) / comparePrice) * 100);
+                            }
+                          }
+
+                          return discountPercent > 0 ? (
+                            <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md">
+                              -{discountPercent}%
+                            </div>
+                          ) : null;
+                        })()}
+
+                        {/* Aktion Badge */}
+                        {product.jaeger_meta?.show_aktion && product.jaeger_meta?.aktion && (
+                          <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+                            {product.jaeger_meta.aktion}
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
 
                     {/* Produktinfo-Bereich */}
@@ -229,14 +239,26 @@ export default function SaleProductSlider({
                         <div className="space-y-1">
                           <div className="flex justify-between items-center">
                             <span className="text-gray-900 text-sm">Sale-Preis</span>
-                            <span className="text-gray-500 line-through text-sm">
-                              {parseFloat(product.regular_price).toFixed(2).replace('.', ',')}€
-                            </span>
+                            {(() => {
+                              const jaegerMeta = product.jaeger_meta;
+                              const unit = jaegerMeta?.einheit_short || 'm²';
+                              // Verwende UVP wenn verfügbar, sonst regular_price
+                              const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp)
+                                ? jaegerMeta.uvp
+                                : parseFloat(product.regular_price || product.price);
+
+                              return (
+                                <span className="text-gray-500 line-through text-sm">
+                                  {comparePrice.toFixed(2).replace('.', ',')}€/{unit}
+                                </span>
+                              );
+                            })()}
                           </div>
                           <div className="flex justify-between items-center">
                             <span className="text-gray-900 font-medium">Jetzt</span>
                             <span className="text-red-600 font-bold text-xl">
                               {parseFloat(product.sale_price).toFixed(2).replace('.', ',')} €
+                              {product.jaeger_meta?.einheit_short && `/${product.jaeger_meta.einheit_short}`}
                             </span>
                           </div>
                         </div>
@@ -245,6 +267,7 @@ export default function SaleProductSlider({
                           <span className="text-gray-900 font-medium">Preis</span>
                           <span className="text-gray-900 font-bold text-xl">
                             {parseFloat(product.price).toFixed(2).replace('.', ',')} €
+                            {product.jaeger_meta?.einheit_short && `/${product.jaeger_meta.einheit_short}`}
                           </span>
                         </div>
                       )}
