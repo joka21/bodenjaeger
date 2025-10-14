@@ -23,8 +23,8 @@ interface SaleProductSliderProps {
  */
 export default function SaleProductSlider({
   products,
-  title = 'Sale Angebote',
-  subtitle = 'Sparen Sie bis zu 44% auf ausgewählte Bodenbeläge',
+  title = 'Böden im Sale',
+  subtitle,
 }: SaleProductSliderProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
