@@ -6,7 +6,7 @@ import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './CartDrawer';
 
 export default function Header() {
-  const { itemCount, totalPrice } = useCart();
+  const { itemCount } = useCart();
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   return (

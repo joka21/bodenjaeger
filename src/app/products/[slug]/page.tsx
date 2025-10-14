@@ -180,7 +180,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
         images: product.images?.[0]?.src ? [product.images[0].src] : [],
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'Bodenjäger - Hochwertige Bodenbeläge'
     };
