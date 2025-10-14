@@ -212,7 +212,7 @@ export default function BestsellerSlider({
                           }
 
                           return discountPercent > 0 ? (
-                            <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md inline-block w-auto">
+                            <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
                               -{discountPercent}%
                             </div>
                           ) : null;
