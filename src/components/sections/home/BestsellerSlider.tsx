@@ -262,13 +262,13 @@ export default function BestsellerSlider({
                         return product.on_sale && salePrice < comparePrice ? (
                           <div className="space-y-1">
                             <div className="flex justify-between items-center">
-                              <span className="text-gray-900 text-sm">Sale-Preis</span>
+                              <span className="text-gray-900 text-sm">Set-Angebot</span>
                               <span className="text-gray-500 line-through text-sm">
                                 {comparePrice.toFixed(2).replace('.', ',')}€/{unit}
                               </span>
                             </div>
                             <div className="flex justify-between items-center">
-                              <span className="text-gray-900 font-medium">Jetzt</span>
+                              <span className="text-gray-900 font-medium">Gesamt</span>
                               <span className="text-red-600 font-bold text-xl">
                                 {salePrice.toFixed(2).replace('.', ',')} €/{unit}
                               </span>
