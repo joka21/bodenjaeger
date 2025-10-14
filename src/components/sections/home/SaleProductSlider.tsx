@@ -224,6 +224,13 @@ export default function SaleProductSlider({
                             {product.jaeger_meta.aktion}
                           </div>
                         )}
+
+                        {/* Angebotspreis Hinweis Badge */}
+                        {product.jaeger_meta?.show_angebotspreis_hinweis && product.jaeger_meta?.angebotspreis_hinweis && (
+                          <div className="bg-black text-white px-3 py-1 rounded font-bold text-sm shadow-md">
+                            {product.jaeger_meta.angebotspreis_hinweis}
+                          </div>
+                        )}
                       </div>
                     </div>
 

@@ -256,7 +256,7 @@ class Jaeger_Store_API_Extension {
         }
 
         // Handle price fields
-        if (in_array($field_name, ['_uvp', '_paketpreis', '_paketpreis_s', '_angebotspreis_hinweis'])) {
+        if (in_array($field_name, ['_uvp', '_paketpreis', '_paketpreis_s'])) {
             return $value !== '' ? floatval($value) : null;
         }
 
