@@ -3,12 +3,11 @@ import Link from "next/link";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
 import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
-import { mockProducts } from "@/lib/mock-products";
 
 export default async function Home() {
   // Fetch products from WooCommerce
   let products: StoreApiProduct[] = [];
-  let wooSaleProducts: StoreApiProduct[] = [];
+  let saleProducts: StoreApiProduct[] = [];
 
   try {
     products = await wooCommerceClient.getProducts({
@@ -17,10 +16,10 @@ export default async function Home() {
       order: 'desc'
     });
 
-    // Fetch WooCommerce sale products for images
-    wooSaleProducts = await wooCommerceClient.getProducts({
-      per_page: 8,
-      on_sale: true,
+    // Fetch sale products from "Sale" category
+    saleProducts = await wooCommerceClient.getProducts({
+      per_page: 12,
+      category: 'sale',
       orderby: 'popularity',
       order: 'desc'
     });
@@ -28,30 +27,8 @@ export default async function Home() {
   } catch (error) {
     console.error('Error fetching products:', error);
     products = [];
-    wooSaleProducts = [];
+    saleProducts = [];
   }
-
-  // Enrich mock products with real images from WooCommerce
-  const saleProducts = mockProducts
-    .filter(
-      (product) =>
-        product._show_setangebot === 'yes' &&
-        (product._setangebot_ersparnis_prozent || 0) > 20
-    )
-    .map((mockProduct, index) => {
-      // Use images from WooCommerce products if available
-      const wooProduct = wooSaleProducts[index];
-      if (wooProduct && wooProduct.images.length > 0) {
-        return {
-          ...mockProduct,
-          images: wooProduct.images.map(img => ({
-            src: img.src,
-            alt: img.alt || mockProduct.name
-          }))
-        };
-      }
-      return mockProduct;
-    });
 
   return (
     <div className="min-h-screen bg-gray-50">

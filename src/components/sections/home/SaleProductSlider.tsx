@@ -1,11 +1,27 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import StandardProductCard from '@/components/StandardProductCard';
-import { MockProduct } from '@/lib/mock-products';
+import Link from 'next/link';
+import Image from 'next/image';
+
+interface SaleProduct {
+  id: number;
+  name: string;
+  slug: string;
+  price: string;
+  regular_price: string;
+  sale_price: string;
+  on_sale: boolean;
+  images: Array<{
+    id: number;
+    src: string;
+    name: string;
+    alt: string;
+  }>;
+}
 
 interface SaleProductSliderProps {
-  products: MockProduct[];
+  products: SaleProduct[];
   title?: string;
   subtitle?: string;
 }
@@ -166,7 +182,75 @@ export default function SaleProductSlider({
                 key={product.id}
                 className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)]"
               >
-                <StandardProductCard product={product} />
+                {/* Sale Product Card */}
+                <article className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
+                  <Link href={`/products/${product.slug}`}>
+                    {/* Bildbereich */}
+                    <div className="relative aspect-[4/3] bg-gray-200">
+                      {product.images.length > 0 ? (
+                        <Image
+                          src={product.images[0]?.src}
+                          alt={product.images[0]?.alt || product.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
+                          priority={false}
+                          loading="lazy"
+                          quality={80}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                          <span className="text-gray-400 text-sm">Kein Bild verfügbar</span>
+                        </div>
+                      )}
+
+                      {/* Sale Badge */}
+                      {product.on_sale && product.regular_price && product.sale_price && (
+                        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+                          <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md">
+                            -{Math.round(((parseFloat(product.regular_price) - parseFloat(product.sale_price)) / parseFloat(product.regular_price)) * 100)}%
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Produktinfo-Bereich */}
+                    <div className="bg-gray-100 p-4">
+                      {/* Produktname */}
+                      <h3 className="text-gray-900 font-medium text-base mb-3 line-clamp-2 min-h-[3rem]">
+                        {product.name}
+                      </h3>
+
+                      {/* Trennlinie */}
+                      <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
+
+                      {/* Preisanzeige */}
+                      {product.on_sale && product.sale_price ? (
+                        <div className="space-y-1">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-900 text-sm">Sale-Preis</span>
+                            <span className="text-gray-500 line-through text-sm">
+                              {parseFloat(product.regular_price).toFixed(2).replace('.', ',')}€
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-900 font-medium">Jetzt</span>
+                            <span className="text-red-600 font-bold text-xl">
+                              {parseFloat(product.sale_price).toFixed(2).replace('.', ',')} €
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-900 font-medium">Preis</span>
+                          <span className="text-gray-900 font-bold text-xl">
+                            {parseFloat(product.price).toFixed(2).replace('.', ',')} €
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                </article>
               </div>
             ))}
           </div>
