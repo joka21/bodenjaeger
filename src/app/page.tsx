@@ -3,11 +3,13 @@ import Link from "next/link";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
 import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
+import BestsellerSlider from "@/components/sections/home/BestsellerSlider";
 
 export default async function Home() {
   // Fetch products from WooCommerce
   let products: StoreApiProduct[] = [];
   let saleProducts: StoreApiProduct[] = [];
+  let bestsellerProducts: StoreApiProduct[] = [];
 
   try {
     products = await wooCommerceClient.getProducts({
@@ -24,10 +26,19 @@ export default async function Home() {
       order: 'desc'
     });
 
+    // Fetch bestseller products from "Bestseller" category
+    bestsellerProducts = await wooCommerceClient.getProducts({
+      per_page: 12,
+      category: 'bestseller',
+      orderby: 'popularity',
+      order: 'desc'
+    });
+
   } catch (error) {
     console.error('Error fetching products:', error);
     products = [];
     saleProducts = [];
+    bestsellerProducts = [];
   }
 
   return (
@@ -37,6 +48,9 @@ export default async function Home() {
 
       {/* Sale Product Slider */}
       <SaleProductSlider products={saleProducts} />
+
+      {/* Bestseller Product Slider */}
+      <BestsellerSlider products={bestsellerProducts} />
 
       {/* Products Section */}
       <div className="py-16">
