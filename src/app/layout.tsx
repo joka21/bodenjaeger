@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import dynamic from "next/dynamic";
 import { CartProvider } from "@/contexts/CartContext";
+import HeaderWrapper from "@/components/HeaderWrapper";
 import Footer from "@/components/Footer";
 import "./globals.css";
-
-const Header = dynamic(() => import("@/components/Header"), { ssr: true });
 
 const poppinsRegular = localFont({
   src: "./fonts/Poppins-Regular.woff",
@@ -37,7 +35,7 @@ export default function RootLayout({
         className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}
       >
         <CartProvider>
-          <Header />
+          <HeaderWrapper />
           {children}
           <Footer />
         </CartProvider>
