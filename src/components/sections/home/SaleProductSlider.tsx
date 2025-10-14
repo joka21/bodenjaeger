@@ -196,14 +196,17 @@ export default function SaleProductSlider({
                           const jaegerMeta = product.jaeger_meta;
                           let discountPercent = 0;
 
-                          if (product.on_sale && product.sale_price) {
-                            const salePrice = parseFloat(product.sale_price);
-                            // Verwende UVP wenn verfügbar, sonst regular_price
-                            const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp)
-                              ? jaegerMeta.uvp
-                              : parseFloat(product.regular_price || product.price);
+                          if (product.on_sale) {
+                            // Preise in Euro umrechnen (Store API gibt Cent zurück)
+                            const salePrice = product.prices?.sale_price ? parseFloat(product.prices.sale_price) / 100 : parseFloat(product.sale_price) / 100;
+                            const regularPrice = product.prices?.regular_price ? parseFloat(product.prices.regular_price) / 100 : parseFloat(product.regular_price || product.price) / 100;
 
-                            if (comparePrice > 0) {
+                            // Verwende UVP wenn verfügbar und > 0, sonst regular_price
+                            const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
+                              ? jaegerMeta.uvp
+                              : regularPrice;
+
+                            if (comparePrice > 0 && salePrice < comparePrice) {
                               discountPercent = Math.round(((comparePrice - salePrice) / comparePrice) * 100);
                             }
                           }
@@ -235,42 +238,44 @@ export default function SaleProductSlider({
                       <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
 
                       {/* Preisanzeige */}
-                      {product.on_sale && product.sale_price ? (
-                        <div className="space-y-1">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-900 text-sm">Sale-Preis</span>
-                            {(() => {
-                              const jaegerMeta = product.jaeger_meta;
-                              const unit = jaegerMeta?.einheit_short || 'm²';
-                              // Verwende UVP wenn verfügbar, sonst regular_price
-                              const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp)
-                                ? jaegerMeta.uvp
-                                : parseFloat(product.regular_price || product.price);
+                      {(() => {
+                        const jaegerMeta = product.jaeger_meta;
+                        const unit = jaegerMeta?.einheit_short || 'm²';
 
-                              return (
-                                <span className="text-gray-500 line-through text-sm">
-                                  {comparePrice.toFixed(2).replace('.', ',')}€/{unit}
-                                </span>
-                              );
-                            })()}
+                        // Preise aus prices Objekt (schon in Euro umgerechnet)
+                        const currentPrice = product.prices?.price ? parseFloat(product.prices.price) / 100 : parseFloat(product.price) / 100;
+                        const regularPrice = product.prices?.regular_price ? parseFloat(product.prices.regular_price) / 100 : parseFloat(product.regular_price || product.price) / 100;
+                        const salePrice = product.prices?.sale_price ? parseFloat(product.prices.sale_price) / 100 : parseFloat(product.sale_price || product.price) / 100;
+
+                        // Vergleichspreis: UVP wenn verfügbar, sonst regulärer Preis
+                        const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
+                          ? jaegerMeta.uvp
+                          : regularPrice;
+
+                        return product.on_sale && salePrice < comparePrice ? (
+                          <div className="space-y-1">
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-900 text-sm">Sale-Preis</span>
+                              <span className="text-gray-500 line-through text-sm">
+                                {comparePrice.toFixed(2).replace('.', ',')}€/{unit}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-900 font-medium">Jetzt</span>
+                              <span className="text-red-600 font-bold text-xl">
+                                {salePrice.toFixed(2).replace('.', ',')} €/{unit}
+                              </span>
+                            </div>
                           </div>
+                        ) : (
                           <div className="flex justify-between items-center">
-                            <span className="text-gray-900 font-medium">Jetzt</span>
-                            <span className="text-red-600 font-bold text-xl">
-                              {parseFloat(product.sale_price).toFixed(2).replace('.', ',')} €
-                              {product.jaeger_meta?.einheit_short && `/${product.jaeger_meta.einheit_short}`}
+                            <span className="text-gray-900 font-medium">Preis</span>
+                            <span className="text-gray-900 font-bold text-xl">
+                              {currentPrice.toFixed(2).replace('.', ',')} €/{unit}
                             </span>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-900 font-medium">Preis</span>
-                          <span className="text-gray-900 font-bold text-xl">
-                            {parseFloat(product.price).toFixed(2).replace('.', ',')} €
-                            {product.jaeger_meta?.einheit_short && `/${product.jaeger_meta.einheit_short}`}
-                          </span>
-                        </div>
-                      )}
+                        );
+                      })()}
                     </div>
                   </Link>
                 </article>
