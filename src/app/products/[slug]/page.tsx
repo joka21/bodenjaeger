@@ -1,6 +1,7 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
+import ImageGallery from "@/components/product/ImageGallery";
+import ProductInfo from "@/components/product/ProductInfo";
 import AddToCartButton from "./AddToCartButton";
 
 interface ProductPageProps {
@@ -29,126 +30,113 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
-            {/* Produktbild */}
-            <div className="relative aspect-square rounded-lg overflow-hidden">
-              <Image
-                src={product.images[0]?.src || "https://via.placeholder.com/600x600/f3f4f6/9ca3af?text=Kein+Bild"}
-                alt={product.images[0]?.alt || product.name}
-                fill
-                className="object-cover"
-                priority={true}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                quality={85}
-              />
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main Product Section - 2 Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 mb-12">
+          {/* LEFT COLUMN - Image Gallery */}
+          <div className="space-y-6">
+            <ImageGallery product={product} />
+
+            {/* Action Buttons - Placeholder for now */}
+            <div className="grid grid-cols-2 gap-4">
+              <button className="px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:border-gray-400 transition-colors flex items-center justify-center gap-2">
+                📦 Kostenloses Muster bestellen
+              </button>
+              <button className="px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:border-gray-400 transition-colors flex items-center justify-center gap-2">
+                🏠 Virtuell im Bodenplaner ansehen
+              </button>
             </div>
 
-            {/* Produktinformationen */}
-            <div className="flex flex-col justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                  {product.name}
-                </h1>
+            {/* Service Icons - Placeholder for now */}
+            <div className="space-y-3 text-sm text-gray-700">
+              <div className="flex items-center gap-3">
+                <span>📞</span>
+                <span>Persönliche Beratung unter 0800 123 4567</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span>📦</span>
+                <span>Kostenlose Einlagerung bis zu 6 Monate</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span>🚚</span>
+                <span>Lieferung zum Wunschtermin</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span>💰</span>
+                <span>Kostenlose Lieferung ab 999€</span>
+              </div>
+            </div>
+          </div>
 
-                <div className="mb-6">
-                  {product.on_sale ? (
-                    <div className="flex items-center space-x-3">
-                      <span className="text-3xl font-bold text-red-600">
-                        {product.prices?.price ? (parseFloat(product.prices.price) / 100).toFixed(2) : product.sale_price}€
-                      </span>
-                      <span className="text-xl text-gray-500 line-through">
-                        {product.prices?.regular_price ? (parseFloat(product.prices.regular_price) / 100).toFixed(2) : product.regular_price}€
-                      </span>
-                      <span className="bg-red-100 text-red-800 text-sm font-semibold px-2 py-1 rounded">
-                        Sale
+          {/* RIGHT COLUMN - Product Info & Cart */}
+          <div className="space-y-6">
+            <ProductInfo product={product} />
+
+            {/* Temporary: Show current price */}
+            <div className="p-6 bg-white rounded-lg shadow-md">
+              <div className="mb-6">
+                {product.on_sale ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-900 text-sm">Set-Angebot</span>
+                      <span className="text-gray-500 line-through text-sm">
+                        {product.prices?.regular_price
+                          ? (parseFloat(product.prices.regular_price) / 100).toFixed(2)
+                          : product.regular_price}€/{product.jaeger_meta?.einheit_short || 'm²'}
                       </span>
                     </div>
-                  ) : (
-                    <span className="text-3xl font-bold text-gray-900">
-                      {product.prices?.price ? (parseFloat(product.prices.price) / 100).toFixed(2) : product.price}€
-                    </span>
-                  )}
-                </div>
-
-                {product.description && (
-                  <div className="prose prose-gray max-w-none mb-8">
-                    <div
-                      className="text-gray-600 leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: product.description }}
-                    />
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-900 font-medium">Gesamt</span>
+                      <span className="text-red-600 font-bold text-2xl">
+                        {product.prices?.price
+                          ? (parseFloat(product.prices.price) / 100).toFixed(2)
+                          : product.price}€/{product.jaeger_meta?.einheit_short || 'm²'}
+                      </span>
+                    </div>
                   </div>
-                )}
-
-                {product.short_description && (
-                  <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-                    <h3 className="font-semibold text-gray-900 mb-2">Kurzbeschreibung</h3>
-                    <div
-                      className="text-gray-600 text-sm"
-                      dangerouslySetInnerHTML={{ __html: product.short_description }}
-                    />
-                  </div>
-                )}
-
-                {/* Produktdetails */}
-                <div className="grid grid-cols-2 gap-4 mb-8 text-sm">
-                  <div>
-                    <span className="font-semibold text-gray-900">SKU:</span>
-                    <span className="text-gray-600 ml-2">{product.sku || "N/A"}</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-900">Status:</span>
-                    <span className={`ml-2 px-2 py-1 rounded text-xs ${
-                      product.is_in_stock
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {product.is_in_stock ? 'Auf Lager' : 'Nicht verfügbar'}
+                ) : (
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-900 font-medium">Preis</span>
+                    <span className="text-gray-900 font-bold text-2xl">
+                      {product.prices?.price
+                        ? (parseFloat(product.prices.price) / 100).toFixed(2)
+                        : product.price}€/{product.jaeger_meta?.einheit_short || 'm²'}
                     </span>
                   </div>
-                  {product.weight && (
-                    <div>
-                      <span className="font-semibold text-gray-900">Gewicht:</span>
-                      <span className="text-gray-600 ml-2">{product.weight}kg</span>
-                    </div>
-                  )}
-                  {product.categories && product.categories.length > 0 && (
-                    <div>
-                      <span className="font-semibold text-gray-900">Kategorie:</span>
-                      <span className="text-gray-600 ml-2">{product.categories[0].name}</span>
-                    </div>
-                  )}
-                </div>
+                )}
               </div>
 
-              {/* Client Component for interactive elements */}
               <AddToCartButton product={product} />
+
+              {/* Lieferzeit */}
+              {product.jaeger_meta?.show_lieferzeit && product.jaeger_meta?.lieferzeit && (
+                <div className="mt-4 text-sm text-gray-600">
+                  🚚 {product.jaeger_meta.lieferzeit}
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Zusätzliche Produktbilder */}
-        {product.images && product.images.length > 1 && (
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Weitere Bilder</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {product.images.slice(1).map((image, index) => (
-                <div key={index} className="relative aspect-square rounded-lg overflow-hidden">
-                  <Image
-                    src={image.src}
-                    alt={image.alt || `${product.name} Bild ${index + 2}`}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform"
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    quality={80}
-                    loading="lazy"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Placeholder sections for later */}
+        <div className="bg-white rounded-lg shadow-md p-8 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Passendes Zubehör
+          </h2>
+          <p className="text-gray-600">Coming soon...</p>
+        </div>
+
+        <div className="bg-white rounded-lg shadow-md p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Produktdetails
+          </h2>
+          {product.description && (
+            <div
+              className="prose prose-gray max-w-none"
+              dangerouslySetInnerHTML={{ __html: product.description }}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
