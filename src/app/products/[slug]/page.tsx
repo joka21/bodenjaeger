@@ -32,8 +32,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     console.log('Sockelleiste ID:', product.jaeger_meta?.standard_addition_sockelleisten);
 
     // Load addition products using Store API (same as main products)
-    // Load all products once and find both by ID
-    const needsAdditionProducts = product.jaeger_meta?.standard_addition_daemmung || product.jaeger_meta?.standard_addition_sockelleisten;
+    // Store IDs in variables to satisfy TypeScript
+    const daemmungId = product.jaeger_meta?.standard_addition_daemmung;
+    const sockelleisteId = product.jaeger_meta?.standard_addition_sockelleisten;
+    const needsAdditionProducts = daemmungId || sockelleisteId;
 
     if (needsAdditionProducts) {
       try {
@@ -41,13 +43,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
         const allProducts = await wooCommerceClient.getProducts({ per_page: 100 });
         console.log(`Loaded ${allProducts.length} products from Store API`);
 
-        if (product.jaeger_meta?.standard_addition_daemmung) {
-          daemmungProduct = allProducts.find(p => p.id === product.jaeger_meta?.standard_addition_daemmung) || null;
+        if (daemmungId) {
+          daemmungProduct = allProducts.find(p => p.id === daemmungId) || null;
           console.log('Dämmung product:', daemmungProduct ? `${daemmungProduct.name} (ID: ${daemmungProduct.id})` : 'Not found');
         }
 
-        if (product.jaeger_meta?.standard_addition_sockelleisten) {
-          sockelleisteProduct = allProducts.find(p => p.id === product.jaeger_meta?.standard_addition_sockelleisten) || null;
+        if (sockelleisteId) {
+          sockelleisteProduct = allProducts.find(p => p.id === sockelleisteId) || null;
           console.log('Sockelleiste product:', sockelleisteProduct ? `${sockelleisteProduct.name} (ID: ${sockelleisteProduct.id})` : 'Not found');
         }
       } catch (error) {
