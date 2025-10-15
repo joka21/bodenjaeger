@@ -338,15 +338,14 @@ class WooCommerceClient {
       throw new Error('WooCommerce client not properly initialized');
     }
 
-    const url = `${this.restApiUrl}/products/${id}`;
-    const auth = btoa(`${this.config.consumerKey}:${this.config.consumerSecret}`);
+    // Use query parameters for authentication (WooCommerce REST API v3 standard)
+    const url = `${this.restApiUrl}/products/${id}?consumer_key=${encodeURIComponent(this.config.consumerKey)}&consumer_secret=${encodeURIComponent(this.config.consumerSecret)}`;
 
     try {
-      console.log(`Fetching product ${id} from REST API: ${url}`);
+      console.log(`Fetching product ${id} from REST API`);
       const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Basic ${auth}`,
         },
       });
 
