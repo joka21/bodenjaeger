@@ -47,6 +47,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     ? product.images[0].src
     : '/images/placeholder.jpg';
 
+  // Dämmung information (placeholder values for now)
+  const daemmungName = 'Trittschalldämmung';
+  const daemmungImage = '/images/placeholder.jpg'; // TODO: Get from backend
+  const daemmungPrice = product.jaeger_meta?.standard_addition_daemmung || 0;
+
   return (
     <div className="space-y-6">
       {/* Product Title */}
@@ -87,6 +92,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           basePrice={basePrice}
           regularPrice={regularPrice}
           einheit={einheit}
+          daemmungName={daemmungName}
+          daemmungImage={daemmungImage}
+          daemmungPrice={daemmungPrice}
         />
       </div>
     </div>
