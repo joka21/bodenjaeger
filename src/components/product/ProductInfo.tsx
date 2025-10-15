@@ -52,6 +52,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const daemmungImage = '/images/placeholder.jpg'; // TODO: Get from backend
   const daemmungPrice = product.jaeger_meta?.standard_addition_daemmung || 0;
 
+  // Sockelleiste information (placeholder values for now)
+  const sockelleisteName = 'Sockelleiste';
+  const sockelleisteImage = '/images/placeholder.jpg'; // TODO: Get from backend
+  const sockelleistePrice = product.jaeger_meta?.standard_addition_sockelleisten || 0;
+
   return (
     <div className="space-y-6">
       {/* Product Title */}
@@ -95,6 +100,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
           daemmungPrice={daemmungPrice}
+          sockelleisteName={sockelleisteName}
+          sockelleisteImage={sockelleisteImage}
+          sockelleistePrice={sockelleistePrice}
         />
       </div>
     </div>

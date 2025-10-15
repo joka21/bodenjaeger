@@ -6,10 +6,13 @@ interface SetAngebotProps {
   basePrice: number;
   regularPrice: number;
   einheit: string;
-  // NEU:
   daemmungName: string;
   daemmungImage: string;
   daemmungPrice: number;
+  // NEU:
+  sockelleisteName: string;
+  sockelleisteImage: string;
+  sockelleistePrice: number;
 }
 
 export default function SetAngebot({
@@ -20,10 +23,13 @@ export default function SetAngebot({
   einheit,
   daemmungName,
   daemmungImage,
-  daemmungPrice
+  daemmungPrice,
+  sockelleisteName,
+  sockelleisteImage,
+  sockelleistePrice
 }: SetAngebotProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Boden Card */}
       <div className="bg-white rounded-lg p-4">
         <div className="text-center mb-2">
@@ -67,6 +73,28 @@ export default function SetAngebot({
         <div className="text-center">
           <span className="text-red-600 font-bold text-lg">
             {daemmungPrice.toFixed(2)}€/{einheit}
+          </span>
+        </div>
+      </div>
+
+      {/* Sockelleiste Card */}
+      <div className="bg-white rounded-lg p-4">
+        <div className="text-center mb-2">
+          <span className="text-sm text-gray-600">Sockelleiste</span>
+        </div>
+        <Image
+          src={sockelleisteImage}
+          alt={sockelleisteName}
+          width={160}
+          height={160}
+          className="mx-auto rounded-lg mb-3"
+        />
+        <h3 className="text-sm font-medium mb-2 text-center">
+          {sockelleisteName}
+        </h3>
+        <div className="text-center">
+          <span className="text-red-600 font-bold text-lg">
+            {sockelleistePrice.toFixed(2)}€/{einheit}
           </span>
         </div>
       </div>
