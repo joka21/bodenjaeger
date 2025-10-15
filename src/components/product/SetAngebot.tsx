@@ -49,6 +49,14 @@ export default function SetAngebot({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState<'daemmung' | 'sockelleiste' | null>(null);
 
+  // Selected products state (starts with standard products)
+  const [selectedDaemmung, setSelectedDaemmung] = useState<StoreApiProduct | null>(
+    daemmungOptions.find(opt => opt.name === daemmungName) || null
+  );
+  const [selectedSockelleiste, setSelectedSockelleiste] = useState<StoreApiProduct | null>(
+    sockelleisteOptions.find(opt => opt.name === sockelleisteName) || null
+  );
+
   // Check if we have at least one addition product (not a placeholder)
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';
   const hasSockelleiste = sockelleisteName !== 'Sockelleiste';
@@ -62,14 +70,26 @@ export default function SetAngebot({
   const productCount = 1 + (hasDaemmung ? 1 : 0) + (hasSockelleiste ? 1 : 0);
   const gridCols = productCount === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
 
-  // Calculate totals
-  const totalRegularPrice = regularPrice + (hasDaemmung ? (daemmungRegularPrice || daemmungPrice) : 0) + (hasSockelleiste ? (sockelleisteRegularPrice || sockelleistePrice) : 0);
-  const totalSetPrice = basePrice + (hasDaemmung ? daemmungPrice : 0) + (hasSockelleiste ? sockelleistePrice : 0);
-  const savingsPercent = Math.round(((totalRegularPrice - totalSetPrice) / totalRegularPrice) * 100);
+  // Calculate prices for selected products
+  const selectedDaemmungPrice = selectedDaemmung?.prices?.price
+    ? parseFloat(selectedDaemmung.prices.price) / 100
+    : parseFloat(selectedDaemmung?.price || '0');
+  const selectedSockelleistePrice = selectedSockelleiste?.prices?.price
+    ? parseFloat(selectedSockelleiste.prices.price) / 100
+    : parseFloat(selectedSockelleiste?.price || '0');
 
-  // Check if product is free (standard in set) or has surcharge
-  const isDaemmungFree = daemmungPrice === 0;
-  const isSockelleisteFree = sockelleistePrice === 0;
+  // Price difference from standard (for set offer calculation)
+  const daemmungPriceDiff = hasDaemmung && selectedDaemmung
+    ? selectedDaemmungPrice - (daemmungRegularPrice || 0)
+    : 0;
+  const sockelleistePriceDiff = hasSockelleiste && selectedSockelleiste
+    ? selectedSockelleistePrice - (sockelleisteRegularPrice || 0)
+    : 0;
+
+  // Calculate totals (base price already includes standard products at 0)
+  const totalRegularPrice = regularPrice + (hasDaemmung ? (daemmungRegularPrice || daemmungPrice) : 0) + (hasSockelleiste ? (sockelleisteRegularPrice || sockelleistePrice) : 0);
+  const totalSetPrice = basePrice + daemmungPriceDiff + sockelleistePriceDiff;
+  const savingsPercent = totalRegularPrice > 0 ? Math.round(((totalRegularPrice - totalSetPrice) / totalRegularPrice) * 100) : 0;
 
   // Handle button clicks
   const openModal = (type: 'daemmung' | 'sockelleiste') => {
@@ -127,20 +147,22 @@ export default function SetAngebot({
             </button>
 
             <Image
-              src={daemmungImage}
-              alt={daemmungName}
+              src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
+              alt={selectedDaemmung?.name || daemmungName}
               width={180}
               height={180}
               className="mx-auto rounded-lg mb-3 object-contain"
             />
             <h3 className="text-sm font-medium mb-1 text-center text-gray-800 line-clamp-2 min-h-[40px]">
-              {daemmungName}
+              {selectedDaemmung?.name || daemmungName}
             </h3>
 
             {/* VE-Zeile */}
-            {daemmungVE && (
+            {(selectedDaemmung?.jaeger_meta?.paketinhalt || daemmungVE) && (
               <p className="text-xs text-gray-600 text-center mb-2">
-                VE: {daemmungVE}
+                VE: {selectedDaemmung?.jaeger_meta?.paketinhalt
+                  ? `${selectedDaemmung.jaeger_meta.paketinhalt}${selectedDaemmung.jaeger_meta.einheit_short || 'm²'}`
+                  : daemmungVE}
               </p>
             )}
 
@@ -149,9 +171,9 @@ export default function SetAngebot({
                 {(daemmungRegularPrice || daemmungPrice).toFixed(2)}€
               </span>
               <span className="text-red-600 font-bold text-lg">
-                {isDaemmungFree
+                {daemmungPriceDiff === 0
                   ? `0,00€/${einheit}`
-                  : `+${daemmungPrice.toFixed(2)}€/${einheit}`
+                  : `+${daemmungPriceDiff.toFixed(2)}€/${einheit}`
                 }
               </span>
             </div>
@@ -172,20 +194,22 @@ export default function SetAngebot({
             </button>
 
             <Image
-              src={sockelleisteImage}
-              alt={sockelleisteName}
+              src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
+              alt={selectedSockelleiste?.name || sockelleisteName}
               width={180}
               height={180}
               className="mx-auto rounded-lg mb-3 object-contain"
             />
             <h3 className="text-sm font-medium mb-1 text-center text-gray-800 line-clamp-2 min-h-[40px]">
-              {sockelleisteName}
+              {selectedSockelleiste?.name || sockelleisteName}
             </h3>
 
             {/* VE-Zeile */}
-            {sockelleisteVE && (
+            {(selectedSockelleiste?.jaeger_meta?.paketinhalt || sockelleisteVE) && (
               <p className="text-xs text-gray-600 text-center mb-2">
-                VE: {sockelleisteVE}
+                VE: {selectedSockelleiste?.jaeger_meta?.paketinhalt
+                  ? `${selectedSockelleiste.jaeger_meta.paketinhalt}${selectedSockelleiste.jaeger_meta.einheit_short || 'lfm'}`
+                  : sockelleisteVE}
               </p>
             )}
 
@@ -194,9 +218,9 @@ export default function SetAngebot({
                 {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2)}€
               </span>
               <span className="text-red-600 font-bold text-lg">
-                {isSockelleisteFree
+                {sockelleistePriceDiff === 0
                   ? `0,00€/${sockelleisteEinheit}`
-                  : `+${sockelleistePrice.toFixed(2)}€/${sockelleisteEinheit}`
+                  : `+${sockelleistePriceDiff.toFixed(2)}€/${sockelleisteEinheit}`
                 }
               </span>
             </div>
@@ -243,13 +267,15 @@ export default function SetAngebot({
                   : parseFloat(option.price || '0');
                 const standardPrice = daemmungRegularPrice || 0;
                 const priceDifference = optionPrice - standardPrice;
+                const isSelected = selectedDaemmung?.id === option.id;
                 const isStandard = option.name === daemmungName;
 
                 return (
                   <div
                     key={option.id}
+                    onClick={() => setSelectedDaemmung(option)}
                     className={`border rounded-lg p-4 hover:border-red-600 cursor-pointer transition-colors ${
-                      isStandard ? 'border-green-600 bg-green-50' : 'border-gray-300'
+                      isSelected ? 'border-red-600 bg-red-50' : 'border-gray-300'
                     }`}
                   >
                     <div className="flex items-center gap-4">
@@ -257,8 +283,8 @@ export default function SetAngebot({
                       <input
                         type="radio"
                         name="daemmung-option"
-                        checked={isStandard}
-                        readOnly
+                        checked={isSelected}
+                        onChange={() => setSelectedDaemmung(option)}
                         className="w-5 h-5"
                       />
 
@@ -325,13 +351,15 @@ export default function SetAngebot({
                   : parseFloat(option.price || '0');
                 const standardPrice = sockelleisteRegularPrice || 0;
                 const priceDifference = optionPrice - standardPrice;
+                const isSelected = selectedSockelleiste?.id === option.id;
                 const isStandard = option.name === sockelleisteName;
 
                 return (
                   <div
                     key={option.id}
+                    onClick={() => setSelectedSockelleiste(option)}
                     className={`border rounded-lg p-4 hover:border-red-600 cursor-pointer transition-colors ${
-                      isStandard ? 'border-green-600 bg-green-50' : 'border-gray-300'
+                      isSelected ? 'border-red-600 bg-red-50' : 'border-gray-300'
                     }`}
                   >
                     <div className="flex items-center gap-4">
@@ -339,8 +367,8 @@ export default function SetAngebot({
                       <input
                         type="radio"
                         name="sockelleiste-option"
-                        checked={isStandard}
-                        readOnly
+                        checked={isSelected}
+                        onChange={() => setSelectedSockelleiste(option)}
                         className="w-5 h-5"
                       />
 

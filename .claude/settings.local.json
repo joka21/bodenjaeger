@@ -15,7 +15,9 @@
       "WebFetch(domain:bodenjaeger.vercel.app)",
       "Bash(git revert:*)",
       "Bash(python:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(pkill:*)",
+      "Bash(PORT=3011 npm run dev:*)"
     ],
     "deny": [],
     "ask": []

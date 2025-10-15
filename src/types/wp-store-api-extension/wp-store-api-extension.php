@@ -48,6 +48,8 @@ class Jaeger_Store_API_Extension {
         '_show_setangebot',
         '_standard_addition_daemmung',
         '_standard_addition_sockelleisten',
+        '_option_products_daemmung',
+        '_option_products_sockelleisten',
         '_aktion',
         '_show_aktion',
         '_angebotspreis_hinweis',
