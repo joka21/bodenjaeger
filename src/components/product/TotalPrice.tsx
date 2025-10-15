@@ -6,6 +6,8 @@ interface TotalPriceProps {
   packages: number;          // Current number of packages
   sqm: number;              // Current sqm
   einheit: string;          // Unit (e.g. "m²")
+  selectedDaemmungPrice?: number;      // Price of selected Dämmung
+  selectedSockelleistePrice?: number;  // Price of selected Sockelleiste
 }
 
 export default function TotalPrice({
@@ -13,17 +15,21 @@ export default function TotalPrice({
   paketpreis_s,
   packages,
   sqm,
-  einheit
+  einheit,
+  selectedDaemmungPrice = 0,
+  selectedSockelleistePrice = 0
 }: TotalPriceProps) {
   // Determine which price to use
   const isOnSale = paketpreis_s !== undefined && paketpreis_s !== null && paketpreis_s > 0;
   const activePrice = isOnSale ? paketpreis_s : paketpreis;
 
-  // Calculate totals
-  const totalPrice = activePrice * packages;
+  // Calculate totals including selected products
+  const baseTotalPrice = activePrice * packages;
+  const additionalProductsPrice = (selectedDaemmungPrice + selectedSockelleistePrice) * packages;
+  const totalPrice = baseTotalPrice + additionalProductsPrice;
 
-  // Calculate savings if on sale
-  const totalRegularPrice = paketpreis * packages;
+  // Calculate savings if on sale (including additional products in regular price)
+  const totalRegularPrice = (paketpreis + selectedDaemmungPrice + selectedSockelleistePrice) * packages;
   const savings = isOnSale ? totalRegularPrice - totalPrice : 0;
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 
@@ -23,6 +23,7 @@ interface SetAngebotProps {
   sockelleisteVE?: string;
   sockelleisteEinheit?: string;
   sockelleisteOptions?: StoreApiProduct[];
+  onProductSelection?: (daemmungPrice: number, sockelleistePrice: number) => void;
 }
 
 export default function SetAngebot({
@@ -43,7 +44,8 @@ export default function SetAngebot({
   sockelleisteRegularPrice,
   sockelleisteVE,
   sockelleisteEinheit = 'lfm',
-  sockelleisteOptions = []
+  sockelleisteOptions = [],
+  onProductSelection
 }: SetAngebotProps) {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,11 +62,6 @@ export default function SetAngebot({
   // Check if we have at least one addition product (not a placeholder)
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';
   const hasSockelleiste = sockelleisteName !== 'Sockelleiste';
-
-  // Don't render if no addition products
-  if (!hasDaemmung && !hasSockelleiste) {
-    return null;
-  }
 
   // Calculate grid columns based on number of products
   const productCount = 1 + (hasDaemmung ? 1 : 0) + (hasSockelleiste ? 1 : 0);
@@ -85,6 +82,20 @@ export default function SetAngebot({
   const sockelleistePriceDiff = hasSockelleiste && selectedSockelleiste
     ? selectedSockelleistePrice - (sockelleisteRegularPrice || 0)
     : 0;
+
+  // Notify parent component of price changes
+  useEffect(() => {
+    if (onProductSelection) {
+      const daemmungPriceForTotal = hasDaemmung ? daemmungPriceDiff : 0;
+      const sockelleistePriceForTotal = hasSockelleiste ? sockelleistePriceDiff : 0;
+      onProductSelection(daemmungPriceForTotal, sockelleistePriceForTotal);
+    }
+  }, [selectedDaemmungPrice, selectedSockelleistePrice, hasDaemmung, hasSockelleiste, daemmungPriceDiff, sockelleistePriceDiff, onProductSelection]);
+
+  // Don't render if no addition products
+  if (!hasDaemmung && !hasSockelleiste) {
+    return null;
+  }
 
   // Calculate totals
   // totalRegularPrice = sum of ALL selected products at individual prices (crossed-out price)

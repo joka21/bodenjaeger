@@ -10,9 +10,10 @@ interface ProductInfoProps {
   sockelleisteProduct?: StoreApiProduct | null;
   daemmungOptions?: StoreApiProduct[];
   sockelleisteOptions?: StoreApiProduct[];
+  onProductSelection?: (daemmungPrice: number, sockelleistePrice: number) => void;
 }
 
-export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct, daemmungOptions = [], sockelleisteOptions = [] }: ProductInfoProps) {
+export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct, daemmungOptions = [], sockelleisteOptions = [], onProductSelection }: ProductInfoProps) {
   // Extract features from short_description or jaeger_meta
   const getFeaturesFromDescription = (html: string): string[] => {
     // Extract <li> items from HTML
@@ -133,6 +134,7 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
           sockelleisteVE={sockelleisteVE}
           sockelleisteEinheit={sockelleisteEinheit}
           sockelleisteOptions={sockelleisteOptions}
+          onProductSelection={onProductSelection}
         />
       </div>
     </div>

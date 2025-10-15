@@ -28,6 +28,10 @@ export default function ProductPageContent({
   const [packages, setPackages] = useState(1);
   const [sqm, setSqm] = useState(paketinhalt);
 
+  // State for selected products from SetAngebot
+  const [selectedDaemmungPrice, setSelectedDaemmungPrice] = useState(0);
+  const [selectedSockelleistePrice, setSelectedSockelleistePrice] = useState(0);
+
   // Get paketpreis values
   const paketpreis = product.jaeger_meta?.paketpreis || 0;
   const paketpreis_s = product.jaeger_meta?.paketpreis_s ?? undefined;
@@ -37,6 +41,12 @@ export default function ProductPageContent({
   const handleQuantityChange = (newPackages: number, newSqm: number) => {
     setPackages(newPackages);
     setSqm(newSqm);
+  };
+
+  // Handle selected products from SetAngebot
+  const handleProductSelection = (daemmungPrice: number, sockelleistePrice: number) => {
+    setSelectedDaemmungPrice(daemmungPrice);
+    setSelectedSockelleistePrice(sockelleistePrice);
   };
 
   return (
@@ -87,6 +97,7 @@ export default function ProductPageContent({
               sockelleisteProduct={sockelleisteProduct}
               daemmungOptions={daemmungOptions}
               sockelleisteOptions={sockelleisteOptions}
+              onProductSelection={handleProductSelection}
             />
 
             {/* Quantity Selector */}
@@ -103,6 +114,8 @@ export default function ProductPageContent({
               packages={packages}
               sqm={sqm}
               einheit={einheit}
+              selectedDaemmungPrice={selectedDaemmungPrice}
+              selectedSockelleistePrice={selectedSockelleistePrice}
             />
 
             {/* Action Buttons */}
