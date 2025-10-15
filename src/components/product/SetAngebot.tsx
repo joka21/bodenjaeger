@@ -41,8 +41,14 @@ export default function SetAngebot({
   const productCount = 1 + (hasDaemmung ? 1 : 0) + (hasSockelleiste ? 1 : 0);
   const gridCols = productCount === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
 
+  // Calculate totals
+  const totalRegularPrice = regularPrice + (hasDaemmung ? daemmungPrice : 0) + (hasSockelleiste ? sockelleistePrice : 0);
+  const totalSetPrice = basePrice + (hasDaemmung ? daemmungPrice : 0) + (hasSockelleiste ? sockelleistePrice : 0);
+  const savingsPercent = Math.round(((totalRegularPrice - totalSetPrice) / totalRegularPrice) * 100);
+
   return (
-    <div className={`grid grid-cols-1 ${gridCols} gap-4`}>
+    <div className="bg-red-600 rounded-lg p-6">
+      <div className={`grid grid-cols-1 ${gridCols} gap-4`}>
       {/* Boden Card */}
       <div className="bg-white rounded-lg p-4">
         <div className="text-center mb-2">
@@ -115,6 +121,21 @@ export default function SetAngebot({
           </div>
         </div>
       )}
+      </div>
+
+      {/* Gesamt-Preiszeile */}
+      <div className="flex justify-end items-center text-white mt-6">
+        <span className="text-xl mr-4">Gesamt</span>
+        <span className="line-through text-lg mr-2">
+          {totalRegularPrice.toFixed(2)}€
+        </span>
+        <span className="text-3xl font-bold mr-3">
+          {totalSetPrice.toFixed(2)}€/{einheit}
+        </span>
+        <span className="bg-red-800 px-3 py-1 rounded-full text-lg font-bold">
+          -{savingsPercent}%
+        </span>
+      </div>
     </div>
   );
 }
