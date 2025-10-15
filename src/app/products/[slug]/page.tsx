@@ -37,6 +37,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
         console.log('Loaded Dämmung product:', daemmungProduct?.name, daemmungProduct?.id);
       } catch (error) {
         console.error('Error loading Dämmung product:', error);
+        // Fallback: Create minimal product object
+        daemmungProduct = null;
       }
     }
 
@@ -46,6 +48,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
         console.log('Loaded Sockelleiste product:', sockelleisteProduct?.name, sockelleisteProduct?.id);
       } catch (error) {
         console.error('Error loading Sockelleiste product:', error);
+        // Fallback: Create minimal product object
+        sockelleisteProduct = null;
       }
     }
   } catch (error) {
