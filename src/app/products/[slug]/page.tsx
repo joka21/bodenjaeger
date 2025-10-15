@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import ImageGallery from "@/components/product/ImageGallery";
 import ProductInfo from "@/components/product/ProductInfo";
+import QuantitySelector from "@/components/product/QuantitySelector";
 import AddToCartButton from "./AddToCartButton";
 
 interface ProductPageProps {
@@ -107,6 +108,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
               product={product}
               daemmungProduct={daemmungProduct}
               sockelleisteProduct={sockelleisteProduct}
+            />
+
+            {/* Quantity Selector */}
+            <QuantitySelector
+              paketinhalt={product.jaeger_meta?.paketinhalt || 1}
+              einheit={product.jaeger_meta?.einheit_short || 'm²'}
             />
 
             {/* Temporary: Show current price */}
