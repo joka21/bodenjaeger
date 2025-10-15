@@ -15,6 +15,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
 
   let product: StoreApiProduct | null = null;
+  let daemmungProduct: StoreApiProduct | null = null;
+  let sockelleisteProduct: StoreApiProduct | null = null;
 
   try {
     // Server-side data fetching (much faster)
@@ -22,6 +24,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     if (!product) {
       notFound();
+    }
+
+    // Load standard addition products if available
+    if (product.jaeger_meta?.standard_addition_daemmung) {
+      try {
+        daemmungProduct = await wooCommerceClient.getProductById(product.jaeger_meta.standard_addition_daemmung);
+      } catch (error) {
+        console.error('Error loading Dämmung product:', error);
+      }
+    }
+
+    if (product.jaeger_meta?.standard_addition_sockelleisten) {
+      try {
+        sockelleisteProduct = await wooCommerceClient.getProductById(product.jaeger_meta.standard_addition_sockelleisten);
+      } catch (error) {
+        console.error('Error loading Sockelleiste product:', error);
+      }
     }
   } catch (error) {
     console.error('Error fetching product:', error);
@@ -70,7 +89,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
           {/* RIGHT COLUMN - Product Info & Cart */}
           <div className="space-y-6">
-            <ProductInfo product={product} />
+            <ProductInfo
+              product={product}
+              daemmungProduct={daemmungProduct}
+              sockelleisteProduct={sockelleisteProduct}
+            />
 
             {/* Temporary: Show current price */}
             <div className="p-6 bg-white rounded-lg shadow-md">

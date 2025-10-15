@@ -22,8 +22,12 @@ interface JaegerMeta {
   show_lieferzeit?: boolean;
   setangebot_titel?: string | null;
   show_setangebot?: boolean;
+  // Standard-Zusatzprodukte (Produkt-IDs)
   standard_addition_daemmung?: number | null;
   standard_addition_sockelleisten?: number | null;
+  // Optionale Zusatzprodukte (Kommagetrennte Produkt-IDs)
+  option_products_daemmung?: string | null;
+  option_products_sockelleisten?: string | null;
   aktion?: string | null;
   show_aktion?: boolean;
   angebotspreis_hinweis?: string | null;

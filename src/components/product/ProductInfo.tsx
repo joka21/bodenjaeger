@@ -6,9 +6,11 @@ import SetAngebot from './SetAngebot';
 
 interface ProductInfoProps {
   product: StoreApiProduct;
+  daemmungProduct?: StoreApiProduct | null;
+  sockelleisteProduct?: StoreApiProduct | null;
 }
 
-export default function ProductInfo({ product }: ProductInfoProps) {
+export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct }: ProductInfoProps) {
   // Extract features from short_description or jaeger_meta
   const getFeaturesFromDescription = (html: string): string[] => {
     // Extract <li> items from HTML
@@ -47,15 +49,23 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     ? product.images[0].src
     : '/images/placeholder.jpg';
 
-  // Dämmung information (placeholder values for now)
-  const daemmungName = 'Trittschalldämmung';
-  const daemmungImage = '/images/placeholder.jpg'; // TODO: Get from backend
-  const daemmungPrice = product.jaeger_meta?.standard_addition_daemmung || 0;
+  // Dämmung information from loaded product
+  const daemmungName = daemmungProduct?.name || 'Trittschalldämmung';
+  const daemmungImage = daemmungProduct?.images && daemmungProduct.images.length > 0
+    ? daemmungProduct.images[0].src
+    : '/images/placeholder.jpg';
+  const daemmungPrice = daemmungProduct?.prices?.price
+    ? parseFloat(daemmungProduct.prices.price) / 100
+    : parseFloat(daemmungProduct?.price || '0');
 
-  // Sockelleiste information (placeholder values for now)
-  const sockelleisteName = 'Sockelleiste';
-  const sockelleisteImage = '/images/placeholder.jpg'; // TODO: Get from backend
-  const sockelleistePrice = product.jaeger_meta?.standard_addition_sockelleisten || 0;
+  // Sockelleiste information from loaded product
+  const sockelleisteName = sockelleisteProduct?.name || 'Sockelleiste';
+  const sockelleisteImage = sockelleisteProduct?.images && sockelleisteProduct.images.length > 0
+    ? sockelleisteProduct.images[0].src
+    : '/images/placeholder.jpg';
+  const sockelleistePrice = sockelleisteProduct?.prices?.price
+    ? parseFloat(sockelleisteProduct.prices.price) / 100
+    : parseFloat(sockelleisteProduct?.price || '0');
 
   return (
     <div className="space-y-6">
