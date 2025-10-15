@@ -15,54 +15,29 @@ export default function SetAngebot({
   regularPrice,
   einheit
 }: SetAngebotProps) {
-  // Calculate savings
-  const savings = regularPrice - basePrice;
-  const savingsPercent = Math.round((savings / regularPrice) * 100);
-
   return (
-    <div className="bg-red-600 rounded-lg p-6 text-white">
-      <h2 className="text-2xl font-bold mb-4">
-        Dein Set-Angebot
-      </h2>
-
-      {/* Product Image */}
-      <div className="mb-4">
-        <div className="relative w-full h-48 bg-white rounded-lg overflow-hidden">
-          <Image
-            src={productImage}
-            alt={productName}
-            fill
-            className="object-contain p-4"
-          />
-        </div>
+    <div className="bg-white rounded-lg p-4">
+      <div className="text-center mb-2">
+        <span className="text-sm text-gray-600">Boden</span>
       </div>
-
-      {/* Pricing */}
-      <div className="space-y-2">
-        <div className="flex items-baseline justify-between">
-          <span className="text-lg">Einzelpreis:</span>
-          <span className="text-xl line-through opacity-75">
-            {regularPrice.toFixed(2)} €/{einheit}
-          </span>
-        </div>
-
-        <div className="flex items-baseline justify-between border-t border-white/30 pt-2">
-          <span className="text-lg font-semibold">Set-Preis:</span>
-          <span className="text-3xl font-bold">
-            {basePrice.toFixed(2)} €/{einheit}
-          </span>
-        </div>
-
-        {/* Savings Badge */}
-        <div className="bg-white text-red-600 rounded-lg px-4 py-2 text-center font-bold mt-4">
-          Du sparst {savings.toFixed(2)} € ({savingsPercent}%)
-        </div>
+      <Image
+        src={productImage}
+        alt={productName}
+        width={160}
+        height={160}
+        className="mx-auto rounded-lg mb-3"
+      />
+      <h3 className="text-sm font-medium mb-2 text-center">
+        {productName}
+      </h3>
+      <div className="text-center">
+        <span className="text-gray-400 line-through text-sm">
+          {regularPrice.toFixed(2)}€
+        </span>
+        <span className="text-red-600 font-bold text-lg ml-2">
+          {basePrice.toFixed(2)}€/{einheit}
+        </span>
       </div>
-
-      {/* Info Text */}
-      <p className="mt-4 text-sm opacity-90">
-        Profitiere von unserem exklusiven Set-Angebot und spare bares Geld!
-      </p>
     </div>
   );
 }
