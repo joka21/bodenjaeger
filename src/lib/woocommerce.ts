@@ -283,19 +283,34 @@ class WooCommerceClient {
     }
 
     try {
-      // Get all products and filter by slug (most reliable approach)
-      const allProducts = await this.getProducts({ per_page: 100 });
-      const productBySlug = allProducts.find(p => p.slug === slug);
+      // First try: Search by slug directly
+      const searchResults = await this.getProducts({ search: slug, per_page: 100 });
+      const exactMatch = searchResults.find(p => p.slug === slug);
 
-      if (productBySlug) {
-        return productBySlug;
+      if (exactMatch) {
+        return exactMatch;
       }
 
-      // Fallback: Try with search parameter
-      const searchResults = await this.getProducts({ search: slug, per_page: 100 });
-      const searchMatch = searchResults.find(p => p.slug === slug);
+      // Second try: Load more products if not found
+      let page = 1;
+      const maxPages = 10; // Limit to prevent infinite loops
 
-      return searchMatch || null;
+      while (page <= maxPages) {
+        const products = await this.getProducts({ per_page: 100, page });
+
+        if (products.length === 0) {
+          break; // No more products
+        }
+
+        const found = products.find(p => p.slug === slug);
+        if (found) {
+          return found;
+        }
+
+        page++;
+      }
+
+      return null;
     } catch (error) {
       console.error(`Error fetching product with slug "${slug}":`, error);
       return null;
