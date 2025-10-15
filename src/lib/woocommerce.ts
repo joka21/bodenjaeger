@@ -342,6 +342,7 @@ class WooCommerceClient {
     const auth = btoa(`${this.config.consumerKey}:${this.config.consumerSecret}`);
 
     try {
+      console.log(`Fetching product ${id} from REST API: ${url}`);
       const response = await fetch(url, {
         headers: {
           'Content-Type': 'application/json',
@@ -349,18 +350,30 @@ class WooCommerceClient {
         },
       });
 
+      console.log(`Response status for product ${id}: ${response.status}`);
+
       if (!response.ok) {
         if (response.status === 404) {
+          console.log(`Product ${id} not found (404)`);
           return null;
         }
-        const errorData: StoreApiError = await response.json().catch(() => ({
-          code: 'unknown_error',
-          message: `HTTP ${response.status}: ${response.statusText}`,
-        }));
+        const errorText = await response.text();
+        console.log(`Error response for product ${id}:`, errorText);
+
+        let errorData: StoreApiError;
+        try {
+          errorData = JSON.parse(errorText);
+        } catch {
+          errorData = {
+            code: 'unknown_error',
+            message: `HTTP ${response.status}: ${response.statusText}`,
+          };
+        }
         throw new Error(`WooCommerce API Error: ${errorData.message} (Code: ${errorData.code})`);
       }
 
       const product = await response.json();
+      console.log(`Successfully loaded product ${id}: ${product.name}`);
 
       // Transform REST API product to Store API format
       return this.transformRestApiProduct(product);

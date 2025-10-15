@@ -27,9 +27,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
 
     // Load standard addition products if available
+    console.log('Product jaeger_meta:', product.jaeger_meta);
+    console.log('Dämmung ID:', product.jaeger_meta?.standard_addition_daemmung);
+    console.log('Sockelleiste ID:', product.jaeger_meta?.standard_addition_sockelleisten);
+
     if (product.jaeger_meta?.standard_addition_daemmung) {
       try {
         daemmungProduct = await wooCommerceClient.getProductById(product.jaeger_meta.standard_addition_daemmung);
+        console.log('Loaded Dämmung product:', daemmungProduct?.name, daemmungProduct?.id);
       } catch (error) {
         console.error('Error loading Dämmung product:', error);
       }
@@ -38,6 +43,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     if (product.jaeger_meta?.standard_addition_sockelleisten) {
       try {
         sockelleisteProduct = await wooCommerceClient.getProductById(product.jaeger_meta.standard_addition_sockelleisten);
+        console.log('Loaded Sockelleiste product:', sockelleisteProduct?.name, sockelleisteProduct?.id);
       } catch (error) {
         console.error('Error loading Sockelleiste product:', error);
       }
