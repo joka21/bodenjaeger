@@ -86,9 +86,15 @@ export default function SetAngebot({
     ? selectedSockelleistePrice - (sockelleisteRegularPrice || 0)
     : 0;
 
-  // Calculate totals (base price already includes standard products at 0)
-  const totalRegularPrice = regularPrice + (hasDaemmung ? (daemmungRegularPrice || daemmungPrice) : 0) + (hasSockelleiste ? (sockelleisteRegularPrice || sockelleistePrice) : 0);
+  // Calculate totals
+  // totalRegularPrice = sum of ALL selected products at individual prices (crossed-out price)
+  const totalRegularPrice = regularPrice
+    + (hasDaemmung && selectedDaemmung ? selectedDaemmungPrice : 0)
+    + (hasSockelleiste && selectedSockelleiste ? selectedSockelleistePrice : 0);
+
+  // totalSetPrice = base price + price differences from standard products
   const totalSetPrice = basePrice + daemmungPriceDiff + sockelleistePriceDiff;
+
   const savingsPercent = totalRegularPrice > 0 ? Math.round(((totalRegularPrice - totalSetPrice) / totalRegularPrice) * 100) : 0;
 
   // Handle button clicks
