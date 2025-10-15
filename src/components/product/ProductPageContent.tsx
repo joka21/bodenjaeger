@@ -30,7 +30,7 @@ export default function ProductPageContent({
 
   // Get paketpreis values
   const paketpreis = product.jaeger_meta?.paketpreis || 0;
-  const paketpreis_s = product.jaeger_meta?.paketpreis_s;
+  const paketpreis_s = product.jaeger_meta?.paketpreis_s ?? undefined;
   const einheit = product.jaeger_meta?.einheit_short || 'm²';
 
   // Handle quantity changes from QuantitySelector
