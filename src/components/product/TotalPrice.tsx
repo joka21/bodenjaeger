@@ -19,17 +19,19 @@ export default function TotalPrice({
   selectedDaemmungPrice = 0,
   selectedSockelleistePrice = 0
 }: TotalPriceProps) {
-  // Determine which price to use
+  // Determine which price to use (paketpreis is price per package)
   const isOnSale = paketpreis_s !== undefined && paketpreis_s !== null && paketpreis_s > 0;
   const activePrice = isOnSale ? paketpreis_s : paketpreis;
 
-  // Calculate totals including selected products
-  const baseTotalPrice = activePrice * packages;
-  const additionalProductsPrice = (selectedDaemmungPrice + selectedSockelleistePrice) * packages;
-  const totalPrice = baseTotalPrice + additionalProductsPrice;
+  // selectedDaemmungPrice and selectedSockelleistePrice are price differences per m²
+  // activePrice is price per package
+  // So: total = (price_per_package + diff_per_m²) × packages
+  const pricePerPackage = activePrice + selectedDaemmungPrice + selectedSockelleistePrice;
+  const totalPrice = pricePerPackage * packages;
 
-  // Calculate savings if on sale (including additional products in regular price)
-  const totalRegularPrice = (paketpreis + selectedDaemmungPrice + selectedSockelleistePrice) * packages;
+  // Calculate savings if on sale
+  const regularPricePerPackage = paketpreis + selectedDaemmungPrice + selectedSockelleistePrice;
+  const totalRegularPrice = regularPricePerPackage * packages;
   const savings = isOnSale ? totalRegularPrice - totalPrice : 0;
 
   return (
@@ -53,7 +55,7 @@ export default function TotalPrice({
 
       {/* Price per unit info */}
       <div className="text-gray-500 text-sm">
-        {activePrice.toFixed(2)}€ pro Paket × {packages} Paket(e)
+        {pricePerPackage.toFixed(2)}€ pro Paket × {packages} Paket(e)
         <br />
         = {sqm.toFixed(2)} {einheit}
       </div>
