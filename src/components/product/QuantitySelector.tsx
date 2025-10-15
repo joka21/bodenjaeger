@@ -13,25 +13,33 @@ export default function QuantitySelector({
   einheit,
   onQuantityChange
 }: QuantitySelectorProps) {
-  const [packages, setPackages] = useState<number>(1);
-  const sqm = (packages * paketinhalt).toFixed(2);
+  const [sqm, setSqm] = useState<number>(paketinhalt);
+  const packages = Math.ceil(sqm / paketinhalt);
 
-  const handlePackagesChange = (newValue: number) => {
-    const value = Math.max(1, newValue); // Minimum 1 package
-    setPackages(value);
+  const handleSqmChange = (newValue: number) => {
+    const value = Math.max(paketinhalt, newValue); // Minimum 1 package worth
+    setSqm(value);
 
     if (onQuantityChange) {
-      const calculatedSqm = value * paketinhalt;
-      onQuantityChange(calculatedSqm, value);
+      const calculatedPackages = Math.ceil(value / paketinhalt);
+      onQuantityChange(value, calculatedPackages);
     }
   };
 
+  const incrementSqm = () => {
+    handleSqmChange(sqm + paketinhalt);
+  };
+
+  const decrementSqm = () => {
+    handleSqmChange(sqm - paketinhalt);
+  };
+
   const incrementPackages = () => {
-    handlePackagesChange(packages + 1);
+    handleSqmChange(sqm + paketinhalt);
   };
 
   const decrementPackages = () => {
-    handlePackagesChange(packages - 1);
+    handleSqmChange(sqm - paketinhalt);
   };
 
   return (
@@ -75,13 +83,32 @@ export default function QuantitySelector({
           </div>
         </div>
 
-        {/* Quadratmeter Anzeige */}
+        {/* Quadratmeter mit +/- Buttons */}
         <div>
           <label className="block text-sm font-medium mb-2">
-            Gesamt {einheit}
+            {einheit}
           </label>
-          <div className="h-10 px-4 flex items-center rounded border border-gray-300 bg-gray-50 text-gray-700 font-medium">
-            {sqm} {einheit}
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={decrementSqm}
+              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+            >
+              −
+            </button>
+            <input
+              type="number"
+              value={sqm.toFixed(2)}
+              readOnly
+              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white"
+            />
+            <button
+              type="button"
+              onClick={incrementSqm}
+              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+            >
+              +
+            </button>
           </div>
         </div>
       </div>
