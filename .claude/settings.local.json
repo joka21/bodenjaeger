@@ -14,7 +14,8 @@
       "Bash(time curl:*)",
       "WebFetch(domain:bodenjaeger.vercel.app)",
       "Bash(git revert:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
