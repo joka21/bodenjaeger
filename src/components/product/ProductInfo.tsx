@@ -57,6 +57,12 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
   const daemmungPrice = daemmungProduct?.prices?.price
     ? parseFloat(daemmungProduct.prices.price) / 100
     : parseFloat(daemmungProduct?.price || '0');
+  const daemmungRegularPrice = daemmungProduct?.prices?.regular_price
+    ? parseFloat(daemmungProduct.prices.regular_price) / 100
+    : parseFloat(daemmungProduct?.regular_price || '0');
+  const daemmungVE = daemmungProduct?.jaeger_meta?.paketinhalt
+    ? `${daemmungProduct.jaeger_meta.paketinhalt}${daemmungProduct.jaeger_meta.einheit_short || 'm²'}`
+    : undefined;
 
   // Sockelleiste information from loaded product
   const sockelleisteName = sockelleisteProduct?.name || 'Sockelleiste';
@@ -66,6 +72,13 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
   const sockelleistePrice = sockelleisteProduct?.prices?.price
     ? parseFloat(sockelleisteProduct.prices.price) / 100
     : parseFloat(sockelleisteProduct?.price || '0');
+  const sockelleisteRegularPrice = sockelleisteProduct?.prices?.regular_price
+    ? parseFloat(sockelleisteProduct.prices.regular_price) / 100
+    : parseFloat(sockelleisteProduct?.regular_price || '0');
+  const sockelleisteVE = sockelleisteProduct?.jaeger_meta?.paketinhalt
+    ? `${sockelleisteProduct.jaeger_meta.paketinhalt}${sockelleisteProduct.jaeger_meta.einheit_short || 'lfm'}`
+    : undefined;
+  const sockelleisteEinheit = sockelleisteProduct?.jaeger_meta?.einheit_short || 'lfm';
 
   return (
     <div className="space-y-6">
@@ -110,9 +123,14 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
           daemmungPrice={daemmungPrice}
+          daemmungRegularPrice={daemmungRegularPrice}
+          daemmungVE={daemmungVE}
           sockelleisteName={sockelleisteName}
           sockelleisteImage={sockelleisteImage}
           sockelleistePrice={sockelleistePrice}
+          sockelleisteRegularPrice={sockelleisteRegularPrice}
+          sockelleisteVE={sockelleisteVE}
+          sockelleisteEinheit={sockelleisteEinheit}
         />
       </div>
     </div>

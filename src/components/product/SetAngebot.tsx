@@ -9,10 +9,14 @@ interface SetAngebotProps {
   daemmungName: string;
   daemmungImage: string;
   daemmungPrice: number;
-  // NEU:
+  daemmungRegularPrice?: number;
+  daemmungVE?: string;
   sockelleisteName: string;
   sockelleisteImage: string;
   sockelleistePrice: number;
+  sockelleisteRegularPrice?: number;
+  sockelleisteVE?: string;
+  sockelleisteEinheit?: string;
 }
 
 export default function SetAngebot({
@@ -24,9 +28,14 @@ export default function SetAngebot({
   daemmungName,
   daemmungImage,
   daemmungPrice,
+  daemmungRegularPrice,
+  daemmungVE,
   sockelleisteName,
   sockelleisteImage,
-  sockelleistePrice
+  sockelleistePrice,
+  sockelleisteRegularPrice,
+  sockelleisteVE,
+  sockelleisteEinheit = 'lfm'
 }: SetAngebotProps) {
   // Check if we have at least one addition product (not a placeholder)
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';
@@ -42,85 +51,132 @@ export default function SetAngebot({
   const gridCols = productCount === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
 
   // Calculate totals
-  const totalRegularPrice = regularPrice + (hasDaemmung ? daemmungPrice : 0) + (hasSockelleiste ? sockelleistePrice : 0);
+  const totalRegularPrice = regularPrice + (hasDaemmung ? (daemmungRegularPrice || daemmungPrice) : 0) + (hasSockelleiste ? (sockelleisteRegularPrice || sockelleistePrice) : 0);
   const totalSetPrice = basePrice + (hasDaemmung ? daemmungPrice : 0) + (hasSockelleiste ? sockelleistePrice : 0);
   const savingsPercent = Math.round(((totalRegularPrice - totalSetPrice) / totalRegularPrice) * 100);
 
+  // Check if product is free (standard in set) or has surcharge
+  const isDaemmungFree = daemmungPrice === 0;
+  const isSockelleisteFree = sockelleistePrice === 0;
+
   return (
     <div className="bg-red-600 rounded-lg p-6">
+      {/* Titel */}
+      <h2 className="text-white text-2xl font-bold mb-6">Dein Set-Angebot</h2>
+
       <div className={`grid grid-cols-1 ${gridCols} gap-4`}>
-      {/* Boden Card */}
-      <div className="bg-white rounded-lg p-4">
-        <div className="text-center mb-2">
-          <span className="text-sm text-gray-600">Boden</span>
-        </div>
-        <Image
-          src={productImage}
-          alt={productName}
-          width={160}
-          height={160}
-          className="mx-auto rounded-lg mb-3"
-        />
-        <h3 className="text-sm font-medium mb-2 text-center">
-          {productName}
-        </h3>
-        <div className="text-center">
-          <span className="text-gray-400 line-through text-sm">
-            {regularPrice.toFixed(2)}€
-          </span>
-          <span className="text-red-600 font-bold text-lg ml-2">
-            {basePrice.toFixed(2)}€/{einheit}
-          </span>
-        </div>
-      </div>
-
-      {/* Dämmung Card - Only show if product exists */}
-      {hasDaemmung && (
-        <div className="bg-white rounded-lg p-4">
-          <div className="text-center mb-2">
-            <span className="text-sm text-gray-600">Dämmung</span>
+        {/* Boden Card - KEIN Button */}
+        <div className="bg-white rounded-lg p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+          <div className="text-center mb-3">
+            <span className="text-sm text-gray-600 font-medium">Boden</span>
           </div>
           <Image
-            src={daemmungImage}
-            alt={daemmungName}
-            width={160}
-            height={160}
-            className="mx-auto rounded-lg mb-3"
+            src={productImage}
+            alt={productName}
+            width={200}
+            height={200}
+            className="mx-auto rounded-lg mb-3 object-contain"
           />
-          <h3 className="text-sm font-medium mb-2 text-center">
-            {daemmungName}
+          <h3 className="text-sm font-medium mb-2 text-center text-gray-800 line-clamp-2 min-h-[40px]">
+            {productName}
           </h3>
-          <div className="text-center">
+          <div className="text-center mt-3">
+            <span className="text-gray-400 line-through text-sm mr-2">
+              {regularPrice.toFixed(2)}€
+            </span>
             <span className="text-red-600 font-bold text-lg">
-              {daemmungPrice.toFixed(2)}€/{einheit}
+              {basePrice.toFixed(2)}€/{einheit}
             </span>
           </div>
         </div>
-      )}
 
-      {/* Sockelleiste Card - Only show if product exists */}
-      {hasSockelleiste && (
-        <div className="bg-white rounded-lg p-4">
-          <div className="text-center mb-2">
-            <span className="text-sm text-gray-600">Sockelleiste</span>
+        {/* Dämmung Card - MIT Button oben */}
+        {hasDaemmung && (
+          <div className="bg-white rounded-lg p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+            {/* Button GANZ OBEN */}
+            <button
+              type="button"
+              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded hover:bg-gray-700 flex items-center justify-center gap-1 mb-3 transition-colors duration-200"
+            >
+              Andere Dämmung wählen
+              <span>→</span>
+            </button>
+
+            <Image
+              src={daemmungImage}
+              alt={daemmungName}
+              width={180}
+              height={180}
+              className="mx-auto rounded-lg mb-3 object-contain"
+            />
+            <h3 className="text-sm font-medium mb-1 text-center text-gray-800 line-clamp-2 min-h-[40px]">
+              {daemmungName}
+            </h3>
+
+            {/* VE-Zeile */}
+            {daemmungVE && (
+              <p className="text-xs text-gray-600 text-center mb-2">
+                VE: {daemmungVE}
+              </p>
+            )}
+
+            <div className="text-center mt-3">
+              <span className="text-gray-400 line-through text-sm mr-2">
+                {(daemmungRegularPrice || daemmungPrice).toFixed(2)}€
+              </span>
+              <span className="text-red-600 font-bold text-lg">
+                {isDaemmungFree
+                  ? `0,00€/${einheit}`
+                  : `+${daemmungPrice.toFixed(2)}€/${einheit}`
+                }
+              </span>
+            </div>
           </div>
-          <Image
-            src={sockelleisteImage}
-            alt={sockelleisteName}
-            width={160}
-            height={160}
-            className="mx-auto rounded-lg mb-3"
-          />
-          <h3 className="text-sm font-medium mb-2 text-center">
-            {sockelleisteName}
-          </h3>
-          <div className="text-center">
-            <span className="text-red-600 font-bold text-lg">
-              {sockelleistePrice.toFixed(2)}€/{einheit}
-            </span>
+        )}
+
+        {/* Sockelleiste Card - MIT Button oben */}
+        {hasSockelleiste && (
+          <div className="bg-white rounded-lg p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+            {/* Button GANZ OBEN */}
+            <button
+              type="button"
+              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded hover:bg-gray-700 flex items-center justify-center gap-1 mb-3 transition-colors duration-200"
+            >
+              Andere Sockelleiste wählen
+              <span>→</span>
+            </button>
+
+            <Image
+              src={sockelleisteImage}
+              alt={sockelleisteName}
+              width={180}
+              height={180}
+              className="mx-auto rounded-lg mb-3 object-contain"
+            />
+            <h3 className="text-sm font-medium mb-1 text-center text-gray-800 line-clamp-2 min-h-[40px]">
+              {sockelleisteName}
+            </h3>
+
+            {/* VE-Zeile */}
+            {sockelleisteVE && (
+              <p className="text-xs text-gray-600 text-center mb-2">
+                VE: {sockelleisteVE}
+              </p>
+            )}
+
+            <div className="text-center mt-3">
+              <span className="text-gray-400 line-through text-sm mr-2">
+                {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2)}€
+              </span>
+              <span className="text-red-600 font-bold text-lg">
+                {isSockelleisteFree
+                  ? `0,00€/${sockelleisteEinheit}`
+                  : `+${sockelleistePrice.toFixed(2)}€/${sockelleisteEinheit}`
+                }
+              </span>
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
 
       {/* Gesamt-Preiszeile */}
