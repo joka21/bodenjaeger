@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
+import SetAngebot from './SetAngebot';
 
 interface ProductInfoProps {
   product: StoreApiProduct;
@@ -38,8 +39,16 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     }
   }
 
+  // Get pricing information
+  const basePrice = parseFloat(product.prices?.price || product.price || '0') / 100;
+  const regularPrice = parseFloat(product.prices?.regular_price || product.regular_price || '0') / 100;
+  const einheit = product.jaeger_meta?.einheit_short || 'm²';
+  const productImage = product.images && product.images.length > 0
+    ? product.images[0].src
+    : '/images/placeholder.jpg';
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Product Title */}
       <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">
         {product.name}
@@ -69,6 +78,17 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           ))}
         </div>
       )}
+
+      {/* Set Angebot Component */}
+      <div className="mt-6">
+        <SetAngebot
+          productName={product.name}
+          productImage={productImage}
+          basePrice={basePrice}
+          regularPrice={regularPrice}
+          einheit={einheit}
+        />
+      </div>
     </div>
   );
 }
