@@ -54,8 +54,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
     if (needsProducts) {
       try {
         console.log('Loading all products to find addition and option products...');
-        const allProducts = await wooCommerceClient.getProducts({ per_page: 100 });
-        console.log(`Loaded ${allProducts.length} products from Store API`);
+
+        // Load ALL products by fetching multiple pages
+        let allProducts: StoreApiProduct[] = [];
+        let page = 1;
+        let hasMore = true;
+
+        while (hasMore && page <= 10) { // Limit to 10 pages (1000 products max)
+          const products = await wooCommerceClient.getProducts({ per_page: 100, page });
+          allProducts = [...allProducts, ...products];
+
+          if (products.length < 100) {
+            hasMore = false; // Last page
+          }
+          page++;
+        }
+
+        console.log(`Loaded ${allProducts.length} total products from Store API`);
 
         // Load standard products
         if (daemmungId) {
