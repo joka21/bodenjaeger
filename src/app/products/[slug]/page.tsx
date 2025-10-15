@@ -31,25 +31,27 @@ export default async function ProductPage({ params }: ProductPageProps) {
     console.log('Dämmung ID:', product.jaeger_meta?.standard_addition_daemmung);
     console.log('Sockelleiste ID:', product.jaeger_meta?.standard_addition_sockelleisten);
 
-    if (product.jaeger_meta?.standard_addition_daemmung) {
-      try {
-        daemmungProduct = await wooCommerceClient.getProductById(product.jaeger_meta.standard_addition_daemmung);
-        console.log('Loaded Dämmung product:', daemmungProduct?.name, daemmungProduct?.id);
-      } catch (error) {
-        console.error('Error loading Dämmung product:', error);
-        // Fallback: Create minimal product object
-        daemmungProduct = null;
-      }
-    }
+    // Load addition products using Store API (same as main products)
+    // Load all products once and find both by ID
+    const needsAdditionProducts = product.jaeger_meta?.standard_addition_daemmung || product.jaeger_meta?.standard_addition_sockelleisten;
 
-    if (product.jaeger_meta?.standard_addition_sockelleisten) {
+    if (needsAdditionProducts) {
       try {
-        sockelleisteProduct = await wooCommerceClient.getProductById(product.jaeger_meta.standard_addition_sockelleisten);
-        console.log('Loaded Sockelleiste product:', sockelleisteProduct?.name, sockelleisteProduct?.id);
+        console.log('Loading all products to find addition products...');
+        const allProducts = await wooCommerceClient.getProducts({ per_page: 100 });
+        console.log(`Loaded ${allProducts.length} products from Store API`);
+
+        if (product.jaeger_meta?.standard_addition_daemmung) {
+          daemmungProduct = allProducts.find(p => p.id === product.jaeger_meta?.standard_addition_daemmung) || null;
+          console.log('Dämmung product:', daemmungProduct ? `${daemmungProduct.name} (ID: ${daemmungProduct.id})` : 'Not found');
+        }
+
+        if (product.jaeger_meta?.standard_addition_sockelleisten) {
+          sockelleisteProduct = allProducts.find(p => p.id === product.jaeger_meta?.standard_addition_sockelleisten) || null;
+          console.log('Sockelleiste product:', sockelleisteProduct ? `${sockelleisteProduct.name} (ID: ${sockelleisteProduct.id})` : 'Not found');
+        }
       } catch (error) {
-        console.error('Error loading Sockelleiste product:', error);
-        // Fallback: Create minimal product object
-        sockelleisteProduct = null;
+        console.error('Error loading addition products:', error);
       }
     }
   } catch (error) {
