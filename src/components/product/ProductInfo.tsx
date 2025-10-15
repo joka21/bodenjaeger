@@ -8,9 +8,11 @@ interface ProductInfoProps {
   product: StoreApiProduct;
   daemmungProduct?: StoreApiProduct | null;
   sockelleisteProduct?: StoreApiProduct | null;
+  daemmungOptions?: StoreApiProduct[];
+  sockelleisteOptions?: StoreApiProduct[];
 }
 
-export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct }: ProductInfoProps) {
+export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct, daemmungOptions = [], sockelleisteOptions = [] }: ProductInfoProps) {
   // Extract features from short_description or jaeger_meta
   const getFeaturesFromDescription = (html: string): string[] => {
     // Extract <li> items from HTML
@@ -123,12 +125,14 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
           daemmungPrice={daemmungSetPrice}
           daemmungRegularPrice={daemmungRegularPrice}
           daemmungVE={daemmungVE}
+          daemmungOptions={daemmungOptions}
           sockelleisteName={sockelleisteName}
           sockelleisteImage={sockelleisteImage}
           sockelleistePrice={sockelleisteSetPrice}
           sockelleisteRegularPrice={sockelleisteRegularPrice}
           sockelleisteVE={sockelleisteVE}
           sockelleisteEinheit={sockelleisteEinheit}
+          sockelleisteOptions={sockelleisteOptions}
         />
       </div>
     </div>

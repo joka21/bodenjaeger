@@ -1,4 +1,8 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
+import type { StoreApiProduct } from '@/lib/woocommerce';
 
 interface SetAngebotProps {
   productName: string;
@@ -11,12 +15,14 @@ interface SetAngebotProps {
   daemmungPrice: number;
   daemmungRegularPrice?: number;
   daemmungVE?: string;
+  daemmungOptions?: StoreApiProduct[];
   sockelleisteName: string;
   sockelleisteImage: string;
   sockelleistePrice: number;
   sockelleisteRegularPrice?: number;
   sockelleisteVE?: string;
   sockelleisteEinheit?: string;
+  sockelleisteOptions?: StoreApiProduct[];
 }
 
 export default function SetAngebot({
@@ -30,13 +36,19 @@ export default function SetAngebot({
   daemmungPrice,
   daemmungRegularPrice,
   daemmungVE,
+  daemmungOptions = [],
   sockelleisteName,
   sockelleisteImage,
   sockelleistePrice,
   sockelleisteRegularPrice,
   sockelleisteVE,
-  sockelleisteEinheit = 'lfm'
+  sockelleisteEinheit = 'lfm',
+  sockelleisteOptions = []
 }: SetAngebotProps) {
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<'daemmung' | 'sockelleiste' | null>(null);
+
   // Check if we have at least one addition product (not a placeholder)
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';
   const hasSockelleiste = sockelleisteName !== 'Sockelleiste';
@@ -58,6 +70,17 @@ export default function SetAngebot({
   // Check if product is free (standard in set) or has surcharge
   const isDaemmungFree = daemmungPrice === 0;
   const isSockelleisteFree = sockelleistePrice === 0;
+
+  // Handle button clicks
+  const openModal = (type: 'daemmung' | 'sockelleiste') => {
+    setModalType(type);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalType(null);
+  };
 
   return (
     <div className="bg-red-600 rounded-lg p-6">
@@ -96,6 +119,7 @@ export default function SetAngebot({
             {/* Button GANZ OBEN */}
             <button
               type="button"
+              onClick={() => openModal('daemmung')}
               className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded hover:bg-gray-700 flex items-center justify-center gap-1 mb-3 transition-colors duration-200"
             >
               Andere Dämmung wählen
@@ -140,6 +164,7 @@ export default function SetAngebot({
             {/* Button GANZ OBEN */}
             <button
               type="button"
+              onClick={() => openModal('sockelleiste')}
               className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded hover:bg-gray-700 flex items-center justify-center gap-1 mb-3 transition-colors duration-200"
             >
               Andere Sockelleiste wählen
@@ -192,6 +217,209 @@ export default function SetAngebot({
           -{savingsPercent}%
         </span>
       </div>
+
+      {/* Modal für Produktauswahl */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex justify-between items-center">
+              <h3 className="text-2xl font-bold text-gray-900">
+                {modalType === 'daemmung' ? 'Dämmung wählen' : 'Sockelleiste wählen'}
+              </h3>
+              <button
+                onClick={closeModal}
+                className="text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 space-y-4">
+              {modalType === 'daemmung' && daemmungOptions.map((option) => {
+                const optionPrice = option.prices?.price
+                  ? parseFloat(option.prices.price) / 100
+                  : parseFloat(option.price || '0');
+                const standardPrice = daemmungRegularPrice || 0;
+                const priceDifference = optionPrice - standardPrice;
+                const isStandard = option.name === daemmungName;
+
+                return (
+                  <div
+                    key={option.id}
+                    className={`border rounded-lg p-4 hover:border-red-600 cursor-pointer transition-colors ${
+                      isStandard ? 'border-green-600 bg-green-50' : 'border-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Radio Button */}
+                      <input
+                        type="radio"
+                        name="daemmung-option"
+                        checked={isStandard}
+                        readOnly
+                        className="w-5 h-5"
+                      />
+
+                      {/* Product Image */}
+                      <Image
+                        src={option.images?.[0]?.src || '/images/placeholder.jpg'}
+                        alt={option.name}
+                        width={80}
+                        height={80}
+                        className="rounded object-contain"
+                      />
+
+                      {/* Product Info */}
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900">{option.name}</h4>
+                        {option.jaeger_meta?.paketinhalt && (
+                          <p className="text-sm text-gray-600">
+                            VE: {option.jaeger_meta.paketinhalt}
+                            {option.jaeger_meta.einheit_short || 'm²'}
+                          </p>
+                        )}
+                        <p className="text-sm text-gray-600">
+                          {optionPrice.toFixed(2)}€/{option.jaeger_meta?.einheit_short || einheit}
+                        </p>
+                      </div>
+
+                      {/* Price Difference */}
+                      <div className="text-right">
+                        {priceDifference === 0 ? (
+                          <span className="text-green-600 font-bold">
+                            0,00€
+                            <br />
+                            <span className="text-xs">(kostenlos)</span>
+                          </span>
+                        ) : priceDifference > 0 ? (
+                          <span className="text-red-600 font-bold">
+                            +{priceDifference.toFixed(2)}€
+                            <br />
+                            <span className="text-xs">(Aufpreis)</span>
+                          </span>
+                        ) : (
+                          <span className="text-green-600 font-bold">
+                            {priceDifference.toFixed(2)}€
+                            <br />
+                            <span className="text-xs">(günstiger)</span>
+                          </span>
+                        )}
+                        {isStandard && (
+                          <div className="mt-1">
+                            <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">
+                              ✓ Standard
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {modalType === 'sockelleiste' && sockelleisteOptions.map((option) => {
+                const optionPrice = option.prices?.price
+                  ? parseFloat(option.prices.price) / 100
+                  : parseFloat(option.price || '0');
+                const standardPrice = sockelleisteRegularPrice || 0;
+                const priceDifference = optionPrice - standardPrice;
+                const isStandard = option.name === sockelleisteName;
+
+                return (
+                  <div
+                    key={option.id}
+                    className={`border rounded-lg p-4 hover:border-red-600 cursor-pointer transition-colors ${
+                      isStandard ? 'border-green-600 bg-green-50' : 'border-gray-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Radio Button */}
+                      <input
+                        type="radio"
+                        name="sockelleiste-option"
+                        checked={isStandard}
+                        readOnly
+                        className="w-5 h-5"
+                      />
+
+                      {/* Product Image */}
+                      <Image
+                        src={option.images?.[0]?.src || '/images/placeholder.jpg'}
+                        alt={option.name}
+                        width={80}
+                        height={80}
+                        className="rounded object-contain"
+                      />
+
+                      {/* Product Info */}
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900">{option.name}</h4>
+                        {option.jaeger_meta?.paketinhalt && (
+                          <p className="text-sm text-gray-600">
+                            VE: {option.jaeger_meta.paketinhalt}
+                            {option.jaeger_meta.einheit_short || 'lfm'}
+                          </p>
+                        )}
+                        <p className="text-sm text-gray-600">
+                          {optionPrice.toFixed(2)}€/{option.jaeger_meta?.einheit_short || sockelleisteEinheit}
+                        </p>
+                      </div>
+
+                      {/* Price Difference */}
+                      <div className="text-right">
+                        {priceDifference === 0 ? (
+                          <span className="text-green-600 font-bold">
+                            0,00€
+                            <br />
+                            <span className="text-xs">(kostenlos)</span>
+                          </span>
+                        ) : priceDifference > 0 ? (
+                          <span className="text-red-600 font-bold">
+                            +{priceDifference.toFixed(2)}€
+                            <br />
+                            <span className="text-xs">(Aufpreis)</span>
+                          </span>
+                        ) : (
+                          <span className="text-green-600 font-bold">
+                            {priceDifference.toFixed(2)}€
+                            <br />
+                            <span className="text-xs">(günstiger)</span>
+                          </span>
+                        )}
+                        {isStandard && (
+                          <div className="mt-1">
+                            <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">
+                              ✓ Standard
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 flex justify-end gap-3">
+              <button
+                onClick={closeModal}
+                className="px-6 py-2 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+              >
+                Abbrechen
+              </button>
+              <button
+                onClick={closeModal}
+                className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+              >
+                Auswählen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
