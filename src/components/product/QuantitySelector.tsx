@@ -13,29 +13,25 @@ export default function QuantitySelector({
   einheit,
   onQuantityChange
 }: QuantitySelectorProps) {
-  const [sqm, setSqm] = useState<string>('');
-  const [packages, setPackages] = useState<string>('');
+  const [packages, setPackages] = useState<number>(1);
+  const sqm = (packages * paketinhalt).toFixed(2);
 
-  const handleSqmChange = (value: string) => {
-    setSqm(value);
-    const sqmValue = parseFloat(value) || 0;
-    const calculatedPackages = Math.ceil(sqmValue / paketinhalt);
-    setPackages(calculatedPackages.toString());
+  const handlePackagesChange = (newValue: number) => {
+    const value = Math.max(1, newValue); // Minimum 1 package
+    setPackages(value);
 
     if (onQuantityChange) {
-      onQuantityChange(sqmValue, calculatedPackages);
+      const calculatedSqm = value * paketinhalt;
+      onQuantityChange(calculatedSqm, value);
     }
   };
 
-  const handlePackagesChange = (value: string) => {
-    setPackages(value);
-    const packagesValue = parseInt(value) || 0;
-    const calculatedSqm = packagesValue * paketinhalt;
-    setSqm(calculatedSqm.toFixed(2));
+  const incrementPackages = () => {
+    handlePackagesChange(packages + 1);
+  };
 
-    if (onQuantityChange) {
-      onQuantityChange(calculatedSqm, packagesValue);
-    }
+  const decrementPackages = () => {
+    handlePackagesChange(packages - 1);
   };
 
   return (
@@ -49,48 +45,43 @@ export default function QuantitySelector({
       </div>
 
       {/* Input Fields */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Quadratmeter Input */}
+      <div className="grid grid-cols-2 gap-6">
+        {/* Paket-Input mit +/- Buttons */}
         <div>
-          <label htmlFor="sqm-input" className="block text-sm font-medium text-gray-700 mb-2">
-            Quadratmeter
+          <label className="block text-sm font-medium mb-2">
+            Paket(e)
           </label>
-          <div className="relative">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={decrementPackages}
+              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+            >
+              −
+            </button>
             <input
-              id="sqm-input"
               type="number"
-              value={sqm}
-              onChange={(e) => handleSqmChange(e.target.value)}
-              placeholder="0"
-              min="0"
-              step="0.01"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              value={packages}
+              readOnly
+              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white"
             />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
-              {einheit}
-            </span>
+            <button
+              type="button"
+              onClick={incrementPackages}
+              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+            >
+              +
+            </button>
           </div>
         </div>
 
-        {/* Pakete Input */}
+        {/* Quadratmeter Anzeige */}
         <div>
-          <label htmlFor="packages-input" className="block text-sm font-medium text-gray-700 mb-2">
-            Pakete
+          <label className="block text-sm font-medium mb-2">
+            Gesamt {einheit}
           </label>
-          <div className="relative">
-            <input
-              id="packages-input"
-              type="number"
-              value={packages}
-              onChange={(e) => handlePackagesChange(e.target.value)}
-              placeholder="0"
-              min="0"
-              step="1"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
-              Pak.
-            </span>
+          <div className="h-10 px-4 flex items-center rounded border border-gray-300 bg-gray-50 text-gray-700 font-medium">
+            {sqm} {einheit}
           </div>
         </div>
       </div>
