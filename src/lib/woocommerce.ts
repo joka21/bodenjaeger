@@ -177,6 +177,7 @@ interface StoreApiCategory {
 class WooCommerceClient {
   private config: WooCommerceConfig | null = null;
   private baseApiUrl: string | null = null;
+  private restApiUrl: string | null = null;
 
   private initializeConfig() {
     if (this.config) return; // Already initialized
@@ -198,6 +199,7 @@ class WooCommerceClient {
     };
 
     this.baseApiUrl = `${this.config.baseUrl.replace(/\/$/, '')}/wp-json/wc/store/v1`;
+    this.restApiUrl = `${this.config.baseUrl.replace(/\/$/, '')}/wp-json/wc/v3`;
   }
 
   private async makeRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -322,16 +324,46 @@ class WooCommerceClient {
   }
 
   /**
-   * Get a single product by ID from WooCommerce Store API
+   * Get a single product by ID from WooCommerce REST API (v3)
+   * Using REST API instead of Store API for better access to all products
    */
   async getProductById(id: number): Promise<StoreApiProduct | null> {
     if (!id || id <= 0) {
       throw new Error('Valid product ID is required');
     }
 
+    this.initializeConfig();
+
+    if (!this.restApiUrl || !this.config) {
+      throw new Error('WooCommerce client not properly initialized');
+    }
+
+    const url = `${this.restApiUrl}/products/${id}`;
+    const auth = btoa(`${this.config.consumerKey}:${this.config.consumerSecret}`);
+
     try {
-      const endpoint = `/products/${id}`;
-      return await this.makeRequest<StoreApiProduct>(endpoint);
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${auth}`,
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          return null;
+        }
+        const errorData: StoreApiError = await response.json().catch(() => ({
+          code: 'unknown_error',
+          message: `HTTP ${response.status}: ${response.statusText}`,
+        }));
+        throw new Error(`WooCommerce API Error: ${errorData.message} (Code: ${errorData.code})`);
+      }
+
+      const product = await response.json();
+
+      // Transform REST API product to Store API format
+      return this.transformRestApiProduct(product);
     } catch (error) {
       if (error instanceof Error && error.message.includes('404')) {
         return null;
@@ -339,6 +371,95 @@ class WooCommerceClient {
       console.error(`Error fetching product with ID "${id}":`, error);
       throw error;
     }
+  }
+
+  /**
+   * Transform REST API product response to Store API format
+   */
+  private transformRestApiProduct(restProduct: any): StoreApiProduct {
+    return {
+      id: restProduct.id,
+      name: restProduct.name,
+      slug: restProduct.slug,
+      permalink: restProduct.permalink,
+      description: restProduct.description,
+      short_description: restProduct.short_description,
+      sku: restProduct.sku,
+      price: restProduct.price,
+      regular_price: restProduct.regular_price,
+      sale_price: restProduct.sale_price,
+      price_html: restProduct.price_html,
+      prices: restProduct.prices,
+      on_sale: restProduct.on_sale,
+      purchasable: restProduct.purchasable,
+      total_sales: restProduct.total_sales,
+      virtual: restProduct.virtual,
+      downloadable: restProduct.downloadable,
+      tax_status: restProduct.tax_status,
+      tax_class: restProduct.tax_class,
+      manage_stock: restProduct.manage_stock,
+      stock_quantity: restProduct.stock_quantity,
+      stock_status: restProduct.stock_status,
+      backorders: restProduct.backorders,
+      backorders_allowed: restProduct.backorders_allowed,
+      backordered: restProduct.backordered,
+      low_stock_amount: restProduct.low_stock_amount,
+      sold_individually: restProduct.sold_individually,
+      weight: restProduct.weight,
+      dimensions: restProduct.dimensions,
+      shipping_required: restProduct.shipping_required,
+      shipping_taxable: restProduct.shipping_taxable,
+      shipping_class: restProduct.shipping_class,
+      shipping_class_id: restProduct.shipping_class_id,
+      reviews_allowed: restProduct.reviews_allowed,
+      average_rating: restProduct.average_rating,
+      rating_count: restProduct.rating_count,
+      upsell_ids: restProduct.upsell_ids || [],
+      cross_sell_ids: restProduct.cross_sell_ids || [],
+      parent_id: restProduct.parent_id,
+      purchase_note: restProduct.purchase_note,
+      categories: restProduct.categories || [],
+      tags: restProduct.tags || [],
+      images: restProduct.images || [],
+      attributes: restProduct.attributes || [],
+      default_attributes: restProduct.default_attributes || [],
+      variations: restProduct.variations || [],
+      grouped_products: restProduct.grouped_products || [],
+      menu_order: restProduct.menu_order,
+      related_ids: restProduct.related_ids || [],
+      has_options: restProduct.has_options,
+      extensions: restProduct.extensions || {},
+      jaeger_meta: restProduct.meta_data ? this.extractJaegerMeta(restProduct.meta_data) : undefined,
+    };
+  }
+
+  /**
+   * Extract jaeger_meta from REST API meta_data array
+   */
+  private extractJaegerMeta(metaData: any[]): JaegerMeta | undefined {
+    const jaegerFields: any = {};
+
+    metaData.forEach((meta: any) => {
+      // Remove leading underscore from key
+      const key = meta.key.startsWith('_') ? meta.key.substring(1) : meta.key;
+
+      // Map known jaeger meta fields
+      const jaegerKeys = [
+        'uvp', 'show_uvp', 'paketpreis', 'paketpreis_s', 'paketinhalt',
+        'einheit_short', 'verpackungsart_short', 'verschnitt',
+        'text_produktuebersicht', 'show_text_produktuebersicht',
+        'lieferzeit', 'show_lieferzeit', 'setangebot_titel', 'show_setangebot',
+        'standard_addition_daemmung', 'standard_addition_sockelleisten',
+        'option_products_daemmung', 'option_products_sockelleisten',
+        'aktion', 'show_aktion', 'angebotspreis_hinweis', 'show_angebotspreis_hinweis'
+      ];
+
+      if (jaegerKeys.includes(key)) {
+        jaegerFields[key] = meta.value;
+      }
+    });
+
+    return Object.keys(jaegerFields).length > 0 ? jaegerFields : undefined;
   }
 
   /**
