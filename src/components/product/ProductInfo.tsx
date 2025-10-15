@@ -54,12 +54,11 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
   const daemmungImage = daemmungProduct?.images && daemmungProduct.images.length > 0
     ? daemmungProduct.images[0].src
     : '/images/placeholder.jpg';
-  const daemmungPrice = daemmungProduct?.prices?.price
+  // Standard products are FREE in the set (price = 0)
+  const daemmungSetPrice = 0; // Always 0 for standard products
+  const daemmungRegularPrice = daemmungProduct?.prices?.price
     ? parseFloat(daemmungProduct.prices.price) / 100
     : parseFloat(daemmungProduct?.price || '0');
-  const daemmungRegularPrice = daemmungProduct?.prices?.regular_price
-    ? parseFloat(daemmungProduct.prices.regular_price) / 100
-    : parseFloat(daemmungProduct?.regular_price || '0');
   const daemmungVE = daemmungProduct?.jaeger_meta?.paketinhalt
     ? `${daemmungProduct.jaeger_meta.paketinhalt}${daemmungProduct.jaeger_meta.einheit_short || 'm²'}`
     : undefined;
@@ -69,12 +68,11 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
   const sockelleisteImage = sockelleisteProduct?.images && sockelleisteProduct.images.length > 0
     ? sockelleisteProduct.images[0].src
     : '/images/placeholder.jpg';
-  const sockelleistePrice = sockelleisteProduct?.prices?.price
+  // Standard products are FREE in the set (price = 0)
+  const sockelleisteSetPrice = 0; // Always 0 for standard products
+  const sockelleisteRegularPrice = sockelleisteProduct?.prices?.price
     ? parseFloat(sockelleisteProduct.prices.price) / 100
     : parseFloat(sockelleisteProduct?.price || '0');
-  const sockelleisteRegularPrice = sockelleisteProduct?.prices?.regular_price
-    ? parseFloat(sockelleisteProduct.prices.regular_price) / 100
-    : parseFloat(sockelleisteProduct?.regular_price || '0');
   const sockelleisteVE = sockelleisteProduct?.jaeger_meta?.paketinhalt
     ? `${sockelleisteProduct.jaeger_meta.paketinhalt}${sockelleisteProduct.jaeger_meta.einheit_short || 'lfm'}`
     : undefined;
@@ -122,12 +120,12 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
           einheit={einheit}
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
-          daemmungPrice={daemmungPrice}
+          daemmungPrice={daemmungSetPrice}
           daemmungRegularPrice={daemmungRegularPrice}
           daemmungVE={daemmungVE}
           sockelleisteName={sockelleisteName}
           sockelleisteImage={sockelleisteImage}
-          sockelleistePrice={sockelleistePrice}
+          sockelleistePrice={sockelleisteSetPrice}
           sockelleisteRegularPrice={sockelleisteRegularPrice}
           sockelleisteVE={sockelleisteVE}
           sockelleisteEinheit={sockelleisteEinheit}
