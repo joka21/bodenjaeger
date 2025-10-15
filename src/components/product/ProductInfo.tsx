@@ -1,6 +1,6 @@
 'use client';
 
-import { Check } from 'lucide-react';
+import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 
 interface ProductInfoProps {
@@ -55,7 +55,13 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <div className="space-y-2 pt-2">
           {features.map((feature, index) => (
             <div key={index} className="flex items-start gap-3">
-              <Check className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <Image
+                src="/images/Icons/Haken rot.png"
+                alt="Check"
+                width={20}
+                height={20}
+                className="flex-shrink-0 mt-0.5"
+              />
               <span className="text-gray-700 text-sm leading-relaxed">
                 {feature}
               </span>
