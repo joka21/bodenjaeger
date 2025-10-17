@@ -6,8 +6,9 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Enable ISR - revalidate every 60 seconds
-export const revalidate = 60;
+// Enable ISR - revalidate every 5 minutes (300 seconds)
+// Products don't change frequently, so longer cache is acceptable
+export const revalidate = 300;
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
@@ -19,19 +20,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
   let sockelleisteOptions: StoreApiProduct[] = [];
 
   try {
-    // Server-side data fetching (much faster)
+    // OPTIMIZATION: Load main product and check if we need additional products in parallel
+    // First, we need to get the product to know which IDs to load
     product = await wooCommerceClient.getProduct(slug);
 
     if (!product) {
       notFound();
     }
 
-    // Load standard addition products if available
     console.log('Product jaeger_meta:', product.jaeger_meta);
-    console.log('Dämmung ID:', product.jaeger_meta?.standard_addition_daemmung);
-    console.log('Sockelleiste ID:', product.jaeger_meta?.standard_addition_sockelleisten);
 
-    // Parse option product IDs from comma-separated strings
+    // Parse all product IDs we need to load
+    const daemmungId = product.jaeger_meta?.standard_addition_daemmung;
+    const sockelleisteId = product.jaeger_meta?.standard_addition_sockelleisten;
+
     const daemmungOptionIds = product.jaeger_meta?.option_products_daemmung
       ? product.jaeger_meta.option_products_daemmung.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
       : [];
@@ -39,20 +41,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
       ? product.jaeger_meta.option_products_sockelleisten.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
       : [];
 
+    console.log('Dämmung ID:', daemmungId);
+    console.log('Sockelleiste ID:', sockelleisteId);
     console.log('Dämmung option IDs:', daemmungOptionIds);
     console.log('Sockelleiste option IDs:', sockelleisteOptionIds);
 
-    // Load addition products using Store API (same as main products)
-    // Store IDs in variables to satisfy TypeScript
-    const daemmungId = product.jaeger_meta?.standard_addition_daemmung;
-    const sockelleisteId = product.jaeger_meta?.standard_addition_sockelleisten;
+    // Check if we need to load additional products
     const needsProducts = daemmungId || sockelleisteId || daemmungOptionIds.length > 0 || sockelleisteOptionIds.length > 0;
 
     if (needsProducts) {
       try {
-        console.log('Loading addition and option products by ID...');
+        const startTime = Date.now();
+        console.log('⚡ Loading addition and option products in batch...');
 
-        // Load products directly by ID (much faster!)
+        // Collect all product IDs to load
         const productIdsToLoad = [
           ...(daemmungId ? [daemmungId] : []),
           ...(sockelleisteId ? [sockelleisteId] : []),
@@ -63,7 +65,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
         // Load all products in one batch request (much more efficient!)
         const productsById = await wooCommerceClient.getProductsByIds(productIdsToLoad);
 
-        console.log(`Loaded ${productsById.size} products by ID`);
+        const loadTime = Date.now() - startTime;
+        console.log(`✅ Loaded ${productsById.size} products in ${loadTime}ms`);
 
         // Assign standard products
         if (daemmungId) {
@@ -81,17 +84,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
           daemmungOptions = daemmungOptionIds
             .map(id => productsById.get(id))
             .filter((p): p is StoreApiProduct => p !== undefined);
-          console.log(`Loaded ${daemmungOptions.length} Dämmung options:`, daemmungOptions.map(p => p.name));
+          console.log(`Loaded ${daemmungOptions.length} Dämmung options`);
         }
 
         if (sockelleisteOptionIds.length > 0) {
           sockelleisteOptions = sockelleisteOptionIds
             .map(id => productsById.get(id))
             .filter((p): p is StoreApiProduct => p !== undefined);
-          console.log(`Loaded ${sockelleisteOptions.length} Sockelleiste options:`, sockelleisteOptions.map(p => p.name));
+          console.log(`Loaded ${sockelleisteOptions.length} Sockelleiste options`);
         }
       } catch (error) {
-        console.error('Error loading addition products:', error);
+        console.error('❌ Error loading addition products:', error);
+        // Continue without additional products rather than failing completely
       }
     }
   } catch (error) {
