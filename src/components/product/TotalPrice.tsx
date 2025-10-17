@@ -1,38 +1,30 @@
 'use client';
 
+import type { SetQuantityCalculation, SetPriceCalculation } from '@/lib/setCalculations';
+
 interface TotalPriceProps {
-  paketpreis: number;        // Regular package price
-  paketpreis_s?: number;     // Sale package price (if on sale)
-  packages: number;          // Current number of packages
-  sqm: number;              // Current sqm
-  einheit: string;          // Unit (e.g. "m²")
-  selectedDaemmungPrice?: number;      // Price of selected Dämmung
-  selectedSockelleistePrice?: number;  // Price of selected Sockelleiste
+  quantities: SetQuantityCalculation;
+  prices: SetPriceCalculation;
+  einheit: string;
 }
 
 export default function TotalPrice({
-  paketpreis,
-  paketpreis_s,
-  packages,
-  sqm,
-  einheit,
-  selectedDaemmungPrice = 0,
-  selectedSockelleistePrice = 0
+  quantities,
+  prices,
+  einheit
 }: TotalPriceProps) {
-  // Determine which price to use (paketpreis is price per package)
-  const isOnSale = paketpreis_s !== undefined && paketpreis_s !== null && paketpreis_s > 0;
-  const activePrice = isOnSale ? paketpreis_s : paketpreis;
+  const {
+    totalDisplayPrice,
+    comparisonPriceTotal,
+    savings,
+    savingsPercent,
+    insulationSurcharge,
+    baseboardSurcharge
+  } = prices;
 
-  // selectedDaemmungPrice and selectedSockelleistePrice are price differences per m²
-  // activePrice is price per package
-  // So: total = (price_per_package + diff_per_m²) × packages
-  const pricePerPackage = activePrice + selectedDaemmungPrice + selectedSockelleistePrice;
-  const totalPrice = pricePerPackage * packages;
-
-  // Calculate savings if on sale
-  const regularPricePerPackage = paketpreis + selectedDaemmungPrice + selectedSockelleistePrice;
-  const totalRegularPrice = regularPricePerPackage * packages;
-  const savings = isOnSale ? totalRegularPrice - totalPrice : 0;
+  const hasSavings = savings !== undefined && savings > 0;
+  const hasInsulationSurcharge = insulationSurcharge > 0;
+  const hasBaseboardSurcharge = baseboardSurcharge > 0;
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -41,23 +33,74 @@ export default function TotalPrice({
         <span className="text-gray-700 text-lg">
           Gesamtsumme (inkl. MwSt.)
         </span>
-        <span className="text-gray-900 font-bold text-3xl">
-          {totalPrice.toFixed(2)}€
-        </span>
+        <div className="text-right">
+          {hasSavings && comparisonPriceTotal && (
+            <div className="text-gray-400 line-through text-sm">
+              {comparisonPriceTotal.toFixed(2)}€
+            </div>
+          )}
+          <span className="text-gray-900 font-bold text-3xl">
+            {totalDisplayPrice.toFixed(2)}€
+          </span>
+        </div>
       </div>
 
       {/* Savings */}
-      {isOnSale && savings > 0 && (
-        <div className="text-green-600 font-semibold text-sm mb-4">
-          Du sparst {savings.toFixed(2)}€
+      {hasSavings && savings && savingsPercent && (
+        <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+          <div className="text-green-700 font-semibold text-lg">
+            Du sparst {savings.toFixed(2)}€ ({savingsPercent.toFixed(0)}%)
+          </div>
         </div>
       )}
 
-      {/* Price per unit info */}
-      <div className="text-gray-500 text-sm">
-        {pricePerPackage.toFixed(2)}€ pro Paket × {packages} Paket(e)
-        <br />
-        = {sqm.toFixed(2)} {einheit}
+      {/* Price breakdown */}
+      <div className="text-gray-500 text-sm space-y-2">
+        <div className="font-medium text-gray-700">Dein Set umfasst:</div>
+
+        {/* Floor */}
+        <div className="flex justify-between">
+          <span>
+            Boden: {quantities.floor.packages} Paket(e)
+          </span>
+          <span className="text-gray-400">
+            = {quantities.floor.actualM2.toFixed(2)} {einheit}
+          </span>
+        </div>
+
+        {/* Insulation */}
+        {quantities.insulation && (
+          <div className="flex justify-between">
+            <span>
+              Dämmung: {quantities.insulation.packages} Paket(e)
+              {hasInsulationSurcharge && (
+                <span className="text-red-600 text-xs ml-1">
+                  (+{insulationSurcharge.toFixed(2)}€/{einheit})
+                </span>
+              )}
+            </span>
+            <span className="text-gray-400">
+              = {quantities.insulation.actualM2.toFixed(2)} {einheit}
+            </span>
+          </div>
+        )}
+
+        {/* Baseboard */}
+        {quantities.baseboard && (
+          <div className="flex justify-between">
+            <span>
+              Sockelleisten: {quantities.baseboard.packages} Paket(e)
+              {hasBaseboardSurcharge && (
+                <span className="text-red-600 text-xs ml-1">
+                  (+{baseboardSurcharge.toFixed(2)}€/lfm)
+                </span>
+              )}
+            </span>
+            <span className="text-gray-400">
+              = {quantities.baseboard.actualLfm.toFixed(2)} lfm
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

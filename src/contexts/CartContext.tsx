@@ -8,6 +8,25 @@ export interface CartItem {
   id: number;
   product: StoreApiProduct;
   quantity: number;
+  isSetItem?: boolean;           // Flag to identify set items
+  setId?: string;                 // Group ID for set items
+  setItemType?: 'floor' | 'insulation' | 'baseboard';  // Type of set item
+}
+
+// Set bundle interface for adding to cart
+export interface SetBundle {
+  floor: {
+    product: StoreApiProduct;
+    packages: number;
+  };
+  insulation: {
+    product: StoreApiProduct;
+    packages: number;
+  } | null;
+  baseboard: {
+    product: StoreApiProduct;
+    packages: number;
+  } | null;
 }
 
 // Cart context type definition
@@ -16,7 +35,9 @@ export interface CartContextType {
   itemCount: number;
   totalPrice: number;
   addToCart: (product: StoreApiProduct, quantity?: number) => void;
+  addSetToCart: (setBundle: SetBundle) => void;
   removeFromCart: (productId: number) => void;
+  removeSet: (setId: string) => void;
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
   isInCart: (productId: number) => boolean;
@@ -83,12 +104,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Add item to cart
   const addToCart = (product: StoreApiProduct, quantity: number = 1) => {
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
+      const existingItem = prevItems.find(item => item.id === product.id && !item.isSetItem);
 
       if (existingItem) {
         // Update quantity if item already exists
         return prevItems.map(item =>
-          item.id === product.id
+          item.id === product.id && !item.isSetItem
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -101,6 +122,58 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         }];
       }
     });
+  };
+
+  // Add set bundle to cart
+  const addSetToCart = (setBundle: SetBundle) => {
+    const setId = `set-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+    setCartItems(prevItems => {
+      const newItems: CartItem[] = [];
+
+      // Add floor
+      newItems.push({
+        id: setBundle.floor.product.id,
+        product: setBundle.floor.product,
+        quantity: setBundle.floor.packages,
+        isSetItem: true,
+        setId,
+        setItemType: 'floor'
+      });
+
+      // Add insulation if exists
+      if (setBundle.insulation) {
+        newItems.push({
+          id: setBundle.insulation.product.id,
+          product: setBundle.insulation.product,
+          quantity: setBundle.insulation.packages,
+          isSetItem: true,
+          setId,
+          setItemType: 'insulation'
+        });
+      }
+
+      // Add baseboard if exists
+      if (setBundle.baseboard) {
+        newItems.push({
+          id: setBundle.baseboard.product.id,
+          product: setBundle.baseboard.product,
+          quantity: setBundle.baseboard.packages,
+          isSetItem: true,
+          setId,
+          setItemType: 'baseboard'
+        });
+      }
+
+      return [...prevItems, ...newItems];
+    });
+  };
+
+  // Remove entire set by setId
+  const removeSet = (setId: string) => {
+    setCartItems(prevItems =>
+      prevItems.filter(item => item.setId !== setId)
+    );
   };
 
   // Remove item from cart completely
@@ -148,7 +221,9 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     itemCount,
     totalPrice,
     addToCart,
+    addSetToCart,
     removeFromCart,
+    removeSet,
     updateQuantity,
     clearCart,
     isInCart,

@@ -10,7 +10,7 @@ interface ProductInfoProps {
   sockelleisteProduct?: StoreApiProduct | null;
   daemmungOptions?: StoreApiProduct[];
   sockelleisteOptions?: StoreApiProduct[];
-  onProductSelection?: (daemmungPrice: number, sockelleistePrice: number) => void;
+  onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
 }
 
 export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct, daemmungOptions = [], sockelleisteOptions = [], onProductSelection }: ProductInfoProps) {

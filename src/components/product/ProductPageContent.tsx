@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { StoreApiProduct } from '@/lib/woocommerce';
+import { calculateSetQuantities, calculateSetPrices } from '@/lib/setCalculations';
 import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
@@ -23,30 +24,47 @@ export default function ProductPageContent({
   daemmungOptions,
   sockelleisteOptions
 }: ProductPageContentProps) {
-  // State for quantity and sqm
   const paketinhalt = product.jaeger_meta?.paketinhalt || 1;
-  const [packages, setPackages] = useState(1);
-  const [sqm, setSqm] = useState(paketinhalt);
-
-  // State for selected products from SetAngebot
-  const [selectedDaemmungPrice, setSelectedDaemmungPrice] = useState(0);
-  const [selectedSockelleistePrice, setSelectedSockelleistePrice] = useState(0);
-
-  // Get paketpreis values
-  const paketpreis = product.jaeger_meta?.paketpreis || 0;
-  const paketpreis_s = product.jaeger_meta?.paketpreis_s ?? undefined;
   const einheit = product.jaeger_meta?.einheit_short || 'm²';
+
+  // State for wanted m² (user input)
+  const [wantedM2, setWantedM2] = useState(paketinhalt);
+
+  // State for selected addition products
+  const [selectedDaemmung, setSelectedDaemmung] = useState<StoreApiProduct | null>(daemmungProduct);
+  const [selectedSockelleiste, setSelectedSockelleiste] = useState<StoreApiProduct | null>(sockelleisteProduct);
+
+  // Calculate set quantities (packages for each product)
+  const quantities = useMemo(() => {
+    return calculateSetQuantities(
+      wantedM2,
+      product,
+      selectedDaemmung,
+      selectedSockelleiste
+    );
+  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste]);
+
+  // Calculate set prices (for display)
+  const prices = useMemo(() => {
+    return calculateSetPrices(
+      quantities,
+      product,
+      daemmungProduct,
+      selectedDaemmung,
+      sockelleisteProduct,
+      selectedSockelleiste
+    );
+  }, [quantities, product, daemmungProduct, selectedDaemmung, sockelleisteProduct, selectedSockelleiste]);
 
   // Handle quantity changes from QuantitySelector
   const handleQuantityChange = (newPackages: number, newSqm: number) => {
-    setPackages(newPackages);
-    setSqm(newSqm);
+    setWantedM2(newSqm);
   };
 
   // Handle selected products from SetAngebot
-  const handleProductSelection = (daemmungPrice: number, sockelleistePrice: number) => {
-    setSelectedDaemmungPrice(daemmungPrice);
-    setSelectedSockelleistePrice(sockelleistePrice);
+  const handleProductSelection = (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => {
+    setSelectedDaemmung(daemmung);
+    setSelectedSockelleiste(sockelleiste);
   };
 
   return (
@@ -109,13 +127,9 @@ export default function ProductPageContent({
 
             {/* Total Price */}
             <TotalPrice
-              paketpreis={paketpreis}
-              paketpreis_s={paketpreis_s}
-              packages={packages}
-              sqm={sqm}
+              quantities={quantities}
+              prices={prices}
               einheit={einheit}
-              selectedDaemmungPrice={selectedDaemmungPrice}
-              selectedSockelleistePrice={selectedSockelleistePrice}
             />
 
             {/* Action Buttons */}
@@ -124,7 +138,12 @@ export default function ProductPageContent({
                 Individuelles Angebot anfragen
               </button>
 
-              <AddToCartButton product={product} />
+              <AddToCartButton
+                product={product}
+                quantities={quantities}
+                selectedDaemmung={selectedDaemmung}
+                selectedSockelleiste={selectedSockelleiste}
+              />
             </div>
 
             {/* Lieferzeit */}
