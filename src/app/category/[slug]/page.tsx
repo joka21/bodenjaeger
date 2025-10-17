@@ -1,6 +1,7 @@
 import CategoryPageClient from '@/components/category/CategoryPageClient';
+import { wooCommerceClient } from '@/lib/woocommerce';
 
-// Category mapping for display names
+// Category mapping for display names (fallback)
 const categoryNames: Record<string, string> = {
   'vinylboden': 'Vinylboden',
   'klebe-vinyl': 'Klebe-Vinyl',
@@ -15,9 +16,29 @@ const categoryNames: Record<string, string> = {
 
 export default async function CategoryPage({ params }: PageProps<'/category/[slug]'>) {
   const { slug } = await params;
-  const categoryName = categoryNames[slug] || slug;
 
-  return <CategoryPageClient slug={slug} categoryName={categoryName} />;
+  // Try to fetch category information from WordPress
+  let categoryData = null;
+  try {
+    categoryData = await wooCommerceClient.getCategoryBySlug(slug);
+    console.log('📁 Category data fetched:', categoryData ? `Found: ${categoryData.name}` : 'Not found');
+  } catch (error) {
+    console.error('Error fetching category:', error);
+  }
+
+  // Use WordPress name if available, otherwise use fallback
+  const categoryName = categoryData?.name || categoryNames[slug] || slug;
+  const categoryDescription = categoryData?.description || null;
+  const categoryImage = categoryData?.image || null;
+
+  return (
+    <CategoryPageClient
+      slug={slug}
+      categoryName={categoryName}
+      categoryDescription={categoryDescription}
+      categoryImage={categoryImage}
+    />
+  );
 }
 
 // Generate static params for common categories to avoid 404 on direct access

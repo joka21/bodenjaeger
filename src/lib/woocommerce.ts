@@ -484,6 +484,24 @@ class WooCommerceClient {
       throw error;
     }
   }
+
+  /**
+   * Get a single category by slug
+   */
+  async getCategoryBySlug(slug: string): Promise<StoreApiCategory | null> {
+    if (!slug) {
+      throw new Error('Category slug is required');
+    }
+
+    try {
+      const categories = await this.getCategories({ search: slug, per_page: 100 });
+      const exactMatch = categories.find(cat => cat.slug === slug);
+      return exactMatch || null;
+    } catch (error) {
+      console.error(`Error fetching category with slug "${slug}":`, error);
+      return null;
+    }
+  }
 }
 
 // Export singleton instance
