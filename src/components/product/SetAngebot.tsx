@@ -23,7 +23,7 @@ interface SetAngebotProps {
   sockelleisteVE?: string;
   sockelleisteEinheit?: string;
   sockelleisteOptions?: StoreApiProduct[];
-  onProductSelection?: (daemmungPrice: number, sockelleistePrice: number) => void;
+  onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
 }
 
 export default function SetAngebot({
@@ -83,14 +83,15 @@ export default function SetAngebot({
     ? selectedSockelleistePrice - (sockelleisteRegularPrice || 0)
     : 0;
 
-  // Notify parent component of price changes
+  // Notify parent component of product selection changes
   useEffect(() => {
     if (onProductSelection) {
-      const daemmungPriceForTotal = hasDaemmung ? daemmungPriceDiff : 0;
-      const sockelleistePriceForTotal = hasSockelleiste ? sockelleistePriceDiff : 0;
-      onProductSelection(daemmungPriceForTotal, sockelleistePriceForTotal);
+      onProductSelection(
+        hasDaemmung ? selectedDaemmung : null,
+        hasSockelleiste ? selectedSockelleiste : null
+      );
     }
-  }, [selectedDaemmungPrice, selectedSockelleistePrice, hasDaemmung, hasSockelleiste, daemmungPriceDiff, sockelleistePriceDiff, onProductSelection]);
+  }, [selectedDaemmung, selectedSockelleiste, hasDaemmung, hasSockelleiste, onProductSelection]);
 
   // Don't render if no addition products
   if (!hasDaemmung && !hasSockelleiste) {
