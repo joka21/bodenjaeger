@@ -283,6 +283,7 @@ class WooCommerceClient {
 
   /**
    * Get a single product by slug from WooCommerce Store API
+   * With Redis/KV caching for improved performance
    */
   async getProduct(slug: string): Promise<StoreApiProduct | null> {
     if (!slug) {
@@ -290,11 +291,34 @@ class WooCommerceClient {
     }
 
     try {
+      // Try cache first (if available)
+      if (typeof window === 'undefined') { // Server-side only
+        try {
+          const { getCachedProduct, setCachedProduct } = await import('./cache');
+          const cached = await getCachedProduct(slug);
+          if (cached) {
+            return cached;
+          }
+        } catch (cacheError) {
+          // Cache not available (e.g., no KV configured) - continue without cache
+          console.log('Cache not available, fetching from API');
+        }
+      }
+
       // First try: Search by slug directly
       const searchResults = await this.getProducts({ search: slug, per_page: 100 });
       const exactMatch = searchResults.find(p => p.slug === slug);
 
       if (exactMatch) {
+        // Cache the result (server-side only)
+        if (typeof window === 'undefined') {
+          try {
+            const { setCachedProduct } = await import('./cache');
+            await setCachedProduct(slug, exactMatch);
+          } catch {
+            // Cache write failed - not critical
+          }
+        }
         return exactMatch;
       }
 
@@ -311,6 +335,15 @@ class WooCommerceClient {
 
         const found = products.find(p => p.slug === slug);
         if (found) {
+          // Cache the result
+          if (typeof window === 'undefined') {
+            try {
+              const { setCachedProduct } = await import('./cache');
+              await setCachedProduct(slug, found);
+            } catch {
+              // Cache write failed - not critical
+            }
+          }
           return found;
         }
 
@@ -327,6 +360,7 @@ class WooCommerceClient {
   /**
    * Get multiple products by IDs in batches
    * Uses Store API include parameter to load multiple products efficiently
+   * With Redis/KV caching for improved performance
    */
   async getProductsByIds(ids: number[]): Promise<Map<number, StoreApiProduct>> {
     const productsMap = new Map<number, StoreApiProduct>();
@@ -338,9 +372,24 @@ class WooCommerceClient {
     // Remove duplicates
     const uniqueIds = Array.from(new Set(ids));
 
-    console.log(`📦 Loading ${uniqueIds.length} products by ID using Store API...`);
+    console.log(`📦 Loading ${uniqueIds.length} products by ID...`);
 
     try {
+      // Try cache first (server-side only)
+      if (typeof window === 'undefined') {
+        try {
+          const { getCachedProductsBatch, setCachedProductsBatch } = await import('./cache');
+          const cached = await getCachedProductsBatch(uniqueIds);
+
+          if (cached) {
+            return cached;
+          }
+        } catch (cacheError) {
+          // Cache not available - continue without cache
+          console.log('Cache not available, fetching from API');
+        }
+      }
+
       // Load all products at once using the include parameter
       // Store API supports up to 100 products per request
       const batchSize = 100;
@@ -368,6 +417,16 @@ class WooCommerceClient {
       });
 
       console.log(`✅ Successfully loaded ${productsMap.size} products`);
+
+      // Cache the result (server-side only)
+      if (typeof window === 'undefined' && productsMap.size > 0) {
+        try {
+          const { setCachedProductsBatch } = await import('./cache');
+          await setCachedProductsBatch(productsMap);
+        } catch {
+          // Cache write failed - not critical
+        }
+      }
 
       return productsMap;
     } catch (error) {
