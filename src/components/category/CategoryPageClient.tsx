@@ -198,56 +198,126 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
 
         {/* Products Grid */}
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
             {products.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-              >
+              <article key={product.id} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
                 <Link href={`/products/${product.slug}`}>
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={product.images[0]?.src || "https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Kein+Bild"}
-                      alt={product.images[0]?.alt || product.name}
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                </Link>
-
-                <div className="p-6">
-                  <Link href={`/products/${product.slug}`}>
-                    <h2 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
-                      {product.name}
-                    </h2>
-                  </Link>
-
-                  <div className="flex items-center justify-between">
-                    {product.on_sale ? (
-                      <div className="flex items-center space-x-2">
-                        <span className="text-2xl font-bold text-red-600">
-                          {product.sale_price}€
-                        </span>
-                        <span className="text-lg text-gray-500 line-through">
-                          {product.regular_price}€
-                        </span>
-                      </div>
+                  {/* Bildbereich */}
+                  <div className="relative aspect-[4/3] bg-gray-200">
+                    {product.images.length > 0 ? (
+                      <Image
+                        src={product.images[0]?.src}
+                        alt={product.images[0]?.alt || product.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        priority={false}
+                        loading="lazy"
+                        quality={80}
+                      />
                     ) : (
-                      <span className="text-2xl font-bold text-gray-900">
-                        {product.price}€
-                      </span>
+                      <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                        <span className="text-gray-400 text-sm">Kein Bild verfügbar</span>
+                      </div>
                     )}
 
-                    <Link
-                      href={`/products/${product.slug}`}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block text-center"
-                    >
-                      Details ansehen
-                    </Link>
+                    {/* Badges */}
+                    <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+                      {/* Sale Badge - Berechnung basierend auf UVP wenn vorhanden */}
+                      {(() => {
+                        const jaegerMeta = product.jaeger_meta;
+                        let discountPercent = 0;
+
+                        if (product.on_sale) {
+                          // Preise in Euro umrechnen (Store API gibt Cent zurück)
+                          const salePrice = product.prices?.sale_price ? parseFloat(product.prices.sale_price) / 100 : parseFloat(product.sale_price) / 100;
+                          const regularPrice = product.prices?.regular_price ? parseFloat(product.prices.regular_price) / 100 : parseFloat(product.regular_price || product.price) / 100;
+
+                          // Verwende UVP wenn verfügbar und > 0, sonst regular_price
+                          const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
+                            ? jaegerMeta.uvp
+                            : regularPrice;
+
+                          if (comparePrice > 0 && salePrice < comparePrice) {
+                            discountPercent = Math.round(((comparePrice - salePrice) / comparePrice) * 100);
+                          }
+                        }
+
+                        return discountPercent > 0 ? (
+                          <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
+                            -{discountPercent}%
+                          </div>
+                        ) : null;
+                      })()}
+
+                      {/* Aktion Badge */}
+                      {product.jaeger_meta?.show_aktion && product.jaeger_meta?.aktion && (
+                        <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+                          {product.jaeger_meta.aktion}
+                        </div>
+                      )}
+
+                      {/* Angebotspreis Hinweis Badge */}
+                      {product.jaeger_meta?.show_angebotspreis_hinweis && (
+                        <div className="bg-black text-white px-3 py-1 rounded font-bold text-sm shadow-md">
+                          {product.jaeger_meta.angebotspreis_hinweis || 'Angebot'}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </div>
+
+                  {/* Produktinfo-Bereich */}
+                  <div className="bg-gray-100 p-4">
+                    {/* Produktname */}
+                    <h3 className="text-gray-900 font-medium text-base mb-3 line-clamp-2 min-h-[3rem]">
+                      {product.name}
+                    </h3>
+
+                    {/* Trennlinie */}
+                    <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
+
+                    {/* Preisanzeige */}
+                    {(() => {
+                      const jaegerMeta = product.jaeger_meta;
+                      const unit = jaegerMeta?.einheit_short || 'm²';
+
+                      // Preise aus prices Objekt (schon in Euro umgerechnet)
+                      const currentPrice = product.prices?.price ? parseFloat(product.prices.price) / 100 : parseFloat(product.price) / 100;
+                      const regularPrice = product.prices?.regular_price ? parseFloat(product.prices.regular_price) / 100 : parseFloat(product.regular_price || product.price) / 100;
+                      const salePrice = product.prices?.sale_price ? parseFloat(product.prices.sale_price) / 100 : parseFloat(product.sale_price || product.price) / 100;
+
+                      // Vergleichspreis: UVP wenn verfügbar, sonst regulärer Preis
+                      const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
+                        ? jaegerMeta.uvp
+                        : regularPrice;
+
+                      return product.on_sale && salePrice < comparePrice ? (
+                        <div className="space-y-1">
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-900 text-sm">Set-Angebot</span>
+                            <span className="text-gray-500 line-through text-sm">
+                              {comparePrice.toFixed(2).replace('.', ',')}€/{unit}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-900 font-medium">Gesamt</span>
+                            <span className="text-red-600 font-bold text-xl">
+                              {salePrice.toFixed(2).replace('.', ',')} €/{unit}
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex justify-between items-center">
+                          <span className="text-gray-900 font-medium">Preis</span>
+                          <span className="text-gray-900 font-bold text-xl">
+                            {currentPrice.toFixed(2).replace('.', ',')} €/{unit}
+                          </span>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                </Link>
+              </article>
             ))}
           </div>
         ) : (
