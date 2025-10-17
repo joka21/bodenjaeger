@@ -122,9 +122,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <>
               {/* Cart Items */}
               <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {cartItems.map((item) => (
+                {cartItems.map((item, index) => (
                   <div
-                    key={item.id}
+                    key={item.isSetItem && item.setId ? `${item.setId}-${item.setItemType}` : `${item.id}-${index}`}
                     className="flex items-start space-x-4 p-4 bg-gray-50 rounded-lg"
                   >
                     {/* Product Image */}
