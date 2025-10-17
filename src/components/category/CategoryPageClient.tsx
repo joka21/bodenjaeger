@@ -2,34 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { type StoreApiProduct } from '@/lib/woocommerce';
-import ProductCard from '@/components/ProductCard';
-
-interface JaegerMeta {
-  uvp?: number | null;
-  show_uvp?: boolean;
-  paketpreis?: number | null;
-  paketpreis_s?: number | null;
-  paketinhalt?: number | null;
-  einheit_short?: string | null;
-  verpackungsart_short?: string | null;
-  verschnitt?: number | null;
-  text_produktuebersicht?: string | null;
-  show_text_produktuebersicht?: boolean;
-  lieferzeit?: string | null;
-  show_lieferzeit?: boolean;
-  setangebot_titel?: string | null;
-  show_setangebot?: boolean;
-  standard_addition_daemmung?: number | null;
-  standard_addition_sockelleisten?: number | null;
-  aktion?: string | null;
-  show_aktion?: boolean;
-  angebotspreis_hinweis?: string | null;
-  show_angebotspreis_hinweis?: boolean;
-}
-
-interface ExtendedProduct extends StoreApiProduct {
-  jaeger_meta?: JaegerMeta;
-}
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface CategoryPageClientProps {
   slug: string;
@@ -37,17 +11,13 @@ interface CategoryPageClientProps {
 }
 
 export default function CategoryPageClient({ slug, categoryName }: CategoryPageClientProps) {
-  const [products, setProducts] = useState<ExtendedProduct[]>([]);
+  const [products, setProducts] = useState<StoreApiProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
   const productsPerPage = 12;
-
-  // Check if this is a floor category (Boden)
-  const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl', 'laminat', 'parkett', 'teppichboden'];
-  const isFloorCategory = floorCategories.includes(slug);
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -201,9 +171,56 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
 
         {/* Products Grid */}
         {products.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} showDescription={isFloorCategory} />
+              <div
+                key={product.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <Link href={`/products/${product.slug}`}>
+                  <div className="relative h-64 overflow-hidden">
+                    <Image
+                      src={product.images[0]?.src || "https://via.placeholder.com/400x300/f3f4f6/9ca3af?text=Kein+Bild"}
+                      alt={product.images[0]?.alt || product.name}
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                </Link>
+
+                <div className="p-6">
+                  <Link href={`/products/${product.slug}`}>
+                    <h2 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors cursor-pointer">
+                      {product.name}
+                    </h2>
+                  </Link>
+
+                  <div className="flex items-center justify-between">
+                    {product.on_sale ? (
+                      <div className="flex items-center space-x-2">
+                        <span className="text-2xl font-bold text-red-600">
+                          {product.sale_price}€
+                        </span>
+                        <span className="text-lg text-gray-500 line-through">
+                          {product.regular_price}€
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-2xl font-bold text-gray-900">
+                        {product.price}€
+                      </span>
+                    )}
+
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors inline-block text-center"
+                    >
+                      Details ansehen
+                    </Link>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         ) : (
