@@ -45,6 +45,10 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
 
   const productsPerPage = 12;
 
+  // Check if this is a floor category (Boden)
+  const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl', 'laminat', 'parkett', 'teppichboden'];
+  const isFloorCategory = floorCategories.includes(slug);
+
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
@@ -199,7 +203,7 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
         {products.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard key={product.id} product={product} showDescription={isFloorCategory} />
             ))}
           </div>
         ) : (
