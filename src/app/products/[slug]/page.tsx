@@ -50,44 +50,54 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     if (needsProducts) {
       try {
-        console.log('Loading all products to find addition and option products...');
+        console.log('Loading addition and option products by ID...');
 
-        // Load ALL products by fetching multiple pages
-        let allProducts: StoreApiProduct[] = [];
-        let page = 1;
-        let hasMore = true;
+        // Load products directly by ID (much faster!)
+        const productIdsToLoad = [
+          ...(daemmungId ? [daemmungId] : []),
+          ...(sockelleisteId ? [sockelleisteId] : []),
+          ...daemmungOptionIds,
+          ...sockelleisteOptionIds,
+        ];
 
-        while (hasMore && page <= 10) { // Limit to 10 pages (1000 products max)
-          const products = await wooCommerceClient.getProducts({ per_page: 100, page });
-          allProducts = [...allProducts, ...products];
+        // Load all products in parallel
+        const loadedProducts = await Promise.all(
+          productIdsToLoad.map(id => wooCommerceClient.getProductById(id))
+        );
 
-          if (products.length < 100) {
-            hasMore = false; // Last page
+        // Filter out null results and create a map for quick lookup
+        const productsById = new Map<number, StoreApiProduct>();
+        loadedProducts.forEach((product, index) => {
+          if (product) {
+            productsById.set(productIdsToLoad[index], product);
           }
-          page++;
-        }
+        });
 
-        console.log(`Loaded ${allProducts.length} total products from Store API`);
+        console.log(`Loaded ${productsById.size} products by ID`);
 
-        // Load standard products
+        // Assign standard products
         if (daemmungId) {
-          daemmungProduct = allProducts.find(p => p.id === daemmungId) || null;
+          daemmungProduct = productsById.get(daemmungId) || null;
           console.log('Dämmung product:', daemmungProduct ? `${daemmungProduct.name} (ID: ${daemmungProduct.id})` : 'Not found');
         }
 
         if (sockelleisteId) {
-          sockelleisteProduct = allProducts.find(p => p.id === sockelleisteId) || null;
+          sockelleisteProduct = productsById.get(sockelleisteId) || null;
           console.log('Sockelleiste product:', sockelleisteProduct ? `${sockelleisteProduct.name} (ID: ${sockelleisteProduct.id})` : 'Not found');
         }
 
-        // Load option products (alternative selections)
+        // Assign option products
         if (daemmungOptionIds.length > 0) {
-          daemmungOptions = allProducts.filter(p => daemmungOptionIds.includes(p.id));
+          daemmungOptions = daemmungOptionIds
+            .map(id => productsById.get(id))
+            .filter((p): p is StoreApiProduct => p !== undefined);
           console.log(`Loaded ${daemmungOptions.length} Dämmung options:`, daemmungOptions.map(p => p.name));
         }
 
         if (sockelleisteOptionIds.length > 0) {
-          sockelleisteOptions = allProducts.filter(p => sockelleisteOptionIds.includes(p.id));
+          sockelleisteOptions = sockelleisteOptionIds
+            .map(id => productsById.get(id))
+            .filter((p): p is StoreApiProduct => p !== undefined);
           console.log(`Loaded ${sockelleisteOptions.length} Sockelleiste options:`, sockelleisteOptions.map(p => p.name));
         }
       } catch (error) {
