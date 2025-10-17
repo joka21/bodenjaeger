@@ -60,18 +60,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ...sockelleisteOptionIds,
         ];
 
-        // Load all products in parallel
-        const loadedProducts = await Promise.all(
-          productIdsToLoad.map(id => wooCommerceClient.getProductById(id))
-        );
-
-        // Filter out null results and create a map for quick lookup
-        const productsById = new Map<number, StoreApiProduct>();
-        loadedProducts.forEach((product, index) => {
-          if (product) {
-            productsById.set(productIdsToLoad[index], product);
-          }
-        });
+        // Load all products in one batch request (much more efficient!)
+        const productsById = await wooCommerceClient.getProductsByIds(productIdsToLoad);
 
         console.log(`Loaded ${productsById.size} products by ID`);
 

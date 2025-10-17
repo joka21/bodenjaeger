@@ -257,6 +257,7 @@ class WooCommerceClient {
     on_sale?: boolean;
     min_price?: string;
     max_price?: string;
+    include?: string; // Comma-separated list of product IDs
     orderby?: 'date' | 'id' | 'include' | 'title' | 'slug' | 'price' | 'popularity' | 'rating' | 'menu_order';
     order?: 'asc' | 'desc';
   } = {}): Promise<StoreApiProduct[]> {
@@ -324,154 +325,75 @@ class WooCommerceClient {
   }
 
   /**
-   * Get a single product by ID from WooCommerce REST API (v3)
-   * Using REST API instead of Store API for better access to all products
+   * Get multiple products by IDs in batches
+   * Uses Store API include parameter to load multiple products efficiently
+   */
+  async getProductsByIds(ids: number[]): Promise<Map<number, StoreApiProduct>> {
+    const productsMap = new Map<number, StoreApiProduct>();
+
+    if (ids.length === 0) {
+      return productsMap;
+    }
+
+    // Remove duplicates
+    const uniqueIds = Array.from(new Set(ids));
+
+    console.log(`📦 Loading ${uniqueIds.length} products by ID using Store API...`);
+
+    try {
+      // Load all products at once using the include parameter
+      // Store API supports up to 100 products per request
+      const batchSize = 100;
+      const batches: number[][] = [];
+
+      for (let i = 0; i < uniqueIds.length; i += batchSize) {
+        batches.push(uniqueIds.slice(i, i + batchSize));
+      }
+
+      // Load all batches in parallel
+      const batchResults = await Promise.all(
+        batches.map(async (batch) => {
+          const includeParam = batch.join(',');
+          const products = await this.getProducts({
+            per_page: batchSize,
+            include: includeParam
+          });
+          return products;
+        })
+      );
+
+      // Flatten results and create map
+      batchResults.flat().forEach(product => {
+        productsMap.set(product.id, product);
+      });
+
+      console.log(`✅ Successfully loaded ${productsMap.size} products`);
+
+      return productsMap;
+    } catch (error) {
+      console.error('❌ Error loading products by IDs:', error);
+      // Return partial results if any
+      return productsMap;
+    }
+  }
+
+  /**
+   * Get a single product by ID from WooCommerce Store API
+   * Fallback method for single product loading
    */
   async getProductById(id: number): Promise<StoreApiProduct | null> {
     if (!id || id <= 0) {
       throw new Error('Valid product ID is required');
     }
 
-    this.initializeConfig();
-
-    if (!this.restApiUrl || !this.config) {
-      throw new Error('WooCommerce client not properly initialized');
-    }
-
-    // Use query parameters for authentication (WooCommerce REST API v3 standard)
-    const url = `${this.restApiUrl}/products/${id}?consumer_key=${encodeURIComponent(this.config.consumerKey)}&consumer_secret=${encodeURIComponent(this.config.consumerSecret)}`;
-
     try {
-      console.log(`Fetching product ${id} from REST API`);
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      console.log(`Response status for product ${id}: ${response.status}`);
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          console.log(`Product ${id} not found (404)`);
-          return null;
-        }
-        const errorText = await response.text();
-        console.log(`Error response for product ${id}:`, errorText);
-
-        let errorData: StoreApiError;
-        try {
-          errorData = JSON.parse(errorText);
-        } catch {
-          errorData = {
-            code: 'unknown_error',
-            message: `HTTP ${response.status}: ${response.statusText}`,
-          };
-        }
-        throw new Error(`WooCommerce API Error: ${errorData.message} (Code: ${errorData.code})`);
-      }
-
-      const product = await response.json();
-      console.log(`Successfully loaded product ${id}: ${product.name}`);
-
-      // Transform REST API product to Store API format
-      return this.transformRestApiProduct(product);
+      // Use batch loading for consistency
+      const productsMap = await this.getProductsByIds([id]);
+      return productsMap.get(id) || null;
     } catch (error) {
-      if (error instanceof Error && error.message.includes('404')) {
-        return null;
-      }
       console.error(`Error fetching product with ID "${id}":`, error);
-      throw error;
+      return null;
     }
-  }
-
-  /**
-   * Transform REST API product response to Store API format
-   */
-  private transformRestApiProduct(restProduct: Record<string, unknown>): StoreApiProduct {
-    return {
-      id: restProduct.id as number,
-      name: restProduct.name as string,
-      slug: restProduct.slug as string,
-      permalink: restProduct.permalink as string,
-      description: restProduct.description as string,
-      short_description: restProduct.short_description as string,
-      sku: restProduct.sku as string,
-      price: restProduct.price as string,
-      regular_price: restProduct.regular_price as string,
-      sale_price: restProduct.sale_price as string,
-      price_html: restProduct.price_html as string,
-      prices: restProduct.prices as StoreApiProduct['prices'],
-      on_sale: restProduct.on_sale as boolean,
-      purchasable: restProduct.purchasable as boolean,
-      total_sales: restProduct.total_sales as number,
-      virtual: restProduct.virtual as boolean,
-      downloadable: restProduct.downloadable as boolean,
-      tax_status: restProduct.tax_status as string,
-      tax_class: restProduct.tax_class as string,
-      manage_stock: restProduct.manage_stock as boolean,
-      stock_quantity: restProduct.stock_quantity as number | null,
-      stock_status: restProduct.stock_status as 'instock' | 'outofstock' | 'onbackorder',
-      backorders: restProduct.backorders as 'no' | 'notify' | 'yes',
-      backorders_allowed: restProduct.backorders_allowed as boolean,
-      backordered: restProduct.backordered as boolean,
-      low_stock_amount: restProduct.low_stock_amount as number | null,
-      sold_individually: restProduct.sold_individually as boolean,
-      weight: restProduct.weight as string,
-      dimensions: restProduct.dimensions as StoreApiProduct['dimensions'],
-      shipping_required: restProduct.shipping_required as boolean,
-      shipping_taxable: restProduct.shipping_taxable as boolean,
-      shipping_class: restProduct.shipping_class as string,
-      shipping_class_id: restProduct.shipping_class_id as number,
-      reviews_allowed: restProduct.reviews_allowed as boolean,
-      average_rating: restProduct.average_rating as string,
-      rating_count: restProduct.rating_count as number,
-      upsell_ids: (restProduct.upsell_ids as number[]) || [],
-      cross_sell_ids: (restProduct.cross_sell_ids as number[]) || [],
-      parent_id: restProduct.parent_id as number,
-      purchase_note: restProduct.purchase_note as string,
-      categories: (restProduct.categories as StoreApiProduct['categories']) || [],
-      tags: (restProduct.tags as StoreApiProduct['tags']) || [],
-      images: (restProduct.images as StoreApiProduct['images']) || [],
-      attributes: (restProduct.attributes as StoreApiProduct['attributes']) || [],
-      default_attributes: (restProduct.default_attributes as StoreApiProduct['default_attributes']) || [],
-      variations: (restProduct.variations as number[]) || [],
-      grouped_products: (restProduct.grouped_products as number[]) || [],
-      menu_order: restProduct.menu_order as number,
-      related_ids: (restProduct.related_ids as number[]) || [],
-      has_options: restProduct.has_options as boolean,
-      extensions: (restProduct.extensions as Record<string, unknown>) || {},
-      jaeger_meta: restProduct.meta_data ? this.extractJaegerMeta(restProduct.meta_data as Array<{ key: string; value: unknown }>) : undefined,
-    };
-  }
-
-  /**
-   * Extract jaeger_meta from REST API meta_data array
-   */
-  private extractJaegerMeta(metaData: Array<{ key: string; value: unknown }>): JaegerMeta | undefined {
-    const jaegerFields: Record<string, unknown> = {};
-
-    metaData.forEach((meta) => {
-      // Remove leading underscore from key
-      const key = meta.key.startsWith('_') ? meta.key.substring(1) : meta.key;
-
-      // Map known jaeger meta fields
-      const jaegerKeys = [
-        'uvp', 'show_uvp', 'paketpreis', 'paketpreis_s', 'paketinhalt',
-        'einheit_short', 'verpackungsart_short', 'verschnitt',
-        'text_produktuebersicht', 'show_text_produktuebersicht',
-        'lieferzeit', 'show_lieferzeit', 'setangebot_titel', 'show_setangebot',
-        'standard_addition_daemmung', 'standard_addition_sockelleisten',
-        'option_products_daemmung', 'option_products_sockelleisten',
-        'aktion', 'show_aktion', 'angebotspreis_hinweis', 'show_angebotspreis_hinweis'
-      ];
-
-      if (jaegerKeys.includes(key)) {
-        jaegerFields[key] = meta.value;
-      }
-    });
-
-    return Object.keys(jaegerFields).length > 0 ? jaegerFields : undefined;
   }
 
   /**
