@@ -121,12 +121,13 @@ export default function SetAngebot({
   };
 
   return (
-    <div className="bg-gray-100 rounded-md p-[10%]">
-      <div className="bg-red-600 rounded-lg p-6">
-        {/* Titel */}
-        <h2 className="text-white text-2xl font-bold mb-6">Dein Set-Angebot</h2>
+    <div className="space-y-4">
+      {/* Titel außerhalb */}
+      <h2 className="text-gray-900 text-2xl font-bold">Dein Set-Angebot</h2>
 
-      <div className={`grid grid-cols-1 ${gridCols} gap-4`}>
+      {/* Grauer Container mit Produkten */}
+      <div className="bg-gray-100 rounded-md p-[2%]">
+        <div className={`grid grid-cols-1 ${gridCols} gap-4`}>
         {/* Boden Card - KEIN Button */}
         <div className="bg-white rounded-lg p-4 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
           <div className="text-center mb-3">
@@ -245,20 +246,21 @@ export default function SetAngebot({
             </div>
           </div>
         )}
-      </div>
+        </div>
 
-      {/* Gesamt-Preiszeile */}
-      <div className="flex justify-end items-center text-white mt-6">
-        <span className="text-xl mr-4">Gesamt</span>
-        <span className="line-through text-lg mr-2">
-          {totalRegularPrice.toFixed(2)}€
-        </span>
-        <span className="text-3xl font-bold mr-3">
-          {totalSetPrice.toFixed(2)}€/{einheit}
-        </span>
-        <span className="bg-red-800 px-3 py-1 rounded-full text-lg font-bold">
-          -{savingsPercent}%
-        </span>
+        {/* Gesamt-Preiszeile */}
+        <div className="flex justify-end items-center text-gray-900 mt-6">
+          <span className="text-xl mr-4">Gesamt</span>
+          <span className="line-through text-lg mr-2 text-gray-500">
+            {totalRegularPrice.toFixed(2)}€
+          </span>
+          <span className="text-3xl font-bold mr-3 text-red-600">
+            {totalSetPrice.toFixed(2)}€/{einheit}
+          </span>
+          <span className="bg-red-600 text-white px-3 py-1 rounded-full text-lg font-bold">
+            -{savingsPercent}%
+          </span>
+        </div>
       </div>
 
       {/* Modal für Produktauswahl */}
@@ -467,7 +469,6 @@ export default function SetAngebot({
           </div>
         </div>
       )}
-      </div>
     </div>
   );
 }
