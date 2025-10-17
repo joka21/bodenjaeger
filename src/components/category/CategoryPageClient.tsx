@@ -5,13 +5,40 @@ import { type StoreApiProduct } from '@/lib/woocommerce';
 import Link from 'next/link';
 import Image from 'next/image';
 
+interface JaegerMeta {
+  uvp?: number | null;
+  show_uvp?: boolean;
+  paketpreis?: number | null;
+  paketpreis_s?: number | null;
+  paketinhalt?: number | null;
+  einheit_short?: string | null;
+  verpackungsart_short?: string | null;
+  verschnitt?: number | null;
+  text_produktuebersicht?: string | null;
+  show_text_produktuebersicht?: boolean;
+  lieferzeit?: string | null;
+  show_lieferzeit?: boolean;
+  setangebot_titel?: string | null;
+  show_setangebot?: boolean;
+  standard_addition_daemmung?: number | null;
+  standard_addition_sockelleisten?: number | null;
+  aktion?: string | null;
+  show_aktion?: boolean;
+  angebotspreis_hinweis?: string | null;
+  show_angebotspreis_hinweis?: boolean;
+}
+
+interface ExtendedProduct extends StoreApiProduct {
+  jaeger_meta?: JaegerMeta;
+}
+
 interface CategoryPageClientProps {
   slug: string;
   categoryName: string;
 }
 
 export default function CategoryPageClient({ slug, categoryName }: CategoryPageClientProps) {
-  const [products, setProducts] = useState<StoreApiProduct[]>([]);
+  const [products, setProducts] = useState<ExtendedProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
