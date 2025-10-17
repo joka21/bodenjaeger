@@ -121,9 +121,10 @@ export default function SetAngebot({
   };
 
   return (
-    <div className="bg-red-600 rounded-lg p-6">
-      {/* Titel */}
-      <h2 className="text-white text-2xl font-bold mb-6">Dein Set-Angebot</h2>
+    <div className="bg-gray-100 rounded-md p-[10%]">
+      <div className="bg-red-600 rounded-lg p-6">
+        {/* Titel */}
+        <h2 className="text-white text-2xl font-bold mb-6">Dein Set-Angebot</h2>
 
       <div className={`grid grid-cols-1 ${gridCols} gap-4`}>
         {/* Boden Card - KEIN Button */}
@@ -466,6 +467,7 @@ export default function SetAngebot({
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
