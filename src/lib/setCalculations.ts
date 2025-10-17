@@ -258,9 +258,23 @@ export function calculateSetPrices(
     }
   }
 
-  // Display price per m² (floor + surcharges)
-  const displayPricePerM2 = floorPricePerM2 + insulationSurcharge + baseboardSurcharge;
-  const totalDisplayPrice = displayPricePerM2 * quantities.floor.wantedM2;
+  // Calculate total display price by summing actual costs
+  // Floor: price per m² × wanted m²
+  const floorTotalPrice = floorPricePerM2 * quantities.floor.wantedM2;
+
+  // Insulation: surcharge per m² × wanted m² (only if selected)
+  const insulationTotalSurcharge = insulationSurcharge * quantities.floor.wantedM2;
+
+  // Baseboard: surcharge per lfm × required lfm (only if selected)
+  const baseboardTotalSurcharge = quantities.baseboard
+    ? baseboardSurcharge * quantities.baseboard.requiredLfm
+    : 0;
+
+  // Total display price
+  const totalDisplayPrice = floorTotalPrice + insulationTotalSurcharge + baseboardTotalSurcharge;
+
+  // Display price per m² for UI (total / wanted m²)
+  const displayPricePerM2 = totalDisplayPrice / quantities.floor.wantedM2;
 
   // Comparison price (UVP) if available
   let comparisonPriceTotal: number | undefined;
