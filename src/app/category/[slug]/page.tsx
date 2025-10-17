@@ -281,3 +281,27 @@ export default function CategoryPage({ params }: PageProps<'/category/[slug]'>) 
     </div>
   );
 }
+
+// Generate static params for common categories to avoid 404 on direct access
+export async function generateStaticParams() {
+  const categories = [
+    'vinylboden',
+    'klebe-vinyl',
+    'rigid-vinyl',
+    'laminat',
+    'parkett',
+    'teppichboden',
+    'sockelleisten',
+    'daemmung',
+    'zubehoer',
+    'coretec',
+    'primecore'
+  ];
+
+  return categories.map((slug) => ({
+    slug,
+  }));
+}
+
+// Enable dynamic rendering for categories not in generateStaticParams
+export const dynamicParams = true;
