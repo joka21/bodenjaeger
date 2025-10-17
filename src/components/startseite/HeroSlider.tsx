@@ -39,6 +39,12 @@ export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure client-side hydration matches server-side render
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Auto-play functionality
   useEffect(() => {
@@ -104,7 +110,7 @@ export default function HeroSlider() {
           <div className="bg-[#005189] flex items-center justify-center px-8 py-12 md:px-12 md:py-16 lg:px-16 order-2 lg:order-1 lg:w-[29%]">
             <div
               className="max-w-xl transition-opacity duration-500"
-              style={{ opacity: isTransitioning ? 0.5 : 1 }}
+              style={{ opacity: mounted && isTransitioning ? 0.5 : 1 }}
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
                 {currentSlideData.title}
