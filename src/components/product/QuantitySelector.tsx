@@ -5,7 +5,7 @@ import { useState } from 'react';
 interface QuantitySelectorProps {
   paketinhalt: number;
   einheit: string;
-  onQuantityChange?: (sqm: number, packages: number) => void;
+  onQuantityChange?: (packages: number, sqm: number) => void;
 }
 
 export default function QuantitySelector({
@@ -22,7 +22,7 @@ export default function QuantitySelector({
 
     if (onQuantityChange) {
       const calculatedPackages = Math.ceil(value / paketinhalt);
-      onQuantityChange(value, calculatedPackages);
+      onQuantityChange(calculatedPackages, value);
     }
   };
 
