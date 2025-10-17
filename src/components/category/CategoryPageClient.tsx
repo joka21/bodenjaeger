@@ -273,6 +273,52 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
                       {product.name}
                     </h3>
 
+                    {/* Produktbeschreibung als Liste mit Haken */}
+                    {(() => {
+                      const description = product.short_description || product.description || '';
+                      if (!description) return null;
+
+                      // HTML bereinigen und in Listenpunkte aufteilen
+                      const cleanText = description
+                        .replace(/<br\s*\/?>/gi, '\n')
+                        .replace(/<li[^>]*>/gi, '\n')
+                        .replace(/<\/li>/gi, '')
+                        .replace(/<ul[^>]*>|<\/ul>/gi, '')
+                        .replace(/<ol[^>]*>|<\/ol>/gi, '')
+                        .replace(/<p[^>]*>|<\/p>/gi, '\n')
+                        .replace(/<[^>]+>/g, '')
+                        .replace(/&nbsp;/g, ' ')
+                        .replace(/&amp;/g, '&')
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .trim();
+
+                      const points = cleanText
+                        .split('\n')
+                        .map(line => line.trim())
+                        .filter(line => line.length > 0 && line.length < 200)
+                        .slice(0, 4); // Max 4 Punkte
+
+                      if (points.length === 0) return null;
+
+                      return (
+                        <ul className="mb-3 space-y-1">
+                          {points.map((point, index) => (
+                            <li key={index} className="flex items-start text-xs text-gray-600">
+                              <Image
+                                src="/images/Icons/Haken schieferschwarz.png"
+                                alt="Checkmark"
+                                width={12}
+                                height={12}
+                                className="mr-1.5 flex-shrink-0 mt-0.5"
+                              />
+                              <span className="line-clamp-1">{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      );
+                    })()}
+
                     {/* Trennlinie */}
                     <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
 
