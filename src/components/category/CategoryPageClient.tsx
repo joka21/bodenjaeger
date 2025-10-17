@@ -43,6 +43,8 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [sortBy, setSortBy] = useState<string>('date-desc');
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const productsPerPage = 12;
 
@@ -53,12 +55,26 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
 
       console.log(`🔍 Fetching products for category: ${slug}`);
 
-      // Use our proxy API to avoid CORS issues
-      const apiUrl = `/api/store-api-test?per_page=${productsPerPage}&page=${currentPage}&category=${encodeURIComponent(slug)}&orderby=date&order=desc`;
+      // Parse sort settings
+      const [orderby, order] = sortBy.split('-');
+
+      // Build API URL with sorting and search
+      let apiUrl = `/api/store-api-test?per_page=${productsPerPage}&page=${currentPage}&category=${encodeURIComponent(slug)}&orderby=${orderby}&order=${order}`;
+
+      // Add search query if present
+      if (searchQuery.trim()) {
+        apiUrl += `&search=${encodeURIComponent(searchQuery.trim())}`;
+      }
+
+      // Add cache buster timestamp to force fresh data when sorting/searching
+      apiUrl += `&_t=${Date.now()}`;
 
       console.log('📡 API URL:', apiUrl);
+      console.log('📊 Sort settings:', { orderby, order, searchQuery });
 
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, {
+        cache: 'no-store' // Disable Next.js fetch cache for dynamic sorting
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -84,11 +100,25 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
     } finally {
       setLoading(false);
     }
-  }, [slug, currentPage, productsPerPage]);
+  }, [slug, currentPage, productsPerPage, sortBy, searchQuery]);
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
+
+  // Debounce search: Only fetch after user stops typing for 500ms
+  useEffect(() => {
+    if (searchQuery === '') {
+      // If search is cleared, fetch immediately
+      return;
+    }
+
+    const debounceTimer = setTimeout(() => {
+      setCurrentPage(1); // Reset to first page
+    }, 500);
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchQuery]);
 
   // Prefetch next page for faster navigation
   useEffect(() => {
@@ -165,33 +195,55 @@ export default function CategoryPageClient({ slug, categoryName }: CategoryPageC
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">{categoryName}</h1>
 
+          {/* Search Bar */}
+          <div className="mb-4">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Produkte durchsuchen..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <svg
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+          </div>
+
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <p className="text-gray-600 mb-4 sm:mb-0">
               {products.length} {products.length === 1 ? 'Produkt' : 'Produkte'} gefunden
             </p>
 
-            {/* Sorting/Filter Options */}
+            {/* Sorting Options */}
             <div className="flex items-center space-x-4">
-              <select className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option>Sortieren nach...</option>
-                <option>Neueste</option>
-                <option>Preis: Niedrig zu Hoch</option>
-                <option>Preis: Hoch zu Niedrig</option>
-                <option>Name A-Z</option>
+              <select
+                value={sortBy}
+                onChange={(e) => {
+                  setSortBy(e.target.value);
+                  setCurrentPage(1); // Reset to first page on sort change
+                }}
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="date-desc">Neueste zuerst</option>
+                <option value="date-asc">Älteste zuerst</option>
+                <option value="price-asc">Preis: Niedrig zu Hoch</option>
+                <option value="price-desc">Preis: Hoch zu Niedrig</option>
+                <option value="title-asc">Name: A-Z</option>
+                <option value="title-desc">Name: Z-A</option>
+                <option value="popularity-desc">Beliebteste</option>
               </select>
-
-              <div className="flex items-center space-x-2">
-                <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                  </svg>
-                </button>
-                <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
             </div>
           </div>
         </div>

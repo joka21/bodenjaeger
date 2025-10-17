@@ -7,7 +7,7 @@ interface CachedData {
   headers: { total: string; totalPages: string };
 }
 const cache = new Map<string, CachedData>();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes in milliseconds (reduced for testing)
 
 export async function GET(request: Request) {
   console.log('🚀 Store API proxy called');
@@ -20,6 +20,7 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const orderby = searchParams.get('orderby') || 'date';
     const order = searchParams.get('order') || 'desc';
+    const search = searchParams.get('search');
 
     // Build the Store API URL with parameters
     let storeApiUrl = `https://plan-dein-ding.de/wp-json/wc/store/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
@@ -29,8 +30,13 @@ export async function GET(request: Request) {
       storeApiUrl += `&category=${encodeURIComponent(category)}`;
     }
 
-    // Create cache key
-    const cacheKey = `${per_page}-${page}-${category || 'all'}-${orderby}-${order}`;
+    // Add search filter if provided
+    if (search) {
+      storeApiUrl += `&search=${encodeURIComponent(search)}`;
+    }
+
+    // Create cache key including search
+    const cacheKey = `${per_page}-${page}-${category || 'all'}-${orderby}-${order}-${search || 'nosearch'}`;
     const now = Date.now();
 
     // Check if we have cached data
@@ -49,7 +55,7 @@ export async function GET(request: Request) {
     }
 
     console.log('🔗 Calling Store API:', storeApiUrl);
-    console.log('📋 Parameters:', { per_page, page, category, orderby, order });
+    console.log('📋 Parameters:', { per_page, page, category, orderby, order, search });
 
     // Make request to WooCommerce Store API
     const response = await fetch(storeApiUrl);
