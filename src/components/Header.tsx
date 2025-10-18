@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
-import CartDrawer from './CartDrawer';
+import CartDrawer from './cart/CartDrawer';
 
 export default function Header() {
   const { itemCount } = useCart();
