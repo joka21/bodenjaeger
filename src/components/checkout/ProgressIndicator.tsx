@@ -28,7 +28,6 @@ export default function ProgressIndicator({ currentStep }: ProgressIndicatorProp
           {steps.map((step, index) => {
             const isCompleted = index < currentIndex;
             const isCurrent = index === currentIndex;
-            const isUpcoming = index > currentIndex;
 
             return (
               <React.Fragment key={step.id}>

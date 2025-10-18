@@ -206,7 +206,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
       const data = await response.json();
 
       // Transform WooCommerce response to our ShippingMethod format
-      const methods: ShippingMethod[] = data.map((method: any) => ({
+      const methods: ShippingMethod[] = data.map((method: Record<string, unknown>) => ({
         id: method.rate_id || method.id,
         title: method.name || method.title,
         cost: method.price || '0',
@@ -252,8 +252,8 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 
       // Transform WooCommerce response to our PaymentMethod format
       const methods: PaymentMethod[] = data
-        .filter((method: any) => method.enabled)
-        .map((method: any) => ({
+        .filter((method: Record<string, unknown>) => method.enabled)
+        .map((method: Record<string, unknown>) => ({
           id: method.id,
           title: method.title,
           description: method.description || '',

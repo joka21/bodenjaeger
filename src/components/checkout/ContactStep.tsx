@@ -19,6 +19,7 @@ export default function ContactStep() {
     if (availableShippingMethods.length === 0) {
       fetchShippingMethods();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInputChange = (field: string, value: string) => {

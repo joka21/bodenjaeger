@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(same key\" when multiple sets contain the same product.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+      "Bash(dir:*)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []

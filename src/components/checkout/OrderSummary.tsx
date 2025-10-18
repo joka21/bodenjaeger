@@ -6,7 +6,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useCheckout } from '@/contexts/CheckoutContext';
 
 export default function OrderSummary() {
-  const { items, totalPrice } = useCart();
+  const { cartItems, totalPrice } = useCart();
   const { formData } = useCheckout();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -50,7 +50,13 @@ export default function OrderSummary() {
         {isExpanded && (
           <div className="px-4 pb-4 border-t border-gray-200">
             <OrderSummaryContent
-              items={items}
+              items={cartItems.map(item => ({
+                id: item.id,
+                name: item.product.name,
+                price: item.product.prices ? parseFloat(item.product.prices.price) / 100 : 0,
+                quantity: item.quantity,
+                image: item.product.images?.[0]?.src,
+              }))}
               subtotal={subtotal}
               shippingCost={shippingCost}
               taxAmount={taxAmount}
@@ -66,7 +72,13 @@ export default function OrderSummary() {
         <div className="sticky top-24 bg-gray-50 rounded-lg p-6">
           <h2 className="text-xl font-bold text-[#2e2d32] mb-6">Bestellübersicht</h2>
           <OrderSummaryContent
-            items={items}
+            items={cartItems.map(item => ({
+              id: item.id,
+              name: item.product.name,
+              price: item.product.prices ? parseFloat(item.product.prices.price) / 100 : 0,
+              quantity: item.quantity,
+              image: item.product.images?.[0]?.src,
+            }))}
             subtotal={subtotal}
             shippingCost={shippingCost}
             taxAmount={taxAmount}
@@ -80,7 +92,14 @@ export default function OrderSummary() {
 }
 
 interface OrderSummaryContentProps {
-  items: any[];
+  items: Array<{
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image?: string;
+    variation?: Record<string, string>;
+  }>;
   subtotal: number;
   shippingCost: number;
   taxAmount: number;

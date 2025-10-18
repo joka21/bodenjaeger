@@ -144,7 +144,7 @@ export interface WooCommerceCheckoutResponse {
   payment_method: string;
   payment_result: {
     payment_status: string;
-    payment_details: any[];
+    payment_details: Record<string, unknown>[];
     redirect_url: string;
   };
 }
@@ -158,7 +158,7 @@ export interface WooCommerceShippingMethodResponse {
   taxes: string;
   instance_id: number;
   method_id: string;
-  meta_data: any[];
+  meta_data: Record<string, unknown>[];
 }
 
 export interface WooCommercePaymentMethodResponse {
@@ -170,5 +170,5 @@ export interface WooCommercePaymentMethodResponse {
   method_title: string;
   method_description: string;
   method_supports: string[];
-  settings: any;
+  settings: Record<string, unknown>;
 }

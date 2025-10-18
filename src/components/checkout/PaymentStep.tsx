@@ -20,6 +20,7 @@ export default function PaymentStep() {
     if (availablePaymentMethods.length === 0) {
       fetchPaymentMethods();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePaymentMethodSelect = (method: PaymentMethod) => {
