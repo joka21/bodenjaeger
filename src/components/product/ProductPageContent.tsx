@@ -34,15 +34,21 @@ export default function ProductPageContent({
   const [selectedDaemmung, setSelectedDaemmung] = useState<StoreApiProduct | null>(daemmungProduct);
   const [selectedSockelleiste, setSelectedSockelleiste] = useState<StoreApiProduct | null>(sockelleisteProduct);
 
+  // State for custom quantities (optional user overrides)
+  const [customInsulationM2, setCustomInsulationM2] = useState<number | undefined>(undefined);
+  const [customBaseboardLfm, setCustomBaseboardLfm] = useState<number | undefined>(undefined);
+
   // Calculate set quantities (packages for each product)
   const quantities = useMemo(() => {
     return calculateSetQuantities(
       wantedM2,
       product,
       selectedDaemmung,
-      selectedSockelleiste
+      selectedSockelleiste,
+      customInsulationM2,
+      customBaseboardLfm
     );
-  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste]);
+  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste, customInsulationM2, customBaseboardLfm]);
 
   // Calculate set prices (for display)
   const prices = useMemo(() => {
