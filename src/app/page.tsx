@@ -41,14 +41,14 @@ export default async function Home() {
       {/* Vorteile Slider - direkt unter Hero */}
       <VorteileSlider />
 
-      {/* Google Reviews Slider */}
-      <GoogleReviewsSlider />
-
       {/* Sale Product Slider */}
       <SaleProductSlider products={saleProducts} />
 
       {/* Bestseller Product Slider */}
       <BestsellerSlider products={bestsellerProducts} />
+
+      {/* Google Reviews Slider - ganz am Ende */}
+      <GoogleReviewsSlider />
     </div>
   );
 }
