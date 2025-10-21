@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface Category {
   id: number;
@@ -82,6 +83,10 @@ export default function BodenkategorienSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     quality={90}
+                    priority={category.id <= 3}
+                    loading={category.id <= 3 ? 'eager' : 'lazy'}
+                    placeholder="blur"
+                    blurDataURL={shimmerBlurDataURL(400, 500)}
                   />
                 </div>
 

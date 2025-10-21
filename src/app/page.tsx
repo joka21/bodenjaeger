@@ -1,10 +1,24 @@
+import dynamic from 'next/dynamic';
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
-import BodenkategorienSection from "@/components/sections/home/BodenkategorienSection";
 import VorteileSlider from "@/components/sections/home/VorteileSlider";
-import GoogleReviewsSlider from "@/components/sections/home/GoogleReviewsSlider";
-import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
-import BestsellerSlider from "@/components/sections/home/BestsellerSlider";
+
+// Dynamic imports for below-the-fold components to reduce initial bundle size
+const BodenkategorienSection = dynamic(() => import("@/components/sections/home/BodenkategorienSection"), {
+  loading: () => <div className="py-16 bg-gray-50" style={{ minHeight: '400px' }} />
+});
+
+const SaleProductSlider = dynamic(() => import("@/components/sections/home/SaleProductSlider"), {
+  loading: () => <div className="py-16 bg-gray-50" style={{ minHeight: '500px' }} />
+});
+
+const BestsellerSlider = dynamic(() => import("@/components/sections/home/BestsellerSlider"), {
+  loading: () => <div className="py-16 bg-gray-50" style={{ minHeight: '500px' }} />
+});
+
+const GoogleReviewsSlider = dynamic(() => import("@/components/sections/home/GoogleReviewsSlider"), {
+  loading: () => <div className="py-16 bg-white" style={{ minHeight: '400px' }} />
+});
 
 export default async function Home() {
   // Fetch products from WooCommerce

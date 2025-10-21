@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
+import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface VorteilSlide {
   id: number;
@@ -247,6 +248,8 @@ export default function VorteileSlider() {
                     priority={slide.id <= 4}
                     loading={slide.id <= 4 ? 'eager' : 'lazy'}
                     quality={90}
+                    placeholder="blur"
+                    blurDataURL={shimmerBlurDataURL(400, 400)}
                   />
                 </div>
               </div>

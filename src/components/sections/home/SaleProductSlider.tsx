@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
+import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface SaleProductSliderProps {
   products: StoreApiProduct[];
@@ -182,6 +183,8 @@ export default function SaleProductSlider({
                           priority={false}
                           loading="lazy"
                           quality={80}
+                          placeholder="blur"
+                          blurDataURL={shimmerBlurDataURL(400, 300)}
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-gray-200">

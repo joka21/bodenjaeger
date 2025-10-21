@@ -22,6 +22,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // Optimize image formats - Next.js will automatically serve AVIF/WebP where supported
+    formats: ['image/avif', 'image/webp'],
+    // Define device breakpoints for responsive images
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Minimize layout shift with placeholder support
+    minimumCacheTTL: 60,
   },
 };
 

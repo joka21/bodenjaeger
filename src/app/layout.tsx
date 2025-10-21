@@ -20,8 +20,11 @@ const poppinsBold = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "WooCommerce Store",
-  description: "Headless WooCommerce Shop built with Next.js",
+  title: "Bodenjäger - Premium Bodenbeläge Online",
+  description: "Hochwertige Vinyl-, Laminat- und Parkettböden von COREtec, primeCORE und mehr. Fachhandel mit großem Lagerbestand und persönlicher Beratung.",
+  keywords: "Bodenbelag, Vinyl, Laminat, Parkett, COREtec, primeCORE, Rigid-Vinyl, Klebe-Vinyl",
+  authors: [{ name: "Bodenjäger" }],
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({
@@ -31,6 +34,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="de">
+      <head>
+        {/* Preconnect to WooCommerce backend for faster API calls */}
+        <link rel="preconnect" href="https://plan-dein-ding.de" />
+        <link rel="dns-prefetch" href="https://plan-dein-ding.de" />
+
+        {/* Preconnect to external image sources */}
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+      </head>
       <body
         className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}
       >

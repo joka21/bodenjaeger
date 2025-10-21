@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface SlideData {
   id: number;
@@ -157,6 +158,8 @@ export default function HeroSlider() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1500px) 50vw, 750px"
                   priority={index === 0}
                   loading={index === 0 ? 'eager' : 'lazy'}
+                  placeholder="blur"
+                  blurDataURL={shimmerBlurDataURL(750, 720)}
                 />
               </div>
             ))}
