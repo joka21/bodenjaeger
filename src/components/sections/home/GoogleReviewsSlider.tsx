@@ -18,7 +18,6 @@ interface ReviewsData {
     name: string;
     rating: number;
     reviewCount: number;
-    googleUrl: string;
   };
   reviews: Review[];
 }
@@ -177,14 +176,9 @@ export default function GoogleReviewsSlider() {
           <div className="flex items-center gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <a
-                  href={data.business.googleUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
-                >
+                <h2 className="text-xl font-semibold text-gray-900">
                   {data.business.name}
-                </a>
+                </h2>
                 <GoogleLogo />
               </div>
               <div className="flex items-center gap-3">
@@ -198,14 +192,6 @@ export default function GoogleReviewsSlider() {
               </div>
             </div>
           </div>
-          <a
-            href={data.business.googleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium shadow-md hover:shadow-lg"
-          >
-            Bewertung hinterlassen
-          </a>
         </div>
 
         {/* Slider Container */}
@@ -286,12 +272,7 @@ export default function GoogleReviewsSlider() {
                   key={review.id}
                   className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)]"
                 >
-                  <a
-                    href={data.business.googleUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block bg-white rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow duration-300 h-full"
-                  >
+                  <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow duration-300 h-full">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         {/* Avatar */}
@@ -328,17 +309,13 @@ export default function GoogleReviewsSlider() {
 
                     {shouldTruncate && (
                       <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          toggleExpanded(review.id);
-                        }}
+                        onClick={() => toggleExpanded(review.id)}
                         className="text-blue-600 hover:text-blue-700 text-sm font-medium hover:underline"
                       >
                         {isExpanded ? 'Weniger anzeigen' : 'Zeig mehr'}
                       </button>
                     )}
-                  </a>
+                  </div>
                 </div>
               );
             })}
