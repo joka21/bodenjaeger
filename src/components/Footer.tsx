@@ -3,16 +3,15 @@ import Image from 'next/image'
 export default function Footer() {
   return (
     <footer className="w-full mt-auto">
-      {/* Section 1: Main Footer - 380px height, darkest background */}
+      {/* Section 1: Main Footer - darkest background */}
       <div
         className="w-full"
         style={{
-          height: '380px',
           backgroundColor: 'var(--color-bg-darkest)'
         }}
       >
-        <div className="container mx-auto px-4 h-full">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 h-full py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
             {/* Column 1: Hast du Fragen? */}
             <div className="text-white">
               <h3 className="text-2xl font-bold mb-6">Hast du Fragen?</h3>
