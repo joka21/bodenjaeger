@@ -39,11 +39,11 @@ export default async function Home() {
       {/* Hero Slider */}
       <HeroSlider />
 
-      {/* Bodenkategorien Section - Position 2 */}
-      <BodenkategorienSection />
-
-      {/* Vorteile Slider */}
+      {/* Vorteile Slider - Position 2 */}
       <VorteileSlider />
+
+      {/* Bodenkategorien Section - Position 3 */}
+      <BodenkategorienSection />
 
       {/* Sale Product Slider */}
       <SaleProductSlider products={saleProducts} />
