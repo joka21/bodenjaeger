@@ -252,7 +252,7 @@ export default function GoogleReviewsSlider() {
           {/* Scrollable Container */}
           <div
             ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+            className="flex gap-3 sm:gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4 px-4 -mx-4 sm:px-0 sm:mx-0"
             style={{
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
@@ -270,7 +270,7 @@ export default function GoogleReviewsSlider() {
               return (
                 <div
                   key={review.id}
-                  className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)]"
+                  className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
                 >
                   <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow duration-300 h-full">
                     <div className="flex items-start justify-between mb-4">
