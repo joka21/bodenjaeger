@@ -57,11 +57,15 @@ const categories: Category[] = [
 export default function BodenkategorienSection() {
   return (
     <section className="py-16 bg-gray-50">
-      <div className="max-w-[1400px] mx-auto px-4">
-        {/* Titel */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10">
-          Unsere Top-Bodenkategorien
-        </h2>
+      <div className="container mx-auto px-4">
+        {/* Header - wie bei anderen Sections */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              Unsere Top-Bodenkategorien
+            </h2>
+          </div>
+        </div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
