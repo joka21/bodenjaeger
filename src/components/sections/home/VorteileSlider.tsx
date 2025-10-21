@@ -54,232 +54,247 @@ const vorteilSlides: VorteilSlide[] = [
 ];
 
 export default function VorteileSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [slidesPerView, setSlidesPerView] = useState(4);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Responsive Slides per View
-  useEffect(() => {
-    const updateSlidesPerView = () => {
-      if (window.innerWidth < 640) {
-        setSlidesPerView(1); // Mobile
-      } else if (window.innerWidth < 1024) {
-        setSlidesPerView(2); // Tablet
-      } else if (window.innerWidth < 1280) {
-        setSlidesPerView(3); // Small Desktop
-      } else {
-        setSlidesPerView(4); // Desktop
-      }
-    };
+  // Prüfe Scroll-Position
+  const checkScrollPosition = () => {
+    if (!scrollContainerRef.current) return;
 
-    updateSlidesPerView();
-    window.addEventListener('resize', updateSlidesPerView);
-    return () => window.removeEventListener('resize', updateSlidesPerView);
-  }, []);
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
 
-  // Maximaler Index basierend auf Slides per View
-  const maxIndex = Math.max(0, vorteilSlides.length - slidesPerView);
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10); // 10px Toleranz
+  };
+
+  // Scroll nach links
+  const scrollLeft = () => {
+    if (!scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    const scrollAmount = container.clientWidth * 0.8; // Scrolle 80% der sichtbaren Breite
+
+    container.scrollBy({
+      left: -scrollAmount,
+      behavior: 'smooth',
+    });
+  };
+
+  // Scroll nach rechts
+  const scrollRight = () => {
+    if (!scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    const scrollAmount = container.clientWidth * 0.8;
+
+    container.scrollBy({
+      left: scrollAmount,
+      behavior: 'smooth',
+    });
+  };
 
   // Auto-Play Funktion
-  const goToNextSlide = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => {
-      // Loop: Wenn am Ende, zurück zu 0
-      return prev >= maxIndex ? 0 : prev + 1;
-    });
-    setTimeout(() => setIsTransitioning(false), 500);
-  }, [isTransitioning, maxIndex]);
+  const autoScroll = useCallback(() => {
+    if (!scrollContainerRef.current || isPaused) return;
 
-  const goToPrevSlide = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => {
-      // Loop: Wenn am Anfang, zum Ende
-      return prev === 0 ? maxIndex : prev - 1;
-    });
-    setTimeout(() => setIsTransitioning(false), 500);
-  }, [isTransitioning, maxIndex]);
+    const container = scrollContainerRef.current;
+    const { scrollLeft, scrollWidth, clientWidth } = container;
 
-  const goToSlide = useCallback(
-    (index: number) => {
-      if (isTransitioning || index === currentIndex || index < 0 || index > maxIndex) return;
-      setIsTransitioning(true);
-      setCurrentIndex(index);
-      setTimeout(() => setIsTransitioning(false), 500);
-    },
-    [currentIndex, isTransitioning, maxIndex]
-  );
+    // Wenn am Ende, zurück zum Anfang (Loop)
+    if (scrollLeft >= scrollWidth - clientWidth - 10) {
+      container.scrollTo({
+        left: 0,
+        behavior: 'smooth',
+      });
+    } else {
+      // Sonst weiter scrollen
+      scrollRight();
+    }
+  }, [isPaused]);
 
   // Auto-Play Timer (5 Sekunden)
   useEffect(() => {
-    if (isPaused || isTransitioning) return;
-
     const timer = setInterval(() => {
-      goToNextSlide();
+      autoScroll();
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [currentIndex, isPaused, isTransitioning, goToNextSlide]);
+  }, [autoScroll]);
+
+  // Check scroll position on mount and scroll
+  useEffect(() => {
+    checkScrollPosition();
+
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    container.addEventListener('scroll', checkScrollPosition);
+    window.addEventListener('resize', checkScrollPosition);
+
+    return () => {
+      container.removeEventListener('scroll', checkScrollPosition);
+      window.removeEventListener('resize', checkScrollPosition);
+    };
+  }, []);
 
   // Keyboard Navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
-        goToPrevSlide();
+        scrollLeft();
       } else if (e.key === 'ArrowRight') {
-        goToNextSlide();
+        scrollRight();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [goToNextSlide, goToPrevSlide]);
-
-  // Berechne die Anzahl der Dots (für Pagination)
-  const totalDots = maxIndex + 1;
+  }, []);
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Ihre Vorteile bei Bodenjäger
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Entdecken Sie, was uns als Ihren Partner für hochwertige Bodenbeläge auszeichnet
-          </p>
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        {/* Header - linksbündig wie bei BestsellerSlider */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Deine Vorteile auf einen Blick</h2>
+          </div>
+
+          {/* Navigation Buttons (Desktop) - genau wie BestsellerSlider */}
+          <div className="hidden md:flex gap-2">
+            <button
+              onClick={scrollLeft}
+              disabled={!canScrollLeft}
+              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                canScrollLeft
+                  ? 'bg-white shadow-md hover:shadow-lg text-gray-900'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
+              aria-label="Vorherige Vorteile"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <button
+              onClick={scrollRight}
+              disabled={!canScrollRight}
+              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                canScrollRight
+                  ? 'bg-white shadow-md hover:shadow-lg text-gray-900'
+                  : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
+              aria-label="Nächste Vorteile"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Slider Container */}
         <div
-          ref={containerRef}
           className="relative"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          role="region"
-          aria-label="Vorteile Slider"
-          aria-roledescription="carousel"
         >
-          {/* Slides Track */}
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-500 ease-in-out"
-              style={{
-                transform: `translateX(-${currentIndex * (100 / slidesPerView)}%)`,
-              }}
-            >
-              {vorteilSlides.map((slide) => (
-                <div
-                  key={slide.id}
-                  className="flex-shrink-0 px-3"
-                  style={{
-                    width: `${100 / slidesPerView}%`,
-                  }}
-                >
-                  {/* Vorteil Card */}
-                  <div className="group relative aspect-square overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
-                    <Image
-                      src={slide.image}
-                      alt={slide.alt}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes={`(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw`}
-                      priority={slide.id <= 4}
-                      loading={slide.id <= 4 ? 'eager' : 'lazy'}
-                      quality={90}
-                    />
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
+          {/* Scrollable Container */}
+          <div
+            ref={scrollContainerRef}
+            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {vorteilSlides.map((slide) => (
+              <div
+                key={slide.id}
+                className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)]"
+              >
+                {/* Vorteil Card */}
+                <div className="group relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 bg-white">
+                  <Image
+                    src={slide.image}
+                    alt={slide.alt}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    priority={slide.id <= 4}
+                    loading={slide.id <= 4 ? 'eager' : 'lazy'}
+                    quality={90}
+                  />
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
-          {/* Navigation Arrows */}
-          <button
-            onClick={goToPrevSlide}
-            disabled={isTransitioning}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-4 z-20
-                       bg-gray-700/80 hover:bg-gray-800/90 text-white p-3 md:p-4 rounded-full
-                       shadow-xl transition-all duration-200
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       hover:scale-110 active:scale-95"
-            aria-label="Vorheriger Vorteil"
-          >
-            <svg
-              className="w-5 h-5 md:w-6 md:h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-
-          <button
-            onClick={goToNextSlide}
-            disabled={isTransitioning}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-4 z-20
-                       bg-gray-700/80 hover:bg-gray-800/90 text-white p-3 md:p-4 rounded-full
-                       shadow-xl transition-all duration-200
-                       disabled:opacity-50 disabled:cursor-not-allowed
-                       hover:scale-110 active:scale-95"
-            aria-label="Nächster Vorteil"
-          >
-            <svg
-              className="w-5 h-5 md:w-6 md:h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+          {/* Gradient Overlays (Desktop only) */}
+          {canScrollLeft && (
+            <div className="hidden md:block absolute left-0 top-0 bottom-4 w-12 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none" />
+          )}
+          {canScrollRight && (
+            <div className="hidden md:block absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none" />
+          )}
         </div>
 
-        {/* Dot Navigation */}
-        <div className="flex justify-center items-center gap-2 mt-8">
-          {Array.from({ length: totalDots }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              disabled={isTransitioning}
-              className={`rounded-full transition-all duration-300 ${
-                index === currentIndex
-                  ? 'w-8 h-3 bg-gray-800'
-                  : 'w-3 h-3 bg-gray-400 hover:bg-gray-600'
-              }`}
-              aria-label={`Gehe zu Gruppe ${index + 1}`}
-              aria-current={index === currentIndex ? 'true' : 'false'}
-            />
-          ))}
+        {/* Mobile Navigation Indicators */}
+        <div className="flex md:hidden justify-center gap-2 mt-6">
+          <button
+            onClick={scrollLeft}
+            disabled={!canScrollLeft}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              canScrollLeft
+                ? 'bg-gray-900 text-white'
+                : 'bg-gray-200 text-gray-400'
+            }`}
+          >
+            ← Zurück
+          </button>
+          <button
+            onClick={scrollRight}
+            disabled={!canScrollRight}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              canScrollRight
+                ? 'bg-gray-900 text-white'
+                : 'bg-gray-200 text-gray-400'
+            }`}
+          >
+            Weiter →
+          </button>
         </div>
-
-        {/* Auto-Play Indicator */}
-        {!isPaused && (
-          <div className="flex justify-center mt-4">
-            <span className="text-sm text-gray-500 flex items-center gap-2">
-              <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              Auto-Play aktiv
-            </span>
-          </div>
-        )}
       </div>
+
+      {/* Hide scrollbar with CSS */}
+      <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
