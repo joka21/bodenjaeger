@@ -1,0 +1,82 @@
+{
+  "business": {
+    "name": "Brombach GmbH Fachmarkt für Bodenbeläge",
+    "rating": 4.7,
+    "reviewCount": 69,
+    "googleUrl": "https://www.google.com/search?q=Bodenjäger+-+Hückelhoven+Rezensionen"
+  },
+  "reviews": [
+    {
+      "id": 1,
+      "author": "Tong Su",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor einem Jahr",
+      "text": "Wir möchten Brombach herzlich für die großartige Arbeit beim Verlegen unseres neuen Bodenbelags danken. Von Anfang an waren sie äußerst geduldig und professionell. Die Arbeiten wurden ohne Probleme ausgeführt und das Ergebnis ist hervorragend.",
+      "isVerified": true
+    },
+    {
+      "id": 2,
+      "author": "Michael Zens",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 6 Monaten",
+      "text": "Wir haben die Brombach GmbH mit der Verlegung eines Vinylbodens beauftragt. Die fachliche Beratung war professionell und sehr hilfreich. Die vereinbarten Termine wurden eingehalten. Die Arbeiten wurden ohne Probleme durchgeführt und wir sind sehr zufrieden.",
+      "isVerified": true
+    },
+    {
+      "id": 3,
+      "author": "Wolfgang Haltmayer",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 4 Monaten",
+      "text": "Top Lieferant - wir hatten 50qm Klickvinyl geordert zur Lieferung nach Bayern - zu einem Top-Preis - die beiden Herren waren sehr bemüht den Auftrag sauber abzuwickeln, auch als dann die gewünschten Sockelleisten nicht mehr lieferbar waren.",
+      "isVerified": true
+    },
+    {
+      "id": 4,
+      "author": "Anke Oeben",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 7 Monaten",
+      "text": "Wir sind super zufrieden mit unserem neuen Boden. Die Beratung war spitze, Dominik hat sich viel Zeit für uns genommen und uns einige Unterschiede erklärt. Die Rücknahme übrig gebliebener Pakete lief auch problemlos. Werden euch weiterempfehlen! 👍🏼😊",
+      "isVerified": true
+    },
+    {
+      "id": 5,
+      "author": "Harald E. von Zons",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 3 Monaten",
+      "text": "Hier stimmt alles!!! Beratung, Lieferung, Preis, Service!!! Angefangen von der sehr sympathischen und kompetenten Beratung bis hin zum Verlegen kann man hier nur begeistert sein. Wir haben hier sowohl für uns als auch für Mietobjekte Ware gekauft und es gab nie ein Problem.",
+      "isVerified": true
+    },
+    {
+      "id": 6,
+      "author": "Janine Gomse",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Monaten",
+      "text": "Dort gibt es eine große Auswahl, kompetente Beratung, sehr nette Mitarbeiter!! Große Auswahl und vor allem die engagierte Beratung waren super! Vielen Dank!",
+      "isVerified": true
+    },
+    {
+      "id": 7,
+      "author": "Berna Sever",
+      "avatar": null,
+      "rating": 4,
+      "date": "vor 5 Monaten",
+      "text": "Wir waren mit der Beratung bei Bodenjäger super zufrieden. Auch toll, dass viel vorrätig ist, sodass man direkt mit der Renovierung starten kann. Das Angebot 'Sockelleisten kostenlos' könnte etwas klarer kommuniziert werden, aber wir haben trotzdem einiges gespart.",
+      "isVerified": true
+    },
+    {
+      "id": 8,
+      "author": "Christina S.",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 1 Monat",
+      "text": "Toller Kundenservice und große Auswahl! Wir haben Baja Nature gekauft und sind von der Qualität und dem Preis-Leistungs-Verhältnis begeistert. Das Team war jederzeit hilfsbereit und hat uns super beraten.",
+      "isVerified": true
+    }
+  ]
+}

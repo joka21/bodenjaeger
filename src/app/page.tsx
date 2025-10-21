@@ -1,6 +1,7 @@
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
 import VorteileSlider from "@/components/sections/home/VorteileSlider";
+import GoogleReviewsSlider from "@/components/sections/home/GoogleReviewsSlider";
 import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
 import BestsellerSlider from "@/components/sections/home/BestsellerSlider";
 
@@ -39,6 +40,9 @@ export default async function Home() {
 
       {/* Vorteile Slider - direkt unter Hero */}
       <VorteileSlider />
+
+      {/* Google Reviews Slider */}
+      <GoogleReviewsSlider />
 
       {/* Sale Product Slider */}
       <SaleProductSlider products={saleProducts} />
