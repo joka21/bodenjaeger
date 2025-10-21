@@ -1,5 +1,6 @@
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import HeroSlider from "@/components/startseite/HeroSlider";
+import VorteileSlider from "@/components/sections/home/VorteileSlider";
 import SaleProductSlider from "@/components/sections/home/SaleProductSlider";
 import BestsellerSlider from "@/components/sections/home/BestsellerSlider";
 
@@ -35,6 +36,9 @@ export default async function Home() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Slider */}
       <HeroSlider />
+
+      {/* Vorteile Slider - direkt unter Hero */}
+      <VorteileSlider />
 
       {/* Sale Product Slider */}
       <SaleProductSlider products={saleProducts} />

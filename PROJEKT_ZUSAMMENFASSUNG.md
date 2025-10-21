@@ -78,23 +78,39 @@ bodenjäger/
 ## 🛒 E-Commerce Features
 ### Implementierte Funktionen:
 - **Produktkatalog**: Responsive Grid-Layout mit Produktkarten
-- **Produktdetails**: Detailseiten mit Bildern, Preisen und Beschreibungen
+  - StandardProductCard für reguläre Produkte
+  - BestsellerSlider & SaleProductSlider auf Homepage
+- **Produktdetails**: Detailseiten mit erweiterten Features
+  - ImageGallery mit Zoom-Funktion
+  - QuantitySelector mit Live-Preisberechnung
+  - Set-Angebote Integration (Bundle-Produkte)
+  - TotalPrice Komponente mit Einzelpreis-/Gesamtpreis-Anzeige
+  - Dynamische Produktinformationen
 - **Warenkorb**: Vollständiges Shopping Cart System
   - LocalStorage-Persistierung
-  - Mengenänderungen
-  - Preisberechnung
+  - Mengenänderungen mit QuantityStepper
+  - Preisberechnung für Einzelprodukte & Set-Angebote
   - Cart Context für globales State Management
-- **Navigation**: Responsive Header mit Warenkorb-Icon
+  - Separate Cart Items für Singles (CartSingleItem) und Sets (CartSetItem)
+- **Checkout**: Multi-Step Checkout System (Shopify-inspiriert)
+  - ContactStep: Persönliche Daten & E-Mail
+  - ShippingStep: Lieferadresse
+  - PaymentStep: Zahlungsmethode
+  - ReviewStep: Bestellübersicht
+  - ProgressIndicator für Schritt-Navigation
+  - OrderSummary für Warenkorbübersicht
+- **Navigation**: Responsive Header mit Warenkorb-Icon und Kategorie-Dropdown
 - **Responsive Design**: Mobile-first Tailwind CSS
 
 ### Warenkorb-System:
 - React Context API für State Management
 - LocalStorage für Persistierung zwischen Sessions
-- Automatische Preisberechnung
+- Automatische Preisberechnung für Einzel- & Set-Produkte
 - Item Counter und Gesamtsumme
 - CRUD-Operationen für Cart Items
-- **CartDrawer**: Slide-in Seitenleiste mit Warenkorb-Verwaltung
+- **CartDrawer**: Slide-in Seitenleiste mit Set-Angebote Support
 - **Header Integration**: Cart-Icon mit Item-Counter
+- **CartFooter**: Gesamtsummen-Anzeige und Checkout-Button
 
 ## 🎨 UI/UX Design
 - **Design-System**: Modernes, minimalistisches Design
@@ -113,26 +129,43 @@ bodenjäger/
 - **Animationen**: CSS Transitions für Hover-Effekte
 
 ## 📱 Seiten & Routen
-1. **Homepage (`/`)**: Produktübersicht mit WooCommerce Integration
-2. **Produktdetails (`/products/[slug]`)**: Einzelprodukt-Ansicht mit funktionalem "In den Warenkorb" Button
-3. **Warenkorb (`/cart`)**: Shopping Cart Verwaltung
-4. **API Test (`/api-test`)**: WordPress Plugin & Store API Testing Interface
-5. **API Routes (`/api/products`)**: Server-side Datenabfrage
-6. **API Proxy (`/api/store-api-test`)**: CORS-freier Store API Zugriff
+1. **Homepage (`/`)**: Produktübersicht mit WooCommerce Integration, HeroSlider, Bestseller & Sale Produkte
+2. **Produktdetails (`/products/[slug]`)**: Einzelprodukt-Ansicht mit ImageGallery, QuantitySelector, Set-Angebote
+3. **Kategorie (`/category/[slug]`)**: Kategorieseiten mit Filter- und Sortierfunktion
+4. **Warenkorb (`/cart`)**: Shopping Cart mit Set-Angebote Support
+5. **Checkout (`/checkout`)**: Multi-Step Checkout (Kontakt → Versand → Zahlung → Überprüfung)
+6. **Checkout Success (`/checkout/success`)**: Bestellbestätigung
+7. **Fachmarkt Hückelhoven (`/fachmarkt-hueckelhoven`)**: Lokaler Fachmarkt mit Unterseiten
+   - Set-Angebote, Verlegeservice, Lieferservice, Werkzeugverleih, etc.
+8. **Rechtliches**: AGB, Datenschutz, Impressum, Widerruf, Versand & Lieferzeit
+9. **Weitere Seiten**: Kontakt, Service, Blog, Karriere, Sitemap
+10. **API Test (`/api-test`)**: WordPress Plugin & Store API Testing Interface
+11. **API Routes (`/api/products`)**: Server-side Datenabfrage
+12. **API Proxy (`/api/store-api-test`)**: CORS-freier Store API Zugriff
 
 ## 🚀 Aktuelle Features Status
 ### ✅ Funktionsfähig:
 - WooCommerce API Verbindung
-- Produktanzeige mit echten Daten
+- Produktanzeige mit echten Daten (Katalog + Detailseiten)
 - Responsive Design
-- Warenkorb-Funktionalität mit CartDrawer
-- Image Optimization
-- TypeScript Integration
+- Warenkorb-Funktionalität mit CartDrawer & Set-Angebote Support
+- Multi-Step Checkout System (4 Schritte)
+- Image Optimization & ImageGallery
+- TypeScript Integration (vollständig typisiert)
 - WordPress Plugin für Jaeger Custom Fields
 - API Testing Interface
 - Server-Side API Proxy
+- Kategorie-Seiten mit Filter & Sortierung
+- HeroSlider auf Homepage
+- Bestseller & Sale Product Sliders
+- Footer mit allen wichtigen Links
+- Rechtliche Seiten (AGB, Datenschutz, Impressum, etc.)
+- Fachmarkt Hückelhoven Unterseiten
 
 ### 🔧 Kürzlich behoben:
+- Set-Angebote Berechnungsfehler (Preiskalkulation korrigiert)
+- CartDrawer Integration mit Set-Produkten
+- Checkout Flow Bugs
 - Produktdetail-Seite 404 Fehler
 - Image Loading für Next.js 15
 - Server Component Kompatibilität
@@ -187,31 +220,32 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 - Store API vs REST API Vergleich
 
 ## 📊 Git-Historie (Letzte Commits):
-1. **Header Redesign**: 200px Desktop-Header mit 2-Section Layout implementiert
-2. **Image Assets**: Logo, Icons und Startseiten-Bilder hinzugefügt (56 Dateien)
-3. **Search Field**: Suchfeld mit Lupe-Icon, 200px Breite, 12% Abrundung
-4. **Component Structure**: Startseite-Ordner für Homepage-Komponenten erstellt
-5. **CartDrawer**: Slide-in Warenkorb-Komponente implementiert
+1. **Set-Angebote Berechnungen**: Fix für Set-Angebote Kalkulationsfehler
+2. **Mini-Cart Drawer**: Implementierung mit Set-Angebote Unterstützung
+3. **Multi-Step Checkout**: Shopify-inspiriertes mehrstufiges Checkout-System
+4. **Header Redesign**: 200px Desktop-Header mit 2-Section Layout
+5. **Image Assets**: Logo, Icons und Startseiten-Bilder hinzugefügt (56 Dateien)
 6. **WordPress Plugin**: Jaeger Custom Fields Store API Integration
 7. **WooCommerce Integration**: Echte API-Daten statt Dummy-Daten
 
 ## ⚠️ Aktueller Status & To-Do
 ### 🔄 In Bearbeitung:
-- **Startseite Entwicklung**: Homepage-Komponenten werden entwickelt
-- **Header Optimierung**: Desktop-Version fertig, Mobile-Version ausstehend
+- **Payment Integration**: Zahlungsanbieter-Integration für Live-Checkout
+- **Bestellabwicklung**: Backend-Integration für Bestellverarbeitung
 
 ### 🎯 Nächste Entwicklungsschritte:
-- Startseiten-Komponenten entwickeln (Slider, Kategorien, Vorteile)
-- Mobile-Header implementieren
-- Suchfunktionalität aktivieren
-- Favoriten-System implementieren
-- Kundenkonto-Seiten entwickeln
-- WordPress Plugin auf Live-Server aktivieren
-- Checkout-Prozess implementieren
-- Benutzer-Authentifizierung
-- Produktfilterung und Suche
-- Payment Gateway Integration
-- SEO-Optimierung
+- **Payment Gateway Integration**: Stripe/PayPal/etc. implementieren
+- **Backend Order Processing**: WooCommerce Order API Integration
+- **Benutzer-Authentifizierung**: Login/Registrierung implementieren
+- **Kundenkonto-Seiten**: Dashboard, Bestellhistorie, Profil
+- **Suchfunktionalität**: Live-Suche im Header aktivieren
+- **Favoriten-System**: Wunschliste/Favoriten implementieren
+- **Mobile-Header**: Responsive Mobile-Version
+- **SEO-Optimierung**: Meta Tags, Structured Data, Sitemap
+- **Performance-Optimierung**: Code Splitting, Lazy Loading
+- **WordPress Plugin Deployment**: Plugin auf Live-Server aktivieren
+- **Testing**: E2E Tests, Unit Tests
+- **Analytics**: Google Analytics/Tag Manager Integration
 
 ## 📝 Technische Notizen
 - Projekt nutzt die neuesten React 19 und Next.js 15 Features
@@ -231,9 +265,38 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
   - Untere Sektion (50px): Navigation mit Kategorien und Dropdowns
   - Icons: Favoriten, Warenkorb (mit Counter Badge), Kundenkonto
   - Sticky Position, 1300px Container-Breite
-- **CartDrawer**: Slide-in Warenkorb mit Animationen
-- **ProductCard**: Produkt-Karten Komponente
-- **Startseite-Komponenten** (in Entwicklung): `/components/startseite/`
+- **HeaderWrapper** (src/components/HeaderWrapper.tsx): Client-Side Wrapper für Header
+- **Footer** (src/components/Footer.tsx): Vollständiger Footer mit Links und Copyright
+- **Warenkorb-Komponenten** (`/components/cart/`):
+  - **CartDrawer**: Slide-in Warenkorb mit Animationen
+  - **CartSingleItem**: Einzelprodukte im Warenkorb
+  - **CartSetItem**: Set-Angebote im Warenkorb
+  - **QuantityStepper**: Mengensteuerung mit +/- Buttons
+  - **CartFooter**: Gesamtsumme und Checkout-Button
+- **Produkt-Komponenten** (`/components/product/`):
+  - **ProductPageContent**: Haupt-Container für Produktseiten
+  - **ProductInfo**: Produktinformationen & Details
+  - **ImageGallery**: Bildergalerie mit Zoom
+  - **QuantitySelector**: Mengenauswahl mit Live-Preis
+  - **TotalPrice**: Preisanzeige (Einzel- & Gesamtpreis)
+  - **SetAngebot**: Set-Angebote Bundle-Darstellung
+- **Produktkarten**:
+  - **ProductCard**: Standard Produktkarte
+  - **StandardProductCard**: Erweiterte Produktkarte mit mehr Features
+- **Checkout-Komponenten** (`/components/checkout/`):
+  - **CheckoutLayout**: Layout-Container für Checkout
+  - **ProgressIndicator**: Fortschrittsbalken
+  - **ContactStep**: Schritt 1 - Kontaktdaten
+  - **ShippingStep**: Schritt 2 - Versandadresse (implizit)
+  - **PaymentStep**: Schritt 3 - Zahlungsmethode
+  - **ReviewStep**: Schritt 4 - Bestellübersicht
+  - **OrderSummary**: Warenkorb-Zusammenfassung im Checkout
+- **Homepage-Komponenten** (`/components/sections/home/`):
+  - **HeroSlider**: Hauptslider auf Startseite
+  - **BestsellerSlider**: Bestseller-Produkt-Slider
+  - **SaleProductSlider**: Angebots-Produkt-Slider
+- **Kategorie-Komponenten** (`/components/category/`):
+  - **CategoryPageClient**: Client-Side Kategorieseite mit Filter & Sortierung
 
 ### Assets & Images:
 - **Logo**: SVG-Logo in weiß (`logo-bodenjaeger-fff.svg`)
@@ -248,26 +311,39 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 - **API Test Interface**: `/api-test` für debugging
 
 ---
-**Status**: E-Commerce Lösung in aktiver Entwicklung - Header & Assets implementiert
-**Letztes Update**: 12. Oktober 2025
+**Status**: E-Commerce Lösung in aktiver Entwicklung - Core Features implementiert
+**Letztes Update**: 21. Oktober 2025
 **Entwickler**: Claude Code Zusammenfassung
 
-## 🆕 Neueste Änderungen (12. Oktober 2025)
-### Header Redesign:
-- **200px Desktop-Header** mit 2-Section Design
-  - Top: 150px (#2e2d32) - Logo + Suchfeld + Icons
-  - Bottom: 50px (#4c4c4c) - Navigation
-- **1300px Container-Breite** für oberen Bereich
-- **Suchfeld**: 200px breit, 12% abgerundet, Lupe-Icon rechts
-- **Icons**: Favoriten, Warenkorb (mit Counter), Kundenkonto
-- **Navigation**: Zentrierte Links, Dropdown für Unterkategorien
+## 🆕 Neueste Änderungen (21. Oktober 2025)
+### Set-Angebote & Cart System:
+- **Set-Angebote Berechnungen**: Kalkulationsfehler behoben
+  - Korrekte Preisberechnung für Bundle-Produkte
+  - Einzelpreis- vs. Gesamtpreis-Anzeige
+- **Mini-Cart Drawer**: Vollständige Implementierung
+  - Support für Einzelprodukte und Set-Angebote
+  - CartSingleItem & CartSetItem Komponenten
+  - QuantityStepper für Mengenänderungen
+  - CartFooter mit Gesamtsumme
 
-### Assets hinzugefügt:
-- Logo SVG in weiß
-- 36 UI-Icons (schieferschwarz & weiß)
-- 2 Slider-Bilder (WebP)
-- 14 Startseiten-Bilder (Kategorien & Vorteile)
+### Multi-Step Checkout:
+- **Shopify-inspiriertes Checkout-System** implementiert
+  - 4 Schritte: Kontakt → Versand → Zahlung → Überprüfung
+  - ProgressIndicator für visuelle Navigation
+  - ContactStep, PaymentStep, ReviewStep Komponenten
+  - OrderSummary Integration
+  - CheckoutLayout als Container
 
-### Struktur:
-- `/components/startseite/` Ordner erstellt
-- Vorbereitung für Homepage-Entwicklung
+### Komponenten-Struktur:
+- **Produkt-Komponenten** aufgeteilt in separate Module
+  - ImageGallery, QuantitySelector, TotalPrice
+  - ProductInfo, ProductPageContent, SetAngebot
+- **Cart-Komponenten** modularisiert
+- **Checkout-Komponenten** als eigenständige Module
+- **Homepage-Sliders**: BestsellerSlider & SaleProductSlider
+
+### Bug Fixes:
+- Set-Angebote Preisberechnungen korrigiert
+- CartDrawer Integration verbessert
+- Checkout Flow stabilisiert
+- TypeScript Fehler behoben
