@@ -81,17 +81,14 @@ export default function BodenkategorienSection() {
                   />
                 </div>
 
-                {/* Dunkles Overlay (Gradient) */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-
-                {/* Text Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                {/* Text Content - unten */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-white">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                      <h3 className="text-xl md:text-2xl font-bold mb-1 text-gray-900">
                         {category.name}
                       </h3>
-                      <p className="text-base md:text-lg text-gray-200">
+                      <p className="text-sm md:text-base text-gray-600">
                         {category.description}
                       </p>
                     </div>
@@ -99,7 +96,7 @@ export default function BodenkategorienSection() {
                     {category.slug && (
                       <div className="flex-shrink-0 ml-4">
                         <svg
-                          className="w-8 h-8 transition-transform group-hover:translate-x-2"
+                          className="w-6 h-6 text-gray-900 transition-transform group-hover:translate-x-2"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -116,9 +113,6 @@ export default function BodenkategorienSection() {
                   </div>
                 </div>
 
-                {/* Hover Brightness Overlay */}
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-
                 {/* "Bald verfügbar" Badge für nicht verlinkte Kategorien */}
                 {!category.slug && (
                   <div className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm shadow-lg">
@@ -133,14 +127,14 @@ export default function BodenkategorienSection() {
               <Link
                 key={category.id}
                 href={`/category/${category.slug}`}
-                className="group relative min-h-[350px] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+                className="group relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
               >
                 {cardContent}
               </Link>
             ) : (
               <div
                 key={category.id}
-                className="group relative min-h-[350px] rounded-xl overflow-hidden shadow-lg cursor-not-allowed opacity-90"
+                className="group relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg cursor-not-allowed opacity-90"
               >
                 {cardContent}
               </div>
