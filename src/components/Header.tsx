@@ -12,20 +12,20 @@ export default function Header() {
   return (
     <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
-      <div className="w-full h-[150px] bg-[#2e2d32]">
-        <div className="w-[1300px] mx-auto h-full">
-          <div className="flex items-center justify-between h-full gap-[1%]">
+      <div className="w-full h-[100px] md:h-[150px] bg-[#2e2d32]">
+        <div className="w-full max-w-[1300px] mx-auto h-full px-4">
+          <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0">
               <img
                 src="/images/logo/logo-bodenjaeger-fff.svg"
                 alt="Bodenjäger Logo"
-                className="h-20"
+                className="h-12 md:h-20"
               />
             </Link>
 
             {/* Search Field */}
-            <div className="w-[200px] bg-white rounded-[12%]">
+            <div className="hidden sm:block w-[200px] lg:w-[250px] bg-white rounded-[12%]">
               <div className="relative w-full h-full flex items-center">
                 <input
                   type="text"
@@ -41,25 +41,25 @@ export default function Header() {
             </div>
 
             {/* Icons - Favoriten, Warenkorb, Kundenkonto */}
-            <div className="flex items-center gap-[1%]">
+            <div className="flex items-center gap-1 md:gap-[1%]">
               {/* Favoriten */}
-              <Link href="/favoriten" className="flex items-center justify-center w-12 h-12 hover:opacity-80 transition-opacity">
+              <Link href="/favoriten" className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <img
                   src="/images/Icons/Favoriten weiß.png"
                   alt="Favoriten"
-                  className="w-8 h-8"
+                  className="w-6 h-6 md:w-8 md:h-8"
                 />
               </Link>
 
               {/* Warenkorb */}
               <button
                 onClick={() => setIsCartDrawerOpen(true)}
-                className="relative flex items-center justify-center w-12 h-12 hover:opacity-80 transition-opacity"
+                className="relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
               >
                 <img
                   src="/images/Icons/Warenkorb weiß.png"
                   alt="Warenkorb"
-                  className="w-8 h-8"
+                  className="w-6 h-6 md:w-8 md:h-8"
                 />
                 {itemCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
@@ -69,11 +69,11 @@ export default function Header() {
               </button>
 
               {/* Kundenkonto */}
-              <Link href="/kundenkonto" className="flex items-center justify-center w-12 h-12 hover:opacity-80 transition-opacity">
+              <Link href="/kundenkonto" className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <img
                   src="/images/Icons/Kundenkonto weiß.png"
                   alt="Kundenkonto"
-                  className="w-8 h-8"
+                  className="w-6 h-6 md:w-8 md:h-8"
                 />
               </Link>
             </div>
