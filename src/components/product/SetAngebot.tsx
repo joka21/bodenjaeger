@@ -141,8 +141,8 @@ export default function SetAngebot({
           </div>
           {/* Unsichtbarer Platzhalter für Button-Höhe */}
           <div className="h-[36px]"></div>
-          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-            <div className="w-full aspect-square bg-gray-50">
+          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+            <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
               <Image
                 src={productImage}
                 alt={productName}
@@ -151,11 +151,11 @@ export default function SetAngebot({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="px-4 py-3 flex flex-col h-full">
+            <div className="px-4 py-3 flex flex-col flex-grow">
               <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                 {productName}
               </h3>
-              <div className="mt-auto flex items-center justify-end gap-2">
+              <div className="mt-auto flex items-center justify-end gap-3 w-full">
                 <span className="text-xs text-gray-400 line-through">
                   {regularPrice.toFixed(2).replace('.', ',')} €
                 </span>
@@ -181,8 +181,8 @@ export default function SetAngebot({
               Andere Dämmung wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-              <div className="w-full aspect-square bg-gray-50">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+              <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
                   alt={selectedDaemmung?.name || daemmungName}
@@ -191,12 +191,12 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="px-4 py-3 flex flex-col h-full">
+              <div className="px-4 py-3 flex flex-col flex-grow">
                 <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                   {selectedDaemmung?.name || daemmungName}
                 </h3>
 
-                <div className="mt-auto flex items-center justify-between">
+                <div className="mt-auto flex items-center justify-between w-full gap-4">
                   <span className="text-xs text-gray-600 whitespace-nowrap">
                     VE: {selectedDaemmung?.jaeger_meta?.paketinhalt
                       ? `${selectedDaemmung.jaeger_meta.paketinhalt}${selectedDaemmung.jaeger_meta.einheit_short || 'm²'}`
@@ -233,8 +233,8 @@ export default function SetAngebot({
               Andere Sockelleiste wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-              <div className="w-full aspect-square bg-gray-50">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+              <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
                   alt={selectedSockelleiste?.name || sockelleisteName}
@@ -243,12 +243,12 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="px-4 py-3 flex flex-col h-full">
+              <div className="px-4 py-3 flex flex-col flex-grow">
                 <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                   {selectedSockelleiste?.name || sockelleisteName}
                 </h3>
 
-                <div className="mt-auto flex items-center justify-between">
+                <div className="mt-auto flex items-center justify-between w-full gap-4">
                   <span className="text-xs text-gray-600 whitespace-nowrap">
                     VE: {selectedSockelleiste?.jaeger_meta?.paketinhalt
                       ? `${selectedSockelleiste.jaeger_meta.paketinhalt}${selectedSockelleiste.jaeger_meta.einheit_short || 'lfm'}`
