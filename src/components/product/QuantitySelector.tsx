@@ -14,6 +14,9 @@ export default function QuantitySelector({
   onQuantityChange
 }: QuantitySelectorProps) {
   const [sqm, setSqm] = useState<number>(paketinhalt);
+  const [sqmInputValue, setSqmInputValue] = useState<string>(paketinhalt.toFixed(2));
+  const [packagesInputValue, setPackagesInputValue] = useState<string>(Math.ceil(paketinhalt / paketinhalt).toString());
+
   const packages = Math.ceil(sqm / paketinhalt);
 
   const handleSqmChange = (newValue: number) => {
@@ -27,31 +30,119 @@ export default function QuantitySelector({
   };
 
   const handlePackagesInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = parseInt(e.target.value) || 1;
-    const newPackages = Math.max(1, inputValue);
-    const newSqm = newPackages * paketinhalt;
-    handleSqmChange(newSqm);
+    const value = e.target.value;
+    setPackagesInputValue(value);
+
+    // Allow empty input during typing
+    if (value === '') return;
+
+    const inputValue = parseInt(value);
+    if (!isNaN(inputValue) && inputValue > 0) {
+      const newSqm = inputValue * paketinhalt;
+      setSqm(newSqm);
+      setSqmInputValue(newSqm.toFixed(2));
+
+      if (onQuantityChange) {
+        onQuantityChange(inputValue, newSqm);
+      }
+    }
+  };
+
+  const handlePackagesBlur = () => {
+    // On blur, ensure we have a valid value
+    if (packagesInputValue === '' || parseInt(packagesInputValue) < 1) {
+      setPackagesInputValue('1');
+      const newSqm = paketinhalt;
+      setSqm(newSqm);
+      setSqmInputValue(newSqm.toFixed(2));
+
+      if (onQuantityChange) {
+        onQuantityChange(1, newSqm);
+      }
+    }
   };
 
   const handleSqmInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = parseFloat(e.target.value) || paketinhalt;
-    handleSqmChange(inputValue);
+    const value = e.target.value;
+    setSqmInputValue(value);
+
+    // Allow empty input during typing
+    if (value === '') return;
+
+    const inputValue = parseFloat(value);
+    if (!isNaN(inputValue) && inputValue > 0) {
+      setSqm(inputValue);
+      const calculatedPackages = Math.ceil(inputValue / paketinhalt);
+      setPackagesInputValue(calculatedPackages.toString());
+
+      if (onQuantityChange) {
+        onQuantityChange(calculatedPackages, inputValue);
+      }
+    }
+  };
+
+  const handleSqmBlur = () => {
+    // On blur, ensure we have a valid value
+    if (sqmInputValue === '' || parseFloat(sqmInputValue) < paketinhalt) {
+      setSqmInputValue(paketinhalt.toFixed(2));
+      setSqm(paketinhalt);
+      setPackagesInputValue('1');
+
+      if (onQuantityChange) {
+        onQuantityChange(1, paketinhalt);
+      }
+    } else {
+      // Format the value on blur
+      setSqmInputValue(parseFloat(sqmInputValue).toFixed(2));
+    }
   };
 
   const incrementSqm = () => {
-    handleSqmChange(sqm + paketinhalt);
+    const newSqm = sqm + paketinhalt;
+    setSqm(newSqm);
+    setSqmInputValue(newSqm.toFixed(2));
+    const newPackages = Math.ceil(newSqm / paketinhalt);
+    setPackagesInputValue(newPackages.toString());
+
+    if (onQuantityChange) {
+      onQuantityChange(newPackages, newSqm);
+    }
   };
 
   const decrementSqm = () => {
-    handleSqmChange(sqm - paketinhalt);
+    const newSqm = Math.max(paketinhalt, sqm - paketinhalt);
+    setSqm(newSqm);
+    setSqmInputValue(newSqm.toFixed(2));
+    const newPackages = Math.ceil(newSqm / paketinhalt);
+    setPackagesInputValue(newPackages.toString());
+
+    if (onQuantityChange) {
+      onQuantityChange(newPackages, newSqm);
+    }
   };
 
   const incrementPackages = () => {
-    handleSqmChange(sqm + paketinhalt);
+    const newPackages = packages + 1;
+    const newSqm = newPackages * paketinhalt;
+    setSqm(newSqm);
+    setSqmInputValue(newSqm.toFixed(2));
+    setPackagesInputValue(newPackages.toString());
+
+    if (onQuantityChange) {
+      onQuantityChange(newPackages, newSqm);
+    }
   };
 
   const decrementPackages = () => {
-    handleSqmChange(sqm - paketinhalt);
+    const newPackages = Math.max(1, packages - 1);
+    const newSqm = newPackages * paketinhalt;
+    setSqm(newSqm);
+    setSqmInputValue(newSqm.toFixed(2));
+    setPackagesInputValue(newPackages.toString());
+
+    if (onQuantityChange) {
+      onQuantityChange(newPackages, newSqm);
+    }
   };
 
   return (
@@ -81,8 +172,9 @@ export default function QuantitySelector({
             </button>
             <input
               type="number"
-              value={packages}
+              value={packagesInputValue}
               onChange={handlePackagesInputChange}
+              onBlur={handlePackagesBlur}
               min="1"
               className="flex-1 h-10 text-center rounded border border-gray-300 bg-white focus:border-red-600 focus:outline-none"
             />
@@ -111,8 +203,9 @@ export default function QuantitySelector({
             </button>
             <input
               type="number"
-              value={sqm.toFixed(2)}
+              value={sqmInputValue}
               onChange={handleSqmInputChange}
+              onBlur={handleSqmBlur}
               min={paketinhalt}
               step="0.01"
               className="flex-1 h-10 text-center rounded border border-gray-300 bg-white focus:border-red-600 focus:outline-none"
