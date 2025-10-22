@@ -215,6 +215,8 @@ export default function SetAngebot({
                 }
               </div>
             </div>
+            </div>
+            </div>
           </div>
         )}
 
@@ -266,6 +268,8 @@ export default function SetAngebot({
                   : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/${sockelleisteEinheit}`
                 }
               </div>
+            </div>
+            </div>
             </div>
           </div>
         )}
