@@ -266,7 +266,6 @@ export default function SetAngebot({
           </div>
         )}
         </div>
-        </div>
 
         {/* Gesamt-Preiszeile */}
         <div className="flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
