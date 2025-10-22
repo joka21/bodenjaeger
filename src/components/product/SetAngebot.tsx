@@ -164,17 +164,17 @@ export default function SetAngebot({
         {/* Dämmung Card - MIT Button oben */}
         {hasDaemmung && (
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="text-center">
               <span className="text-sm font-medium text-gray-700">Dämmung</span>
-              <button
-                type="button"
-                onClick={() => openModal('daemmung')}
-                className="bg-gray-800 text-white text-xs py-1.5 px-3 rounded-md hover:bg-gray-700 flex items-center gap-1.5 transition-colors duration-200"
-              >
-                Andere Dämmung wählen
-                <span>→</span>
-              </button>
             </div>
+            <button
+              type="button"
+              onClick={() => openModal('daemmung')}
+              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200"
+            >
+              Andere Dämmung wählen
+              <span>→</span>
+            </button>
             <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
             <Image
               src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
@@ -214,17 +214,17 @@ export default function SetAngebot({
         {/* Sockelleiste Card - MIT Button oben */}
         {hasSockelleiste && (
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
+            <div className="text-center">
               <span className="text-sm font-medium text-gray-700">Sockelleiste</span>
-              <button
-                type="button"
-                onClick={() => openModal('sockelleiste')}
-                className="bg-gray-800 text-white text-xs py-1.5 px-3 rounded-md hover:bg-gray-700 flex items-center gap-1.5 transition-colors duration-200"
-              >
-                Andere Sockelleiste wählen
-                <span>→</span>
-              </button>
             </div>
+            <button
+              type="button"
+              onClick={() => openModal('sockelleiste')}
+              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200"
+            >
+              Andere Sockelleiste wählen
+              <span>→</span>
+            </button>
             <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
             <Image
               src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
