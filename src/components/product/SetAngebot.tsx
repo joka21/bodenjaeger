@@ -164,12 +164,8 @@ export default function SetAngebot({
         {/* Dämmung Card - MIT Button oben */}
         {hasDaemmung && (
           <div className="space-y-3">
-            <div className="text-center">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Dämmung</span>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative">
-              {/* Button rechts oben über dem Bild */}
-              <div className="flex justify-end mb-2">
               <button
                 type="button"
                 onClick={() => openModal('daemmung')}
@@ -179,7 +175,7 @@ export default function SetAngebot({
                 <span>→</span>
               </button>
             </div>
-
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
             <Image
               src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
               alt={selectedDaemmung?.name || daemmungName}
@@ -218,12 +214,8 @@ export default function SetAngebot({
         {/* Sockelleiste Card - MIT Button oben */}
         {hasSockelleiste && (
           <div className="space-y-3">
-            <div className="text-center">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700">Sockelleiste</span>
-            </div>
-            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative">
-              {/* Button rechts oben über dem Bild */}
-              <div className="flex justify-end mb-2">
               <button
                 type="button"
                 onClick={() => openModal('sockelleiste')}
@@ -233,7 +225,7 @@ export default function SetAngebot({
                 <span>→</span>
               </button>
             </div>
-
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
             <Image
               src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
               alt={selectedSockelleiste?.name || sockelleisteName}
