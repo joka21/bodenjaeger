@@ -135,8 +135,12 @@ export default function SetAngebot({
       <div className="bg-gray-100 rounded-lg p-6 pt-12">
         <div className={`grid grid-cols-1 ${gridCols} gap-6`}>
         {/* Boden Card - KEIN Button */}
-        <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
-          <Image
+        <div className="space-y-3">
+          <div className="text-center">
+            <span className="text-sm font-medium text-gray-700">Boden</span>
+          </div>
+          <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
+            <Image
             src={productImage}
             alt={productName}
             width={220}
@@ -158,9 +162,13 @@ export default function SetAngebot({
 
         {/* Dämmung Card - MIT Button oben */}
         {hasDaemmung && (
-          <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative">
-            {/* Button rechts oben über dem Bild */}
-            <div className="flex justify-end mb-2">
+          <div className="space-y-3">
+            <div className="text-center">
+              <span className="text-sm font-medium text-gray-700">Dämmung</span>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative">
+              {/* Button rechts oben über dem Bild */}
+              <div className="flex justify-end mb-2">
               <button
                 type="button"
                 onClick={() => openModal('daemmung')}
@@ -207,9 +215,13 @@ export default function SetAngebot({
 
         {/* Sockelleiste Card - MIT Button oben */}
         {hasSockelleiste && (
-          <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative">
-            {/* Button rechts oben über dem Bild */}
-            <div className="flex justify-end mb-2">
+          <div className="space-y-3">
+            <div className="text-center">
+              <span className="text-sm font-medium text-gray-700">Sockelleiste</span>
+            </div>
+            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 relative">
+              {/* Button rechts oben über dem Bild */}
+              <div className="flex justify-end mb-2">
               <button
                 type="button"
                 onClick={() => openModal('sockelleiste')}
@@ -253,6 +265,7 @@ export default function SetAngebot({
             </div>
           </div>
         )}
+        </div>
         </div>
 
         {/* Gesamt-Preiszeile */}
