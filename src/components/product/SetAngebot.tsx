@@ -141,7 +141,7 @@ export default function SetAngebot({
           </div>
           {/* Unsichtbarer Platzhalter für Button-Höhe */}
           <div className="h-[36px]"></div>
-          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[320px] flex flex-col">
             <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
               <Image
                 src={productImage}
@@ -151,15 +151,15 @@ export default function SetAngebot({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="px-4 py-3 flex flex-col flex-grow">
+            <div className="px-4 py-2 flex flex-col flex-grow">
               <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                 {productName}
               </h3>
-              <div className="mt-auto flex items-center justify-end gap-3 w-full">
-                <span className="text-xs text-gray-400 line-through">
+              <div className="mt-auto flex items-center justify-end gap-2 w-full text-[10px]">
+                <span className="text-gray-400 line-through">
                   {regularPrice.toFixed(2).replace('.', ',')} €
                 </span>
-                <span className="text-sm font-bold text-red-600 whitespace-nowrap">
+                <span className="font-bold text-red-600 whitespace-nowrap">
                   {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
                 </span>
               </div>
@@ -181,7 +181,7 @@ export default function SetAngebot({
               Andere Dämmung wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[320px] flex flex-col">
               <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
@@ -191,22 +191,22 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="px-4 py-3 flex flex-col flex-grow">
+              <div className="px-4 py-2 flex flex-col flex-grow">
                 <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                   {selectedDaemmung?.name || daemmungName}
                 </h3>
 
-                <div className="mt-auto flex items-center justify-between w-full gap-4">
-                  <span className="text-xs text-gray-600 whitespace-nowrap">
+                <div className="mt-auto flex items-center justify-between w-full gap-2 text-[10px]">
+                  <span className="text-gray-600 whitespace-nowrap">
                     VE: {selectedDaemmung?.jaeger_meta?.paketinhalt
                       ? `${selectedDaemmung.jaeger_meta.paketinhalt}${selectedDaemmung.jaeger_meta.einheit_short || 'm²'}`
                       : daemmungVE || '-'}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400 line-through whitespace-nowrap">
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-400 line-through whitespace-nowrap">
                       {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
                     </span>
-                    <span className="text-sm font-bold text-red-600 whitespace-nowrap">
+                    <span className="font-bold text-red-600 whitespace-nowrap">
                       {daemmungPriceDiff === 0
                         ? `0,00 €/m²`
                         : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
@@ -233,7 +233,7 @@ export default function SetAngebot({
               Andere Sockelleiste wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[400px] flex flex-col">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[320px] flex flex-col">
               <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
@@ -243,22 +243,22 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="px-4 py-3 flex flex-col flex-grow">
+              <div className="px-4 py-2 flex flex-col flex-grow">
                 <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                   {selectedSockelleiste?.name || sockelleisteName}
                 </h3>
 
-                <div className="mt-auto flex items-center justify-between w-full gap-4">
-                  <span className="text-xs text-gray-600 whitespace-nowrap">
+                <div className="mt-auto flex items-center justify-between w-full gap-2 text-[10px]">
+                  <span className="text-gray-600 whitespace-nowrap">
                     VE: {selectedSockelleiste?.jaeger_meta?.paketinhalt
                       ? `${selectedSockelleiste.jaeger_meta.paketinhalt}${selectedSockelleiste.jaeger_meta.einheit_short || 'lfm'}`
                       : sockelleisteVE || '-'}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400 line-through whitespace-nowrap">
+                  <div className="flex items-center gap-1">
+                    <span className="text-gray-400 line-through whitespace-nowrap">
                       {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
                     </span>
-                    <span className="text-sm font-bold text-red-600 whitespace-nowrap">
+                    <span className="font-bold text-red-600 whitespace-nowrap">
                       {sockelleistePriceDiff === 0
                         ? `0,00 €/lfm`
                         : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
