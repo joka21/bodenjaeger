@@ -151,16 +151,19 @@ export default function SetAngebot({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="px-4 py-3">
-              <h3 className="text-xs font-semibold mb-4 text-left text-gray-900 line-clamp-2 min-h-[32px]">
+            <div className="px-4 py-3 flex flex-col h-full">
+              <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                 {productName}
               </h3>
-              <div className="text-center space-y-1">
-                <div className="text-gray-400 line-through text-sm">
-                  {regularPrice.toFixed(2).replace('.', ',')} €
-                </div>
-                <div className="text-red-600 font-bold text-2xl">
-                  {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
+              <div className="mt-auto flex items-center justify-between">
+                <span className="text-xs text-gray-600">VE: -</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400 line-through">
+                    {regularPrice.toFixed(2).replace('.', ',')} €
+                  </span>
+                  <span className="text-sm font-bold text-red-600">
+                    {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
+                  </span>
                 </div>
               </div>
             </div>
@@ -191,29 +194,27 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="px-4 py-3">
-                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2 min-h-[32px]">
+              <div className="px-4 py-3 flex flex-col h-full">
+                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                   {selectedDaemmung?.name || daemmungName}
                 </h3>
 
-                {/* VE-Zeile */}
-                {(selectedDaemmung?.jaeger_meta?.paketinhalt || daemmungVE) && (
-                  <p className="text-xs text-gray-500 text-center mb-3">
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="text-xs text-gray-600">
                     VE: {selectedDaemmung?.jaeger_meta?.paketinhalt
                       ? `${selectedDaemmung.jaeger_meta.paketinhalt}${selectedDaemmung.jaeger_meta.einheit_short || 'm²'}`
-                      : daemmungVE}
-                  </p>
-                )}
-
-                <div className="text-center space-y-1">
-                  <div className="text-gray-400 line-through text-sm">
-                    {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
-                  </div>
-                  <div className="text-red-600 font-bold text-2xl">
-                    {daemmungPriceDiff === 0
-                      ? `0,00 €/${einheit}`
-                      : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/${einheit}`
-                    }
+                      : daemmungVE || '-'}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-400 line-through">
+                      {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
+                    </span>
+                    <span className="text-sm font-bold text-red-600">
+                      {daemmungPriceDiff === 0
+                        ? `0,00 €/${einheit}`
+                        : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/${einheit}`
+                      }
+                    </span>
                   </div>
                 </div>
               </div>
@@ -245,29 +246,27 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="px-4 py-3">
-                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2 min-h-[32px]">
+              <div className="px-4 py-3 flex flex-col h-full">
+                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
                   {selectedSockelleiste?.name || sockelleisteName}
                 </h3>
 
-                {/* VE-Zeile */}
-                {(selectedSockelleiste?.jaeger_meta?.paketinhalt || sockelleisteVE) && (
-                  <p className="text-xs text-gray-500 text-center mb-3">
+                <div className="mt-auto flex items-center justify-between">
+                  <span className="text-xs text-gray-600">
                     VE: {selectedSockelleiste?.jaeger_meta?.paketinhalt
                       ? `${selectedSockelleiste.jaeger_meta.paketinhalt}${selectedSockelleiste.jaeger_meta.einheit_short || 'lfm'}`
-                      : sockelleisteVE}
-                  </p>
-                )}
-
-                <div className="text-center space-y-1">
-                  <div className="text-gray-400 line-through text-sm">
-                    {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
-                  </div>
-                  <div className="text-red-600 font-bold text-2xl">
-                    {sockelleistePriceDiff === 0
-                      ? `0,00 €/${sockelleisteEinheit}`
-                      : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/${sockelleisteEinheit}`
-                    }
+                      : sockelleisteVE || '-'}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-400 line-through">
+                      {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
+                    </span>
+                    <span className="text-sm font-bold text-red-600">
+                      {sockelleistePriceDiff === 0
+                        ? `0,00 €/${sockelleisteEinheit}`
+                        : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/${sockelleisteEinheit}`
+                      }
+                    </span>
                   </div>
                 </div>
               </div>
