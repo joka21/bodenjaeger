@@ -151,8 +151,8 @@ export default function SetAngebot({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="p-6 pt-4">
-              <h3 className="text-sm font-semibold mb-4 text-left text-gray-900 line-clamp-2 min-h-[40px]">
+            <div className="px-4 py-3">
+              <h3 className="text-xs font-semibold mb-4 text-left text-gray-900 line-clamp-2 min-h-[32px]">
                 {productName}
               </h3>
               <div className="text-center space-y-1">
@@ -191,8 +191,8 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6 pt-4">
-                <h3 className="text-sm font-semibold mb-2 text-left text-gray-900 line-clamp-2 min-h-[40px]">
+              <div className="px-4 py-3">
+                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2 min-h-[32px]">
                   {selectedDaemmung?.name || daemmungName}
                 </h3>
 
@@ -245,8 +245,8 @@ export default function SetAngebot({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-6 pt-4">
-                <h3 className="text-sm font-semibold mb-2 text-left text-gray-900 line-clamp-2 min-h-[40px]">
+              <div className="px-4 py-3">
+                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2 min-h-[32px]">
                   {selectedSockelleiste?.name || sockelleisteName}
                 </h3>
 
