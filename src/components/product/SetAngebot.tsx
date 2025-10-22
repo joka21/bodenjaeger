@@ -133,7 +133,7 @@ export default function SetAngebot({
 
       {/* Grauer Container mit Produkten */}
       <div className="bg-gray-100 rounded-lg p-6 pt-12">
-        <div className={`grid grid-cols-1 ${gridCols} gap-6`}>
+        <div className={`grid grid-cols-1 ${gridCols} gap-3`}>
         {/* Boden Card - KEIN Button */}
         <div className="space-y-3">
           <div className="text-center">
