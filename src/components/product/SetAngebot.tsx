@@ -139,6 +139,8 @@ export default function SetAngebot({
           <div className="text-center">
             <span className="text-sm font-medium text-gray-700">Boden</span>
           </div>
+          {/* Unsichtbarer Platzhalter für Button-Höhe */}
+          <div className="h-[36px]"></div>
           <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
             <Image
             src={productImage}
