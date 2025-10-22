@@ -141,14 +141,17 @@ export default function SetAngebot({
           </div>
           {/* Unsichtbarer Platzhalter für Button-Höhe */}
           <div className="h-[36px]"></div>
-          <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
-            <Image
-            src={productImage}
-            alt={productName}
-            width={220}
-            height={220}
-            className="mx-auto rounded-lg mb-4 object-contain"
-          />
+          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+            <div className="w-full aspect-square bg-gray-50">
+              <Image
+                src={productImage}
+                alt={productName}
+                width={400}
+                height={400}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="p-6">
           <h3 className="text-base font-semibold mb-4 text-center text-gray-900 line-clamp-2 min-h-[48px]">
             {productName}
           </h3>
@@ -160,7 +163,7 @@ export default function SetAngebot({
               {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
             </div>
           </div>
-        </div>
+          </div>
         </div>
 
         {/* Dämmung Card - MIT Button oben */}
@@ -177,14 +180,17 @@ export default function SetAngebot({
               Andere Dämmung wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
-            <Image
-              src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
-              alt={selectedDaemmung?.name || daemmungName}
-              width={220}
-              height={220}
-              className="mx-auto rounded-lg mb-4 object-contain"
-            />
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <div className="w-full aspect-square bg-gray-50">
+                <Image
+                  src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
+                  alt={selectedDaemmung?.name || daemmungName}
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="p-6">
             <h3 className="text-base font-semibold mb-2 text-center text-gray-900 line-clamp-2 min-h-[48px]">
               {selectedDaemmung?.name || daemmungName}
             </h3>
@@ -209,7 +215,7 @@ export default function SetAngebot({
                 }
               </div>
             </div>
-          </div>
+            </div>
           </div>
         )}
 
@@ -227,14 +233,17 @@ export default function SetAngebot({
               Andere Sockelleiste wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
-            <Image
-              src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
-              alt={selectedSockelleiste?.name || sockelleisteName}
-              width={220}
-              height={220}
-              className="mx-auto rounded-lg mb-4 object-contain"
-            />
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <div className="w-full aspect-square bg-gray-50">
+                <Image
+                  src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
+                  alt={selectedSockelleiste?.name || sockelleisteName}
+                  width={400}
+                  height={400}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="p-6">
             <h3 className="text-base font-semibold mb-2 text-center text-gray-900 line-clamp-2 min-h-[48px]">
               {selectedSockelleiste?.name || sockelleisteName}
             </h3>
@@ -259,7 +268,7 @@ export default function SetAngebot({
                 }
               </div>
             </div>
-          </div>
+            </div>
           </div>
         )}
         </div>
