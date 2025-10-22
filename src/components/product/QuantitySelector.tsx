@@ -26,6 +26,18 @@ export default function QuantitySelector({
     }
   };
 
+  const handlePackagesInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = parseInt(e.target.value) || 1;
+    const newPackages = Math.max(1, inputValue);
+    const newSqm = newPackages * paketinhalt;
+    handleSqmChange(newSqm);
+  };
+
+  const handleSqmInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = parseFloat(e.target.value) || paketinhalt;
+    handleSqmChange(inputValue);
+  };
+
   const incrementSqm = () => {
     handleSqmChange(sqm + paketinhalt);
   };
@@ -70,8 +82,9 @@ export default function QuantitySelector({
             <input
               type="number"
               value={packages}
-              readOnly
-              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white"
+              onChange={handlePackagesInputChange}
+              min="1"
+              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white focus:border-red-600 focus:outline-none"
             />
             <button
               type="button"
@@ -99,8 +112,10 @@ export default function QuantitySelector({
             <input
               type="number"
               value={sqm.toFixed(2)}
-              readOnly
-              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white"
+              onChange={handleSqmInputChange}
+              min={paketinhalt}
+              step="0.01"
+              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white focus:border-red-600 focus:outline-none"
             />
             <button
               type="button"
