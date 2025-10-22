@@ -163,7 +163,7 @@ export default function SetAngebot({
               {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
             </div>
           </div>
-          </div>
+        </div>
         </div>
 
         {/* Dämmung Card - MIT Button oben */}
@@ -214,7 +214,6 @@ export default function SetAngebot({
                   : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/${einheit}`
                 }
               </div>
-            </div>
             </div>
           </div>
         )}
@@ -267,7 +266,6 @@ export default function SetAngebot({
                   : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/${sockelleisteEinheit}`
                 }
               </div>
-            </div>
             </div>
           </div>
         )}
