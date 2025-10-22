@@ -293,6 +293,7 @@ export default function SetAngebot({
           </div>
         </div>
       </div>
+      </div>
 
       {/* Modal für Produktauswahl */}
       {isModalOpen && (
