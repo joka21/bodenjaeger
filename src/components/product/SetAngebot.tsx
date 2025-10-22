@@ -148,7 +148,7 @@ export default function SetAngebot({
                 alt={productName}
                 width={400}
                 height={400}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="p-6 pt-4">
@@ -188,7 +188,7 @@ export default function SetAngebot({
                   alt={selectedDaemmung?.name || daemmungName}
                   width={400}
                   height={400}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6 pt-4">
@@ -242,7 +242,7 @@ export default function SetAngebot({
                   alt={selectedSockelleiste?.name || sockelleisteName}
                   width={400}
                   height={400}
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6 pt-4">
