@@ -159,6 +159,7 @@ export default function SetAngebot({
             </div>
           </div>
         </div>
+        </div>
 
         {/* Dämmung Card - MIT Button oben */}
         {hasDaemmung && (
@@ -210,6 +211,7 @@ export default function SetAngebot({
                 }
               </div>
             </div>
+          </div>
           </div>
         )}
 
@@ -263,6 +265,7 @@ export default function SetAngebot({
                 }
               </div>
             </div>
+          </div>
           </div>
         )}
         </div>
