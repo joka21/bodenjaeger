@@ -125,14 +125,14 @@ export default function SetAngebot({
   return (
     <div className="relative">
       {/* Roter Badge-Header - schwebt auf der Kante */}
-      <div className="relative z-10 inline-block mb-[-28px]">
+      <div className="relative z-10 inline-block mb-[-36px]">
         <span className="bg-red-600 text-white font-bold px-6 py-2 rounded-full text-lg shadow-lg">
           {setangebotTitel}
         </span>
       </div>
 
       {/* Grauer Container mit Produkten */}
-      <div className="bg-gray-100 rounded-lg p-6 pt-10">
+      <div className="bg-gray-100 rounded-lg p-6 pt-12">
         <div className={`grid grid-cols-1 ${gridCols} gap-6`}>
         {/* Boden Card - KEIN Button */}
         <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-xl transition-all duration-300">
