@@ -116,7 +116,7 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
       {/* Set Angebot Component */}
       <div className="mt-6">
         <SetAngebot
-          setangebotTitel={product.jaeger_meta?.setangebot_titel}
+          setangebotTitel={product.jaeger_meta?.setangebot_titel || undefined}
           productName={product.name}
           productImage={productImage}
           basePrice={basePrice}
