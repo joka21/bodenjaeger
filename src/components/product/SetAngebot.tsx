@@ -5,6 +5,7 @@ import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 
 interface SetAngebotProps {
+  setangebotTitel?: string;
   productName: string;
   productImage: string;
   basePrice: number;
@@ -27,6 +28,7 @@ interface SetAngebotProps {
 }
 
 export default function SetAngebot({
+  setangebotTitel = 'Dein Set-Angebot',
   productName,
   productImage,
   basePrice,
@@ -125,7 +127,7 @@ export default function SetAngebot({
       {/* Roter Badge-Header */}
       <div className="inline-block">
         <span className="bg-red-600 text-white font-bold px-6 py-2 rounded-full text-lg">
-          Dein Set-Angebot
+          {setangebotTitel}
         </span>
       </div>
 
