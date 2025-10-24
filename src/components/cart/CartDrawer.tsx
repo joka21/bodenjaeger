@@ -7,6 +7,7 @@ import {
   CartSetItem as CartSetItemType,
   CartSingleItem as CartSingleItemType,
   CartItemBase,
+  toProductUnit,
 } from '@/types/cart-drawer';
 import { calculateCartData } from '@/lib/cart-utils';
 import CartSetItemComponent from './CartSetItem';
@@ -57,7 +58,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: mainItem.product.name,
           image: mainItem.product.images?.[0]?.src || '',
           quantity: mainItem.quantity,
-          unit: mainItem.product.jaeger_meta?.einheit_short || 'm²',
+          unit: toProductUnit(mainItem.product.jaeger_meta?.einheit_short, 'm²'),
           unitValue: paketinhalt,
           pricePerUnit: paketpreis / paketinhalt, // Preis pro m²/lfm
           originalPricePerUnit: regularPaketpreis ? regularPaketpreis / paketinhalt : undefined,
@@ -84,7 +85,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               name: bundleItem.product.name,
               image: bundleItem.product.images?.[0]?.src || '',
               quantity: bundleItem.quantity,
-              unit: bundleItem.product.jaeger_meta?.einheit_short || (bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'),
+              unit: toProductUnit(
+                bundleItem.product.jaeger_meta?.einheit_short,
+                bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'
+              ),
               unitValue: bundlePaketinhalt,
               pricePerUnit: bundlePaketpreis / bundlePaketinhalt, // Preis pro m²/lfm
               originalPricePerUnit: bundleRegularPaketpreis ? bundleRegularPaketpreis / bundlePaketinhalt : undefined,
@@ -122,7 +126,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: item.product.name,
           image: item.product.images?.[0]?.src || '',
           quantity: item.quantity,
-          unit: item.product.jaeger_meta?.einheit_short || 'm²',
+          unit: toProductUnit(item.product.jaeger_meta?.einheit_short, 'm²'),
           unitValue: singlePaketinhalt,
           pricePerUnit: singlePaketpreis / singlePaketinhalt, // Preis pro m²/lfm
           originalPricePerUnit: singleRegularPaketpreis ? singleRegularPaketpreis / singlePaketinhalt : undefined,
