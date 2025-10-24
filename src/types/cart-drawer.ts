@@ -5,7 +5,7 @@ export type ProductUnit = 'Pak.' | 'Rol.' | 'Stk.' | 'm²' | 'm' | 'lfm';
 /**
  * Helper function to safely convert string to ProductUnit
  */
-export function toProductUnit(value: string | undefined, fallback: ProductUnit = 'm²'): ProductUnit {
+export function toProductUnit(value: string | null | undefined, fallback: ProductUnit = 'm²'): ProductUnit {
   const validUnits: ProductUnit[] = ['Pak.', 'Rol.', 'Stk.', 'm²', 'm', 'lfm'];
   if (value && validUnits.includes(value as ProductUnit)) {
     return value as ProductUnit;
