@@ -267,43 +267,59 @@ export function calculateSetPrices(
     }
   }
 
-  // Calculate total display price by summing actual costs
-  // Floor: packages × package price (reuse floorPaketpreis from above)
+  // Calculate total display price
+  // SET OFFER: Floor price + ONLY surcharges for premium products
+  // Standard insulation/baseboard are FREE in the set!
+
+  // Floor: packages × package price (with sale price if available)
   const floorPaketpreisS = floorProduct.jaeger_meta?.paketpreis_s;
   const floorActivePackagePrice = (floorPaketpreisS !== undefined && floorPaketpreisS !== null && floorPaketpreisS > 0)
     ? floorPaketpreisS
     : floorPaketpreis;
   const floorTotalPrice = floorActivePackagePrice * quantities.floor.packages;
 
-  // Insulation: packages × package price (only if selected)
-  let insulationTotalPrice = 0;
+  // Insulation: ONLY surcharge if premium selected (standard is free!)
+  let insulationSurchargeTotal = 0;
   if (selectedInsulation && quantities.insulation) {
-    const insulationPaketpreis = selectedInsulation.jaeger_meta?.paketpreis || 0;
-    const insulationPaketpreisS = selectedInsulation.jaeger_meta?.paketpreis_s;
-    const insulationActivePackagePrice = (insulationPaketpreisS !== undefined && insulationPaketpreisS !== null && insulationPaketpreisS > 0)
-      ? insulationPaketpreisS
-      : insulationPaketpreis;
-    insulationTotalPrice = insulationActivePackagePrice * quantities.insulation.packages;
+    if (standardInsulation) {
+      // Standard exists: calculate surcharge only
+      insulationSurchargeTotal = insulationSurcharge * quantities.insulation.actualM2;
+    } else {
+      // No standard exists: calculate full price
+      const insulationPaketpreis = selectedInsulation.jaeger_meta?.paketpreis || 0;
+      const insulationPaketpreisS = selectedInsulation.jaeger_meta?.paketpreis_s;
+      const insulationActivePackagePrice = (insulationPaketpreisS !== undefined && insulationPaketpreisS !== null && insulationPaketpreisS > 0)
+        ? insulationPaketpreisS
+        : insulationPaketpreis;
+      insulationSurchargeTotal = insulationActivePackagePrice * quantities.insulation.packages;
+    }
   }
 
-  // Baseboard: packages × package price (only if selected)
-  let baseboardTotalPrice = 0;
+  // Baseboard: ONLY surcharge if premium selected (standard is free!)
+  let baseboardSurchargeTotal = 0;
   if (selectedBaseboard && quantities.baseboard) {
-    const baseboardPaketpreis = selectedBaseboard.jaeger_meta?.paketpreis || 0;
-    const baseboardPaketpreisS = selectedBaseboard.jaeger_meta?.paketpreis_s;
-    const baseboardActivePackagePrice = (baseboardPaketpreisS !== undefined && baseboardPaketpreisS !== null && baseboardPaketpreisS > 0)
-      ? baseboardPaketpreisS
-      : baseboardPaketpreis;
-    baseboardTotalPrice = baseboardActivePackagePrice * quantities.baseboard.packages;
+    if (standardBaseboard) {
+      // Standard exists: calculate surcharge only
+      baseboardSurchargeTotal = baseboardSurcharge * quantities.baseboard.actualLfm;
+    } else {
+      // No standard exists: calculate full price
+      const baseboardPaketpreis = selectedBaseboard.jaeger_meta?.paketpreis || 0;
+      const baseboardPaketpreisS = selectedBaseboard.jaeger_meta?.paketpreis_s;
+      const baseboardActivePackagePrice = (baseboardPaketpreisS !== undefined && baseboardPaketpreisS !== null && baseboardPaketpreisS > 0)
+        ? baseboardPaketpreisS
+        : baseboardPaketpreis;
+      baseboardSurchargeTotal = baseboardActivePackagePrice * quantities.baseboard.packages;
+    }
   }
 
-  // Total display price
-  const totalDisplayPrice = floorTotalPrice + insulationTotalPrice + baseboardTotalPrice;
+  // Total display price = Floor + Surcharges only (not full prices!)
+  const totalDisplayPrice = floorTotalPrice + insulationSurchargeTotal + baseboardSurchargeTotal;
 
   // Display price per m² for UI (total / wanted m²)
   const displayPricePerM2 = totalDisplayPrice / quantities.floor.wantedM2;
 
-  // Comparison price (UVP) if available - uses regular package prices
+  // Comparison price - uses regular prices (without sale)
+  // Also only surcharges, not full prices!
   let comparisonPriceTotal: number | undefined;
   let savings: number | undefined;
   let savingsPercent: number | undefined;
@@ -312,16 +328,35 @@ export function calculateSetPrices(
   const floorRegularTotal = floorPaketpreis * quantities.floor.packages;
   comparisonPriceTotal = floorRegularTotal;
 
-  // Insulation regular price
+  // Calculate surcharges with regular prices (for comparison)
+  // Insulation surcharge with regular price
   if (selectedInsulation && quantities.insulation) {
-    const insulationRegularPaketpreis = selectedInsulation.jaeger_meta?.paketpreis || 0;
-    comparisonPriceTotal += insulationRegularPaketpreis * quantities.insulation.packages;
+    if (standardInsulation) {
+      // Standard exists: calculate surcharge only
+      const selectedRegularPricePerM2 = (selectedInsulation.jaeger_meta?.paketpreis || 0) / (selectedInsulation.jaeger_meta?.paketinhalt || 1);
+      const standardRegularPricePerM2 = (standardInsulation.jaeger_meta?.paketpreis || 0) / (standardInsulation.jaeger_meta?.paketinhalt || 1);
+      const insulationSurchargeRegular = Math.max(0, selectedRegularPricePerM2 - standardRegularPricePerM2);
+      comparisonPriceTotal += insulationSurchargeRegular * quantities.insulation.actualM2;
+    } else {
+      // No standard exists: calculate full price
+      const insulationRegularPaketpreis = selectedInsulation.jaeger_meta?.paketpreis || 0;
+      comparisonPriceTotal += insulationRegularPaketpreis * quantities.insulation.packages;
+    }
   }
 
-  // Baseboard regular price
+  // Baseboard surcharge with regular price
   if (selectedBaseboard && quantities.baseboard) {
-    const baseboardRegularPaketpreis = selectedBaseboard.jaeger_meta?.paketpreis || 0;
-    comparisonPriceTotal += baseboardRegularPaketpreis * quantities.baseboard.packages;
+    if (standardBaseboard) {
+      // Standard exists: calculate surcharge only
+      const selectedRegularPricePerLfm = (selectedBaseboard.jaeger_meta?.paketpreis || 0) / (selectedBaseboard.jaeger_meta?.paketinhalt || 1);
+      const standardRegularPricePerLfm = (standardBaseboard.jaeger_meta?.paketpreis || 0) / (standardBaseboard.jaeger_meta?.paketinhalt || 1);
+      const baseboardSurchargeRegular = Math.max(0, selectedRegularPricePerLfm - standardRegularPricePerLfm);
+      comparisonPriceTotal += baseboardSurchargeRegular * quantities.baseboard.actualLfm;
+    } else {
+      // No standard exists: calculate full price
+      const baseboardRegularPaketpreis = selectedBaseboard.jaeger_meta?.paketpreis || 0;
+      comparisonPriceTotal += baseboardRegularPaketpreis * quantities.baseboard.packages;
+    }
   }
 
   // Calculate savings
