@@ -49,8 +49,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: mainItem.product.name,
           image: mainItem.product.images?.[0]?.src || '',
           quantity: mainItem.quantity,
-          unit: 'Pak.',
-          unitValue: 2.22, // TODO: Get from product meta
+          unit: mainItem.product.jaeger_meta?.einheit_short || 'm²',
+          unitValue: mainItem.product.jaeger_meta?.paketinhalt || 1,
           pricePerUnit: mainItem.product.prices
             ? parseFloat(mainItem.product.prices.price) / 100
             : 0,
@@ -76,8 +76,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               name: bundleItem.product.name,
               image: bundleItem.product.images?.[0]?.src || '',
               quantity: bundleItem.quantity,
-              unit: bundleItem.setItemType === 'insulation' ? 'Rol.' : 'Stk.',
-              unitValue: bundleItem.setItemType === 'insulation' ? 3.0 : 2.4,
+              unit: bundleItem.product.jaeger_meta?.einheit_short || (bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'),
+              unitValue: bundleItem.product.jaeger_meta?.paketinhalt || 1,
               pricePerUnit: bundleItem.product.prices
                 ? parseFloat(bundleItem.product.prices.price) / 100
                 : 0,
@@ -113,8 +113,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: item.product.name,
           image: item.product.images?.[0]?.src || '',
           quantity: item.quantity,
-          unit: 'Pak.', // TODO: Determine from product meta
-          unitValue: 2.22,
+          unit: item.product.jaeger_meta?.einheit_short || 'm²',
+          unitValue: item.product.jaeger_meta?.paketinhalt || 1,
           pricePerUnit: item.product.prices
             ? parseFloat(item.product.prices.price) / 100
             : 0,

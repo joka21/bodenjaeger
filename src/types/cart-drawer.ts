@@ -1,6 +1,6 @@
 // Cart Drawer Types for Mini-Warenkorb with Set-Angebote support
 
-export type ProductUnit = 'Pak.' | 'Rol.' | 'Stk.' | 'm²' | 'm';
+export type ProductUnit = 'Pak.' | 'Rol.' | 'Stk.' | 'm²' | 'm' | 'lfm';
 
 export interface CartItemBase {
   id: string;

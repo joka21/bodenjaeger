@@ -106,6 +106,8 @@ export function getUnitDisplayText(unit: string, unitValue: number): string {
       return `Stk. = ${formatUnitValue(unitValue)} m`;
     case 'm²':
       return `${formatUnitValue(unitValue)} m²`;
+    case 'lfm':
+      return `${formatUnitValue(unitValue)} lfm`;
     case 'm':
       return `${formatUnitValue(unitValue)} m`;
     default:
