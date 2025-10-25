@@ -123,23 +123,26 @@ export default function ProductPageContent({
               onProductSelection={handleProductSelection}
             />
 
-            {/* Quantity Selector */}
-            <QuantitySelector
-              paketinhalt={paketinhalt}
-              einheit={einheit}
-              onQuantityChange={handleQuantityChange}
-            />
+            {/* Quantity + Price Container with Gray Background */}
+            <div className="bg-[#e5e5e5] rounded-md p-4">
+              {/* Quantity Selector */}
+              <QuantitySelector
+                paketinhalt={paketinhalt}
+                einheit={einheit}
+                onQuantityChange={handleQuantityChange}
+              />
 
-            {/* Total Price with integrated buttons */}
-            <TotalPrice
-              quantities={quantities}
-              prices={prices}
-              einheit={einheit}
-              product={product}
-              selectedDaemmung={selectedDaemmung}
-              selectedSockelleiste={selectedSockelleiste}
-              lieferzeit={product.jaeger_meta?.lieferzeit || '3-7 Arbeitstage'}
-            />
+              {/* Total Price with integrated buttons */}
+              <TotalPrice
+                quantities={quantities}
+                prices={prices}
+                einheit={einheit}
+                product={product}
+                selectedDaemmung={selectedDaemmung}
+                selectedSockelleiste={selectedSockelleiste}
+                lieferzeit={product.jaeger_meta?.lieferzeit || '3-7 Arbeitstage'}
+              />
+            </div>
           </div>
         </div>
 

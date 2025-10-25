@@ -65,7 +65,7 @@ export default function TotalPrice({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-[#e0e0e0] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 md:p-6">
+    <div className="p-0">
       {/* 1. GESAMTSUMMEN-HEADER */}
       <div className="flex items-center justify-between mb-4">
         <span className="text-[#2e2d32] text-4xl font-bold">
