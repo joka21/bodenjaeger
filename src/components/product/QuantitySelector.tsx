@@ -167,7 +167,7 @@ export default function QuantitySelector({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Paket Counter */}
         <div>
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center justify-center gap-2 mb-2">
             <svg
               className="w-4 h-4 text-gray-500"
               fill="currentColor"
@@ -185,12 +185,12 @@ export default function QuantitySelector({
           </div>
 
           {/* Counter Container with Dividers */}
-          <div className="bg-gray-100 rounded-xl shadow-sm overflow-hidden flex items-stretch h-12">
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden flex items-stretch h-12 border border-gray-200">
             {/* Minus Button */}
             <button
               type="button"
               onClick={decrementPackages}
-              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
               disabled={packages <= 1}
             >
               −
@@ -206,7 +206,7 @@ export default function QuantitySelector({
               onChange={handlePackagesInputChange}
               onBlur={handlePackagesBlur}
               min="1"
-              className="flex-1 text-center bg-transparent border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="flex-1 text-center bg-white border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               style={{ MozAppearance: 'textfield' }}
             />
 
@@ -217,7 +217,7 @@ export default function QuantitySelector({
             <button
               type="button"
               onClick={incrementPackages}
-              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl"
+              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl"
             >
               +
             </button>
@@ -226,17 +226,17 @@ export default function QuantitySelector({
 
         {/* Quadratmeter Counter */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
             Quadratmeter
           </label>
 
           {/* Counter Container with Dividers */}
-          <div className="bg-gray-100 rounded-xl shadow-sm overflow-hidden flex items-stretch h-12">
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden flex items-stretch h-12 border border-gray-200">
             {/* Minus Button */}
             <button
               type="button"
               onClick={decrementSqm}
-              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
               disabled={sqm <= paketinhalt}
             >
               −
@@ -253,7 +253,7 @@ export default function QuantitySelector({
               onBlur={handleSqmBlur}
               min={paketinhalt}
               step="0.01"
-              className="flex-1 text-center bg-transparent border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="flex-1 text-center bg-white border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               style={{ MozAppearance: 'textfield' }}
             />
 
@@ -264,7 +264,7 @@ export default function QuantitySelector({
             <button
               type="button"
               onClick={incrementSqm}
-              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl"
+              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl"
             >
               +
             </button>
