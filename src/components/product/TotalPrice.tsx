@@ -78,12 +78,9 @@ export default function TotalPrice({
         </div>
       </div>
 
-      {/* 2. ERSPARNIS-BOX (Grün) */}
+      {/* 2. ERSPARNIS-BOX (Kein Hintergrund) */}
       {hasSavings && savings && savingsPercent && (
-        <div
-          className="rounded-lg px-4 py-3 my-4"
-          style={{ backgroundColor: '#d4edda' }}
-        >
+        <div className="py-2 my-4">
           <div
             className="font-semibold text-sm md:text-base"
             style={{ color: '#155724' }}
@@ -149,7 +146,7 @@ export default function TotalPrice({
       )}
 
       {/* 4. CTA BUTTONS */}
-      <div className="flex flex-col gap-3 mt-5 mb-4">
+      <div className="grid grid-cols-2 gap-3 mt-5 mb-4">
         {/* Sekundär-Button: Individuelles Angebot */}
         <button
           type="button"
