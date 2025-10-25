@@ -146,61 +146,106 @@ export default function QuantitySelector({
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg p-6 mb-6">
-      {/* Info Badge */}
-      <div className="flex items-center mb-4">
-        <span className="text-gray-600 mr-2">ℹ️</span>
-        <span className="text-sm text-gray-600">
-          1 Paket = {paketinhalt} {einheit}
-        </span>
+    <div className="mb-6">
+      {/* Info Badge - Moved below labels */}
+      <div className="flex items-center mb-4 text-sm text-gray-500">
+        <svg
+          className="w-4 h-4 mr-2"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+        >
+          <path
+            fillRule="evenodd"
+            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <span>1 Paket = {paketinhalt} {einheit}</span>
       </div>
 
-      {/* Input Fields */}
-      <div className="grid grid-cols-2 gap-6">
-        {/* Paket-Input mit +/- Buttons */}
+      {/* Counters Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Paket Counter */}
         <div>
-          <label className="block text-sm font-medium mb-2">
-            Paket(e)
-          </label>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-2">
+            <svg
+              className="w-4 h-4 text-gray-500"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <label className="text-sm font-medium text-gray-700">
+              Paket(e)
+            </label>
+          </div>
+
+          {/* Counter Container with Dividers */}
+          <div className="bg-gray-100 rounded-xl shadow-sm overflow-hidden flex items-stretch h-12">
+            {/* Minus Button */}
             <button
               type="button"
               onClick={decrementPackages}
-              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={packages <= 1}
             >
               −
             </button>
+
+            {/* Divider */}
+            <div className="w-px bg-gray-300"></div>
+
+            {/* Value Display/Input */}
             <input
               type="number"
               value={packagesInputValue}
               onChange={handlePackagesInputChange}
               onBlur={handlePackagesBlur}
               min="1"
-              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white focus:border-red-600 focus:outline-none"
+              className="flex-1 text-center bg-transparent border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              style={{ MozAppearance: 'textfield' }}
             />
+
+            {/* Divider */}
+            <div className="w-px bg-gray-300"></div>
+
+            {/* Plus Button */}
             <button
               type="button"
               onClick={incrementPackages}
-              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl"
             >
               +
             </button>
           </div>
         </div>
 
-        {/* Quadratmeter mit +/- Buttons */}
+        {/* Quadratmeter Counter */}
         <div>
-          <label className="block text-sm font-medium mb-2">
-            {einheit}
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Quadratmeter
           </label>
-          <div className="flex items-center gap-2">
+
+          {/* Counter Container with Dividers */}
+          <div className="bg-gray-100 rounded-xl shadow-sm overflow-hidden flex items-stretch h-12">
+            {/* Minus Button */}
             <button
               type="button"
               onClick={decrementSqm}
-              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
+              disabled={sqm <= paketinhalt}
             >
               −
             </button>
+
+            {/* Divider */}
+            <div className="w-px bg-gray-300"></div>
+
+            {/* Value Display/Input */}
             <input
               type="number"
               value={sqmInputValue}
@@ -208,12 +253,18 @@ export default function QuantitySelector({
               onBlur={handleSqmBlur}
               min={paketinhalt}
               step="0.01"
-              className="flex-1 h-10 text-center rounded border border-gray-300 bg-white focus:border-red-600 focus:outline-none"
+              className="flex-1 text-center bg-transparent border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              style={{ MozAppearance: 'textfield' }}
             />
+
+            {/* Divider */}
+            <div className="w-px bg-gray-300"></div>
+
+            {/* Plus Button */}
             <button
               type="button"
               onClick={incrementSqm}
-              className="w-10 h-10 rounded border border-gray-300 hover:bg-gray-200 font-bold text-xl"
+              className="flex-1 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 font-bold text-xl"
             >
               +
             </button>
