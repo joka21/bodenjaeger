@@ -151,7 +151,7 @@ export default function TotalPrice({
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#333333] font-semibold text-base md:text-lg py-4 px-6 rounded-lg transition-colors"
+          className="w-full bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#333333] font-semibold text-sm py-4 px-3 rounded-lg transition-colors"
         >
           Individuelles Angebot anfragen
         </button>
@@ -161,11 +161,11 @@ export default function TotalPrice({
           type="button"
           onClick={handleAddToCart}
           disabled={!product.is_in_stock || addedToCart}
-          className={`w-full font-semibold text-base md:text-lg py-4 px-6 rounded-lg transition-all ${
+          className={`w-full font-semibold text-sm py-4 px-3 rounded-lg transition-all ${
             product.is_in_stock
               ? addedToCart
                 ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
-                : 'bg-[#ed1b24] hover:bg-[#d01820] active:scale-[0.98] text-white'
+                : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
               : 'bg-[#e5e5e5] cursor-not-allowed text-[#999999]'
           }`}
         >
@@ -178,10 +178,14 @@ export default function TotalPrice({
                 Set hinzugefügt!
               </span>
             ) : (
-              <div className="flex flex-col items-center leading-tight">
-                <span>Komplett-Set in den Warenkorb</span>
-                <span className="text-sm opacity-90 mt-1">({totalPackages} Pakete)</span>
-              </div>
+              <span className="flex items-center justify-center gap-2">
+                <img
+                  src="/images/Icons/Warenkorb weiß.png"
+                  alt=""
+                  className="w-5 h-5"
+                />
+                In den Warenkorb ({totalPackages} Pakete)
+              </span>
             )
           ) : (
             'Nicht verfügbar'
