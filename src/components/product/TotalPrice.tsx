@@ -149,12 +149,12 @@ export default function TotalPrice({
       )}
 
       {/* 4. CTA BUTTONS */}
-      <div className="space-y-3 mt-5 mb-4">
+      <div className="flex flex-col gap-3 mt-5 mb-4">
         {/* Sekundär-Button: Individuelles Angebot */}
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#333333] font-semibold text-[15px] md:text-base py-[14px] px-5 rounded-lg transition-colors"
+          className="w-full bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#333333] font-semibold text-base md:text-lg py-4 px-6 rounded-lg transition-colors"
         >
           Individuelles Angebot anfragen
         </button>
@@ -164,7 +164,7 @@ export default function TotalPrice({
           type="button"
           onClick={handleAddToCart}
           disabled={!product.is_in_stock || addedToCart}
-          className={`w-full font-semibold text-[15px] md:text-base py-[14px] px-5 rounded-lg transition-all ${
+          className={`w-full font-semibold text-base md:text-lg py-4 px-6 rounded-lg transition-all ${
             product.is_in_stock
               ? addedToCart
                 ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
@@ -183,7 +183,7 @@ export default function TotalPrice({
             ) : (
               <div className="flex flex-col items-center leading-tight">
                 <span>Komplett-Set in den Warenkorb</span>
-                <span className="text-[13px] opacity-90 mt-1">({totalPackages} Pakete)</span>
+                <span className="text-sm opacity-90 mt-1">({totalPackages} Pakete)</span>
               </div>
             )
           ) : (
