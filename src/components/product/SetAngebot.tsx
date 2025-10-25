@@ -141,7 +141,7 @@ export default function SetAngebot({
           </div>
           {/* Unsichtbarer Platzhalter für Button-Höhe */}
           <div className="h-[36px]"></div>
-          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[250px] flex flex-col">
+          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex flex-col">
             <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
               <Image
                 src={productImage}
@@ -181,7 +181,7 @@ export default function SetAngebot({
               Andere Dämmung wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[250px] flex flex-col">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex flex-col">
               <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
@@ -233,7 +233,7 @@ export default function SetAngebot({
               Andere Sockelleiste wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[250px] flex flex-col">
+            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex flex-col">
               <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
