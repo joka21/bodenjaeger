@@ -80,8 +80,14 @@ export default function TotalPrice({
 
       {/* 2. ERSPARNIS-BOX (Grün) */}
       {hasSavings && savings && savingsPercent && (
-        <div className="bg-[#d4edda] rounded-lg px-4 py-3 my-4">
-          <div className="text-[#155724] font-semibold text-sm md:text-base">
+        <div
+          className="rounded-lg px-4 py-3 my-4"
+          style={{ backgroundColor: '#d4edda' }}
+        >
+          <div
+            className="font-semibold text-sm md:text-base"
+            style={{ color: '#155724' }}
+          >
             Du sparst {savings.toFixed(2).replace('.', ',')}€ ({savingsPercent.toFixed(0)}%)
           </div>
         </div>
