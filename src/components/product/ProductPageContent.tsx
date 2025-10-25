@@ -7,7 +7,6 @@ import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
 import TotalPrice from './TotalPrice';
-import AddToCartButton from '@/app/products/[slug]/AddToCartButton';
 
 interface ProductPageContentProps {
   product: StoreApiProduct;
@@ -131,33 +130,16 @@ export default function ProductPageContent({
               onQuantityChange={handleQuantityChange}
             />
 
-            {/* Total Price */}
+            {/* Total Price with integrated buttons */}
             <TotalPrice
               quantities={quantities}
               prices={prices}
               einheit={einheit}
+              product={product}
+              selectedDaemmung={selectedDaemmung}
+              selectedSockelleiste={selectedSockelleiste}
+              lieferzeit={product.jaeger_meta?.lieferzeit || '3-7 Arbeitstage'}
             />
-
-            {/* Action Buttons */}
-            <div className="space-y-3">
-              <button className="w-full px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
-                Individuelles Angebot anfragen
-              </button>
-
-              <AddToCartButton
-                product={product}
-                quantities={quantities}
-                selectedDaemmung={selectedDaemmung}
-                selectedSockelleiste={selectedSockelleiste}
-              />
-            </div>
-
-            {/* Lieferzeit */}
-            {product.jaeger_meta?.show_lieferzeit && product.jaeger_meta?.lieferzeit && (
-              <div className="text-sm text-gray-600 text-center">
-                🚚 {product.jaeger_meta.lieferzeit}
-              </div>
-            )}
           </div>
         </div>
 
