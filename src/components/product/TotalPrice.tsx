@@ -67,8 +67,8 @@ export default function TotalPrice({
   return (
     <div className="bg-white rounded-xl border border-[#e0e0e0] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 md:p-6">
       {/* 1. GESAMTSUMMEN-HEADER */}
-      <div className="flex items-start justify-between mb-4">
-        <span className="text-[#666666] text-[17px] md:text-[19px] font-bold">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-[#2e2d32] text-5xl font-bold">
           Gesamtsumme (inkl. MwSt.)
         </span>
         <div className="text-right">
