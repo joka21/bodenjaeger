@@ -68,15 +68,10 @@ export default function TotalPrice({
     <div className="bg-white rounded-xl border border-[#e0e0e0] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 md:p-6">
       {/* 1. GESAMTSUMMEN-HEADER */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[#2e2d32] text-5xl font-bold">
-          Gesamtsumme (inkl. MwSt.)
+        <span className="text-[#2e2d32] text-4xl font-bold">
+          Gesamtsumme
         </span>
         <div className="text-right">
-          {hasSavings && comparisonPriceTotal && (
-            <div className="text-[#999999] line-through text-sm md:text-base font-normal mb-1">
-              {comparisonPriceTotal.toFixed(2).replace('.', ',')}€
-            </div>
-          )}
           <div className="text-[#000000] font-bold text-[28px] md:text-[32px] leading-tight">
             {totalDisplayPrice.toFixed(2).replace('.', ',')}€
           </div>
