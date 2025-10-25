@@ -65,19 +65,19 @@ export default function TotalPrice({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 md:p-6">
+    <div className="bg-white rounded-xl border border-[#e0e0e0] shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-5 md:p-6">
       {/* 1. GESAMTSUMMEN-HEADER */}
-      <div className="flex items-start justify-between mb-4 pb-4">
-        <span className="text-gray-600 text-sm md:text-base font-normal">
+      <div className="flex items-start justify-between mb-4">
+        <span className="text-[#666666] text-sm md:text-base font-normal">
           Gesamtsumme (inkl. MwSt.)
         </span>
         <div className="text-right">
           {hasSavings && comparisonPriceTotal && (
-            <div className="text-gray-400 line-through text-sm md:text-base font-normal mb-1">
+            <div className="text-[#999999] line-through text-sm md:text-base font-normal mb-1">
               {comparisonPriceTotal.toFixed(2).replace('.', ',')}€
             </div>
           )}
-          <div className="text-black font-bold text-2xl md:text-3xl">
+          <div className="text-[#000000] font-bold text-[28px] md:text-[32px] leading-tight">
             {totalDisplayPrice.toFixed(2).replace('.', ',')}€
           </div>
         </div>
@@ -85,37 +85,37 @@ export default function TotalPrice({
 
       {/* 2. ERSPARNIS-BOX (Grün) */}
       {hasSavings && savings && savingsPercent && (
-        <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-4">
-          <div className="text-green-700 font-semibold text-sm md:text-base">
+        <div className="bg-[#d4edda] rounded-lg px-4 py-3 my-4">
+          <div className="text-[#155724] font-semibold text-sm md:text-base">
             Du sparst {savings.toFixed(2).replace('.', ',')}€ ({savingsPercent.toFixed(0)}%)
           </div>
         </div>
       )}
 
       {/* 3. SET-INHALT LISTE */}
-      <div className="mb-5 pb-4 border-b border-gray-100">
-        <div className="text-gray-800 font-semibold text-sm md:text-base mb-3">
+      <div className="my-5">
+        <div className="text-[#333333] font-semibold text-sm md:text-base mb-3">
           Dein Set umfasst:
         </div>
 
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2">
           {/* Floor */}
-          <div className="flex justify-between items-center">
-            <span className="text-gray-700">
+          <div className="flex justify-between items-center text-sm">
+            <span className="text-[#333333]">
               Boden: {quantities.floor.packages} Paket(e)
             </span>
-            <span className="text-gray-500">
+            <span className="text-[#666666]">
               = {quantities.floor.actualM2.toFixed(2).replace('.', ',')} {einheit}
             </span>
           </div>
 
           {/* Insulation */}
           {quantities.insulation && (
-            <div className="flex justify-between items-center">
-              <span className="text-gray-700">
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-[#333333]">
                 Dämmung: {quantities.insulation.packages} Paket(e)
               </span>
-              <span className="text-gray-500">
+              <span className="text-[#666666]">
                 = {quantities.insulation.actualM2.toFixed(2).replace('.', ',')} {einheit}
               </span>
             </div>
@@ -123,11 +123,11 @@ export default function TotalPrice({
 
           {/* Baseboard */}
           {quantities.baseboard && (
-            <div className="flex justify-between items-center">
-              <span className="text-gray-700">
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-[#333333]">
                 Sockelleisten: {quantities.baseboard.packages} Paket(e)
               </span>
-              <span className="text-gray-500">
+              <span className="text-[#666666]">
                 = {quantities.baseboard.actualLfm.toFixed(2).replace('.', ',')} lfm
               </span>
             </div>
@@ -137,7 +137,7 @@ export default function TotalPrice({
 
       {/* Success Message */}
       {addedToCart && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-4 flex items-center">
+        <div className="bg-[#d4edda] border border-[#c3e6cb] text-[#155724] px-4 py-3 rounded-lg mb-4 flex items-center">
           <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
@@ -148,12 +148,12 @@ export default function TotalPrice({
       )}
 
       {/* 4. CTA BUTTONS */}
-      <div className="space-y-3 mb-4">
+      <div className="space-y-3 mt-5 mb-4">
         {/* Sekundär-Button: Individuelles Angebot */}
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold text-sm md:text-base py-3.5 px-5 rounded-lg transition-colors border border-gray-300"
+          className="w-full bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#333333] font-semibold text-[15px] md:text-base py-[14px] px-5 rounded-lg transition-colors"
         >
           Individuelles Angebot anfragen
         </button>
@@ -163,12 +163,12 @@ export default function TotalPrice({
           type="button"
           onClick={handleAddToCart}
           disabled={!product.is_in_stock || addedToCart}
-          className={`w-full font-semibold text-sm md:text-base py-3.5 px-5 rounded-lg transition-all ${
+          className={`w-full font-semibold text-[15px] md:text-base py-[14px] px-5 rounded-lg transition-all ${
             product.is_in_stock
               ? addedToCart
-                ? 'bg-green-600 hover:bg-green-700 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white'
-              : 'bg-gray-400 cursor-not-allowed text-white'
+                ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
+                : 'bg-[#ed1b24] hover:bg-[#d01820] active:scale-[0.98] text-white'
+              : 'bg-[#e5e5e5] cursor-not-allowed text-[#999999]'
           }`}
         >
           {product.is_in_stock ? (
@@ -180,9 +180,9 @@ export default function TotalPrice({
                 Set hinzugefügt!
               </span>
             ) : (
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center leading-tight">
                 <span>Komplett-Set in den Warenkorb</span>
-                <span className="text-xs opacity-90 mt-0.5">({totalPackages} Pakete)</span>
+                <span className="text-[13px] opacity-90 mt-1">({totalPackages} Pakete)</span>
               </div>
             )
           ) : (
@@ -192,7 +192,7 @@ export default function TotalPrice({
       </div>
 
       {/* 5. LIEFERHINWEIS */}
-      <div className="text-center text-gray-500 text-xs md:text-sm pt-3 border-t border-gray-100">
+      <div className="text-center text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-[#e5e5e5]">
         <div className="flex items-center justify-center gap-2">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
