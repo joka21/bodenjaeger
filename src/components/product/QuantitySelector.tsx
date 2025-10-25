@@ -147,38 +147,25 @@ export default function QuantitySelector({
 
   return (
     <div className="mb-6">
-      {/* Info Badge - Moved below labels */}
-      <div className="flex items-center mb-4 text-sm text-gray-500">
-        <svg
-          className="w-4 h-4 mr-2"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-            clipRule="evenodd"
-          />
-        </svg>
-        <span>1 Paket = {paketinhalt} {einheit}</span>
-      </div>
 
       {/* Counters Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Paket Counter */}
         <div>
           <div className="flex items-center justify-center gap-2 mb-2">
-            <svg
-              className="w-4 h-4 text-gray-500"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <div className="w-5 h-5 rounded-full bg-white border border-gray-300 flex items-center justify-center">
+              <svg
+                className="w-3 h-3 text-black"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
             <label className="text-sm font-medium text-gray-700">
               Paket(e)
             </label>
