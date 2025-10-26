@@ -81,13 +81,29 @@ export default function ProductPageContent({
           <div className="space-y-6">
             <ImageGallery product={product} />
 
-            {/* Action Buttons - Placeholder for now */}
+            {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-4">
-              <button className="px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:border-gray-400 transition-colors flex items-center justify-center gap-2">
-                📦 Kostenloses Muster bestellen
+              <button
+                className="px-4 py-3 rounded-lg text-white font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                style={{ backgroundColor: 'var(--color-bg-darkest)' }}
+              >
+                <img
+                  src="/images/Icons/Musterbox weiß.png"
+                  alt="Musterbox"
+                  className="w-5 h-5 object-contain"
+                />
+                Kostenloses Muster bestellen
               </button>
-              <button className="px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-700 font-medium hover:border-gray-400 transition-colors flex items-center justify-center gap-2">
-                🏠 Virtuell im Bodenplaner ansehen
+              <button
+                className="px-4 py-3 rounded-lg text-white font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                style={{ backgroundColor: 'var(--color-bg-darkest)' }}
+              >
+                <img
+                  src="/images/Icons/3D Bodenplaner weiß.png"
+                  alt="3D Bodenplaner"
+                  className="w-5 h-5 object-contain"
+                />
+                Virtuell im Bodenplaner ansehen
               </button>
             </div>
 

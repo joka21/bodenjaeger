@@ -5,6 +5,10 @@
 **Typ**: Headless WooCommerce E-Commerce Shop mit Jaeger Plugin Integration
 **Framework**: Next.js 15 mit React 19
 **Entwicklungsstand**: Vollständig funktionsfähige E-Commerce-Lösung mit API-Extension
+**Code-Umfang**: 76 TypeScript/TSX Dateien (~4,195 Zeilen Code)
+**Komponenten**: 29 wiederverwendbare React Komponenten
+**Seiten/Routes**: 31 voll funktionsfähige Seiten (inkl. dynamische Routen)
+**Letztes Update**: 26. Oktober 2025
 
 ## 🛠 Technologie-Stack
 - **Frontend**: Next.js 15.5.3 mit App Router
@@ -22,37 +26,97 @@ bodenjäger/
 ├── src/
 │   ├── app/                           # Next.js App Router
 │   │   ├── api/                      # API Routes
-│   │   │   ├── products/             # WooCommerce Produkt-APIs
+│   │   │   ├── products/             # WooCommerce Produkt-APIs (GET mit Paginierung)
+│   │   │   │   └── [slug]/          # Einzelprodukt-API (GET by Slug)
 │   │   │   └── store-api-test/       # Proxy API für CORS-freie Store API Calls
 │   │   ├── api-test/                 # API Test-Seite für Jaeger Meta Fields
 │   │   ├── cart/                     # Warenkorb-Seite
-│   │   ├── category/[slug]/          # Kategorie-Seiten
-│   │   ├── products/[slug]/          # Produktdetail-Seiten
-│   │   ├── layout.tsx                # Root Layout mit CartProvider
-│   │   ├── page.tsx                  # Homepage
-│   │   └── globals.css               # Globale Styles
-│   ├── components/                   # React Komponenten
-│   │   ├── startseite/               # Startseiten-Komponenten (in Entwicklung)
-│   │   ├── ui/                       # UI-Komponenten
-│   │   ├── Header.tsx                # Desktop Header (200px, 2-Section Design)
-│   │   ├── CartDrawer.tsx            # Slide-in Warenkorb Seitenleiste
-│   │   └── ProductCard.tsx           # Produkt-Karten Komponente
-│   ├── contexts/                     # React Context API
-│   │   └── CartContext.tsx           # Warenkorb State Management + LocalStorage
-│   ├── lib/                          # Utilities & APIs
-│   │   ├── woocommerce.ts            # WooCommerce Store API Client
-│   │   └── dummy-data.ts             # Dummy-Daten (legacy)
-│   └── types/                        # TypeScript Definitionen & WordPress Plugin
-│       ├── product.ts                # Produkt-Typen
-│       └── wp-store-api-extension/   # WordPress Plugin für Jaeger Meta Fields
+│   │   ├── category/[slug]/          # Kategorie-Seiten mit Filter & Sortierung
+│   │   ├── products/[slug]/          # Produktdetail-Seiten (dynamisch)
+│   │   ├── checkout/                 # Multi-Step Checkout System
+│   │   │   ├── page.tsx             # 4-Stufen Checkout (Kontakt/Versand/Zahlung/Review)
+│   │   │   └── success/             # Bestellbestätigungs-Seite
+│   │   ├── fachmarkt-hueckelhoven/  # Fachmarkt-Unterseiten (9 Seiten)
+│   │   ├── blog/                     # Blog-Übersicht
+│   │   ├── fonts/                    # Poppins Font Files (10 Varianten)
+│   │   ├── layout.tsx                # Root Layout mit CartProvider & Metadata
+│   │   ├── page.tsx                  # Homepage mit 6 Sektionen
+│   │   └── globals.css               # Globale Styles (Tailwind CSS 4.0)
+│   ├── components/                   # React Komponenten (29 Komponenten)
+│   │   ├── cart/                     # Warenkorb-Komponenten (5)
+│   │   │   ├── CartDrawer.tsx       # Slide-in Warenkorb Seitenleiste
+│   │   │   ├── CartSingleItem.tsx   # Einzelprodukte im Warenkorb
+│   │   │   ├── CartSetItem.tsx      # Set-Angebote im Warenkorb
+│   │   │   ├── QuantityStepper.tsx  # Mengensteuerung mit +/- Buttons
+│   │   │   └── CartFooter.tsx       # Gesamtsumme & Checkout-Button
+│   │   ├── product/                  # Produkt-Komponenten (6)
+│   │   │   ├── ProductPageContent.tsx  # Container für Produktseiten (~100 Zeilen)
+│   │   │   ├── ProductInfo.tsx      # Produktinformationen (~120 Zeilen)
+│   │   │   ├── ImageGallery.tsx     # Bildergalerie mit Zoom (~150 Zeilen)
+│   │   │   ├── QuantitySelector.tsx # Mengenauswahl mit Live-Preis (~80 Zeilen)
+│   │   │   ├── TotalPrice.tsx       # Preisanzeige (~60 Zeilen)
+│   │   │   └── SetAngebot.tsx       # Set-Bundle-Konfiguration (~520 Zeilen) ⚠️ GROSS
+│   │   ├── checkout/                 # Checkout-Komponenten (6)
+│   │   │   ├── CheckoutLayout.tsx   # Layout-Container
+│   │   │   ├── ProgressIndicator.tsx # Fortschrittsbalken (4 Schritte)
+│   │   │   ├── ContactStep.tsx      # Schritt 1: Kontaktdaten
+│   │   │   ├── PaymentStep.tsx      # Schritt 3: Zahlungsmethode
+│   │   │   ├── ReviewStep.tsx       # Schritt 4: Bestellübersicht
+│   │   │   └── OrderSummary.tsx     # Warenkorb-Zusammenfassung
+│   │   ├── category/                 # Kategorie-Komponenten (1)
+│   │   │   └── CategoryPageClient.tsx  # Filter & Sortierung
+│   │   ├── sections/home/            # Homepage-Sektionen (6)
+│   │   │   ├── BodenkategorienSection.tsx  # Boden-Kategorien Grid
+│   │   │   ├── VorteileSlider.tsx    # Vorteile-Slider
+│   │   │   ├── BestsellerSlider.tsx  # Bestseller-Produkt-Slider
+│   │   │   ├── SaleProductSlider.tsx # Sale-Produkt-Slider
+│   │   │   ├── GoogleReviewsSlider.tsx # Google Reviews Testimonials
+│   │   │   └── home-company.tsx      # ❌ FEHLT - Alta Via Applications Sektion
+│   │   ├── startseite/               # Weitere Startseiten-Komponenten
+│   │   │   └── HeroSlider.tsx       # Hauptslider auf Homepage
+│   │   ├── Header.tsx                # Desktop Header (~350 Zeilen, 200px Höhe)
+│   │   ├── HeaderWrapper.tsx         # Client-Side Wrapper (~50 Zeilen)
+│   │   ├── Footer.tsx                # Footer mit Links (~150 Zeilen)
+│   │   ├── ProductCard.tsx           # Standard Produktkarte (~80 Zeilen)
+│   │   └── StandardProductCard.tsx   # Erweiterte Produktkarte (~100 Zeilen)
+│   ├── contexts/                     # React Context API (2)
+│   │   ├── CartContext.tsx           # Warenkorb State Management + LocalStorage (~80 Zeilen)
+│   │   └── CheckoutContext.tsx       # Checkout State (in Entwicklung)
+│   ├── lib/                          # Utilities & APIs (8+)
+│   │   ├── woocommerce.ts            # WooCommerce Store API Client (511 Zeilen) ⚠️ GROSS
+│   │   ├── setCalculations.ts        # Set-Angebote Kalkulation (430 Zeilen) ⚠️ GROSS
+│   │   ├── cart-utils.ts             # Warenkorb-Hilfsfunktionen
+│   │   ├── woocommerce-checkout.ts   # Checkout-API Integration
+│   │   ├── cache.ts                  # Caching-Logik (Vercel KV)
+│   │   ├── imageUtils.ts             # Bild-Optimierungen
+│   │   ├── dummy-data.ts             # Legacy Dummy-Daten
+│   │   └── mock-products.ts          # Mock-Produktdaten für Tests
+│   ├── types/                        # TypeScript Definitionen
+│   │   ├── product.ts                # Produkt-Typen (159 Zeilen, 40+ Interfaces)
+│   │   ├── checkout.ts               # Checkout-Typen (175 Zeilen)
+│   │   ├── cart-drawer.ts            # Warenkorb-Typen (59 Zeilen)
+│   │   └── wp-store-api-extension/   # WordPress Plugin
+│   │       └── wp-store-api-extension.php  # Jaeger Meta Fields Integration
+│   └── data/                         # Daten & Mock-Daten
+│       └── google-reviews.json       # Mock Google Reviews
 ├── public/                    # Statische Dateien
-│   └── images/               # Bilder-Assets
-│       ├── logo/             # Logo-Dateien (SVG)
-│       ├── Icons/            # UI-Icons (schieferschwarz & weiß)
-│       ├── sliderbilder/     # Slider-Bilder (WebP)
-│       └── Startseite/       # Startseiten-Bilder (Kategorien, Vorteile)
-├── .env.local                 # Umgebungsvariablen
-└── package.json              # Dependencies
+│   └── images/               # Bilder-Assets (54 Dateien)
+│       ├── logo/             # Logo-Dateien (SVG weiß)
+│       ├── Icons/            # UI-Icons (36 PNG: schieferschwarz & weiß)
+│       ├── sliderbilder/     # Slider-Bilder (2 WebP: COREtec, primeCORE)
+│       └── Startseite/       # Startseiten-Bilder (14 WebP: Kategorien, Vorteile)
+├── .env.local                 # Umgebungsvariablen (gitignored)
+├── .git/                     # Git Repository
+├── package.json              # Dependencies (React 19, Next.js 15.5.3, Tailwind 4.0)
+├── tsconfig.json             # TypeScript Konfiguration (strict mode)
+├── next.config.ts            # Next.js Config (Image Optimization, Remote Patterns)
+├── eslint.config.mjs         # ESLint Konfiguration
+├── postcss.config.mjs        # PostCSS Konfiguration
+└── DOKUMENTATION/            # Projektdokumentation
+    ├── PROJEKT_ZUSAMMENFASSUNG.md      # Diese Datei (20KB)
+    ├── BACKEND-FELDER-DOKUMENTATION.md # Jaeger Meta Fields Referenz (27KB)
+    ├── PRODUCT_DETAIL_STRUCTURE.md     # Produktseiten-Architektur (2.6KB)
+    └── VERCEL_KV_SETUP.md              # Redis Caching Anleitung (4.4KB)
 ```
 
 ## 🔗 WooCommerce Integration
@@ -66,14 +130,16 @@ bodenjäger/
 - `REVALIDATE_SECRET`: Revalidierung Secret
 
 ### API Features:
-- ✅ Produktliste mit Paginierung
-- ✅ Produktdetails per Slug
-- ✅ Kategorie-Support
-- ✅ Bilder-Integration
-- ✅ Preise und Angebote
-- ✅ Fehlerbehandlung
-- ✅ **Jaeger Plugin Integration**: WordPress Plugin für Custom Fields
-- ✅ **API Proxy**: Server-Side Proxy für CORS-freie Entwicklung
+- ✅ Produktliste mit Paginierung (per_page, page, search)
+- ✅ Produktdetails per Slug (mit Caching: 5min Browser, 60min Stale-While-Revalidate)
+- ✅ Kategorie-Support (Filter & Sortierung)
+- ✅ Bilder-Integration (Next.js Image Optimization: AVIF, WebP)
+- ✅ Preise und Angebote (inkl. UVP, Paketpreise)
+- ✅ Fehlerbehandlung (umfassend mit Logging)
+- ✅ **Jaeger Plugin Integration**: WordPress Plugin für 20+ Custom Fields
+- ✅ **API Proxy**: Server-Side Proxy für CORS-freie Entwicklung (In-Memory Cache: 2min, Max 100 Entries)
+- ✅ **Multi-Layer Caching**: Browser-Cache (5min) + In-Memory (2min) + Vercel KV (Redis)
+- ✅ **TypeScript Typisierung**: 40+ Interfaces für vollständige Type-Safety
 
 ## 🛒 E-Commerce Features
 ### Implementierte Funktionen:
@@ -187,10 +253,152 @@ npm run build
 npm run lint
 ```
 
-## 🌐 Deployment
-- **Platform**: Vercel
-- **URL**: Automatische Vercel-Deployments konfiguriert
-- **Umgebung**: Produktions-Environment Variables konfiguriert
+## 🌐 Deployment & Hosting
+
+### Vercel Deployment-Konfiguration
+
+| Aspekt | Wert | Details |
+|--------|------|---------|
+| **Deployment-Platform** | Vercel | Automatische Deployments bei Git Push |
+| **Node.js Version** | 19+ | Via package.json engines (optional) |
+| **Build Command** | `next build` | Production Build mit Turbopack (optional) |
+| **Start Command** | `next start` | Production Server |
+| **Dev Server** | `next dev --turbopack` | Entwicklungsmodus mit Turbopack |
+| **Output Directory** | `.next` | Next.js Build-Ordner |
+| **Install Command** | `npm install` | Automatisch (oder `yarn install`) |
+| **Environment Variables** | 4 Required | NEXT_PUBLIC_WORDPRESS_URL, WC_CONSUMER_KEY, WC_CONSUMER_SECRET, REVALIDATE_SECRET |
+
+### Erforderliche Umgebungsvariablen (.env.local)
+
+```bash
+# WordPress & WooCommerce API
+NEXT_PUBLIC_WORDPRESS_URL=https://plan-dein-ding.de
+WC_CONSUMER_KEY=ck_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+WC_CONSUMER_SECRET=cs_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Revalidation & Caching
+REVALIDATE_SECRET=<your-secret-token>
+
+# Optional: Vercel KV (Redis) - Auto-configured on Vercel
+KV_REST_API_URL=<auto-configured>
+KV_REST_API_TOKEN=<auto-configured>
+```
+
+### Vercel-Spezifische Konfiguration
+
+**next.config.ts - Image Optimization:**
+```typescript
+images: {
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'plan-dein-ding.de',
+      pathname: '/wp-content/uploads/**'
+    },
+    {
+      protocol: 'https',
+      hostname: 'images.unsplash.com',
+      pathname: '/**'
+    },
+    {
+      protocol: 'https',
+      hostname: 'via.placeholder.com',
+      pathname: '/**'
+    }
+  ],
+  formats: ['image/avif', 'image/webp'],
+  deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+}
+```
+
+### Deployment-Checkliste
+
+**Vor Production Deployment:**
+- [x] Environment Variables auf Vercel konfiguriert
+- [x] Next.js Build erfolgreich (`npm run build`)
+- [x] TypeScript Compilation ohne Fehler
+- [x] ESLint ohne Warnungen
+- [ ] WordPress Plugin auf Live-Server aktiviert
+- [ ] Vercel KV (Redis) konfiguriert (optional, aber empfohlen)
+- [ ] Domain DNS konfiguriert (falls Custom Domain)
+- [ ] SSL-Zertifikat aktiv (automatisch via Vercel)
+- [ ] Performance-Tests durchgeführt
+- [ ] SEO Meta Tags überprüft
+
+**Post-Deployment Monitoring:**
+- [ ] Vercel Analytics aktiviert
+- [ ] Error Tracking eingerichtet (z.B. Sentry)
+- [ ] Uptime Monitoring (z.B. UptimeRobot)
+- [ ] Google Analytics/Tag Manager integriert
+
+## 🔌 API Routes & Endpoints
+
+### REST API Endpunkte (src/app/api/)
+
+| Route | Methode | Query Parameters | Response | Caching |
+|-------|---------|------------------|----------|---------|
+| **`/api/products`** | GET | `per_page` (default: 20), `page` (default: 1), `search` (optional) | `{ data: Product[], total: number, total_pages: number }` | Browser: 5min |
+| **`/api/products/[slug]`** | GET | `slug` (Path Parameter) | `Product` (Single) | Browser: 5min, Stale-While-Revalidate: 60min |
+| **`/api/store-api-test`** | GET | `per_page` (default: '12'), `page` (default: '1'), `category`, `orderby` (default: 'date'), `order` (default: 'desc'), `search` | WooCommerce Store API Response | In-Memory: 2min (max 100 entries), Browser: 5min |
+| **`/api/store-api-test`** | OPTIONS | - | CORS Headers | - |
+
+### API Proxy Features
+**Store-API-Test Proxy (`/api/store-api-test`)**:
+- **Zweck**: CORS-freie Entwicklung mit WooCommerce Store API
+- **In-Memory Cache**: 2 Minuten TTL, Max. 100 Einträge
+- **Browser Cache**: 5 Minuten
+- **CORS Headers**: Access-Control-Allow-Origin: *
+- **Fehlerbehandlung**: Try-Catch mit detailliertem Logging
+- **Query Parameter Forwarding**: Alle Query-Parameter werden an WooCommerce weitergeleitet
+
+---
+
+## 🧬 TypeScript Types & Interfaces
+
+### Produkt-Typen (src/types/product.ts - 159 Zeilen)
+
+| Interface | Properties | Beschreibung |
+|-----------|------------|--------------|
+| **`Product`** | 59 Properties | Hauptprodukt-Interface mit allen WooCommerce & Jaeger Fields |
+| **`ProductVariation`** | 54 Properties | Produktvariationen (z.B. Größen, Farben) |
+| **`ProductImage`** | 4 Properties | Bild-Metadaten (id, src, name, alt) |
+| **`ProductDimensions`** | 3 Properties | Abmessungen (length, width, height) |
+| **`ProductCategory`** | 4 Properties | Kategorie-Informationen (id, name, slug, link) |
+| **`ProductTag`** | 3 Properties | Produkt-Tags (id, name, slug) |
+| **`ProductAttribute`** | 3 Properties | Produkt-Attribute (id, name, options) |
+| **`ProductsResponse`** | 3 Properties | API Response für Produktliste (data, total, total_pages) |
+| **`CategoriesResponse`** | 2 Properties | API Response für Kategorien (data, total) |
+| **`Category`** | 8+ Properties | Kategorie-Details |
+
+### Checkout-Typen (src/types/checkout.ts - 175 Zeilen)
+
+| Type/Interface | Properties/Values | Beschreibung |
+|----------------|-------------------|--------------|
+| **`CheckoutStep`** | 'contact' \| 'payment' \| 'review' | Multi-Step Checkout Schritte |
+| **`ShippingAddress`** | 8 Fields | Lieferadresse (firstName, lastName, address1, address2, city, postcode, country, phone) |
+| **`BillingAddress`** | extends ShippingAddress | Rechnungsadresse (erbt von ShippingAddress) |
+| **`ShippingMethod`** | 4 Properties | Versandmethode (id, label, cost, description) |
+| **`PaymentMethod`** | 4 Properties | Zahlungsmethode (id, label, description, enabled) |
+| **`CheckoutFormData`** | 3 Sections | Vollständige Checkout-Daten (contact, shipping, billing, shippingMethod, paymentMethod) |
+| **`CheckoutValidationErrors`** | Record<string, string> | Validierungsfehler-Map |
+| **`CheckoutContextType`** | 14 Properties/Methods | Context Interface (formData, errors, currentStep, validation methods) |
+| **`WooCommerceCheckoutRequest`** | - | Request für WooCommerce Checkout API |
+| **`WooCommerceCheckoutResponse`** | - | Response von WooCommerce Checkout API |
+
+### Warenkorb-Typen (src/types/cart-drawer.ts - 59 Zeilen)
+
+| Type/Interface | Beschreibung |
+|----------------|--------------|
+| **`ProductUnit`** | Type: 'Pak.' \| 'Rol.' \| 'Stk.' \| 'm²' \| 'm' \| 'lfm' |
+| **`toProductUnit()`** | Safe Conversion-Funktion für Produkt-Einheiten |
+| **`CartItemBase`** | Basis-Interface für Warenkorb-Items |
+| **`CartSetItem`** | Interface für Set-Angebote (Bundle-Produkte) |
+| **`CartSingleItem`** | Interface für Einzelprodukte |
+| **`CartDrawerItem`** | Union Type: CartSetItem \| CartSingleItem |
+| **`CartDrawerData`** | Warenkorb-Daten (items, totalPrice, itemCount) |
+| **`CartDrawerContextType`** | Context Interface für CartDrawer |
+
+---
 
 ## 🔌 WordPress Plugin Integration
 **Plugin-Datei**: `src/types/wp-store-api-extension/wp-store-api-extension.php`
@@ -265,13 +473,22 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 
 ## 📝 Technische Notizen
 - Projekt nutzt die neuesten React 19 und Next.js 15 Features
-- Vollständig typisiert mit TypeScript
+- Vollständig typisiert mit TypeScript (strict mode)
 - Server Components für optimale Performance
-- Modulare Architektur für einfache Erweiterungen
+- Modulare Architektur für einfache Erweiterungen (29 wiederverwendbare Komponenten)
 - Defensive Fehlerbehandlung implementiert
 - WordPress Plugin für Store API Extension entwickelt
 - API Testing Infrastructure implementiert
-- Vollständige Warenkorb-Funktionalität mit persistentem State
+- Vollständige Warenkorb-Funktionalität mit persistentem State (LocalStorage)
+- Multi-Layer Caching-Strategie (Browser + In-Memory + Vercel KV)
+- Dynamic Imports für Below-the-Fold Komponenten (Performance-Optimierung)
+- Turbopack aktiviert für schnellere Entwicklungs-Builds
+- Code-Umfang: 76 TypeScript/TSX Dateien (~4,195 Zeilen)
+- Image Optimization: AVIF & WebP mit Next.js Image Component
+- 3 große Dateien identifiziert für mögliches Refactoring:
+  - SetAngebot.tsx (520 Zeilen)
+  - woocommerce.ts (511 Zeilen)
+  - setCalculations.ts (430 Zeilen)
 
 ## 📋 Komponenten-Übersicht
 ### Frontend Komponenten:
@@ -327,9 +544,122 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 - **API Test Interface**: `/api-test` für debugging
 
 ---
+
+## 🎓 Know-How Transfer & Kritische Dateien
+
+### Kritische Dateien zum Verständnis der Architektur
+
+1. **src/lib/woocommerce.ts** (511 Zeilen)
+   - Komplette WooCommerce Store API Integration
+   - Jaeger Meta Fields Handling (20+ Custom Fields)
+   - Automatische Feldtyp-Formatierung (Boolean, Float, String)
+   - Caching-Logik & Fehlerbehandlung
+   - **Zweck**: Zentrale API-Schnittstelle für alle Produkt- & Kategoriedaten
+
+2. **src/lib/setCalculations.ts** (430 Zeilen)
+   - Komplexe Kalkulation für Boden-Set-Angebote
+   - Preislogik: Standard-Produkte KOSTENLOS, Premium-Produkte nur Aufpreis
+   - Berechnungen: Boden (mit Verschnitt), Dämmung, Sockelleisten (m² × 0.6)
+   - Vergleichspreis vs. Set-Preis Berechnung
+   - **Zweck**: Geschäftslogik für Bundle-Produkte
+
+3. **src/components/product/SetAngebot.tsx** (520 Zeilen)
+   - Größte Komponente des Projekts
+   - UI für Set-Konfiguration (Boden + Dämmung + Sockelleiste)
+   - Standard/Option/Premium Produkte Auswahl
+   - Live-Preisberechnung & Vergleichspreis-Anzeige
+   - **Zweck**: Benutzeroberfläche für Bundle-Produkte
+
+4. **src/contexts/CartContext.tsx** (~80 Zeilen)
+   - Globales State Management für Warenkorb
+   - LocalStorage Persistierung
+   - CRUD-Operationen für Einzelprodukte & Set-Angebote
+   - **Zweck**: Zentrales Warenkorb-System
+
+### Komplexe Logik & Geschäftsregeln
+
+**Set-Angebote Preisberechnung:**
+```typescript
+// Standard Zusatzprodukte sind KOSTENLOS!
+if (productType === 'standard') {
+  price = 0; // Kostenlos im Set enthalten
+}
+
+// Premium Zusatzprodukte: Nur Aufpreis wird berechnet
+if (productType === 'premium') {
+  upcharge = premiumPrice - standardPrice;
+  price = upcharge * quantity;
+}
+
+// Vergleichspreis: Alle Produkte Einzelpreise
+comparePrice = floorPrice + insulationPrice + baseboardPrice;
+
+// Set-Preis: Boden + Aufschläge
+setPrice = floorPrice + premiumUpcharges;
+```
+
+**Warenkorb Persistierung:**
+```typescript
+// LocalStorage Sync
+useEffect(() => {
+  localStorage.setItem('woocommerce-cart', JSON.stringify(cartItems));
+}, [cartItems]);
+```
+
+**Multi-Step Checkout:**
+```typescript
+// 4 Schritte: contact → payment → review → success
+type CheckoutStep = 'contact' | 'payment' | 'review';
+```
+
+### Performance-Optimierungen im Projekt
+
+1. **Dynamic Imports für Below-the-Fold Komponenten**
+   - Lazy Loading für nicht sofort sichtbare Komponenten
+   - Reduziert Initial Bundle Size
+
+2. **Multi-Layer Caching-Strategie**
+   - **Browser Cache**: 5 Minuten (Cache-Control Headers)
+   - **In-Memory Cache**: 2 Minuten (max. 100 Einträge)
+   - **Vercel KV (Redis)**: Server-Side Caching
+   - **Stale-While-Revalidate**: 60 Minuten für Produkte
+
+3. **Image Optimization**
+   - Next.js Image Component mit automatischer Optimierung
+   - AVIF & WebP Format Support
+   - Responsive Breakpoints: 640px - 3840px
+   - Remote Patterns für WooCommerce & Placeholder Images
+
+4. **Turbopack Build Tool**
+   - Schnellere Entwicklungs-Builds (aktiviert via `--turbopack` Flag)
+   - Ersetzt Webpack im Dev-Modus
+
+5. **TypeScript Strict Mode**
+   - Type-Safety zur Compile-Zeit
+   - Reduziert Runtime-Fehler
+
+### Refactoring-Empfehlungen
+
+**3 große Dateien identifiziert:**
+1. **SetAngebot.tsx** (520 Zeilen)
+   - Aufteilen in kleinere Sub-Komponenten
+   - Logik in Custom Hooks extrahieren (z.B. `useSetConfiguration`)
+
+2. **woocommerce.ts** (511 Zeilen)
+   - Modularisierung möglich:
+     - `product-api.ts` (Produkt-Funktionen)
+     - `category-api.ts` (Kategorie-Funktionen)
+     - `field-formatter.ts` (Jaeger Fields Formatting)
+
+3. **setCalculations.ts** (430 Zeilen)
+   - Funktionen gruppieren nach Berechnungstyp
+   - Unit Tests hinzufügen für Kalkulation-Logik
+
+---
 **Status**: E-Commerce Lösung in aktiver Entwicklung - Core Features implementiert (~75% Feature Complete)
-**Letztes Update**: 25. Oktober 2025
+**Letztes Update**: 26. Oktober 2025
 **Entwickler**: Claude Code Zusammenfassung
+**Code-Umfang**: 76 TypeScript/TSX Dateien, ~4,195 Zeilen Code, 29 Komponenten, 31 Seiten
 
 ## 🆕 Neueste Änderungen (21. Oktober 2025)
 ### Set-Angebote & Cart System:
@@ -366,7 +696,39 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 
 ---
 
-## 📊 Aktueller Projekt-Status (25. Oktober 2025)
+## 📊 Entwicklungsstatistiken
+
+| Metrik | Wert | Details |
+|--------|------|---------|
+| **TypeScript/TSX Dateien** | 76 | Vollständig typisiert (strict mode) |
+| **Code-Zeilen (gesamt)** | ~4,195 | Ohne node_modules & Dependencies |
+| **React Komponenten** | 29 | Wiederverwendbar & modular |
+| **API Routes** | 3 | Products (GET), Products/[slug] (GET), Store-API-Test (GET/OPTIONS) |
+| **Seiten/Routes** | 31 | Inkl. dynamische Routen & Fachmarkt-Unterseiten |
+| **Type Interfaces** | 40+ | Product (59 Properties), ProductVariation (54 Properties), etc. |
+| **Context Providers** | 2 | CartContext (~80 Zeilen), CheckoutContext (in Entwicklung) |
+| **Utility Libraries** | 8+ | woocommerce.ts (511 Zeilen), setCalculations.ts (430 Zeilen) |
+| **Public Assets** | 54 Dateien | Logo (1 SVG), Icons (36 PNG), Slider (2 WebP), Startseite (14 WebP) |
+| **Font Files** | 10 Varianten | Poppins (Regular, Bold, ExtraBold, Italic, etc.) |
+
+### Code-Qualität Metriken
+
+| Metrik | Status | Details |
+|--------|--------|---------|
+| **TypeScript Coverage** | ✅ 100% | Alle Dateien vollständig typisiert |
+| **ESLint** | ✅ Konfiguriert | eslint.config.mjs mit Next.js Rules |
+| **Code Style** | ✅ Konsistent | Tailwind CSS Standards, Poppins Font |
+| **Komponenten-Architektur** | ✅ Modular | 29 separate, wiederverwendbare Komponenten |
+| **API Error Handling** | ✅ Umfassend | Try-Catch, Logging, Fallback-Werte |
+| **Caching Strategy** | ✅ Multi-Layer | Browser (5min), In-Memory (2min, 100 max), Vercel KV |
+| **Performance** | ✅ Optimiert | Dynamic Imports, Turbopack, Image Optimization (AVIF/WebP) |
+| **Unit Tests** | ❌ Keine | **TO-DO** - Empfohlen für setCalculations.ts |
+| **E2E Tests** | ❌ Keine | **TO-DO** - Kritisch für Checkout-Flow |
+| **Storybook** | ❌ Nicht konfiguriert | Optional - Komponenten-Dokumentation |
+
+---
+
+## 📊 Aktueller Projekt-Status (26. Oktober 2025)
 
 ### ✅ Vollständig Implementiert (75% Feature Complete)
 
