@@ -8,7 +8,8 @@
       "Bash(git push)",
       "WebFetch(domain:www.google.com)",
       "Bash(git push:*)",
-      "WebFetch(domain:bodenjaeger.vercel.app)"
+      "WebFetch(domain:bodenjaeger.vercel.app)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

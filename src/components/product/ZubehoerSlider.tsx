@@ -60,12 +60,28 @@ export default function ZubehoerSlider({
       setError(null);
 
       try {
+        console.log(`Loading products for category slug: ${activeCategory}`);
+
+        // 1. Erst die Kategorie-ID vom Slug holen
+        const category = await wooCommerceClient.getCategoryBySlug(activeCategory);
+
+        if (!category) {
+          console.warn(`Category not found for slug: ${activeCategory}`);
+          setProducts([]);
+          setLoading(false);
+          return;
+        }
+
+        console.log(`Found category ID: ${category.id} for slug: ${activeCategory}`);
+
+        // 2. Dann Produkte mit der Kategorie-ID laden
         const response = await wooCommerceClient.getProducts({
-          category: activeCategory,
+          category: String(category.id), // Store API erwartet String
           per_page: 10,
           orderby: 'popularity'
         });
 
+        console.log(`Loaded ${response.length} products for category ${category.name}`);
         setProducts(response);
       } catch (err) {
         console.error('Error loading accessory products:', err);
