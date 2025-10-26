@@ -44,13 +44,28 @@ export default function ZubehoerSlider({
   categories = DEFAULT_CATEGORIES
 }: ZubehoerSliderProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState<string>(categories[0]?.metaKey || '');
   const [products, setProducts] = useState<StoreApiProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const { addToCart } = useCart();
+
+  // Filtere Kategorien: Nur die anzeigen, die Produkt-IDs haben
+  const availableCategories = categories.filter((category) => {
+    const jaegerMeta = product?.jaeger_meta || {};
+    const productIdsString = jaegerMeta[category.metaKey as keyof typeof jaegerMeta];
+    return productIdsString && typeof productIdsString === 'string' && productIdsString.trim().length > 0;
+  });
+
+  const [activeCategory, setActiveCategory] = useState<string>('');
+
+  // Setze die erste verfügbare Kategorie als aktiv, wenn noch keine ausgewählt ist
+  useEffect(() => {
+    if (!activeCategory && availableCategories.length > 0) {
+      setActiveCategory(availableCategories[0].metaKey);
+    }
+  }, [availableCategories, activeCategory]);
 
   // Produkte für aktive Kategorie laden (aus Meta-Keys)
   useEffect(() => {
@@ -158,6 +173,11 @@ export default function ZubehoerSlider({
     addToCart(product, 1);
   };
 
+  // Wenn keine Kategorien mit Produkten vorhanden sind, nichts anzeigen
+  if (availableCategories.length === 0) {
+    return null;
+  }
+
   return (
     <section className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="flex flex-col lg:flex-row">
@@ -190,28 +210,30 @@ export default function ZubehoerSlider({
         {/* RECHTE SEITE - Kategorien + Slider */}
         <div className="flex-1 p-6 lg:p-8">
           {/* Kategorie-Navigation */}
-          <div className="mb-6 overflow-x-auto scrollbar-hide">
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 min-w-min">
-              {categories.map((category) => (
-                <button
-                  key={category.metaKey}
-                  onClick={() => setActiveCategory(category.metaKey)}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between gap-2 whitespace-nowrap ${
-                    activeCategory === category.metaKey
-                      ? 'bg-gray-200 font-semibold text-gray-900'
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <span className="flex-1 text-left">
-                    {category.name}
-                  </span>
-                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              ))}
+          {availableCategories.length > 0 && (
+            <div className="mb-6 overflow-x-auto scrollbar-hide">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 min-w-min">
+                {availableCategories.map((category) => (
+                  <button
+                    key={category.metaKey}
+                    onClick={() => setActiveCategory(category.metaKey)}
+                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between gap-2 whitespace-nowrap ${
+                      activeCategory === category.metaKey
+                        ? 'bg-gray-200 font-semibold text-gray-900'
+                        : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <span className="flex-1 text-left">
+                      {category.name}
+                    </span>
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Produkt-Slider */}
           <div className="relative">
