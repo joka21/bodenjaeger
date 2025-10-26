@@ -234,7 +234,7 @@ export default function ProductPageContent({
 
         {/* Zubehör Slider Section */}
         <div className="mb-8">
-          <ZubehoerSlider productId={product.id} product={product} />
+          <ZubehoerSlider product={product} />
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-8">

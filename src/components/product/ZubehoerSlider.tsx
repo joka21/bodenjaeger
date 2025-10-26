@@ -13,7 +13,6 @@ interface ZubehoerCategory {
 }
 
 interface ZubehoerSliderProps {
-  productId?: number;
   product?: StoreApiProduct; // Hauptprodukt für Meta-Keys
   categories?: ZubehoerCategory[];
 }
@@ -39,7 +38,6 @@ const DEFAULT_CATEGORIES: ZubehoerCategory[] = [
  * - Responsive Design (Desktop/Mobile)
  */
 export default function ZubehoerSlider({
-  productId,
   product,
   categories = DEFAULT_CATEGORIES
 }: ZubehoerSliderProps) {
@@ -64,9 +62,10 @@ export default function ZubehoerSlider({
         console.log(`Loading products for meta key: ${activeCategory}`);
 
         // 1. Produkt-IDs aus jaeger_meta auslesen
-        const productIdsString = (product.jaeger_meta as any)?.[activeCategory];
+        const jaegerMeta = product.jaeger_meta || {};
+        const productIdsString = jaegerMeta[activeCategory as keyof typeof jaegerMeta];
 
-        if (!productIdsString) {
+        if (!productIdsString || typeof productIdsString !== 'string') {
           console.warn(`No product IDs found for meta key: ${activeCategory}`);
           setProducts([]);
           setLoading(false);
