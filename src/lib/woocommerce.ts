@@ -28,6 +28,18 @@ interface JaegerMeta {
   // Optionale Zusatzprodukte (Kommagetrennte Produkt-IDs)
   option_products_daemmung?: string | null;
   option_products_sockelleisten?: string | null;
+  // Zubehör-Kategorien (Kommagetrennte Produkt-IDs)
+  option_products_untergrundvorbereitung?: string | null;
+  option_products_werkzeug?: string | null;
+  option_products_kleber?: string | null;
+  option_products_montagekleber_silikon?: string | null;
+  'option_products_montagekleber-silikon'?: string | null;
+  option_products_zubehoer_fuer_sockelleisten?: string | null;
+  'option_products_zubehoer-fuer-sockelleisten'?: string | null;
+  option_products_schienen_profile?: string | null;
+  'option_products_schienen-profile'?: string | null;
+  option_products_reinigung_pflege?: string | null;
+  'option_products_reinigung-pflege'?: string | null;
   aktion?: string | null;
   show_aktion?: boolean;
   angebotspreis_hinweis?: string | null;

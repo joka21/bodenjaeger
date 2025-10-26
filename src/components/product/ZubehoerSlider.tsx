@@ -9,23 +9,23 @@ import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface ZubehoerCategory {
   name: string;
-  slug: string;
-  productCount?: number;
+  metaKey: string; // Meta-Key für die Produkt-IDs (z.B. '_option_products_werkzeug')
 }
 
 interface ZubehoerSliderProps {
   productId?: number;
+  product?: StoreApiProduct; // Hauptprodukt für Meta-Keys
   categories?: ZubehoerCategory[];
 }
 
-// Standard Kategorien
+// Standard Kategorien (basierend auf Meta-Keys aus BACKEND-FELDER-DOKUMENTATION.md)
 const DEFAULT_CATEGORIES: ZubehoerCategory[] = [
-  { name: 'Zubehör für Sockelleisten', slug: 'zubehoer-fuer-sockelleisten', productCount: 35 },
-  { name: 'Werkzeug', slug: 'werkzeug', productCount: 9 },
-  { name: 'Kleber & Silikon', slug: 'montagekleber-silikon', productCount: 1 },
-  { name: 'Untergrundvorbereitung', slug: 'untergrundvorbereitung', productCount: 6 },
-  { name: 'Schienen & Profile', slug: 'schienen-profile' },
-  { name: 'Reinigung & Pflege', slug: 'reinigung-pflege' },
+  { name: 'Zubehör für Sockelleisten', metaKey: 'option_products_zubehoer-fuer-sockelleisten' },
+  { name: 'Werkzeug', metaKey: 'option_products_werkzeug' },
+  { name: 'Kleber & Silikon', metaKey: 'option_products_montagekleber-silikon' },
+  { name: 'Untergrundvorbereitung', metaKey: 'option_products_untergrundvorbereitung' },
+  { name: 'Schienen & Profile', metaKey: 'option_products_schienen-profile' },
+  { name: 'Reinigung & Pflege', metaKey: 'option_products_reinigung-pflege' },
 ];
 
 /**
@@ -40,10 +40,11 @@ const DEFAULT_CATEGORIES: ZubehoerCategory[] = [
  */
 export default function ZubehoerSlider({
   productId,
+  product,
   categories = DEFAULT_CATEGORIES
 }: ZubehoerSliderProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [activeCategory, setActiveCategory] = useState<string>(categories[0]?.slug || '');
+  const [activeCategory, setActiveCategory] = useState<string>(categories[0]?.metaKey || '');
   const [products, setProducts] = useState<StoreApiProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,38 +52,50 @@ export default function ZubehoerSlider({
 
   const { addToCart } = useCart();
 
-  // Produkte für aktive Kategorie laden
+  // Produkte für aktive Kategorie laden (aus Meta-Keys)
   useEffect(() => {
     const loadProducts = async () => {
-      if (!activeCategory) return;
+      if (!activeCategory || !product) return;
 
       setLoading(true);
       setError(null);
 
       try {
-        console.log(`Loading products for category slug: ${activeCategory}`);
+        console.log(`Loading products for meta key: ${activeCategory}`);
 
-        // 1. Erst die Kategorie-ID vom Slug holen
-        const category = await wooCommerceClient.getCategoryBySlug(activeCategory);
+        // 1. Produkt-IDs aus jaeger_meta auslesen
+        const productIdsString = (product.jaeger_meta as any)?.[activeCategory];
 
-        if (!category) {
-          console.warn(`Category not found for slug: ${activeCategory}`);
+        if (!productIdsString) {
+          console.warn(`No product IDs found for meta key: ${activeCategory}`);
           setProducts([]);
           setLoading(false);
           return;
         }
 
-        console.log(`Found category ID: ${category.id} for slug: ${activeCategory}`);
+        console.log(`Found product IDs string: ${productIdsString}`);
 
-        // 2. Dann Produkte mit der Kategorie-ID laden
-        const response = await wooCommerceClient.getProducts({
-          category: String(category.id), // Store API erwartet String
-          per_page: 10,
-          orderby: 'popularity'
-        });
+        // 2. Komma-getrennte IDs parsen
+        const productIds = productIdsString
+          .split(',')
+          .map((id: string) => parseInt(id.trim()))
+          .filter((id: number) => !isNaN(id));
 
-        console.log(`Loaded ${response.length} products for category ${category.name}`);
-        setProducts(response);
+        if (productIds.length === 0) {
+          console.warn(`No valid product IDs after parsing: ${productIdsString}`);
+          setProducts([]);
+          setLoading(false);
+          return;
+        }
+
+        console.log(`Parsed ${productIds.length} product IDs:`, productIds);
+
+        // 3. Produkte mit IDs laden
+        const productsById = await wooCommerceClient.getProductsByIds(productIds);
+        const loadedProducts = Array.from(productsById.values());
+
+        console.log(`Loaded ${loadedProducts.length} products`);
+        setProducts(loadedProducts);
       } catch (err) {
         console.error('Error loading accessory products:', err);
         setError('Fehler beim Laden der Produkte');
@@ -93,7 +106,7 @@ export default function ZubehoerSlider({
     };
 
     loadProducts();
-  }, [activeCategory]);
+  }, [activeCategory, product]);
 
   // Scroll-Position prüfen
   const checkScrollPosition = () => {
@@ -167,19 +180,16 @@ export default function ZubehoerSlider({
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 min-w-min">
               {categories.map((category) => (
                 <button
-                  key={category.slug}
-                  onClick={() => setActiveCategory(category.slug)}
+                  key={category.metaKey}
+                  onClick={() => setActiveCategory(category.metaKey)}
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between gap-2 whitespace-nowrap ${
-                    activeCategory === category.slug
+                    activeCategory === category.metaKey
                       ? 'bg-gray-200 font-semibold text-gray-900'
                       : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                   }`}
                 >
                   <span className="flex-1 text-left">
                     {category.name}
-                    {category.productCount && (
-                      <span className="ml-1 text-xs opacity-70">({category.productCount})</span>
-                    )}
                   </span>
                   <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
