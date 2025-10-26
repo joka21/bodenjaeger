@@ -7,6 +7,7 @@ import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
 import TotalPrice from './TotalPrice';
+import ZubehoerSlider from './ZubehoerSlider';
 
 interface ProductPageContentProps {
   product: StoreApiProduct;
@@ -231,12 +232,9 @@ export default function ProductPageContent({
           </div>
         </div>
 
-        {/* Placeholder sections for later */}
-        <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Passendes Zubehör
-          </h2>
-          <p className="text-gray-600">Coming soon...</p>
+        {/* Zubehör Slider Section */}
+        <div className="mb-8">
+          <ZubehoerSlider productId={product.id} />
         </div>
 
         <div className="bg-white rounded-lg shadow-md p-8">
