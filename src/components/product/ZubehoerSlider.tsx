@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { wooCommerceClient, type StoreApiProduct } from '@/lib/woocommerce';
+import type { StoreApiProduct } from '@/lib/woocommerce';
 import { useCart } from '@/contexts/CartContext';
 import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
@@ -64,42 +64,54 @@ export default function ZubehoerSlider({
         console.log(`🔍 Loading products for meta key: ${activeCategory}`);
         console.log('📦 Available jaeger_meta keys:', Object.keys(product.jaeger_meta || {}));
 
-        // 1. Kategorie-Name aus jaeger_meta auslesen
+        // 1. Produkt-IDs aus jaeger_meta auslesen
         const jaegerMeta = product.jaeger_meta || {};
-        const categorySlug = jaegerMeta[activeCategory as keyof typeof jaegerMeta];
+        const productIdsString = jaegerMeta[activeCategory as keyof typeof jaegerMeta];
 
-        if (!categorySlug || typeof categorySlug !== 'string') {
-          console.warn(`⚠️ No category slug found for meta key: ${activeCategory}`);
+        if (!productIdsString || typeof productIdsString !== 'string') {
+          console.warn(`⚠️ No product IDs found for meta key: ${activeCategory}`);
           console.log(`💡 Available meta values:`, jaegerMeta);
           setProducts([]);
           setLoading(false);
           return;
         }
 
-        console.log(`Found category slug: ${categorySlug}`);
+        console.log(`✅ Found product IDs string: ${productIdsString}`);
 
-        // 2. Kategorie-ID ermitteln
-        const category = await wooCommerceClient.getCategoryBySlug(categorySlug);
+        // 2. Komma-getrennte IDs parsen
+        const productIds = productIdsString
+          .split(',')
+          .map((id: string) => parseInt(id.trim()))
+          .filter((id: number) => !isNaN(id) && id > 0);
 
-        if (!category) {
-          console.warn(`⚠️ Category not found for slug: ${categorySlug}`);
+        if (productIds.length === 0) {
+          console.warn(`⚠️ No valid product IDs after parsing: ${productIdsString}`);
           setProducts([]);
           setLoading(false);
           return;
         }
 
-        console.log(`Found category ID: ${category.id} (${category.name})`);
+        console.log(`📋 Parsed ${productIds.length} product IDs:`, productIds);
 
-        // 3. Alle Produkte aus dieser Kategorie laden
-        const loadedProducts = await wooCommerceClient.getProducts({
-          category: String(category.id),
-          per_page: 100
+        // 3. Produkte über API-Route laden (server-side)
+        const response = await fetch('/api/products/by-ids', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ids: productIds }),
         });
 
-        console.log(`✅ Loaded ${loadedProducts.length} products from category "${category.name}"`);
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const loadedProducts: StoreApiProduct[] = await response.json();
+
+        console.log(`✅ Loaded ${loadedProducts.length} products via API`);
         setProducts(loadedProducts);
       } catch (err) {
-        console.error('Error loading accessory products:', err);
+        console.error('❌ Error loading accessory products:', err);
         setError('Fehler beim Laden der Produkte');
         setProducts([]);
       } finally {
