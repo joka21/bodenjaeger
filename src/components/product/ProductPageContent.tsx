@@ -107,22 +107,38 @@ export default function ProductPageContent({
               </button>
             </div>
 
-            {/* Service Icons - Placeholder for now */}
-            <div className="space-y-3 text-sm text-gray-700">
-              <div className="flex items-center gap-3">
-                <span>📞</span>
+            {/* Service Icons */}
+            <div className="space-y-0 text-2xl text-gray-700">
+              <div className="flex items-center gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+                <img
+                  src="/images/Icons/Telefon schieferschwarz.png"
+                  alt="Telefon"
+                  className="w-6 h-6 object-contain flex-shrink-0"
+                />
                 <span>Persönliche Beratung unter 0800 123 4567</span>
               </div>
-              <div className="flex items-center gap-3">
-                <span>📦</span>
+              <div className="flex items-center gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+                <img
+                  src="/images/Icons/Lager schieferschwarz.png"
+                  alt="Lager"
+                  className="w-6 h-6 object-contain flex-shrink-0"
+                />
                 <span>Kostenlose Einlagerung bis zu 6 Monate</span>
               </div>
-              <div className="flex items-center gap-3">
-                <span>🚚</span>
+              <div className="flex items-center gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+                <img
+                  src="/images/Icons/Termin schieferschwarz.png"
+                  alt="Termin"
+                  className="w-6 h-6 object-contain flex-shrink-0"
+                />
                 <span>Lieferung zum Wunschtermin</span>
               </div>
-              <div className="flex items-center gap-3">
-                <span>💰</span>
+              <div className="flex items-center gap-3 pt-3">
+                <img
+                  src="/images/Icons/Lieferung schieferschwarz.png"
+                  alt="Lieferung"
+                  className="w-6 h-6 object-contain flex-shrink-0"
+                />
                 <span>Kostenlose Lieferung ab 999€</span>
               </div>
             </div>
