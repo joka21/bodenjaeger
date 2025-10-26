@@ -147,7 +147,8 @@ _option_products_sockelleisten = "234,567,890"
 
 Zusätzliche Zubehör-Optionen:
 
-| Meta-Key | Kategorie | Beispiele |
+|
+ Meta-Key | Kategorie | Beispiele |
 |----------|-----------|-----------|
 | `_option_products_untergrundvorbereitung` | Untergrundvorbereitung | Grundierung, Spachtelmasse |
 | `_option_products_werkzeug` | Werkzeug | Cutter, Zollstock |
@@ -156,7 +157,6 @@ Zusätzliche Zubehör-Optionen:
 | `_option_products_zubehoer-fuer-sockelleisten` | Sockelleisten-Zubehör | Clips, Endkappen |
 | `_option_products_schienen-profile` | Schienen/Profile | Übergangsprofil |
 | `_option_products_reinigung-pflege` | Reinigung/Pflege | Bodenreiniger |
-
 ---
 
 ## Preisberechnungen
