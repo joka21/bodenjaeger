@@ -48,6 +48,7 @@ export default function ZubehoerSlider({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [addedProductId, setAddedProductId] = useState<number | null>(null);
 
   const { addToCart } = useCart();
 
@@ -170,7 +171,15 @@ export default function ZubehoerSlider({
   const handleAddToCart = (product: StoreApiProduct, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    console.log('🛒 Adding product to cart:', product.name, product.id);
     addToCart(product, 1);
+
+    // Visuelles Feedback
+    setAddedProductId(product.id);
+    setTimeout(() => {
+      setAddedProductId(null);
+    }, 2000);
   };
 
   // Wenn keine Kategorien mit Produkten vorhanden sind, nichts anzeigen
@@ -346,12 +355,22 @@ export default function ZubehoerSlider({
                           {/* Warenkorb Button (absolute) */}
                           <button
                             onClick={(e) => handleAddToCart(product, e)}
-                            className="absolute bottom-3 left-3 w-10 h-10 rounded-full bg-black hover:bg-gray-800 text-white flex items-center justify-center transition-colors shadow-lg z-10"
+                            className={`absolute bottom-3 left-3 w-10 h-10 rounded-full text-white flex items-center justify-center transition-all shadow-lg z-10 ${
+                              addedProductId === product.id
+                                ? 'bg-green-600 scale-110'
+                                : 'bg-black hover:bg-gray-800'
+                            }`}
                             aria-label="In den Warenkorb"
                           >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                            </svg>
+                            {addedProductId === product.id ? (
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                            ) : (
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                              </svg>
+                            )}
                           </button>
                         </article>
                       </div>
