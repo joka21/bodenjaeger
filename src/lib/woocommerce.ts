@@ -29,6 +29,7 @@ interface JaegerMeta {
   option_products_daemmung?: string | null;
   option_products_sockelleisten?: string | null;
   // Zubehör-Kategorien (Kommagetrennte Produkt-IDs)
+  // Backend: _option_products_*, API: option_products_* (ohne führenden Unterstrich)
   option_products_untergrundvorbereitung?: string | null;
   option_products_werkzeug?: string | null;
   option_products_kleber?: string | null;

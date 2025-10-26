@@ -18,10 +18,12 @@ interface ZubehoerSliderProps {
 }
 
 // Standard Kategorien (basierend auf Meta-Keys aus BACKEND-FELDER-DOKUMENTATION.md)
+// WICHTIG: Backend verwendet _option_products_*, aber im jaeger_meta kommen sie ohne _ an
 const DEFAULT_CATEGORIES: ZubehoerCategory[] = [
   { name: 'Zubehör für Sockelleisten', metaKey: 'option_products_zubehoer-fuer-sockelleisten' },
   { name: 'Werkzeug', metaKey: 'option_products_werkzeug' },
-  { name: 'Kleber & Silikon', metaKey: 'option_products_montagekleber-silikon' },
+  { name: 'Kleber', metaKey: 'option_products_kleber' },
+  { name: 'Montagekleber & Silikon', metaKey: 'option_products_montagekleber-silikon' },
   { name: 'Untergrundvorbereitung', metaKey: 'option_products_untergrundvorbereitung' },
   { name: 'Schienen & Profile', metaKey: 'option_products_schienen-profile' },
   { name: 'Reinigung & Pflege', metaKey: 'option_products_reinigung-pflege' },
@@ -59,14 +61,16 @@ export default function ZubehoerSlider({
       setError(null);
 
       try {
-        console.log(`Loading products for meta key: ${activeCategory}`);
+        console.log(`🔍 Loading products for meta key: ${activeCategory}`);
+        console.log('📦 Available jaeger_meta keys:', Object.keys(product.jaeger_meta || {}));
 
         // 1. Produkt-IDs aus jaeger_meta auslesen
         const jaegerMeta = product.jaeger_meta || {};
         const productIdsString = jaegerMeta[activeCategory as keyof typeof jaegerMeta];
 
         if (!productIdsString || typeof productIdsString !== 'string') {
-          console.warn(`No product IDs found for meta key: ${activeCategory}`);
+          console.warn(`⚠️ No product IDs found for meta key: ${activeCategory}`);
+          console.log(`💡 Available meta values:`, jaegerMeta);
           setProducts([]);
           setLoading(false);
           return;
