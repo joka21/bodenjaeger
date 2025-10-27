@@ -5,6 +5,7 @@
  * Expected performance: 2000ms → 50ms for cached products
  */
 
+import type { VercelKV } from '@vercel/kv';
 import type { StoreApiProduct } from './woocommerce';
 
 // Cache TTL: 5 minutes (300 seconds)
@@ -20,8 +21,8 @@ const isKvAvailable = () => {
 };
 
 // Lazy load KV only if available
-let kv: any = null;
-const getKv = async () => {
+let kv: VercelKV | null = null;
+const getKv = async (): Promise<VercelKV | null> => {
   if (!isKvAvailable()) {
     return null;
   }
