@@ -18,10 +18,17 @@ export function calculatePackages(targetM2: number, paketinhalt: number): number
 
 /**
  * Calculate required linear meters for baseboards
- * Formula: m² × 0.6 = lfm (assumes perimeter calculation)
+ * Formula: m² × 1.0 = lfm
+ *
+ * Rationale: For typical room proportions, the perimeter (in meters)
+ * approximately equals the floor area (in m²). This is a practical
+ * rule of thumb used in the flooring industry.
+ *
+ * Example: A 26.7 m² room requires ~26.4 m of baseboard
+ * (verified in Berechnung_Hintergund_Warenkorb_1_.xlsx)
  */
 export function calculateBaseboard_lfm(floorM2: number): number {
-  return floorM2 * 0.6;
+  return floorM2 * 1.0;
 }
 
 /**

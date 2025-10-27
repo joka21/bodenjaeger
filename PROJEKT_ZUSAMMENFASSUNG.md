@@ -559,7 +559,7 @@ Das WordPress Plugin erweitert die WooCommerce Store API um 20 Jaeger-spezifisch
 2. **src/lib/setCalculations.ts** (430 Zeilen)
    - Komplexe Kalkulation für Boden-Set-Angebote
    - Preislogik: Standard-Produkte KOSTENLOS, Premium-Produkte nur Aufpreis
-   - Berechnungen: Boden (mit Verschnitt), Dämmung, Sockelleisten (m² × 0.6)
+   - Berechnungen: Boden (mit Verschnitt), Dämmung, Sockelleisten (m² × 1.0)
    - Vergleichspreis vs. Set-Preis Berechnung
    - **Zweck**: Geschäftslogik für Bundle-Produkte
 
