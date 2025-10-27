@@ -89,9 +89,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         // IMPORTANT: If standard product exists, ensure it's in the options list
         // This ensures that even if there are no other options, the standard product is selectable
-        if (daemmungProduct && !daemmungOptions.find(opt => opt.id === daemmungProduct.id)) {
-          daemmungOptions = [daemmungProduct, ...daemmungOptions];
-          console.log('Added standard Dämmung to options list');
+        if (daemmungProduct) {
+          const standardDaemmungId = daemmungProduct.id;
+          if (!daemmungOptions.find(opt => opt.id === standardDaemmungId)) {
+            daemmungOptions = [daemmungProduct, ...daemmungOptions];
+            console.log('Added standard Dämmung to options list');
+          }
         }
 
         if (sockelleisteOptionIds.length > 0) {
@@ -103,9 +106,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         // IMPORTANT: If standard product exists, ensure it's in the options list
         // This ensures that even if there are no other options, the standard product is selectable
-        if (sockelleisteProduct && !sockelleisteOptions.find(opt => opt.id === sockelleisteProduct.id)) {
-          sockelleisteOptions = [sockelleisteProduct, ...sockelleisteOptions];
-          console.log('Added standard Sockelleiste to options list');
+        if (sockelleisteProduct) {
+          const standardSockelleisteId = sockelleisteProduct.id;
+          if (!sockelleisteOptions.find(opt => opt.id === standardSockelleisteId)) {
+            sockelleisteOptions = [sockelleisteProduct, ...sockelleisteOptions];
+            console.log('Added standard Sockelleiste to options list');
+          }
         }
       } catch (error) {
         console.error('❌ Error loading addition products:', error);
