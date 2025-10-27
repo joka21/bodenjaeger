@@ -87,11 +87,25 @@ export default async function ProductPage({ params }: ProductPageProps) {
           console.log(`Loaded ${daemmungOptions.length} Dämmung options`);
         }
 
+        // IMPORTANT: If standard product exists, ensure it's in the options list
+        // This ensures that even if there are no other options, the standard product is selectable
+        if (daemmungProduct && !daemmungOptions.find(opt => opt.id === daemmungProduct.id)) {
+          daemmungOptions = [daemmungProduct, ...daemmungOptions];
+          console.log('Added standard Dämmung to options list');
+        }
+
         if (sockelleisteOptionIds.length > 0) {
           sockelleisteOptions = sockelleisteOptionIds
             .map(id => productsById.get(id))
             .filter((p): p is StoreApiProduct => p !== undefined);
           console.log(`Loaded ${sockelleisteOptions.length} Sockelleiste options`);
+        }
+
+        // IMPORTANT: If standard product exists, ensure it's in the options list
+        // This ensures that even if there are no other options, the standard product is selectable
+        if (sockelleisteProduct && !sockelleisteOptions.find(opt => opt.id === sockelleisteProduct.id)) {
+          sockelleisteOptions = [sockelleisteProduct, ...sockelleisteOptions];
+          console.log('Added standard Sockelleiste to options list');
         }
       } catch (error) {
         console.error('❌ Error loading addition products:', error);
