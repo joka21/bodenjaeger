@@ -34,8 +34,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           href="/blog"
           className="inline-flex items-center text-[#5095cb] hover:text-[#1e40af] mb-8 font-semibold"
         >
-          <span className="mr-2">ê</span>
-          Zur¸ck zum Blog
+          <span className="mr-2">‚Üê</span>
+          Zur√ºck zum Blog
         </Link>
 
         {/* Featured Image */}
@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               )}
               <div>
                 <h3 className="text-xl font-bold text-[#2e2d32] mb-2">
-                  ‹ber {author.name}
+                  √úber {author.name}
                 </h3>
                 {author.description && (
                   <p className="text-[#666666]">{author.description}</p>
@@ -117,7 +117,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             href="/blog"
             className="inline-block bg-[#5095cb] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#1e40af] transition-colors"
           >
-            Weitere Beitr‰ge lesen
+            Weitere Beitr√§ge lesen
           </Link>
         </div>
       </article>
