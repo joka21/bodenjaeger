@@ -5,13 +5,14 @@ import Link from 'next/link';
 export const revalidate = 300; // 5 minutes
 
 interface BlogPageProps {
-  searchParams: {
+  searchParams: Promise<{
     page?: string;
-  };
+  }>;
 }
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const currentPage = Number(searchParams.page) || 1;
+  const { page } = await searchParams;
+  const currentPage = Number(page) || 1;
   const perPage = 10;
 
   const { posts, total, totalPages } = await wordPressClient.getPosts(currentPage, perPage);
