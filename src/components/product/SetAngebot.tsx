@@ -206,8 +206,8 @@ export default function SetAngebot({
                     <span className="text-gray-400 line-through whitespace-nowrap">
                       {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
                     </span>
-                    <span className="font-bold text-red-600 whitespace-nowrap">
-                      {daemmungPriceDiff === 0
+                    <span className={`font-bold whitespace-nowrap ${daemmungPriceDiff <= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {daemmungPriceDiff <= 0
                         ? `0,00 €/m²`
                         : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
                       }
@@ -258,8 +258,8 @@ export default function SetAngebot({
                     <span className="text-gray-400 line-through whitespace-nowrap">
                       {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
                     </span>
-                    <span className="font-bold text-red-600 whitespace-nowrap">
-                      {sockelleistePriceDiff === 0
+                    <span className={`font-bold whitespace-nowrap ${sockelleistePriceDiff <= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {sockelleistePriceDiff <= 0
                         ? `0,00 €/lfm`
                         : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
                       }
@@ -362,20 +362,15 @@ export default function SetAngebot({
 
                       {/* Price Difference */}
                       <div className="text-right flex flex-col items-end gap-2">
-                        {priceDifference === 0 ? (
+                        {priceDifference <= 0 ? (
                           <div className="text-green-600 font-bold text-lg">
                             <div>0,00 €</div>
                             <div className="text-xs font-normal">(kostenlos)</div>
                           </div>
-                        ) : priceDifference > 0 ? (
+                        ) : (
                           <div className="text-red-600 font-bold text-lg">
                             <div>+{priceDifference.toFixed(2).replace('.', ',')} €</div>
                             <div className="text-xs font-normal">(Aufpreis)</div>
-                          </div>
-                        ) : (
-                          <div className="text-green-600 font-bold text-lg">
-                            <div>{priceDifference.toFixed(2).replace('.', ',')} €</div>
-                            <div className="text-xs font-normal">(günstiger)</div>
                           </div>
                         )}
                         {isStandard && (
@@ -441,20 +436,15 @@ export default function SetAngebot({
 
                       {/* Price Difference */}
                       <div className="text-right flex flex-col items-end gap-2">
-                        {priceDifference === 0 ? (
+                        {priceDifference <= 0 ? (
                           <div className="text-green-600 font-bold text-lg">
                             <div>0,00 €</div>
                             <div className="text-xs font-normal">(kostenlos)</div>
                           </div>
-                        ) : priceDifference > 0 ? (
+                        ) : (
                           <div className="text-red-600 font-bold text-lg">
                             <div>+{priceDifference.toFixed(2).replace('.', ',')} €</div>
                             <div className="text-xs font-normal">(Aufpreis)</div>
-                          </div>
-                        ) : (
-                          <div className="text-green-600 font-bold text-lg">
-                            <div>{priceDifference.toFixed(2).replace('.', ',')} €</div>
-                            <div className="text-xs font-normal">(günstiger)</div>
                           </div>
                         )}
                         {isStandard && (
