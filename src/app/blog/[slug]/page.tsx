@@ -6,13 +6,14 @@ import { notFound } from 'next/navigation';
 export const revalidate = 300; // 5 minutes
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = await wordPressClient.getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await wordPressClient.getPostBySlug(slug);
 
   if (!post) {
     notFound();
