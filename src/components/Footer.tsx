@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Footer() {
   return (
@@ -100,10 +101,10 @@ export default function Footer() {
                     </a>
                   </li>
                   <li>
-                    <a href="/blog" className="text-xl hover:underline flex items-start">
+                    <Link href="/blog" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Blog</span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
