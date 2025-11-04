@@ -78,11 +78,12 @@ export default function SetAngebot({
     : parseFloat(selectedSockelleiste?.price || '0');
 
   // Price difference from standard (for set offer calculation)
+  // Only positive differences count (upgrading) - no discount for cheaper products
   const daemmungPriceDiff = hasDaemmung && selectedDaemmung
-    ? selectedDaemmungPrice - (daemmungRegularPrice || 0)
+    ? Math.max(0, selectedDaemmungPrice - (daemmungRegularPrice || 0))
     : 0;
   const sockelleistePriceDiff = hasSockelleiste && selectedSockelleiste
-    ? selectedSockelleistePrice - (sockelleisteRegularPrice || 0)
+    ? Math.max(0, selectedSockelleistePrice - (sockelleisteRegularPrice || 0))
     : 0;
 
   // Notify parent component of product selection changes
