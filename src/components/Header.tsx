@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './cart/CartDrawer';
+import ContactDrawer from './ContactDrawer';
 
 export default function Header() {
   const { itemCount } = useCart();
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const [isContactDrawerOpen, setIsContactDrawerOpen] = useState(false);
 
   return (
     <header className="w-full sticky top-0 z-50">
@@ -40,8 +42,21 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Icons - Favoriten, Warenkorb, Kundenkonto */}
+            {/* Icons - Kontakt, Favoriten, Warenkorb, Kundenkonto */}
             <div className="flex items-center gap-1 md:gap-[1%]">
+              {/* Kontakt Button */}
+              <button
+                onClick={() => setIsContactDrawerOpen(true)}
+                className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-[#ed1b24] rounded-full hover:scale-105 transition-transform shadow-md"
+                aria-label="Kontakt öffnen"
+              >
+                <img
+                  src="/images/Icons/Kontakt weiß.png"
+                  alt="Kontakt"
+                  className="w-5 h-5 md:w-6 md:h-6"
+                />
+              </button>
+
               {/* Favoriten */}
               <Link href="/favoriten" className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <img
@@ -162,6 +177,12 @@ export default function Header() {
       <CartDrawer
         isOpen={isCartDrawerOpen}
         onClose={() => setIsCartDrawerOpen(false)}
+      />
+
+      {/* Contact Drawer */}
+      <ContactDrawer
+        isOpen={isContactDrawerOpen}
+        onClose={() => setIsContactDrawerOpen(false)}
       />
     </header>
   );
