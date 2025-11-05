@@ -5,11 +5,13 @@ import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './cart/CartDrawer';
 import ContactDrawer from './ContactDrawer';
+import MobileMenu from './navigation/MobileMenu';
 
 export default function Header() {
   const { itemCount } = useCart();
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isContactDrawerOpen, setIsContactDrawerOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <header className="w-full sticky top-0 z-50">
@@ -158,7 +160,9 @@ export default function Header() {
           <div className="lg:hidden flex items-center justify-center h-full">
             <button
               type="button"
-              className="text-white hover:text-gray-200 focus:outline-none"
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="text-white hover:text-gray-200 focus:outline-none transition-colors"
+              aria-label="Menü öffnen"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -183,6 +187,12 @@ export default function Header() {
       <ContactDrawer
         isOpen={isContactDrawerOpen}
         onClose={() => setIsContactDrawerOpen(false)}
+      />
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
       />
     </header>
   );
