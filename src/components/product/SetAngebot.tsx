@@ -207,7 +207,7 @@ export default function SetAngebot({
                     <span className="text-gray-400 line-through whitespace-nowrap">
                       {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
                     </span>
-                    <span className={`font-bold whitespace-nowrap ${daemmungPriceDiff <= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className="font-bold whitespace-nowrap text-red-600 text-xs">
                       {daemmungPriceDiff <= 0
                         ? `0,00 €/m²`
                         : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
@@ -259,7 +259,7 @@ export default function SetAngebot({
                     <span className="text-gray-400 line-through whitespace-nowrap">
                       {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
                     </span>
-                    <span className={`font-bold whitespace-nowrap ${sockelleistePriceDiff <= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className="font-bold whitespace-nowrap text-red-600 text-xs">
                       {sockelleistePriceDiff <= 0
                         ? `0,00 €/lfm`
                         : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
@@ -275,16 +275,16 @@ export default function SetAngebot({
 
         {/* Gesamt-Preiszeile */}
         <div className="flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
-          <div className="flex flex-col gap-1">
-            <span className="text-lg font-medium text-gray-700">Gesamt</span>
-            <span className="line-through text-sm text-gray-400">
+          <div className="flex items-center gap-4">
+            <span className="text-3xl font-extrabold text-gray-700">Gesamt</span>
+            <span className="line-through text-2xl text-gray-400">
               {totalRegularPrice.toFixed(2).replace('.', ',')} €
             </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-4xl font-bold text-red-600">
-              {totalSetPrice.toFixed(2).replace('.', ',')} €<span className="text-2xl">/{einheit}</span>
+            <span className="text-3xl font-bold text-red-600">
+              {totalSetPrice.toFixed(2).replace('.', ',')} €<span className="text-xl">/{einheit}</span>
             </span>
+          </div>
+          <div>
             <span className="bg-red-600 text-white px-4 py-2 rounded-lg text-xl font-bold shadow-lg">
               -{savingsPercent}%
             </span>

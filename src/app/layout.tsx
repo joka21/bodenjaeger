@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { CartProvider } from "@/contexts/CartContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import Footer from "@/components/Footer";
+import FloatingContactButton from "@/components/FloatingContactButton";
 import "./globals.css";
 
 const poppinsRegular = localFont({
@@ -48,6 +49,7 @@ export default function RootLayout({
       >
         <CartProvider>
           <HeaderWrapper />
+          <FloatingContactButton />
           {children}
           <Footer />
         </CartProvider>

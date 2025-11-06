@@ -4,13 +4,11 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './cart/CartDrawer';
-import ContactDrawer from './ContactDrawer';
 import MobileMenu from './navigation/MobileMenu';
 
 export default function Header() {
   const { itemCount } = useCart();
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-  const [isContactDrawerOpen, setIsContactDrawerOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -44,21 +42,8 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Icons - Kontakt, Favoriten, Warenkorb, Kundenkonto */}
+            {/* Icons - Favoriten, Warenkorb, Kundenkonto, Hamburger (Mobile) */}
             <div className="flex items-center gap-1 md:gap-[1%]">
-              {/* Kontakt Button */}
-              <button
-                onClick={() => setIsContactDrawerOpen(true)}
-                className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-[#ed1b24] rounded-full hover:scale-105 transition-transform shadow-md"
-                aria-label="Kontakt öffnen"
-              >
-                <img
-                  src="/images/Icons/Kontakt weiß.png"
-                  alt="Kontakt"
-                  className="w-5 h-5 md:w-6 md:h-6"
-                />
-              </button>
-
               {/* Favoriten */}
               <Link href="/favoriten" className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <img
@@ -93,6 +78,22 @@ export default function Header() {
                   className="w-6 h-6 md:w-8 md:h-8"
                 />
               </Link>
+
+              {/* Hamburger Menu Button (Mobile Only - ganz rechts) */}
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="lg:hidden flex items-center justify-center w-10 h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
+                aria-label="Menü öffnen"
+              >
+                <svg className="w-6 h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -156,23 +157,9 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Empty div on mobile - menu button moved to top section */}
           <div className="lg:hidden flex items-center justify-center h-full">
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="text-white hover:text-gray-200 focus:outline-none transition-colors"
-              aria-label="Menü öffnen"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
+            {/* Hamburger button now in top section with other icons */}
           </div>
         </div>
       </div>
@@ -183,11 +170,6 @@ export default function Header() {
         onClose={() => setIsCartDrawerOpen(false)}
       />
 
-      {/* Contact Drawer */}
-      <ContactDrawer
-        isOpen={isContactDrawerOpen}
-        onClose={() => setIsContactDrawerOpen(false)}
-      />
 
       {/* Mobile Menu */}
       <MobileMenu
