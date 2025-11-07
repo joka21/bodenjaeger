@@ -170,9 +170,9 @@ export default function SetAngebot({
           </div>
 
           {/* Mobile Version - 3 Abschnitte nebeneinander */}
-          <div className="md:hidden grid grid-cols-3 gap-3 items-end">
-            {/* 1. Bild höher */}
-            <div className="aspect-[3/4] bg-gray-50 rounded overflow-hidden">
+          <div className="md:hidden grid grid-cols-[1.5fr_1fr_1fr] gap-3 items-end">
+            {/* 1. Bild breiter und kleiner */}
+            <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
               <Image
                 src={productImage}
                 alt={productName}
@@ -257,9 +257,9 @@ export default function SetAngebot({
             </div>
 
             {/* Mobile Version - 3 Abschnitte nebeneinander */}
-            <div className="md:hidden grid grid-cols-3 gap-3 items-end">
-              {/* 1. Bild höher */}
-              <div className="aspect-[3/4] bg-gray-50 rounded overflow-hidden">
+            <div className="md:hidden grid grid-cols-[1.5fr_1fr_1fr] gap-3 items-end">
+              {/* 1. Bild breiter und kleiner */}
+              <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
                 <Image
                   src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
                   alt={selectedDaemmung?.name || daemmungName}
@@ -359,9 +359,9 @@ export default function SetAngebot({
             </div>
 
             {/* Mobile Version - 3 Abschnitte nebeneinander */}
-            <div className="md:hidden grid grid-cols-3 gap-3 items-end">
-              {/* 1. Bild höher */}
-              <div className="aspect-[3/4] bg-gray-50 rounded overflow-hidden">
+            <div className="md:hidden grid grid-cols-[1.5fr_1fr_1fr] gap-3 items-end">
+              {/* 1. Bild breiter und kleiner */}
+              <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
                 <Image
                   src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
                   alt={selectedSockelleiste?.name || sockelleisteName}
