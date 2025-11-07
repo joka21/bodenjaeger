@@ -427,13 +427,11 @@ export default function SetAngebot({
         {/* Gesamt-Block - Mobile Kompakt */}
         <div className="md:hidden mt-6 pt-4 border-t-2 border-gray-200">
           <div className="flex items-center justify-between">
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-600">Gesamt</span>
-              <span className="line-through text-xs text-gray-400">
+            <span className="text-lg font-extrabold text-gray-700">Gesamt</span>
+            <div className="flex items-center gap-2">
+              <span className="line-through text-sm text-gray-400">
                 {totalRegularPrice.toFixed(2).replace('.', ',')} €
               </span>
-            </div>
-            <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-red-600">
                 {totalSetPrice.toFixed(2).replace('.', ',')} €
               </span>
