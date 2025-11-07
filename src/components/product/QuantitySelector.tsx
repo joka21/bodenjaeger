@@ -151,11 +151,11 @@ export default function QuantitySelector({
       {/* Counters Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* Paket Counter */}
-        <div>
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <div className="w-5 h-5 rounded-full bg-white border border-gray-300 flex items-center justify-center">
+        <div className="relative">
+          <div className="absolute -top-1 -left-1">
+            <div className="w-6 h-6 rounded-full bg-white border border-gray-300 flex items-center justify-center">
               <svg
-                className="w-3 h-3 text-black"
+                className="w-4 h-4 text-black"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -166,25 +166,24 @@ export default function QuantitySelector({
                 />
               </svg>
             </div>
+          </div>
+          <div className="flex items-center justify-center mb-2">
             <label className="text-sm font-medium text-gray-700">
               Paket(e)
             </label>
           </div>
 
           {/* Counter Container with Dividers */}
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden flex items-stretch h-12 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 overflow-hidden flex items-stretch h-12 w-[90%] mx-auto">
             {/* Minus Button */}
             <button
               type="button"
               onClick={decrementPackages}
-              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-[16%] flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-extrabold text-2xl disabled:cursor-not-allowed border-r-2 border-gray-300"
               disabled={packages <= 1}
             >
-              −
+              -
             </button>
-
-            {/* Divider */}
-            <div className="w-px bg-gray-300"></div>
 
             {/* Value Display/Input */}
             <input
@@ -193,18 +192,15 @@ export default function QuantitySelector({
               onChange={handlePackagesInputChange}
               onBlur={handlePackagesBlur}
               min="1"
-              className="flex-1 text-center bg-white border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="w-[68%] text-center bg-white border-0 outline-none text-gray-900 font-semibold text-lg [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               style={{ MozAppearance: 'textfield' }}
             />
-
-            {/* Divider */}
-            <div className="w-px bg-gray-300"></div>
 
             {/* Plus Button */}
             <button
               type="button"
               onClick={incrementPackages}
-              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl"
+              className="w-[16%] flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-extrabold text-2xl border-l-2 border-gray-300"
             >
               +
             </button>
@@ -218,19 +214,16 @@ export default function QuantitySelector({
           </label>
 
           {/* Counter Container with Dividers */}
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden flex items-stretch h-12 border border-gray-200">
+          <div className="bg-white rounded-xl shadow-sm border-2 border-gray-200 overflow-hidden flex items-stretch h-12 w-[90%] mx-auto">
             {/* Minus Button */}
             <button
               type="button"
               onClick={decrementSqm}
-              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-[16%] flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-extrabold text-2xl disabled:cursor-not-allowed border-r-2 border-gray-300"
               disabled={sqm <= paketinhalt}
             >
-              −
+              -
             </button>
-
-            {/* Divider */}
-            <div className="w-px bg-gray-300"></div>
 
             {/* Value Display/Input */}
             <input
@@ -240,18 +233,15 @@ export default function QuantitySelector({
               onBlur={handleSqmBlur}
               min={paketinhalt}
               step="0.01"
-              className="flex-1 text-center bg-white border-0 outline-none text-gray-900 font-semibold text-lg appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="w-[68%] text-center bg-white border-0 outline-none text-gray-900 font-semibold text-lg [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               style={{ MozAppearance: 'textfield' }}
             />
-
-            {/* Divider */}
-            <div className="w-px bg-gray-300"></div>
 
             {/* Plus Button */}
             <button
               type="button"
               onClick={incrementSqm}
-              className="flex-1 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-bold text-xl"
+              className="w-[16%] flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700 font-extrabold text-2xl border-l-2 border-gray-300"
             >
               +
             </button>

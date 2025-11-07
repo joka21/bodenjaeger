@@ -90,49 +90,6 @@ export default function TotalPrice({
         </div>
       )}
 
-      {/* 3. SET-INHALT LISTE */}
-      <div className="my-5">
-        <div className="text-[#333333] font-semibold text-sm md:text-base mb-3">
-          Dein Set umfasst:
-        </div>
-
-        <div className="space-y-2">
-          {/* Floor */}
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-[#333333]">
-              Boden: {quantities.floor.packages} Paket(e)
-            </span>
-            <span className="text-[#666666]">
-              = {quantities.floor.actualM2.toFixed(2).replace('.', ',')} {einheit}
-            </span>
-          </div>
-
-          {/* Insulation */}
-          {quantities.insulation && (
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-[#333333]">
-                Dämmung: {quantities.insulation.packages} Paket(e)
-              </span>
-              <span className="text-[#666666]">
-                = {quantities.insulation.actualM2.toFixed(2).replace('.', ',')} {einheit}
-              </span>
-            </div>
-          )}
-
-          {/* Baseboard */}
-          {quantities.baseboard && (
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-[#333333]">
-                Sockelleisten: {quantities.baseboard.packages} Paket(e)
-              </span>
-              <span className="text-[#666666]">
-                = {quantities.baseboard.actualLfm.toFixed(2).replace('.', ',')} lfm
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Success Message */}
       {addedToCart && (
         <div className="bg-[#d4edda] border border-[#c3e6cb] text-[#155724] px-4 py-3 rounded-lg mb-4 flex items-center">
@@ -151,7 +108,7 @@ export default function TotalPrice({
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-[#f5f5f5] hover:bg-[#e0e0e0] text-[#333333] font-semibold text-sm py-4 px-3 rounded-lg transition-colors"
+          className="w-full bg-transparent border border-[#2e2d32] hover:bg-[#f5f5f5] text-[#2e2d32] font-semibold text-sm py-4 px-3 rounded-md transition-colors"
         >
           Individuelles Angebot anfragen
         </button>
@@ -194,13 +151,13 @@ export default function TotalPrice({
       </div>
 
       {/* 5. LIEFERHINWEIS */}
-      <div className="text-center text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-[#e5e5e5]">
-        <div className="flex items-center justify-center gap-2">
+      <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-[#e5e5e5]">
+        <div className="flex items-center gap-2">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
             <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
           </svg>
-          <span>{lieferzeit} oder im Markt abholen</span>
+          <span><span className="font-bold">Lieferzeit:</span> {lieferzeit} oder im Markt abholen</span>
         </div>
       </div>
     </div>
