@@ -137,12 +137,14 @@ export default function SetAngebot({
         <div className={`grid grid-cols-1 ${gridCols} gap-3 md:gap-6`}>
         {/* Boden Card - KEIN Button */}
         <div className="space-y-3">
-          <div className="text-center">
+          <div className="text-center hidden md:block">
             <span className="text-sm font-medium text-gray-700">Boden</span>
           </div>
           {/* Unsichtbarer Platzhalter für Button-Höhe */}
-          <div className="h-[36px]"></div>
-          <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex flex-col">
+          <div className="h-[36px] hidden md:block"></div>
+
+          {/* Desktop Version */}
+          <div className="hidden md:flex bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex-col">
             <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
               <Image
                 src={productImage}
@@ -166,23 +168,52 @@ export default function SetAngebot({
               </div>
             </div>
           </div>
+
+          {/* Mobile Version - Kompakt */}
+          <div className="md:hidden bg-white rounded-lg shadow-sm p-3 flex items-center gap-3">
+            <div className="w-16 h-16 bg-gray-50 rounded flex-shrink-0">
+              <Image
+                src={productImage}
+                alt={productName}
+                width={64}
+                height={64}
+                className="w-full h-full object-cover rounded"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[10px] font-medium text-gray-500 mb-0.5">Boden</div>
+              <h3 className="text-xs font-semibold text-gray-900 line-clamp-2 mb-1">
+                {productName}
+              </h3>
+              <div className="flex items-center gap-1.5 text-[10px]">
+                <span className="text-gray-400 line-through">
+                  {regularPrice.toFixed(2).replace('.', ',')} €
+                </span>
+                <span className="font-bold text-red-600">
+                  {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Dämmung Card - MIT Button oben */}
         {hasDaemmung && (
           <div className="space-y-3">
-            <div className="text-center">
+            <div className="text-center hidden md:block">
               <span className="text-sm font-medium text-gray-700">Dämmung</span>
             </div>
             <button
               type="button"
               onClick={() => openModal('daemmung')}
-              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200 whitespace-nowrap"
+              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200 whitespace-nowrap hidden md:flex"
             >
               Andere Dämmung wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex flex-col">
+
+            {/* Desktop Version */}
+            <div className="hidden md:flex bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex-col">
               <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
@@ -217,24 +248,68 @@ export default function SetAngebot({
                 </div>
               </div>
             </div>
+
+            {/* Mobile Version - Kompakt mit Button rechts */}
+            <div className="md:hidden bg-white rounded-lg shadow-sm p-3 flex items-center gap-3">
+              <div className="w-16 h-16 bg-gray-50 rounded flex-shrink-0">
+                <Image
+                  src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
+                  alt={selectedDaemmung?.name || daemmungName}
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] font-medium text-gray-500 mb-0.5">Dämmung</div>
+                <h3 className="text-xs font-semibold text-gray-900 line-clamp-2 mb-1">
+                  {selectedDaemmung?.name || daemmungName}
+                </h3>
+                <div className="flex items-center gap-1.5 text-[10px] mb-1">
+                  <span className="text-gray-400 line-through">
+                    {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
+                  </span>
+                  <span className="font-bold text-red-600">
+                    {daemmungPriceDiff <= 0
+                      ? `0,00 €/m²`
+                      : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
+                    }
+                  </span>
+                </div>
+                <div className="text-[9px] text-gray-500 italic">
+                  5% Verschnitt bereits berechnet
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => openModal('daemmung')}
+                className="flex-shrink-0 text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
 
         {/* Sockelleiste Card - MIT Button oben */}
         {hasSockelleiste && (
           <div className="space-y-3">
-            <div className="text-center">
+            <div className="text-center hidden md:block">
               <span className="text-sm font-medium text-gray-700">Sockelleiste</span>
             </div>
             <button
               type="button"
               onClick={() => openModal('sockelleiste')}
-              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200 whitespace-nowrap"
+              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200 whitespace-nowrap hidden md:flex"
             >
               Andere Sockelleiste wählen
               <span>&gt;</span>
             </button>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex flex-col">
+
+            {/* Desktop Version */}
+            <div className="hidden md:flex bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex-col">
               <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
                 <Image
                   src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
@@ -269,12 +344,51 @@ export default function SetAngebot({
                 </div>
               </div>
             </div>
+
+            {/* Mobile Version - Kompakt mit Button rechts */}
+            <div className="md:hidden bg-white rounded-lg shadow-sm p-3 flex items-center gap-3">
+              <div className="w-16 h-16 bg-gray-50 rounded flex-shrink-0">
+                <Image
+                  src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
+                  alt={selectedSockelleiste?.name || sockelleisteName}
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] font-medium text-gray-500 mb-0.5">Sockelleiste</div>
+                <h3 className="text-xs font-semibold text-gray-900 line-clamp-2 mb-1">
+                  {selectedSockelleiste?.name || sockelleisteName}
+                </h3>
+                <div className="flex items-center gap-1.5 text-[10px]">
+                  <span className="text-gray-400 line-through">
+                    {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
+                  </span>
+                  <span className="font-bold text-red-600">
+                    {sockelleistePriceDiff <= 0
+                      ? `0,00 €/lfm`
+                      : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
+                    }
+                  </span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => openModal('sockelleiste')}
+                className="flex-shrink-0 text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
         </div>
 
-        {/* Gesamt-Preiszeile */}
-        <div className="flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
+        {/* Gesamt-Preiszeile - Desktop */}
+        <div className="hidden md:flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
           <div className="flex items-center gap-4">
             <span className="text-3xl font-extrabold text-gray-700">Gesamt</span>
             <span className="line-through text-2xl text-gray-400">
@@ -288,6 +402,47 @@ export default function SetAngebot({
             <span className="bg-red-600 text-white px-4 py-2 rounded-lg text-xl font-bold shadow-lg">
               -{savingsPercent}%
             </span>
+          </div>
+        </div>
+
+        {/* Gesamt-Block - Mobile Kompakt */}
+        <div className="md:hidden mt-6 pt-4 border-t-2 border-gray-200 space-y-3">
+          {/* Paket/m² Inputs */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs text-gray-600 block mb-1">Pakete</label>
+              <input
+                type="number"
+                defaultValue="1"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-gray-600 block mb-1">m²</label>
+              <input
+                type="number"
+                defaultValue="0"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
+              />
+            </div>
+          </div>
+
+          {/* Preiszeile */}
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-gray-600">Gesamt</span>
+              <span className="line-through text-xs text-gray-400">
+                {totalRegularPrice.toFixed(2).replace('.', ',')} €
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-red-600">
+                {totalSetPrice.toFixed(2).replace('.', ',')} €
+              </span>
+              <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold">
+                -{savingsPercent}%
+              </span>
+            </div>
           </div>
         </div>
       </div>
