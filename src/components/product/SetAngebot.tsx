@@ -170,7 +170,7 @@ export default function SetAngebot({
           </div>
 
           {/* Mobile Version - 3 Abschnitte nebeneinander */}
-          <div className="md:hidden grid grid-cols-[1.5fr_1fr_1fr] gap-3 items-end">
+          <div className="md:hidden grid grid-cols-[1.2fr_1.3fr_1.3fr] gap-3 items-end">
             {/* 1. Bild breiter und kleiner */}
             <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
               <Image
@@ -257,7 +257,7 @@ export default function SetAngebot({
             </div>
 
             {/* Mobile Version - 3 Abschnitte nebeneinander */}
-            <div className="md:hidden grid grid-cols-[1.5fr_1fr_1fr] gap-3 items-end">
+            <div className="md:hidden grid grid-cols-[1.2fr_1.3fr_1.3fr] gap-3 items-end">
               {/* 1. Bild breiter und kleiner */}
               <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
                 <Image
@@ -359,7 +359,7 @@ export default function SetAngebot({
             </div>
 
             {/* Mobile Version - 3 Abschnitte nebeneinander */}
-            <div className="md:hidden grid grid-cols-[1.5fr_1fr_1fr] gap-3 items-end">
+            <div className="md:hidden grid grid-cols-[1.2fr_1.3fr_1.3fr] gap-3 items-end">
               {/* 1. Bild breiter und kleiner */}
               <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
                 <Image
