@@ -169,10 +169,10 @@ export default function SetAngebot({
             </div>
           </div>
 
-          {/* Mobile Version - 3 Abschnitte */}
-          <div className="md:hidden space-y-2">
+          {/* Mobile Version - 3 Abschnitte nebeneinander */}
+          <div className="md:hidden grid grid-cols-3 gap-3">
             {/* 1. Bild Querformat */}
-            <div className="w-full aspect-[16/9] bg-gray-50 rounded overflow-hidden">
+            <div className="aspect-[16/9] bg-gray-50 rounded overflow-hidden">
               <Image
                 src={productImage}
                 alt={productName}
@@ -182,20 +182,20 @@ export default function SetAngebot({
               />
             </div>
 
-            {/* 2. Name + Label */}
-            <div>
+            {/* 2. Name */}
+            <div className="flex flex-col justify-center">
               <div className="text-[10px] font-medium text-gray-500 mb-1">Boden</div>
-              <h3 className="text-sm font-semibold text-gray-900">
+              <h3 className="text-xs font-semibold text-gray-900 line-clamp-2">
                 {productName}
               </h3>
             </div>
 
             {/* 3. Preise */}
-            <div className="flex items-center justify-end gap-2">
-              <span className="text-gray-400 line-through text-sm">
+            <div className="flex flex-col justify-center items-end">
+              <span className="text-gray-400 line-through text-xs">
                 {regularPrice.toFixed(2).replace('.', ',')} €
               </span>
-              <span className="font-bold text-red-600 text-base">
+              <span className="font-bold text-red-600 text-sm whitespace-nowrap">
                 {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             </div>
@@ -254,10 +254,10 @@ export default function SetAngebot({
               </div>
             </div>
 
-            {/* Mobile Version - 3 Abschnitte */}
-            <div className="md:hidden space-y-2">
+            {/* Mobile Version - 3 Abschnitte nebeneinander */}
+            <div className="md:hidden grid grid-cols-3 gap-3">
               {/* 1. Bild Querformat */}
-              <div className="w-full aspect-[16/9] bg-gray-50 rounded overflow-hidden">
+              <div className="aspect-[16/9] bg-gray-50 rounded overflow-hidden">
                 <Image
                   src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
                   alt={selectedDaemmung?.name || daemmungName}
@@ -268,35 +268,35 @@ export default function SetAngebot({
               </div>
 
               {/* 2. Name + Button */}
-              <div>
+              <div className="flex flex-col justify-center">
                 <div className="text-[10px] font-medium text-gray-500 mb-1">Dämmung</div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                <h3 className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
                   {selectedDaemmung?.name || daemmungName}
                 </h3>
                 <button
                   type="button"
                   onClick={() => openModal('daemmung')}
-                  className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200"
+                  className="bg-gray-800 text-white text-[10px] py-1.5 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200"
                 >
-                  Andere Dämmung wählen
+                  Andere Dämmung
                   <span>&gt;</span>
                 </button>
               </div>
 
               {/* 3. Preise */}
-              <div className="flex items-center justify-end gap-2">
-                <span className="text-gray-400 line-through text-sm">
+              <div className="flex flex-col justify-center items-end">
+                <span className="text-gray-400 line-through text-xs">
                   {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
                 </span>
-                <span className="font-bold text-red-600 text-base">
+                <span className="font-bold text-red-600 text-sm whitespace-nowrap">
                   {daemmungPriceDiff <= 0
                     ? `0,00 €/m²`
                     : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
                   }
                 </span>
-              </div>
-              <div className="text-[9px] text-gray-500 italic text-right">
-                5% Verschnitt bereits berechnet
+                <div className="text-[8px] text-gray-500 italic mt-0.5">
+                  5% Verschnitt
+                </div>
               </div>
             </div>
           </div>
@@ -354,10 +354,10 @@ export default function SetAngebot({
               </div>
             </div>
 
-            {/* Mobile Version - 3 Abschnitte */}
-            <div className="md:hidden space-y-2">
+            {/* Mobile Version - 3 Abschnitte nebeneinander */}
+            <div className="md:hidden grid grid-cols-3 gap-3">
               {/* 1. Bild Querformat */}
-              <div className="w-full aspect-[16/9] bg-gray-50 rounded overflow-hidden">
+              <div className="aspect-[16/9] bg-gray-50 rounded overflow-hidden">
                 <Image
                   src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
                   alt={selectedSockelleiste?.name || sockelleisteName}
@@ -368,27 +368,27 @@ export default function SetAngebot({
               </div>
 
               {/* 2. Name + Button */}
-              <div>
+              <div className="flex flex-col justify-center">
                 <div className="text-[10px] font-medium text-gray-500 mb-1">Sockelleiste</div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">
+                <h3 className="text-xs font-semibold text-gray-900 line-clamp-2 mb-2">
                   {selectedSockelleiste?.name || sockelleisteName}
                 </h3>
                 <button
                   type="button"
                   onClick={() => openModal('sockelleiste')}
-                  className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200"
+                  className="bg-gray-800 text-white text-[10px] py-1.5 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200"
                 >
-                  Andere Sockelleiste wählen
+                  Andere Sockelleiste
                   <span>&gt;</span>
                 </button>
               </div>
 
               {/* 3. Preise */}
-              <div className="flex items-center justify-end gap-2">
-                <span className="text-gray-400 line-through text-sm">
+              <div className="flex flex-col justify-center items-end">
+                <span className="text-gray-400 line-through text-xs">
                   {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
                 </span>
-                <span className="font-bold text-red-600 text-base">
+                <span className="font-bold text-red-600 text-sm whitespace-nowrap">
                   {sockelleistePriceDiff <= 0
                     ? `0,00 €/lfm`
                     : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
