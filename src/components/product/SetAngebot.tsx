@@ -426,6 +426,13 @@ export default function SetAngebot({
 
         {/* Gesamt-Block - Mobile Kompakt */}
         <div className="md:hidden mt-6 pt-4 border-t-2 border-gray-200">
+          {/* Badge in eigener Zeile rechtsbündig */}
+          <div className="flex justify-end mb-2">
+            <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold">
+              -{savingsPercent}%
+            </span>
+          </div>
+          {/* Gesamt und Preise */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-extrabold text-gray-700">Gesamt</span>
             <div className="flex items-center gap-2">
@@ -434,9 +441,6 @@ export default function SetAngebot({
               </span>
               <span className="text-2xl font-bold text-red-600">
                 {totalSetPrice.toFixed(2).replace('.', ',')} €
-              </span>
-              <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold">
-                -{savingsPercent}%
               </span>
             </div>
           </div>
