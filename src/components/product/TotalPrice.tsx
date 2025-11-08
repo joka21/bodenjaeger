@@ -67,15 +67,23 @@ export default function TotalPrice({
   return (
     <div className="p-0">
       {/* 1. GESAMTSUMMEN-HEADER */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="relative flex items-center justify-between mb-4">
         <span className="text-[#2e2d32] text-4xl font-bold">
-          Gesamtsumme
+          Gesamtsumme <span className="text-base font-normal">(inkl. MwSt.)</span>
         </span>
         <div className="text-right">
           <div className="text-[#000000] font-bold text-[28px] md:text-[32px] leading-tight">
             {totalDisplayPrice.toFixed(2).replace('.', ',')}€
           </div>
         </div>
+        {/* Rabatt-Badge */}
+        {hasSavings && savingsPercent && savingsPercent > 0 && (
+          <div className="absolute -top-3 -right-3">
+            <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold shadow-lg">
+              -{savingsPercent}%
+            </span>
+          </div>
+        )}
       </div>
 
       {/* 2. ERSPARNIS-BOX (Kein Hintergrund) */}
@@ -141,7 +149,7 @@ export default function TotalPrice({
                   alt=""
                   className="w-5 h-5"
                 />
-                In den Warenkorb ({totalPackages} Pakete)
+                In den Warenkorb
               </span>
             )
           ) : (

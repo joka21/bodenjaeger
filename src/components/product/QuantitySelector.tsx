@@ -149,7 +149,7 @@ export default function QuantitySelector({
     <div className="mb-6">
 
       {/* Counters Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         {/* Paket Counter */}
         <div className="relative">
           <div className="absolute -top-1 -left-1">
