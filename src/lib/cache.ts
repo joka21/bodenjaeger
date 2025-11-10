@@ -8,8 +8,8 @@
 import type { VercelKV } from '@vercel/kv';
 import type { StoreApiProduct } from './woocommerce';
 
-// Cache TTL: 5 minutes (300 seconds)
-const CACHE_TTL = 300;
+// Cache TTL: 30 seconds (products change frequently in backend)
+const CACHE_TTL = 30;
 
 // Cache key prefixes
 const PRODUCT_KEY_PREFIX = 'product:';

@@ -181,7 +181,7 @@ class WordPressClient {
         ...options,
         headers,
         next: {
-          revalidate: 300, // 5 minutes
+          revalidate: 30, // 30 seconds - products change frequently
         },
       });
 

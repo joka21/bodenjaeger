@@ -6,9 +6,9 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Enable ISR - revalidate every 5 minutes (300 seconds)
-// Products don't change frequently, so longer cache is acceptable
-export const revalidate = 300;
+// Enable ISR - revalidate every 30 seconds
+// Products can change frequently in backend, so shorter cache is needed
+export const revalidate = 30;
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
