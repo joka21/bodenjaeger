@@ -25,7 +25,95 @@ Nächster Seitenaufruf lädt frische Daten
 
 ## 📋 Schritt-für-Schritt Anleitung
 
-### Option 1: WordPress Plugin "WP Webhooks" (Empfohlen)
+### Option 1: Custom Code in functions.php (100% KOSTENLOS ✅)
+
+**Beste Lösung - Kein Plugin nötig!**
+
+#### 1. Code in functions.php einfügen
+
+**Zugriff:**
+```
+WordPress Admin → Design → Theme-Editor → functions.php
+ODER: FTP/SFTP → /wp-content/themes/dein-theme/functions.php
+```
+
+**Code hinzufügen (am Ende der Datei):**
+
+```php
+<?php
+/**
+ * Bodenjäger: Webhook für Echtzeit-Synchronisation
+ * Sendet automatisch einen Webhook bei Produktänderungen
+ */
+
+function bodenjager_send_revalidation_webhook($product_id, $product) {
+    // Webhook URL mit Secret
+    $webhook_url = 'https://bodenjaeger.vercel.app/api/revalidate?secret=T3njoka21!';
+
+    // Payload vorbereiten
+    $payload = array(
+        'product_id' => $product_id,
+        'product_slug' => $product->get_slug(),
+        'action' => 'updated',
+        'timestamp' => current_time('mysql'),
+    );
+
+    // Webhook senden (asynchron, blockiert nicht)
+    wp_remote_post($webhook_url, array(
+        'body' => json_encode($payload),
+        'headers' => array('Content-Type' => 'application/json'),
+        'timeout' => 5,
+        'blocking' => false, // Wichtig: Nicht warten auf Antwort
+    ));
+
+    // Optional: Logging für Debugging
+    error_log(sprintf(
+        'Bodenjäger Webhook: Product %s (%s) updated - Cache revalidation triggered',
+        $product_id,
+        $product->get_slug()
+    ));
+}
+
+// Webhook bei Produktaktualisierung auslösen
+add_action('woocommerce_update_product', 'bodenjager_send_revalidation_webhook', 10, 2);
+
+// Webhook bei neuem Produkt auslösen
+add_action('woocommerce_new_product', 'bodenjager_send_revalidation_webhook', 10, 2);
+
+// Optional: Webhook auch bei Meta-Änderungen (z.B. Zusatzprodukte)
+add_action('updated_post_meta', function($meta_id, $object_id, $meta_key, $meta_value) {
+    // Nur bei Produkten und relevanten Meta-Keys
+    if (get_post_type($object_id) === 'product') {
+        // Bei Änderung von Zusatzprodukten webhook senden
+        $relevant_keys = array(
+            '_standard_addition_daemmung',
+            '_standard_addition_sockelleisten',
+            '_option_products_daemmung',
+            '_option_products_sockelleisten',
+        );
+
+        if (in_array($meta_key, $relevant_keys)) {
+            $product = wc_get_product($object_id);
+            if ($product) {
+                bodenjager_send_revalidation_webhook($object_id, $product);
+            }
+        }
+    }
+}, 10, 4);
+```
+
+#### 2. Testen
+
+1. Code speichern
+2. Produkt im Backend ändern
+3. WordPress Debug-Log prüfen (wp-content/debug.log)
+4. Frontend prüfen → Änderung sofort sichtbar!
+
+---
+
+### Option 2: WordPress Plugin "WP Webhooks" (Kostenpflichtig)
+
+**⚠️ Dieses Plugin kostet Geld in der Pro-Version**
 
 #### 1. Plugin installieren
 
@@ -75,17 +163,19 @@ Content-Type: application/json
 
 ---
 
-### Option 2: WooCommerce Native Webhooks
+### Option 3: WooCommerce Native Webhooks (100% KOSTENLOS ✅)
+
+**Eingebaut in WooCommerce - Kein Plugin nötig!**
 
 #### 1. Webhook erstellen
 
-```bash
+```
 WordPress Admin → WooCommerce → Einstellungen → Erweitert → Webhooks → Webhook hinzufügen
 ```
 
 #### 2. Konfiguration
 
-**Name:** Product Cache Revalidation
+**Name:** Bodenjäger Cache Revalidation
 
 **Status:** Aktiv
 
@@ -98,51 +188,52 @@ https://bodenjaeger.vercel.app/api/revalidate?secret=T3njoka21!
 
 **API Version:** WP REST API Integration v3
 
-#### 3. Payload anpassen (Optional)
+**Secret:** (leer lassen - Secret ist in der URL)
 
-WooCommerce sendet automatisch alle Produktdaten. Die API extrahiert automatisch:
+#### 3. Speichern & Testen
+
+1. Webhook speichern
+2. Produkt ändern
+3. WooCommerce → Einstellungen → Erweitert → Webhooks → Logs prüfen
+
+**Hinweis:** WooCommerce sendet automatisch alle Produktdaten. Die API extrahiert:
 - `id` → wird zu `product_id`
 - `slug` → wird zu `product_slug`
 
+#### 4. Zusätzliche Webhooks (Optional)
+
+Für komplette Abdeckung weitere Webhooks erstellen:
+- **Product created** → Bei neuen Produkten
+- **Product deleted** → Bei gelöschten Produkten
+- **Product restored** → Bei wiederhergestellten Produkten
+
 ---
 
-### Option 3: Custom Code (functions.php)
+### Option 4: Plugin "Webhook Netlify Deploy" (Kostenlos, anpassbar)
 
-Wenn Sie kein Plugin verwenden möchten:
+**100% KOSTENLOS auf WordPress.org**
 
-```php
-<?php
-// Theme functions.php oder Custom Plugin
+#### 1. Plugin installieren
 
-/**
- * Send webhook when product is updated
- */
-function bodenjager_product_webhook($product_id, $product) {
-    // Webhook URL with secret
-    $webhook_url = 'https://bodenjaeger.vercel.app/api/revalidate?secret=T3njoka21!';
-
-    // Payload
-    $payload = [
-        'product_id' => $product_id,
-        'product_slug' => $product->get_slug(),
-        'action' => 'updated',
-    ];
-
-    // Send async webhook (non-blocking)
-    wp_remote_post($webhook_url, [
-        'body' => json_encode($payload),
-        'headers' => ['Content-Type' => 'application/json'],
-        'timeout' => 5,
-        'blocking' => false, // Don't wait for response
-    ]);
-
-    error_log("Bodenjäger: Cache revalidation triggered for product {$product_id}");
-}
-
-// Hook into product save
-add_action('woocommerce_update_product', 'bodenjager_product_webhook', 10, 2);
-add_action('woocommerce_new_product', 'bodenjager_product_webhook', 10, 2);
 ```
+WordPress Admin → Plugins → Neu hinzufügen
+Suche: "Webhook Netlify Deploy"
+Installieren + Aktivieren
+```
+
+#### 2. Konfiguration
+
+```
+Einstellungen → Webhook Deploy
+
+Build Hook URL: https://bodenjaeger.vercel.app/api/revalidate?secret=T3njoka21!
+```
+
+**Deploy on:**
+- ✅ Product Updated
+- ✅ Product Created
+
+**Vorteil:** Sehr einfach, UI-basiert, kostenlos
 
 ---
 
@@ -272,19 +363,47 @@ REVALIDATE_SECRET=T3njoka21!
 
 ## 🎬 Quick Start
 
-**Schnellste Lösung (5 Minuten):**
+### Empfohlene Lösung: Custom Code (100% KOSTENLOS)
 
-1. **Plugin installieren:**
-   - WP Webhooks Plugin
+**⏱️ Setup in 5 Minuten:**
 
-2. **Webhook erstellen:**
-   - URL: `https://bodenjaeger.vercel.app/api/revalidate?secret=T3njoka21!`
-   - Trigger: Product Updated
+1. **WordPress Admin öffnen:**
+   ```
+   Design → Theme-Editor → functions.php
+   ```
+
+2. **Code hinzufügen (siehe Option 1 oben):**
+   - 30 Zeilen PHP Code kopieren
+   - Am Ende der functions.php einfügen
+   - Speichern
 
 3. **Testen:**
-   - Produkt ändern
-   - Frontend prüfen
-   - ✅ Fertig!
+   - Produkt ändern (z.B. Zusatzprodukt bei Set-Angebot)
+   - Frontend aufrufen
+   - ✅ Änderung ist sofort sichtbar!
+
+### Alternative: WooCommerce Webhooks (auch kostenlos)
+
+**⏱️ Setup in 3 Minuten:**
+
+1. **WooCommerce → Einstellungen → Erweitert → Webhooks**
+2. **Webhook hinzufügen:**
+   - URL: `https://bodenjaeger.vercel.app/api/revalidate?secret=T3njoka21!`
+   - Topic: Product updated
+3. **Testen:** Produkt ändern → Sofort live!
+
+---
+
+## 💰 Kostenvergleich
+
+| Option | Kosten | Setup-Zeit | Vorteile |
+|--------|--------|------------|----------|
+| **Custom Code (Option 1)** | ✅ KOSTENLOS | 5 Min | Volle Kontrolle, keine Dependencies |
+| **WooCommerce Webhooks (Option 3)** | ✅ KOSTENLOS | 3 Min | UI-basiert, einfach |
+| **Webhook Netlify Deploy (Option 4)** | ✅ KOSTENLOS | 3 Min | Plugin-UI, einfach |
+| **WP Webhooks Plugin (Option 2)** | ❌ €49-99/Jahr | 2 Min | Premium Features |
+
+**🏆 Empfehlung:** Option 1 (Custom Code) oder Option 3 (WooCommerce Webhooks)
 
 ---
 
