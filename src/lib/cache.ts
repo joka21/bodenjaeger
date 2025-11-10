@@ -140,3 +140,54 @@ export async function clearProductCache(slug: string): Promise<void> {
     console.error('Cache clear error:', error);
   }
 }
+
+/**
+ * Clear cache for a product by ID
+ * Note: This requires finding the slug first, which isn't cached
+ * Best to use clearProductCache(slug) directly if possible
+ */
+export async function clearProductCacheById(id: number): Promise<void> {
+  try {
+    const kvClient = await getKv();
+    if (!kvClient) {
+      return;
+    }
+    // We can't easily clear by ID without knowing the slug
+    // So we just clear all batch caches that might contain this product
+    const keys = await kvClient.keys(`${PRODUCTS_BATCH_KEY_PREFIX}*`);
+    if (keys && keys.length > 0) {
+      await kvClient.del(...keys);
+      console.log(`🗑️ Cleared ${keys.length} batch caches (product ID: ${id})`);
+    }
+  } catch (error) {
+    console.error('Cache clear by ID error:', error);
+  }
+}
+
+/**
+ * Clear ALL product caches
+ * Use with caution - this will clear the entire cache
+ */
+export async function clearAllProductCaches(): Promise<void> {
+  try {
+    const kvClient = await getKv();
+    if (!kvClient) {
+      return;
+    }
+
+    // Get all product-related keys
+    const productKeys = await kvClient.keys(`${PRODUCT_KEY_PREFIX}*`);
+    const batchKeys = await kvClient.keys(`${PRODUCTS_BATCH_KEY_PREFIX}*`);
+
+    const allKeys = [...(productKeys || []), ...(batchKeys || [])];
+
+    if (allKeys.length > 0) {
+      await kvClient.del(...allKeys);
+      console.log(`🗑️ Cleared ALL product caches (${allKeys.length} keys)`);
+    } else {
+      console.log('📭 No cache keys to clear');
+    }
+  } catch (error) {
+    console.error('Cache clear all error:', error);
+  }
+}
