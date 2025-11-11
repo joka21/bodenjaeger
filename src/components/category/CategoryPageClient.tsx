@@ -52,6 +52,7 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
   const [sortBy, setSortBy] = useState<string>('date-desc');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -92,16 +93,17 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
       const fetchedProducts = await response.json();
 
       // Get pagination info from headers
-      const totalProducts = parseInt(response.headers.get('X-WP-Total') || '0');
+      const totalProductsCount = parseInt(response.headers.get('X-WP-Total') || '0');
       const totalPagesFromAPI = parseInt(response.headers.get('X-WP-TotalPages') || '1');
 
-      console.log(`📦 Fetched ${fetchedProducts.length} products for category ${slug} (${totalProducts} total across ${totalPagesFromAPI} pages)`);
+      console.log(`📦 Fetched ${fetchedProducts.length} products for category ${slug} (${totalProductsCount} total across ${totalPagesFromAPI} pages)`);
 
       // API now handles category filtering server-side, so we can use the products directly
       setProducts(fetchedProducts);
 
-      // Use the total pages from the API
+      // Use the total pages and total products count from the API
       setTotalPages(totalPagesFromAPI);
+      setTotalProducts(totalProductsCount);
 
     } catch (err) {
       console.error('❌ Error fetching category products:', err);
@@ -285,7 +287,8 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
 
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <p className="text-gray-600 mb-4 sm:mb-0">
-              {products.length} {products.length === 1 ? 'Produkt' : 'Produkte'} gefunden
+              {totalProducts} {totalProducts === 1 ? 'Produkt' : 'Produkte'} gefunden
+              {totalPages > 1 && ` (Seite ${currentPage} von ${totalPages})`}
             </p>
 
             {/* Sorting Options */}
