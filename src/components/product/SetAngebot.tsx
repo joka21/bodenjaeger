@@ -170,7 +170,7 @@ export default function SetAngebot({
           </div>
 
           {/* Mobile Version - 3 Abschnitte nebeneinander */}
-          <div className="md:hidden grid grid-cols-[1.2fr_1.3fr_1.3fr] gap-2 sm:gap-3 items-end w-full overflow-hidden">
+          <div className="md:hidden grid grid-cols-[1.4fr_1.2fr_1.2fr] gap-2 sm:gap-3 items-end w-full overflow-hidden">
             {/* 1. Bild breiter und kleiner */}
             <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
               <Image
@@ -257,7 +257,7 @@ export default function SetAngebot({
             </div>
 
             {/* Mobile Version - 3 Abschnitte nebeneinander */}
-            <div className="md:hidden grid grid-cols-[1.2fr_1.3fr_1.3fr] gap-2 sm:gap-3 items-end w-full overflow-hidden">
+            <div className="md:hidden grid grid-cols-[1.4fr_1.2fr_1.2fr] gap-2 sm:gap-3 items-end w-full overflow-hidden">
               {/* 1. Bild breiter und kleiner */}
               <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
                 <Image
@@ -278,7 +278,7 @@ export default function SetAngebot({
                 <button
                   type="button"
                   onClick={() => openModal('daemmung')}
-                  className="bg-gray-800 text-white text-[10px] py-1.5 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
+                  className="bg-gray-800 text-white text-[10px] py-2 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
                 >
                   Andere Dämmung
                   <span>&gt;</span>
@@ -359,7 +359,7 @@ export default function SetAngebot({
             </div>
 
             {/* Mobile Version - 3 Abschnitte nebeneinander */}
-            <div className="md:hidden grid grid-cols-[1.2fr_1.3fr_1.3fr] gap-2 sm:gap-3 items-end w-full overflow-hidden">
+            <div className="md:hidden grid grid-cols-[1.4fr_1.2fr_1.2fr] gap-2 sm:gap-3 items-end w-full overflow-hidden">
               {/* 1. Bild breiter und kleiner */}
               <div className="aspect-[4/3] bg-gray-50 rounded overflow-hidden">
                 <Image
@@ -380,7 +380,7 @@ export default function SetAngebot({
                 <button
                   type="button"
                   onClick={() => openModal('sockelleiste')}
-                  className="bg-gray-800 text-white text-[10px] py-1.5 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
+                  className="bg-gray-800 text-white text-[10px] py-2 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
                 >
                   Andere Sockelleiste
                   <span>&gt;</span>
