@@ -3,15 +3,15 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="w-full mt-auto">
+    <footer className="w-full mt-auto overflow-hidden">
       {/* Section 1: Main Footer - darkest background */}
       <div
-        className="w-full"
+        className="w-full overflow-hidden"
         style={{
           backgroundColor: 'var(--color-bg-darkest)'
         }}
       >
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-full">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
             {/* Column 1: Hast du Fragen? */}
             <div className="text-white">
@@ -115,7 +115,7 @@ export default function Footer() {
 
       {/* Section 2: Bottom Bar - 20px height, dark background */}
       <div
-        className="w-full"
+        className="w-full overflow-hidden"
         style={{
           height: '20px',
           backgroundColor: 'var(--color-bg-dark)'

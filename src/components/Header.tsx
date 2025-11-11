@@ -12,10 +12,10 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="w-full sticky top-0 z-50">
+    <header className="w-full sticky top-0 z-50 overflow-hidden">
       {/* Top Section - 150px height - #2e2d32 */}
-      <div className="w-full h-[100px] md:h-[150px] bg-[#2e2d32]">
-        <div className="w-full max-w-[1300px] mx-auto h-full px-4">
+      <div className="w-full h-[100px] md:h-[150px] bg-[#2e2d32] overflow-hidden">
+        <div className="w-full max-w-[1300px] mx-auto h-full px-2 sm:px-4">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0">
@@ -100,8 +100,8 @@ export default function Header() {
       </div>
 
       {/* Bottom Section - 50px height - #4c4c4c - Navigation */}
-      <div className="w-full h-[50px] bg-[#4c4c4c]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+      <div className="w-full h-[50px] bg-[#4c4c4c] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 h-full">
           <nav className="hidden lg:flex items-center justify-center h-full space-x-8">
             <div className="relative group">
               <Link

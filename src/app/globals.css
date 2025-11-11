@@ -44,10 +44,26 @@ body {
   color: var(--color-text-primary);
   font-family: var(--font-poppins-regular), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
 }
 
 html {
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Prevent horizontal scrolling globally */
+* {
+  max-width: 100%;
+}
+
+/* Allow specific elements to exceed but not cause scroll */
+img, svg, video {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Überschriften verwenden Bold */

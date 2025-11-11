@@ -4,11 +4,15 @@
 **Projektname**: Bodenjäger
 **Typ**: Headless WooCommerce E-Commerce Shop mit Jaeger Plugin Integration
 **Framework**: Next.js 15 mit React 19
-**Entwicklungsstand**: Vollständig funktionsfähige E-Commerce-Lösung mit API-Extension
+**Entwicklungsstand**: Vollständig funktionsfähige E-Commerce-Lösung mit API-Extension (~75% Feature Complete)
 **Code-Umfang**: 76 TypeScript/TSX Dateien (~4,195 Zeilen Code)
 **Komponenten**: 29 wiederverwendbare React Komponenten
 **Seiten/Routes**: 31 voll funktionsfähige Seiten (inkl. dynamische Routen)
-**Letztes Update**: 26. Oktober 2025
+**API Routes**: 5 Server-Side Endpoints (Products, Revalidate, Store-API-Proxy)
+**Type Safety**: 40+ TypeScript Interfaces (vollständig typisiert)
+**Letztes Update**: 11. November 2025
+**Deployment**: Vercel (bodenjaeger.vercel.app)
+**Backend**: WordPress/WooCommerce (plan-dein-ding.de)
 
 ## 🛠 Technologie-Stack
 - **Frontend**: Next.js 15.5.3 mit App Router
@@ -123,11 +127,32 @@ bodenjäger/
 **WordPress URL**: https://plan-dein-ding.de
 **API**: WooCommerce Store API (`/wp-json/wc/store/v1/`)
 
+### Architektur-Übersicht
+```
+┌─────────────────────────────────────────────┐
+│  FRONTEND (Next.js 15 + React 19)           │
+│  - Deployed auf: Vercel                     │
+│  - URL: bodenjaeger.vercel.app              │
+│  - Lokales Git Repository                   │
+└──────────────────┬──────────────────────────┘
+                   │ REST API
+                   │ WooCommerce Store API v1
+                   ↓
+┌─────────────────────────────────────────────┐
+│  BACKEND (WordPress + WooCommerce)          │
+│  - URL: https://plan-dein-ding.de          │
+│  - Jaeger Plugin v1.0.1 (30+ Custom Fields) │
+│  - Webhook Integration (Echtzeit-Sync)     │
+└─────────────────────────────────────────────┘
+```
+
 ### Konfigurierte Umgebungsvariablen:
-- `NEXT_PUBLIC_WORDPRESS_URL`: WordPress-Basis-URL
+- `NEXT_PUBLIC_WORDPRESS_URL`: WordPress-Basis-URL (https://plan-dein-ding.de)
 - `WC_CONSUMER_KEY`: WooCommerce API Schlüssel
 - `WC_CONSUMER_SECRET`: WooCommerce API Secret
-- `REVALIDATE_SECRET`: Revalidierung Secret
+- `REVALIDATE_SECRET`: Webhook Secret für Cache-Revalidierung (T3njoka21!)
+- `KV_REST_API_URL`: Vercel KV Redis URL (auto-configured)
+- `KV_REST_API_TOKEN`: Vercel KV Token (auto-configured)
 
 ### API Features:
 - ✅ Produktliste mit Paginierung (per_page, page, search)
@@ -136,10 +161,11 @@ bodenjäger/
 - ✅ Bilder-Integration (Next.js Image Optimization: AVIF, WebP)
 - ✅ Preise und Angebote (inkl. UVP, Paketpreise)
 - ✅ Fehlerbehandlung (umfassend mit Logging)
-- ✅ **Jaeger Plugin Integration**: WordPress Plugin für 20+ Custom Fields
+- ✅ **Jaeger Plugin Integration**: WordPress Plugin für 30+ Custom Fields
 - ✅ **API Proxy**: Server-Side Proxy für CORS-freie Entwicklung (In-Memory Cache: 2min, Max 100 Entries)
-- ✅ **Multi-Layer Caching**: Browser-Cache (5min) + In-Memory (2min) + Vercel KV (Redis)
+- ✅ **Multi-Layer Caching**: Browser-Cache (5min) + In-Memory (2min) + Vercel KV (30sec)
 - ✅ **TypeScript Typisierung**: 40+ Interfaces für vollständige Type-Safety
+- ✅ **Webhook Integration**: Echtzeit-Synchronisation bei Backend-Änderungen (30sec statt 5min)
 
 ## 🛒 E-Commerce Features
 ### Implementierte Funktionen:
@@ -339,8 +365,30 @@ images: {
 |-------|---------|------------------|----------|---------|
 | **`/api/products`** | GET | `per_page` (default: 20), `page` (default: 1), `search` (optional) | `{ data: Product[], total: number, total_pages: number }` | Browser: 5min |
 | **`/api/products/[slug]`** | GET | `slug` (Path Parameter) | `Product` (Single) | Browser: 5min, Stale-While-Revalidate: 60min |
+| **`/api/products/by-ids`** | GET | `ids` (comma-separated) | `Product[]` | Browser: 5min |
+| **`/api/revalidate`** | POST | `secret` (query param), `paths` (optional) | `{ revalidated: true, paths: [...] }` | Webhook Trigger |
+| **`/api/revalidate`** | GET | - | `{ message: "Revalidation endpoint" }` | Info-Endpoint |
 | **`/api/store-api-test`** | GET | `per_page` (default: '12'), `page` (default: '1'), `category`, `orderby` (default: 'date'), `order` (default: 'desc'), `search` | WooCommerce Store API Response | In-Memory: 2min (max 100 entries), Browser: 5min |
 | **`/api/store-api-test`** | OPTIONS | - | CORS Headers | - |
+
+### Webhook Integration
+**Revalidate Endpoint (`/api/revalidate`)**:
+- **Zweck**: Cache-Invalidierung bei Backend-Änderungen (WordPress/WooCommerce)
+- **Trigger Events**: Product Updated, Created, Deleted, Meta Updated
+- **Secret**: `T3njoka21!` (REVALIDATE_SECRET)
+- **Workflow**:
+  ```
+  WordPress Backend → Produktänderung
+         ↓
+  WooCommerce Native Webhook
+         ↓
+  POST /api/revalidate?secret=T3njoka21!
+         ↓
+  Cache leeren (Vercel KV + Next.js ISR)
+         ↓
+  Nächster Request lädt frische Daten (30sec)
+  ```
+- **Cache-Zeit**: Vorher 5 Minuten → Jetzt 30 Sekunden
 
 ### API Proxy Features
 **Store-API-Test Proxy (`/api/store-api-test`)**:
@@ -657,12 +705,22 @@ type CheckoutStep = 'contact' | 'payment' | 'review';
 
 ---
 **Status**: E-Commerce Lösung in aktiver Entwicklung - Core Features implementiert (~75% Feature Complete)
-**Letztes Update**: 26. Oktober 2025
-**Entwickler**: Claude Code Zusammenfassung
+**Letztes Update**: 11. November 2025
+**Entwickler**: Claude Code (mit Jokal)
 **Code-Umfang**: 76 TypeScript/TSX Dateien, ~4,195 Zeilen Code, 29 Komponenten, 31 Seiten
+**Deployment**: Vercel (bodenjaeger.vercel.app)
+**Backend**: WordPress/WooCommerce (plan-dein-ding.de)
 
-## 🆕 Neueste Änderungen (21. Oktober 2025)
-### Set-Angebote & Cart System:
+## 🆕 Neueste Änderungen
+
+### 11. November 2025 - Projekt-Analyse & Dokumentation
+- **PROJEKT_ZUSAMMENFASSUNG.md**: Umfassende Aktualisierung mit detaillierter Architektur-Übersicht
+- **API Routes**: Vollständige Dokumentation aller 5 Endpoints (inkl. Webhook)
+- **Webhook Integration**: Cache-Revalidierung dokumentiert (30sec Sync statt 5min)
+- **Deployment-Status**: Vercel-Konfiguration aktualisiert
+- **Environment Variables**: Vollständige Liste mit Beschreibungen
+
+### 21. Oktober 2025 - Set-Angebote & Cart System
 - **Set-Angebote Berechnungen**: Kalkulationsfehler behoben
   - Korrekte Preisberechnung für Bundle-Produkte
   - Einzelpreis- vs. Gesamtpreis-Anzeige

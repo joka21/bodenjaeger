@@ -56,7 +56,7 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full max-w-full overflow-hidden">
       {/* Main Image */}
       <div className="relative aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden group">
         <Image

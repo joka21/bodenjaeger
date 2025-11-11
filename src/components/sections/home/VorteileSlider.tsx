@@ -155,8 +155,8 @@ export default function VorteileSlider() {
   }, []);
 
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
+    <section className="py-16 bg-gray-50 overflow-hidden">
+      <div className="container mx-auto px-4 max-w-full">
         {/* Header - linksbündig wie bei BestsellerSlider */}
         <div className="flex items-center justify-between mb-8">
           <div>

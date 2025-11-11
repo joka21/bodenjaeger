@@ -14,10 +14,10 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
   const { currentStep } = useCheckout();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-hidden">
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto px-4 py-6">
+      <header className="border-b border-gray-200 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 py-6 max-w-full">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
@@ -46,8 +46,8 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
       </header>
 
       {/* Progress Indicator */}
-      <div className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto px-4">
+      <div className="border-b border-gray-200 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-full">
           <ProgressIndicator currentStep={currentStep} />
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
       <OrderSummary />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8 lg:py-12">
+      <div className="container mx-auto px-4 py-8 lg:py-12 max-w-full overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Checkout Form - Left Side */}
           <div className="lg:col-span-7">{children}</div>
@@ -69,8 +69,8 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-gray-50 mt-12">
-        <div className="container mx-auto px-4 py-8">
+      <footer className="border-t border-gray-200 bg-gray-50 mt-12 overflow-hidden">
+        <div className="container mx-auto px-4 py-8 max-w-full">
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
             <Link href="/agb" className="hover:text-[#2e2d32] transition-colors">
               AGB
