@@ -213,7 +213,7 @@ export default function SetAngebot({
             <button
               type="button"
               onClick={() => openModal('daemmung')}
-              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200 whitespace-nowrap hidden md:flex"
+              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap hidden md:flex"
             >
               Andere Dämmung wählen
               <span>&gt;</span>
@@ -278,7 +278,7 @@ export default function SetAngebot({
                 <button
                   type="button"
                   onClick={() => openModal('daemmung')}
-                  className="bg-gray-800 text-white text-[10px] py-2 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
+                  className="bg-gray-800 text-white text-[9px] py-2 px-1.5 rounded hover:bg-gray-700 flex items-center justify-center gap-0.5 transition-colors duration-200 whitespace-nowrap w-full"
                 >
                   Andere Dämmung
                   <span>&gt;</span>
@@ -315,7 +315,7 @@ export default function SetAngebot({
             <button
               type="button"
               onClick={() => openModal('sockelleiste')}
-              className="w-full bg-gray-800 text-white text-xs py-2 px-3 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1.5 transition-colors duration-200 whitespace-nowrap hidden md:flex"
+              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap hidden md:flex"
             >
               Andere Sockelleiste wählen
               <span>&gt;</span>
@@ -380,7 +380,7 @@ export default function SetAngebot({
                 <button
                   type="button"
                   onClick={() => openModal('sockelleiste')}
-                  className="bg-gray-800 text-white text-[10px] py-2 px-2 rounded hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
+                  className="bg-gray-800 text-white text-[9px] py-2 px-1.5 rounded hover:bg-gray-700 flex items-center justify-center gap-0.5 transition-colors duration-200 whitespace-nowrap w-full"
                 >
                   Andere Sockelleiste
                   <span>&gt;</span>
