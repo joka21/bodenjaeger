@@ -528,11 +528,19 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
         {/* Full Category Description at bottom */}
         {categoryDescription && categoryDescription.replace(/<[^>]+>/g, '').trim().length > 200 && (
           <div id="category-full-description" className="mt-16 bg-gray-100 rounded-md p-8">
-            <h2 className="text-2xl font-bold text-[#2e2d32] mb-4">
+            <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">
               Über {categoryName}
             </h2>
             <div
-              className="text-[#2e2d32] prose prose-sm max-w-none"
+              className="text-[#2e2d32] prose prose-lg max-w-none
+                [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-[#2e2d32] [&_h3]:mt-6 [&_h3]:mb-4
+                [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-[#2e2d32] [&_h2]:mt-8 [&_h2]:mb-4
+                [&_p]:text-[#2e2d32] [&_p]:leading-relaxed [&_p]:mb-4
+                [&_ul]:text-[#2e2d32] [&_ul]:mb-4 [&_ul]:space-y-2
+                [&_ol]:text-[#2e2d32] [&_ol]:mb-4 [&_ol]:space-y-2
+                [&_li]:text-[#2e2d32] [&_li]:leading-relaxed
+                [&_strong]:text-[#2e2d32] [&_strong]:font-semibold
+                [&_em]:text-[#2e2d32]"
               dangerouslySetInnerHTML={{ __html: categoryDescription }}
             />
           </div>
