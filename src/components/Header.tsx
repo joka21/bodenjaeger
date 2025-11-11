@@ -18,11 +18,11 @@ export default function Header() {
         <div className="w-full max-w-[1300px] mx-auto h-full px-2 sm:px-4">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
-            <Link href="/" className="flex items-center flex-shrink-0">
+            <Link href="/" className="flex items-center flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:min-w-[200px]">
               <img
                 src="/images/logo/logo-bodenjaeger-fff.svg"
                 alt="Bodenjäger Logo"
-                className="h-10 sm:h-12 md:h-20"
+                className="h-10 sm:h-12 md:h-20 w-auto"
               />
             </Link>
 
