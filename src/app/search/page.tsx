@@ -85,7 +85,7 @@ export default function SearchPage() {
         {!loading && query && products.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-600 text-lg mb-4">
-              Keine Produkte gefunden für "{query}"
+              Keine Produkte gefunden für &ldquo;{query}&rdquo;
             </p>
             <p className="text-gray-500 mb-6">
               Versuchen Sie es mit anderen Suchbegriffen oder durchsuchen Sie unsere Kategorien.
