@@ -204,8 +204,6 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Category Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">{categoryName}</h1>
-
           {/* Category Image & Description - Two Column Layout */}
           {(categoryImage || categoryDescription) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -223,12 +221,16 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
                 </div>
               )}
 
-              {/* Right: Category Description (First 200 chars) */}
+              {/* Right: Category Name & Description */}
               {categoryDescription && (
                 <div className="bg-gray-100 rounded-md p-6 flex flex-col">
-                  <div className="text-[#2e2d32] text-sm leading-relaxed flex-grow">
+                  {/* Category Name as Heading */}
+                  <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{categoryName}</h1>
+
+                  {/* Category Description */}
+                  <div className="text-gray-900 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
                     {(() => {
-                      // Remove HTML tags and get first 200 characters
+                      // Remove HTML tags and get first 200 characters (mobile) or 400 (desktop)
                       const plainText = categoryDescription
                         .replace(/<[^>]+>/g, '')
                         .replace(/&nbsp;/g, ' ')
@@ -237,11 +239,21 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
                         .replace(/&gt;/g, '>')
                         .trim();
 
-                      const preview = plainText.length > 200
+                      // Mobile: 200 chars, Desktop: 400 chars (we show both, CSS handles display)
+                      const mobilePreview = plainText.length > 200
                         ? plainText.substring(0, 200) + '...'
                         : plainText;
 
-                      return preview;
+                      const desktopPreview = plainText.length > 400
+                        ? plainText.substring(0, 400) + '...'
+                        : plainText;
+
+                      return (
+                        <>
+                          <span className="md:hidden">{mobilePreview}</span>
+                          <span className="hidden md:inline">{desktopPreview}</span>
+                        </>
+                      );
                     })()}
                   </div>
 
@@ -249,7 +261,7 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
                   {categoryDescription.replace(/<[^>]+>/g, '').trim().length > 200 && (
                     <a
                       href="#category-full-description"
-                      className="text-[#2e2d32] font-medium mt-4 inline-block hover:underline"
+                      className="text-gray-900 font-medium mt-4 inline-block hover:underline"
                     >
                       Weiterlesen →
                     </a>
