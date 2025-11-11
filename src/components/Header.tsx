@@ -13,9 +13,9 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="w-full sticky top-0 z-50 overflow-hidden">
+    <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
-      <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-[#2e2d32] overflow-hidden">
+      <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-[#2e2d32] overflow-visible">
         <div className="w-full max-w-[1300px] mx-auto h-full px-2 sm:px-4">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}

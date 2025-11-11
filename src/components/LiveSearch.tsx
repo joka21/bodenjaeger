@@ -119,7 +119,7 @@ export default function LiveSearch() {
 
       {/* Dropdown with results */}
       {isOpen && searchQuery.trim().length >= 2 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[500px] overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-[100] max-h-[500px] overflow-y-auto">
           {loading && (
             <div className="p-4 text-center text-gray-500">
               <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#1e40af]"></div>
