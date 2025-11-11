@@ -74,73 +74,73 @@ export default function ProductPageContent({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 overflow-x-hidden">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Main Product Section - 2 Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 mb-12 w-full">
           {/* LEFT COLUMN - Image Gallery */}
           <div className="space-y-6">
             <ImageGallery product={product} />
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
               <button
-                className="px-4 py-3 rounded-lg text-white font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                 style={{ backgroundColor: 'var(--color-bg-darkest)' }}
               >
                 <img
                   src="/images/Icons/Musterbox weiß.png"
                   alt="Musterbox"
-                  className="w-5 h-5 object-contain"
+                  className="w-5 h-5 object-contain flex-shrink-0"
                 />
-                Kostenloses Muster bestellen
+                <span className="truncate">Kostenloses Muster bestellen</span>
               </button>
               <button
-                className="px-4 py-3 rounded-lg text-white font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                 style={{ backgroundColor: 'var(--color-bg-darkest)' }}
               >
                 <img
                   src="/images/Icons/3D Bodenplaner weiß.png"
                   alt="3D Bodenplaner"
-                  className="w-5 h-5 object-contain"
+                  className="w-5 h-5 object-contain flex-shrink-0"
                 />
-                Virtuell im Bodenplaner ansehen
+                <span className="truncate">Virtuell im Bodenplaner ansehen</span>
               </button>
             </div>
 
             {/* Service Icons */}
-            <div className="space-y-0 text-2xl text-gray-700">
-              <div className="flex items-center gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+            <div className="space-y-0 text-base sm:text-lg lg:text-2xl text-gray-700">
+              <div className="flex items-center gap-2 sm:gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <img
                   src="/images/Icons/Telefon schieferschwarz.png"
                   alt="Telefon"
-                  className="w-6 h-6 object-contain flex-shrink-0"
+                  className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span>Persönliche Beratung unter 0800 123 4567</span>
+                <span className="break-words">Persönliche Beratung unter 0800 123 4567</span>
               </div>
-              <div className="flex items-center gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+              <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <img
                   src="/images/Icons/Lager schieferschwarz.png"
                   alt="Lager"
-                  className="w-6 h-6 object-contain flex-shrink-0"
+                  className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span>Kostenlose Einlagerung bis zu 6 Monate</span>
+                <span className="break-words">Kostenlose Einlagerung bis zu 6 Monate</span>
               </div>
-              <div className="flex items-center gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+              <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <img
                   src="/images/Icons/Termin schieferschwarz.png"
                   alt="Termin"
-                  className="w-6 h-6 object-contain flex-shrink-0"
+                  className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span>Lieferung zum Wunschtermin</span>
+                <span className="break-words">Lieferung zum Wunschtermin</span>
               </div>
-              <div className="flex items-center gap-3 pt-3">
+              <div className="flex items-center gap-2 sm:gap-3 pt-3">
                 <img
                   src="/images/Icons/Lieferung schieferschwarz.png"
                   alt="Lieferung"
-                  className="w-6 h-6 object-contain flex-shrink-0"
+                  className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span>Kostenlose Lieferung ab 999€</span>
+                <span className="break-words">Kostenlose Lieferung ab 999€</span>
               </div>
             </div>
           </div>
