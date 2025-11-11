@@ -2,14 +2,24 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './cart/CartDrawer';
 import MobileMenu from './navigation/MobileMenu';
 
 export default function Header() {
   const { itemCount } = useCart();
+  const router = useRouter();
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <header className="w-full sticky top-0 z-50 overflow-hidden">
@@ -27,20 +37,28 @@ export default function Header() {
             </Link>
 
             {/* Search Field */}
-            <div className="hidden sm:block w-[200px] lg:w-[250px] bg-white rounded-[12%]">
+            <form onSubmit={handleSearch} className="hidden sm:block w-[200px] lg:w-[250px] bg-white rounded-[12%]">
               <div className="relative w-full h-full flex items-center">
                 <input
                   type="text"
                   placeholder="Suche..."
-                  className="w-full h-12 pl-4 pr-12 bg-transparent text-gray-900 focus:outline-none"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-12 pl-4 pr-12 bg-transparent text-gray-900 focus:outline-none rounded-[12%]"
                 />
-                <img
-                  src="/images/Icons/Lupe schieferschwarz.png"
-                  alt="Suche"
-                  className="absolute right-4 w-6 h-6 pointer-events-none"
-                />
+                <button
+                  type="submit"
+                  className="absolute right-4 w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity"
+                  aria-label="Suchen"
+                >
+                  <img
+                    src="/images/Icons/Lupe schieferschwarz.png"
+                    alt="Suche"
+                    className="w-full h-full"
+                  />
+                </button>
               </div>
-            </div>
+            </form>
 
             {/* Icons - Favoriten, Warenkorb, Kundenkonto, Hamburger (Mobile) */}
             <div className="flex items-center gap-2 sm:gap-3 md:gap-[1%]">
