@@ -13,7 +13,6 @@ export async function GET(request: NextRequest) {
     const products = await wooCommerceClient.getProducts({
       per_page: 50,
       search: query.trim(),
-      status: 'publish',
     });
 
     return NextResponse.json(products);
