@@ -713,6 +713,56 @@ type CheckoutStep = 'contact' | 'payment' | 'review';
 
 ## 🆕 Neueste Änderungen
 
+### 11. November 2025 - Suchfunktion & Kategorieseiten-Optimierung
+
+#### ✅ Live-Suche implementiert
+- **LiveSearch Komponente** (`src/components/LiveSearch.tsx`):
+  - Live-Vorschläge während dem Tippen (300ms Debounce)
+  - Kategorisierte Ergebnisse (Kategorien + Produkte)
+  - Dropdown mit Produktbildern, Namen, Kategorie und Preis
+  - "Alle Ergebnisse anzeigen" Link zur vollständigen Suchseite
+  - Click-Outside Detection & Loading-States
+
+- **Such-API** (`/api/products/search`):
+  - Durchsucht WooCommerce Produktkatalog
+  - Gibt bis zu 50 Ergebnisse zurück
+  - Integration mit bestehendem WooCommerce Client
+
+- **Suchseite** (`/app/search/page.tsx`):
+  - Vollständige Suchergebnisse mit Produktkarten
+  - Suspense Boundary für Next.js 15 Kompatibilität
+  - Responsive Grid-Layout
+
+#### ✅ Kategorieseiten verbessert
+- **Produktanzahl-Anzeige**:
+  - Zeigt Gesamtanzahl über alle Seiten (nicht nur aktuelle Seite)
+  - Format: "57 Produkte gefunden (Seite 1 von 5)"
+  - Nutzt X-WP-Total Header aus API-Response
+
+- **Layout-Optimierung**:
+  - Kategorienamen in Beschreibungsbox verschoben (nicht mehr darüber)
+  - Text Primary Farbe (#2e2d32) für bessere Lesbarkeit
+  - Größere Schrift: Mobile `text-base`, Desktop `text-lg`
+  - Höhere Line-Height: Mobile `leading-relaxed`, Desktop `leading-loose`
+  - Desktop: 400 Zeichen Preview (vorher 200)
+  - Suchfeld entfernt (globale Suche im Header ausreichend)
+
+- **Pagination**:
+  - Aktive Seite in Primary/Accent Farbe (#ed1b24)
+  - Bessere visuelle Hervorhebung
+
+- **Beschreibungstext-Formatierung**:
+  - H2/H3 Überschriften mit größeren Abständen
+  - Text Primary Farbe für alle Elemente
+  - `prose-lg` statt `prose-sm` für größere Schrift
+  - Bessere Spacing zwischen Absätzen und Listen
+
+#### 🐛 Bug-Fixes
+- **Suspense Boundary**: useSearchParams() korrekt gewrappt für Next.js 15
+- **Z-Index Problem**: Such-Dropdown erscheint jetzt über anderen Elementen
+- **Header Overflow**: `overflow-visible` für korrekte Dropdown-Anzeige
+- **TypeScript Fehler**: Ungültige Parameter aus API-Calls entfernt
+
 ### 11. November 2025 - Projekt-Analyse & Dokumentation
 - **PROJEKT_ZUSAMMENFASSUNG.md**: Umfassende Aktualisierung mit detaillierter Architektur-Übersicht
 - **API Routes**: Vollständige Dokumentation aller 5 Endpoints (inkl. Webhook)
@@ -824,7 +874,7 @@ type CheckoutStep = 'contact' | 'payment' | 'review';
 
 **PRIORITÄT 2 - Wichtige Features:**
 4. **Blog Einzelartikel** - `/blog/[slug]` Route fehlt
-5. **Produktsuche** - UI vorhanden, Backend fehlt
+5. ~~**Produktsuche**~~ - ✅ **IMPLEMENTIERT** (Live-Suche mit Dropdown & Suchseite)
 6. **Kundenkonto** - Keine Authentifizierung/Login-System
 7. **Favoriten** - Icon im Header, aber keine Funktionalität
 
@@ -854,8 +904,8 @@ type CheckoutStep = 'contact' | 'payment' | 'review';
 - [ ] Favoriten/Wunschliste System
 
 **Phase 4 - Suche & Filter (1 Woche):**
-- [ ] Backend Produktsuche
-- [ ] Live-Suche im Header
+- [x] Backend Produktsuche ✅ **IMPLEMENTIERT**
+- [x] Live-Suche im Header ✅ **IMPLEMENTIERT**
 - [ ] Erweiterte Filter/Facets
 
 **Phase 5 - Optimierung & Launch (1-2 Wochen):**

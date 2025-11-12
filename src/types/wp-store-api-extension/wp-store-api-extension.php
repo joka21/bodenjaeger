@@ -3,16 +3,16 @@
 Plugin Name: WooCommerce Store API Extension for Jaeger
 Plugin URI: https://example.com
 Description: Extends the WooCommerce Store API to include custom fields from the Jaeger plugin in the product JSON response.
-Version: 1.0.0
+Version: 1.0.2
 Author: Claude Code
 Author URI: https://example.com
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 5.0
-Tested up to: 6.3
+Tested up to: 6.4
 Requires PHP: 7.4
-WC requires at least: 5.0
-WC tested up to: 8.0
+WC requires at least: 7.0
+WC tested up to: 9.0
 Text Domain: jaeger-store-api-extension
 Domain Path: /languages
 Network: false
@@ -32,22 +32,34 @@ class Jaeger_Store_API_Extension {
      * List of custom fields to include in the API response
      */
     private $jaeger_custom_fields = [
+        // Basis-Produktinformationen
         '_uvp',
         '_show_uvp',
+        '_uvp_paketpreis',
         '_paketpreis',
         '_paketpreis_s',
         '_paketinhalt',
+        '_einheit',
         '_einheit_short',
+        '_verpackungsart',
         '_verpackungsart_short',
         '_verschnitt',
+        '_artikelbeschreibung',
         '_text_produktuebersicht',
         '_show_text_produktuebersicht',
         '_lieferzeit',
         '_show_lieferzeit',
+        // Set-Angebot Felder
         '_setangebot_titel',
         '_show_setangebot',
+        '_setangebot_rabatt',
+        '_setangebot_text_color',
+        '_setangebot_text_size',
+        '_setangebot_button_style',
+        // Standard-Zusatzprodukte
         '_standard_addition_daemmung',
         '_standard_addition_sockelleisten',
+        // Optionale Zusatzprodukte
         '_option_products_daemmung',
         '_option_products_sockelleisten',
         // Zubehör-Kategorien (7 zusätzliche Meta-Keys)
@@ -58,10 +70,18 @@ class Jaeger_Store_API_Extension {
         '_option_products_untergrundvorbereitung',
         '_option_products_schienen-profile',
         '_option_products_reinigung-pflege',
+        // Aktions-System
         '_aktion',
         '_show_aktion',
+        '_aktion_text_color',
+        '_aktion_text_size',
+        '_aktion_button_style',
+        // Angebotspreis-Hinweis
         '_angebotspreis_hinweis',
-        '_show_angebotspreis_hinweis'
+        '_show_angebotspreis_hinweis',
+        '_angebotspreis_text_color',
+        '_angebotspreis_text_size',
+        '_angebotspreis_button_style'
     ];
 
     /**
@@ -69,6 +89,19 @@ class Jaeger_Store_API_Extension {
      */
     public function __construct() {
         add_action('init', [$this, 'init']);
+
+        // Declare WooCommerce feature compatibility
+        add_action('before_woocommerce_init', [$this, 'declare_woocommerce_compatibility']);
+    }
+
+    /**
+     * Declare compatibility with WooCommerce features
+     */
+    public function declare_woocommerce_compatibility() {
+        if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
+        }
     }
 
     /**

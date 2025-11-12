@@ -8,20 +8,30 @@ interface WooCommerceConfig {
 }
 
 interface JaegerMeta {
+  // Basis-Produktinformationen
   uvp?: number | null;
   show_uvp?: boolean;
+  uvp_paketpreis?: number | null;
   paketpreis?: number | null;
   paketpreis_s?: number | null;
   paketinhalt?: number | null;
+  einheit?: string | null;
   einheit_short?: string | null;
+  verpackungsart?: string | null;
   verpackungsart_short?: string | null;
   verschnitt?: number | null;
+  artikelbeschreibung?: string | null;
   text_produktuebersicht?: string | null;
   show_text_produktuebersicht?: boolean;
   lieferzeit?: string | null;
   show_lieferzeit?: boolean;
+  // Set-Angebot Felder
   setangebot_titel?: string | null;
   show_setangebot?: boolean;
+  setangebot_rabatt?: number | null;
+  setangebot_text_color?: string | null;
+  setangebot_text_size?: string | null;
+  setangebot_button_style?: string | null;
   // Standard-Zusatzprodukte (Produkt-IDs)
   standard_addition_daemmung?: number | null;
   standard_addition_sockelleisten?: number | null;
@@ -41,10 +51,18 @@ interface JaegerMeta {
   'option_products_schienen-profile'?: string | null;
   option_products_reinigung_pflege?: string | null;
   'option_products_reinigung-pflege'?: string | null;
+  // Aktions-System
   aktion?: string | null;
   show_aktion?: boolean;
+  aktion_text_color?: string | null;
+  aktion_text_size?: string | null;
+  aktion_button_style?: string | null;
+  // Angebotspreis-Hinweis
   angebotspreis_hinweis?: string | null;
   show_angebotspreis_hinweis?: boolean;
+  angebotspreis_text_color?: string | null;
+  angebotspreis_text_size?: string | null;
+  angebotspreis_button_style?: string | null;
 }
 
 interface StoreApiProduct {

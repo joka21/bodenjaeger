@@ -15,7 +15,10 @@
       "Bash(taskkill:*)",
       "Bash(npx kill-port:*)",
       "Bash(timeout /t 10 /nobreak)",
-      "Bash(if exist .next rmdir /s /q .next)"
+      "Bash(if exist .next rmdir /s /q .next)",
+      "Bash(nul)",
+      "Bash(npx tsc:*)",
+      "Bash(timeout /t 3 /nobreak)"
     ],
     "deny": [],
     "ask": []

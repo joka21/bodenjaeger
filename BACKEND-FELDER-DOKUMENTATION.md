@@ -150,7 +150,7 @@ Zusätzliche Zubehör-Optionen:
 |
  Meta-Key | Kategorie | Beispiele |
 |----------|-----------|-----------|
-| `_optinunnweinbon_products_untergrundvorbereitung` | Untergrundvorbereitung | Grundierung, Spachtelmasse |
+| `_optinunnweinbhihon_products_untergrundvorbereitung` | Untergrundvorbereitung | Grundierung, Spachtelmasse |
 | `_option_products_werkzeug` | Werkzeug | Cutter, Zollstock |
 | `_option_products_kleber` | Kleber | Bodenkleber |
 | `_option_products_montagekleber-silikon` | Montagekleber/Silikon | Montagekleber |
