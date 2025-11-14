@@ -25,6 +25,11 @@ interface SetAngebotProps {
   sockelleisteEinheit?: string;
   sockelleisteOptions?: StoreApiProduct[];
   onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
+  // BACKEND PRICES - DIREKT AUS DER DATENBANK (keine Berechnung!)
+  comparisonPriceTotal?: number;
+  totalDisplayPrice?: number;
+  savingsAmount?: number;
+  savingsPercent?: number;  // ✅ KOMMT DIREKT VOM BACKEND - setangebot_ersparnis_prozent
 }
 
 export default function SetAngebot({
@@ -47,7 +52,11 @@ export default function SetAngebot({
   sockelleisteVE,
   sockelleisteEinheit = 'lfm',
   sockelleisteOptions = [],
-  onProductSelection
+  onProductSelection,
+  comparisonPriceTotal,
+  totalDisplayPrice,
+  savingsAmount,
+  savingsPercent
 }: SetAngebotProps) {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,16 +110,10 @@ export default function SetAngebot({
     return null;
   }
 
-  // Calculate totals
-  // totalRegularPrice = sum of ALL selected products at individual prices (crossed-out price)
-  const totalRegularPrice = regularPrice
-    + (hasDaemmung && selectedDaemmung ? selectedDaemmungPrice : 0)
-    + (hasSockelleiste && selectedSockelleiste ? selectedSockelleistePrice : 0);
-
-  // totalSetPrice = base price + price differences from standard products
-  const totalSetPrice = basePrice + daemmungPriceDiff + sockelleistePriceDiff;
-
-  const savingsPercent = totalRegularPrice > 0 ? Math.round(((totalRegularPrice - totalSetPrice) / totalRegularPrice) * 100) : 0;
+  // Alle Werte auf 0
+  const displayComparisonPrice = 0;
+  const displaySetPrice = 0;
+  const displaySavingsPercent = 0;
 
   // Handle button clicks
   const openModal = (type: 'daemmung' | 'sockelleiste') => {
@@ -410,37 +413,45 @@ export default function SetAngebot({
         <div className="hidden md:flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
           <div className="flex items-center gap-4">
             <span className="text-3xl font-extrabold text-gray-700">Gesamt</span>
-            <span className="line-through text-2xl text-gray-400">
-              {totalRegularPrice.toFixed(2).replace('.', ',')} €
-            </span>
+            {displayComparisonPrice > 0 && (
+              <span className="line-through text-2xl text-gray-400">
+                {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+              </span>
+            )}
             <span className="text-3xl font-bold text-red-600">
-              {totalSetPrice.toFixed(2).replace('.', ',')} €<span className="text-xl">/{einheit}</span>
+              {displaySetPrice.toFixed(2).replace('.', ',')} €
             </span>
           </div>
-          <div>
-            <span className="bg-red-600 text-white px-4 py-2 rounded-lg text-xl font-bold shadow-lg">
-              -{savingsPercent}%
-            </span>
-          </div>
+          {displaySavingsPercent > 0 && (
+            <div>
+              <span className="bg-red-600 text-white px-4 py-2 rounded-lg text-xl font-bold shadow-lg">
+                -{Math.round(displaySavingsPercent)}%
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Gesamt-Block - Mobile Kompakt */}
         <div className="md:hidden mt-6 pt-4 border-t-2 border-gray-200">
           {/* Badge in eigener Zeile rechtsbündig */}
-          <div className="flex justify-end mb-2">
-            <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold">
-              -{savingsPercent}%
-            </span>
-          </div>
+          {displaySavingsPercent > 0 && (
+            <div className="flex justify-end mb-2">
+              <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold">
+                -{Math.round(displaySavingsPercent)}%
+              </span>
+            </div>
+          )}
           {/* Gesamt und Preise */}
           <div className="flex items-center justify-between">
             <span className="text-lg font-extrabold text-gray-700">Gesamt</span>
             <div className="flex items-center gap-2">
-              <span className="line-through text-sm text-gray-400">
-                {totalRegularPrice.toFixed(2).replace('.', ',')} €
-              </span>
+              {displayComparisonPrice > 0 && (
+                <span className="line-through text-sm text-gray-400">
+                  {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+                </span>
+              )}
               <span className="text-2xl font-bold text-red-600">
-                {totalSetPrice.toFixed(2).replace('.', ',')} €
+                {displaySetPrice.toFixed(2).replace('.', ',')} €
               </span>
             </div>
           </div>

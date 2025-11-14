@@ -11,9 +11,25 @@ interface ProductInfoProps {
   daemmungOptions?: StoreApiProduct[];
   sockelleisteOptions?: StoreApiProduct[];
   onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
+  // Correct prices from setCalculations
+  comparisonPriceTotal?: number;
+  totalDisplayPrice?: number;
+  savingsAmount?: number;
+  savingsPercent?: number;
 }
 
-export default function ProductInfo({ product, daemmungProduct, sockelleisteProduct, daemmungOptions = [], sockelleisteOptions = [], onProductSelection }: ProductInfoProps) {
+export default function ProductInfo({
+  product,
+  daemmungProduct,
+  sockelleisteProduct,
+  daemmungOptions = [],
+  sockelleisteOptions = [],
+  onProductSelection,
+  comparisonPriceTotal,
+  totalDisplayPrice,
+  savingsAmount,
+  savingsPercent
+}: ProductInfoProps) {
   // Extract features from short_description or jaeger_meta
   const getFeaturesFromDescription = (html: string): string[] => {
     // Extract <li> items from HTML
@@ -44,9 +60,16 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
     }
   }
 
-  // Get pricing information
-  const basePrice = parseFloat(product.prices?.price || product.price || '0') / 100;
-  const regularPrice = parseFloat(product.prices?.regular_price || product.regular_price || '0') / 100;
+  // Get pricing information from jaeger_meta (CORRECT source for package prices!)
+  const paketinhalt = product.jaeger_meta?.paketinhalt || 1;
+  const paketpreis = product.jaeger_meta?.paketpreis || 0;
+  const paketpreisS = product.jaeger_meta?.paketpreis_s;
+
+  // Calculate price per unit (€/m²)
+  const basePrice = (paketpreisS !== undefined && paketpreisS !== null && paketpreisS > 0)
+    ? paketpreisS / paketinhalt
+    : paketpreis / paketinhalt;
+  const regularPrice = paketpreis / paketinhalt;
   const einheit = product.jaeger_meta?.einheit_short || 'm²';
   const productImage = product.images && product.images.length > 0
     ? product.images[0].src
@@ -59,9 +82,9 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
     : '/images/placeholder.jpg';
   // Standard products are FREE in the set (price = 0)
   const daemmungSetPrice = 0; // Always 0 for standard products
-  const daemmungRegularPrice = daemmungProduct?.prices?.price
-    ? parseFloat(daemmungProduct.prices.price) / 100
-    : parseFloat(daemmungProduct?.price || '0');
+  const daemmungPaketpreis = daemmungProduct?.jaeger_meta?.paketpreis || 0;
+  const daemmungPaketinhalt = daemmungProduct?.jaeger_meta?.paketinhalt || 1;
+  const daemmungRegularPrice = daemmungPaketpreis / daemmungPaketinhalt;
   const daemmungVE = daemmungProduct?.jaeger_meta?.paketinhalt
     ? `${daemmungProduct.jaeger_meta.paketinhalt}${daemmungProduct.jaeger_meta.einheit_short || 'm²'}`
     : undefined;
@@ -73,9 +96,9 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
     : '/images/placeholder.jpg';
   // Standard products are FREE in the set (price = 0)
   const sockelleisteSetPrice = 0; // Always 0 for standard products
-  const sockelleisteRegularPrice = sockelleisteProduct?.prices?.price
-    ? parseFloat(sockelleisteProduct.prices.price) / 100
-    : parseFloat(sockelleisteProduct?.price || '0');
+  const sockelleistePaketpreis = sockelleisteProduct?.jaeger_meta?.paketpreis || 0;
+  const sockelleistePaketinhalt = sockelleisteProduct?.jaeger_meta?.paketinhalt || 1;
+  const sockelleisteRegularPrice = sockelleistePaketpreis / sockelleistePaketinhalt;
   const sockelleisteVE = sockelleisteProduct?.jaeger_meta?.paketinhalt
     ? `${sockelleisteProduct.jaeger_meta.paketinhalt}${sockelleisteProduct.jaeger_meta.einheit_short || 'lfm'}`
     : undefined;
@@ -136,6 +159,10 @@ export default function ProductInfo({ product, daemmungProduct, sockelleisteProd
           sockelleisteEinheit={sockelleisteEinheit}
           sockelleisteOptions={sockelleisteOptions}
           onProductSelection={onProductSelection}
+          comparisonPriceTotal={comparisonPriceTotal}
+          totalDisplayPrice={totalDisplayPrice}
+          savingsAmount={savingsAmount}
+          savingsPercent={savingsPercent}
         />
       </div>
     </div>

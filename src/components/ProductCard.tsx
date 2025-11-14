@@ -20,6 +20,10 @@ interface JaegerMeta {
   show_lieferzeit?: boolean;
   setangebot_titel?: string | null;
   show_setangebot?: boolean;
+  setangebot_einzelpreis?: number | null;
+  setangebot_gesamtpreis?: number | null;
+  setangebot_ersparnis_euro?: number | null;
+  setangebot_ersparnis_prozent?: number | null;
   standard_addition_daemmung?: number | null;
   standard_addition_sockelleisten?: number | null;
   aktion?: string | null;
@@ -44,32 +48,16 @@ export default function ProductCard({ product, showDescription = false }: Produc
   const images = product.images || [];
   const hasMultipleImages = images.length > 1;
 
-  // Calculate discount percentage
-  const calculateDiscount = () => {
-    if (!jaeger_meta?.uvp || !jaeger_meta?.paketpreis) return 0;
-    return Math.round(((jaeger_meta.uvp - jaeger_meta.paketpreis) / jaeger_meta.uvp) * 100);
-  };
+  // Discount always 0
+  const discount = 0;
 
-  const discount = calculateDiscount();
-
-  // Get main price - prioritize paketpreis, fallback to regular price
+  // Alle Preise auf 0
   const getMainPrice = () => {
-    if (jaeger_meta?.paketpreis) {
-      return `${jaeger_meta.paketpreis.toFixed(2)} €/${jaeger_meta.einheit_short || 'm²'}`;
-    }
-
-    // Fallback to WooCommerce price
-    const price = product.prices?.price ?
-      (parseFloat(product.prices.price) / 100).toFixed(2) :
-      product.price;
-    return `${price} €`;
+    return `0,00 €/${jaeger_meta?.einheit_short || 'm²'}`;
   };
 
-  // Get strike price (UVP)
+  // Kein Strike-Preis
   const getStrikePrice = () => {
-    if (jaeger_meta?.uvp && jaeger_meta?.show_uvp) {
-      return `statt ${jaeger_meta.uvp.toFixed(2)} €/${jaeger_meta.einheit_short || 'm²'}`;
-    }
     return null;
   };
 
@@ -144,9 +132,9 @@ export default function ProductCard({ product, showDescription = false }: Produc
         )}
 
         {/* Sale Badge (Top Left) */}
-        {discount > 0 && (
+        {product.on_sale && (
           <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 rounded text-sm font-bold">
-            -{discount}%
+            -0%
           </div>
         )}
 

@@ -56,6 +56,11 @@ class Jaeger_Store_API_Extension {
         '_setangebot_text_color',
         '_setangebot_text_size',
         '_setangebot_button_style',
+        // Set-Angebot Berechnete Preise (vom Backend)
+        '_setangebot_einzelpreis',
+        '_setangebot_gesamtpreis',
+        '_setangebot_ersparnis_euro',
+        '_setangebot_ersparnis_prozent',
         // Standard-Zusatzprodukte
         '_standard_addition_daemmung',
         '_standard_addition_sockelleisten',
@@ -114,14 +119,20 @@ class Jaeger_Store_API_Extension {
             return;
         }
 
-        // Hook into REST API response - covers both Store API and REST API
-        add_filter('rest_request_after_callbacks', [$this, 'modify_store_api_response'], 10, 3);
+        // ONLY hook into REST API - do NOT interfere with admin saves
+        // This prevents conflicts during product saves in WordPress admin
+        if (defined('REST_REQUEST') && REST_REQUEST) {
+            // Hook into REST API response - covers both Store API and REST API
+            add_filter('rest_request_after_callbacks', [$this, 'modify_store_api_response'], 10, 3);
 
-        // Also hook into the regular REST API for compatibility (/wc/v3/ endpoints)
-        add_filter('woocommerce_rest_prepare_product_object', [$this, 'add_jaeger_meta_to_rest_api'], 10, 3);
+            // Also hook into the regular REST API for compatibility (/wc/v3/ endpoints)
+            add_filter('woocommerce_rest_prepare_product_object', [$this, 'add_jaeger_meta_to_rest_api'], 10, 3);
+        }
 
         // Add debug logging
-        add_action('init', [$this, 'debug_plugin_loaded']);
+        if (defined('WP_DEBUG') && WP_DEBUG === true) {
+            $this->debug_plugin_loaded();
+        }
     }
 
     /**
@@ -276,11 +287,15 @@ class Jaeger_Store_API_Extension {
      * @return WP_REST_Response Modified response
      */
     public function add_jaeger_meta_to_rest_api($response, $product, $request) {
-        // Only add to Store API endpoints, not admin API
-        $route = $request->get_route();
-        if (strpos($route, '/wc/store/') !== false || strpos($route, '/wc/v') !== false) {
-            return $this->add_jaeger_meta_to_store_api($response, $product, $request);
-        }
+        // Get response data
+        $data = $response->get_data();
+
+        // Add jaeger_meta to response
+        $jaeger_meta = $this->get_jaeger_meta_data($product);
+        $data['jaeger_meta'] = $jaeger_meta;
+
+        // Update response
+        $response->set_data($data);
 
         return $response;
     }
@@ -299,17 +314,33 @@ class Jaeger_Store_API_Extension {
         }
 
         // Handle price fields
-        if (in_array($field_name, ['_uvp', '_paketpreis', '_paketpreis_s'])) {
-            return $value !== '' ? floatval($value) : null;
+        if (in_array($field_name, ['_uvp', '_paketpreis', '_paketpreis_s', '_setangebot_einzelpreis', '_setangebot_gesamtpreis', '_setangebot_ersparnis_euro', '_setangebot_ersparnis_prozent'])) {
+            // Safe conversion with error handling
+            if ($value === '' || $value === null || $value === false) {
+                return null;
+            }
+            // Handle already numeric values
+            if (is_numeric($value)) {
+                return floatval($value);
+            }
+            return null;
         }
 
         // Handle numeric fields
         if (in_array($field_name, ['_paketinhalt', '_verschnitt', '_standard_addition_daemmung', '_standard_addition_sockelleisten'])) {
-            return $value !== '' ? floatval($value) : null;
+            // Safe conversion with error handling
+            if ($value === '' || $value === null || $value === false) {
+                return null;
+            }
+            // Handle already numeric values
+            if (is_numeric($value)) {
+                return floatval($value);
+            }
+            return null;
         }
 
         // Handle text fields - return as string or null if empty
-        return $value !== '' ? $value : null;
+        return $value !== '' && $value !== null ? $value : null;
     }
 
     /**

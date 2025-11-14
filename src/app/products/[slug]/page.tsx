@@ -29,6 +29,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
 
     console.log('Product jaeger_meta:', product.jaeger_meta);
+    console.log('🔍 Set-Angebot Ersparnis-Felder vom Backend:');
+    console.log('  - setangebot_einzelpreis:', product.jaeger_meta?.setangebot_einzelpreis);
+    console.log('  - setangebot_gesamtpreis:', product.jaeger_meta?.setangebot_gesamtpreis);
+    console.log('  - setangebot_ersparnis_euro:', product.jaeger_meta?.setangebot_ersparnis_euro);
+    console.log('  - setangebot_ersparnis_prozent:', product.jaeger_meta?.setangebot_ersparnis_prozent);
 
     // Parse all product IDs we need to load
     const daemmungId = product.jaeger_meta?.standard_addition_daemmung;

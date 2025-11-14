@@ -2,13 +2,21 @@
 
 import { useState } from 'react';
 import type { StoreApiProduct } from '@/lib/woocommerce';
-import type { SetQuantityCalculation, SetPriceCalculation } from '@/lib/setCalculations';
+import type { SetQuantityCalculation } from '@/lib/setCalculations';
 import { prepareSetForCart } from '@/lib/setCalculations';
 import { useCart } from '@/contexts/CartContext';
 
+// Simple price interface - prices come from backend!
+interface SetPrices {
+  totalDisplayPrice: number;
+  comparisonPriceTotal?: number;
+  savings?: number;
+  savingsPercent?: number;
+}
+
 interface TotalPriceProps {
-  quantities: SetQuantityCalculation;
-  prices: SetPriceCalculation;
+  quantities: SetQuantityCalculation | null;
+  prices: SetPrices | null;
   einheit: string;
   product: StoreApiProduct;
   selectedDaemmung: StoreApiProduct | null;
@@ -27,6 +35,19 @@ export default function TotalPrice({
 }: TotalPriceProps) {
   const [addedToCart, setAddedToCart] = useState(false);
   const { addSetToCart } = useCart();
+
+  // Show loading state if data not yet available
+  if (!quantities || !prices) {
+    return (
+      <div className="p-6 bg-white rounded-lg">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-1/2 mb-4"></div>
+          <div className="h-12 bg-gray-200 rounded w-full mb-4"></div>
+          <div className="h-10 bg-gray-200 rounded w-full"></div>
+        </div>
+      </div>
+    );
+  }
 
   const {
     totalDisplayPrice,
@@ -73,22 +94,20 @@ export default function TotalPrice({
         </span>
         <div className="text-right">
           <div className="text-[#000000] font-bold text-[28px] md:text-[32px] leading-tight">
-            {totalDisplayPrice.toFixed(2).replace('.', ',')}€
+            0,00€
           </div>
         </div>
       </div>
 
-      {/* 2. ERSPARNIS-BOX (Kein Hintergrund) */}
-      {hasSavings && savings && (
-        <div className="py-2 my-4">
-          <div
-            className="font-semibold text-sm md:text-base"
-            style={{ color: '#28a745' }}
-          >
-            Du sparst {savings.toFixed(2).replace('.', ',')}€
-          </div>
+      {/* 2. ERSPARNIS-BOX */}
+      <div className="py-2 my-4">
+        <div
+          className="font-semibold text-sm md:text-base"
+          style={{ color: '#28a745' }}
+        >
+          Du sparst 0,00€
         </div>
-      )}
+      </div>
 
       {/* Success Message */}
       {addedToCart && (

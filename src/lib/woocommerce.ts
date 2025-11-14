@@ -1,5 +1,5 @@
 // WooCommerce Store API Client
-// Using the Store API endpoints: /wp-json/wc/store/v1/
+// Using the Jaeger API endpoints: /wp-json/jaeger/v1/ (includes jaeger_meta fields)
 
 interface WooCommerceConfig {
   baseUrl: string;
@@ -32,6 +32,11 @@ interface JaegerMeta {
   setangebot_text_color?: string | null;
   setangebot_text_size?: string | null;
   setangebot_button_style?: string | null;
+  // Set-Angebot Berechnete Preise (vom Backend)
+  setangebot_einzelpreis?: number | null;      // Vergleichspreis (Einzelkauf) pro Einheit
+  setangebot_gesamtpreis?: number | null;      // Set-Preis pro Einheit
+  setangebot_ersparnis_euro?: number | null;   // Ersparnis in Euro
+  setangebot_ersparnis_prozent?: number | null; // Ersparnis in Prozent
   // Standard-Zusatzprodukte (Produkt-IDs)
   standard_addition_daemmung?: number | null;
   standard_addition_sockelleisten?: number | null;
@@ -77,6 +82,7 @@ interface StoreApiProduct {
   regular_price: string;
   sale_price: string;
   price_html: string;
+  jaeger_fields?: JaegerMeta; // Jaeger API uses jaeger_fields
   prices?: {
     price: string;
     regular_price: string;
@@ -229,7 +235,9 @@ class WooCommerceClient {
       consumerSecret: process.env.WC_CONSUMER_SECRET,
     };
 
-    this.baseApiUrl = `${this.config.baseUrl.replace(/\/$/, '')}/wp-json/wc/store/v1`;
+    // ✅ Use Jäger Custom API - only this has jaeger_meta fields!
+    // Store API (/wc/store/v1) doesn't return custom fields
+    this.baseApiUrl = `${this.config.baseUrl.replace(/\/$/, '')}/wp-json`;
     this.restApiUrl = `${this.config.baseUrl.replace(/\/$/, '')}/wp-json/wc/v3`;
   }
 
@@ -241,6 +249,52 @@ class WooCommerceClient {
     }
 
     const url = `${this.baseApiUrl}${endpoint}`;
+
+    // Add basic auth for WooCommerce API
+    const auth = btoa(`${this.config.consumerKey}:${this.config.consumerSecret}`);
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Basic ${auth}`,
+      ...options.headers,
+    };
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers,
+      });
+
+      if (!response.ok) {
+        const errorData: StoreApiError = await response.json().catch(() => ({
+          code: 'unknown_error',
+          message: `HTTP ${response.status}: ${response.statusText}`,
+        }));
+
+        throw new Error(`WooCommerce API Error: ${errorData.message} (Code: ${errorData.code})`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+      throw new Error(`Network error: ${String(error)}`);
+    }
+  }
+
+  /**
+   * Make a request to the WooCommerce REST API (not Jaeger API)
+   * Used for endpoints that don't exist in Jaeger API (like categories)
+   */
+  private async makeRestRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    this.initializeConfig();
+
+    if (!this.restApiUrl || !this.config) {
+      throw new Error('WooCommerce client not properly initialized');
+    }
+
+    const url = `${this.restApiUrl}${endpoint}`;
 
     // Add basic auth for WooCommerce API
     const auth = btoa(`${this.config.consumerKey}:${this.config.consumerSecret}`);
@@ -301,10 +355,17 @@ class WooCommerceClient {
       }
     });
 
-    const endpoint = `/products${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+    // ✅ Use Jäger API for ALL product requests (has custom fields!)
+    const queryString = searchParams.toString();
+    const endpoint = queryString ? `/jaeger/v1/products?${queryString}` : '/jaeger/v1/products';
 
     try {
-      const products = await this.makeRequest<StoreApiProduct[]>(endpoint);
+      const response = await this.makeRequest<{ products: StoreApiProduct[]; pagination?: unknown }>(endpoint);
+      // Jaeger API returns { products: [...], pagination: {...} }
+      // Extract just the products array
+      const products = response.products || (response as unknown as StoreApiProduct[]);
+
+      // Jäger API provides all fields including jaeger_meta!
       return products;
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -336,11 +397,14 @@ class WooCommerceClient {
         }
       }
 
-      // First try: Search by slug directly
+      // ✅ Search by slug - Jäger API already returns FULL product data with jaeger_meta!
       const searchResults = await this.getProducts({ search: slug, per_page: 100 });
       const exactMatch = searchResults.find(p => p.slug === slug);
 
       if (exactMatch) {
+        // ✅ The search result already has ALL fields including jaeger_meta!
+        // No need to call getProductById() again
+
         // Cache the result (server-side only)
         if (typeof window === 'undefined') {
           try {
@@ -468,8 +532,8 @@ class WooCommerceClient {
   }
 
   /**
-   * Get a single product by ID from WooCommerce Store API
-   * Fallback method for single product loading
+   * Get a single product by ID using Jäger API
+   * ✅ ONLY Jäger API has jaeger_meta with all custom fields!
    */
   async getProductById(id: number): Promise<StoreApiProduct | null> {
     if (!id || id <= 0) {
@@ -477,9 +541,18 @@ class WooCommerceClient {
     }
 
     try {
-      // Use batch loading for consistency
-      const productsMap = await this.getProductsByIds([id]);
-      return productsMap.get(id) || null;
+      // ✅ Use Jäger API with include parameter
+      // /jaeger/v1/products?include=123 returns single product with ALL custom fields
+      const response = await this.makeRequest<{ products: StoreApiProduct[], pagination?: unknown }>(`/jaeger/v1/products?include=${id}`);
+
+      // Jäger API returns { products: [...], pagination: {...} }
+      const products = response.products || [];
+
+      if (products && products.length > 0) {
+        return products[0];
+      }
+
+      return null;
     } catch (error) {
       console.error(`Error fetching product with ID "${id}":`, error);
       return null;
@@ -506,7 +579,8 @@ class WooCommerceClient {
       }
     });
 
-    const endpoint = `/products/categories${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+    // ✅ Use WooCommerce Store API for categories
+    const endpoint = `/wc/store/v1/products/categories${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
 
     try {
       return await this.makeRequest<StoreApiCategory[]>(endpoint);

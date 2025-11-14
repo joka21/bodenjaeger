@@ -18,7 +18,17 @@
       "Bash(if exist .next rmdir /s /q .next)",
       "Bash(nul)",
       "Bash(npx tsc:*)",
-      "Bash(timeout /t 3 /nobreak)"
+      "Bash(timeout /t 3 /nobreak)",
+      "Bash(python:*)",
+      "Bash(node:*)",
+      "Bash(del:*)",
+      "Bash(test_response.json)",
+      "Bash(findstr:*)",
+      "Bash(test_wc_api.json)",
+      "Bash(test_categories.json 2)",
+      "Bash(test_categories.json)",
+      "Bash(einzelprodukt.json)",
+      "Bash(awk:*)"
     ],
     "deny": [],
     "ask": []

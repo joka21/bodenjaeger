@@ -20,6 +20,10 @@ interface JaegerMeta {
   show_lieferzeit?: boolean;
   setangebot_titel?: string | null;
   show_setangebot?: boolean;
+  setangebot_einzelpreis?: number | null;
+  setangebot_gesamtpreis?: number | null;
+  setangebot_ersparnis_euro?: number | null;
+  setangebot_ersparnis_prozent?: number | null;  // ✅ BACKEND WERT!
   standard_addition_daemmung?: number | null;
   standard_addition_sockelleisten?: number | null;
   aktion?: string | null;
@@ -208,7 +212,7 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
           {(categoryImage || categoryDescription) && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               {/* Left: Category Image */}
-              {categoryImage && (
+              {categoryImage && categoryImage.src && (
                 <div className="relative aspect-video bg-gray-100 rounded-md overflow-hidden">
                   <Image
                     src={categoryImage.src}
@@ -307,9 +311,9 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
                 <Link href={`/products/${product.slug}`}>
                   {/* Bildbereich */}
                   <div className="relative aspect-[4/3] bg-gray-200">
-                    {product.images.length > 0 ? (
+                    {product.images?.length > 0 && product.images[0]?.src ? (
                       <Image
-                        src={product.images[0]?.src}
+                        src={product.images[0].src}
                         alt={product.images[0]?.alt || product.name}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -326,32 +330,12 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
 
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-                      {/* Sale Badge - Berechnung basierend auf UVP wenn vorhanden */}
-                      {(() => {
-                        const jaegerMeta = product.jaeger_meta;
-                        let discountPercent = 0;
-
-                        if (product.on_sale) {
-                          // Preise in Euro umrechnen (Store API gibt Cent zurück)
-                          const salePrice = product.prices?.sale_price ? parseFloat(product.prices.sale_price) / 100 : parseFloat(product.sale_price) / 100;
-                          const regularPrice = product.prices?.regular_price ? parseFloat(product.prices.regular_price) / 100 : parseFloat(product.regular_price || product.price) / 100;
-
-                          // Verwende UVP wenn verfügbar und > 0, sonst regular_price
-                          const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
-                            ? jaegerMeta.uvp
-                            : regularPrice;
-
-                          if (comparePrice > 0 && salePrice < comparePrice) {
-                            discountPercent = Math.round(((comparePrice - salePrice) / comparePrice) * 100);
-                          }
-                        }
-
-                        return discountPercent > 0 ? (
-                          <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
-                            -{discountPercent}%
-                          </div>
-                        ) : null;
-                      })()}
+                      {/* Sale Badge */}
+                      {product.on_sale && (
+                        <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
+                          -0%
+                        </div>
+                      )}
 
                       {/* Aktion Badge */}
                       {product.jaeger_meta?.show_aktion && product.jaeger_meta?.aktion && (
@@ -427,39 +411,12 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
 
                     {/* Preisanzeige */}
                     {(() => {
-                      const jaegerMeta = product.jaeger_meta;
-                      const unit = jaegerMeta?.einheit_short || 'm²';
-
-                      // Preise aus prices Objekt (schon in Euro umgerechnet)
-                      const currentPrice = product.prices?.price ? parseFloat(product.prices.price) / 100 : parseFloat(product.price) / 100;
-                      const regularPrice = product.prices?.regular_price ? parseFloat(product.prices.regular_price) / 100 : parseFloat(product.regular_price || product.price) / 100;
-                      const salePrice = product.prices?.sale_price ? parseFloat(product.prices.sale_price) / 100 : parseFloat(product.sale_price || product.price) / 100;
-
-                      // Vergleichspreis: UVP wenn verfügbar, sonst regulärer Preis
-                      const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
-                        ? jaegerMeta.uvp
-                        : regularPrice;
-
-                      return product.on_sale && salePrice < comparePrice ? (
-                        <div className="space-y-1">
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-900 text-sm">Set-Angebot</span>
-                            <span className="text-gray-500 line-through text-sm">
-                              {comparePrice.toFixed(2).replace('.', ',')}€/{unit}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-900 font-medium">Gesamt</span>
-                            <span className="text-red-600 font-bold text-xl">
-                              {salePrice.toFixed(2).replace('.', ',')} €/{unit}
-                            </span>
-                          </div>
-                        </div>
-                      ) : (
+                      const unit = product.jaeger_meta?.einheit_short || 'm²';
+                      return (
                         <div className="flex justify-between items-center">
                           <span className="text-gray-900 font-medium">Preis</span>
                           <span className="text-gray-900 font-bold text-xl">
-                            {currentPrice.toFixed(2).replace('.', ',')} €/{unit}
+                            0,00 €/{unit}
                           </span>
                         </div>
                       );

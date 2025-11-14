@@ -63,10 +63,8 @@ export default function StandardProductCard({ product }: StandardProductCardProp
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  // Berechne Rabatt-Prozentsatz (gerundet)
-  const discountPercent = product._setangebot_ersparnis_prozent
-    ? Math.round(product._setangebot_ersparnis_prozent)
-    : 0;
+  // Discount immer 0
+  const discountPercent = 0;
 
   // Zeige Set-Angebot?
   const showSetAngebot = product._show_setangebot === 'yes';
@@ -105,9 +103,9 @@ export default function StandardProductCard({ product }: StandardProductCardProp
           {/* ===== BADGES (Oben Links) ===== */}
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             {/* Rabatt-Badge */}
-            {showSetAngebot && discountPercent > 0 && (
+            {showSetAngebot && (
               <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md">
-                -{discountPercent}%
+                -0%
               </div>
             )}
 
@@ -198,39 +196,12 @@ export default function StandardProductCard({ product }: StandardProductCardProp
           <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
 
           {/* Preisanzeige - Nur wenn Set-Angebot aktiv */}
-          {showSetAngebot ? (
-            <>
-              {/* Preiszeile 1: Set-Angebot + Vergleichspreis */}
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-gray-900 text-sm">Set-Angebot</span>
-                {product._setangebot_einzelpreis && (
-                  <span className="text-gray-500 line-through text-sm">
-                    statt {formatPrice(product._setangebot_einzelpreis)}€/{unit}
-                  </span>
-                )}
-              </div>
-
-              {/* Preiszeile 2: Gesamt + Aktueller Preis */}
-              <div className="flex justify-between items-center">
-                <span className="text-gray-900 font-medium">Gesamt</span>
-                {product._setangebot_gesamtpreis && (
-                  <span className="text-red-600 font-bold text-xl">
-                    {formatPrice(product._setangebot_gesamtpreis)} €/{unit}
-                  </span>
-                )}
-              </div>
-            </>
-          ) : (
-            // Alternative Preisanzeige wenn kein Set-Angebot
-            <div className="flex justify-between items-center">
-              <span className="text-gray-900 font-medium">Preis</span>
-              {product._setangebot_gesamtpreis && (
-                <span className="text-gray-900 font-bold text-xl">
-                  {formatPrice(product._setangebot_gesamtpreis)} €/{unit}
-                </span>
-              )}
-            </div>
-          )}
+          <div className="flex justify-between items-center">
+            <span className="text-gray-900 font-medium">Preis</span>
+            <span className="text-gray-900 font-bold text-xl">
+              0,00 €/{unit}
+            </span>
+          </div>
         </div>
       </Link>
     </article>

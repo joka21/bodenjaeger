@@ -22,8 +22,8 @@ export async function GET(request: Request) {
     const order = searchParams.get('order') || 'desc';
     const search = searchParams.get('search');
 
-    // Build the Store API URL with parameters
-    let storeApiUrl = `https://plan-dein-ding.de/wp-json/wc/store/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
+    // ✅ Build the Jäger API URL with parameters (includes jaeger_meta!)
+    let storeApiUrl = `https://plan-dein-ding.de/wp-json/jaeger/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
 
     // Add category filter if provided
     if (category) {
@@ -74,15 +74,29 @@ export async function GET(request: Request) {
       );
     }
 
-    const data = await response.json();
+    const responseData = await response.json();
 
-    // Extract pagination information from headers
-    const totalProducts = response.headers.get('X-WP-Total') || '0';
-    const totalPages = response.headers.get('X-WP-TotalPages') || '1';
+    // ✅ Jäger API returns { products: [...], pagination: {...} }
+    // Extract products array and pagination info
+    let data;
+    let totalProducts;
+    let totalPages;
 
-    console.log(`✅ Store API returned ${data.length} products (${totalProducts} total, ${totalPages} pages)`);
+    if (responseData.products && responseData.pagination) {
+      // Jäger API format
+      data = responseData.products;
+      totalProducts = responseData.pagination.total.toString();
+      totalPages = responseData.pagination.total_pages.toString();
+    } else {
+      // Store API format (fallback)
+      data = responseData;
+      totalProducts = response.headers.get('X-WP-Total') || '0';
+      totalPages = response.headers.get('X-WP-TotalPages') || '1';
+    }
+
+    console.log(`✅ API returned ${data.length} products (${totalProducts} total, ${totalPages} pages)`);
     if (data[0]) {
-      console.log('🔍 First product jaeger_meta check:', data[0].jaeger_meta ? 'Found' : 'Missing');
+      console.log('🔍 First product jaeger_meta check:', data[0].jaeger_meta ? 'Found ✅' : 'Missing ❌');
       console.log('📝 First product name:', data[0].name);
     }
 

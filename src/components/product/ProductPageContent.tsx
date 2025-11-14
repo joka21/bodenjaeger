@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import type { StoreApiProduct } from '@/lib/woocommerce';
-import { calculateSetQuantities, calculateSetPrices } from '@/lib/setCalculations';
+import { calculateSetQuantities } from '@/lib/setCalculations';
 import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
@@ -34,33 +34,31 @@ export default function ProductPageContent({
   const [selectedDaemmung, setSelectedDaemmung] = useState<StoreApiProduct | null>(daemmungProduct);
   const [selectedSockelleiste, setSelectedSockelleiste] = useState<StoreApiProduct | null>(sockelleisteProduct);
 
-  // State for custom quantities (optional user overrides)
-  const [customInsulationM2, setCustomInsulationM2] = useState<number | undefined>(undefined);
-  const [customBaseboardLfm, setCustomBaseboardLfm] = useState<number | undefined>(undefined);
-
-  // Calculate set quantities (packages for each product)
+  // Calculate quantities ONLY (no prices - prices come from backend!)
   const quantities = useMemo(() => {
+    if (!product || wantedM2 <= 0) return null;
+
     return calculateSetQuantities(
       wantedM2,
       product,
       selectedDaemmung,
-      selectedSockelleiste,
-      customInsulationM2,
-      customBaseboardLfm
-    );
-  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste, customInsulationM2, customBaseboardLfm]);
-
-  // Calculate set prices (for display)
-  const prices = useMemo(() => {
-    return calculateSetPrices(
-      quantities,
-      product,
-      daemmungProduct,
-      selectedDaemmung,
-      sockelleisteProduct,
       selectedSockelleiste
     );
-  }, [quantities, product, daemmungProduct, selectedDaemmung, sockelleisteProduct, selectedSockelleiste]);
+  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste]);
+
+  // Get prices DIRECTLY from backend (product.jaeger_meta)
+  const prices = useMemo(() => {
+    const meta = product.jaeger_meta;
+    if (!meta) return null;
+
+    // Backend liefert ALLE Preise und Ersparnis - wir nutzen sie direkt!
+    return {
+      totalDisplayPrice: 0,
+      comparisonPriceTotal: undefined,
+      savings: undefined,
+      savingsPercent: 0,
+    };
+  }, []);
 
   // Handle quantity changes from QuantitySelector
   const handleQuantityChange = (newPackages: number, newSqm: number) => {
@@ -154,6 +152,10 @@ export default function ProductPageContent({
               daemmungOptions={daemmungOptions}
               sockelleisteOptions={sockelleisteOptions}
               onProductSelection={handleProductSelection}
+              comparisonPriceTotal={prices?.comparisonPriceTotal}
+              totalDisplayPrice={prices?.totalDisplayPrice}
+              savingsAmount={prices?.savings}
+              savingsPercent={prices?.savingsPercent}
             />
 
             {/* Quantity + Price Container with Gray Background */}

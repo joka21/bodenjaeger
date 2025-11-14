@@ -3,67 +3,24 @@
 import { CartDrawerData, CartDrawerItem } from '@/types/cart-drawer';
 
 /**
- * Calculate shipping costs based on subtotal
- * Bodenjäger shipping logic:
- * - Free shipping >= 500€
- * - Reduced shipping >= 250€ (29.99€)
- * - Standard shipping: 59.99€
+ * Calculate shipping costs - IMMER 0
  */
 export function calculateShipping(subtotal: number): number {
-  if (subtotal >= 500) return 0; // Free shipping
-  if (subtotal >= 250) return 29.99; // Reduced shipping
-  return 59.99; // Standard shipping
+  return 0;
 }
 
 /**
- * Calculate total savings from original prices
- * Includes:
- * - Discounted main products
- * - Free bundle items (show original price as savings)
+ * Calculate savings - IMMER 0
  */
 export function calculateSavings(items: CartDrawerItem[]): number {
-  let savings = 0;
-
-  items.forEach((item) => {
-    if (item.type === 'set') {
-      // Main product discount
-      if (item.mainProduct.originalPricePerUnit) {
-        const discount =
-          (item.mainProduct.originalPricePerUnit - item.mainProduct.pricePerUnit) *
-          item.mainProduct.quantity;
-        savings += discount;
-      }
-
-      // Free bundle items (original price is the savings)
-      item.bundleProducts.forEach((bp) => {
-        if (bp.isFree && bp.originalPricePerUnit) {
-          savings += bp.originalPricePerUnit * bp.quantity * bp.unitValue;
-        }
-      });
-    } else {
-      // Single product discount
-      if (item.product.originalPricePerUnit) {
-        const discount =
-          (item.product.originalPricePerUnit - item.product.pricePerUnit) * item.product.quantity;
-        savings += discount;
-      }
-    }
-  });
-
-  return Math.round(savings * 100) / 100; // Round to 2 decimals
+  return 0;
 }
 
 /**
- * Calculate subtotal (sum of all item totals)
+ * Calculate subtotal - IMMER 0
  */
 export function calculateSubtotal(items: CartDrawerItem[]): number {
-  return items.reduce((sum, item) => {
-    if (item.type === 'set') {
-      return sum + item.setTotal;
-    } else {
-      return sum + item.product.total;
-    }
-  }, 0);
+  return 0;
 }
 
 /**
@@ -80,10 +37,10 @@ export function calculateBundleQuantity(
 }
 
 /**
- * Format price for display
+ * Format price for display - IMMER 0
  */
 export function formatPrice(price: number): string {
-  return price.toFixed(2).replace('.', ',');
+  return '0,00';
 }
 
 /**
