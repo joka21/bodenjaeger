@@ -360,13 +360,17 @@ class WooCommerceClient {
     const endpoint = queryString ? `/jaeger/v1/products?${queryString}` : '/jaeger/v1/products';
 
     try {
-      const response = await this.makeRequest<{ products: StoreApiProduct[]; pagination?: unknown }>(endpoint);
+      const response = await this.makeRequest<{ products: StoreApiProduct[]; pagination?: unknown } | StoreApiProduct[]>(endpoint);
+
       // Jaeger API returns { products: [...], pagination: {...} }
       // Extract just the products array
-      const products = response.products || (response as unknown as StoreApiProduct[]);
-
-      // Jäger API provides all fields including jaeger_meta!
-      return products;
+      if (Array.isArray(response)) {
+        // Response is already an array
+        return response;
+      } else {
+        // Response is an object with products property
+        return response.products || [];
+      }
     } catch (error) {
       console.error('Error fetching products:', error);
       throw error;
