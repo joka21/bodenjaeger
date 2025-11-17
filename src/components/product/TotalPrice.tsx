@@ -94,20 +94,22 @@ export default function TotalPrice({
         </span>
         <div className="text-right">
           <div className="text-[#000000] font-bold text-[28px] md:text-[32px] leading-tight">
-            0,00€
+            {totalDisplayPrice.toFixed(2).replace('.', ',')}€
           </div>
         </div>
       </div>
 
       {/* 2. ERSPARNIS-BOX */}
-      <div className="py-2 my-4">
-        <div
-          className="font-semibold text-sm md:text-base"
-          style={{ color: '#28a745' }}
-        >
-          Du sparst 0,00€
+      {hasSavings && (
+        <div className="py-2 my-4">
+          <div
+            className="font-semibold text-sm md:text-base"
+            style={{ color: '#28a745' }}
+          >
+            Du sparst {savings?.toFixed(2).replace('.', ',')}€ ({Math.round(savingsPercent || 0)}%)
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Success Message */}
       {addedToCart && (

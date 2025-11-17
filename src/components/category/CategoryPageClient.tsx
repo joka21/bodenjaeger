@@ -5,37 +5,6 @@ import { type StoreApiProduct } from '@/lib/woocommerce';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface JaegerMeta {
-  uvp?: number | null;
-  show_uvp?: boolean;
-  paketpreis?: number | null;
-  paketpreis_s?: number | null;
-  paketinhalt?: number | null;
-  einheit_short?: string | null;
-  verpackungsart_short?: string | null;
-  verschnitt?: number | null;
-  text_produktuebersicht?: string | null;
-  show_text_produktuebersicht?: boolean;
-  lieferzeit?: string | null;
-  show_lieferzeit?: boolean;
-  setangebot_titel?: string | null;
-  show_setangebot?: boolean;
-  setangebot_einzelpreis?: number | null;
-  setangebot_gesamtpreis?: number | null;
-  setangebot_ersparnis_euro?: number | null;
-  setangebot_ersparnis_prozent?: number | null;  // ✅ BACKEND WERT!
-  standard_addition_daemmung?: number | null;
-  standard_addition_sockelleisten?: number | null;
-  aktion?: string | null;
-  show_aktion?: boolean;
-  angebotspreis_hinweis?: string | null;
-  show_angebotspreis_hinweis?: boolean;
-}
-
-interface ExtendedProduct extends StoreApiProduct {
-  jaeger_meta?: JaegerMeta;
-}
-
 interface CategoryImage {
   id: number;
   src: string;
@@ -51,7 +20,7 @@ interface CategoryPageClientProps {
 }
 
 export default function CategoryPageClient({ slug, categoryName, categoryDescription, categoryImage }: CategoryPageClientProps) {
-  const [products, setProducts] = useState<ExtendedProduct[]>([]);
+  const [products, setProducts] = useState<StoreApiProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -330,24 +299,24 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
 
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-                      {/* Sale Badge */}
+                      {/* Sale Badge - ✅ USE ROOT-LEVEL FIELDS */}
                       {product.on_sale && (
                         <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
-                          -0%
+                          -{Math.round(product.has_setangebot ? (product.setangebot_ersparnis_prozent || 0) : (product.discount_percent || 0))}%
                         </div>
                       )}
 
-                      {/* Aktion Badge */}
-                      {product.jaeger_meta?.show_aktion && product.jaeger_meta?.aktion && (
+                      {/* Aktion Badge - ✅ USE ROOT-LEVEL FIELDS */}
+                      {product.show_aktion && product.aktion && (
                         <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
-                          {product.jaeger_meta.aktion}
+                          {product.aktion}
                         </div>
                       )}
 
-                      {/* Angebotspreis Hinweis Badge */}
-                      {product.jaeger_meta?.show_angebotspreis_hinweis && (
+                      {/* Angebotspreis Hinweis Badge - ✅ USE ROOT-LEVEL FIELDS */}
+                      {product.show_angebotspreis_hinweis && product.angebotspreis_hinweis && (
                         <div className="bg-black text-white px-3 py-1 rounded font-bold text-sm shadow-md">
-                          {product.jaeger_meta.angebotspreis_hinweis || 'Angebot'}
+                          {product.angebotspreis_hinweis}
                         </div>
                       )}
                     </div>
@@ -409,15 +378,32 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
                     {/* Trennlinie */}
                     <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
 
-                    {/* Preisanzeige */}
+                    {/* Preisanzeige - ✅ USE ROOT-LEVEL FIELDS */}
                     {(() => {
-                      const unit = product.jaeger_meta?.einheit_short || 'm²';
+                      const unit = product.einheit_short || 'm²';
+                      const price = product.price || 0;
+                      const regularPrice = product.regular_price || 0;
+                      const hasDiscount = product.on_sale && regularPrice > price;
+
                       return (
-                        <div className="flex justify-between items-center">
-                          <span className="text-gray-900 font-medium">Preis</span>
-                          <span className="text-gray-900 font-bold text-xl">
-                            0,00 €/{unit}
-                          </span>
+                        <div className="space-y-1">
+                          {/* Streichpreis wenn Rabatt vorhanden */}
+                          {hasDiscount && (
+                            <div className="flex justify-between items-center text-sm">
+                              <span className="text-gray-500">Statt</span>
+                              <span className="text-gray-500 line-through">
+                                {regularPrice.toFixed(2).replace('.', ',')} €/{unit}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Hauptpreis */}
+                          <div className="flex justify-between items-center">
+                            <span className="text-gray-900 font-medium">Preis</span>
+                            <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
+                              {price.toFixed(2).replace('.', ',')} €/{unit}
+                            </span>
+                          </div>
                         </div>
                       );
                     })()}

@@ -79,12 +79,13 @@ export default function SetAngebot({
   const gridCols = productCount === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
 
   // Calculate prices for selected products
+  // ✅ Jäger API returns prices as numbers, not strings
   const selectedDaemmungPrice = selectedDaemmung?.prices?.price
     ? parseFloat(selectedDaemmung.prices.price) / 100
-    : parseFloat(selectedDaemmung?.price || '0');
+    : (selectedDaemmung?.price || 0);
   const selectedSockelleistePrice = selectedSockelleiste?.prices?.price
     ? parseFloat(selectedSockelleiste.prices.price) / 100
-    : parseFloat(selectedSockelleiste?.price || '0');
+    : (selectedSockelleiste?.price || 0);
 
   // Price difference from standard (for set offer calculation)
   // Only positive differences count (upgrading) - no discount for cheaper products
@@ -110,10 +111,10 @@ export default function SetAngebot({
     return null;
   }
 
-  // Alle Werte auf 0
-  const displayComparisonPrice = 0;
-  const displaySetPrice = 0;
-  const displaySavingsPercent = 0;
+  // ✅ USE BACKEND PRICES - DIRECTLY FROM DATABASE
+  const displayComparisonPrice = comparisonPriceTotal || 0;
+  const displaySetPrice = totalDisplayPrice || 0;
+  const displaySavingsPercent = savingsPercent || 0;
 
   // Handle button clicks
   const openModal = (type: 'daemmung' | 'sockelleiste') => {
@@ -240,8 +241,8 @@ export default function SetAngebot({
 
                 <div className="mt-auto flex items-center justify-between w-full gap-2 text-[10px]">
                   <span className="text-gray-600 whitespace-nowrap">
-                    VE: {selectedDaemmung?.jaeger_meta?.paketinhalt
-                      ? `${selectedDaemmung.jaeger_meta.paketinhalt}${selectedDaemmung.jaeger_meta.einheit_short || 'm²'}`
+                    VE: {selectedDaemmung?.paketinhalt
+                      ? `${selectedDaemmung.paketinhalt}${selectedDaemmung.einheit_short || 'm²'}`
                       : daemmungVE || '-'}
                   </span>
                   <div className="flex items-center gap-1">
@@ -342,8 +343,8 @@ export default function SetAngebot({
 
                 <div className="mt-auto flex items-center justify-between w-full gap-2 text-[10px]">
                   <span className="text-gray-600 whitespace-nowrap">
-                    VE: {selectedSockelleiste?.jaeger_meta?.paketinhalt
-                      ? `${selectedSockelleiste.jaeger_meta.paketinhalt}${selectedSockelleiste.jaeger_meta.einheit_short || 'lfm'}`
+                    VE: {selectedSockelleiste?.paketinhalt
+                      ? `${selectedSockelleiste.paketinhalt}${selectedSockelleiste.einheit_short || 'lfm'}`
                       : sockelleisteVE || '-'}
                   </span>
                   <div className="flex items-center gap-1">
@@ -480,7 +481,7 @@ export default function SetAngebot({
               {modalType === 'daemmung' && daemmungOptions.map((option) => {
                 const optionPrice = option.prices?.price
                   ? parseFloat(option.prices.price) / 100
-                  : parseFloat(option.price || '0');
+                  : (option.price || 0);
                 const standardPrice = daemmungRegularPrice || 0;
                 const priceDifference = optionPrice - standardPrice;
                 const isSelected = selectedDaemmung?.id === option.id;
@@ -516,14 +517,14 @@ export default function SetAngebot({
                       {/* Product Info */}
                       <div className="flex-1">
                         <h4 className="font-semibold text-gray-900 mb-1">{option.name}</h4>
-                        {option.jaeger_meta?.paketinhalt && (
+                        {option.paketinhalt && (
                           <p className="text-sm text-gray-500 mb-0.5">
-                            VE: {option.jaeger_meta.paketinhalt}
-                            {option.jaeger_meta.einheit_short || 'm²'}
+                            VE: {option.paketinhalt}
+                            {option.einheit_short || 'm²'}
                           </p>
                         )}
                         <p className="text-base font-medium text-gray-700">
-                          {optionPrice.toFixed(2).replace('.', ',')} €/{option.jaeger_meta?.einheit_short || einheit}
+                          {optionPrice.toFixed(2).replace('.', ',')} €/{option.einheit_short || einheit}
                         </p>
                       </div>
 
@@ -554,7 +555,7 @@ export default function SetAngebot({
               {modalType === 'sockelleiste' && sockelleisteOptions.map((option) => {
                 const optionPrice = option.prices?.price
                   ? parseFloat(option.prices.price) / 100
-                  : parseFloat(option.price || '0');
+                  : (option.price || 0);
                 const standardPrice = sockelleisteRegularPrice || 0;
                 const priceDifference = optionPrice - standardPrice;
                 const isSelected = selectedSockelleiste?.id === option.id;
@@ -590,14 +591,14 @@ export default function SetAngebot({
                       {/* Product Info */}
                       <div className="flex-1">
                         <h4 className="font-semibold text-gray-900 mb-1">{option.name}</h4>
-                        {option.jaeger_meta?.paketinhalt && (
+                        {option.paketinhalt && (
                           <p className="text-sm text-gray-500 mb-0.5">
-                            VE: {option.jaeger_meta.paketinhalt}
-                            {option.jaeger_meta.einheit_short || 'lfm'}
+                            VE: {option.paketinhalt}
+                            {option.einheit_short || 'lfm'}
                           </p>
                         )}
                         <p className="text-base font-medium text-gray-700">
-                          {optionPrice.toFixed(2).replace('.', ',')} €/{option.jaeger_meta?.einheit_short || sockelleisteEinheit}
+                          {optionPrice.toFixed(2).replace('.', ',')} €/{option.einheit_short || sockelleisteEinheit}
                         </p>
                       </div>
 

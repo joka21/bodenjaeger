@@ -5,60 +5,34 @@ import { StoreApiProduct } from '@/lib/woocommerce';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface JaegerMeta {
-  uvp?: number | null;
-  show_uvp?: boolean;
-  paketpreis?: number | null;
-  paketpreis_s?: number | null;
-  paketinhalt?: number | null;
-  einheit_short?: string | null;
-  verpackungsart_short?: string | null;
-  verschnitt?: number | null;
-  text_produktuebersicht?: string | null;
-  show_text_produktuebersicht?: boolean;
-  lieferzeit?: string | null;
-  show_lieferzeit?: boolean;
-  setangebot_titel?: string | null;
-  show_setangebot?: boolean;
-  setangebot_einzelpreis?: number | null;
-  setangebot_gesamtpreis?: number | null;
-  setangebot_ersparnis_euro?: number | null;
-  setangebot_ersparnis_prozent?: number | null;
-  standard_addition_daemmung?: number | null;
-  standard_addition_sockelleisten?: number | null;
-  aktion?: string | null;
-  show_aktion?: boolean;
-  angebotspreis_hinweis?: string | null;
-  show_angebotspreis_hinweis?: boolean;
-}
-
-interface ExtendedProduct extends StoreApiProduct {
-  jaeger_meta?: JaegerMeta;
-}
-
 interface ProductCardProps {
-  product: ExtendedProduct;
+  product: StoreApiProduct;
   showDescription?: boolean; // Show product description for floor categories
 }
 
 export default function ProductCard({ product, showDescription = false }: ProductCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const { jaeger_meta } = product;
   const images = product.images || [];
   const hasMultipleImages = images.length > 1;
 
-  // Discount always 0
-  const discount = 0;
+  // ✅ USE ROOT-LEVEL FIELDS (wie in backend/ROOT_LEVEL_FIELDS.md dokumentiert)
+  const price = product.price || 0;
+  const regularPrice = product.regular_price || 0;
+  const einheitShort = product.einheit_short || 'm²';
 
-  // Alle Preise auf 0
+  // Always use setangebot_ersparnis_prozent (backend calculated)
+  const discount = product.setangebot_ersparnis_prozent;
+
+  // Get main price from product data
   const getMainPrice = () => {
-    return `0,00 €/${jaeger_meta?.einheit_short || 'm²'}`;
+    return `${price.toFixed(2).replace('.', ',')} €/${einheitShort}`;
   };
 
-  // Kein Strike-Preis
+  // Get strike price if there's a discount
   const getStrikePrice = () => {
-    return null;
+    if (!product.on_sale || regularPrice <= price) return null;
+    return `${regularPrice.toFixed(2).replace('.', ',')} €/${einheitShort}`;
   };
 
   // Navigation functions
@@ -134,14 +108,14 @@ export default function ProductCard({ product, showDescription = false }: Produc
         {/* Sale Badge (Top Left) */}
         {product.on_sale && (
           <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 rounded text-sm font-bold">
-            -0%
+            -{Math.round(discount || 0)}%
           </div>
         )}
 
         {/* Action Badge (Top Right) */}
-        {jaeger_meta?.show_aktion && jaeger_meta?.aktion && (
+        {product.show_aktion && product.aktion && (
           <div className="absolute top-3 right-3 bg-gray-900 text-white px-3 py-1 rounded text-sm font-medium">
-            {jaeger_meta.aktion}
+            {product.aktion}
           </div>
         )}
 
@@ -226,14 +200,21 @@ export default function ProductCard({ product, showDescription = false }: Produc
         )}
 
         {/* Set-Angebot Section */}
-        {jaeger_meta?.show_setangebot && (
+        {product.show_setangebot && (
           <div className="border-t pt-4">
             <div className="mb-2">
               <h4 className="text-sm font-semibold text-gray-900 mb-1">
-                {jaeger_meta.setangebot_titel || 'Set-Angebot'}
+                {product.setangebot_titel || 'Set-Angebot'}
               </h4>
               <p className="text-xs text-gray-600">
-                Inkl. Sockelleiste und Dämmung
+                {/* Dynamischer Text basierend auf vorhandenen Zusatzprodukten */}
+                {product.daemmung_id && product.sockelleisten_id
+                  ? 'Inkl. Sockelleiste und Dämmung'
+                  : product.sockelleisten_id
+                  ? 'Inkl. Sockelleiste'
+                  : product.daemmung_id
+                  ? 'Inkl. Dämmung'
+                  : 'Set-Angebot'}
               </p>
             </div>
 
@@ -252,9 +233,9 @@ export default function ProductCard({ product, showDescription = false }: Produc
               </div>
 
               {/* Price Hint */}
-              {jaeger_meta?.show_angebotspreis_hinweis && jaeger_meta?.angebotspreis_hinweis && (
+              {product.show_angebotspreis_hinweis && product.angebotspreis_hinweis && (
                 <div className="text-xs text-gray-500">
-                  {jaeger_meta.angebotspreis_hinweis}
+                  {product.angebotspreis_hinweis}
                 </div>
               )}
             </div>
@@ -262,7 +243,7 @@ export default function ProductCard({ product, showDescription = false }: Produc
         )}
 
         {/* Regular Pricing (if no Set-Angebot) */}
-        {!jaeger_meta?.show_setangebot && (
+        {!product.show_setangebot && (
           <div className="border-t pt-4">
             <div className="space-y-1">
               {/* Strike Price */}
@@ -281,16 +262,16 @@ export default function ProductCard({ product, showDescription = false }: Produc
         )}
 
         {/* Product Overview Text */}
-        {jaeger_meta?.show_text_produktuebersicht && jaeger_meta?.text_produktuebersicht && (
+        {product.show_text_produktuebersicht && product.text_produktuebersicht && (
           <div className="mt-3 text-sm text-gray-600">
-            {jaeger_meta.text_produktuebersicht}
+            {product.text_produktuebersicht}
           </div>
         )}
 
         {/* Delivery Time */}
-        {jaeger_meta?.show_lieferzeit && jaeger_meta?.lieferzeit && (
+        {product.show_lieferzeit && product.lieferzeit && (
           <div className="mt-2 text-xs text-green-600">
-            🚚 {jaeger_meta.lieferzeit}
+            🚚 {product.lieferzeit}
           </div>
         )}
       </div>

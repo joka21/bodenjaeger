@@ -44,7 +44,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         if (!mainItem) return;
 
         // Convert main product to CartItemBase
-        const paketinhalt = mainItem.product.jaeger_meta?.paketinhalt || 1;
+        const paketinhalt = mainItem.product.paketinhalt || 1;
         const paketpreis = mainItem.product.prices
           ? parseFloat(mainItem.product.prices.price) / 100
           : 0;
@@ -58,7 +58,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: mainItem.product.name,
           image: mainItem.product.images?.[0]?.src || '',
           quantity: mainItem.quantity,
-          unit: toProductUnit(mainItem.product.jaeger_meta?.einheit_short, 'm²'),
+          unit: toProductUnit(mainItem.product.einheit_short, 'm²'),
           unitValue: paketinhalt,
           pricePerUnit: paketpreis / paketinhalt, // Preis pro m²/lfm
           originalPricePerUnit: regularPaketpreis ? regularPaketpreis / paketinhalt : undefined,
@@ -69,7 +69,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         const bundleProducts: CartItemBase[] = setItems
           .filter((si) => si.setItemType !== 'floor')
           .map((bundleItem) => {
-            const bundlePaketinhalt = bundleItem.product.jaeger_meta?.paketinhalt || 1;
+            const bundlePaketinhalt = bundleItem.product.paketinhalt || 1;
             const bundlePaketpreis = bundleItem.product.prices
               ? parseFloat(bundleItem.product.prices.price) / 100
               : 0;
@@ -86,7 +86,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               image: bundleItem.product.images?.[0]?.src || '',
               quantity: bundleItem.quantity,
               unit: toProductUnit(
-                bundleItem.product.jaeger_meta?.einheit_short,
+                bundleItem.product.einheit_short,
                 bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'
               ),
               unitValue: bundlePaketinhalt,
@@ -112,7 +112,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       }
       // Handle Single Items
       else if (!item.isSetItem) {
-        const singlePaketinhalt = item.product.jaeger_meta?.paketinhalt || 1;
+        const singlePaketinhalt = item.product.paketinhalt || 1;
         const singlePaketpreis = item.product.prices
           ? parseFloat(item.product.prices.price) / 100
           : 0;
@@ -126,7 +126,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: item.product.name,
           image: item.product.images?.[0]?.src || '',
           quantity: item.quantity,
-          unit: toProductUnit(item.product.jaeger_meta?.einheit_short, 'm²'),
+          unit: toProductUnit(item.product.einheit_short, 'm²'),
           unitValue: singlePaketinhalt,
           pricePerUnit: singlePaketpreis / singlePaketinhalt, // Preis pro m²/lfm
           originalPricePerUnit: singleRegularPaketpreis ? singleRegularPaketpreis / singlePaketinhalt : undefined,

@@ -46,63 +46,62 @@ export default function ProductInfo({
     features = getFeaturesFromDescription(product.short_description);
   }
 
-  // Fallback: Create features from jaeger_meta if no features found
-  if (features.length === 0 && product.jaeger_meta) {
-    const meta = product.jaeger_meta;
-    if (meta.text_produktuebersicht && meta.show_text_produktuebersicht) {
-      features.push(meta.text_produktuebersicht);
+  // ✅ Fallback: Create features from ROOT-LEVEL FIELDS if no features found
+  if (features.length === 0) {
+    if (product.text_produktuebersicht && product.show_text_produktuebersicht) {
+      features.push(product.text_produktuebersicht);
     }
-    if (meta.lieferzeit && meta.show_lieferzeit) {
-      features.push(meta.lieferzeit);
+    if (product.lieferzeit && product.show_lieferzeit) {
+      features.push(product.lieferzeit);
     }
-    if (meta.paketinhalt) {
-      features.push(`Paketinhalt: ${meta.paketinhalt} ${meta.einheit_short || 'm²'}`);
+    if (product.paketinhalt) {
+      features.push(`Paketinhalt: ${product.paketinhalt} ${product.einheit_short || 'm²'}`);
     }
   }
 
-  // Get pricing information from jaeger_meta (CORRECT source for package prices!)
-  const paketinhalt = product.jaeger_meta?.paketinhalt || 1;
-  const paketpreis = product.jaeger_meta?.paketpreis || 0;
-  const paketpreisS = product.jaeger_meta?.paketpreis_s;
+  // ✅ Get pricing information from ROOT-LEVEL FIELDS (backend/ROOT_LEVEL_FIELDS.md)
+  const paketinhalt = product.paketinhalt || 1;
+  const paketpreis = product.paketpreis || 0;
+  const paketpreisS = product.paketpreis_s;
 
   // Calculate price per unit (€/m²)
   const basePrice = (paketpreisS !== undefined && paketpreisS !== null && paketpreisS > 0)
     ? paketpreisS / paketinhalt
     : paketpreis / paketinhalt;
   const regularPrice = paketpreis / paketinhalt;
-  const einheit = product.jaeger_meta?.einheit_short || 'm²';
+  const einheit = product.einheit_short || 'm²';
   const productImage = product.images && product.images.length > 0
     ? product.images[0].src
     : '/images/placeholder.jpg';
 
-  // Dämmung information from loaded product
+  // ✅ Dämmung information from loaded product - USE ROOT-LEVEL FIELDS
   const daemmungName = daemmungProduct?.name || 'Trittschalldämmung';
   const daemmungImage = daemmungProduct?.images && daemmungProduct.images.length > 0
     ? daemmungProduct.images[0].src
     : '/images/placeholder.jpg';
   // Standard products are FREE in the set (price = 0)
   const daemmungSetPrice = 0; // Always 0 for standard products
-  const daemmungPaketpreis = daemmungProduct?.jaeger_meta?.paketpreis || 0;
-  const daemmungPaketinhalt = daemmungProduct?.jaeger_meta?.paketinhalt || 1;
+  const daemmungPaketpreis = daemmungProduct?.paketpreis || 0;
+  const daemmungPaketinhalt = daemmungProduct?.paketinhalt || 1;
   const daemmungRegularPrice = daemmungPaketpreis / daemmungPaketinhalt;
-  const daemmungVE = daemmungProduct?.jaeger_meta?.paketinhalt
-    ? `${daemmungProduct.jaeger_meta.paketinhalt}${daemmungProduct.jaeger_meta.einheit_short || 'm²'}`
+  const daemmungVE = daemmungProduct?.paketinhalt
+    ? `${daemmungProduct.paketinhalt}${daemmungProduct.einheit_short || 'm²'}`
     : undefined;
 
-  // Sockelleiste information from loaded product
+  // ✅ Sockelleiste information from loaded product - USE ROOT-LEVEL FIELDS
   const sockelleisteName = sockelleisteProduct?.name || 'Sockelleiste';
   const sockelleisteImage = sockelleisteProduct?.images && sockelleisteProduct.images.length > 0
     ? sockelleisteProduct.images[0].src
     : '/images/placeholder.jpg';
   // Standard products are FREE in the set (price = 0)
   const sockelleisteSetPrice = 0; // Always 0 for standard products
-  const sockelleistePaketpreis = sockelleisteProduct?.jaeger_meta?.paketpreis || 0;
-  const sockelleistePaketinhalt = sockelleisteProduct?.jaeger_meta?.paketinhalt || 1;
+  const sockelleistePaketpreis = sockelleisteProduct?.paketpreis || 0;
+  const sockelleistePaketinhalt = sockelleisteProduct?.paketinhalt || 1;
   const sockelleisteRegularPrice = sockelleistePaketpreis / sockelleistePaketinhalt;
-  const sockelleisteVE = sockelleisteProduct?.jaeger_meta?.paketinhalt
-    ? `${sockelleisteProduct.jaeger_meta.paketinhalt}${sockelleisteProduct.jaeger_meta.einheit_short || 'lfm'}`
+  const sockelleisteVE = sockelleisteProduct?.paketinhalt
+    ? `${sockelleisteProduct.paketinhalt}${sockelleisteProduct.einheit_short || 'lfm'}`
     : undefined;
-  const sockelleisteEinheit = sockelleisteProduct?.jaeger_meta?.einheit_short || 'lfm';
+  const sockelleisteEinheit = sockelleisteProduct?.einheit_short || 'lfm';
 
   return (
     <div className="space-y-6">
@@ -139,7 +138,7 @@ export default function ProductInfo({
       {/* Set Angebot Component */}
       <div className="mt-6">
         <SetAngebot
-          setangebotTitel={product.jaeger_meta?.setangebot_titel || undefined}
+          setangebotTitel={product.setangebot_titel || undefined}
           productName={product.name}
           productImage={productImage}
           basePrice={basePrice}

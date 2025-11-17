@@ -37,7 +37,7 @@ interface JaegerMeta {
   setangebot_gesamtpreis?: number | null;      // Set-Preis pro Einheit
   setangebot_ersparnis_euro?: number | null;   // Ersparnis in Euro
   setangebot_ersparnis_prozent?: number | null; // Ersparnis in Prozent
-  // Standard-Zusatzprodukte (Produkt-IDs)
+  // Standard-Zusatzprodukte (Produkt-IDs) - Backend: _standard_addition_*, API verschachtelt: zusatzprodukte.*
   standard_addition_daemmung?: number | null;
   standard_addition_sockelleisten?: number | null;
   // Optionale Zusatzprodukte (Kommagetrennte Produkt-IDs)
@@ -78,9 +78,10 @@ interface StoreApiProduct {
   description: string;
   short_description: string;
   sku: string;
-  price: string;
-  regular_price: string;
-  sale_price: string;
+  // ✅ Jäger API returns prices as numbers, not strings
+  price: number;
+  regular_price: number;
+  sale_price: number | null;
   price_html: string;
   jaeger_fields?: JaegerMeta; // Jaeger API uses jaeger_fields
   prices?: {
@@ -181,6 +182,74 @@ interface StoreApiProduct {
   };
   extensions: Record<string, unknown>;
   jaeger_meta?: JaegerMeta;
+
+  // ========================================
+  // ROOT-LEVEL FELDER (41 Felder) - backend/ROOT_LEVEL_FIELDS.md
+  // ========================================
+
+  // Paketinformationen (9)
+  paketpreis?: number | null;
+  paketpreis_s?: number | null;
+  paketinhalt?: number | null;
+  einheit?: string | null;
+  einheit_short?: string;
+  verpackungsart?: string | null;
+  verpackungsart_short?: string | null;
+  verschnitt?: number;
+  verrechnung?: number;
+
+  // UVP System (3)
+  show_uvp?: boolean;
+  uvp?: number | null;
+  uvp_paketpreis?: number | null;
+
+  // Produktbeschreibung (3)
+  show_text_produktuebersicht?: boolean;
+  text_produktuebersicht?: string | null;
+  artikelbeschreibung?: string | null;
+
+  // Set-Angebot Konfiguration (6)
+  show_setangebot?: boolean;
+  setangebot_titel?: string;
+  setangebot_text_color?: string | null;
+  setangebot_text_size?: string | null;
+  setangebot_button_style?: string | null;
+  setangebot_rabatt?: number;
+
+  // Set-Angebot Berechnete Werte (4)
+  setangebot_einzelpreis?: number | null;
+  setangebot_gesamtpreis?: number | null;
+  setangebot_ersparnis_euro?: number | null;
+  setangebot_ersparnis_prozent?: number | null;
+
+  // Zusatzprodukte (4)
+  daemmung_id?: number | null;
+  sockelleisten_id?: number | null;
+  daemmung_option_ids?: number[];
+  sockelleisten_option_ids?: number[];
+
+  // Aktionen & Badges (10)
+  show_aktion?: boolean;
+  aktion?: string | null;
+  aktion_text_color?: string | null;
+  aktion_text_size?: string | null;
+  aktion_button_style?: string | null;
+  show_angebotspreis_hinweis?: boolean;
+  angebotspreis_hinweis?: string | null;
+  angebotspreis_text_color?: string | null;
+  angebotspreis_text_size?: string | null;
+  angebotspreis_button_style?: string | null;
+
+  // Lieferzeit (2)
+  show_lieferzeit?: boolean;
+  lieferzeit?: string | null;
+
+  // Testing (1)
+  testdummy?: string | null;
+
+  // WooCommerce calculated fields
+  discount_percent?: number;
+  has_setangebot?: boolean;
 }
 
 interface StoreApiProductsResponse {

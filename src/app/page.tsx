@@ -39,13 +39,16 @@ export default async function Home() {
     saleProducts = rawSaleProducts;
 
     console.log('✅ Sale Products fetched & adapted:', saleProducts.length);
-    if (saleProducts.length > 0) {
-      console.log('🖼️ First sale product (adapted):', {
-        name: saleProducts[0].name,
-        thumbnail: saleProducts[0].images?.[0]?.src,
-        jaeger_meta: saleProducts[0].jaeger_meta,
+    console.log('📊 ALLE SALE PRODUCTS MIT KORREKTEN RABATTEN:');
+    saleProducts.forEach((p, i) => {
+      const displayDiscount = p.setangebot_ersparnis_prozent;
+      console.log(`${i+1}. ${p.name}:`, {
+        has_setangebot: p.has_setangebot,
+        discount_percent: p.discount_percent,
+        setangebot_ersparnis_prozent: p.setangebot_ersparnis_prozent,
+        '✅ ANGEZEIGTER RABATT': Math.round(displayDiscount || 0) + '%'
       });
-    }
+    });
 
     // Fetch bestseller products from "Bestseller" category
     const rawBestsellerProducts = await wooCommerceClient.getProducts({

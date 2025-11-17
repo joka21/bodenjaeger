@@ -136,32 +136,32 @@ export function calculateSetQuantities(
   customInsulationM2?: number,
   customBaseboardLfm?: number
 ): SetQuantityCalculation {
-  // Floor calculation
-  const verschnitt = floorProduct.jaeger_meta?.verschnitt || 0;
-  const floorPaketinhalt = floorProduct.jaeger_meta?.paketinhalt || 1;
+  // Floor calculation - ✅ USE ROOT-LEVEL FIELDS
+  const verschnitt = floorProduct.verschnitt || 0;
+  const floorPaketinhalt = floorProduct.paketinhalt || 1;
   const floor = calculateFloorQuantity(wantedM2, verschnitt, floorPaketinhalt);
 
-  // Insulation calculation (if product exists)
+  // Insulation calculation (if product exists) - ✅ USE ROOT-LEVEL FIELDS
   let insulation: InsulationQuantityCalculation | null = null;
-  if (insulationProduct && insulationProduct.jaeger_meta?.paketinhalt) {
+  if (insulationProduct && insulationProduct.paketinhalt) {
     // Use custom m² if provided, otherwise default to floor m²
     const insulationM2 = customInsulationM2 !== undefined ? customInsulationM2 : wantedM2;
     insulation = calculateInsulationQuantity(
       insulationM2,
-      insulationProduct.jaeger_meta.paketinhalt
+      insulationProduct.paketinhalt
     );
   }
 
-  // Baseboard calculation (if product exists)
+  // Baseboard calculation (if product exists) - ✅ USE ROOT-LEVEL FIELDS
   let baseboard: BaseboardQuantityCalculation | null = null;
-  if (baseboardProduct && baseboardProduct.jaeger_meta?.paketinhalt) {
+  if (baseboardProduct && baseboardProduct.paketinhalt) {
     // Use custom lfm if provided, otherwise calculate from floor m²
     const baseboardLfm = customBaseboardLfm !== undefined
       ? customBaseboardLfm
       : calculateBaseboard_lfm(wantedM2);
     baseboard = calculateBaseboardQuantity(
       baseboardLfm,
-      baseboardProduct.jaeger_meta.paketinhalt
+      baseboardProduct.paketinhalt
     );
   }
 

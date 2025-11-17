@@ -97,7 +97,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const totalPrice = cartItems.reduce((total, item) => {
     const price = item.product.prices?.price
       ? parseFloat(item.product.prices.price) / 100
-      : parseFloat(item.product.price) || 0;
+      : (item.product.price || 0);
     return total + (price * item.quantity);
   }, 0);
 

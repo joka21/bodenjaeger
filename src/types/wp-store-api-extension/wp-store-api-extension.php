@@ -61,7 +61,10 @@ class Jaeger_Store_API_Extension {
         '_setangebot_gesamtpreis',
         '_setangebot_ersparnis_euro',
         '_setangebot_ersparnis_prozent',
-        // Standard-Zusatzprodukte
+        // Standard-Zusatzprodukte (Produkt-IDs)
+        '_daemmung_standard',
+        '_sockelleiste_standard',
+        // Standard-Zusatzprodukte (Mengen)
         '_standard_addition_daemmung',
         '_standard_addition_sockelleisten',
         // Optionale Zusatzprodukte
@@ -335,6 +338,19 @@ class Jaeger_Store_API_Extension {
             // Handle already numeric values
             if (is_numeric($value)) {
                 return floatval($value);
+            }
+            return null;
+        }
+
+        // Handle product ID fields (integers)
+        if (in_array($field_name, ['_daemmung_standard', '_sockelleiste_standard'])) {
+            // Safe conversion with error handling
+            if ($value === '' || $value === null || $value === false) {
+                return null;
+            }
+            // Handle already numeric values
+            if (is_numeric($value)) {
+                return intval($value);
             }
             return null;
         }

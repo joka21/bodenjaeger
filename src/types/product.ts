@@ -125,6 +125,21 @@ export interface Product {
   variations: number[];
   grouped_products: number[];
   menu_order: number;
+
+  // ===== SET-ANGEBOT FIELDS (Added from Backend API) =====
+  has_setangebot?: boolean;
+  setangebot_titel?: string | null;
+  setangebot_rabatt?: number | null;
+  setangebot_einzelpreis?: number | null;
+  setangebot_gesamtpreis?: number | null;
+  setangebot_ersparnis_euro?: number | null;
+  setangebot_ersparnis_prozent?: number | null;
+
+  // ===== ZUSATZPRODUKT IDs (Added from Backend API) =====
+  daemmung_id?: number | null;
+  sockelleisten_id?: number | null;
+  daemmung_option_ids?: number[];
+  sockelleisten_option_ids?: number[];
 }
 
 export interface Category {

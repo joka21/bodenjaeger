@@ -24,8 +24,9 @@ export default function ProductPageContent({
   daemmungOptions,
   sockelleisteOptions
 }: ProductPageContentProps) {
-  const paketinhalt = product.jaeger_meta?.paketinhalt || 1;
-  const einheit = product.jaeger_meta?.einheit_short || 'm²';
+  // ✅ USE ROOT-LEVEL FIELDS (backend/ROOT_LEVEL_FIELDS.md)
+  const paketinhalt = product.paketinhalt || 1;
+  const einheit = product.einheit_short || 'm²';
 
   // State for wanted m² (user input)
   const [wantedM2, setWantedM2] = useState(paketinhalt);
@@ -46,19 +47,119 @@ export default function ProductPageContent({
     );
   }, [wantedM2, product, selectedDaemmung, selectedSockelleiste]);
 
-  // Get prices DIRECTLY from backend (product.jaeger_meta)
+  // ✅ VOLLSTÄNDIGE SET-ANGEBOT BERECHNUNG
+  // Basierend auf: SETANGEBOT_BERECHNUNG_KOMPLETT.md
   const prices = useMemo(() => {
-    const meta = product.jaeger_meta;
-    if (!meta) return null;
+    if (!product || !quantities) return null;
 
-    // Backend liefert ALLE Preise und Ersparnis - wir nutzen sie direkt!
+    // SCHRITT 1: BODEN BERECHNUNG
+    // Boden hat immer den gleichen Preis (regulär = Set-Angebot)
+    const bodenPricePerM2 = product.setangebot_gesamtpreis || product.price || 0;
+    const bodenPriceTotal = quantities.floor.actualM2 * bodenPricePerM2;
+
+    // SCHRITT 2: DÄMMUNG BERECHNUNG (falls vorhanden)
+    let daemmungRegularPrice = 0;
+    let daemmungSetPrice = 0;
+
+    if (selectedDaemmung && daemmungProduct) {
+      const daemmungPricePerM2 = selectedDaemmung.price || 0;
+      const daemmungPaketinhalt = selectedDaemmung.paketinhalt || 1;
+
+      // Standard-Dämmung (zum Vergleich)
+      const standardDaemmungPrice = daemmungProduct.price || 0;
+
+      // ✅ DYNAMISCHE VERRECHNUNG-BERECHNUNG (mit Backend-Fallback)
+      // Wenn Backend verrechnung liefert, verwende es. Sonst berechne Differenz.
+      const daemmungVerrechnung = selectedDaemmung.verrechnung ?? Math.max(0, daemmungPricePerM2 - standardDaemmungPrice);
+
+      console.log('🔧 Dämmung Verrechnung:', {
+        produktName: selectedDaemmung.name,
+        produktPreis: daemmungPricePerM2,
+        standardPreis: standardDaemmungPrice,
+        verrechnungBerechnet: daemmungVerrechnung,
+        quelle: selectedDaemmung.verrechnung !== undefined ? 'Backend' : 'Frontend-Berechnung'
+      });
+
+      // Artikel-Typ bestimmen
+      const istStandard = daemmungVerrechnung === 0;
+      const istBilliger = daemmungPricePerM2 < standardDaemmungPrice;
+
+      // REGULÄRER PREIS (IMMER AUFRUNDEN)
+      const daemmungPaketeRegular = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
+      const daemmungM2Regular = daemmungPaketeRegular * daemmungPaketinhalt;
+      daemmungRegularPrice = daemmungM2Regular * daemmungPricePerM2;
+
+      // SET-ANGEBOT PREIS
+      if (istStandard || istBilliger) {
+        // Standard oder Billiger → ABRUNDEN + 0€
+        const daemmungPaketeSet = Math.floor(quantities.floor.actualM2 / daemmungPaketinhalt);
+        daemmungSetPrice = 0; // Kostenlos im Set!
+      } else {
+        // Aufpreis-Artikel → AUFRUNDEN + Verrechnung
+        const daemmungPaketeSet = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
+        const daemmungM2Set = daemmungPaketeSet * daemmungPaketinhalt;
+        daemmungSetPrice = daemmungM2Set * daemmungVerrechnung; // NUR Aufpreis!
+      }
+    }
+
+    // SCHRITT 3: SOCKELLEISTE BERECHNUNG
+    let sockelleisteRegularPrice = 0;
+    let sockelleisteSetPrice = 0;
+
+    if (selectedSockelleiste && sockelleisteProduct) {
+      const sockelleistePricePerLfm = selectedSockelleiste.price || 0;
+      const sockelleistePaketinhalt = selectedSockelleiste.paketinhalt || 1;
+
+      // Standard-Sockelleiste (zum Vergleich)
+      const standardSockelleistePrice = sockelleisteProduct.price || 0;
+
+      // ✅ DYNAMISCHE VERRECHNUNG-BERECHNUNG (mit Backend-Fallback)
+      // Wenn Backend verrechnung liefert, verwende es. Sonst berechne Differenz.
+      const sockelleisteVerrechnung = selectedSockelleiste.verrechnung ?? Math.max(0, sockelleistePricePerLfm - standardSockelleistePrice);
+
+      console.log('🔧 Sockelleiste Verrechnung:', {
+        produktName: selectedSockelleiste.name,
+        produktPreis: sockelleistePricePerLfm,
+        standardPreis: standardSockelleistePrice,
+        verrechnungBerechnet: sockelleisteVerrechnung,
+        quelle: selectedSockelleiste.verrechnung !== undefined ? 'Backend' : 'Frontend-Berechnung'
+      });
+
+      // Artikel-Typ bestimmen
+      const istStandard = sockelleisteVerrechnung === 0;
+      const istBilliger = sockelleistePricePerLfm < standardSockelleistePrice;
+
+      // REGULÄRER PREIS (IMMER AUFRUNDEN)
+      const sockelleisteStückRegular = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
+      const sockelleisteLfmRegular = sockelleisteStückRegular * sockelleistePaketinhalt;
+      sockelleisteRegularPrice = sockelleisteLfmRegular * sockelleistePricePerLfm;
+
+      // SET-ANGEBOT PREIS
+      if (istStandard || istBilliger) {
+        // Standard oder Billiger → ABRUNDEN + 0€
+        const sockelleisteStückSet = Math.floor(quantities.floor.actualM2 / sockelleistePaketinhalt);
+        sockelleisteSetPrice = 0; // Kostenlos im Set!
+      } else {
+        // Aufpreis-Artikel → AUFRUNDEN + Verrechnung
+        const sockelleisteStückSet = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
+        const sockelleisteLfmSet = sockelleisteStückSet * sockelleistePaketinhalt;
+        sockelleisteSetPrice = sockelleisteLfmSet * sockelleisteVerrechnung; // NUR Aufpreis!
+      }
+    }
+
+    // SCHRITT 4: GESAMTPREISE
+    const comparisonPriceTotal = bodenPriceTotal + daemmungRegularPrice + sockelleisteRegularPrice;
+    const totalDisplayPrice = bodenPriceTotal + daemmungSetPrice + sockelleisteSetPrice;
+    const savings = comparisonPriceTotal - totalDisplayPrice;
+    const savingsPercent = comparisonPriceTotal > 0 ? (savings / comparisonPriceTotal) * 100 : 0;
+
     return {
-      totalDisplayPrice: 0,
-      comparisonPriceTotal: undefined,
-      savings: undefined,
-      savingsPercent: 0,
+      totalDisplayPrice,
+      comparisonPriceTotal,
+      savings: savings > 0 ? savings : undefined,
+      savingsPercent,
     };
-  }, []);
+  }, [product, quantities, selectedDaemmung, selectedSockelleiste, daemmungProduct, sockelleisteProduct]);
 
   // Handle quantity changes from QuantitySelector
   const handleQuantityChange = (newPackages: number, newSqm: number) => {
@@ -152,9 +253,9 @@ export default function ProductPageContent({
               daemmungOptions={daemmungOptions}
               sockelleisteOptions={sockelleisteOptions}
               onProductSelection={handleProductSelection}
-              comparisonPriceTotal={prices?.comparisonPriceTotal}
+              comparisonPriceTotal={prices?.comparisonPriceTotal || undefined}
               totalDisplayPrice={prices?.totalDisplayPrice}
-              savingsAmount={prices?.savings}
+              savingsAmount={prices?.savings || undefined}
               savingsPercent={prices?.savingsPercent}
             />
 
@@ -175,7 +276,7 @@ export default function ProductPageContent({
                 product={product}
                 selectedDaemmung={selectedDaemmung}
                 selectedSockelleiste={selectedSockelleiste}
-                lieferzeit={product.jaeger_meta?.lieferzeit || '3-7 Arbeitstage'}
+                lieferzeit={product.lieferzeit || '3-7 Arbeitstage'}
               />
             </div>
 

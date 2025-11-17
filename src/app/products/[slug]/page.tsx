@@ -28,23 +28,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
       notFound();
     }
 
-    console.log('Product jaeger_meta:', product.jaeger_meta);
-    console.log('🔍 Set-Angebot Ersparnis-Felder vom Backend:');
-    console.log('  - setangebot_einzelpreis:', product.jaeger_meta?.setangebot_einzelpreis);
-    console.log('  - setangebot_gesamtpreis:', product.jaeger_meta?.setangebot_gesamtpreis);
-    console.log('  - setangebot_ersparnis_euro:', product.jaeger_meta?.setangebot_ersparnis_euro);
-    console.log('  - setangebot_ersparnis_prozent:', product.jaeger_meta?.setangebot_ersparnis_prozent);
+    console.log('🔍 Set-Angebot Ersparnis-Felder vom Backend (ROOT-LEVEL):');
+    console.log('  - setangebot_einzelpreis:', product.setangebot_einzelpreis);
+    console.log('  - setangebot_gesamtpreis:', product.setangebot_gesamtpreis);
+    console.log('  - setangebot_ersparnis_euro:', product.setangebot_ersparnis_euro);
+    console.log('  - setangebot_ersparnis_prozent:', product.setangebot_ersparnis_prozent);
 
-    // Parse all product IDs we need to load
-    const daemmungId = product.jaeger_meta?.standard_addition_daemmung;
-    const sockelleisteId = product.jaeger_meta?.standard_addition_sockelleisten;
+    // ✅ USE ROOT-LEVEL FIELDS - Parse all product IDs we need to load
+    const daemmungId = product.daemmung_id;
+    const sockelleisteId = product.sockelleisten_id;
 
-    const daemmungOptionIds = product.jaeger_meta?.option_products_daemmung
-      ? product.jaeger_meta.option_products_daemmung.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
-      : [];
-    const sockelleisteOptionIds = product.jaeger_meta?.option_products_sockelleisten
-      ? product.jaeger_meta.option_products_sockelleisten.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
-      : [];
+    // IDs are already arrays on root level
+    const daemmungOptionIds = product.daemmung_option_ids || [];
+    const sockelleisteOptionIds = product.sockelleisten_option_ids || [];
 
     console.log('Dämmung ID:', daemmungId);
     console.log('Sockelleiste ID:', sockelleisteId);

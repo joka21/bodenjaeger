@@ -63,8 +63,8 @@ export default function StandardProductCard({ product }: StandardProductCardProp
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  // Discount immer 0
-  const discountPercent = 0;
+  // Rabatt-Prozent: Nutze Set-Angebot wenn vorhanden
+  const discountPercent = product._setangebot_ersparnis_prozent || 0;
 
   // Zeige Set-Angebot?
   const showSetAngebot = product._show_setangebot === 'yes';
@@ -103,9 +103,9 @@ export default function StandardProductCard({ product }: StandardProductCardProp
           {/* ===== BADGES (Oben Links) ===== */}
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             {/* Rabatt-Badge */}
-            {showSetAngebot && (
+            {showSetAngebot && discountPercent > 0 && (
               <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md">
-                -0%
+                -{Math.round(discountPercent)}%
               </div>
             )}
 

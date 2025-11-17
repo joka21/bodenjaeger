@@ -1,0 +1,120 @@
+{
+    "products": [
+        {
+            "id": 1134,
+            "name": "Rigid-Vinyl Eiche Newstead",
+            "slug": "rigid-vinyl-eiche-newstead",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-eiche-newstead/",
+            "type": "simple",
+            "sku": "100114124",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>0,5mm Nutzschicht</li>\r\n \t<li>Gewerbeeignung</li>\r\n \t<li>Pflegeleicht &amp; Robust</li>\r\n</ul>",
+            "price": 34.99,
+            "regular_price": 42.95,
+            "sale_price": 34.99,
+            "on_sale": true,
+            "discount_percent": 19,
+            "images": [
+                {
+                    "id": "106",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead.jpg",
+                    "alt": "",
+                    "name": "Newstead.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-300x236.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-1024x806.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-600x472.jpg"
+                    }
+                },
+                {
+                    "id": 107,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 108,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 109,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.21,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 94.92,
+                "paketpreis_s": 77.33
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 27.028154327424,
+            "setangebot_einzelpreis": 47.95,
+            "setangebot_gesamtpreis": 34.99
+        }
+    ],
+    "pagination": {
+        "total": 1,
+        "total_pages": 0,
+        "current_page": 1,
+        "per_page": 20
+    }
+}

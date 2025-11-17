@@ -1,0 +1,2236 @@
+{
+    "products": [
+        {
+            "id": 1134,
+            "name": "Rigid-Vinyl Eiche Newstead",
+            "slug": "rigid-vinyl-eiche-newstead",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-eiche-newstead/",
+            "type": "simple",
+            "sku": "100114124",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>0,5mm Nutzschicht</li>\r\n \t<li>Gewerbeeignung</li>\r\n \t<li>Pflegeleicht &amp; Robust</li>\r\n</ul>",
+            "price": 34.99,
+            "regular_price": 42.95,
+            "sale_price": 34.99,
+            "on_sale": true,
+            "discount_percent": 19,
+            "images": [
+                {
+                    "id": "106",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead.jpg",
+                    "alt": "",
+                    "name": "Newstead.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-300x236.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-1024x806.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Newstead-600x472.jpg"
+                    }
+                },
+                {
+                    "id": 107,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_48_57-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 108,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_11-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 109,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Newstead-20-Nov-2023-11_49_29-GMT-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.21,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 94.92,
+                "paketpreis_s": 77.33
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 27.028154327424,
+            "setangebot_einzelpreis": 47.95,
+            "setangebot_gesamtpreis": 34.99
+        },
+        {
+            "id": 1135,
+            "name": "Rigid-Vinyl Eiche Dornick",
+            "slug": "rigid-vinyl-eiche-dornick",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-eiche-dornick/",
+            "type": "simple",
+            "sku": "100114123",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>0,5mm Nutzschicht</li>\r\n \t<li>Gewerbeeignung</li>\r\n \t<li>Pflegeleicht &amp; Robust</li>\r\n</ul>",
+            "price": 34.99,
+            "regular_price": 42.95,
+            "sale_price": 34.99,
+            "on_sale": true,
+            "discount_percent": 19,
+            "images": [
+                {
+                    "id": "114",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick.jpg",
+                    "alt": "",
+                    "name": "Dornick.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick-300x236.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick-1024x806.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Dornick-600x472.jpg"
+                    }
+                },
+                {
+                    "id": 115,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_38-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 116,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_46-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 117,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Dornick-20-Nov-2023-12_20_51-GMT-scaled-1-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.21,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 94.92,
+                "paketpreis_s": 77.33
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 27.028154327424,
+            "setangebot_einzelpreis": 47.95,
+            "setangebot_gesamtpreis": 34.99
+        },
+        {
+            "id": 1136,
+            "name": "Rigid-Vinyl Eiche Tweedbank",
+            "slug": "rigid-vinyl-eiche-tweedbank",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-eiche-tweedbank/",
+            "type": "simple",
+            "sku": "100114122",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>0,5mm Nutzschicht</li>\r\n \t<li>Gewerbeeignung</li>\r\n \t<li>Pflegeleicht &amp; Robust</li>\r\n</ul>",
+            "price": 34.99,
+            "regular_price": 42.95,
+            "sale_price": 34.99,
+            "on_sale": true,
+            "discount_percent": 19,
+            "images": [
+                {
+                    "id": "118",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank.jpg",
+                    "alt": "",
+                    "name": "Tweedbank.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank-300x236.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank-1024x806.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Tweedbank-600x472.jpg"
+                    }
+                },
+                {
+                    "id": 119,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_04_50-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 120,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_11-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 121,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-Eiche-Tweedbank-20-Nov-2023-12_05_20-GMT-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.21,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 94.92,
+                "paketpreis_s": 77.33
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 27.028154327424,
+            "setangebot_einzelpreis": 47.95,
+            "setangebot_gesamtpreis": 34.99
+        },
+        {
+            "id": 1137,
+            "name": "Rigid-Vinyl COREtec Meadow",
+            "slug": "rigid-vinyl-coretec-meadow",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-meadow/",
+            "type": "simple",
+            "sku": "100115807",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>8 mm stark | Nutzschicht: 0,55 mm | NK 33</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 49.99,
+            "regular_price": 59.95,
+            "sale_price": 49.99,
+            "on_sale": true,
+            "discount_percent": 17,
+            "images": [
+                {
+                    "id": "122",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807.jpg",
+                    "alt": "",
+                    "name": "Meadow-50-LVP-807.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807-300x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Meadow-50-LVP-807-600x600.jpg"
+                    }
+                },
+                {
+                    "id": 123,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_50-GMT-600x693.jpg"
+                    }
+                },
+                {
+                    "id": 124,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_10_59-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 125,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Meadow-20-Nov-2023-12_11_12-GMT-scaled-1-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 121,
+                    "name": "sale",
+                    "slug": "sale"
+                },
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.66,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 159.47,
+                "paketpreis_s": 132.97
+            },
+            "setangebot_ersparnis_euro": 14.96,
+            "setangebot_ersparnis_prozent": 23.033102386451,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 49.99
+        },
+        {
+            "id": 1138,
+            "name": "Rigid-Vinyl COREtec Lumber",
+            "slug": "rigid-vinyl-coretec-lumber",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-lumber/",
+            "type": "simple",
+            "sku": "100115804",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>8 mm stark | Nutzschicht: 0,55 mm | NK 33</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 49.99,
+            "regular_price": 59.95,
+            "sale_price": 49.99,
+            "on_sale": true,
+            "discount_percent": 17,
+            "images": [
+                {
+                    "id": "126",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber.jpg",
+                    "alt": "",
+                    "name": "Lumber.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber-300x231.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber-1024x790.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Lumber-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 127,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_28-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 128,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_44_08-GMT-scaled-1-600x399.jpg"
+                    }
+                },
+                {
+                    "id": 129,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-20-Nov-2023-11_43_58-GMT-scaled-1-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 121,
+                    "name": "sale",
+                    "slug": "sale"
+                },
+                {
+                    "id": 21,
+                    "name": "Bestseller",
+                    "slug": "bestseller"
+                },
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.66,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 159.47,
+                "paketpreis_s": 132.97
+            },
+            "setangebot_ersparnis_euro": 14.96,
+            "setangebot_ersparnis_prozent": 23.033102386451,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 49.99
+        },
+        {
+            "id": 1139,
+            "name": "Rigid-Vinyl COREtec Desert",
+            "slug": "rigid-vinyl-coretec-desert",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-desert/",
+            "type": "simple",
+            "sku": "100115805",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>8 mm stark | Nutzschicht: 0,55 mm | NK 33</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 49.99,
+            "regular_price": 59.95,
+            "sale_price": 49.99,
+            "on_sale": true,
+            "discount_percent": 17,
+            "images": [
+                {
+                    "id": "134",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805.jpg",
+                    "alt": "",
+                    "name": "Desert-50-LVP-805.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-300x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-600x600.jpg"
+                    }
+                },
+                {
+                    "id": 135,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1.jpg",
+                    "alt": "",
+                    "name": "Desert-50-LVP-805-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1-1024x767.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Desert-50-LVP-805-1-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 121,
+                    "name": "sale",
+                    "slug": "sale"
+                },
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.66,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 159.47,
+                "paketpreis_s": 132.97
+            },
+            "setangebot_ersparnis_euro": 14.96,
+            "setangebot_ersparnis_prozent": 23.033102386451,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 49.99
+        },
+        {
+            "id": 1140,
+            "name": "Rigid-Vinyl COREtec Forest",
+            "slug": "rigid-vinyl-coretec-forest",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-forest/",
+            "type": "simple",
+            "sku": "100115806",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>8 mm stark | Nutzschicht: 0,55 mm | NK 33</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 49.99,
+            "regular_price": 59.95,
+            "sale_price": 49.99,
+            "on_sale": true,
+            "discount_percent": 17,
+            "images": [
+                {
+                    "id": "136",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806.jpg",
+                    "alt": "",
+                    "name": "Forest-50-LVP-806.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-300x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-600x600.jpg"
+                    }
+                },
+                {
+                    "id": 137,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Forest-50-LVP-806_child-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_child-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 138,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child.jpg",
+                    "alt": "",
+                    "name": "Forest-50-LVP-806_cleaning_child.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child-300x238.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child-1024x811.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806_cleaning_child-600x475.jpg"
+                    }
+                },
+                {
+                    "id": 139,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1-218x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1-744x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Forest-50-LVP-806-1-600x826.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 121,
+                    "name": "sale",
+                    "slug": "sale"
+                },
+                {
+                    "id": 21,
+                    "name": "Bestseller",
+                    "slug": "bestseller"
+                },
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.66,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 159.47,
+                "paketpreis_s": 132.97
+            },
+            "setangebot_ersparnis_euro": 14.96,
+            "setangebot_ersparnis_prozent": 23.033102386451,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 49.99
+        },
+        {
+            "id": 1141,
+            "name": "Rigid-Vinyl COREtec Nimbus",
+            "slug": "rigid-vinyl-coretec-nimbus",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-nimbus/",
+            "type": "simple",
+            "sku": "100115140",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 54.99,
+            "regular_price": 62.95,
+            "sale_price": 54.99,
+            "on_sale": true,
+            "discount_percent": 13,
+            "images": [
+                {
+                    "id": "140",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus-300x232.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus-1024x792.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Nimbus-600x464.jpg"
+                    }
+                },
+                {
+                    "id": 141,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_06-GMT-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 142,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_18-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 143,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Nimbus-20-Nov-2023-12_03_37-GMT-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.65,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 166.82,
+                "paketpreis_s": 145.72
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 19.072847682119,
+            "setangebot_einzelpreis": 67.95,
+            "setangebot_gesamtpreis": 54.99
+        },
+        {
+            "id": 1142,
+            "name": "Rigid-Vinyl COREtec Regina",
+            "slug": "rigid-vinyl-coretec-regina",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-regina/",
+            "type": "simple",
+            "sku": "100115139",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 54.99,
+            "regular_price": 62.95,
+            "sale_price": 54.99,
+            "on_sale": true,
+            "discount_percent": 13,
+            "images": [
+                {
+                    "id": "144",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina-300x232.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina-1024x790.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Regina-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 145,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_13-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 146,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_53_20-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 147,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Regina-20-Nov-2023-11_52_54-GMT-scaled-1-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.65,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 166.82,
+                "paketpreis_s": 145.72
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 19.072847682119,
+            "setangebot_einzelpreis": 67.95,
+            "setangebot_gesamtpreis": 54.99
+        },
+        {
+            "id": 1143,
+            "name": "Rigid-Vinyl COREtec Alto",
+            "slug": "rigid-vinyl-coretec-alto",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-alto/",
+            "type": "simple",
+            "sku": "100115141",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 54.99,
+            "regular_price": 62.95,
+            "sale_price": 54.99,
+            "on_sale": true,
+            "discount_percent": 13,
+            "images": [
+                {
+                    "id": "148",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1-300x232.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1-1024x793.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Alto-1-600x465.jpg"
+                    }
+                },
+                {
+                    "id": 149,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_59-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 150,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_54-GMT-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 151,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Alto-20-Nov-2023-12_21_47-GMT-600x693.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.65,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 166.82,
+                "paketpreis_s": 145.72
+            },
+            "setangebot_ersparnis_euro": 12.96,
+            "setangebot_ersparnis_prozent": 19.072847682119,
+            "setangebot_einzelpreis": 67.95,
+            "setangebot_gesamtpreis": 54.99
+        },
+        {
+            "id": 1144,
+            "name": "Rigid-Vinyl COREtec Bark",
+            "slug": "rigid-vinyl-coretec-bark",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-bark/",
+            "type": "simple",
+            "sku": "100115856",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "157",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark.jpg",
+                    "alt": "",
+                    "name": "Bark.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark-300x232.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark-1024x790.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bark-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 158,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_54-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 159,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_47-GMT-scaled-1-600x399.jpg"
+                    }
+                },
+                {
+                    "id": 160,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT-300x197.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT-1024x673.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Bark-20-Nov-2023-12_05_40-GMT-600x395.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.66,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 159.47,
+                "paketpreis_s": 140.95
+            },
+            "setangebot_ersparnis_euro": 11.96,
+            "setangebot_ersparnis_prozent": 18.414164742109,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1145,
+            "name": "Rigid-Vinyl COREtec Haze",
+            "slug": "rigid-vinyl-coretec-haze",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-haze/",
+            "type": "simple",
+            "sku": "100115855",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "161",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze.jpg",
+                    "alt": "",
+                    "name": "Haze.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze-300x231.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze-1024x790.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Haze-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 162,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_26-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 163,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_32-GMT-600x693.jpg"
+                    }
+                },
+                {
+                    "id": 164,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Haze-20-Nov-2023-12_08_39-GMT-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.66,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 159.47,
+                "paketpreis_s": 140.95
+            },
+            "setangebot_ersparnis_euro": 11.96,
+            "setangebot_ersparnis_prozent": 18.414164742109,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1146,
+            "name": "Rigid-Vinyl COREtec Jura",
+            "slug": "rigid-vinyl-coretec-jura",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-jura/",
+            "type": "simple",
+            "sku": "100111907",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "165",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1.jpg",
+                    "alt": "",
+                    "name": "Jura-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1-300x231.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1-1024x790.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Jura-1-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 166,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_40_57-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 167,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT-1024x682.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_15-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 168,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Jura-20-Nov-2023-11_41_20-GMT-600x693.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.59,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 155.27,
+                "paketpreis_s": 137.24
+            },
+            "setangebot_ersparnis_euro": 11.96,
+            "setangebot_ersparnis_prozent": 18.414164742109,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1147,
+            "name": "Rigid-Vinyl COREtec Cloud",
+            "slug": "rigid-vinyl-coretec-cloud",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-cloud/",
+            "type": "simple",
+            "sku": "100111151",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "169",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1-300x232.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1-1024x792.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-1-600x464.jpg"
+                    }
+                },
+                {
+                    "id": 170,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_26-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 171,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_34-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 172,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cloud-20-Nov-2023-12_10_39-GMT-600x693.jpg"
+                    }
+                },
+                {
+                    "id": 173,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Cloud-50LVTE151-1-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1-186x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1-633x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cloud-50LVTE151-1-scaled-1-600x970.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.59,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 155.27,
+                "paketpreis_s": 137.24
+            },
+            "setangebot_ersparnis_euro": 6.96,
+            "setangebot_ersparnis_prozent": 11.609674728941,
+            "setangebot_einzelpreis": 59.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1148,
+            "name": "Rigid-Vinyl COREtec Cyclone",
+            "slug": "rigid-vinyl-coretec-cyclone",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-cyclone/",
+            "type": "simple",
+            "sku": "100111150",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "178",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone-300x233.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone-1024x794.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Cyclone-600x465.jpg"
+                    }
+                },
+                {
+                    "id": 179,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_36-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 180,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_48-GMT-600x693.jpg"
+                    }
+                },
+                {
+                    "id": 181,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Cyclone-20-Nov-2023-11_45_59-GMT-scaled-1-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 21,
+                    "name": "Bestseller",
+                    "slug": "bestseller"
+                },
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.59,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 155.27,
+                "paketpreis_s": 137.24
+            },
+            "setangebot_ersparnis_euro": 11.96,
+            "setangebot_ersparnis_prozent": 18.414164742109,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1149,
+            "name": "Rigid-Vinyl COREtec Matterhorn",
+            "slug": "rigid-vinyl-coretec-matterhorn",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-matterhorn/",
+            "type": "simple",
+            "sku": "100111905",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "182",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn.jpg",
+                    "alt": "",
+                    "name": "Matterhorn.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn-300x231.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn-1024x790.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Matterhorn-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 183,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_20-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 184,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_35-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 185,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Matterhorn-20-Nov-2023-12_12_45-GMT-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.59,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 155.27,
+                "paketpreis_s": 137.24
+            },
+            "setangebot_ersparnis_euro": 11.96,
+            "setangebot_ersparnis_prozent": 18.414164742109,
+            "setangebot_einzelpreis": 64.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1150,
+            "name": "Rigid-Vinyl COREtec Thabor",
+            "slug": "rigid-vinyl-coretec-thabor",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-thabor/",
+            "type": "simple",
+            "sku": "100111903",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 52.99,
+            "regular_price": 59.95,
+            "sale_price": 52.99,
+            "on_sale": true,
+            "discount_percent": 12,
+            "images": [
+                {
+                    "id": "186",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor.jpg",
+                    "alt": "",
+                    "name": "Thabor.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor-300x228.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor-1024x778.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Thabor-600x456.jpg"
+                    }
+                },
+                {
+                    "id": 187,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_45-GMT-600x693.jpg"
+                    }
+                },
+                {
+                    "id": 188,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_33_54-GMT-scaled-1-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 189,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Thabor-20-Nov-2023-11_34_05-GMT-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.59,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 155.27,
+                "paketpreis_s": 137.24
+            },
+            "setangebot_ersparnis_euro": 6.96,
+            "setangebot_ersparnis_prozent": 11.609674728941,
+            "setangebot_einzelpreis": 59.95,
+            "setangebot_gesamtpreis": 52.99
+        },
+        {
+            "id": 1151,
+            "name": "Rigid-Vinyl COREtec Lumber Fischgr\u00e4t",
+            "slug": "rigid-vinyl-coretec-lumber-fischgraet",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-lumber-fischgraet/",
+            "type": "simple",
+            "sku": "10011804H",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 59.99,
+            "regular_price": 73.95,
+            "sale_price": 59.99,
+            "on_sale": true,
+            "discount_percent": 19,
+            "images": [
+                {
+                    "id": "190",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB.jpg",
+                    "alt": "",
+                    "name": "LumberHB.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB-300x231.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB-1024x788.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/LumberHB-600x462.jpg"
+                    }
+                },
+                {
+                    "id": 191,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_25-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 192,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_32-GMT-600x450.jpg"
+                    }
+                },
+                {
+                    "id": 193,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Lumber-Fischgraet-20-Nov-2023-11_36_40-GMT-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.32,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 171.56,
+                "paketpreis_s": 139.18
+            },
+            "setangebot_ersparnis_euro": 18.96,
+            "setangebot_ersparnis_prozent": 24.01519949335,
+            "setangebot_einzelpreis": 78.95,
+            "setangebot_gesamtpreis": 59.99
+        },
+        {
+            "id": 1152,
+            "name": "Rigid-Vinyl COREtec Forest Fischgr\u00e4t",
+            "slug": "rigid-vinyl-coretec-forest-fischgraet",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-forest-fischgraet/",
+            "type": "simple",
+            "sku": "10011806H",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 59.99,
+            "regular_price": 73.95,
+            "sale_price": 59.99,
+            "on_sale": true,
+            "discount_percent": 19,
+            "images": [
+                {
+                    "id": "198",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB.jpg",
+                    "alt": "",
+                    "name": "ForestHB.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB-300x231.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB-1024x789.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/ForestHB-600x463.jpg"
+                    }
+                },
+                {
+                    "id": 199,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_12-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 200,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_18-GMT-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 201,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Forest-Fischgraet-20-Nov-2023-11_57_26-GMT-scaled-1-600x400.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.32,
+                "show_aktion": false,
+                "aktion": "Restposten",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 171.56,
+                "paketpreis_s": 139.18
+            },
+            "setangebot_ersparnis_euro": 18.96,
+            "setangebot_ersparnis_prozent": 24.01519949335,
+            "setangebot_einzelpreis": 78.95,
+            "setangebot_gesamtpreis": 59.99
+        },
+        {
+            "id": 1153,
+            "name": "Rigid-Vinyl COREtec Halifax Fischgr\u00e4t",
+            "slug": "rigid-vinyl-coretec-halifax-fischgraet",
+            "permalink": "https://plan-dein-ding.de/produkt/rigid-vinyl-coretec-halifax-fischgraet/",
+            "type": "simple",
+            "sku": "10011138H",
+            "featured": false,
+            "virtual": false,
+            "downloadable": false,
+            "short_description": "<ul>\r\n \t<li>Extrem Robust</li>\r\n \t<li>Matte Oberfl\u00e4chenstruktur</li>\r\n \t<li>lebenslange Garantie</li>\r\n</ul>",
+            "price": 49.99,
+            "regular_price": 73.95,
+            "sale_price": 49.99,
+            "on_sale": true,
+            "discount_percent": 32,
+            "images": [
+                {
+                    "id": "202",
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB.jpg",
+                    "alt": "",
+                    "name": "HyperFocal: 0",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB-300x230.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB-1024x787.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/HalifaxHB-600x461.jpg"
+                    }
+                },
+                {
+                    "id": 203,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1-300x200.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1-1024x683.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_30-GMT-scaled-1-600x400.jpg"
+                    }
+                },
+                {
+                    "id": 204,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT-260x300.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT-887x1024.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_39-GMT-600x693.jpg"
+                    }
+                },
+                {
+                    "id": 205,
+                    "src": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1.jpg",
+                    "alt": "",
+                    "name": "Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1.jpg",
+                    "sizes": {
+                        "thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1-150x150.jpg",
+                        "medium": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1-300x225.jpg",
+                        "large": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1-1024x768.jpg",
+                        "full": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1.jpg",
+                        "woocommerce_thumbnail": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1-300x300.jpg",
+                        "woocommerce_single": "https://plan-dein-ding.de/wp-content/uploads/2025/03/Bodenfachmarkt-Jaeger-COREtec-Halifax-Fischgraet-20-Nov-2023-11_53_50-GMT-scaled-1-600x450.jpg"
+                    }
+                }
+            ],
+            "categories": [
+                {
+                    "id": 121,
+                    "name": "sale",
+                    "slug": "sale"
+                },
+                {
+                    "id": 16,
+                    "name": "Vinylboden",
+                    "slug": "vinylboden"
+                },
+                {
+                    "id": 17,
+                    "name": "Rigid-Vinyl",
+                    "slug": "rigid-vinyl"
+                }
+            ],
+            "stock_status": "instock",
+            "stock_quantity": null,
+            "average_rating": "0",
+            "rating_count": 0,
+            "has_setangebot": true,
+            "jaeger_meta": {
+                "einheit_short": "m\u00b2",
+                "paketinhalt": 2.32,
+                "show_aktion": true,
+                "aktion": "Nur solange der Vorrat reicht!",
+                "show_angebotspreis_hinweis": false,
+                "angebotspreis_hinweis": "Black Sale",
+                "show_lieferzeit": true,
+                "lieferzeit": "3-7 Arbeitstage oder im Markt abholen",
+                "show_uvp": false,
+                "uvp": 0,
+                "paketpreis": 171.56,
+                "paketpreis_s": 115.98
+            },
+            "setangebot_ersparnis_euro": 28.96,
+            "setangebot_ersparnis_prozent": 36.681443951868,
+            "setangebot_einzelpreis": 78.95,
+            "setangebot_gesamtpreis": 49.99
+        }
+    ],
+    "pagination": {
+        "total": 446,
+        "total_pages": 23,
+        "current_page": 1,
+        "per_page": 20
+    }
+}

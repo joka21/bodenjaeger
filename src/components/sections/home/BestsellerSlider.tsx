@@ -195,23 +195,23 @@ export default function BestsellerSlider({
                       {/* Badges */}
                       <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
                         {/* Sale Badge */}
-                        {product.on_sale && (
+                        {product.on_sale && (product.setangebot_ersparnis_prozent || 0) > 0 && (
                           <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
-                            -0%
+                            -{Math.round(product.setangebot_ersparnis_prozent || 0)}%
                           </div>
                         )}
 
                         {/* Aktion Badge */}
-                        {product.jaeger_meta?.show_aktion && product.jaeger_meta?.aktion && (
+                        {product.show_aktion && product.aktion && (
                           <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
-                            {product.jaeger_meta.aktion}
+                            {product.aktion}
                           </div>
                         )}
 
                         {/* Angebotspreis Hinweis Badge */}
-                        {product.jaeger_meta?.show_angebotspreis_hinweis && (
+                        {product.show_angebotspreis_hinweis && product.angebotspreis_hinweis && (
                           <div className="bg-black text-white px-3 py-1 rounded font-bold text-sm shadow-md">
-                            {product.jaeger_meta.angebotspreis_hinweis || 'Angebot'}
+                            {product.angebotspreis_hinweis}
                           </div>
                         )}
                       </div>
@@ -229,13 +229,26 @@ export default function BestsellerSlider({
 
                       {/* Preisanzeige */}
                       {(() => {
-                        const unit = product.jaeger_meta?.einheit_short || 'm²';
+                        const unit = product.einheit_short || 'm²';
+                        const price = product.price;
+                        const regularPrice = product.regular_price;
+                        const hasDiscount = product.on_sale && regularPrice > price;
+
                         return (
-                          <div className="flex justify-between items-center">
-                            <span className="text-gray-900 font-medium">Preis</span>
-                            <span className="text-gray-900 font-bold text-xl">
-                              0,00 €/{unit}
-                            </span>
+                          <div className="space-y-1">
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-900 font-medium">Preis</span>
+                              <div className="flex flex-col items-end">
+                                {hasDiscount && (
+                                  <span className="text-gray-500 text-sm line-through">
+                                    {regularPrice.toFixed(2).replace('.', ',')} €/{unit}
+                                  </span>
+                                )}
+                                <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
+                                  {price.toFixed(2).replace('.', ',')} €/{unit}
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         );
                       })()}

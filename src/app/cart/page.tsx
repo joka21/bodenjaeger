@@ -95,7 +95,7 @@ export default function CartPage() {
                     </p>
                     <div className="mt-2">
                       <span className="text-lg font-bold text-blue-600">
-                        €{parseFloat(item.product.price || '0').toFixed(2)}
+                        €{(item.product.price || 0).toFixed(2)}
                       </span>
                       <span className="text-sm text-gray-500 ml-2">
                         pro Stück
@@ -130,7 +130,7 @@ export default function CartPage() {
                   {/* Item Total */}
                   <div className="text-right">
                     <div className="text-lg font-bold text-gray-900">
-                      €{(parseFloat(item.product.price || '0') * item.quantity).toFixed(2)}
+                      €{((item.product.price || 0) * item.quantity).toFixed(2)}
                     </div>
                   </div>
 

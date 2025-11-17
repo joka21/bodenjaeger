@@ -36,24 +36,9 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
   const currentImage = images[currentImageIndex];
   const jaegerMeta = product.jaeger_meta;
 
-  // Calculate discount percentage
-  let discountPercent = 0;
-  if (product.on_sale) {
-    const salePrice = product.prices?.sale_price
-      ? parseFloat(product.prices.sale_price) / 100
-      : parseFloat(product.sale_price) / 100;
-    const regularPrice = product.prices?.regular_price
-      ? parseFloat(product.prices.regular_price) / 100
-      : parseFloat(product.regular_price || product.price) / 100;
-
-    const comparePrice = (jaegerMeta?.show_uvp && jaegerMeta?.uvp && jaegerMeta.uvp > 0)
-      ? jaegerMeta.uvp
-      : regularPrice;
-
-    if (comparePrice > 0 && salePrice < comparePrice) {
-      discountPercent = Math.round(((comparePrice - salePrice) / comparePrice) * 100);
-    }
-  }
+  // ✅ USE BACKEND-CALCULATED DISCOUNT
+  // Always use setangebot_ersparnis_prozent (backend calculated)
+  const discountPercent = Math.round(product.setangebot_ersparnis_prozent || 0);
 
   return (
     <div className="space-y-4 w-full max-w-full overflow-hidden">
