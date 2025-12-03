@@ -14,7 +14,7 @@ export default function CheckoutPage() {
       <TrustBadges />
 
       {/* Main Content - Two Column Layout */}
-      <div className="w-full max-w-[1400px] mx-auto px-4 py-8">
+      <div className="content-container py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* LINKE SPALTE (60%) */}
           <div className="w-full lg:w-3/5 order-2 lg:order-1">
