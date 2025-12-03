@@ -174,7 +174,7 @@ export default function ProductPageContent({
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 overflow-x-hidden">
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="content-container">
         {/* Main Product Section - 2 Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-8 mb-12 w-full">
           {/* LEFT COLUMN - Image Gallery */}

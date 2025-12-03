@@ -11,7 +11,7 @@ export default function Footer() {
           backgroundColor: 'var(--color-bg-darkest)'
         }}
       >
-        <div className="container mx-auto px-4 max-w-full">
+        <div className="content-container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
             {/* Column 1: Hast du Fragen? */}
             <div className="text-white">

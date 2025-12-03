@@ -17,7 +17,7 @@ export default function CartPage() {
   if (itemCount === 0) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="content-container">
           <div className="bg-white rounded-lg shadow-lg p-8 text-center">
             <div className="mb-6">
               <svg
@@ -54,7 +54,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 overflow-hidden">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full max-w-full">
+      <div className="content-container">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           {/* Header */}
           <div className="bg-gray-50 px-6 py-4 border-b">

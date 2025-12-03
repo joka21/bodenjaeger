@@ -19,7 +19,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
+      <div className="content-container py-12">
         {/* Page Title */}
         <h1 className="text-4xl md:text-5xl font-bold text-[#2e2d32] mb-12">Blog</h1>
 

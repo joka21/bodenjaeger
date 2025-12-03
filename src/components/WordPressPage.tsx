@@ -7,7 +7,7 @@ interface WordPressPageProps {
 export default function WordPressPageComponent({ page }: WordPressPageProps) {
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      <div className="container mx-auto px-4 py-12 max-w-4xl w-full max-w-full">
+      <div className="content-container py-12">
         {/* Page Title */}
         <h1
           className="text-4xl md:text-5xl font-bold text-[#2e2d32] mb-8"
