@@ -36,7 +36,8 @@
       "Bash(cat:*)",
       "Bash(test:*)",
       "Bash(test_api_response_complete.json)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(git switch:*)"
     ],
     "deny": [],
     "ask": []
