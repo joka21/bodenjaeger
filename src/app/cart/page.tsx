@@ -65,93 +65,89 @@ export default function CartPage() {
 
           {/* Cart Items */}
           <div className="divide-y divide-gray-200">
-            {cartItems.map((item) => (
-              <div key={item.id} className="p-6">
-                <div className="flex items-center space-x-4">
-                  {/* Product Image */}
-                  <div className="flex-shrink-0 w-20 h-20 relative rounded-lg overflow-hidden">
-                    <Image
-                      src={
-                        item.product.images[0]?.src ||
-                        "https://via.placeholder.com/80x80/f3f4f6/9ca3af?text=Kein+Bild"
-                      }
-                      alt={item.product.images[0]?.alt || item.product.name}
-                      fill
-                      className="object-cover"
-                      sizes="80px"
-                    />
-                  </div>
+            {cartItems.map((item) => {
+              const paketinhalt = item.product.paketinhalt || 1;
+              const einheit = item.product.einheit_short || 'm²';
+              const verpackungsart = item.product.verpackungsart_short || 'Pak.';
+              const totalAmount = item.quantity * paketinhalt;
 
-                  {/* Product Info */}
-                  <div className="flex-1 min-w-0">
+              // Preise berechnen
+              const pricePerUnit = (item.product.price || 0);
+              const regularPricePerUnit = item.product.regular_price || 0;
+              const hasDiscount = regularPricePerUnit > pricePerUnit;
+              const totalPrice = pricePerUnit * item.quantity;
+
+              return (
+                <div key={item.id} className="flex flex-col gap-1 py-4 px-6 border-b border-[#e5e5e5]">
+                  {/* Zeile 1: Bild + Name + X-Button */}
+                  <div className="flex flex-row items-start gap-3">
+                    <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden">
+                      <Image
+                        src={item.product.images[0]?.src || "https://via.placeholder.com/48x48/f3f4f6/9ca3af?text=Kein+Bild"}
+                        alt={item.product.images[0]?.alt || item.product.name}
+                        width={48}
+                        height={48}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
                     <Link
                       href={`/products/${item.product.slug}`}
-                      className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+                      className="flex-1 text-sm font-medium text-[#2e2d32] hover:text-[#ed1b24] transition-colors"
                     >
                       {item.product.name}
                     </Link>
-                    <p className="text-sm text-gray-500 mt-1">
-                      SKU: {item.product.sku || 'N/A'}
-                    </p>
-                    <div className="mt-2">
-                      <span className="text-lg font-bold text-blue-600">
-                        €{(item.product.price || 0).toFixed(2)}
-                      </span>
-                      <span className="text-sm text-gray-500 ml-2">
-                        pro Stück
-                      </span>
-                    </div>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-[#4c4c4c] hover:text-[#ed1b24] text-xl leading-none transition-colors"
+                      title="Artikel entfernen"
+                    >
+                      ×
+                    </button>
                   </div>
 
-                  {/* Quantity Controls */}
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="p-1 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
-                      disabled={item.quantity <= 1}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                      </svg>
-                    </button>
-                    <span className="w-12 text-center font-medium">
-                      {item.quantity}
+                  {/* Zeile 2: Quantity + Menge */}
+                  <div className="flex flex-row items-center gap-2 ml-15">
+                    {/* Quantity Control - nur für Hauptprodukte */}
+                    <div className="flex items-center border border-[#e5e5e5] rounded">
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        disabled={item.quantity <= 1}
+                        className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        −
+                      </button>
+                      <span className="px-2 py-1 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <span className="text-sm text-[#4c4c4c]">
+                      {item.quantity} {verpackungsart} = {totalAmount.toFixed(2)} {einheit}
                     </span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="p-1 border border-gray-300 rounded hover:bg-gray-50"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                    </button>
                   </div>
 
-                  {/* Item Total */}
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900">
-                      €{((item.product.price || 0) * item.quantity).toFixed(2)}
-                    </div>
+                  {/* Zeile 3: Preise */}
+                  <div className="flex flex-row items-center justify-end gap-2">
+                    {hasDiscount && (
+                      <span className="text-sm text-[#4c4c4c] line-through">
+                        {regularPricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                      </span>
+                    )}
+                    <span className={`text-sm font-semibold ${hasDiscount ? 'text-[#ed1b24]' : 'text-[#2e2d32]'}`}>
+                      {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                    </span>
+                    <span className="text-sm font-semibold text-[#2e2d32]">
+                      Gesamt: {totalPrice.toFixed(2).replace('.', ',')} €
+                    </span>
                   </div>
-
-                  {/* Remove Button */}
-                  <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
-                    title="Artikel entfernen"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Cart Summary */}
