@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import SetAngebot from './SetAngebot';
+import SetAngebotMobile from './SetAngebotMobile';
 
 interface ProductInfoProps {
   product: StoreApiProduct;
@@ -135,8 +136,8 @@ export default function ProductInfo({
         </div>
       )}
 
-      {/* Set Angebot Component */}
-      <div className="mt-6">
+      {/* Set Angebot Component - Desktop */}
+      <div className="mt-6 hidden md:block">
         <SetAngebot
           setangebotTitel={product.setangebot_titel || undefined}
           productName={product.name}
@@ -161,6 +162,29 @@ export default function ProductInfo({
           comparisonPriceTotal={comparisonPriceTotal}
           totalDisplayPrice={totalDisplayPrice}
           savingsAmount={savingsAmount}
+          savingsPercent={savingsPercent}
+        />
+      </div>
+
+      {/* Set Angebot Component - Mobile */}
+      <div className="mt-6 md:hidden">
+        <SetAngebotMobile
+          setangebotTitel={product.setangebot_titel || undefined}
+          productName={product.name}
+          productImage={productImage}
+          basePrice={basePrice}
+          regularPrice={regularPrice}
+          einheit={einheit}
+          daemmungName={daemmungName}
+          daemmungImage={daemmungImage}
+          daemmungPrice={daemmungSetPrice}
+          daemmungRegularPrice={daemmungRegularPrice}
+          sockelleisteName={sockelleisteName}
+          sockelleisteImage={sockelleisteImage}
+          sockelleistePrice={sockelleisteSetPrice}
+          sockelleisteRegularPrice={sockelleisteRegularPrice}
+          comparisonPriceTotal={comparisonPriceTotal}
+          totalDisplayPrice={totalDisplayPrice}
           savingsPercent={savingsPercent}
         />
       </div>

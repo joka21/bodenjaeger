@@ -7,13 +7,14 @@
 
 ## 📋 Inhaltsverzeichnis
 1. [Projekt-Übersicht](#projekt-übersicht)
-2. [Technologie-Stack](#technologie-stack)
-3. [Set-Angebot System (Detailliert)](#set-angebot-system-detailliert)
-4. [Aktuelle Implementierung](#aktuelle-implementierung)
-5. [API-Struktur](#api-struktur)
-6. [Wichtige Dateien](#wichtige-dateien)
-7. [Offene Aufgaben](#offene-aufgaben)
-8. [Bekannte Probleme](#bekannte-probleme)
+2. [Design System & Farben](#design-system--farben)
+3. [Technologie-Stack](#technologie-stack)
+4. [Set-Angebot System (Detailliert)](#set-angebot-system-detailliert)
+5. [Aktuelle Implementierung](#aktuelle-implementierung)
+6. [API-Struktur](#api-struktur)
+7. [Wichtige Dateien](#wichtige-dateien)
+8. [Offene Aufgaben](#offene-aufgaben)
+9. [Bekannte Probleme](#bekannte-probleme)
 
 ---
 
@@ -29,13 +30,55 @@ Bodenjäger ist ein Online-Shop für Bodenbeläge (Laminat, Vinyl, Parkett) mit 
 
 ---
 
+## 🎨 Design System & Farben
+
+### Brand Colors
+```css
+--color-primary: #ed1b24;        /* Bodenjäger Rot - Hauptfarbe/Accent */
+--color-accent: #ed1b24;         /* Alias für Primary */
+```
+
+### Text Colors
+```css
+--color-text-primary: #2e2d32;   /* Haupt-Textfarbe (Dunkelgrau) */
+--color-text-light: #ffffff;     /* Text auf dunklem Hintergrund */
+--color-text-dark: #4c4c4c;      /* Dunklerer Text */
+```
+
+### Background Colors
+```css
+--color-bg-white: #ffffff;       /* Weißer Hintergrund */
+--color-bg-light: #f9f9fb;       /* Heller Hintergrund */
+--color-bg-gray: #e5e5e5;        /* Grauer Hintergrund */
+--color-bg-dark: #4c4c4c;        /* Dunkler Hintergrund */
+--color-bg-darkest: #2e2d32;     /* Dunkelster Hintergrund */
+```
+
+### Gradients
+```css
+--gradient-mid-to-sky: radial-gradient(circle at center, #a8dcf4 0%, #5095cb 100%);
+/* Sky Blue #a8dcf4 → Mid Blue #5095cb */
+```
+
+### Verwendung
+Alle Farben sind als CSS Custom Properties in `src/app/globals.css` definiert und können über `var(--color-name)` verwendet werden:
+
+```css
+/* Beispiel */
+background-color: var(--color-primary);
+color: var(--color-text-primary);
+background: var(--gradient-mid-to-sky);
+```
+
+---
+
 ## 🛠️ Technologie-Stack
 
 ### Frontend
 - **Framework**: Next.js 15.5.3 (App Router)
 - **Build Tool**: Turbopack
 - **UI**: React 19 + TypeScript
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS + CSS Custom Properties
 - **Image Optimization**: Next.js Image Component
 
 ### Backend / CMS
