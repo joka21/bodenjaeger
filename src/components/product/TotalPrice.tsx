@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import type { SetQuantityCalculation } from '@/lib/setCalculations';
-import { prepareSetForCart } from '@/lib/setCalculations';
 import { useCart } from '@/contexts/CartContext';
 
 // Simple price interface - prices come from backend!
