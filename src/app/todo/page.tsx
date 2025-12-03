@@ -85,11 +85,11 @@ export default function TodoPage() {
                   <li>Badge: Roter kompakter Badge mit abgerundeten Ecken</li>
                   <li>Produktbilder: Quadratisch und größer im Verhältnis</li>
                   <li>Preise: Streichpreis grau, Rabattpreis rot, rechtsbündig mit Hierarchie</li>
-                  <li>Rabatt-Badge: Kleine rote Pille (z.B. "-21%") neben Preis</li>
+                  <li>Rabatt-Badge: Kleine rote Pille (z.B. &quot;-21%&quot;) neben Preis</li>
                   <li>Trennlinien: Klare horizontale Linien zwischen Produkten</li>
                   <li>Abstände: Kompaktere Zeilenabstände, weniger Weißraum</li>
                   <li>Gesamt-Bereich: Separate Zeile mit Streichpreis + rotem Endpreis, darunter Gesamtsumme</li>
-                  <li>Button: Grüner "In den Warenkorb"-Button, volle Breite</li>
+                  <li>Button: Grüner &quot;In den Warenkorb&quot;-Button, volle Breite</li>
                 </ul>
               </div>
             </li>
