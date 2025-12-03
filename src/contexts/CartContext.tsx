@@ -11,6 +11,10 @@ export interface CartItem {
   isSetItem?: boolean;           // Flag to identify set items
   setId?: string;                 // Group ID for set items
   setItemType?: 'floor' | 'insulation' | 'baseboard';  // Type of set item
+  // Set-Angebot pricing information
+  setPricePerUnit?: number;      // Actual price per unit in the set (0 for free items, verrechnung for upgrades)
+  regularPricePerUnit?: number;  // Regular price per unit for comparison
+  actualM2?: number;             // Actual m² or lfm after rounding to packages
 }
 
 // Set bundle interface for adding to cart
@@ -18,14 +22,25 @@ export interface SetBundle {
   floor: {
     product: StoreApiProduct;
     packages: number;
+    actualM2: number;
+    setPricePerUnit: number;      // Always the set price (setangebot_gesamtpreis)
+    regularPricePerUnit: number;  // Regular price for comparison
   };
   insulation: {
     product: StoreApiProduct;
     packages: number;
+    actualM2: number;
+    setPricePerUnit: number;      // 0 for standard/cheaper, verrechnung for upgrades
+    regularPricePerUnit: number;  // Full regular price
+    standardProduct: StoreApiProduct;  // Reference to standard product for price calculation
   } | null;
   baseboard: {
     product: StoreApiProduct;
     packages: number;
+    actualLfm: number;
+    setPricePerUnit: number;      // 0 for standard/cheaper, verrechnung for upgrades
+    regularPricePerUnit: number;  // Full regular price
+    standardProduct: StoreApiProduct;  // Reference to standard product for price calculation
   } | null;
 }
 
@@ -93,12 +108,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Calculate total item count
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-  // Calculate total price
+  // Calculate total price with correct Set-Angebot logic
   const totalPrice = cartItems.reduce((total, item) => {
-    const price = item.product.prices?.price
-      ? parseFloat(item.product.prices.price) / 100
-      : (item.product.price || 0);
-    return total + (price * item.quantity);
+    if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+      // Set item: use setPricePerUnit × actualM2
+      return total + (item.setPricePerUnit * item.actualM2);
+    } else {
+      // Regular item: use product price × quantity
+      const price = item.product.prices?.price
+        ? parseFloat(item.product.prices.price) / 100
+        : (item.product.price || 0);
+      return total + (price * item.quantity);
+    }
   }, 0);
 
   // Add item to cart
@@ -124,24 +145,27 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     });
   };
 
-  // Add set bundle to cart
+  // Add set bundle to cart with correct pricing information
   const addSetToCart = (setBundle: SetBundle) => {
     const setId = `set-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
     setCartItems(prevItems => {
       const newItems: CartItem[] = [];
 
-      // Add floor
+      // Add floor with pricing
       newItems.push({
         id: setBundle.floor.product.id,
         product: setBundle.floor.product,
         quantity: setBundle.floor.packages,
         isSetItem: true,
         setId,
-        setItemType: 'floor'
+        setItemType: 'floor',
+        setPricePerUnit: setBundle.floor.setPricePerUnit,
+        regularPricePerUnit: setBundle.floor.regularPricePerUnit,
+        actualM2: setBundle.floor.actualM2
       });
 
-      // Add insulation if exists
+      // Add insulation if exists with pricing
       if (setBundle.insulation) {
         newItems.push({
           id: setBundle.insulation.product.id,
@@ -149,11 +173,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           quantity: setBundle.insulation.packages,
           isSetItem: true,
           setId,
-          setItemType: 'insulation'
+          setItemType: 'insulation',
+          setPricePerUnit: setBundle.insulation.setPricePerUnit,
+          regularPricePerUnit: setBundle.insulation.regularPricePerUnit,
+          actualM2: setBundle.insulation.actualM2
         });
       }
 
-      // Add baseboard if exists
+      // Add baseboard if exists with pricing
       if (setBundle.baseboard) {
         newItems.push({
           id: setBundle.baseboard.product.id,
@@ -161,7 +188,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           quantity: setBundle.baseboard.packages,
           isSetItem: true,
           setId,
-          setItemType: 'baseboard'
+          setItemType: 'baseboard',
+          setPricePerUnit: setBundle.baseboard.setPricePerUnit,
+          regularPricePerUnit: setBundle.baseboard.regularPricePerUnit,
+          actualM2: setBundle.baseboard.actualLfm
         });
       }
 

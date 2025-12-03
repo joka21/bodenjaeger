@@ -276,6 +276,8 @@ export default function ProductPageContent({
                 product={product}
                 selectedDaemmung={selectedDaemmung}
                 selectedSockelleiste={selectedSockelleiste}
+                daemmungProduct={daemmungProduct}
+                sockelleisteProduct={sockelleisteProduct}
                 lieferzeit={product.lieferzeit || '3-7 Arbeitstage'}
               />
             </div>

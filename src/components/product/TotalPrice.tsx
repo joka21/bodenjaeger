@@ -21,6 +21,8 @@ interface TotalPriceProps {
   product: StoreApiProduct;
   selectedDaemmung: StoreApiProduct | null;
   selectedSockelleiste: StoreApiProduct | null;
+  daemmungProduct: StoreApiProduct | null;  // Standard dämmung for price calculation
+  sockelleisteProduct: StoreApiProduct | null;  // Standard sockelleiste for price calculation
   lieferzeit?: string;
 }
 
@@ -31,6 +33,8 @@ export default function TotalPrice({
   product,
   selectedDaemmung,
   selectedSockelleiste,
+  daemmungProduct,
+  sockelleisteProduct,
   lieferzeit = '3-7 Arbeitstage'
 }: TotalPriceProps) {
   const [addedToCart, setAddedToCart] = useState(false);
@@ -64,14 +68,74 @@ export default function TotalPrice({
     (quantities.insulation?.packages || 0) +
     (quantities.baseboard?.packages || 0);
 
-  // Handle add to cart
+  // Handle add to cart - prepare with correct pricing
   const handleAddToCart = () => {
-    const setBundle = prepareSetForCart(
-      quantities,
-      product,
-      selectedDaemmung,
-      selectedSockelleiste
-    );
+    // We need to pass pricing info to prepareSetForCart
+    // For now, we'll create the bundle directly here with correct pricing
+
+    // Calculate prices for each product (same logic as ProductPageContent.tsx)
+    const bodenPricePerM2 = product.setangebot_gesamtpreis || product.price || 0;
+
+    // Dämmung pricing (same logic as ProductPageContent.tsx)
+    let daemmungSetPricePerUnit = 0;
+    let daemmungRegularPricePerUnit = 0;
+    if (selectedDaemmung && daemmungProduct && quantities.insulation) {
+      const daemmungPricePerM2 = selectedDaemmung.price || 0;
+      const standardDaemmungPrice = daemmungProduct.price || 0;
+
+      const daemmungVerrechnung = selectedDaemmung.verrechnung ??
+        Math.max(0, daemmungPricePerM2 - standardDaemmungPrice);
+
+      const istStandard = daemmungVerrechnung === 0;
+      const istBilliger = daemmungPricePerM2 < standardDaemmungPrice;
+
+      daemmungSetPricePerUnit = (istStandard || istBilliger) ? 0 : daemmungVerrechnung;
+      daemmungRegularPricePerUnit = daemmungPricePerM2;
+    }
+
+    // Sockelleiste pricing (same logic as ProductPageContent.tsx)
+    let sockelleisteSetPricePerUnit = 0;
+    let sockelleisteRegularPricePerUnit = 0;
+    if (selectedSockelleiste && sockelleisteProduct && quantities.baseboard) {
+      const sockelleistePricePerLfm = selectedSockelleiste.price || 0;
+      const standardSockelleistePrice = sockelleisteProduct.price || 0;
+
+      const sockelleisteVerrechnung = selectedSockelleiste.verrechnung ??
+        Math.max(0, sockelleistePricePerLfm - standardSockelleistePrice);
+
+      const istStandard = sockelleisteVerrechnung === 0;
+      const istBilliger = sockelleistePricePerLfm < standardSockelleistePrice;
+
+      sockelleisteSetPricePerUnit = (istStandard || istBilliger) ? 0 : sockelleisteVerrechnung;
+      sockelleisteRegularPricePerUnit = sockelleistePricePerLfm;
+    }
+
+    // Create set bundle with pricing
+    const setBundle = {
+      floor: {
+        product: product,
+        packages: quantities.floor.packages,
+        actualM2: quantities.floor.actualM2,
+        setPricePerUnit: bodenPricePerM2,
+        regularPricePerUnit: bodenPricePerM2,
+      },
+      insulation: selectedDaemmung && quantities.insulation ? {
+        product: selectedDaemmung,
+        packages: quantities.insulation.packages,
+        actualM2: quantities.insulation.actualM2,
+        setPricePerUnit: daemmungSetPricePerUnit,
+        regularPricePerUnit: daemmungRegularPricePerUnit,
+        standardProduct: product, // Reference for price calculation
+      } : null,
+      baseboard: selectedSockelleiste && quantities.baseboard ? {
+        product: selectedSockelleiste,
+        packages: quantities.baseboard.packages,
+        actualLfm: quantities.baseboard.actualLfm,
+        setPricePerUnit: sockelleisteSetPricePerUnit,
+        regularPricePerUnit: sockelleisteRegularPricePerUnit,
+        standardProduct: product, // Reference for price calculation
+      } : null,
+    };
 
     addSetToCart(setBundle);
     setAddedToCart(true);

@@ -21,9 +21,26 @@ export default function OrderSummary() {
         {cartItems.map((item) => {
           const image = item.product.images?.[0]?.src || '/images/placeholder.jpg';
           const name = item.product.name;
-          const pricePerUnit = item.product.price || 0;
           const einheit = item.product.einheit_short || 'm²';
-          const totalItemPrice = pricePerUnit * item.quantity;
+
+          // Preise berechnen - KORREKT für Set-Angebote
+          let pricePerUnit: number;
+          let totalItemPrice: number;
+          let displayAmount: number;
+
+          if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+            // Set-Item: Verwende Set-Preise
+            pricePerUnit = item.setPricePerUnit;
+            displayAmount = item.actualM2;
+            totalItemPrice = pricePerUnit * displayAmount;
+          } else {
+            // Regular Item: Verwende Produktpreise
+            pricePerUnit = item.product.price || 0;
+            displayAmount = item.quantity * (item.product.paketinhalt || 1);
+            totalItemPrice = pricePerUnit * item.quantity;
+          }
+
+          const isFree = pricePerUnit === 0 && item.isSetItem;
 
           return (
             <div key={item.id} className="flex flex-row items-start gap-3">
@@ -44,15 +61,28 @@ export default function OrderSummary() {
               {/* Info */}
               <div className="flex-1">
                 <p className="text-sm font-medium text-[#2e2d32] line-clamp-2">{name}</p>
-                <p className="text-xs text-[#4c4c4c]">
-                  {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
-                </p>
+                {!isFree && (
+                  <p className="text-xs text-[#4c4c4c]">
+                    {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                  </p>
+                )}
+                {item.isSetItem && (
+                  <p className="text-xs text-[#4c4c4c] italic">
+                    (Set-Angebot)
+                  </p>
+                )}
               </div>
 
               {/* Preis */}
-              <span className="text-sm font-medium text-[#2e2d32]">
-                {totalItemPrice.toFixed(2).replace('.', ',')} €
-              </span>
+              {isFree ? (
+                <span className="text-sm font-semibold" style={{ color: '#28a745' }}>
+                  Kostenlos
+                </span>
+              ) : (
+                <span className="text-sm font-medium text-[#2e2d32]">
+                  {totalItemPrice.toFixed(2).replace('.', ',')} €
+                </span>
+              )}
             </div>
           );
         })}

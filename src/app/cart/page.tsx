@@ -71,11 +71,28 @@ export default function CartPage() {
               const verpackungsart = item.product.verpackungsart_short || 'Pak.';
               const totalAmount = item.quantity * paketinhalt;
 
-              // Preise berechnen
-              const pricePerUnit = (item.product.price || 0);
-              const regularPricePerUnit = item.product.regular_price || 0;
+              // Preise berechnen - KORREKT für Set-Angebote
+              let pricePerUnit: number;
+              let regularPricePerUnit: number;
+              let totalPrice: number;
+              let displayAmount: number;
+
+              if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+                // Set-Item: Verwende Set-Preise
+                pricePerUnit = item.setPricePerUnit;
+                regularPricePerUnit = item.regularPricePerUnit || 0;
+                displayAmount = item.actualM2;
+                totalPrice = pricePerUnit * displayAmount;
+              } else {
+                // Regular Item: Verwende Produktpreise
+                pricePerUnit = item.product.price || 0;
+                regularPricePerUnit = item.product.regular_price || 0;
+                displayAmount = totalAmount;
+                totalPrice = pricePerUnit * item.quantity;
+              }
+
               const hasDiscount = regularPricePerUnit > pricePerUnit;
-              const totalPrice = pricePerUnit * item.quantity;
+              const isFree = pricePerUnit === 0 && item.isSetItem;
 
               return (
                 <div key={item.id} className="flex flex-col gap-1 py-4 px-6 border-b border-[#e5e5e5]">
@@ -107,43 +124,61 @@ export default function CartPage() {
 
                   {/* Zeile 2: Quantity + Menge */}
                   <div className="flex flex-row items-center gap-2 ml-15">
-                    {/* Quantity Control - nur für Hauptprodukte */}
-                    <div className="flex items-center border border-[#e5e5e5] rounded">
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
-                        className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        −
-                      </button>
-                      <span className="px-2 py-1 text-sm text-[#2e2d32] min-w-[2rem] text-center">
-                        {item.quantity}
-                      </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50"
-                      >
-                        +
-                      </button>
-                    </div>
+                    {/* Quantity Control - nur für floor items im Set oder reguläre Produkte */}
+                    {(!item.isSetItem || item.setItemType === 'floor') && (
+                      <div className="flex items-center border border-[#e5e5e5] rounded">
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                          disabled={item.quantity <= 1}
+                          className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          −
+                        </button>
+                        <span className="px-2 py-1 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50"
+                        >
+                          +
+                        </button>
+                      </div>
+                    )}
                     <span className="text-sm text-[#4c4c4c]">
-                      {item.quantity} {verpackungsart} = {totalAmount.toFixed(2)} {einheit}
+                      {item.isSetItem && item.actualM2
+                        ? `${displayAmount.toFixed(2)} ${einheit}`
+                        : `${item.quantity} ${verpackungsart} = ${totalAmount.toFixed(2)} ${einheit}`
+                      }
                     </span>
+                    {item.isSetItem && (
+                      <span className="text-xs text-[#4c4c4c] italic">
+                        (Set-Angebot)
+                      </span>
+                    )}
                   </div>
 
                   {/* Zeile 3: Preise */}
                   <div className="flex flex-row items-center justify-end gap-2">
-                    {hasDiscount && (
-                      <span className="text-sm text-[#4c4c4c] line-through">
-                        {regularPricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                    {isFree ? (
+                      <span className="text-sm font-semibold" style={{ color: '#28a745' }}>
+                        Kostenlos
                       </span>
+                    ) : (
+                      <>
+                        {hasDiscount && regularPricePerUnit > 0 && (
+                          <span className="text-sm text-[#4c4c4c] line-through">
+                            {regularPricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                          </span>
+                        )}
+                        <span className={`text-sm font-semibold ${hasDiscount ? 'text-[#ed1b24]' : 'text-[#2e2d32]'}`}>
+                          {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                        </span>
+                        <span className="text-sm font-semibold text-[#2e2d32]">
+                          Gesamt: {totalPrice.toFixed(2).replace('.', ',')} €
+                        </span>
+                      </>
                     )}
-                    <span className={`text-sm font-semibold ${hasDiscount ? 'text-[#ed1b24]' : 'text-[#2e2d32]'}`}>
-                      {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
-                    </span>
-                    <span className="text-sm font-semibold text-[#2e2d32]">
-                      Gesamt: {totalPrice.toFixed(2).replace('.', ',')} €
-                    </span>
                   </div>
                 </div>
               );
