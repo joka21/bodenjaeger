@@ -58,7 +58,7 @@ const categories: Category[] = [
 export default function BodenkategorienSection() {
   return (
     <section className="py-16 bg-gray-50 overflow-hidden">
-      <div className="w-full max-w-[1400px] mx-auto px-4">
+      <div className="content-container">
         {/* Header - wie bei anderen Sections */}
         <div className="flex items-center justify-between mb-8">
           <div>
