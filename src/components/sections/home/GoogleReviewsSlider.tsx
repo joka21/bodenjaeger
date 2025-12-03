@@ -170,7 +170,7 @@ export default function GoogleReviewsSlider() {
 
   return (
     <section className="py-16 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 max-w-full">
+      <div className="w-full max-w-[1400px] mx-auto px-4">
         {/* Header Section */}
         <div className="flex items-center justify-between mb-8 bg-gray-50 p-6 rounded-lg shadow-sm">
           <div className="flex items-center gap-4">
