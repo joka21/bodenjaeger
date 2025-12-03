@@ -1,212 +1,178 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
-import { useCheckout } from '@/contexts/CheckoutContext';
 
 export default function OrderSummary() {
-  const { cartItems, totalPrice } = useCart();
-  const { formData } = useCheckout();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { cartItems, totalPrice, itemCount } = useCart();
+  const [discountCode, setDiscountCode] = useState('');
 
-  // Calculate shipping cost
-  const shippingCost = formData.selectedShippingMethod
-    ? parseFloat(formData.selectedShippingMethod.cost)
-    : 0;
-
-  // Calculate tax (19% VAT for Germany)
+  // Berechne Zwischensumme, Versand, MwSt
   const subtotal = totalPrice;
-  const taxRate = 0.19;
-  const taxAmount = subtotal * taxRate;
-
-  // Calculate total including shipping
-  const total = subtotal + shippingCost;
+  const shipping = subtotal >= 999 ? 0 : 49;
+  const total = subtotal + shipping;
+  const mwst = total * 0.19;
 
   return (
-    <>
-      {/* Mobile Collapsible Summary */}
-      <div className="lg:hidden bg-gray-50 border-b border-gray-200">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-4 py-4 flex items-center justify-between"
-        >
-          <div className="flex items-center space-x-2">
+    <div className="sticky top-6">
+      {/* Produkt-Liste */}
+      <div className="space-y-4 mb-6">
+        {cartItems.map((item) => {
+          const image = item.product.images?.[0]?.src || '/images/placeholder.jpg';
+          const name = item.product.name;
+          const pricePerUnit = item.product.price || 0;
+          const einheit = item.product.einheit_short || 'm²';
+          const totalItemPrice = pricePerUnit * item.quantity;
+
+          return (
+            <div key={item.id} className="flex flex-row items-start gap-3">
+              {/* Bild mit Badge */}
+              <div className="relative w-16 h-16 flex-shrink-0">
+                <Image
+                  src={image}
+                  alt={name}
+                  fill
+                  className="object-cover rounded"
+                  sizes="64px"
+                />
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#4c4c4c] text-white text-xs rounded-full flex items-center justify-center">
+                  {item.quantity}
+                </span>
+              </div>
+
+              {/* Info */}
+              <div className="flex-1">
+                <p className="text-sm font-medium text-[#2e2d32] line-clamp-2">{name}</p>
+                <p className="text-xs text-[#4c4c4c]">
+                  {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                </p>
+              </div>
+
+              {/* Preis */}
+              <span className="text-sm font-medium text-[#2e2d32]">
+                {totalItemPrice.toFixed(2).replace('.', ',')} €
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Rabattcode */}
+      <div className="flex flex-row gap-2 mb-6">
+        <input
+          type="text"
+          placeholder="Rabattcode"
+          value={discountCode}
+          onChange={(e) => setDiscountCode(e.target.value)}
+          className="flex-1 h-12 px-4 text-sm border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+        />
+        <button className="px-6 h-12 text-sm font-medium text-[#2e2d32] bg-[#f9f9fb] border border-[#e5e5e5] rounded-lg hover:bg-[#e5e5e5] transition-colors">
+          Anwenden
+        </button>
+      </div>
+
+      {/* Summen */}
+      <div className="space-y-2 py-4 border-t border-[#e5e5e5]">
+        <div className="flex justify-between text-sm text-[#4c4c4c]">
+          <span>Zwischensumme · {itemCount} Artikel</span>
+          <span>{subtotal.toFixed(2).replace('.', ',')} €</span>
+        </div>
+        <div className="flex justify-between text-sm text-[#4c4c4c]">
+          <span>Versand</span>
+          <span>{shipping === 0 ? 'Kostenlos' : `${shipping.toFixed(2).replace('.', ',')} €`}</span>
+        </div>
+      </div>
+
+      {/* Gesamt */}
+      <div className="flex justify-between items-baseline pt-4 border-t border-[#e5e5e5]">
+        <div>
+          <span className="text-lg font-semibold text-[#2e2d32]">Gesamt</span>
+          <p className="text-xs text-[#4c4c4c]">
+            inkl. {mwst.toFixed(2).replace('.', ',')} € MwSt
+          </p>
+        </div>
+        <div className="text-right">
+          <span className="text-xs text-[#4c4c4c]">EUR</span>
+          <span className="text-xl font-bold text-[#2e2d32] ml-1">
+            {total.toFixed(2).replace('.', ',')} €
+          </span>
+        </div>
+      </div>
+
+      {/* Vorteile */}
+      <div className="mt-6 p-4 bg-[#f9f9fb] rounded-lg">
+        <h3 className="text-sm font-semibold text-[#2e2d32] mb-4">
+          Deine Vorteile mit Bodenjäger
+        </h3>
+
+        <div className="space-y-4">
+          <div className="flex items-start gap-3">
             <svg
-              className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              className="w-5 h-5 text-[#2e2d32] flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              />
             </svg>
-            <span className="font-medium text-[#2e2d32]">
-              {isExpanded ? 'Bestellübersicht ausblenden' : 'Bestellübersicht anzeigen'}
-            </span>
-          </div>
-          <span className="font-semibold text-[#2e2d32]">{total.toFixed(2)} €</span>
-        </button>
-
-        {isExpanded && (
-          <div className="px-4 pb-4 border-t border-gray-200">
-            <OrderSummaryContent
-              items={cartItems.map(item => ({
-                id: item.id,
-                name: item.product.name,
-                price: item.product.prices ? parseFloat(item.product.prices.price) / 100 : 0,
-                quantity: item.quantity,
-                image: item.product.images?.[0]?.src,
-              }))}
-              subtotal={subtotal}
-              shippingCost={shippingCost}
-              taxAmount={taxAmount}
-              total={total}
-              shippingMethodTitle={formData.selectedShippingMethod?.title}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* Desktop Sticky Sidebar */}
-      <div className="hidden lg:block">
-        <div className="sticky top-24 bg-gray-50 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-[#2e2d32] mb-6">Bestellübersicht</h2>
-          <OrderSummaryContent
-            items={cartItems.map(item => ({
-              id: item.id,
-              name: item.product.name,
-              price: item.product.prices ? parseFloat(item.product.prices.price) / 100 : 0,
-              quantity: item.quantity,
-              image: item.product.images?.[0]?.src,
-            }))}
-            subtotal={subtotal}
-            shippingCost={shippingCost}
-            taxAmount={taxAmount}
-            total={total}
-            shippingMethodTitle={formData.selectedShippingMethod?.title}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
-
-interface OrderSummaryContentProps {
-  items: Array<{
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-    image?: string;
-    variation?: Record<string, string>;
-  }>;
-  subtotal: number;
-  shippingCost: number;
-  taxAmount: number;
-  total: number;
-  shippingMethodTitle?: string;
-}
-
-function OrderSummaryContent({
-  items,
-  subtotal,
-  shippingCost,
-  taxAmount,
-  total,
-  shippingMethodTitle,
-}: OrderSummaryContentProps) {
-  return (
-    <div className="space-y-4">
-      {/* Cart Items */}
-      <div className="space-y-3 max-h-64 overflow-y-auto">
-        {items.map((item) => (
-          <div key={item.id} className="flex space-x-3">
-            {/* Product Image */}
-            <div className="relative w-16 h-16 bg-white rounded-lg border border-gray-200 flex-shrink-0 overflow-hidden">
-              {item.image ? (
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-              )}
-              {/* Quantity Badge */}
-              <div className="absolute -top-2 -right-2 bg-[#2e2d32] text-white text-xs font-semibold w-6 h-6 rounded-full flex items-center justify-center">
-                {item.quantity}
-              </div>
-            </div>
-
-            {/* Product Details */}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium text-[#2e2d32] line-clamp-2">{item.name}</h3>
-              {item.variation && (
-                <p className="text-xs text-gray-500 mt-0.5">
-                  {Object.entries(item.variation)
-                    .map(([key, value]) => `${key}: ${value}`)
-                    .join(', ')}
-                </p>
-              )}
-              <p className="text-sm font-semibold text-[#2e2d32] mt-1">
-                {(item.price * item.quantity).toFixed(2)} €
+            <div>
+              <p className="text-sm font-medium text-[#2e2d32]">Trusted Shops Käuferschutz</p>
+              <p className="text-xs text-[#4c4c4c]">
+                Garantiert sicher einkaufen – deine Zahlung ist bis zu 30.000 € geschützt
               </p>
             </div>
           </div>
-        ))}
-      </div>
 
-      {/* Divider */}
-      <div className="border-t border-gray-200 my-4" />
+          <div className="flex items-start gap-3">
+            <svg
+              className="w-5 h-5 text-[#2e2d32] flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+              />
+            </svg>
+            <div>
+              <p className="text-sm font-medium text-[#2e2d32]">100 Tage Rückgaberecht</p>
+              <p className="text-xs text-[#4c4c4c]">
+                Du hast volle 100 Tage Zeit, deine Bestellung zurückzusenden
+              </p>
+            </div>
+          </div>
 
-      {/* Price Breakdown */}
-      <div className="space-y-2">
-        {/* Subtotal */}
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Zwischensumme</span>
-          <span className="font-medium text-[#2e2d32]">{subtotal.toFixed(2)} €</span>
+          <div className="flex items-start gap-3">
+            <svg
+              className="w-5 h-5 text-[#2e2d32] flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"
+              />
+            </svg>
+            <div>
+              <p className="text-sm font-medium text-[#2e2d32]">Kostenlose Lieferung ab 999 €</p>
+              <p className="text-xs text-[#4c4c4c]">
+                Bei Bestellungen über 999 € entfallen die Versandkosten
+              </p>
+            </div>
+          </div>
         </div>
-
-        {/* Shipping */}
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">
-            Versand {shippingMethodTitle && `(${shippingMethodTitle})`}
-          </span>
-          <span className="font-medium text-[#2e2d32]">
-            {shippingCost > 0 ? `${shippingCost.toFixed(2)} €` : 'Noch nicht ausgewählt'}
-          </span>
-        </div>
-
-        {/* Tax */}
-        <div className="flex justify-between text-sm">
-          <span className="text-gray-600">Inkl. MwSt. (19%)</span>
-          <span className="font-medium text-[#2e2d32]">{taxAmount.toFixed(2)} €</span>
-        </div>
-      </div>
-
-      {/* Divider */}
-      <div className="border-t border-gray-200 my-4" />
-
-      {/* Total */}
-      <div className="flex justify-between items-center">
-        <span className="text-lg font-bold text-[#2e2d32]">Gesamt</span>
-        <span className="text-2xl font-bold text-[#2e2d32]">{total.toFixed(2)} €</span>
-      </div>
-
-      {/* Info Text */}
-      <div className="text-xs text-gray-500 mt-4">
-        <p>Alle Preise inkl. gesetzlicher MwSt.</p>
       </div>
     </div>
   );
