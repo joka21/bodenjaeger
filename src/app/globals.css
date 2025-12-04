@@ -55,11 +55,6 @@ html {
   max-width: 100vw;
 }
 
-/* Prevent horizontal scrolling globally */
-* {
-  max-width: 100%;
-}
-
 /* Allow specific elements to exceed but not cause scroll */
 img, svg, video {
   max-width: 100%;
@@ -78,7 +73,7 @@ button, .button, .btn {
   font-weight: 700;
 }
 
-/* Content Container - Max Width 1400px für alle Sections außer Hero */
+/* Content Container - Max Width 1400px für alle Sections außer Header und Hero */
 .content-container {
   width: 100%;
   max-width: 1400px;

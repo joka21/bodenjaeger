@@ -16,7 +16,7 @@ export default function Header() {
     <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
       <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-[#2e2d32] overflow-visible">
-        <div className="w-full max-w-[1500px] mx-auto h-full px-2 sm:px-4">
+        <div className="max-w-[1500px] mx-auto h-full px-2 sm:px-4">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:min-w-[200px]">
