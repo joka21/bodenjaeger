@@ -15,6 +15,21 @@ interface CartSetItemProps {
 export default function CartSetItem({ setItem, onQuantityChange, onRemove }: CartSetItemProps) {
   const { mainProduct, bundleProducts, setTotal } = setItem;
 
+  console.log('🛒 CART SET ITEM RENDER:', {
+    mainProduct: {
+      name: mainProduct.name,
+      pricePerUnit: mainProduct.pricePerUnit,
+      total: mainProduct.total
+    },
+    bundleProducts: bundleProducts.map(bp => ({
+      name: bp.name,
+      pricePerUnit: bp.pricePerUnit,
+      total: bp.total,
+      isFree: bp.isFree
+    })),
+    setTotal
+  });
+
   return (
     <div className="bg-gray-50 rounded-md p-3 mb-3">
       {/* Main Product */}

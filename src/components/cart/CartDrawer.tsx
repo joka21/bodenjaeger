@@ -44,13 +44,17 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         if (!mainItem) return;
 
         // Convert main product to CartItemBase
-        const paketinhalt = mainItem.product.paketinhalt || 1;
-        const paketpreis = mainItem.product.prices
-          ? parseFloat(mainItem.product.prices.price) / 100
-          : 0;
-        const regularPaketpreis = mainItem.product.prices?.regular_price
-          ? parseFloat(mainItem.product.prices.regular_price) / 100
-          : undefined;
+        // ✅ USE SET PRICING FROM CART ITEM (setPricePerUnit, actualM2)
+        const mainActualM2 = mainItem.actualM2 || 0;
+        const mainSetPricePerUnit = mainItem.setPricePerUnit || 0;
+        const mainRegularPricePerUnit = mainItem.regularPricePerUnit || mainSetPricePerUnit;
+
+        console.log('🛒 CART DRAWER - MAIN PRODUCT:', {
+          name: mainItem.product.name,
+          actualM2: mainActualM2,
+          setPricePerUnit: mainSetPricePerUnit,
+          total: mainSetPricePerUnit * mainActualM2
+        });
 
         const mainProduct: CartItemBase = {
           id: `main-${item.setId}`,
@@ -59,25 +63,31 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           image: mainItem.product.images?.[0]?.src || '',
           quantity: mainItem.quantity,
           unit: toProductUnit(mainItem.product.einheit_short, 'm²'),
-          unitValue: paketinhalt,
-          pricePerUnit: paketpreis / paketinhalt, // Preis pro m²/lfm
-          originalPricePerUnit: regularPaketpreis ? regularPaketpreis / paketinhalt : undefined,
-          total: paketpreis * mainItem.quantity, // Total = Paketpreis × Anzahl Pakete
+          unitValue: mainActualM2 / mainItem.quantity, // m² per package
+          pricePerUnit: mainSetPricePerUnit, // Preis pro m² (SET PRICE!)
+          originalPricePerUnit: mainRegularPricePerUnit !== mainSetPricePerUnit ? mainRegularPricePerUnit : undefined,
+          total: mainSetPricePerUnit * mainActualM2, // Total = Preis/m² × tatsächliche m²
         };
 
         // Convert bundle products
         const bundleProducts: CartItemBase[] = setItems
           .filter((si) => si.setItemType !== 'floor')
           .map((bundleItem) => {
-            const bundlePaketinhalt = bundleItem.product.paketinhalt || 1;
-            const bundlePaketpreis = bundleItem.product.prices
-              ? parseFloat(bundleItem.product.prices.price) / 100
-              : 0;
-            const bundleRegularPaketpreis = bundleItem.product.prices?.regular_price
-              ? parseFloat(bundleItem.product.prices.regular_price) / 100
-              : undefined;
+            // ✅ USE SET PRICING FROM CART ITEM (setPricePerUnit, actualM2)
+            const bundleActualM2 = bundleItem.actualM2 || 0;
+            const bundleSetPricePerUnit = bundleItem.setPricePerUnit || 0;
+            const bundleRegularPricePerUnit = bundleItem.regularPricePerUnit || bundleSetPricePerUnit;
 
-            const isFree = bundlePaketpreis === 0;
+            const isFree = bundleSetPricePerUnit === 0;
+
+            console.log('🛒 CART DRAWER - BUNDLE PRODUCT:', {
+              name: bundleItem.product.name,
+              type: bundleItem.setItemType,
+              actualM2: bundleActualM2,
+              setPricePerUnit: bundleSetPricePerUnit,
+              total: bundleSetPricePerUnit * bundleActualM2,
+              isFree
+            });
 
             return {
               id: `bundle-${bundleItem.id}`,
@@ -89,10 +99,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 bundleItem.product.einheit_short,
                 bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'
               ),
-              unitValue: bundlePaketinhalt,
-              pricePerUnit: bundlePaketpreis / bundlePaketinhalt, // Preis pro m²/lfm
-              originalPricePerUnit: bundleRegularPaketpreis ? bundleRegularPaketpreis / bundlePaketinhalt : undefined,
-              total: bundlePaketpreis * bundleItem.quantity, // Total = Paketpreis × Anzahl Pakete
+              unitValue: bundleActualM2 / bundleItem.quantity, // m²/lfm per package
+              pricePerUnit: bundleSetPricePerUnit, // Preis pro m²/lfm (SET PRICE!)
+              originalPricePerUnit: bundleRegularPricePerUnit !== bundleSetPricePerUnit ? bundleRegularPricePerUnit : undefined,
+              total: bundleSetPricePerUnit * bundleActualM2, // Total = Preis/m² × tatsächliche m²/lfm
               isFree,
             };
           });

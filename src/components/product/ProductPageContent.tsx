@@ -43,9 +43,13 @@ export default function ProductPageContent({
       wantedM2,
       product,
       selectedDaemmung,
-      selectedSockelleiste
+      selectedSockelleiste,
+      undefined, // customInsulationM2
+      undefined, // customBaseboardLfm
+      daemmungProduct, // standardInsulationProduct
+      sockelleisteProduct // standardBaseboardProduct
     );
-  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste]);
+  }, [wantedM2, product, selectedDaemmung, selectedSockelleiste, daemmungProduct, sockelleisteProduct]);
 
   // ✅ VOLLSTÄNDIGE SET-ANGEBOT BERECHNUNG
   // Basierend auf: SETANGEBOT_BERECHNUNG_KOMPLETT.md
@@ -61,7 +65,7 @@ export default function ProductPageContent({
     let daemmungRegularPrice = 0;
     let daemmungSetPrice = 0;
 
-    if (selectedDaemmung && daemmungProduct) {
+    if (selectedDaemmung && daemmungProduct && quantities.insulation) {
       const daemmungPricePerM2 = selectedDaemmung.price || 0;
       const daemmungPaketinhalt = selectedDaemmung.paketinhalt || 1;
 
@@ -77,12 +81,14 @@ export default function ProductPageContent({
         produktPreis: daemmungPricePerM2,
         standardPreis: standardDaemmungPrice,
         verrechnungBerechnet: daemmungVerrechnung,
-        quelle: selectedDaemmung.verrechnung !== undefined ? 'Backend' : 'Frontend-Berechnung'
+        quelle: selectedDaemmung.verrechnung !== undefined ? 'Backend' : 'Frontend-Berechnung',
+        isFree: quantities.insulation.isFree,
+        pakete: quantities.insulation.packages,
+        actualM2: quantities.insulation.actualM2
       });
 
-      // Artikel-Typ bestimmen
-      const istStandard = daemmungVerrechnung === 0;
-      const istBilliger = daemmungPricePerM2 < standardDaemmungPrice;
+      // ✅ VERWENDE MENGEN AUS quantities (mit korrekter Rundung!)
+      const istKostenlos = quantities.insulation.isFree;
 
       // REGULÄRER PREIS (IMMER AUFRUNDEN)
       const daemmungPaketeRegular = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
@@ -90,15 +96,12 @@ export default function ProductPageContent({
       daemmungRegularPrice = daemmungM2Regular * daemmungPricePerM2;
 
       // SET-ANGEBOT PREIS
-      if (istStandard || istBilliger) {
-        // Standard oder Billiger → ABRUNDEN + 0€
-        const daemmungPaketeSet = Math.floor(quantities.floor.actualM2 / daemmungPaketinhalt);
-        daemmungSetPrice = 0; // Kostenlos im Set!
+      if (istKostenlos) {
+        // KOSTENLOS → 0€ (Mengen bereits korrekt abgerundet in quantities)
+        daemmungSetPrice = 0;
       } else {
-        // Aufpreis-Artikel → AUFRUNDEN + Verrechnung
-        const daemmungPaketeSet = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
-        const daemmungM2Set = daemmungPaketeSet * daemmungPaketinhalt;
-        daemmungSetPrice = daemmungM2Set * daemmungVerrechnung; // NUR Aufpreis!
+        // AUFPREIS → Verrechnung × actualM2 (Mengen bereits korrekt aufgerundet in quantities)
+        daemmungSetPrice = quantities.insulation.actualM2 * daemmungVerrechnung;
       }
     }
 
@@ -106,7 +109,7 @@ export default function ProductPageContent({
     let sockelleisteRegularPrice = 0;
     let sockelleisteSetPrice = 0;
 
-    if (selectedSockelleiste && sockelleisteProduct) {
+    if (selectedSockelleiste && sockelleisteProduct && quantities.baseboard) {
       const sockelleistePricePerLfm = selectedSockelleiste.price || 0;
       const sockelleistePaketinhalt = selectedSockelleiste.paketinhalt || 1;
 
@@ -122,12 +125,14 @@ export default function ProductPageContent({
         produktPreis: sockelleistePricePerLfm,
         standardPreis: standardSockelleistePrice,
         verrechnungBerechnet: sockelleisteVerrechnung,
-        quelle: selectedSockelleiste.verrechnung !== undefined ? 'Backend' : 'Frontend-Berechnung'
+        quelle: selectedSockelleiste.verrechnung !== undefined ? 'Backend' : 'Frontend-Berechnung',
+        isFree: quantities.baseboard.isFree,
+        pakete: quantities.baseboard.packages,
+        actualLfm: quantities.baseboard.actualLfm
       });
 
-      // Artikel-Typ bestimmen
-      const istStandard = sockelleisteVerrechnung === 0;
-      const istBilliger = sockelleistePricePerLfm < standardSockelleistePrice;
+      // ✅ VERWENDE MENGEN AUS quantities (mit korrekter Rundung!)
+      const istKostenlos = quantities.baseboard.isFree;
 
       // REGULÄRER PREIS (IMMER AUFRUNDEN)
       const sockelleisteStückRegular = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
@@ -135,15 +140,12 @@ export default function ProductPageContent({
       sockelleisteRegularPrice = sockelleisteLfmRegular * sockelleistePricePerLfm;
 
       // SET-ANGEBOT PREIS
-      if (istStandard || istBilliger) {
-        // Standard oder Billiger → ABRUNDEN + 0€
-        const sockelleisteStückSet = Math.floor(quantities.floor.actualM2 / sockelleistePaketinhalt);
-        sockelleisteSetPrice = 0; // Kostenlos im Set!
+      if (istKostenlos) {
+        // KOSTENLOS → 0€ (Mengen bereits korrekt abgerundet in quantities)
+        sockelleisteSetPrice = 0;
       } else {
-        // Aufpreis-Artikel → AUFRUNDEN + Verrechnung
-        const sockelleisteStückSet = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
-        const sockelleisteLfmSet = sockelleisteStückSet * sockelleistePaketinhalt;
-        sockelleisteSetPrice = sockelleisteLfmSet * sockelleisteVerrechnung; // NUR Aufpreis!
+        // AUFPREIS → Verrechnung × actualLfm (Mengen bereits korrekt aufgerundet in quantities)
+        sockelleisteSetPrice = quantities.baseboard.actualLfm * sockelleisteVerrechnung;
       }
     }
 

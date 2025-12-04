@@ -17,10 +17,16 @@ export function calculateSavings(items: CartDrawerItem[]): number {
 }
 
 /**
- * Calculate subtotal - IMMER 0
+ * Calculate subtotal from cart items
  */
 export function calculateSubtotal(items: CartDrawerItem[]): number {
-  return 0;
+  return items.reduce((sum, item) => {
+    if (item.type === 'set') {
+      return sum + item.setTotal;
+    } else {
+      return sum + item.product.total;
+    }
+  }, 0);
 }
 
 /**
@@ -37,10 +43,10 @@ export function calculateBundleQuantity(
 }
 
 /**
- * Format price for display - IMMER 0
+ * Format price for display (German format: 1234.56 → "1.234,56")
  */
 export function formatPrice(price: number): string {
-  return '0,00';
+  return price.toFixed(2).replace('.', ',');
 }
 
 /**

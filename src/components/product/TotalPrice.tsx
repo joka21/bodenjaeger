@@ -76,6 +76,15 @@ export default function TotalPrice({
     // Calculate prices for each product (same logic as ProductPageContent.tsx)
     const bodenPricePerM2 = product.setangebot_gesamtpreis || product.price || 0;
 
+    console.log('🛒 WARENKORB DEBUG:', {
+      bodenPricePerM2,
+      'product.setangebot_gesamtpreis': product.setangebot_gesamtpreis,
+      'product.price': product.price,
+      'quantities.floor': quantities?.floor,
+      selectedDaemmung: selectedDaemmung?.name,
+      selectedSockelleiste: selectedSockelleiste?.name
+    });
+
     // Dämmung pricing (same logic as ProductPageContent.tsx)
     let daemmungSetPricePerUnit = 0;
     let daemmungRegularPricePerUnit = 0;
@@ -86,11 +95,20 @@ export default function TotalPrice({
       const daemmungVerrechnung = selectedDaemmung.verrechnung ??
         Math.max(0, daemmungPricePerM2 - standardDaemmungPrice);
 
-      const istStandard = daemmungVerrechnung === 0;
-      const istBilliger = daemmungPricePerM2 < standardDaemmungPrice;
+      // ✅ Verwende isFree aus quantities für konsistente Logik
+      const istKostenlos = quantities.insulation.isFree;
 
-      daemmungSetPricePerUnit = (istStandard || istBilliger) ? 0 : daemmungVerrechnung;
+      daemmungSetPricePerUnit = istKostenlos ? 0 : daemmungVerrechnung;
       daemmungRegularPricePerUnit = daemmungPricePerM2;
+
+      console.log('🛒 DÄMMUNG DEBUG:', {
+        daemmungPricePerM2,
+        standardDaemmungPrice,
+        daemmungVerrechnung,
+        istKostenlos,
+        daemmungSetPricePerUnit,
+        'quantities.insulation': quantities.insulation
+      });
     }
 
     // Sockelleiste pricing (same logic as ProductPageContent.tsx)
@@ -103,10 +121,10 @@ export default function TotalPrice({
       const sockelleisteVerrechnung = selectedSockelleiste.verrechnung ??
         Math.max(0, sockelleistePricePerLfm - standardSockelleistePrice);
 
-      const istStandard = sockelleisteVerrechnung === 0;
-      const istBilliger = sockelleistePricePerLfm < standardSockelleistePrice;
+      // ✅ Verwende isFree aus quantities für konsistente Logik
+      const istKostenlos = quantities.baseboard.isFree;
 
-      sockelleisteSetPricePerUnit = (istStandard || istBilliger) ? 0 : sockelleisteVerrechnung;
+      sockelleisteSetPricePerUnit = istKostenlos ? 0 : sockelleisteVerrechnung;
       sockelleisteRegularPricePerUnit = sockelleistePricePerLfm;
     }
 
@@ -136,6 +154,8 @@ export default function TotalPrice({
         standardProduct: product, // Reference for price calculation
       } : null,
     };
+
+    console.log('🛒 SET BUNDLE VOR ADD TO CART:', JSON.stringify(setBundle, null, 2));
 
     addSetToCart(setBundle);
     setAddedToCart(true);
@@ -202,35 +222,29 @@ export default function TotalPrice({
         <button
           type="button"
           onClick={handleAddToCart}
-          disabled={!product.is_in_stock || addedToCart}
+          disabled={addedToCart}
           className={`w-full font-semibold text-sm py-4 px-3 rounded-lg transition-all ${
-            product.is_in_stock
-              ? addedToCart
-                ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
-                : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
-              : 'bg-[#e5e5e5] cursor-not-allowed text-[#999999]'
+            addedToCart
+              ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
+              : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
           }`}
         >
-          {product.is_in_stock ? (
-            addedToCart ? (
-              <span className="flex items-center justify-center">
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                Set hinzugefügt!
-              </span>
-            ) : (
-              <span className="flex items-center justify-center gap-2">
-                <img
-                  src="/images/Icons/Warenkorb weiß.png"
-                  alt=""
-                  className="w-5 h-5"
-                />
-                In den Warenkorb
-              </span>
-            )
+          {addedToCart ? (
+            <span className="flex items-center justify-center">
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              Set hinzugefügt!
+            </span>
           ) : (
-            'Nicht verfügbar'
+            <span className="flex items-center justify-center gap-2">
+              <img
+                src="/images/Icons/Warenkorb weiß.png"
+                alt=""
+                className="w-5 h-5"
+              />
+              In den Warenkorb
+            </span>
           )}
         </button>
       </div>

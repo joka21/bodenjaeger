@@ -14,9 +14,20 @@ import type { StoreApiProduct } from './woocommerce';
 
 /**
  * Calculate required packages for a given area and package content
+ * @param isFree - true = KOSTENLOS (Math.floor), false = AUFPREIS (Math.ceil)
  */
-export function calculatePackages(targetM2: number, paketinhalt: number): number {
-  return Math.ceil(targetM2 / paketinhalt);
+export function calculatePackages(
+  targetM2: number,
+  paketinhalt: number,
+  isFree: boolean = false
+): number {
+  if (isFree) {
+    // KOSTENLOS: ABRUNDEN → drunter bleiben (kundenfreundlich)
+    return Math.floor(targetM2 / paketinhalt);
+  } else {
+    // AUFPREIS oder BODEN: AUFRUNDEN → drüber gehen (Kunde bekommt mehr)
+    return Math.ceil(targetM2 / paketinhalt);
+  }
 }
 
 /**
@@ -51,11 +62,10 @@ export function calculateFloorQuantity(
   verschnitt: number,
   paketinhalt: number
 ): FloorQuantityCalculation {
-  // Calculate packages directly from wanted m² without adding verschnitt first
-  // The verschnitt is automatically included by rounding up packages
-  const packages = calculatePackages(wantedM2, paketinhalt);
+  // BODEN immer AUFRUNDEN (isFree = false)
+  const packages = calculatePackages(wantedM2, paketinhalt, false);
   const actualM2 = packages * paketinhalt;
-  const targetM2 = wantedM2; // Target is what user wants, not including extra verschnitt
+  const targetM2 = wantedM2;
 
   return {
     wantedM2,
@@ -76,13 +86,16 @@ export interface InsulationQuantityCalculation {
   paketinhalt: number;       // Insulation package content
   packages: number;          // Packages needed
   actualM2: number;          // Actual m² after packages
+  isFree: boolean;           // KOSTENLOS oder AUFPREIS
 }
 
 export function calculateInsulationQuantity(
   wantedM2: number,
-  insulationPaketinhalt: number
+  insulationPaketinhalt: number,
+  isFree: boolean = false
 ): InsulationQuantityCalculation {
-  const packages = calculatePackages(wantedM2, insulationPaketinhalt);
+  // KOSTENLOS: ABRUNDEN, AUFPREIS: AUFRUNDEN
+  const packages = calculatePackages(wantedM2, insulationPaketinhalt, isFree);
   const actualM2 = packages * insulationPaketinhalt;
 
   return {
@@ -90,6 +103,7 @@ export function calculateInsulationQuantity(
     paketinhalt: insulationPaketinhalt,
     packages,
     actualM2,
+    isFree,
   };
 }
 
@@ -102,13 +116,16 @@ export interface BaseboardQuantityCalculation {
   paketinhalt: number;       // Baseboard package content in lfm
   packages: number;          // Packages needed
   actualLfm: number;         // Actual lfm after packages
+  isFree: boolean;           // KOSTENLOS oder AUFPREIS
 }
 
 export function calculateBaseboardQuantity(
   wantedLfm: number,
-  baseboardPaketinhalt: number
+  baseboardPaketinhalt: number,
+  isFree: boolean = false
 ): BaseboardQuantityCalculation {
-  const packages = calculatePackages(wantedLfm, baseboardPaketinhalt);
+  // KOSTENLOS: ABRUNDEN, AUFPREIS: AUFRUNDEN
+  const packages = calculatePackages(wantedLfm, baseboardPaketinhalt, isFree);
   const actualLfm = packages * baseboardPaketinhalt;
 
   return {
@@ -116,6 +133,7 @@ export function calculateBaseboardQuantity(
     paketinhalt: baseboardPaketinhalt,
     packages,
     actualLfm,
+    isFree,
   };
 }
 
@@ -134,7 +152,9 @@ export function calculateSetQuantities(
   insulationProduct: StoreApiProduct | null,
   baseboardProduct: StoreApiProduct | null,
   customInsulationM2?: number,
-  customBaseboardLfm?: number
+  customBaseboardLfm?: number,
+  standardInsulationProduct?: StoreApiProduct | null,
+  standardBaseboardProduct?: StoreApiProduct | null
 ): SetQuantityCalculation {
   // Floor calculation - ✅ USE ROOT-LEVEL FIELDS
   const verschnitt = floorProduct.verschnitt || 0;
@@ -144,24 +164,42 @@ export function calculateSetQuantities(
   // Insulation calculation (if product exists) - ✅ USE ROOT-LEVEL FIELDS
   let insulation: InsulationQuantityCalculation | null = null;
   if (insulationProduct && insulationProduct.paketinhalt) {
+    // Calculate verrechnung (use backend value or calculate difference from standard)
+    const insulationPrice = insulationProduct.price || 0;
+    const standardInsulationPrice = standardInsulationProduct?.price || 0;
+    const calculatedVerrechnung = insulationProduct.verrechnung ?? Math.max(0, insulationPrice - standardInsulationPrice);
+
+    // Check if insulation is FREE (verrechnung = 0)
+    const insulationIsFree = calculatedVerrechnung === 0;
+
     // Use custom m² if provided, otherwise default to floor m²
     const insulationM2 = customInsulationM2 !== undefined ? customInsulationM2 : wantedM2;
     insulation = calculateInsulationQuantity(
       insulationM2,
-      insulationProduct.paketinhalt
+      insulationProduct.paketinhalt,
+      insulationIsFree
     );
   }
 
   // Baseboard calculation (if product exists) - ✅ USE ROOT-LEVEL FIELDS
   let baseboard: BaseboardQuantityCalculation | null = null;
   if (baseboardProduct && baseboardProduct.paketinhalt) {
+    // Calculate verrechnung (use backend value or calculate difference from standard)
+    const baseboardPrice = baseboardProduct.price || 0;
+    const standardBaseboardPrice = standardBaseboardProduct?.price || 0;
+    const calculatedVerrechnung = baseboardProduct.verrechnung ?? Math.max(0, baseboardPrice - standardBaseboardPrice);
+
+    // Check if baseboard is FREE (verrechnung = 0)
+    const baseboardIsFree = calculatedVerrechnung === 0;
+
     // Use custom lfm if provided, otherwise calculate from floor m²
     const baseboardLfm = customBaseboardLfm !== undefined
       ? customBaseboardLfm
       : calculateBaseboard_lfm(wantedM2);
     baseboard = calculateBaseboardQuantity(
       baseboardLfm,
-      baseboardProduct.paketinhalt
+      baseboardProduct.paketinhalt,
+      baseboardIsFree
     );
   }
 
