@@ -182,16 +182,26 @@ export default function SetAngebotMobile({
         </div>
       </div>
 
-      {/* Gesamtsumme + CTA-Button */}
-      <div className="mt-3 pt-3 border-t border-[#e5e5e5]">
-        {/* Gesamtsumme */}
-        <div className="flex flex-row items-center justify-between mb-3">
-          <span className="text-base font-bold text-[#2e2d32]">
-            Gesamtsumme
-          </span>
-          <span className="text-lg font-bold text-[#2e2d32]">
-            {displaySetPrice.toFixed(2).replace('.', ',')} €
-          </span>
+      {/* Gesamt-Block - Mobile Kompakt in EINER Zeile */}
+      <div className="mt-3 pt-3 border-t-2 border-[#e5e5e5]">
+        {/* EINE Zeile: Gesamt + Preise + Badge */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <span className="text-base font-bold text-[#2e2d32]">Gesamt</span>
+          <div className="flex items-center gap-2">
+            {displayComparisonPrice > 0 && (
+              <span className="line-through text-sm text-[#4c4c4c]">
+                {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+              </span>
+            )}
+            <span className="text-lg font-bold text-[#ed1b24]">
+              {displaySetPrice.toFixed(2).replace('.', ',')} €
+            </span>
+            {displaySavingsPercent > 0 && (
+              <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-white bg-[#ed1b24] rounded">
+                -{Math.round(displaySavingsPercent)}%
+              </span>
+            )}
+          </div>
         </div>
 
         {/* CTA Button */}
@@ -201,15 +211,6 @@ export default function SetAngebotMobile({
         >
           In den Warenkorb
         </button>
-
-        {/* Optional: Ersparnis Badge */}
-        {displaySavingsPercent > 0 && (
-          <div className="mt-3 text-center">
-            <span className="inline-flex items-center px-3 py-1 text-xs font-semibold text-white bg-green-600 rounded">
-              Du sparst {Math.round(displaySavingsPercent)}%
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );
