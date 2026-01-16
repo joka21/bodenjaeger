@@ -3,8 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { CartItemBase } from '@/types/cart-drawer';
-import { formatPrice, getUnitDisplayText } from '@/lib/cart-utils';
-import QuantityStepper from './QuantityStepper';
+import { formatPrice } from '@/lib/cart-utils';
 
 interface CartSingleItemProps {
   product: CartItemBase;
@@ -18,10 +17,10 @@ export default function CartSingleItem({
   onRemove,
 }: CartSingleItemProps) {
   return (
-    <div className="bg-gray-50 rounded-md p-3 mb-3">
-      <div className="flex flex-col gap-1">
-        {/* Zeile 1: Bild + Name + X-Button */}
-        <div className="flex flex-row items-start gap-3">
+    <div className="bg-[#f9f9fb] rounded-md p-3 mb-3">
+      <div className="flex flex-col gap-0.5">
+        {/* Zeile 1: Bild + Produktname + Gesamtpreis rechtsbündig */}
+        <div className="flex flex-row items-start gap-2">
           <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden">
             {product.image ? (
               <Image
@@ -39,55 +38,44 @@ export default function CartSingleItem({
               </div>
             )}
           </div>
-          <span className="flex-1 text-sm font-medium text-[#2e2d32]">{product.name}</span>
+          <div className="flex-1 flex items-start justify-between">
+            <span className="text-sm font-semibold text-[#2e2d32]">{product.name}</span>
+            <span className="text-sm font-semibold text-[#2e2d32] ml-2">
+              {formatPrice(product.total)} €
+            </span>
+          </div>
+        </div>
+
+        {/* Zeile 2: [- Menge +] Stk. + [X] rechtsbündig */}
+        <div className="ml-14 flex items-center justify-between mt-1">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center border border-[#e5e5e5] rounded">
+              <button
+                onClick={() => onQuantityChange(product.quantity - 1)}
+                disabled={product.quantity <= 1}
+                className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 text-sm"
+              >
+                −
+              </button>
+              <span className="px-2 py-0.5 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+                {product.quantity}
+              </span>
+              <button
+                onClick={() => onQuantityChange(product.quantity + 1)}
+                className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 text-sm"
+              >
+                +
+              </button>
+            </div>
+            <span className="text-xs text-[#4c4c4c]">Stk.</span>
+          </div>
           <button
             onClick={onRemove}
-            className="text-[#4c4c4c] hover:text-[#ed1b24] text-xl leading-none transition-colors"
+            className="text-[#4c4c4c] hover:text-[#ed1b24] text-xl font-bold leading-none transition-colors"
             title="Produkt entfernen"
           >
             ×
           </button>
-        </div>
-
-        {/* Zeile 2: Quantity + Menge */}
-        <div className="flex flex-row items-center gap-2">
-          {/* Quantity Control */}
-          <div className="flex items-center border border-[#e5e5e5] rounded">
-            <button
-              onClick={() => onQuantityChange(product.quantity - 1)}
-              disabled={product.quantity <= 1}
-              className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50"
-            >
-              −
-            </button>
-            <span className="px-2 py-1 text-sm text-[#2e2d32] min-w-[2rem] text-center">
-              {product.quantity}
-            </span>
-            <button
-              onClick={() => onQuantityChange(product.quantity + 1)}
-              className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50"
-            >
-              +
-            </button>
-          </div>
-          <span className="text-sm text-[#4c4c4c]">
-            {product.quantity} {getUnitDisplayText(product.unit, product.unitValue)}
-          </span>
-        </div>
-
-        {/* Zeile 3: Preise */}
-        <div className="flex flex-row items-center justify-end gap-2">
-          {product.originalPricePerUnit && (
-            <span className="text-sm text-[#4c4c4c] line-through">
-              {formatPrice(product.originalPricePerUnit)} €/{product.unit}
-            </span>
-          )}
-          <span className="text-sm font-semibold text-[#ed1b24]">
-            {formatPrice(product.pricePerUnit)} €/{product.unit}
-          </span>
-          <span className="text-sm font-semibold text-[#2e2d32]">
-            Gesamt: {formatPrice(product.total)} €
-          </span>
         </div>
       </div>
     </div>

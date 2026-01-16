@@ -46,7 +46,16 @@ export function calculateBundleQuantity(
  * Format price for display (German format: 1234.56 → "1.234,56")
  */
 export function formatPrice(price: number): string {
-  return price.toFixed(2).replace('.', ',');
+  // Handle invalid values
+  if (!isFinite(price) || isNaN(price)) {
+    return '0,00';
+  }
+
+  // Convert to German format with thousands separator
+  return price.toLocaleString('de-DE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
 /**

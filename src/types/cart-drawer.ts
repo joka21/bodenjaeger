@@ -25,6 +25,7 @@ export interface CartItemBase {
   originalPricePerUnit?: number; // UVP (strikethrough)
   total: number;
   isFree?: boolean; // Free items in set
+  itemType?: 'floor' | 'insulation' | 'baseboard'; // Type for bundle products
 }
 
 export interface CartSetItem {

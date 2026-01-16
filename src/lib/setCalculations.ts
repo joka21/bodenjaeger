@@ -156,10 +156,21 @@ export function calculateSetQuantities(
   standardInsulationProduct?: StoreApiProduct | null,
   standardBaseboardProduct?: StoreApiProduct | null
 ): SetQuantityCalculation {
+  console.log('🔧 calculateSetQuantities INPUT:', {
+    wantedM2,
+    customInsulationM2,
+    customBaseboardLfm,
+    floorProduct: floorProduct.name,
+    insulationProduct: insulationProduct?.name,
+    baseboardProduct: baseboardProduct?.name
+  });
+
   // Floor calculation - ✅ USE ROOT-LEVEL FIELDS
   const verschnitt = floorProduct.verschnitt || 0;
   const floorPaketinhalt = floorProduct.paketinhalt || 1;
   const floor = calculateFloorQuantity(wantedM2, verschnitt, floorPaketinhalt);
+
+  console.log('🔧 Floor calculation:', floor);
 
   // Insulation calculation (if product exists) - ✅ USE ROOT-LEVEL FIELDS
   let insulation: InsulationQuantityCalculation | null = null;
@@ -174,11 +185,23 @@ export function calculateSetQuantities(
 
     // Use custom m² if provided, otherwise default to floor m²
     const insulationM2 = customInsulationM2 !== undefined ? customInsulationM2 : wantedM2;
+
+    console.log('🔧 Insulation calculation INPUT:', {
+      customInsulationM2,
+      wantedM2,
+      insulationM2,
+      paketinhalt: insulationProduct.paketinhalt,
+      isFree: insulationIsFree,
+      calculatedVerrechnung
+    });
+
     insulation = calculateInsulationQuantity(
       insulationM2,
       insulationProduct.paketinhalt,
       insulationIsFree
     );
+
+    console.log('🔧 Insulation calculation OUTPUT:', insulation);
   }
 
   // Baseboard calculation (if product exists) - ✅ USE ROOT-LEVEL FIELDS

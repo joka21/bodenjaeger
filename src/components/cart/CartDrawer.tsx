@@ -80,10 +80,16 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
             const isFree = bundleSetPricePerUnit === 0;
 
+            // ⚠️ SAFETY: Avoid division by zero
+            const bundleQuantity = bundleItem.quantity || 1;
+            const unitValue = bundleActualM2 / bundleQuantity;
+
             console.log('🛒 CART DRAWER - BUNDLE PRODUCT:', {
               name: bundleItem.product.name,
               type: bundleItem.setItemType,
+              quantity: bundleItem.quantity,
               actualM2: bundleActualM2,
+              unitValue,
               setPricePerUnit: bundleSetPricePerUnit,
               total: bundleSetPricePerUnit * bundleActualM2,
               isFree
@@ -99,11 +105,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                 bundleItem.product.einheit_short,
                 bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'
               ),
-              unitValue: bundleActualM2 / bundleItem.quantity, // m²/lfm per package
+              unitValue, // ✅ Safe calculation
               pricePerUnit: bundleSetPricePerUnit, // Preis pro m²/lfm (SET PRICE!)
               originalPricePerUnit: bundleRegularPricePerUnit !== bundleSetPricePerUnit ? bundleRegularPricePerUnit : undefined,
               total: bundleSetPricePerUnit * bundleActualM2, // Total = Preis/m² × tatsächliche m²/lfm
               isFree,
+              itemType: bundleItem.setItemType, // ✅ Pass through itemType for label detection
             };
           });
 

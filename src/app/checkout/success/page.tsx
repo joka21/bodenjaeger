@@ -7,9 +7,17 @@ import Link from 'next/link';
 function CheckoutSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('orderId');
+  const orderId = searchParams.get('order');  // Changed from 'orderId' to 'order'
+  const orderKey = searchParams.get('key');
+  const paypalSuccess = searchParams.get('paypal');
+  const stripeSessionId = searchParams.get('session_id');
 
   useEffect(() => {
+    // Clear cart on success
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('bodenjaeger-cart');
+    }
+
     // If no order ID is present, redirect to home
     if (!orderId) {
       router.push('/');
@@ -60,6 +68,12 @@ function CheckoutSuccessContent() {
             {orderId && (
               <p className="text-gray-600">
                 Bestellnummer: <span className="font-semibold text-[#2e2d32]">#{orderId}</span>
+              </p>
+            )}
+            {(paypalSuccess || stripeSessionId) && (
+              <p className="text-green-600 text-sm mt-2">
+                {paypalSuccess && '✅ PayPal Zahlung erfolgreich'}
+                {stripeSessionId && '✅ Kreditkarten-Zahlung erfolgreich'}
               </p>
             )}
           </div>

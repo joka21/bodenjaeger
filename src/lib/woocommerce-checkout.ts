@@ -1,236 +1,343 @@
-// WooCommerce Checkout API Helper Functions
-
-import {
-  WooCommerceCheckoutRequest,
-  WooCommerceCheckoutResponse,
-  WooCommerceShippingMethodResponse,
-  WooCommercePaymentMethodResponse,
-  ShippingMethod,
-  PaymentMethod,
-} from '@/types/checkout';
-
-const WC_API_BASE_URL = 'https://plan-dein-ding.de/wp-json/wc/store/v1';
-
 /**
- * Fetch available shipping methods from WooCommerce
+ * WooCommerce Checkout API Integration - REST API v3
+ *
+ * Kommuniziert mit der WooCommerce REST API v3 für Order-Management
+ * Alle API-Calls verwenden Basic Auth mit Consumer Key + Secret
  */
-export async function fetchShippingMethods(): Promise<ShippingMethod[]> {
-  try {
-    const response = await fetch(`${WC_API_BASE_URL}/shipping/methods`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch shipping methods: ${response.status}`);
-    }
+// ============================================================================
+// TypeScript Interfaces
+// ============================================================================
 
-    const data: WooCommerceShippingMethodResponse[] = await response.json();
+export interface WooCommerceOrderLineItem {
+  product_id: number;
+  quantity: number;
+  total?: string;
+  name?: string;
+  meta_data?: Array<{
+    key: string;
+    value: string;
+  }>;
+}
 
-    // Transform WooCommerce response to our ShippingMethod format
-    return data.map((method) => ({
-      id: method.rate_id || method.method_id,
-      title: method.name,
-      cost: method.price || '0',
-      description: method.description || method.delivery_time || '',
-      methodId: method.method_id,
-      methodTitle: method.name,
-    }));
-  } catch (error) {
-    console.error('Error fetching shipping methods:', error);
+export interface WooCommerceAddress {
+  first_name: string;
+  last_name: string;
+  company?: string;
+  address_1: string;
+  address_2?: string;
+  city: string;
+  state?: string;
+  postcode: string;
+  country: string;  // "DE" für Deutschland
+  email?: string;   // nur bei billing
+  phone?: string;   // nur bei billing
+}
 
-    // Return fallback shipping methods
-    return [
-      {
-        id: 'flat_rate',
-        title: 'Standardversand',
-        cost: '4.90',
-        description: 'Lieferung in 3-5 Werktagen',
-        methodId: 'flat_rate',
-        methodTitle: 'Standardversand',
-      },
-      {
-        id: 'free_shipping',
-        title: 'Kostenloser Versand',
-        cost: '0',
-        description: 'Ab 100€ Bestellwert',
-        methodId: 'free_shipping',
-        methodTitle: 'Kostenloser Versand',
-      },
-    ];
-  }
+export interface WooCommerceOrderData {
+  payment_method: string;           // "bacs" (Vorkasse), "paypal", "stripe"
+  payment_method_title: string;     // "Vorkasse", "PayPal", etc.
+  set_paid: boolean;                // false für Vorkasse, true nach Payment
+  status?: string;                  // "pending", "processing", "on-hold", etc.
+  billing: WooCommerceAddress & { email: string; phone: string };
+  shipping: WooCommerceAddress;
+  line_items: WooCommerceOrderLineItem[];
+  shipping_lines?: Array<{
+    method_id: string;
+    method_title: string;
+    total: string;
+  }>;
+  customer_note?: string;
+  meta_data?: Array<{
+    key: string;
+    value: string;
+  }>;
+}
+
+export interface WooCommerceOrder {
+  id: number;
+  order_key: string;
+  status: string;
+  total: string;
+  currency: string;
+  date_created: string;
+  payment_url?: string;
+  line_items: Array<{
+    id: number;
+    name: string;
+    product_id: number;
+    quantity: number;
+    total: string;
+  }>;
+  billing: WooCommerceAddress & { email: string; phone: string };
+  shipping: WooCommerceAddress;
+}
+
+export type OrderStatus =
+  | 'pending'
+  | 'processing'
+  | 'on-hold'
+  | 'completed'
+  | 'cancelled'
+  | 'failed';
+
+// ============================================================================
+// API Configuration
+// ============================================================================
+
+const WC_BASE_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
+const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;
+
+if (!WC_BASE_URL) {
+  throw new Error('NEXT_PUBLIC_WORDPRESS_URL is not defined');
+}
+
+if (!WC_CONSUMER_KEY || !WC_CONSUMER_SECRET) {
+  throw new Error('WooCommerce API credentials are not configured');
 }
 
 /**
- * Fetch available payment methods from WooCommerce
+ * Generiert die Authorization Header für WooCommerce REST API
  */
-export async function fetchPaymentMethods(): Promise<PaymentMethod[]> {
-  try {
-    const response = await fetch(`${WC_API_BASE_URL}/payment-methods`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+function getWCAuthHeaders(): HeadersInit {
+  const credentials = Buffer.from(
+    `${WC_CONSUMER_KEY}:${WC_CONSUMER_SECRET}`
+  ).toString('base64');
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch payment methods: ${response.status}`);
-    }
-
-    const data: WooCommercePaymentMethodResponse[] = await response.json();
-
-    // Filter and transform WooCommerce response to our PaymentMethod format
-    return data
-      .filter((method) => method.enabled)
-      .map((method) => ({
-        id: method.id,
-        title: method.title,
-        description: method.description || '',
-        enabled: method.enabled,
-      }));
-  } catch (error) {
-    console.error('Error fetching payment methods:', error);
-
-    // Return fallback payment methods
-    return [
-      {
-        id: 'bacs',
-        title: 'Banküberweisung',
-        description: 'Zahlung per Überweisung auf unser Bankkonto.',
-        enabled: true,
-      },
-      {
-        id: 'cod',
-        title: 'Nachnahme',
-        description: 'Zahlung bei Lieferung.',
-        enabled: true,
-      },
-      {
-        id: 'cheque',
-        title: 'Rechnung',
-        description: 'Zahlung per Rechnung.',
-        enabled: true,
-      },
-    ];
-  }
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Basic ${credentials}`,
+  };
 }
 
+// ============================================================================
+// API Functions
+// ============================================================================
+
 /**
- * Submit checkout order to WooCommerce
+ * Erstellt eine neue WooCommerce Order
+ *
+ * @param orderData - Die Order-Daten (Billing, Shipping, Line Items, etc.)
+ * @returns Die erstellte Order mit ID und Order Key
+ *
+ * @example
+ * ```typescript
+ * const order = await createWooCommerceOrder({
+ *   payment_method: 'bacs',
+ *   payment_method_title: 'Vorkasse',
+ *   set_paid: false,
+ *   billing: { ... },
+ *   shipping: { ... },
+ *   line_items: [{ product_id: 123, quantity: 1 }]
+ * });
+ * console.log(`Order created: ${order.id}`);
+ * ```
  */
-export async function submitCheckoutOrder(
-  checkoutData: WooCommerceCheckoutRequest
-): Promise<WooCommerceCheckoutResponse> {
+export async function createWooCommerceOrder(
+  orderData: WooCommerceOrderData
+): Promise<WooCommerceOrder> {
+  const url = `${WC_BASE_URL}/wp-json/wc/v3/orders`;
+
   try {
-    const response = await fetch(`${WC_API_BASE_URL}/checkout`, {
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(checkoutData),
+      headers: getWCAuthHeaders(),
+      body: JSON.stringify(orderData),
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to submit checkout order');
+      const errorData = await response.json().catch(() => ({}));
+      console.error('WooCommerce API Error:', errorData);
+      throw new Error(
+        `Order creation failed: ${response.status} ${response.statusText}`
+      );
     }
 
-    const data: WooCommerceCheckoutResponse = await response.json();
-    return data;
+    const order: WooCommerceOrder = await response.json();
+    return order;
   } catch (error) {
-    console.error('Error submitting checkout order:', error);
+    console.error('Failed to create WooCommerce order:', error);
     throw error;
   }
 }
 
 /**
- * Validate checkout data before submission
+ * Ruft den Status einer Order ab
+ *
+ * @param orderId - Die WooCommerce Order ID
+ * @returns Die vollständige Order mit aktuellem Status
+ *
+ * @example
+ * ```typescript
+ * const order = await getOrderStatus(123);
+ * console.log(`Order status: ${order.status}`);
+ * ```
  */
-export function validateCheckoutData(data: WooCommerceCheckoutRequest): {
-  valid: boolean;
-  errors: string[];
-} {
-  const errors: string[] = [];
+export async function getOrderStatus(
+  orderId: number
+): Promise<WooCommerceOrder> {
+  const url = `${WC_BASE_URL}/wp-json/wc/v3/orders/${orderId}`;
 
-  // Validate billing address
-  if (!data.billing_address.first_name) {
-    errors.push('Billing first name is required');
-  }
-  if (!data.billing_address.last_name) {
-    errors.push('Billing last name is required');
-  }
-  if (!data.billing_address.email) {
-    errors.push('Email is required');
-  }
-  if (!data.billing_address.address_1) {
-    errors.push('Billing address is required');
-  }
-  if (!data.billing_address.city) {
-    errors.push('Billing city is required');
-  }
-  if (!data.billing_address.postcode) {
-    errors.push('Billing postcode is required');
-  }
-  if (!data.billing_address.country) {
-    errors.push('Billing country is required');
-  }
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: getWCAuthHeaders(),
+      cache: 'no-store',
+    });
 
-  // Validate shipping address
-  if (!data.shipping_address.first_name) {
-    errors.push('Shipping first name is required');
-  }
-  if (!data.shipping_address.last_name) {
-    errors.push('Shipping last name is required');
-  }
-  if (!data.shipping_address.address_1) {
-    errors.push('Shipping address is required');
-  }
-  if (!data.shipping_address.city) {
-    errors.push('Shipping city is required');
-  }
-  if (!data.shipping_address.postcode) {
-    errors.push('Shipping postcode is required');
-  }
-  if (!data.shipping_address.country) {
-    errors.push('Shipping country is required');
-  }
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch order: ${response.status} ${response.statusText}`
+      );
+    }
 
-  // Validate payment method
-  if (!data.payment_method) {
-    errors.push('Payment method is required');
+    const order: WooCommerceOrder = await response.json();
+    return order;
+  } catch (error) {
+    console.error(`Failed to get order status for order ${orderId}:`, error);
+    throw error;
   }
-
-  // Validate shipping method
-  if (!data.shipping_method || data.shipping_method.length === 0) {
-    errors.push('Shipping method is required');
-  }
-
-  return {
-    valid: errors.length === 0,
-    errors,
-  };
 }
 
 /**
- * Format price for display (add € symbol)
+ * Ruft eine Order ab und verifiziert sie mit der E-Mail-Adresse
+ *
+ * WICHTIG: Diese Funktion dient der Sicherheit, damit Kunden nur ihre eigenen
+ * Orders abrufen können (per Order ID + E-Mail Kombination)
+ *
+ * @param orderId - Die WooCommerce Order ID
+ * @param email - Die Billing E-Mail Adresse der Order
+ * @returns Die Order falls verifiziert, sonst null
+ *
+ * @example
+ * ```typescript
+ * const order = await getOrderByIdAndEmail(123, 'kunde@example.com');
+ * if (order) {
+ *   console.log('Order verified and found');
+ * } else {
+ *   console.log('Order not found or email mismatch');
+ * }
+ * ```
  */
-export function formatPrice(price: string | number): string {
-  const numPrice = typeof price === 'string' ? parseFloat(price) : price;
-  return `${numPrice.toFixed(2)} €`;
+export async function getOrderByIdAndEmail(
+  orderId: number,
+  email: string
+): Promise<WooCommerceOrder | null> {
+  try {
+    const order = await getOrderStatus(orderId);
+
+    // E-Mail Verifizierung (Case-Insensitive)
+    const orderEmail = order.billing.email?.toLowerCase();
+    const inputEmail = email.toLowerCase();
+
+    if (orderEmail !== inputEmail) {
+      console.warn(`Email mismatch for order ${orderId}`);
+      return null;
+    }
+
+    return order;
+  } catch (error) {
+    console.error('Failed to get order by ID and email:', error);
+    return null;
+  }
 }
 
 /**
- * Calculate tax amount from subtotal
+ * Aktualisiert den Status einer Order
+ *
+ * Wird z.B. von Payment Webhooks verwendet, um nach erfolgreicher Zahlung
+ * den Status von "pending" auf "processing" zu setzen
+ *
+ * @param orderId - Die WooCommerce Order ID
+ * @param status - Der neue Order-Status
+ * @returns Die aktualisierte Order
+ *
+ * @example
+ * ```typescript
+ * // Nach erfolgreicher Stripe-Zahlung:
+ * await updateOrderStatus(123, 'processing');
+ *
+ * // Bei Vorkasse:
+ * await updateOrderStatus(123, 'on-hold');
+ * ```
  */
-export function calculateTax(subtotal: number, taxRate: number = 0.19): number {
-  return subtotal * taxRate;
+export async function updateOrderStatus(
+  orderId: number,
+  status: OrderStatus
+): Promise<WooCommerceOrder> {
+  const url = `${WC_BASE_URL}/wp-json/wc/v3/orders/${orderId}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: getWCAuthHeaders(),
+      body: JSON.stringify({ status }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('WooCommerce API Error:', errorData);
+      throw new Error(
+        `Failed to update order status: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const order: WooCommerceOrder = await response.json();
+    return order;
+  } catch (error) {
+    console.error(`Failed to update order ${orderId} status:`, error);
+    throw error;
+  }
 }
 
 /**
- * Calculate total including shipping
+ * Fügt eine Notiz zu einer Order hinzu
+ *
+ * Nützlich für:
+ * - Payment Gateway Transaktions-IDs
+ * - Interne Notizen
+ * - Kundenhinweise
+ *
+ * @param orderId - Die WooCommerce Order ID
+ * @param note - Der Notiz-Text
+ * @param customerNote - Falls true, ist die Notiz für Kunde sichtbar (default: false)
+ *
+ * @example
+ * ```typescript
+ * // Interne Notiz (nur für Admin):
+ * await addOrderNote(123, 'PayPal Transaction ID: ABC123');
+ *
+ * // Kundennotiz (sichtbar in E-Mail):
+ * await addOrderNote(123, 'Lieferung erfolgt in 3-5 Werktagen', true);
+ * ```
  */
-export function calculateTotal(subtotal: number, shippingCost: number): number {
-  return subtotal + shippingCost;
+export async function addOrderNote(
+  orderId: number,
+  note: string,
+  customerNote: boolean = false
+): Promise<void> {
+  const url = `${WC_BASE_URL}/wp-json/wc/v3/orders/${orderId}/notes`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: getWCAuthHeaders(),
+      body: JSON.stringify({
+        note,
+        customer_note: customerNote,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('WooCommerce API Error:', errorData);
+      throw new Error(
+        `Failed to add order note: ${response.status} ${response.statusText}`
+      );
+    }
+  } catch (error) {
+    console.error(`Failed to add note to order ${orderId}:`, error);
+    throw error;
+  }
 }
