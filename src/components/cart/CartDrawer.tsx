@@ -183,10 +183,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     const newMainActualM2 = setItem.mainProduct.unitValue * newQuantity;
     updateQuantity(setItem.mainProduct.productId, newQuantity, newMainActualM2);
 
-    // Update bundle products proportionally with new actualM2
+    // Update bundle products proportionally
+    // IMPORTANT: Bundle actualM2 should match floor actualM2, not be based on bundle quantity!
     setItem.bundleProducts.forEach((bundleProduct) => {
       const newBundleQuantity = Math.max(0, Math.ceil(bundleProduct.quantity * ratio));
-      const newBundleActualM2 = bundleProduct.unitValue * newBundleQuantity;
+
+      // Dämmung/Insulation: Same m² as floor
+      // Sockelleiste/Baseboard: Same value in lfm (perimeter ≈ floor area)
+      const newBundleActualM2 = newMainActualM2;
+
       updateQuantity(bundleProduct.productId, newBundleQuantity, newBundleActualM2);
     });
   };
