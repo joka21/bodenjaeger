@@ -53,7 +53,7 @@ export interface CartContextType {
   addSetToCart: (setBundle: SetBundle) => void;
   removeFromCart: (productId: number) => void;
   removeSet: (setId: string) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
+  updateQuantity: (productId: number, quantity: number, newActualM2?: number) => void;
   clearCart: () => void;
   isInCart: (productId: number) => boolean;
   getItemQuantity: (productId: number) => number;
@@ -213,8 +213,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     );
   };
 
-  // Update item quantity
-  const updateQuantity = (productId: number, quantity: number) => {
+  // Update item quantity and optionally actualM2 for set items
+  const updateQuantity = (productId: number, quantity: number, newActualM2?: number) => {
     setCartItems(prevItems =>
       prevItems.map(item => {
         if (item.id === productId) {
@@ -223,7 +223,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           if (quantity <= 0 && !item.isSetItem) {
             return null; // Will be filtered out below
           }
-          return { ...item, quantity: Math.max(0, quantity) };
+          const updates: Partial<CartItem> = { quantity: Math.max(0, quantity) };
+          // Update actualM2 if provided (for set items when quantity changes)
+          if (newActualM2 !== undefined) {
+            updates.actualM2 = newActualM2;
+          }
+          return { ...item, ...updates };
         }
         return item;
       }).filter((item): item is CartItem => item !== null)

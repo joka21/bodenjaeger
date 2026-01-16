@@ -179,13 +179,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
     const ratio = newQuantity / setItem.mainProduct.quantity;
 
-    // Update main product
-    updateQuantity(setItem.mainProduct.productId, newQuantity);
+    // Update main product with new actualM2
+    const newMainActualM2 = setItem.mainProduct.unitValue * newQuantity;
+    updateQuantity(setItem.mainProduct.productId, newQuantity, newMainActualM2);
 
-    // Update bundle products proportionally
+    // Update bundle products proportionally with new actualM2
     setItem.bundleProducts.forEach((bundleProduct) => {
-      const newBundleQuantity = Math.ceil(bundleProduct.quantity * ratio);
-      updateQuantity(bundleProduct.productId, newBundleQuantity);
+      const newBundleQuantity = Math.max(0, Math.ceil(bundleProduct.quantity * ratio));
+      const newBundleActualM2 = bundleProduct.unitValue * newBundleQuantity;
+      updateQuantity(bundleProduct.productId, newBundleQuantity, newBundleActualM2);
     });
   };
 
