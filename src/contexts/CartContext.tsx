@@ -215,17 +215,18 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Update item quantity
   const updateQuantity = (productId: number, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
-
     setCartItems(prevItems =>
-      prevItems.map(item =>
-        item.id === productId
-          ? { ...item, quantity }
-          : item
-      )
+      prevItems.map(item => {
+        if (item.id === productId) {
+          // For Set-Items: Allow quantity 0 (free bundle items like Dämmung/Sockelleiste)
+          // For regular items: Remove if quantity <= 0
+          if (quantity <= 0 && !item.isSetItem) {
+            return null; // Will be filtered out below
+          }
+          return { ...item, quantity: Math.max(0, quantity) };
+        }
+        return item;
+      }).filter((item): item is CartItem => item !== null)
     );
   };
 
