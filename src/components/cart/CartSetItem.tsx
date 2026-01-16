@@ -101,8 +101,8 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
       </div>
 
       {/* Bundle Products (Dämmung, Sockelleiste) */}
-      {bundleProducts.map((bundleProduct, index) => (
-        <BundleProductItem key={bundleProduct.id} product={bundleProduct} index={index} />
+      {bundleProducts.map((bundleProduct) => (
+        <BundleProductItem key={bundleProduct.id} product={bundleProduct} />
       ))}
 
       {/* Set Total */}
@@ -115,7 +115,7 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
 }
 
 // Bundle Product Component (Dämmung, Sockelleiste)
-function BundleProductItem({ product, index }: { product: CartItemBase; index: number }) {
+function BundleProductItem({ product }: { product: CartItemBase }) {
   // Determine product type label from itemType (preferred) or fallback to unit
   const getTypeLabel = () => {
     if (product.itemType === 'baseboard') {

@@ -83,7 +83,7 @@ export default function TodoPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-                    "In den Warenkorb" Button implementieren
+                    &quot;In den Warenkorb&quot; Button implementieren
                   </h3>
                   <span className="text-xs px-2 py-1 bg-orange-600 text-white rounded">Aufwand: Niedrig</span>
                 </div>
@@ -219,9 +219,9 @@ export default function TodoPage() {
                   <li>Badge: Roter kompakter Badge mit abgerundeten Ecken</li>
                   <li>Produktbilder: Quadratisch und größer im Verhältnis</li>
                   <li>Preise: Streichpreis grau, Rabattpreis rot, rechtsbündig</li>
-                  <li>Rabatt-Badge: Kleine rote Pille (z.B. "-21%") neben Preis</li>
+                  <li>Rabatt-Badge: Kleine rote Pille (z.B. &quot;-21%&quot;) neben Preis</li>
                   <li>Trennlinien: Klare horizontale Linien zwischen Produkten</li>
-                  <li>Button: Grüner "In den Warenkorb"-Button, volle Breite</li>
+                  <li>Button: Grüner &quot;In den Warenkorb&quot;-Button, volle Breite</li>
                 </ul>
               </div>
             </li>

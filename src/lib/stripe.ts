@@ -16,19 +16,27 @@ const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
-if (!STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not configured');
-}
+// Lazy initialization of Stripe instance
+let stripeInstance: Stripe | null = null;
 
-if (!NEXT_PUBLIC_SITE_URL) {
-  throw new Error('NEXT_PUBLIC_SITE_URL is not configured');
-}
+// Runtime credential check and Stripe initialization
+function getStripe(): Stripe {
+  if (!STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not configured');
+  }
+  if (!NEXT_PUBLIC_SITE_URL) {
+    throw new Error('NEXT_PUBLIC_SITE_URL is not configured');
+  }
 
-// Stripe SDK initialisieren
-const stripe = new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2024-12-18.acacia',
-  typescript: true,
-});
+  if (!stripeInstance) {
+    stripeInstance = new Stripe(STRIPE_SECRET_KEY, {
+      apiVersion: '2025-12-15.clover',
+      typescript: true,
+    });
+  }
+
+  return stripeInstance;
+}
 
 // ============================================================================
 // TypeScript Interfaces
@@ -128,7 +136,7 @@ export async function createStripeCheckoutSession(
       paymentMethod === 'sofort' ? ['sofort'] : ['card'];
 
     // Checkout Session erstellen
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: paymentMethodTypes,
       line_items: stripeLineItems,
       mode: 'payment',
@@ -140,14 +148,6 @@ export async function createStripeCheckoutSession(
         order_key: orderKey,
         payment_method: paymentMethod,
       },
-      // Für Sofortüberweisung: Land auf DE beschränken
-      ...(paymentMethod === 'sofort' && {
-        payment_method_options: {
-          sofort: {
-            preferred_language: 'de',
-          },
-        },
-      }),
     });
 
     if (!session.url) {
@@ -204,7 +204,7 @@ export async function handleStripeWebhook(
 
   try {
     // Webhook Event verifizieren und konstruieren
-    const event = stripe.webhooks.constructEvent(
+    const event = getStripe().webhooks.constructEvent(
       payload,
       signature,
       STRIPE_WEBHOOK_SECRET
@@ -278,7 +278,7 @@ export async function getStripeSession(
   sessionId: string
 ): Promise<Stripe.Checkout.Session> {
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
     return session;
   } catch (error) {
     console.error('Failed to retrieve Stripe session:', error);

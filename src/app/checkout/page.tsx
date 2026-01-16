@@ -38,7 +38,7 @@ interface FormData {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getTotalPrice } = useCart();
+  const { cartItems, totalPrice } = useCart();
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -69,10 +69,10 @@ export default function CheckoutPage() {
 
   // Redirect if cart is empty
   useEffect(() => {
-    if (items.length === 0) {
+    if (cartItems.length === 0) {
       router.push('/cart');
     }
-  }, [items, router]);
+  }, [cartItems, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -105,12 +105,12 @@ export default function CheckoutPage() {
       }
 
       // Line Items aus Cart erstellen
-      const line_items = items.map((item) => ({
+      const line_items = cartItems.map((item) => ({
         product_id: item.product.id,
         quantity: item.quantity,
         total: (item.product.price * item.quantity).toFixed(2),
         name: item.product.name,
-        meta_data: item.type === 'set' ? [
+        meta_data: item.isSetItem ? [
           { key: '_set_angebot', value: 'true' },
           { key: '_set_main_product', value: item.product.id.toString() },
         ] : [],
@@ -185,7 +185,7 @@ export default function CheckoutPage() {
     }
   };
 
-  if (items.length === 0) {
+  if (cartItems.length === 0) {
     return null; // Wird zu /cart weitergeleitet
   }
 

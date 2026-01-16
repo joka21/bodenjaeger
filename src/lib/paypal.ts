@@ -13,18 +13,20 @@ const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
 const PAYPAL_MODE = process.env.PAYPAL_MODE || 'sandbox'; // 'sandbox' oder 'live'
 const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
-if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
-  throw new Error('PayPal credentials are not configured');
-}
-
-if (!NEXT_PUBLIC_SITE_URL) {
-  throw new Error('NEXT_PUBLIC_SITE_URL is not configured');
-}
-
 const PAYPAL_API_URL =
   PAYPAL_MODE === 'live'
     ? 'https://api-m.paypal.com'
     : 'https://api-m.sandbox.paypal.com';
+
+// Runtime credential check helper
+function checkCredentials() {
+  if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
+    throw new Error('PayPal credentials are not configured');
+  }
+  if (!NEXT_PUBLIC_SITE_URL) {
+    throw new Error('NEXT_PUBLIC_SITE_URL is not configured');
+  }
+}
 
 // ============================================================================
 // TypeScript Interfaces
@@ -78,6 +80,8 @@ export interface CapturePayPalOrderResult {
  * ```
  */
 async function getPayPalAccessToken(): Promise<string> {
+  checkCredentials();
+
   const auth = Buffer.from(
     `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`
   ).toString('base64');
@@ -203,7 +207,7 @@ export async function createPayPalOrder(
 
     // Approval URL finden
     const approvalUrl = data.links?.find(
-      (link: any) => link.rel === 'approve'
+      (link: { rel: string; href: string }) => link.rel === 'approve'
     )?.href;
 
     if (!approvalUrl) {
@@ -325,7 +329,7 @@ export async function capturePayPalOrder(
  * console.log(`Order status: ${order.status}`);
  * ```
  */
-export async function getPayPalOrder(paypalOrderId: string): Promise<any> {
+export async function getPayPalOrder(paypalOrderId: string): Promise<unknown> {
   try {
     const accessToken = await getPayPalAccessToken();
 
