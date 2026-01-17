@@ -13,23 +13,23 @@ interface SetAngebotProps {
   einheit: string;
   daemmungName: string;
   daemmungImage: string;
-  daemmungPrice: number;
-  daemmungRegularPrice?: number;
+  daemmungSetPricePerUnit: number;  // ✅ NEU: Set-Preis (0 oder Aufpreis) - VOM PARENT
+  daemmungRegularPricePerUnit: number;  // ✅ NEU: Regulärer Preis - VOM PARENT
   daemmungVE?: string;
   daemmungOptions?: StoreApiProduct[];
   sockelleisteName: string;
   sockelleisteImage: string;
-  sockelleistePrice: number;
-  sockelleisteRegularPrice?: number;
+  sockelleisteSetPricePerUnit: number;  // ✅ NEU: Set-Preis (0 oder Aufpreis) - VOM PARENT
+  sockelleisteRegularPricePerUnit: number;  // ✅ NEU: Regulärer Preis - VOM PARENT
   sockelleisteVE?: string;
   sockelleisteEinheit?: string;
   sockelleisteOptions?: StoreApiProduct[];
   onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
-  // BACKEND PRICES - DIREKT AUS DER DATENBANK (keine Berechnung!)
+  // BACKEND PRICES - DIREKT VOM PARENT (ProductPageContent) - KEINE BERECHNUNG HIER!
   comparisonPriceTotal?: number;
   totalDisplayPrice?: number;
   savingsAmount?: number;
-  savingsPercent?: number;  // ✅ KOMMT DIREKT VOM BACKEND - setangebot_ersparnis_prozent
+  savingsPercent?: number;
 }
 
 export default function SetAngebot({
@@ -41,14 +41,14 @@ export default function SetAngebot({
   einheit,
   daemmungName,
   daemmungImage,
-  daemmungPrice,
-  daemmungRegularPrice,
+  daemmungSetPricePerUnit,
+  daemmungRegularPricePerUnit,
   daemmungVE,
   daemmungOptions = [],
   sockelleisteName,
   sockelleisteImage,
-  sockelleistePrice,
-  sockelleisteRegularPrice,
+  sockelleisteSetPricePerUnit,
+  sockelleisteRegularPricePerUnit,
   sockelleisteVE,
   sockelleisteEinheit = 'lfm',
   sockelleisteOptions = [],
@@ -78,23 +78,10 @@ export default function SetAngebot({
   const productCount = 1 + (hasDaemmung ? 1 : 0) + (hasSockelleiste ? 1 : 0);
   const gridCols = productCount === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
 
-  // Calculate prices for selected products
-  // ✅ Jäger API returns prices as numbers, not strings
-  const selectedDaemmungPrice = selectedDaemmung?.prices?.price
-    ? parseFloat(selectedDaemmung.prices.price) / 100
-    : (selectedDaemmung?.price || 0);
-  const selectedSockelleistePrice = selectedSockelleiste?.prices?.price
-    ? parseFloat(selectedSockelleiste.prices.price) / 100
-    : (selectedSockelleiste?.price || 0);
-
-  // Price difference from standard (for set offer calculation)
-  // Only positive differences count (upgrading) - no discount for cheaper products
-  const daemmungPriceDiff = hasDaemmung && selectedDaemmung
-    ? Math.max(0, selectedDaemmungPrice - (daemmungRegularPrice || 0))
-    : 0;
-  const sockelleistePriceDiff = hasSockelleiste && selectedSockelleiste
-    ? Math.max(0, selectedSockelleistePrice - (sockelleisteRegularPrice || 0))
-    : 0;
+  // ✅ PREISE KOMMEN DIREKT VOM PARENT - KEINE BERECHNUNG HIER!
+  // daemmungSetPricePerUnit: 0 (kostenlos) oder Aufpreis (z.B. 5.00)
+  // sockelleisteSetPricePerUnit: 0 (kostenlos) oder Aufpreis (z.B. 2.50)
+  // Diese Werte wurden bereits in ProductPageContent korrekt berechnet
 
   // Notify parent component of product selection changes
   useEffect(() => {
@@ -111,10 +98,13 @@ export default function SetAngebot({
     return null;
   }
 
-  // ✅ USE BACKEND PRICES - DIRECTLY FROM DATABASE
-  const displayComparisonPrice = comparisonPriceTotal || 0;
-  const displaySetPrice = totalDisplayPrice || 0;
-  const displaySavingsPercent = savingsPercent || 0;
+  // ✅ STATISCHER M²-PREIS für Set-Angebot (ändert sich NUR bei Produktwechsel)
+  // Zeigt: "Boden €/m² + Dämmung Aufpreis + Sockelleiste Aufpreis = Gesamt €/m²"
+  const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
+  const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
+  const ersparnisProzent = vergleichspreisProM2 > 0
+    ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
+    : 0;
 
   // Handle button clicks
   const openModal = (type: 'daemmung' | 'sockelleiste') => {
@@ -247,12 +237,12 @@ export default function SetAngebot({
                   </span>
                   <div className="flex items-center gap-1">
                     <span className="text-gray-400 line-through whitespace-nowrap">
-                      {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
+                      {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                     </span>
                     <span className="font-bold whitespace-nowrap text-red-600 text-xs">
-                      {daemmungPriceDiff <= 0
+                      {daemmungSetPricePerUnit <= 0
                         ? `0,00 €/m²`
-                        : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
+                        : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/m²`
                       }
                     </span>
                   </div>
@@ -293,12 +283,12 @@ export default function SetAngebot({
               <div className="flex flex-col justify-end items-end min-w-0">
                 <div className="flex flex-col items-end gap-0.5">
                   <span className="text-gray-400 line-through text-[10px] whitespace-nowrap">
-                    {(daemmungRegularPrice || daemmungPrice).toFixed(2).replace('.', ',')} €
+                    {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                   </span>
                   <span className="font-bold text-red-600 text-xs whitespace-nowrap">
-                    {daemmungPriceDiff <= 0
+                    {daemmungSetPricePerUnit <= 0
                       ? `0,00 €/m²`
-                      : `+${daemmungPriceDiff.toFixed(2).replace('.', ',')} €/m²`
+                      : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/m²`
                     }
                   </span>
                 </div>
@@ -349,12 +339,12 @@ export default function SetAngebot({
                   </span>
                   <div className="flex items-center gap-1">
                     <span className="text-gray-400 line-through whitespace-nowrap">
-                      {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
+                      {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                     </span>
                     <span className="font-bold whitespace-nowrap text-red-600 text-xs">
-                      {sockelleistePriceDiff <= 0
+                      {sockelleisteSetPricePerUnit <= 0
                         ? `0,00 €/lfm`
-                        : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
+                        : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/lfm`
                       }
                     </span>
                   </div>
@@ -395,12 +385,12 @@ export default function SetAngebot({
               <div className="flex flex-col justify-end items-end min-w-0">
                 <div className="flex flex-col items-end gap-0.5">
                   <span className="text-gray-400 line-through text-[10px] whitespace-nowrap">
-                    {(sockelleisteRegularPrice || sockelleistePrice).toFixed(2).replace('.', ',')} €
+                    {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                   </span>
                   <span className="font-bold text-red-600 text-xs whitespace-nowrap">
-                    {sockelleistePriceDiff <= 0
+                    {sockelleisteSetPricePerUnit <= 0
                       ? `0,00 €/lfm`
-                      : `+${sockelleistePriceDiff.toFixed(2).replace('.', ',')} €/lfm`
+                      : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/lfm`
                     }
                   </span>
                 </div>
@@ -410,35 +400,35 @@ export default function SetAngebot({
         )}
         </div>
 
-        {/* Gesamt-Preiszeile - Desktop */}
+        {/* Gesamt-Preiszeile - Desktop (STATISCHER M²-PREIS) */}
         <div className="hidden md:flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
           <div className="flex items-center gap-4">
             <span className="text-3xl font-extrabold text-gray-700">Gesamt</span>
-            {displayComparisonPrice > 0 && (
+            {vergleichspreisProM2 > setAngebotPreisProM2 && (
               <span className="line-through text-2xl text-gray-400">
-                {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+                {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
             <span className="text-3xl font-bold text-red-600">
-              {displaySetPrice.toFixed(2).replace('.', ',')} €
+              {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
           </div>
-          {displaySavingsPercent > 0 && (
+          {ersparnisProzent > 0 && (
             <div>
               <span className="bg-red-600 text-white px-4 py-2 rounded-lg text-xl font-bold shadow-lg">
-                -{Math.round(displaySavingsPercent)}%
+                -{Math.round(ersparnisProzent)}%
               </span>
             </div>
           )}
         </div>
 
-        {/* Gesamt-Block - Mobile Kompakt */}
+        {/* Gesamt-Block - Mobile Kompakt (STATISCHER M²-PREIS) */}
         <div className="md:hidden mt-6 pt-4 border-t-2 border-gray-200">
           {/* Badge in eigener Zeile rechtsbündig */}
-          {displaySavingsPercent > 0 && (
+          {ersparnisProzent > 0 && (
             <div className="flex justify-end mb-2">
               <span className="bg-red-600 text-white px-3 py-1.5 rounded-md text-sm font-bold">
-                -{Math.round(displaySavingsPercent)}%
+                -{Math.round(ersparnisProzent)}%
               </span>
             </div>
           )}
@@ -446,13 +436,13 @@ export default function SetAngebot({
           <div className="flex items-center justify-between">
             <span className="text-lg font-extrabold text-gray-700">Gesamt</span>
             <div className="flex items-center gap-2">
-              {displayComparisonPrice > 0 && (
+              {vergleichspreisProM2 > setAngebotPreisProM2 && (
                 <span className="line-through text-sm text-gray-400">
-                  {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+                  {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
                 </span>
               )}
               <span className="text-2xl font-bold text-red-600">
-                {displaySetPrice.toFixed(2).replace('.', ',')} €
+                {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             </div>
           </div>
@@ -482,7 +472,7 @@ export default function SetAngebot({
                 const optionPrice = option.prices?.price
                   ? parseFloat(option.prices.price) / 100
                   : (option.price || 0);
-                const standardPrice = daemmungRegularPrice || 0;
+                const standardPrice = daemmungRegularPricePerUnit;
                 const priceDifference = optionPrice - standardPrice;
                 const isSelected = selectedDaemmung?.id === option.id;
                 const isStandard = option.name === daemmungName;
@@ -556,7 +546,7 @@ export default function SetAngebot({
                 const optionPrice = option.prices?.price
                   ? parseFloat(option.prices.price) / 100
                   : (option.price || 0);
-                const standardPrice = sockelleisteRegularPrice || 0;
+                const standardPrice = sockelleisteRegularPricePerUnit;
                 const priceDifference = optionPrice - standardPrice;
                 const isSelected = selectedSockelleiste?.id === option.id;
                 const isStandard = option.name === sockelleisteName;

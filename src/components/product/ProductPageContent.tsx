@@ -57,13 +57,30 @@ export default function ProductPageContent({
     if (!product || !quantities) return null;
 
     // SCHRITT 1: BODEN BERECHNUNG
-    // Boden hat immer den gleichen Preis (regulär = Set-Angebot)
+    // Set-Preis (für den Warenkorb und Gesamt-Set-Preis)
     const bodenPricePerM2 = product.setangebot_gesamtpreis || product.price || 0;
     const bodenPriceTotal = quantities.floor.actualM2 * bodenPricePerM2;
+
+    // Vergleichspreis (für die durchgestrichene Preisanzeige im SetAngebot)
+    const bodenComparisonPricePerM2 = product.setangebot_einzelpreis || product.uvp || product.price || 0;
+    const bodenComparisonPriceTotal = quantities.floor.actualM2 * bodenComparisonPricePerM2;
+
+    console.log('🔧 BODEN PREIS DEBUG:', {
+      produktName: product.name,
+      setangebot_einzelpreis: product.setangebot_einzelpreis,
+      setangebot_gesamtpreis: product.setangebot_gesamtpreis,
+      uvp: product.uvp,
+      price: product.price,
+      verwendeterVergleichspreis: bodenComparisonPricePerM2,
+      verwendeterSetPreis: bodenPricePerM2,
+      quelle: product.setangebot_einzelpreis ? 'setangebot_einzelpreis' : (product.uvp ? 'uvp' : 'price')
+    });
 
     // SCHRITT 2: DÄMMUNG BERECHNUNG (falls vorhanden)
     let daemmungRegularPrice = 0;
     let daemmungSetPrice = 0;
+    let daemmungSetPricePerUnit = 0;  // ✅ NEU: Einzelpreis für SetAngebot-Komponente
+    let daemmungRegularPricePerUnit = 0;  // ✅ NEU: Regulärer Einzelpreis
 
     if (selectedDaemmung && daemmungProduct && quantities.insulation) {
       const daemmungPricePerM2 = selectedDaemmung.price || 0;
@@ -94,20 +111,25 @@ export default function ProductPageContent({
       const daemmungPaketeRegular = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
       const daemmungM2Regular = daemmungPaketeRegular * daemmungPaketinhalt;
       daemmungRegularPrice = daemmungM2Regular * daemmungPricePerM2;
+      daemmungRegularPricePerUnit = daemmungPricePerM2;  // ✅ NEU
 
       // SET-ANGEBOT PREIS
       if (istKostenlos) {
         // KOSTENLOS → 0€ (Mengen bereits korrekt abgerundet in quantities)
         daemmungSetPrice = 0;
+        daemmungSetPricePerUnit = 0;  // ✅ NEU
       } else {
         // AUFPREIS → Verrechnung × actualM2 (Mengen bereits korrekt aufgerundet in quantities)
         daemmungSetPrice = quantities.insulation.actualM2 * daemmungVerrechnung;
+        daemmungSetPricePerUnit = daemmungVerrechnung;  // ✅ NEU
       }
     }
 
     // SCHRITT 3: SOCKELLEISTE BERECHNUNG
     let sockelleisteRegularPrice = 0;
     let sockelleisteSetPrice = 0;
+    let sockelleisteSetPricePerUnit = 0;  // ✅ NEU: Einzelpreis für SetAngebot-Komponente
+    let sockelleisteRegularPricePerUnit = 0;  // ✅ NEU: Regulärer Einzelpreis
 
     if (selectedSockelleiste && sockelleisteProduct && quantities.baseboard) {
       const sockelleistePricePerLfm = selectedSockelleiste.price || 0;
@@ -138,19 +160,24 @@ export default function ProductPageContent({
       const sockelleisteStückRegular = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
       const sockelleisteLfmRegular = sockelleisteStückRegular * sockelleistePaketinhalt;
       sockelleisteRegularPrice = sockelleisteLfmRegular * sockelleistePricePerLfm;
+      sockelleisteRegularPricePerUnit = sockelleistePricePerLfm;  // ✅ NEU
 
       // SET-ANGEBOT PREIS
       if (istKostenlos) {
         // KOSTENLOS → 0€ (Mengen bereits korrekt abgerundet in quantities)
         sockelleisteSetPrice = 0;
+        sockelleisteSetPricePerUnit = 0;  // ✅ NEU
       } else {
         // AUFPREIS → Verrechnung × actualLfm (Mengen bereits korrekt aufgerundet in quantities)
         sockelleisteSetPrice = quantities.baseboard.actualLfm * sockelleisteVerrechnung;
+        sockelleisteSetPricePerUnit = sockelleisteVerrechnung;  // ✅ NEU
       }
     }
 
     // SCHRITT 4: GESAMTPREISE
-    const comparisonPriceTotal = bodenPriceTotal + daemmungRegularPrice + sockelleisteRegularPrice;
+    // comparisonPriceTotal = Vergleichspreis (was der Kunde OHNE Set bezahlen würde)
+    const comparisonPriceTotal = bodenComparisonPriceTotal + daemmungRegularPrice + sockelleisteRegularPrice;
+    // totalDisplayPrice = Set-Preis (was der Kunde MIT Set bezahlt)
     const totalDisplayPrice = bodenPriceTotal + daemmungSetPrice + sockelleisteSetPrice;
     const savings = comparisonPriceTotal - totalDisplayPrice;
     const savingsPercent = comparisonPriceTotal > 0 ? (savings / comparisonPriceTotal) * 100 : 0;
@@ -160,6 +187,11 @@ export default function ProductPageContent({
       comparisonPriceTotal,
       savings: savings > 0 ? savings : undefined,
       savingsPercent,
+      // ✅ NEU: Einzelpreise für SetAngebot-Komponente
+      daemmungSetPricePerUnit,
+      daemmungRegularPricePerUnit,
+      sockelleisteSetPricePerUnit,
+      sockelleisteRegularPricePerUnit,
     };
   }, [product, quantities, selectedDaemmung, selectedSockelleiste, daemmungProduct, sockelleisteProduct]);
 
@@ -259,6 +291,10 @@ export default function ProductPageContent({
               totalDisplayPrice={prices?.totalDisplayPrice}
               savingsAmount={prices?.savings || undefined}
               savingsPercent={prices?.savingsPercent}
+              daemmungSetPricePerUnit={prices?.daemmungSetPricePerUnit || 0}
+              daemmungRegularPricePerUnit={prices?.daemmungRegularPricePerUnit || 0}
+              sockelleisteSetPricePerUnit={prices?.sockelleisteSetPricePerUnit || 0}
+              sockelleisteRegularPricePerUnit={prices?.sockelleisteRegularPricePerUnit || 0}
             />
 
             {/* Quantity + Price Container with Gray Background */}

@@ -12,12 +12,12 @@ interface SetAngebotMobileProps {
   einheit: string;
   daemmungName: string;
   daemmungImage: string;
-  daemmungPrice: number;
-  daemmungRegularPrice?: number;
+  daemmungSetPricePerUnit: number;  // ✅ Set-Preis (0 oder Aufpreis) - VOM PARENT
+  daemmungRegularPricePerUnit: number;  // ✅ Regulärer Preis - VOM PARENT
   sockelleisteName: string;
   sockelleisteImage: string;
-  sockelleistePrice: number;
-  sockelleisteRegularPrice?: number;
+  sockelleisteSetPricePerUnit: number;  // ✅ Set-Preis (0 oder Aufpreis) - VOM PARENT
+  sockelleisteRegularPricePerUnit: number;  // ✅ Regulärer Preis - VOM PARENT
   comparisonPriceTotal?: number;
   totalDisplayPrice?: number;
   savingsPercent?: number;
@@ -33,12 +33,12 @@ export default function SetAngebotMobile({
   einheit,
   daemmungName,
   daemmungImage,
-  daemmungPrice,
-  daemmungRegularPrice,
+  daemmungSetPricePerUnit,
+  daemmungRegularPricePerUnit,
   sockelleisteName,
   sockelleisteImage,
-  sockelleistePrice,
-  sockelleisteRegularPrice,
+  sockelleisteSetPricePerUnit,
+  sockelleisteRegularPricePerUnit,
   comparisonPriceTotal,
   totalDisplayPrice,
   savingsPercent,
@@ -49,16 +49,19 @@ export default function SetAngebotMobile({
 
   // Calculate discount percentages
   const bodenDiscount = regularPrice > 0 ? Math.round(((regularPrice - basePrice) / regularPrice) * 100) : 0;
-  const daemmungDiscount = daemmungRegularPrice && daemmungRegularPrice > 0
-    ? Math.round(((daemmungRegularPrice - daemmungPrice) / daemmungRegularPrice) * 100)
+  const daemmungDiscount = daemmungRegularPricePerUnit && daemmungRegularPricePerUnit > 0
+    ? Math.round(((daemmungRegularPricePerUnit - daemmungSetPricePerUnit) / daemmungRegularPricePerUnit) * 100)
     : 0;
-  const sockelleisteDiscount = sockelleisteRegularPrice && sockelleisteRegularPrice > 0
-    ? Math.round(((sockelleisteRegularPrice - sockelleistePrice) / sockelleisteRegularPrice) * 100)
+  const sockelleisteDiscount = sockelleisteRegularPricePerUnit && sockelleisteRegularPricePerUnit > 0
+    ? Math.round(((sockelleisteRegularPricePerUnit - sockelleisteSetPricePerUnit) / sockelleisteRegularPricePerUnit) * 100)
     : 0;
 
-  const displayComparisonPrice = comparisonPriceTotal || 0;
-  const displaySetPrice = totalDisplayPrice || 0;
-  const displaySavingsPercent = savingsPercent || 0;
+  // ✅ STATISCHER M²-PREIS für Set-Angebot (ändert sich NUR bei Produktwechsel)
+  const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
+  const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
+  const ersparnisProzent = vergleichspreisProM2 > 0
+    ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
+    : 0;
 
   return (
     <div className="bg-white rounded-lg p-4">
@@ -114,13 +117,13 @@ export default function SetAngebotMobile({
               {daemmungName}
             </span>
             <div className="flex flex-row items-center gap-2 flex-shrink-0">
-              {daemmungRegularPrice && daemmungRegularPrice > 0 && (
+              {daemmungRegularPricePerUnit && daemmungRegularPricePerUnit > 0 && (
                 <span className="text-sm text-[#4c4c4c] line-through">
-                  {daemmungRegularPrice.toFixed(2).replace('.', ',')} €
+                  {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                 </span>
               )}
               <span className="text-sm font-semibold text-[#ed1b24]">
-                {daemmungPrice.toFixed(2).replace('.', ',')} €
+                {daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €
               </span>
               {daemmungDiscount > 0 && (
                 <span className="inline-flex items-center px-1.5 py-0.5 text-xs font-semibold text-white bg-[#ed1b24] rounded">
@@ -147,13 +150,13 @@ export default function SetAngebotMobile({
               {sockelleisteName}
             </span>
             <div className="flex flex-row items-center gap-2 flex-shrink-0">
-              {sockelleisteRegularPrice && sockelleisteRegularPrice > 0 && (
+              {sockelleisteRegularPricePerUnit && sockelleisteRegularPricePerUnit > 0 && (
                 <span className="text-sm text-[#4c4c4c] line-through">
-                  {sockelleisteRegularPrice.toFixed(2).replace('.', ',')} €
+                  {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                 </span>
               )}
               <span className="text-sm font-semibold text-[#ed1b24]">
-                {sockelleistePrice.toFixed(2).replace('.', ',')} €
+                {sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €
               </span>
               {sockelleisteDiscount > 0 && (
                 <span className="inline-flex items-center px-1.5 py-0.5 text-xs font-semibold text-white bg-[#ed1b24] rounded">
@@ -164,41 +167,41 @@ export default function SetAngebotMobile({
           </div>
         )}
 
-        {/* Gesamt-Zeile (KEIN Button!) */}
+        {/* Gesamt-Zeile (KEIN Button!) - STATISCHER M²-PREIS */}
         <div className="flex flex-row items-center justify-between py-2 border-b border-[#e5e5e5]">
           <span className="text-sm font-semibold text-[#2e2d32]">
             Gesamt
           </span>
           <div className="flex flex-row items-center gap-2">
-            {displayComparisonPrice > 0 && (
+            {vergleichspreisProM2 > setAngebotPreisProM2 && (
               <span className="text-sm text-[#4c4c4c] line-through">
-                {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+                {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/m²
               </span>
             )}
             <span className="text-base font-bold text-[#ed1b24]">
-              {displaySetPrice.toFixed(2).replace('.', ',')} €
+              {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/m²
             </span>
           </div>
         </div>
       </div>
 
-      {/* Gesamt-Block - Mobile Kompakt in EINER Zeile */}
+      {/* Gesamt-Block - Mobile Kompakt in EINER Zeile (STATISCHER M²-PREIS) */}
       <div className="mt-3 pt-3 border-t-2 border-[#e5e5e5]">
         {/* EINE Zeile: Gesamt + Preise + Badge */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <span className="text-base font-bold text-[#2e2d32]">Gesamt</span>
           <div className="flex items-center gap-2">
-            {displayComparisonPrice > 0 && (
+            {vergleichspreisProM2 > setAngebotPreisProM2 && (
               <span className="line-through text-sm text-[#4c4c4c]">
-                {displayComparisonPrice.toFixed(2).replace('.', ',')} €
+                {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/m²
               </span>
             )}
             <span className="text-lg font-bold text-[#ed1b24]">
-              {displaySetPrice.toFixed(2).replace('.', ',')} €
+              {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/m²
             </span>
-            {displaySavingsPercent > 0 && (
+            {ersparnisProzent > 0 && (
               <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-white bg-[#ed1b24] rounded">
-                -{Math.round(displaySavingsPercent)}%
+                -{Math.round(ersparnisProzent)}%
               </span>
             )}
           </div>

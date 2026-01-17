@@ -12,11 +12,16 @@ interface ProductInfoProps {
   daemmungOptions?: StoreApiProduct[];
   sockelleisteOptions?: StoreApiProduct[];
   onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
-  // Correct prices from setCalculations
+  // Correct prices from ProductPageContent calculations
   comparisonPriceTotal?: number;
   totalDisplayPrice?: number;
   savingsAmount?: number;
   savingsPercent?: number;
+  // ✅ NEU: Einzelpreise für Dämmung und Sockelleiste (vom Parent berechnet)
+  daemmungSetPricePerUnit?: number;
+  daemmungRegularPricePerUnit?: number;
+  sockelleisteSetPricePerUnit?: number;
+  sockelleisteRegularPricePerUnit?: number;
 }
 
 export default function ProductInfo({
@@ -29,7 +34,11 @@ export default function ProductInfo({
   comparisonPriceTotal,
   totalDisplayPrice,
   savingsAmount,
-  savingsPercent
+  savingsPercent,
+  daemmungSetPricePerUnit = 0,
+  daemmungRegularPricePerUnit = 0,
+  sockelleisteSetPricePerUnit = 0,
+  sockelleisteRegularPricePerUnit = 0
 }: ProductInfoProps) {
   // Extract features from short_description or jaeger_meta
   const getFeaturesFromDescription = (html: string): string[] => {
@@ -65,11 +74,12 @@ export default function ProductInfo({
   const paketpreis = product.paketpreis || 0;
   const paketpreisS = product.paketpreis_s;
 
-  // Calculate price per unit (€/m²)
-  const basePrice = (paketpreisS !== undefined && paketpreisS !== null && paketpreisS > 0)
-    ? paketpreisS / paketinhalt
-    : paketpreis / paketinhalt;
-  const regularPrice = paketpreis / paketinhalt;
+  // ✅ STATISCHE Preise für Produktkarten (NICHT berechnen, Backend-Felder verwenden!)
+  // Set-Preis (rot, rabattiert) - DIREKT aus Backend
+  const basePrice = product.setangebot_gesamtpreis || product.price || 0;
+
+  // Vergleichspreis (durchgestrichen) - DIREKT aus Backend
+  const regularPrice = product.setangebot_einzelpreis || product.uvp || product.price || 0;
   const einheit = product.einheit_short || 'm²';
   const productImage = product.images && product.images.length > 0
     ? product.images[0].src
@@ -80,11 +90,6 @@ export default function ProductInfo({
   const daemmungImage = daemmungProduct?.images && daemmungProduct.images.length > 0
     ? daemmungProduct.images[0].src
     : '/images/placeholder.jpg';
-  // Standard products are FREE in the set (price = 0)
-  const daemmungSetPrice = 0; // Always 0 for standard products
-  const daemmungPaketpreis = daemmungProduct?.paketpreis || 0;
-  const daemmungPaketinhalt = daemmungProduct?.paketinhalt || 1;
-  const daemmungRegularPrice = daemmungPaketpreis / daemmungPaketinhalt;
   const daemmungVE = daemmungProduct?.paketinhalt
     ? `${daemmungProduct.paketinhalt}${daemmungProduct.einheit_short || 'm²'}`
     : undefined;
@@ -94,15 +99,13 @@ export default function ProductInfo({
   const sockelleisteImage = sockelleisteProduct?.images && sockelleisteProduct.images.length > 0
     ? sockelleisteProduct.images[0].src
     : '/images/placeholder.jpg';
-  // Standard products are FREE in the set (price = 0)
-  const sockelleisteSetPrice = 0; // Always 0 for standard products
-  const sockelleistePaketpreis = sockelleisteProduct?.paketpreis || 0;
-  const sockelleistePaketinhalt = sockelleisteProduct?.paketinhalt || 1;
-  const sockelleisteRegularPrice = sockelleistePaketpreis / sockelleistePaketinhalt;
   const sockelleisteVE = sockelleisteProduct?.paketinhalt
     ? `${sockelleisteProduct.paketinhalt}${sockelleisteProduct.einheit_short || 'lfm'}`
     : undefined;
   const sockelleisteEinheit = sockelleisteProduct?.einheit_short || 'lfm';
+
+  // ✅ PREISE KOMMEN VON PARENT (ProductPageContent) - KEINE lokale Berechnung!
+  // Diese Werte wurden bereits im Parent korrekt berechnet
 
   return (
     <div className="space-y-6">
@@ -147,14 +150,14 @@ export default function ProductInfo({
           einheit={einheit}
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
-          daemmungPrice={daemmungSetPrice}
-          daemmungRegularPrice={daemmungRegularPrice}
+          daemmungSetPricePerUnit={daemmungSetPricePerUnit}
+          daemmungRegularPricePerUnit={daemmungRegularPricePerUnit}
           daemmungVE={daemmungVE}
           daemmungOptions={daemmungOptions}
           sockelleisteName={sockelleisteName}
           sockelleisteImage={sockelleisteImage}
-          sockelleistePrice={sockelleisteSetPrice}
-          sockelleisteRegularPrice={sockelleisteRegularPrice}
+          sockelleisteSetPricePerUnit={sockelleisteSetPricePerUnit}
+          sockelleisteRegularPricePerUnit={sockelleisteRegularPricePerUnit}
           sockelleisteVE={sockelleisteVE}
           sockelleisteEinheit={sockelleisteEinheit}
           sockelleisteOptions={sockelleisteOptions}
@@ -177,12 +180,12 @@ export default function ProductInfo({
           einheit={einheit}
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
-          daemmungPrice={daemmungSetPrice}
-          daemmungRegularPrice={daemmungRegularPrice}
+          daemmungSetPricePerUnit={daemmungSetPricePerUnit}
+          daemmungRegularPricePerUnit={daemmungRegularPricePerUnit}
           sockelleisteName={sockelleisteName}
           sockelleisteImage={sockelleisteImage}
-          sockelleistePrice={sockelleisteSetPrice}
-          sockelleisteRegularPrice={sockelleisteRegularPrice}
+          sockelleisteSetPricePerUnit={sockelleisteSetPricePerUnit}
+          sockelleisteRegularPricePerUnit={sockelleisteRegularPricePerUnit}
           comparisonPriceTotal={comparisonPriceTotal}
           totalDisplayPrice={totalDisplayPrice}
           savingsPercent={savingsPercent}
