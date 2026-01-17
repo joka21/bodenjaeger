@@ -95,6 +95,30 @@ const verrechnung = product.verrechnung ?? Math.max(0, productPrice - standardPr
 - `TotalPrice.tsx` - Bottom section showing total bundle price
 - `QuantityDisplay.tsx` - Package quantities display
 
+**⚠️ CRITICAL: Two Independent Price Displays**
+
+**IMPORTANT:** "Gesamt" and "Gesamtsumme" are two SEPARATE, INDEPENDENT concepts. This architecture MUST remain unchanged!
+
+1. **"Gesamt" (SetAngebot Component - Top Section)**
+   - Shows: **Static per-unit price** (e.g., "24,99 €/m²")
+   - Calculation: `Boden €/m² + Dämmung Aufpreis + Sockelleiste Aufpreis`
+   - Changes ONLY when user selects different products (Dämmung/Sockelleiste)
+   - Does NOT change when m² quantity changes
+   - Purpose: Show the set offer's unit price advantage
+
+2. **"Gesamtsumme" (TotalPrice Component - Bottom Section)**
+   - Shows: **Dynamic total package price** (e.g., "373,53 €")
+   - Calculation: `Total packages × prices = Total`
+   - Changes when m² quantity changes (because package count changes)
+   - Purpose: Show final checkout price
+
+**Why This Separation Matters:**
+- "Gesamt" helps customers compare unit prices and see the set discount
+- "Gesamtsumme" shows the actual cart total
+- Mixing them creates confusion and breaks user understanding
+- All prices calculated once in `ProductPageContent.tsx` (Single Source of Truth)
+- Child components receive prices as props (no local calculations)
+
 ### File Structure
 
 ```
