@@ -54,7 +54,7 @@ export default function LiveSearch() {
         const response = await fetch(`/api/products/search?q=${encodeURIComponent(searchQuery.trim())}`);
         if (response.ok) {
           const data = await response.json();
-          setResults(data.slice(0, 8)); // Limit to 8 results
+          setResults(data); // Show all results from API (up to 50)
           setIsOpen(true);
         }
       } catch (error) {
@@ -86,6 +86,24 @@ export default function LiveSearch() {
   }, { products: [], categories: new Set<string>() } as GroupedResults);
 
   const uniqueCategories = Array.from(groupedResults.categories);
+
+  // Highlight search term in text
+  const highlightText = (text: string, search: string) => {
+    if (!search.trim()) return text;
+
+    const parts = text.split(new RegExp(`(${search})`, 'gi'));
+    return (
+      <>
+        {parts.map((part, index) =>
+          part.toLowerCase() === search.toLowerCase() ? (
+            <mark key={index} className="bg-yellow-200 font-semibold">{part}</mark>
+          ) : (
+            <span key={index}>{part}</span>
+          )
+        )}
+      </>
+    );
+  };
 
   return (
     <div ref={searchRef} className="relative hidden sm:block w-[200px] lg:w-[250px]">
@@ -119,7 +137,7 @@ export default function LiveSearch() {
 
       {/* Dropdown with results */}
       {isOpen && searchQuery.trim().length >= 2 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-[100] max-h-[500px] overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-[100] max-h-[70vh] overflow-y-auto">
           {loading && (
             <div className="p-4 text-center text-gray-500">
               <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#1e40af]"></div>
@@ -187,14 +205,20 @@ export default function LiveSearch() {
 
                       {/* Product Info */}
                       <div className="flex-grow min-w-0">
-                        <div className="text-sm font-medium text-[#2e2d32] truncate">
-                          {product.name}
+                        <div className="text-sm font-medium text-[#2e2d32]">
+                          {highlightText(product.name, searchQuery.trim())}
                         </div>
-                        {product.categories && product.categories.length > 0 && (
-                          <div className="text-xs text-gray-500 truncate">
-                            {product.categories[0].name}
-                          </div>
-                        )}
+                        <div className="text-xs text-gray-500 truncate">
+                          {product.categories && product.categories.length > 0 && (
+                            <span>{product.categories[0].name}</span>
+                          )}
+                          {product.sku && (
+                            <span className="ml-2">
+                              {product.categories && product.categories.length > 0 && ' • '}
+                              SKU: {highlightText(product.sku, searchQuery.trim())}
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       {/* Price */}
@@ -207,15 +231,19 @@ export default function LiveSearch() {
               </div>
 
               {/* View all results link */}
-              <div className="border-t border-gray-100">
-                <Link
-                  href={`/search?q=${encodeURIComponent(searchQuery)}`}
-                  onClick={() => setIsOpen(false)}
-                  className="block px-4 py-3 text-center text-sm font-medium text-[#1e40af] hover:bg-gray-50"
-                >
-                  Alle Ergebnisse anzeigen ({results.length}+)
-                </Link>
-              </div>
+              {results.length > 0 && (
+                <div className="border-t border-gray-100">
+                  <Link
+                    href={`/search?q=${encodeURIComponent(searchQuery)}`}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-4 py-3 text-center text-sm font-medium text-[#1e40af] hover:bg-gray-50"
+                  >
+                    {results.length >= 50
+                      ? `Alle Ergebnisse anzeigen (${results.length}+)`
+                      : `Alle ${results.length} Ergebnisse anzeigen`}
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>
