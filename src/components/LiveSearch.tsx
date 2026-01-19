@@ -10,6 +10,7 @@ interface SearchResult {
   name: string;
   slug: string;
   price: string;
+  sku?: string;
   images: { src: string; alt?: string }[];
   categories?: { id: number; name: string; slug: string }[];
 }
