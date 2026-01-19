@@ -120,7 +120,7 @@ export default function SetAngebot({
   return (
     <div className="relative w-full overflow-hidden">
       {/* Roter Badge-Header - schwebt auf der Kante */}
-      <div className="relative z-10 inline-block mb-[-36px] md:inline-block w-full md:w-auto text-center md:text-left">
+      <div className="relative z-10 inline-block mb-[-60px] md:inline-block w-full md:w-auto text-center md:text-left">
         <span className="bg-red-600 text-white font-bold px-4 sm:px-6 py-2 rounded-full text-base sm:text-lg shadow-lg inline-block">
           {setangebotTitel}
         </span>
