@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { wooCommerceClient } from '@/lib/woocommerce';
+import { wooCommerceClient, type StoreApiProduct } from '@/lib/woocommerce';
 
 interface ProductWithScore {
-  product: any;
+  product: StoreApiProduct;
   score: number;
 }
 
@@ -10,7 +10,7 @@ interface ProductWithScore {
  * Calculate search relevance score for a product
  * Higher score = more relevant
  */
-function calculateRelevanceScore(product: any, searchTerm: string): number {
+function calculateRelevanceScore(product: StoreApiProduct, searchTerm: string): number {
   const search = searchTerm.toLowerCase().trim();
   let score = 0;
 
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
 
     // IMPROVED STRATEGY:
     // Try WooCommerce search first (fast for common queries)
-    let products = await wooCommerceClient.getProducts({
+    const products = await wooCommerceClient.getProducts({
       per_page: 100,
       search: query.trim(),
     });
