@@ -107,7 +107,7 @@ export default function PaymentSetupPage() {
               <li>
                 Gehe zu <strong>Developers → Webhooks</strong>
               </li>
-              <li>Klicke auf "Add endpoint"</li>
+              <li>Klicke auf &quot;Add endpoint&quot;</li>
               <li>
                 Endpoint URL:{' '}
                 <code className="bg-gray-100 px-2 py-1 rounded text-sm block mt-2">
@@ -129,7 +129,7 @@ export default function PaymentSetupPage() {
                   </li>
                 </ul>
               </li>
-              <li>Speichern und "Signing secret" kopieren (beginnt mit whsec_...)</li>
+              <li>Speichern und &quot;Signing secret&quot; kopieren (beginnt mit whsec_...)</li>
             </ol>
 
             <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
@@ -190,9 +190,9 @@ export default function PaymentSetupPage() {
               Schritt 2: App erstellen
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
-              <li>Klicke auf "Create App"</li>
-              <li>App Name: "Bodenjäger Checkout"</li>
-              <li>App Type: "Merchant"</li>
+              <li>Klicke auf &quot;Create App&quot;</li>
+              <li>App Name: &quot;Bodenjäger Checkout&quot;</li>
+              <li>App Type: &quot;Merchant&quot;</li>
               <li>Nach Erstellung werden Client ID und Secret angezeigt</li>
               <li>Kopiere beide Werte</li>
             </ol>
@@ -257,7 +257,7 @@ export default function PaymentSetupPage() {
                   vercel.com/dashboard
                 </a>
               </li>
-              <li>Wähle dein Projekt "bodenjäger"</li>
+              <li>Wähle dein Projekt &quot;bodenjäger&quot;</li>
               <li>
                 Gehe zu <strong>Settings → Environment Variables</strong>
               </li>
@@ -357,7 +357,7 @@ export default function PaymentSetupPage() {
                   </a>
                 </li>
                 <li>Verwende einen Test-Buyer Account zum Einloggen</li>
-                <li>Oder erstelle einen neuen Test-Account unter "Sandbox → Accounts"</li>
+                <li>Oder erstelle einen neuen Test-Account unter &quot;Sandbox → Accounts&quot;</li>
               </ol>
             </div>
 
@@ -407,7 +407,7 @@ export default function PaymentSetupPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-bold text-[#2e2d32] mb-2">
-                  ❌ Fehler: "Stripe credentials not configured"
+                  ❌ Fehler: &quot;Stripe credentials not configured&quot;
                 </h3>
                 <p className="text-gray-700 text-sm">
                   → Environment Variables fehlen in Vercel oder lokaler .env.local
@@ -417,7 +417,7 @@ export default function PaymentSetupPage() {
 
               <div>
                 <h3 className="font-bold text-[#2e2d32] mb-2">
-                  ❌ Bestellung bleibt bei "pending" stecken
+                  ❌ Bestellung bleibt bei &quot;pending&quot; stecken
                 </h3>
                 <p className="text-gray-700 text-sm">
                   → Stripe Webhook nicht konfiguriert oder falsche URL
@@ -432,7 +432,7 @@ export default function PaymentSetupPage() {
                 </h3>
                 <p className="text-gray-700 text-sm">
                   → NEXT_PUBLIC_SITE_URL fehlt oder ist falsch
-                  <br />→ PAYPAL_MODE muss "sandbox" oder "live" sein
+                  <br />→ PAYPAL_MODE muss &quot;sandbox&quot; oder &quot;live&quot; sein
                   <br />→ Return URL in PayPal App Settings überprüfen
                 </p>
               </div>
