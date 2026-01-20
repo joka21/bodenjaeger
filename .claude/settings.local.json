@@ -43,7 +43,8 @@
       "mcp__ide__getDiagnostics",
       "Bash(netstat:*)",
       "Bash(set PORT=3011)",
-      "Bash(powershell -Command \"Stop-Process -Id 44644 -Force\")"
+      "Bash(powershell -Command \"Stop-Process -Id 44644 -Force\")",
+      "Bash(php -l:*)"
     ],
     "deny": [],
     "ask": []

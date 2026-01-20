@@ -18,9 +18,23 @@ export async function GET(request: Request) {
     const per_page = searchParams.get('per_page') || '12';
     const page = searchParams.get('page') || '1';
     const category = searchParams.get('category');
-    const orderby = searchParams.get('orderby') || 'date';
-    const order = searchParams.get('order') || 'desc';
     const search = searchParams.get('search');
+
+    // Handle sortBy parameter from CategoryPageClient (e.g., "price-asc", "title-desc")
+    const sortBy = searchParams.get('sortBy');
+    let orderby = 'date';
+    let order = 'desc';
+
+    if (sortBy) {
+      // Parse sortBy into orderby and order
+      const [field, direction] = sortBy.split('-');
+      orderby = field; // date, price, title, popularity
+      order = direction; // asc, desc
+    } else {
+      // Fallback to separate orderby/order parameters
+      orderby = searchParams.get('orderby') || 'date';
+      order = searchParams.get('order') || 'desc';
+    }
 
     // ✅ Build the Jäger API URL with parameters (includes jaeger_meta!)
     let storeApiUrl = `https://plan-dein-ding.de/wp-json/jaeger/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
@@ -35,7 +49,7 @@ export async function GET(request: Request) {
       storeApiUrl += `&search=${encodeURIComponent(search)}`;
     }
 
-    // Create cache key including search
+    // Create cache key including search and sort parameters
     const cacheKey = `${per_page}-${page}-${category || 'all'}-${orderby}-${order}-${search || 'nosearch'}`;
     const now = Date.now();
 

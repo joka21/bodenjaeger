@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(rmdir:*)",
+      "Bash(rm:*)",
+      "Bash(php:*)",
+      "Bash(mkdir:*)",
+      "WebSearch",
+      "WebFetch(domain:woocommerce.github.io)",
+      "Bash(nul)",
+      "Bash(dir:*)",
+      "Bash(\"C:\\Users\\jokal\\OneDrive\\Desktop\\Projekte\\joKalenberg\\Jaeger-Plugin\\debug-jaeger-plugin.log\")",
+      "Bash(cat:*)"
+    ],
+    "deny": []
+  }
+}
