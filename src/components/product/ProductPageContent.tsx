@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import { calculateSetQuantities } from '@/lib/setCalculations';
+import { useCart } from '@/contexts/CartContext';
 import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
@@ -29,12 +30,28 @@ export default function ProductPageContent({
   const paketinhalt = product.paketinhalt || 1;
   const einheit = product.einheit_short || 'm²';
 
+  // Cart context
+  const { addToCart } = useCart();
+
   // State for wanted m² (user input)
   const [wantedM2, setWantedM2] = useState(paketinhalt);
 
   // State for selected addition products
   const [selectedDaemmung, setSelectedDaemmung] = useState<StoreApiProduct | null>(daemmungProduct);
   const [selectedSockelleiste, setSelectedSockelleiste] = useState<StoreApiProduct | null>(sockelleisteProduct);
+
+  // State for sample order loading
+  const [isOrderingSample, setIsOrderingSample] = useState(false);
+
+  // Check if product is a floor product (only floors have samples)
+  const isFloorProduct = useMemo(() => {
+    if (!product.categories || !Array.isArray(product.categories)) return false;
+
+    const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl', 'laminat', 'parkett', 'teppichboden'];
+    return product.categories.some(cat =>
+      floorCategories.includes(cat.slug.toLowerCase())
+    );
+  }, [product.categories]);
 
   // Calculate quantities ONLY (no prices - prices come from backend!)
   const quantities = useMemo(() => {
@@ -207,6 +224,55 @@ export default function ProductPageContent({
     setSelectedSockelleiste(sockelleiste);
   };
 
+  // Handle sample order - find and add MUSTER product to cart
+  const handleOrderSample = async () => {
+    if (isOrderingSample) return; // Prevent double-clicks
+
+    setIsOrderingSample(true);
+
+    try {
+      // Construct sample product name: "MUSTER " + product.name
+      const sampleName = `MUSTER ${product.name}`;
+
+      console.log('🔍 Suche nach Muster:', sampleName);
+
+      // Search for the sample product via API
+      const response = await fetch(`/api/products/search?q=${encodeURIComponent(sampleName)}`);
+
+      if (!response.ok) {
+        throw new Error('Fehler beim Suchen des Musters');
+      }
+
+      const results: StoreApiProduct[] = await response.json();
+
+      console.log('📦 Gefundene Produkte:', results.length);
+      console.log('📦 Produktnamen:', results.map(p => p.name));
+
+      // Find exact match
+      const sampleProduct = results.find(p => p.name === sampleName);
+
+      if (!sampleProduct) {
+        console.error('❌ Kein exaktes Match gefunden. Erwarteter Name:', sampleName);
+        console.error('❌ Verfügbare Namen:', results.map(p => p.name));
+        alert('Muster-Produkt konnte nicht gefunden werden. Bitte kontaktieren Sie uns.');
+        return;
+      }
+
+      console.log('✅ Muster gefunden:', sampleProduct.name);
+
+      // Add sample to cart (quantity: 1)
+      addToCart(sampleProduct, 1);
+
+      // Success feedback
+      alert('✓ Kostenloses Muster wurde in den Warenkorb gelegt!');
+    } catch (error) {
+      console.error('Error ordering sample:', error);
+      alert('Fehler beim Hinzufügen des Musters. Bitte versuchen Sie es erneut.');
+    } finally {
+      setIsOrderingSample(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 overflow-x-hidden">
       <div className="content-container">
@@ -216,35 +282,51 @@ export default function ProductPageContent({
           <div className="space-y-6">
             <ImageGallery product={product} />
 
-            {/* Action Buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-              <button
-                className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                style={{ backgroundColor: 'var(--color-bg-darkest)' }}
-              >
-                <Image
-                  src="/images/Icons/Musterbox weiß.png"
-                  alt="Musterbox"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5 object-contain flex-shrink-0"
-                />
-                <span className="truncate">Kostenloses Muster bestellen</span>
-              </button>
-              <button
-                className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                style={{ backgroundColor: 'var(--color-bg-darkest)' }}
-              >
-                <Image
-                  src="/images/Icons/3D Bodenplaner weiß.png"
-                  alt="3D Bodenplaner"
-                  width={20}
-                  height={20}
-                  className="w-5 h-5 object-contain flex-shrink-0"
-                />
-                <span className="truncate">Virtuell im Bodenplaner ansehen</span>
-              </button>
-            </div>
+            {/* Action Buttons - Only for floor products */}
+            {isFloorProduct && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                <button
+                  onClick={handleOrderSample}
+                  disabled={isOrderingSample}
+                  className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ backgroundColor: 'var(--color-bg-darkest)' }}
+                >
+                  {isOrderingSample ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span className="truncate">Lädt...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Image
+                        src="/images/Icons/Musterbox weiß.png"
+                        alt="Musterbox"
+                        width={20}
+                        height={20}
+                        className="w-5 h-5 object-contain flex-shrink-0"
+                      />
+                      <span className="truncate">Kostenloses Muster bestellen</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                  style={{ backgroundColor: 'var(--color-bg-darkest)' }}
+                >
+                  <Image
+                    src="/images/Icons/3D Bodenplaner weiß.png"
+                    alt="3D Bodenplaner"
+                    width={20}
+                    height={20}
+                    className="w-5 h-5 object-contain flex-shrink-0"
+                  />
+                  <span className="truncate">Virtuell im Bodenplaner ansehen</span>
+                </button>
+              </div>
+            )}
 
             {/* Service Icons */}
             <div className="space-y-0 text-base sm:text-lg lg:text-2xl text-gray-700">

@@ -120,6 +120,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json([]);
     }
 
+    // Wenn nach "muster" gesucht wird (OHNE "MUSTER " Präfix), keine Ergebnisse zurückgeben
+    // (da Muster-Produkte ausgeschlossen sind und andere Produkte nur "Muster"
+    // in Beschreibungen haben wie "Kostenloses Muster bestellen")
+    // ABER: Wenn nach "MUSTER [Produktname]" gesucht wird, SOLLEN Muster gefunden werden
+    const isSearchingForSpecificSample = query.trim().toUpperCase().startsWith('MUSTER ');
+    if (query.trim().toLowerCase() === 'muster' && !isSearchingForSpecificSample) {
+      return NextResponse.json([]);
+    }
+
     // IMPROVED STRATEGY:
     // Try WooCommerce search first (fast for common queries)
     const products = await wooCommerceClient.getProducts({
@@ -127,13 +136,29 @@ export async function GET(request: NextRequest) {
       search: query.trim(),
     });
 
+    // Helper: Check if product is in "Muster" category
+    const isInMusterCategory = (product: StoreApiProduct): boolean => {
+      if (!product.categories || !Array.isArray(product.categories)) return false;
+      return product.categories.some(cat =>
+        cat.slug === 'muster' ||
+        cat.name.toLowerCase() === 'muster'
+      );
+    };
+
     // Calculate relevance scores for initial results
     let scoredProducts: ProductWithScore[] = products
       .map((product) => ({
         product,
         score: calculateRelevanceScore(product, query),
       }))
-      .filter((item) => item.score > 0); // Only include products with any match
+      .filter((item) => item.score > 0) // Only include products with any match
+      .filter((item) => {
+        // Exclude "Muster" category UNLESS we're explicitly searching for a sample product
+        if (isSearchingForSpecificSample) {
+          return true; // Include all results (including Muster category)
+        }
+        return !isInMusterCategory(item.product); // Exclude "Muster" category
+      });
 
     // If NO relevant products found, WooCommerce search failed
     // Fetch ALL products and search manually (e.g., "sockelleisten")
@@ -160,7 +185,14 @@ export async function GET(request: NextRequest) {
           product,
           score: calculateRelevanceScore(product, query),
         }))
-        .filter((item) => item.score > 0);
+        .filter((item) => item.score > 0)
+        .filter((item) => {
+          // Exclude "Muster" category UNLESS we're explicitly searching for a sample product
+          if (isSearchingForSpecificSample) {
+            return true; // Include all results (including Muster category)
+          }
+          return !isInMusterCategory(item.product); // Exclude "Muster" category
+        });
     }
 
     // Sort by score (highest first)
