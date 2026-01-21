@@ -14,6 +14,14 @@ export default function CartPage() {
     clearCart
   } = useCart();
 
+  // Debug: Log all cart items
+  console.log('🛒 CART PAGE - All Items:', cartItems.map(item => ({
+    name: item.product.name,
+    isSample: item.isSample,
+    samplePrice: item.samplePrice,
+    quantity: item.quantity
+  })));
+
   if (itemCount === 0) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
@@ -67,7 +75,7 @@ export default function CartPage() {
           <div className="divide-y divide-gray-200">
             {cartItems.map((item) => {
               const paketinhalt = item.product.paketinhalt || 1;
-              const einheit = item.product.einheit_short || 'm²';
+              const einheit = item.isSample ? 'Stk.' : (item.product.einheit_short || 'm²');
               const verpackungsart = item.product.verpackungsart_short || 'Pak.';
               const totalAmount = item.quantity * paketinhalt;
 
@@ -83,6 +91,14 @@ export default function CartPage() {
                 regularPricePerUnit = 0;
                 displayAmount = item.quantity;
                 totalPrice = item.samplePrice * item.quantity;
+
+                console.log('🛒 CART PAGE - Muster:', {
+                  name: item.product.name,
+                  quantity: item.quantity,
+                  samplePrice: item.samplePrice,
+                  totalPrice,
+                  isSample: item.isSample
+                });
               } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
                 // Set-Item: Verwende Set-Preise
                 pricePerUnit = item.setPricePerUnit;
@@ -98,7 +114,7 @@ export default function CartPage() {
               }
 
               const hasDiscount = regularPricePerUnit > pricePerUnit;
-              const isFree = pricePerUnit === 0 && item.isSetItem;
+              const isFree = (pricePerUnit === 0 && item.isSetItem) || (item.isSample && item.samplePrice === 0);
 
               return (
                 <div key={item.id} className="flex flex-col gap-1 py-4 px-6 border-b border-[#e5e5e5]">
@@ -130,8 +146,11 @@ export default function CartPage() {
 
                   {/* Zeile 2: Quantity + Menge */}
                   <div className="flex flex-row items-center gap-2 ml-15">
-                    {/* Quantity Control - nur für floor items im Set, reguläre Produkte oder Muster */}
-                    {(item.isSample || !item.isSetItem || item.setItemType === 'floor') && (
+                    {/* Quantity Control - nur für floor items im Set und reguläre Produkte (NICHT für Muster) */}
+                    {item.isSample ? (
+                      // Samples: Show lock message instead of controls
+                      <span className="text-xs text-[#4c4c4c] italic">Nur 1 Stk. möglich</span>
+                    ) : (!item.isSetItem || item.setItemType === 'floor') && (
                       <div className="flex items-center border border-[#e5e5e5] rounded">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}

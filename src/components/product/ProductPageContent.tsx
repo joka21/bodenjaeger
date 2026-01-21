@@ -243,13 +243,20 @@ export default function ProductPageContent({
       console.log('🆓 Kostenlose Muster übrig:', freeSamplesRemaining);
 
       // Search for the sample product via API
+      console.log('🌐 API Request:', `/api/products/search?q=${encodeURIComponent(sampleName)}`);
+
       const response = await fetch(`/api/products/search?q=${encodeURIComponent(sampleName)}`);
 
+      console.log('📡 API Response Status:', response.status, response.ok);
+
       if (!response.ok) {
+        console.error('❌ API Request failed:', response.status, response.statusText);
         throw new Error('Fehler beim Suchen des Musters');
       }
 
       const results: StoreApiProduct[] = await response.json();
+
+      console.log('📡 API Response received successfully');
 
       console.log('📦 Gefundene Produkte:', results.length);
       console.log('📦 Produktnamen:', results.map(p => p.name));

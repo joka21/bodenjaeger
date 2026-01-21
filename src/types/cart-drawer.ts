@@ -26,6 +26,7 @@ export interface CartItemBase {
   total: number;
   isFree?: boolean; // Free items in set
   itemType?: 'floor' | 'insulation' | 'baseboard'; // Type for bundle products
+  isSample?: boolean; // Sample products (locked to quantity 1)
 }
 
 export interface CartSetItem {

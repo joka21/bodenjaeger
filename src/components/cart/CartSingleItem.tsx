@@ -49,25 +49,33 @@ export default function CartSingleItem({
         {/* Zeile 2: [- Menge +] Stk. + [X] rechtsbündig */}
         <div className="ml-14 flex items-center justify-between mt-1">
           <div className="flex items-center gap-2">
-            <div className="flex items-center border border-[#e5e5e5] rounded">
-              <button
-                onClick={() => onQuantityChange(product.quantity - 1)}
-                disabled={product.quantity <= 1}
-                className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 text-sm"
-              >
-                −
-              </button>
-              <span className="px-2 py-0.5 text-sm text-[#2e2d32] min-w-[2rem] text-center">
-                {product.quantity}
-              </span>
-              <button
-                onClick={() => onQuantityChange(product.quantity + 1)}
-                className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 text-sm"
-              >
-                +
-              </button>
-            </div>
-            <span className="text-xs text-[#4c4c4c]">Stk.</span>
+            {product.isSample ? (
+              // Samples: Locked to quantity 1
+              <span className="text-xs text-[#4c4c4c] italic">Nur 1 Stk. möglich</span>
+            ) : (
+              // Regular products: Quantity controls
+              <>
+                <div className="flex items-center border border-[#e5e5e5] rounded">
+                  <button
+                    onClick={() => onQuantityChange(product.quantity - 1)}
+                    disabled={product.quantity <= 1}
+                    className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 text-sm"
+                  >
+                    −
+                  </button>
+                  <span className="px-2 py-0.5 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+                    {product.quantity}
+                  </span>
+                  <button
+                    onClick={() => onQuantityChange(product.quantity + 1)}
+                    className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 text-sm"
+                  >
+                    +
+                  </button>
+                </div>
+                <span className="text-xs text-[#4c4c4c]">Stk.</span>
+              </>
+            )}
           </div>
           <button
             onClick={onRemove}

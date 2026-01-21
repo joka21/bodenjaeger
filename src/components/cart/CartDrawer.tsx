@@ -143,6 +143,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             pricePerUnit: item.samplePrice, // 0€ or 3€
             originalPricePerUnit: undefined,
             total: item.samplePrice * item.quantity, // Total = samplePrice × quantity
+            isSample: true, // Mark as sample to lock quantity to 1
           };
 
           const singleItem: CartSingleItemType = {

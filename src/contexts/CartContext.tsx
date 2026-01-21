@@ -229,6 +229,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     setCartItems(prevItems =>
       prevItems.map(item => {
         if (item.id === productId) {
+          // SAMPLE LOCK: Samples are always locked to quantity 1
+          if (item.isSample) {
+            console.warn('⚠️ Muster können nicht in der Menge geändert werden. Menge bleibt bei 1.');
+            return item; // Return unchanged
+          }
+
           // For Set-Items: Allow quantity 0 (free bundle items like Dämmung/Sockelleiste)
           // For regular items: Remove if quantity <= 0
           if (quantity <= 0 && !item.isSetItem) {
@@ -284,6 +290,13 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
     // Determine price: first 3 are free (0€), rest cost 3€
     const samplePrice = currentSampleCount < 3 ? 0 : 3;
+
+    console.log('➕ ADD SAMPLE TO CART:', {
+      productName: product.name,
+      currentSampleCount,
+      samplePrice,
+      willBeFree: samplePrice === 0
+    });
 
     setCartItems(prevItems => {
       // Check if sample already exists
