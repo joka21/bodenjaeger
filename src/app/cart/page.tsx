@@ -71,13 +71,19 @@ export default function CartPage() {
               const verpackungsart = item.product.verpackungsart_short || 'Pak.';
               const totalAmount = item.quantity * paketinhalt;
 
-              // Preise berechnen - KORREKT für Set-Angebote
+              // Preise berechnen - KORREKT für Set-Angebote und Muster
               let pricePerUnit: number;
               let regularPricePerUnit: number;
               let totalPrice: number;
               let displayAmount: number;
 
-              if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+              if (item.isSample && item.samplePrice !== undefined) {
+                // Muster-Produkt: Verwende samplePrice
+                pricePerUnit = item.samplePrice;
+                regularPricePerUnit = 0;
+                displayAmount = item.quantity;
+                totalPrice = item.samplePrice * item.quantity;
+              } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
                 // Set-Item: Verwende Set-Preise
                 pricePerUnit = item.setPricePerUnit;
                 regularPricePerUnit = item.regularPricePerUnit || 0;
@@ -124,8 +130,8 @@ export default function CartPage() {
 
                   {/* Zeile 2: Quantity + Menge */}
                   <div className="flex flex-row items-center gap-2 ml-15">
-                    {/* Quantity Control - nur für floor items im Set oder reguläre Produkte */}
-                    {(!item.isSetItem || item.setItemType === 'floor') && (
+                    {/* Quantity Control - nur für floor items im Set, reguläre Produkte oder Muster */}
+                    {(item.isSample || !item.isSetItem || item.setItemType === 'floor') && (
                       <div className="flex items-center border border-[#e5e5e5] rounded">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
@@ -146,7 +152,9 @@ export default function CartPage() {
                       </div>
                     )}
                     <span className="text-sm text-[#4c4c4c]">
-                      {item.isSetItem && item.actualM2
+                      {item.isSample
+                        ? `${item.quantity} Stk.`
+                        : item.isSetItem && item.actualM2
                         ? `${displayAmount.toFixed(2)} ${einheit}`
                         : `${item.quantity} ${verpackungsart} = ${totalAmount.toFixed(2)} ${einheit}`
                       }

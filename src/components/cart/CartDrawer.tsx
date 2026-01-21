@@ -129,33 +129,58 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       }
       // Handle Single Items
       else if (!item.isSetItem) {
-        const singlePaketinhalt = item.product.paketinhalt || 1;
-        const singlePaketpreis = item.product.prices
-          ? parseFloat(item.product.prices.price) / 100
-          : 0;
-        const singleRegularPaketpreis = item.product.prices?.regular_price
-          ? parseFloat(item.product.prices.regular_price) / 100
-          : undefined;
+        // Check if this is a sample (Muster) product
+        if (item.isSample && item.samplePrice !== undefined) {
+          // Sample product - use samplePrice
+          const product: CartItemBase = {
+            id: `single-${item.id}`,
+            productId: item.id,
+            name: item.product.name,
+            image: item.product.images?.[0]?.src || '',
+            quantity: item.quantity,
+            unit: 'Stk.',
+            unitValue: 1,
+            pricePerUnit: item.samplePrice, // 0€ or 3€
+            originalPricePerUnit: undefined,
+            total: item.samplePrice * item.quantity, // Total = samplePrice × quantity
+          };
 
-        const product: CartItemBase = {
-          id: `single-${item.id}`,
-          productId: item.id,
-          name: item.product.name,
-          image: item.product.images?.[0]?.src || '',
-          quantity: item.quantity,
-          unit: toProductUnit(item.product.einheit_short, 'm²'),
-          unitValue: singlePaketinhalt,
-          pricePerUnit: singlePaketpreis / singlePaketinhalt, // Preis pro m²/lfm
-          originalPricePerUnit: singleRegularPaketpreis ? singleRegularPaketpreis / singlePaketinhalt : undefined,
-          total: singlePaketpreis * item.quantity, // Total = Paketpreis × Anzahl Pakete
-        };
+          const singleItem: CartSingleItemType = {
+            type: 'single',
+            product,
+          };
 
-        const singleItem: CartSingleItemType = {
-          type: 'single',
-          product,
-        };
+          convertedItems.push(singleItem);
+        } else {
+          // Regular product - use standard pricing
+          const singlePaketinhalt = item.product.paketinhalt || 1;
+          const singlePaketpreis = item.product.prices
+            ? parseFloat(item.product.prices.price) / 100
+            : 0;
+          const singleRegularPaketpreis = item.product.prices?.regular_price
+            ? parseFloat(item.product.prices.regular_price) / 100
+            : undefined;
 
-        convertedItems.push(singleItem);
+          const product: CartItemBase = {
+            id: `single-${item.id}`,
+            productId: item.id,
+            name: item.product.name,
+            image: item.product.images?.[0]?.src || '',
+            quantity: item.quantity,
+            unit: toProductUnit(item.product.einheit_short, 'm²'),
+            unitValue: singlePaketinhalt,
+            pricePerUnit: singlePaketpreis / singlePaketinhalt, // Preis pro m²/lfm
+            originalPricePerUnit: singleRegularPaketpreis ? singleRegularPaketpreis / singlePaketinhalt : undefined,
+            total: singlePaketpreis * item.quantity, // Total = Paketpreis × Anzahl Pakete
+          };
+
+          const singleItem: CartSingleItemType = {
+            type: 'single',
+            product,
+          };
+
+          convertedItems.push(singleItem);
+        }
       }
     });
 
