@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { type StoreApiProduct } from '@/lib/woocommerce';
-import Link from 'next/link';
 import Image from 'next/image';
 import UnifiedProductCard from '@/components/UnifiedProductCard';
 

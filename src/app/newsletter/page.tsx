@@ -110,7 +110,7 @@ export default function NewsletterPage() {
               </h3>
               <p className="text-gray-700">
                 Geben Sie einfach Ihre E-Mail-Adresse in das Formular oben ein und klicken
-                Sie auf "Anmelden". Sie erhalten anschließend eine Bestätigungs-E-Mail mit
+                Sie auf &quot;Anmelden&quot;. Sie erhalten anschließend eine Bestätigungs-E-Mail mit
                 einem Link, den Sie anklicken müssen, um Ihre Anmeldung abzuschließen
                 (Double Opt-In).
               </p>
@@ -190,7 +190,7 @@ export default function NewsletterPage() {
             <div className="bg-white rounded p-4 mt-4">
               <h3 className="font-semibold text-gray-900 mb-2">Schnellstart:</h3>
               <ol className="list-decimal list-inside space-y-2 text-gray-700">
-                <li>WordPress Newsletter Plugin installieren (z.B. "Newsletter Plugin")</li>
+                <li>WordPress Newsletter Plugin installieren (z.B. &quot;Newsletter Plugin&quot;)</li>
                 <li>
                   Custom Endpoint erstellen:{' '}
                   <code className="bg-gray-200 px-2 py-1 rounded text-sm">
