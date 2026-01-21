@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import ProductCard from '@/components/ProductCard';
+import UnifiedProductCard from '@/components/UnifiedProductCard';
 import { StoreApiProduct } from '@/lib/woocommerce';
 
 function SearchContent() {
@@ -124,10 +124,9 @@ function SearchContent() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (
-                <ProductCard
+                <UnifiedProductCard
                   key={product.id}
                   product={product}
-                  showDescription={false}
                 />
               ))}
             </div>

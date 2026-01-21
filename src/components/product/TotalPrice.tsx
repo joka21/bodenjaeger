@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import type { SetQuantityCalculation } from '@/lib/setCalculations';
-import { prepareSetForCart } from '@/lib/setCalculations';
 import { useCart } from '@/contexts/CartContext';
 
 // Simple price interface - prices come from backend!
@@ -29,7 +29,6 @@ interface TotalPriceProps {
 export default function TotalPrice({
   quantities,
   prices,
-  einheit,
   product,
   selectedDaemmung,
   selectedSockelleiste,
@@ -55,7 +54,6 @@ export default function TotalPrice({
 
   const {
     totalDisplayPrice,
-    comparisonPriceTotal,
     savings,
     savingsPercent
   } = prices;
@@ -238,9 +236,11 @@ export default function TotalPrice({
             </span>
           ) : (
             <span className="flex items-center justify-center gap-2">
-              <img
+              <Image
                 src="/images/Icons/Warenkorb weiß.png"
                 alt=""
+                width={20}
+                height={20}
                 className="w-5 h-5"
               />
               In den Warenkorb

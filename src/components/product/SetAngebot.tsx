@@ -52,11 +52,7 @@ export default function SetAngebot({
   sockelleisteVE,
   sockelleisteEinheit = 'lfm',
   sockelleisteOptions = [],
-  onProductSelection,
-  comparisonPriceTotal,
-  totalDisplayPrice,
-  savingsAmount,
-  savingsPercent
+  onProductSelection
 }: SetAngebotProps) {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);

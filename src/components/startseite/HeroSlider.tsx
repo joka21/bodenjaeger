@@ -52,17 +52,7 @@ export default function HeroSlider() {
     setMounted(true);
   }, []);
 
-  // Auto-play functionality
-  useEffect(() => {
-    if (isPaused || isTransitioning) return;
-
-    const timer = setInterval(() => {
-      goToNextSlide();
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [currentSlide, isPaused, isTransitioning]);
-
+  // Navigation callbacks - defined before useEffect that uses them
   const goToNextSlide = useCallback(() => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -76,6 +66,17 @@ export default function HeroSlider() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
     setTimeout(() => setIsTransitioning(false), 500);
   }, [isTransitioning]);
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (isPaused || isTransitioning) return;
+
+    const timer = setInterval(() => {
+      goToNextSlide();
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [currentSlide, isPaused, isTransitioning, goToNextSlide]);
 
   const goToSlide = useCallback((index: number) => {
     if (isTransitioning || index === currentSlide) return;

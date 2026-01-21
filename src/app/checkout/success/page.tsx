@@ -8,7 +8,6 @@ function CheckoutSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get('order');  // Changed from 'orderId' to 'order'
-  const orderKey = searchParams.get('key');
   const paypalSuccess = searchParams.get('paypal');
   const stripeSessionId = searchParams.get('session_id');
 

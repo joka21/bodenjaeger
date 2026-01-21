@@ -34,6 +34,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     } else if (!isOpen && menuState.isOpen) {
       setMenuState((prev) => ({ ...prev, isOpen: false }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // Body scroll lock

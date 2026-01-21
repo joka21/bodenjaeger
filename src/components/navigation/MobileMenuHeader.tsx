@@ -36,9 +36,11 @@ export default function MobileMenuHeader({ currentLevel, onClose, onBack }: Mobi
 
       {/* Center: Logo */}
       <div className="flex-shrink-0">
-        <img
+        <Image
           src="/images/logo/logo-bodenjaeger-fff.svg"
           alt="Bodenjäger"
+          width={150}
+          height={48}
           className="h-12"
         />
       </div>

@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import type { StoreApiProduct } from '@/lib/woocommerce';
 
 interface SetAngebotMobileProps {
   setangebotTitel?: string;
@@ -30,7 +29,6 @@ export default function SetAngebotMobile({
   productImage,
   basePrice,
   regularPrice,
-  einheit,
   daemmungName,
   daemmungImage,
   daemmungSetPricePerUnit,
@@ -39,9 +37,6 @@ export default function SetAngebotMobile({
   sockelleisteImage,
   sockelleisteSetPricePerUnit,
   sockelleisteRegularPricePerUnit,
-  comparisonPriceTotal,
-  totalDisplayPrice,
-  savingsPercent,
   onAddToCart
 }: SetAngebotMobileProps) {
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';

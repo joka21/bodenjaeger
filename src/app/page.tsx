@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic';
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
-import { adaptStoreApiProductsToCritical } from "@/lib/api/adapters";
 import HeroSlider from "@/components/startseite/HeroSlider";
 import VorteileSlider from "@/components/sections/home/VorteileSlider";
 

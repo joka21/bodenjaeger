@@ -127,9 +127,11 @@ export default function LiveSearch() {
             className="absolute right-4 w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity"
             aria-label="Suchen"
           >
-            <img
+            <Image
               src="/images/Icons/Lupe schieferschwarz.png"
               alt="Suche"
+              width={24}
+              height={24}
               className="w-full h-full"
             />
           </button>

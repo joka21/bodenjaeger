@@ -459,12 +459,12 @@ class WooCommerceClient {
       // Try cache first (if available)
       if (typeof window === 'undefined') { // Server-side only
         try {
-          const { getCachedProduct, setCachedProduct } = await import('./cache');
+          const { getCachedProduct } = await import('./cache');
           const cached = await getCachedProduct(slug);
           if (cached) {
             return cached;
           }
-        } catch (cacheError) {
+        } catch {
           // Cache not available (e.g., no KV configured) - continue without cache
           console.log('Cache not available, fetching from API');
         }
@@ -546,13 +546,13 @@ class WooCommerceClient {
       // Try cache first (server-side only)
       if (typeof window === 'undefined') {
         try {
-          const { getCachedProductsBatch, setCachedProductsBatch } = await import('./cache');
+          const { getCachedProductsBatch } = await import('./cache');
           const cached = await getCachedProductsBatch(uniqueIds);
 
           if (cached) {
             return cached;
           }
-        } catch (cacheError) {
+        } catch {
           // Cache not available - continue without cache
           console.log('Cache not available, fetching from API');
         }

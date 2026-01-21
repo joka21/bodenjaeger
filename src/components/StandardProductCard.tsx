@@ -26,13 +26,6 @@ interface StandardProductCardProps {
 }
 
 /**
- * Deutsche Preisformatierung: XX,XX €
- */
-const formatPrice = (price: number): string => {
-  return price.toFixed(2).replace('.', ',');
-};
-
-/**
  * Standard-Produktkarte für Bodenjäger Shop
  *
  * Features:

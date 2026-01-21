@@ -7,7 +7,7 @@
  * - Type-Safe
  */
 
-import type { ProductFull, ProductResponse } from '@/types/product-optimized';
+import type { ProductFull } from '@/types/product-optimized';
 
 // ============================================
 // CONFIGURATION

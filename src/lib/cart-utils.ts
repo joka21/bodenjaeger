@@ -5,14 +5,14 @@ import { CartDrawerData, CartDrawerItem } from '@/types/cart-drawer';
 /**
  * Calculate shipping costs - IMMER 0
  */
-export function calculateShipping(subtotal: number): number {
+export function calculateShipping(): number {
   return 0;
 }
 
 /**
  * Calculate savings - IMMER 0
  */
-export function calculateSavings(items: CartDrawerItem[]): number {
+export function calculateSavings(): number {
   return 0;
 }
 
@@ -92,8 +92,8 @@ export function getUnitDisplayText(unit: string, unitValue: number): string {
  */
 export function calculateCartData(items: CartDrawerItem[]): CartDrawerData {
   const subtotal = calculateSubtotal(items);
-  const shipping = calculateShipping(subtotal);
-  const savings = calculateSavings(items);
+  const shipping = calculateShipping();
+  const savings = calculateSavings();
   const total = subtotal + shipping;
 
   return {

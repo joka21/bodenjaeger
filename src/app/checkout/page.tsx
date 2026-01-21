@@ -38,7 +38,7 @@ interface FormData {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cartItems, totalPrice } = useCart();
+  const { cartItems } = useCart();
 
   const [formData, setFormData] = useState<FormData>({
     email: '',

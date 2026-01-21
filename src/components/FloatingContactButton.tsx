@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import ContactDrawer from './ContactDrawer';
 
 export default function FloatingContactButton() {
@@ -15,9 +16,11 @@ export default function FloatingContactButton() {
           className="w-14 h-14 bg-[#ed1b24] rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
           aria-label="Kontakt öffnen"
         >
-          <img
+          <Image
             src="/images/Icons/Kontakt weiß.png"
             alt="Kontakt"
+            width={28}
+            height={28}
             className="w-7 h-7"
           />
         </button>

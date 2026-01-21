@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Category } from '@/types/mobile-menu';
 
 interface MobileMenuLevel1Props {
@@ -8,7 +9,7 @@ interface MobileMenuLevel1Props {
   onClose: () => void;
 }
 
-export default function MobileMenuLevel1({ categories, onCategoryClick, onClose }: MobileMenuLevel1Props) {
+export default function MobileMenuLevel1({ categories, onCategoryClick }: MobileMenuLevel1Props) {
   return (
     <div className="flex-1 overflow-y-auto bg-[#f9f9fb]">
       {/* Search Field */}
@@ -19,9 +20,11 @@ export default function MobileMenuLevel1({ categories, onCategoryClick, onClose 
             placeholder="Suchbegriff eingeben"
             className="w-full h-12 pl-4 pr-12 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-[#ed1b24]"
           />
-          <img
+          <Image
             src="/images/Icons/Lupe schieferschwarz.png"
             alt="Suche"
+            width={20}
+            height={20}
             className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 pointer-events-none"
           />
         </div>

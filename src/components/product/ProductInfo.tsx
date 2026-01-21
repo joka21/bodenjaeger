@@ -69,11 +69,6 @@ export default function ProductInfo({
     }
   }
 
-  // ✅ Get pricing information from ROOT-LEVEL FIELDS (backend/ROOT_LEVEL_FIELDS.md)
-  const paketinhalt = product.paketinhalt || 1;
-  const paketpreis = product.paketpreis || 0;
-  const paketpreisS = product.paketpreis_s;
-
   // ✅ STATISCHE Preise für Produktkarten (NICHT berechnen, Backend-Felder verwenden!)
   // Set-Preis (rot, rabattiert) - DIREKT aus Backend
   const basePrice = product.setangebot_gesamtpreis || product.price || 0;

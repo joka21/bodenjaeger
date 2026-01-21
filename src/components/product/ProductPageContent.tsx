@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import { calculateSetQuantities } from '@/lib/setCalculations';
 import ImageGallery from './ImageGallery';
@@ -221,9 +222,11 @@ export default function ProductPageContent({
                 className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                 style={{ backgroundColor: 'var(--color-bg-darkest)' }}
               >
-                <img
+                <Image
                   src="/images/Icons/Musterbox weiß.png"
                   alt="Musterbox"
+                  width={20}
+                  height={20}
                   className="w-5 h-5 object-contain flex-shrink-0"
                 />
                 <span className="truncate">Kostenloses Muster bestellen</span>
@@ -232,9 +235,11 @@ export default function ProductPageContent({
                 className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                 style={{ backgroundColor: 'var(--color-bg-darkest)' }}
               >
-                <img
+                <Image
                   src="/images/Icons/3D Bodenplaner weiß.png"
                   alt="3D Bodenplaner"
+                  width={20}
+                  height={20}
                   className="w-5 h-5 object-contain flex-shrink-0"
                 />
                 <span className="truncate">Virtuell im Bodenplaner ansehen</span>
@@ -244,33 +249,41 @@ export default function ProductPageContent({
             {/* Service Icons */}
             <div className="space-y-0 text-base sm:text-lg lg:text-2xl text-gray-700">
               <div className="flex items-center gap-2 sm:gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
-                <img
+                <Image
                   src="/images/Icons/Telefon schieferschwarz.png"
                   alt="Telefon"
+                  width={24}
+                  height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
                 <span className="break-words">Persönliche Beratung unter 0800 123 4567</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
-                <img
+                <Image
                   src="/images/Icons/Lager schieferschwarz.png"
                   alt="Lager"
+                  width={24}
+                  height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
                 <span className="break-words">Kostenlose Einlagerung bis zu 6 Monate</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
-                <img
+                <Image
                   src="/images/Icons/Termin schieferschwarz.png"
                   alt="Termin"
+                  width={24}
+                  height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
                 <span className="break-words">Lieferung zum Wunschtermin</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 pt-3">
-                <img
+                <Image
                   src="/images/Icons/Lieferung schieferschwarz.png"
                   alt="Lieferung"
+                  width={24}
+                  height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
                 <span className="break-words">Kostenlose Lieferung ab 999€</span>

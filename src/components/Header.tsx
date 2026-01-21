@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import CartDrawer from './cart/CartDrawer';
@@ -20,10 +21,13 @@ export default function Header() {
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:min-w-[200px]">
-              <img
+              <Image
                 src="/images/logo/logo-bodenjaeger-fff.svg"
                 alt="Bodenjäger Logo"
+                width={200}
+                height={80}
                 className="h-10 sm:h-12 md:h-20 w-auto"
+                priority
               />
             </Link>
 
@@ -34,9 +38,11 @@ export default function Header() {
             <div className="flex items-center gap-2 sm:gap-3 md:gap-[1%]">
               {/* Favoriten */}
               <Link href="/favoriten" className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
-                <img
+                <Image
                   src="/images/Icons/Favoriten weiß.png"
                   alt="Favoriten"
+                  width={32}
+                  height={32}
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                 />
               </Link>
@@ -46,9 +52,11 @@ export default function Header() {
                 onClick={() => setIsCartDrawerOpen(true)}
                 className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
               >
-                <img
+                <Image
                   src="/images/Icons/Warenkorb weiß.png"
                   alt="Warenkorb"
+                  width={32}
+                  height={32}
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                 />
                 {itemCount > 0 && (
@@ -60,9 +68,11 @@ export default function Header() {
 
               {/* Kundenkonto */}
               <Link href="/kundenkonto" className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
-                <img
+                <Image
                   src="/images/Icons/Kundenkonto weiß.png"
                   alt="Kundenkonto"
+                  width={32}
+                  height={32}
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                 />
               </Link>

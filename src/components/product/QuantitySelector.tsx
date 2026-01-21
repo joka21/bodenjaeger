@@ -10,7 +10,6 @@ interface QuantitySelectorProps {
 
 export default function QuantitySelector({
   paketinhalt,
-  einheit,
   onQuantityChange
 }: QuantitySelectorProps) {
   const [sqm, setSqm] = useState<number>(paketinhalt);
@@ -18,16 +17,6 @@ export default function QuantitySelector({
   const [packagesInputValue, setPackagesInputValue] = useState<string>(Math.ceil(paketinhalt / paketinhalt).toString());
 
   const packages = Math.ceil(sqm / paketinhalt);
-
-  const handleSqmChange = (newValue: number) => {
-    const value = Math.max(paketinhalt, newValue); // Minimum 1 package worth
-    setSqm(value);
-
-    if (onQuantityChange) {
-      const calculatedPackages = Math.ceil(value / paketinhalt);
-      onQuantityChange(calculatedPackages, value);
-    }
-  };
 
   const handlePackagesInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
