@@ -15,6 +15,9 @@ export interface CartItem {
   setPricePerUnit?: number;      // Actual price per unit in the set (0 for free items, verrechnung for upgrades)
   regularPricePerUnit?: number;  // Regular price per unit for comparison
   actualM2?: number;             // Actual m² or lfm after rounding to packages
+  // Sample (Muster) specific
+  isSample?: boolean;            // Flag to identify sample products
+  samplePrice?: number;          // Custom price for this sample (0 or 3)
 }
 
 // Set bundle interface for adding to cart
@@ -50,6 +53,7 @@ export interface CartContextType {
   itemCount: number;
   totalPrice: number;
   addToCart: (product: StoreApiProduct, quantity?: number) => void;
+  addSampleToCart: (product: StoreApiProduct) => void;
   addSetToCart: (setBundle: SetBundle) => void;
   removeFromCart: (productId: number) => void;
   removeSet: (setId: string) => void;
@@ -57,6 +61,8 @@ export interface CartContextType {
   clearCart: () => void;
   isInCart: (productId: number) => boolean;
   getItemQuantity: (productId: number) => number;
+  getSampleCount: () => number;
+  getFreeSamplesRemaining: () => number;
 }
 
 // Create the context
@@ -110,6 +116,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Calculate total price with correct Set-Angebot logic
   const totalPrice = cartItems.reduce((total, item) => {
+    // Sample item: use custom samplePrice
+    if (item.isSample && item.samplePrice !== undefined) {
+      return total + (item.samplePrice * item.quantity);
+    }
+
     if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
       // Set item: use setPricePerUnit × actualM2
       return total + (item.setPricePerUnit * item.actualM2);
@@ -251,19 +262,69 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return item ? item.quantity : 0;
   };
 
+  // Get count of sample items in cart
+  const getSampleCount = (): number => {
+    return cartItems.reduce((count, item) => {
+      if (item.isSample) {
+        return count + item.quantity;
+      }
+      return count;
+    }, 0);
+  };
+
+  // Get number of free samples remaining (3 max)
+  const getFreeSamplesRemaining = (): number => {
+    const currentSampleCount = getSampleCount();
+    return Math.max(0, 3 - currentSampleCount);
+  };
+
+  // Add sample to cart with dynamic pricing
+  const addSampleToCart = (product: StoreApiProduct) => {
+    const currentSampleCount = getSampleCount();
+
+    // Determine price: first 3 are free (0€), rest cost 3€
+    const samplePrice = currentSampleCount < 3 ? 0 : 3;
+
+    setCartItems(prevItems => {
+      // Check if sample already exists
+      const existingSample = prevItems.find(item => item.id === product.id && item.isSample);
+
+      if (existingSample) {
+        // Update quantity if sample already exists
+        return prevItems.map(item =>
+          item.id === product.id && item.isSample
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        // Add new sample to cart
+        return [...prevItems, {
+          id: product.id,
+          product,
+          quantity: 1,
+          isSample: true,
+          samplePrice
+        }];
+      }
+    });
+  };
+
   // Context value
   const contextValue: CartContextType = {
     cartItems,
     itemCount,
     totalPrice,
     addToCart,
+    addSampleToCart,
     addSetToCart,
     removeFromCart,
     removeSet,
     updateQuantity,
     clearCart,
     isInCart,
-    getItemQuantity
+    getItemQuantity,
+    getSampleCount,
+    getFreeSamplesRemaining
   };
 
   return (

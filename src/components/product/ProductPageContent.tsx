@@ -31,7 +31,7 @@ export default function ProductPageContent({
   const einheit = product.einheit_short || 'm²';
 
   // Cart context
-  const { addToCart } = useCart();
+  const { addSampleToCart, getSampleCount, getFreeSamplesRemaining } = useCart();
 
   // State for wanted m² (user input)
   const [wantedM2, setWantedM2] = useState(paketinhalt);
@@ -231,10 +231,16 @@ export default function ProductPageContent({
     setIsOrderingSample(true);
 
     try {
+      // Check current sample count
+      const currentSampleCount = getSampleCount();
+      const freeSamplesRemaining = getFreeSamplesRemaining();
+
       // Construct sample product name: "MUSTER " + product.name
       const sampleName = `MUSTER ${product.name}`;
 
       console.log('🔍 Suche nach Muster:', sampleName);
+      console.log('📊 Aktuelle Muster im Warenkorb:', currentSampleCount);
+      console.log('🆓 Kostenlose Muster übrig:', freeSamplesRemaining);
 
       // Search for the sample product via API
       const response = await fetch(`/api/products/search?q=${encodeURIComponent(sampleName)}`);
@@ -260,11 +266,24 @@ export default function ProductPageContent({
 
       console.log('✅ Muster gefunden:', sampleProduct.name);
 
-      // Add sample to cart (quantity: 1)
-      addToCart(sampleProduct, 1);
+      // Determine price for this sample
+      const willBeFree = currentSampleCount < 3;
+      const price = willBeFree ? 0 : 3;
 
-      // Success feedback
-      alert('✓ Kostenloses Muster wurde in den Warenkorb gelegt!');
+      // Add sample to cart with dynamic pricing
+      addSampleToCart(sampleProduct);
+
+      // Success feedback with pricing info
+      if (willBeFree) {
+        const remaining = freeSamplesRemaining - 1;
+        if (remaining > 0) {
+          alert(`✓ Kostenloses Muster wurde in den Warenkorb gelegt!\n\nSie können noch ${remaining} kostenlose Muster bestellen.\nJedes weitere Muster kostet 3,00 €.`);
+        } else {
+          alert('✓ Kostenloses Muster wurde in den Warenkorb gelegt!\n\nSie haben alle 3 kostenlosen Muster verwendet.\nJedes weitere Muster kostet 3,00 €.');
+        }
+      } else {
+        alert(`✓ Muster wurde in den Warenkorb gelegt (${price.toFixed(2)} €)\n\nDie ersten 3 Muster sind kostenlos.\nJedes weitere Muster kostet 3,00 €.`);
+      }
     } catch (error) {
       console.error('Error ordering sample:', error);
       alert('Fehler beim Hinzufügen des Musters. Bitte versuchen Sie es erneut.');
