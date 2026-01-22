@@ -29,13 +29,14 @@ export default function OrderSummary() {
           let displayAmount: number;
 
           if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
-            // Set-Item: Verwende Set-Preise
-            pricePerUnit = item.setPricePerUnit;
-            displayAmount = item.actualM2;
+            // Set-Item: Verwende Set-Preise (als Zahl konvertieren)
+            pricePerUnit = Number(item.setPricePerUnit);
+            displayAmount = Number(item.actualM2);
             totalItemPrice = pricePerUnit * displayAmount;
           } else {
-            // Regular Item: Verwende Produktpreise
-            pricePerUnit = item.product.price || 0;
+            // Regular Item: Verwende Produktpreise (als Zahl konvertieren)
+            const rawPrice = item.product.price || 0;
+            pricePerUnit = Number(rawPrice);
             displayAmount = item.quantity * (item.product.paketinhalt || 1);
             totalItemPrice = pricePerUnit * item.quantity;
           }

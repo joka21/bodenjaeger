@@ -113,15 +113,15 @@ export default function CartPage() {
                     isSample: item.isSample
                   });
                 } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
-                // Set-Item: Verwende Set-Preise
-                pricePerUnit = item.setPricePerUnit;
-                regularPricePerUnit = item.regularPricePerUnit || 0;
-                displayAmount = item.actualM2;
+                // Set-Item: Verwende Set-Preise (als Zahl konvertieren)
+                pricePerUnit = Number(item.setPricePerUnit);
+                regularPricePerUnit = Number(item.regularPricePerUnit || 0);
+                displayAmount = Number(item.actualM2);
                 totalPrice = pricePerUnit * displayAmount;
               } else {
-                // Regular Item: Verwende Produktpreise
-                pricePerUnit = item.product.price || 0;
-                regularPricePerUnit = item.product.regular_price || 0;
+                // Regular Item: Verwende Produktpreise (als Zahl konvertieren)
+                pricePerUnit = Number(item.product.price || 0);
+                regularPricePerUnit = Number(item.product.regular_price || 0);
                 displayAmount = totalAmount;
                 totalPrice = pricePerUnit * item.quantity;
               }
