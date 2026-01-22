@@ -114,24 +114,39 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Calculate total item count
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-  // Calculate total price with correct Set-Angebot logic
-  const totalPrice = cartItems.reduce((total, item) => {
-    // Sample item: use custom samplePrice
-    if (item.isSample && item.samplePrice !== undefined) {
-      return total + (item.samplePrice * item.quantity);
-    }
+  // Helper function: Calculate dynamic sample prices
+  // First 3 samples are free (0€), rest cost 3€ each
+  const getDynamicSamplePrice = (sampleIndex: number): number => {
+    return sampleIndex < 3 ? 0 : 3;
+  };
 
-    if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+  // Calculate total price with correct Set-Angebot logic and dynamic sample pricing
+  const totalPrice = (() => {
+    let total = 0;
+    let sampleIndex = 0;
+
+    cartItems.forEach((item) => {
+      // Sample item: use DYNAMIC pricing based on position in cart
+      if (item.isSample) {
+        const dynamicPrice = getDynamicSamplePrice(sampleIndex);
+        total += dynamicPrice * item.quantity;
+        sampleIndex += item.quantity;
+      }
       // Set item: use setPricePerUnit × actualM2
-      return total + (item.setPricePerUnit * item.actualM2);
-    } else {
+      else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+        total += item.setPricePerUnit * item.actualM2;
+      }
       // Regular item: use product price × quantity
-      const price = item.product.prices?.price
-        ? parseFloat(item.product.prices.price) / 100
-        : (item.product.price || 0);
-      return total + (price * item.quantity);
-    }
-  }, 0);
+      else {
+        const price = item.product.prices?.price
+          ? parseFloat(item.product.prices.price) / 100
+          : (item.product.price || 0);
+        total += price * item.quantity;
+      }
+    });
+
+    return total;
+  })();
 
   // Add item to cart
   const addToCart = (product: StoreApiProduct, quantity: number = 1) => {
@@ -286,6 +301,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   // Add sample to cart with dynamic pricing
   const addSampleToCart = (product: StoreApiProduct) => {
+    // Check if sample already exists in cart
+    const existingSample = cartItems.find(item => item.id === product.id && item.isSample);
+
+    if (existingSample) {
+      console.warn('⚠️ MUSTER BEREITS IM WARENKORB:', product.name);
+      alert(`Das Muster "${product.name}" befindet sich bereits in Ihrem Warenkorb.`);
+      return;
+    }
+
     const currentSampleCount = getSampleCount();
 
     // Determine price: first 3 are free (0€), rest cost 3€
@@ -298,28 +322,17 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       willBeFree: samplePrice === 0
     });
 
-    setCartItems(prevItems => {
-      // Check if sample already exists
-      const existingSample = prevItems.find(item => item.id === product.id && item.isSample);
-
-      if (existingSample) {
-        // Update quantity if sample already exists
-        return prevItems.map(item =>
-          item.id === product.id && item.isSample
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        // Add new sample to cart
-        return [...prevItems, {
-          id: product.id,
-          product,
-          quantity: 1,
-          isSample: true,
-          samplePrice
-        }];
+    // Add new sample to cart
+    setCartItems(prevItems => [
+      ...prevItems,
+      {
+        id: product.id,
+        product,
+        quantity: 1,
+        isSample: true,
+        samplePrice
       }
-    });
+    ]);
   };
 
   // Context value

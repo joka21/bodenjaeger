@@ -5,6 +5,8 @@ import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import { calculateSetQuantities } from '@/lib/setCalculations';
 import { useCart } from '@/contexts/CartContext';
+import { useAlert } from '@/hooks/useAlert';
+import AlertModal from '@/components/AlertModal';
 import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
@@ -31,7 +33,10 @@ export default function ProductPageContent({
   const einheit = product.einheit_short || 'm²';
 
   // Cart context
-  const { addSampleToCart, getSampleCount, getFreeSamplesRemaining } = useCart();
+  const { cartItems, addSampleToCart, getSampleCount, getFreeSamplesRemaining } = useCart();
+
+  // Alert modal
+  const { alertState, showSuccess, showError, showInfo, closeAlert } = useAlert();
 
   // State for wanted m² (user input)
   const [wantedM2, setWantedM2] = useState(paketinhalt);
@@ -231,21 +236,47 @@ export default function ProductPageContent({
     setIsOrderingSample(true);
 
     try {
+      // Extract clean product name first (needed for duplicate check)
+      const cleanProductName = product.name
+        .replace(/^(Rigid-Vinyl|Laminat|Parkett|Vinyl)\s+/i, '')
+        .trim();
+
+      console.log('🔍 Suche nach Muster für:', product.name);
+      console.log('🔍 Bereinigter Name:', cleanProductName);
+
+      // Check if this sample is already in cart (by checking product name match)
+      const existingSamples = cartItems.filter(item => item.isSample);
+      const isDuplicate = existingSamples.some(item => {
+        // Check if the sample name contains the clean product name
+        const sampleCleanName = item.product.name
+          .replace(/^MUSTER\s+(Rigid-Vinyl|Laminat|Parkett|Vinyl)?\s*/i, '')
+          .trim()
+          .toLowerCase();
+        return sampleCleanName.includes(cleanProductName.toLowerCase());
+      });
+
+      if (isDuplicate) {
+        console.warn('⚠️ MUSTER BEREITS IM WARENKORB:', cleanProductName);
+        showInfo(
+          `Ein Muster von "${product.name}" befindet sich bereits in Ihrem Warenkorb.`,
+          'Bereits im Warenkorb'
+        );
+        setIsOrderingSample(false);
+        return;
+      }
+
       // Check current sample count
       const currentSampleCount = getSampleCount();
       const freeSamplesRemaining = getFreeSamplesRemaining();
 
-      // Construct sample product name: "MUSTER " + product.name
-      const sampleName = `MUSTER ${product.name}`;
-
-      console.log('🔍 Suche nach Muster:', sampleName);
       console.log('📊 Aktuelle Muster im Warenkorb:', currentSampleCount);
       console.log('🆓 Kostenlose Muster übrig:', freeSamplesRemaining);
 
-      // Search for the sample product via API
-      console.log('🌐 API Request:', `/api/products/search?q=${encodeURIComponent(sampleName)}`);
+      // Strategy: Fetch all sample products from dedicated endpoint
+      // This uses WooCommerce REST API with category filter (most reliable method)
+      console.log('🌐 API Request: /api/products/samples');
 
-      const response = await fetch(`/api/products/search?q=${encodeURIComponent(sampleName)}`);
+      const response = await fetch(`/api/products/samples`);
 
       console.log('📡 API Response Status:', response.status, response.ok);
 
@@ -258,18 +289,124 @@ export default function ProductPageContent({
 
       console.log('📡 API Response received successfully');
 
-      console.log('📦 Gefundene Produkte:', results.length);
-      console.log('📦 Produktnamen:', results.map(p => p.name));
+      console.log('📦 Muster-Produkte geladen:', results.length);
 
-      // Find exact match
-      const sampleProduct = results.find(p => p.name === sampleName);
-
-      if (!sampleProduct) {
-        console.error('❌ Kein exaktes Match gefunden. Erwarteter Name:', sampleName);
-        console.error('❌ Verfügbare Namen:', results.map(p => p.name));
-        alert('Muster-Produkt konnte nicht gefunden werden. Bitte kontaktieren Sie uns.');
+      // Validate API response
+      if (!results || results.length === 0) {
+        console.error('❌ API hat keine Muster-Produkte zurückgegeben!');
+        showError(
+          'Fehler beim Laden der Muster-Produkte. Bitte versuchen Sie es erneut.',
+          'Ladefehler'
+        );
         return;
       }
+
+      // ===== SEARCH STRATEGY =====
+      // We will try multiple strategies to find the matching sample product
+      console.log('🔍 === SUCHE NACH MUSTER-PRODUKT ===');
+      console.log('🔍 Original-Name:', product.name);
+      console.log('🔍 Bereinigter Name:', cleanProductName);
+
+      let sampleProduct: StoreApiProduct | null = null;
+
+      // STRATEGY 1: Exact substring match (case-insensitive)
+      console.log('\n🔍 STRATEGIE 1: Exakte Teilstring-Suche');
+      const exactMatches = results.filter(p => {
+        if (!p || !p.name) return false;
+        const pName = p.name.toLowerCase();
+        const searchName = cleanProductName.toLowerCase();
+        return pName.includes(searchName);
+      });
+      console.log('   Treffer:', exactMatches.length);
+      if (exactMatches.length > 0) {
+        console.log('   Namen:', exactMatches.map(p => p.name));
+        sampleProduct = exactMatches[0];
+        console.log('   ✅ Gefunden:', sampleProduct.name);
+      }
+
+      // STRATEGY 2: Word-by-word matching (all significant words must match)
+      if (!sampleProduct) {
+        console.log('\n🔍 STRATEGIE 2: Wort-für-Wort-Suche');
+        const searchWords = cleanProductName
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(w => w.length >= 3); // Only words with 3+ characters
+        console.log('   Such-Wörter:', searchWords);
+
+        const wordMatches = results.filter(p => {
+          if (!p || !p.name) return false;
+          const pName = p.name.toLowerCase();
+
+          // All search words must be present
+          const matchedWords = searchWords.filter(word => pName.includes(word));
+          return matchedWords.length === searchWords.length;
+        });
+
+        console.log('   Treffer:', wordMatches.length);
+        if (wordMatches.length > 0) {
+          console.log('   Namen:', wordMatches.map(p => p.name));
+          sampleProduct = wordMatches[0];
+          console.log('   ✅ Gefunden:', sampleProduct.name);
+        }
+      }
+
+      // STRATEGY 3: Fuzzy match (at least 50% of words match)
+      if (!sampleProduct) {
+        console.log('\n🔍 STRATEGIE 3: Unscharfe Suche (50%+ Wörter)');
+        const searchWords = cleanProductName
+          .toLowerCase()
+          .split(/\s+/)
+          .filter(w => w.length >= 3);
+        console.log('   Such-Wörter:', searchWords);
+
+        const fuzzyMatches = results
+          .map(p => {
+            if (!p || !p.name) return { product: p, score: 0 };
+            const pName = p.name.toLowerCase();
+            const matchedWords = searchWords.filter(word => pName.includes(word));
+            return { product: p, score: matchedWords.length / searchWords.length };
+          })
+          .filter(item => item.score >= 0.5) // At least 50% match
+          .sort((a, b) => b.score - a.score); // Best match first
+
+        console.log('   Treffer:', fuzzyMatches.length);
+        if (fuzzyMatches.length > 0) {
+          console.log('   Top 3:', fuzzyMatches.slice(0, 3).map(m => `${m.product.name} (${(m.score * 100).toFixed(0)}%)`));
+          sampleProduct = fuzzyMatches[0].product;
+          console.log('   ✅ Gefunden:', sampleProduct.name);
+        }
+      }
+
+      // Final check
+      if (!sampleProduct) {
+        console.error('\n❌ KEIN MUSTER GEFUNDEN');
+        console.error('   Original-Name:', product.name);
+        console.error('   Bereinigter Name:', cleanProductName);
+        console.error('   Verfügbare Muster:', results.length);
+
+        // Try to find similar samples in same category
+        const productCategory = product.categories?.[0]?.name?.toLowerCase() || '';
+        const similarSamples = results
+          .filter(p => p.name.toLowerCase().includes(productCategory))
+          .slice(0, 5);
+
+        if (similarSamples.length > 0) {
+          console.log('\n💡 Ähnliche verfügbare Muster:');
+          similarSamples.forEach(s => console.log('   -', s.name));
+        } else {
+          console.error('   Keine ähnlichen Muster gefunden');
+        }
+
+        showError(
+          `Leider gibt es für "${product.name}" derzeit kein Muster.\n\nBitte kontaktieren Sie uns für weitere Informationen oder schauen Sie sich ähnliche Produkte an.`,
+          'Muster nicht verfügbar'
+        );
+        return;
+      }
+
+      console.log('\n✅ === MUSTER GEFUNDEN ===');
+      console.log('   Produkt:', sampleProduct.name);
+      console.log('   ID:', sampleProduct.id);
 
       console.log('✅ Muster gefunden:', sampleProduct.name);
 
@@ -284,16 +421,28 @@ export default function ProductPageContent({
       if (willBeFree) {
         const remaining = freeSamplesRemaining - 1;
         if (remaining > 0) {
-          alert(`✓ Kostenloses Muster wurde in den Warenkorb gelegt!\n\nSie können noch ${remaining} kostenlose Muster bestellen.\nJedes weitere Muster kostet 3,00 €.`);
+          showSuccess(
+            `Kostenloses Muster wurde in den Warenkorb gelegt!\n\nSie können noch ${remaining} kostenlose Muster bestellen.\nJedes weitere Muster kostet 3,00 €.`,
+            'Muster hinzugefügt'
+          );
         } else {
-          alert('✓ Kostenloses Muster wurde in den Warenkorb gelegt!\n\nSie haben alle 3 kostenlosen Muster verwendet.\nJedes weitere Muster kostet 3,00 €.');
+          showSuccess(
+            'Kostenloses Muster wurde in den Warenkorb gelegt!\n\nSie haben alle 3 kostenlosen Muster verwendet.\nJedes weitere Muster kostet 3,00 €.',
+            'Muster hinzugefügt'
+          );
         }
       } else {
-        alert(`✓ Muster wurde in den Warenkorb gelegt (${price.toFixed(2)} €)\n\nDie ersten 3 Muster sind kostenlos.\nJedes weitere Muster kostet 3,00 €.`);
+        showSuccess(
+          `Muster wurde in den Warenkorb gelegt (${price.toFixed(2).replace('.', ',')} €)\n\nDie ersten 3 Muster sind kostenlos.\nJedes weitere Muster kostet 3,00 €.`,
+          'Muster hinzugefügt'
+        );
       }
     } catch (error) {
       console.error('Error ordering sample:', error);
-      alert('Fehler beim Hinzufügen des Musters. Bitte versuchen Sie es erneut.');
+      showError(
+        'Fehler beim Hinzufügen des Musters. Bitte versuchen Sie es erneut.',
+        'Fehler'
+      );
     } finally {
       setIsOrderingSample(false);
     }
@@ -513,6 +662,15 @@ export default function ProductPageContent({
           )}
         </div>
       </div>
+
+      {/* Alert Modal */}
+      <AlertModal
+        isOpen={alertState.isOpen}
+        onClose={closeAlert}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+      />
     </div>
   );
 }

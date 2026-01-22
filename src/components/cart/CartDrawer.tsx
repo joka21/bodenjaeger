@@ -23,10 +23,16 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cartItems, updateQuantity, removeFromCart, removeSet } = useCart();
   const [drawerItems, setDrawerItems] = useState<CartDrawerItem[]>([]);
 
+  // Helper function: Calculate dynamic sample price based on position
+  const getDynamicSamplePrice = (sampleIndex: number): number => {
+    return sampleIndex < 3 ? 0 : 3;
+  };
+
   // Convert CartContext items to CartDrawer format
   useEffect(() => {
     const convertedItems: CartDrawerItem[] = [];
     const processedSetIds = new Set<string>();
+    let sampleIndex = 0; // Track sample position for dynamic pricing
 
     cartItems.forEach((item) => {
       // Handle Set Items
@@ -130,8 +136,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       // Handle Single Items
       else if (!item.isSetItem) {
         // Check if this is a sample (Muster) product
-        if (item.isSample && item.samplePrice !== undefined) {
-          // Sample product - use samplePrice
+        if (item.isSample) {
+          // Sample product - use DYNAMIC price based on position
+          const dynamicSamplePrice = getDynamicSamplePrice(sampleIndex);
           const product: CartItemBase = {
             id: `single-${item.id}`,
             productId: item.id,
@@ -140,11 +147,14 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             quantity: item.quantity,
             unit: 'Stk.',
             unitValue: 1,
-            pricePerUnit: item.samplePrice, // 0€ or 3€
+            pricePerUnit: dynamicSamplePrice, // 0€ or 3€ (dynamic based on position)
             originalPricePerUnit: undefined,
-            total: item.samplePrice * item.quantity, // Total = samplePrice × quantity
+            total: dynamicSamplePrice * item.quantity, // Total = dynamicSamplePrice × quantity
             isSample: true, // Mark as sample to lock quantity to 1
           };
+
+          // Increment sample index for next sample
+          sampleIndex += item.quantity;
 
           const singleItem: CartSingleItemType = {
             type: 'single',

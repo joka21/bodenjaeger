@@ -120,12 +120,15 @@ export async function GET(request: NextRequest) {
       return NextResponse.json([]);
     }
 
-    // Wenn nach "muster" gesucht wird (OHNE "MUSTER " Präfix), keine Ergebnisse zurückgeben
-    // (da Muster-Produkte ausgeschlossen sind und andere Produkte nur "Muster"
-    // in Beschreibungen haben wie "Kostenloses Muster bestellen")
-    // ABER: Wenn nach "MUSTER [Produktname]" gesucht wird, SOLLEN Muster gefunden werden
-    const isSearchingForSpecificSample = query.trim().toUpperCase().startsWith('MUSTER ');
-    if (query.trim().toLowerCase() === 'muster' && !isSearchingForSpecificSample) {
+    // Check if searching for sample products
+    // Allow: "MUSTER" (exact), "MUSTER " (with space), "MUSTER [Produktname]"
+    // Block: "muster" (lowercase only - likely searching in descriptions)
+    const queryUpper = query.trim().toUpperCase();
+    const queryLower = query.trim().toLowerCase();
+    const isSearchingForSamples = queryUpper === 'MUSTER' || queryUpper.startsWith('MUSTER ');
+
+    // Block lowercase "muster" search (not looking for sample products)
+    if (queryLower === 'muster' && !isSearchingForSamples) {
       return NextResponse.json([]);
     }
 
@@ -153,8 +156,8 @@ export async function GET(request: NextRequest) {
       }))
       .filter((item) => item.score > 0) // Only include products with any match
       .filter((item) => {
-        // Exclude "Muster" category UNLESS we're explicitly searching for a sample product
-        if (isSearchingForSpecificSample) {
+        // Exclude "Muster" category UNLESS we're explicitly searching for sample products
+        if (isSearchingForSamples) {
           return true; // Include all results (including Muster category)
         }
         return !isInMusterCategory(item.product); // Exclude "Muster" category
@@ -187,8 +190,8 @@ export async function GET(request: NextRequest) {
         }))
         .filter((item) => item.score > 0)
         .filter((item) => {
-          // Exclude "Muster" category UNLESS we're explicitly searching for a sample product
-          if (isSearchingForSpecificSample) {
+          // Exclude "Muster" category UNLESS we're explicitly searching for sample products
+          if (isSearchingForSamples) {
             return true; // Include all results (including Muster category)
           }
           return !isInMusterCategory(item.product); // Exclude "Muster" category
