@@ -293,7 +293,7 @@ export default function ZubehoerSlider({
                                   sizes="(max-width: 768px) 220px, 220px"
                                   className="object-cover"
                                   loading="lazy"
-                                  quality={90}
+                                  quality={100}
                                   placeholder="blur"
                                   blurDataURL={shimmerBlurDataURL(220, 220)}
                                 />

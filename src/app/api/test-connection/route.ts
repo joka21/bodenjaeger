@@ -46,15 +46,19 @@ export async function GET() {
         products: products.slice(0, 3) // Nur erste 3 Produkte
       }
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ API Error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorDetails = error instanceof Error ? error.toString() : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+
     return NextResponse.json(
       {
         success: false,
         connection: 'FAILED',
-        error: error.message || 'Unknown error',
-        details: error.toString(),
-        stack: error.stack
+        error: errorMessage,
+        details: errorDetails,
+        stack: errorStack
       },
       { status: 500 }
     );
