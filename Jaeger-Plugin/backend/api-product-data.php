@@ -293,6 +293,15 @@ class Jaeger_Product_Data_API {
             // Testing (1 Feld)
             $data['testdummy'] = get_post_meta($product_id, '_testdummy', true) ?: null;
 
+            // ===== ZUBEHÖR-KATEGORIEN (7 Felder) - für Zubehör-Slider =====
+            $data['option_products_untergrundvorbereitung'] = get_post_meta($product_id, '_option_products_untergrundvorbereitung', true) ?: null;
+            $data['option_products_werkzeug'] = get_post_meta($product_id, '_option_products_werkzeug', true) ?: null;
+            $data['option_products_kleber'] = get_post_meta($product_id, '_option_products_kleber', true) ?: null;
+            $data['option_products_montagekleber_silikon'] = get_post_meta($product_id, '_option_products_montagekleber-silikon', true) ?: null;
+            $data['option_products_zubehoer_fuer_sockelleisten'] = get_post_meta($product_id, '_option_products_zubehoer-fuer-sockelleisten', true) ?: null;
+            $data['option_products_schienen_profile'] = get_post_meta($product_id, '_option_products_schienen-profile', true) ?: null;
+            $data['option_products_reinigung_pflege'] = get_post_meta($product_id, '_option_products_reinigung-pflege', true) ?: null;
+
             // Related Products
             $data['related_products'] = $product->get_upsell_ids();
             $data['cross_sell_products'] = $product->get_cross_sell_ids();
@@ -496,6 +505,15 @@ class Jaeger_Product_Data_API {
 
                             // Testing
                             'testdummy' => get_post_meta($product_id, '_testdummy', true) ?: null,
+
+                            // Zubehör-Kategorien (für Zubehör-Slider)
+                            'option_products_untergrundvorbereitung' => get_post_meta($product_id, '_option_products_untergrundvorbereitung', true) ?: null,
+                            'option_products_werkzeug' => get_post_meta($product_id, '_option_products_werkzeug', true) ?: null,
+                            'option_products_kleber' => get_post_meta($product_id, '_option_products_kleber', true) ?: null,
+                            'option_products_montagekleber_silikon' => get_post_meta($product_id, '_option_products_montagekleber-silikon', true) ?: null,
+                            'option_products_zubehoer_fuer_sockelleisten' => get_post_meta($product_id, '_option_products_zubehoer-fuer-sockelleisten', true) ?: null,
+                            'option_products_schienen_profile' => get_post_meta($product_id, '_option_products_schienen-profile', true) ?: null,
+                            'option_products_reinigung_pflege' => get_post_meta($product_id, '_option_products_reinigung-pflege', true) ?: null,
 
                             // ===== SETANGEBOT KONFIGURATION (6 FELDER) =====
                             'setangebot_titel' => get_post_meta($product_id, '_show_setangebot', true) === 'yes'

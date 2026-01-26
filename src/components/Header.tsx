@@ -9,8 +9,7 @@ import MobileMenu from './navigation/MobileMenu';
 import LiveSearch from './LiveSearch';
 
 export default function Header() {
-  const { itemCount } = useCart();
-  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+  const { itemCount, isCartDrawerOpen, openCartDrawer, closeCartDrawer } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -49,7 +48,7 @@ export default function Header() {
 
               {/* Warenkorb */}
               <button
-                onClick={() => setIsCartDrawerOpen(true)}
+                onClick={openCartDrawer}
                 className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
               >
                 <Image
@@ -165,7 +164,7 @@ export default function Header() {
       {/* Cart Drawer */}
       <CartDrawer
         isOpen={isCartDrawerOpen}
-        onClose={() => setIsCartDrawerOpen(false)}
+        onClose={closeCartDrawer}
       />
 
 

@@ -47,7 +47,8 @@
       "Bash(php -l:*)",
       "Bash(npm run lint)",
       "Bash(wc:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(powershell -Command:*)"
     ],
     "deny": [],
     "ask": []

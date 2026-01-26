@@ -63,6 +63,10 @@ export interface CartContextType {
   getItemQuantity: (productId: number) => number;
   getSampleCount: () => number;
   getFreeSamplesRemaining: () => number;
+  // Cart Drawer state
+  isCartDrawerOpen: boolean;
+  openCartDrawer: () => void;
+  closeCartDrawer: () => void;
 }
 
 // Create the context
@@ -88,6 +92,7 @@ const CART_STORAGE_KEY = 'woocommerce-cart';
 // CartProvider component
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
   // Load cart from localStorage on component mount
   useEffect(() => {
@@ -335,6 +340,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     ]);
   };
 
+  // Cart Drawer functions
+  const openCartDrawer = () => setIsCartDrawerOpen(true);
+  const closeCartDrawer = () => setIsCartDrawerOpen(false);
+
   // Context value
   const contextValue: CartContextType = {
     cartItems,
@@ -350,7 +359,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     isInCart,
     getItemQuantity,
     getSampleCount,
-    getFreeSamplesRemaining
+    getFreeSamplesRemaining,
+    isCartDrawerOpen,
+    openCartDrawer,
+    closeCartDrawer
   };
 
   return (

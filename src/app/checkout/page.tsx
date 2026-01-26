@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
+import { calculateShippingCost } from '@/lib/shippingConfig';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
@@ -38,7 +39,7 @@ interface FormData {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cartItems } = useCart();
+  const { cartItems, totalPrice } = useCart();
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -105,16 +106,51 @@ export default function CheckoutPage() {
       }
 
       // Line Items aus Cart erstellen
-      const line_items = cartItems.map((item) => ({
-        product_id: item.product.id,
-        quantity: item.quantity,
-        total: (item.product.price * item.quantity).toFixed(2),
-        name: item.product.name,
-        meta_data: item.isSetItem ? [
-          { key: '_set_angebot', value: 'true' },
-          { key: '_set_main_product', value: item.product.id.toString() },
-        ] : [],
-      }));
+      const line_items = cartItems.map((item) => {
+        let totalPrice: number;
+
+        // Preisberechnung abhängig vom Item-Typ
+        if (item.isSample && item.samplePrice !== undefined) {
+          // Sample/Muster: Dynamischer Preis (0€ oder 3€)
+          totalPrice = item.samplePrice * item.quantity;
+        } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+          // Set-Angebot Item: Verwende Set-Preis, NICHT regulären Preis!
+          // setPricePerUnit ist bereits der korrekte Preis (0 für kostenlos, verrechnung für Premium)
+          totalPrice = item.setPricePerUnit * item.actualM2;
+        } else {
+          // Reguläres Item: Normaler Preis
+          totalPrice = item.product.price * item.quantity;
+        }
+
+        // Metadata für Set-Angebot Items (umfassend für Rechnungen/Refunds)
+        const metadata = [];
+        if (item.isSetItem) {
+          metadata.push(
+            { key: '_set_angebot', value: 'true' },
+            { key: '_set_id', value: item.setId || '' },
+            { key: '_set_item_type', value: item.setItemType || '' },
+            { key: '_set_price_per_unit', value: item.setPricePerUnit?.toString() || '0' },
+            { key: '_regular_price_per_unit', value: item.regularPricePerUnit?.toString() || '0' },
+            { key: '_actual_m2', value: item.actualM2?.toString() || '0' },
+            { key: '_savings', value: ((item.regularPricePerUnit || 0) * (item.actualM2 || 0) - totalPrice).toFixed(2) }
+          );
+        }
+
+        if (item.isSample) {
+          metadata.push(
+            { key: '_is_sample', value: 'true' },
+            { key: '_sample_price', value: item.samplePrice?.toString() || '0' }
+          );
+        }
+
+        return {
+          product_id: item.product.id,
+          quantity: item.quantity,
+          total: totalPrice.toFixed(2),
+          name: item.product.name,
+          meta_data: metadata,
+        };
+      });
 
       // Billing Address (gleich wie Shipping falls sameAsBilling)
       const billing = formData.sameAsBilling
@@ -155,6 +191,9 @@ export default function CheckoutPage() {
         country: formData.country,
       };
 
+      // Versandkosten berechnen
+      const shippingCost = calculateShippingCost(totalPrice);
+
       // API Call
       const response = await fetch('/api/checkout/create-order', {
         method: 'POST',
@@ -165,7 +204,7 @@ export default function CheckoutPage() {
           line_items,
           payment_method: formData.paymentMethod,
           customer_note: '',
-          shipping_cost: 0, // Optional: Versandkosten hinzufügen
+          shipping_cost: shippingCost,
         }),
       });
 

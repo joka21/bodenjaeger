@@ -18,15 +18,15 @@ interface ZubehoerSliderProps {
 }
 
 // Standard Kategorien (basierend auf Meta-Keys aus BACKEND-FELDER-DOKUMENTATION.md)
-// WICHTIG: Backend verwendet _option_products_*, aber im jaeger_meta kommen sie ohne _ an
+// ✅ Backend liefert jetzt Root-Level Felder: option_products_*
 const DEFAULT_CATEGORIES: ZubehoerCategory[] = [
-  { name: 'Zubehör für Sockelleisten', metaKey: 'option_products_zubehoer-fuer-sockelleisten' },
+  { name: 'Zubehör für Sockelleisten', metaKey: 'option_products_zubehoer_fuer_sockelleisten' },
   { name: 'Werkzeug', metaKey: 'option_products_werkzeug' },
   { name: 'Kleber', metaKey: 'option_products_kleber' },
-  { name: 'Montagekleber & Silikon', metaKey: 'option_products_montagekleber-silikon' },
+  { name: 'Montagekleber & Silikon', metaKey: 'option_products_montagekleber_silikon' },
   { name: 'Untergrundvorbereitung', metaKey: 'option_products_untergrundvorbereitung' },
-  { name: 'Schienen & Profile', metaKey: 'option_products_schienen-profile' },
-  { name: 'Reinigung & Pflege', metaKey: 'option_products_reinigung-pflege' },
+  { name: 'Schienen & Profile', metaKey: 'option_products_schienen_profile' },
+  { name: 'Reinigung & Pflege', metaKey: 'option_products_reinigung_pflege' },
 ];
 
 /**
@@ -50,12 +50,12 @@ export default function ZubehoerSlider({
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [addedProductId, setAddedProductId] = useState<number | null>(null);
 
-  const { addToCart } = useCart();
+  const { addToCart, openCartDrawer } = useCart();
 
   // Filtere Kategorien: Nur die anzeigen, die Produkt-IDs haben
+  // ✅ WICHTIG: Felder sind jetzt auf ROOT-LEVEL, nicht in jaeger_meta
   const availableCategories = categories.filter((category) => {
-    const jaegerMeta = product?.jaeger_meta || {};
-    const productIdsString = jaegerMeta[category.metaKey as keyof typeof jaegerMeta];
+    const productIdsString = product?.[category.metaKey as keyof typeof product];
     return productIdsString && typeof productIdsString === 'string' && productIdsString.trim().length > 0;
   });
 
@@ -78,15 +78,14 @@ export default function ZubehoerSlider({
 
       try {
         console.log(`🔍 Loading products for meta key: ${activeCategory}`);
-        console.log('📦 Available jaeger_meta keys:', Object.keys(product.jaeger_meta || {}));
+        console.log('📦 Available root-level keys:', Object.keys(product || {}));
 
-        // 1. Produkt-IDs aus jaeger_meta auslesen
-        const jaegerMeta = product.jaeger_meta || {};
-        const productIdsString = jaegerMeta[activeCategory as keyof typeof jaegerMeta];
+        // 1. Produkt-IDs aus ROOT-LEVEL auslesen (nicht mehr jaeger_meta!)
+        const productIdsString = product[activeCategory as keyof typeof product];
 
         if (!productIdsString || typeof productIdsString !== 'string') {
-          console.warn(`⚠️ No product IDs found for meta key: ${activeCategory}`);
-          console.log(`💡 Available meta values:`, jaegerMeta);
+          console.warn(`⚠️ No product IDs found for key: ${activeCategory}`);
+          console.log(`💡 Product keys:`, Object.keys(product || {}));
           setProducts([]);
           setLoading(false);
           return;
@@ -204,8 +203,8 @@ export default function ZubehoerSlider({
             Die Anzahl der Produkte kannst du ganz einfach im Warenkorb anpassen.
           </p>
 
-          <Link
-            href="/cart"
+          <button
+            onClick={openCartDrawer}
             className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg text-white font-bold hover:opacity-90 transition-opacity"
             style={{ backgroundColor: 'var(--color-bg-darkest)' }}
           >
@@ -213,7 +212,7 @@ export default function ZubehoerSlider({
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </Link>
+          </button>
         </div>
 
         {/* RECHTE SEITE - Kategorien + Slider */}
@@ -274,7 +273,7 @@ export default function ZubehoerSlider({
                   {products.map((product) => {
                     const price = product.prices?.price
                       ? parseFloat(product.prices.price) / 100
-                      : (product.price || 0) / 100;
+                      : (product.price || 0);  // ✅ Backend liefert bereits Euro, nicht Cent!
                     const unit = product.einheit_short || 'Stk.';
 
                     return (
@@ -283,18 +282,18 @@ export default function ZubehoerSlider({
                         className="flex-shrink-0 w-[220px] snap-start"
                       >
                         <article className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col relative">
-                          <Link href={`/products/${product.slug}`} className="flex flex-col h-full">
-                            {/* Produktbild */}
-                            <div className="relative aspect-square bg-gray-100">
+                          <div className="flex flex-col h-full">
+                            {/* Produktbild - Klickbar zum Produkt */}
+                            <Link href={`/products/${product.slug}`} className="relative aspect-square bg-gray-100 block overflow-hidden">
                               {product.images.length > 0 ? (
                                 <Image
                                   src={product.images[0]?.src}
                                   alt={product.images[0]?.alt || product.name}
                                   fill
-                                  sizes="220px"
-                                  className="object-contain p-4"
+                                  sizes="(max-width: 768px) 220px, 220px"
+                                  className="object-cover"
                                   loading="lazy"
-                                  quality={75}
+                                  quality={90}
                                   placeholder="blur"
                                   blurDataURL={shimmerBlurDataURL(220, 220)}
                                 />
@@ -303,14 +302,16 @@ export default function ZubehoerSlider({
                                   <span className="text-gray-400 text-xs">Kein Bild</span>
                                 </div>
                               )}
-                            </div>
+                            </Link>
 
                             {/* Produktinfo */}
                             <div className="p-3 flex-1 flex flex-col">
-                              {/* Produktname */}
-                              <h3 className="text-sm font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem]">
-                                {product.name}
-                              </h3>
+                              {/* Produktname - Klickbar zum Produkt */}
+                              <Link href={`/products/${product.slug}`}>
+                                <h3 className="text-sm font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem] hover:text-red-600 transition-colors">
+                                  {product.name}
+                                </h3>
+                              </Link>
 
                               {/* Features mit Checkmarks */}
                               <div className="space-y-1 mb-3 flex-1">
@@ -350,7 +351,7 @@ export default function ZubehoerSlider({
                                 </div>
                               </div>
                             </div>
-                          </Link>
+                          </div>
 
                           {/* Warenkorb Button (absolute) */}
                           <button

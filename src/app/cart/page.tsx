@@ -120,10 +120,18 @@ export default function CartPage() {
                 totalPrice = pricePerUnit * displayAmount;
               } else {
                 // Regular Item: Verwende Produktpreise (als Zahl konvertieren)
+                console.log('🔍 DEBUG Regular Item:', {
+                  name: item.product.name,
+                  productPrice: item.product.price,
+                  productType: typeof item.product.price,
+                  regularPrice: item.product.regular_price,
+                  allProductKeys: Object.keys(item.product).filter(k => k.includes('price'))
+                });
                 pricePerUnit = Number(item.product.price || 0);
                 regularPricePerUnit = Number(item.product.regular_price || 0);
                 displayAmount = totalAmount;
                 totalPrice = pricePerUnit * item.quantity;
+                console.log('💰 Calculated:', { pricePerUnit, totalPrice });
               }
 
               const hasDiscount = regularPricePerUnit > pricePerUnit;
@@ -252,9 +260,11 @@ export default function CartPage() {
                   Gesamt: €{totalPrice.toFixed(2)}
                 </div>
               </div>
-              <button className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
-                Zur Kasse
-              </button>
+              <Link href="/checkout">
+                <button className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
+                  Zur Kasse
+                </button>
+              </Link>
             </div>
           </div>
         </div>

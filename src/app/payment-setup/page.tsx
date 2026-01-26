@@ -52,6 +52,167 @@ export default function PaymentSetupPage() {
           </div>
         </div>
 
+        {/* WooCommerce REST API Setup - SCHRITT 0 */}
+        <section className="mb-12">
+          <div className="bg-[#7f54b3] text-white p-6 rounded-t-lg">
+            <h2 className="text-2xl font-bold flex items-center gap-3">
+              <span>🔌</span> Schritt 0: WooCommerce REST API einrichten (ZUERST!)
+            </h2>
+          </div>
+          <div className="border-2 border-gray-200 rounded-b-lg p-6">
+            <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 mb-6">
+              <p className="text-red-800 font-semibold mb-2">
+                ⚠️ WICHTIG: Dieser Schritt muss ZUERST gemacht werden!
+              </p>
+              <p className="text-red-700 text-sm">
+                Ohne WooCommerce REST API Keys kann der Shop keine Bestellungen erstellen.
+                Dieser Schritt ist die Grundlage für alle weiteren Payment-Integrationen!
+              </p>
+            </div>
+
+            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+              Schritt 1: WordPress Backend öffnen
+            </h3>
+            <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
+              <li>
+                Gehe zu{' '}
+                <a
+                  href="https://plan-dein-ding.de/wp-admin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#7f54b3] hover:underline font-semibold"
+                >
+                  plan-dein-ding.de/wp-admin
+                </a>
+              </li>
+              <li>Mit Admin-Account einloggen</li>
+            </ol>
+
+            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+              Schritt 2: WooCommerce REST API Keys erstellen
+            </h3>
+            <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
+              <li>
+                Navigiere zu:{' '}
+                <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                  WooCommerce → Einstellungen → Erweitert → REST-API
+                </code>
+              </li>
+              <li>Klicke auf &quot;Schlüssel hinzufügen&quot; (oder &quot;Add key&quot;)</li>
+              <li>
+                Fülle das Formular aus:
+                <ul className="list-disc list-inside ml-6 mt-2 space-y-1">
+                  <li>
+                    <strong>Beschreibung:</strong> &quot;Bodenjäger Next.js Shop&quot;
+                  </li>
+                  <li>
+                    <strong>Benutzer:</strong> Admin-Benutzer auswählen
+                  </li>
+                  <li>
+                    <strong>Berechtigungen:</strong> <code className="bg-gray-100 px-1 rounded">Lesen/Schreiben</code>
+                  </li>
+                </ul>
+              </li>
+              <li>Klicke auf &quot;Schlüssel generieren&quot;</li>
+            </ol>
+
+            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+              Schritt 3: API Keys kopieren
+            </h3>
+            <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-4">
+              <p className="text-yellow-800 font-semibold mb-2">
+                ⚠️ NUR EINMAL SICHTBAR!
+              </p>
+              <p className="text-yellow-700 text-sm">
+                Die Keys werden nur EINMAL angezeigt. Wenn du sie nicht kopierst, musst du neue
+                erstellen. Kopiere sie sofort und speichere sie sicher!
+              </p>
+            </div>
+
+            <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
+              <li>
+                Kopiere den <strong>Consumer key</strong> (beginnt mit{' '}
+                <code className="bg-gray-100 px-2 py-1 rounded text-sm">ck_...</code>)
+              </li>
+              <li>
+                Kopiere den <strong>Consumer secret</strong> (beginnt mit{' '}
+                <code className="bg-gray-100 px-2 py-1 rounded text-sm">cs_...</code>)
+              </li>
+            </ol>
+
+            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+              Schritt 4: Environment Variables eintragen
+            </h3>
+            <p className="text-gray-700 mb-4">
+              Erstelle (falls noch nicht vorhanden) eine Datei <code className="bg-gray-100 px-2 py-1 rounded">.env.local</code> im Root-Verzeichnis:
+            </p>
+            <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm mb-6 overflow-x-auto">
+              <div className="text-green-400"># .env.local (im Root-Verzeichnis des Projekts)</div>
+              <div className="mt-2">
+                <div>NEXT_PUBLIC_WORDPRESS_URL=https://plan-dein-ding.de</div>
+                <div>WC_CONSUMER_KEY=ck_...</div>
+                <div>WC_CONSUMER_SECRET=cs_...</div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 border-2 border-red-200 rounded-lg p-4 mb-6">
+              <p className="text-red-800 font-semibold mb-2">
+                🚨 WICHTIG: .env.local NIEMALS in Git committen!
+              </p>
+              <p className="text-red-700 text-sm">
+                Die Datei <code className="bg-white px-2 py-1 rounded">.env.local</code> enthält
+                geheime Credentials und darf NICHT in Git eingecheckt werden. Sie ist bereits in
+                .gitignore eingetragen.
+              </p>
+            </div>
+
+            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+              Schritt 5: Vercel Environment Variables
+            </h3>
+            <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
+              <li>
+                Gehe zu{' '}
+                <a
+                  href="https://vercel.com/dashboard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:underline font-semibold"
+                >
+                  vercel.com/dashboard
+                </a>
+              </li>
+              <li>Wähle dein Projekt &quot;bodenjäger&quot;</li>
+              <li>
+                Gehe zu <strong>Settings → Environment Variables</strong>
+              </li>
+              <li>Füge die gleichen WooCommerce Variables hinzu (Production + Preview + Development)</li>
+            </ol>
+
+            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+              Schritt 6: Testen
+            </h3>
+            <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
+              <li>Development Server neu starten: <code className="bg-gray-100 px-2 py-1 rounded">npm run dev</code></li>
+              <li>
+                API testen:{' '}
+                <a
+                  href="http://localhost:3000/api-test"
+                  className="text-[#7f54b3] hover:underline font-semibold"
+                >
+                  localhost:3000/api-test
+                </a>
+              </li>
+              <li>Produkte sollten geladen werden</li>
+            </ol>
+
+            <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4">
+              <p className="text-green-800 font-semibold">
+                ✅ Wenn die API-Test-Seite Produkte zeigt, ist die WooCommerce-Verbindung fertig!
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Stripe Setup */}
         <section className="mb-12">
           <div className="bg-[#635bff] text-white p-6 rounded-t-lg">
@@ -456,6 +617,12 @@ export default function PaymentSetupPage() {
           <div className="bg-gradient-to-r from-[#635bff] to-[#0070ba] text-white p-6 rounded-lg">
             <h2 className="text-2xl font-bold mb-4">🚀 Quick Start Zusammenfassung</h2>
             <div className="space-y-3 text-sm">
+              <div className="flex items-start gap-3">
+                <span className="text-2xl">0️⃣</span>
+                <div>
+                  <strong>WooCommerce REST API Keys erstellen</strong> → Consumer Key + Secret (ZUERST!)
+                </div>
+              </div>
               <div className="flex items-start gap-3">
                 <span className="text-2xl">1️⃣</span>
                 <div>

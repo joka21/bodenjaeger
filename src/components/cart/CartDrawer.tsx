@@ -165,12 +165,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         } else {
           // Regular product - use standard pricing
           const singlePaketinhalt = item.product.paketinhalt || 1;
-          const singlePaketpreis = item.product.prices
-            ? parseFloat(item.product.prices.price) / 100
-            : 0;
-          const singleRegularPaketpreis = item.product.prices?.regular_price
-            ? parseFloat(item.product.prices.regular_price) / 100
-            : undefined;
+          // ✅ Backend liefert Preise bereits in Euro, nicht Cent!
+          const singlePaketpreis = item.product.price || 0;
+          const singleRegularPaketpreis = item.product.regular_price || undefined;
 
           const product: CartItemBase = {
             id: `single-${item.id}`,

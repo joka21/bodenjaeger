@@ -56,6 +56,10 @@ interface JaegerMeta {
   'option_products_schienen-profile'?: string | null;
   option_products_reinigung_pflege?: string | null;
   'option_products_reinigung-pflege'?: string | null;
+
+  // Verrechnung (für Premium-Artikel Berechnung)
+  verrechnung?: number | null;
+
   // Aktions-System
   aktion?: string | null;
   show_aktion?: boolean;
@@ -246,6 +250,15 @@ interface StoreApiProduct {
 
   // Testing (1)
   testdummy?: string | null;
+
+  // Zubehör-Kategorien (7 Felder) - für Zubehör-Slider
+  option_products_untergrundvorbereitung?: string | null;
+  option_products_werkzeug?: string | null;
+  option_products_kleber?: string | null;
+  option_products_montagekleber_silikon?: string | null;
+  option_products_zubehoer_fuer_sockelleisten?: string | null;
+  option_products_schienen_profile?: string | null;
+  option_products_reinigung_pflege?: string | null;
 
   // WooCommerce calculated fields
   discount_percent?: number;

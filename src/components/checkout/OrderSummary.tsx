@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
+import { calculateShippingCost } from '@/lib/shippingConfig';
 
 export default function OrderSummary() {
   const { cartItems, totalPrice, itemCount } = useCart();
@@ -10,7 +11,7 @@ export default function OrderSummary() {
 
   // Berechne Zwischensumme, Versand, MwSt
   const subtotal = totalPrice;
-  const shipping = subtotal >= 999 ? 0 : 49;
+  const shipping = calculateShippingCost(subtotal);
   const total = subtotal + shipping;
   const mwst = total * 0.19;
 
