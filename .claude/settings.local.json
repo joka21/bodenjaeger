@@ -48,7 +48,8 @@
       "Bash(npm run lint)",
       "Bash(wc:*)",
       "Bash(tree:*)",
-      "Bash(powershell -Command:*)"
+      "Bash(powershell -Command:*)",
+      "Bash(vercel env:*)"
     ],
     "deny": [],
     "ask": []
