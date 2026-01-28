@@ -57,6 +57,50 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
               </div>
             )}
           </div>
+
+        {/* Test Buttons on Border */}
+        <div className="absolute left-0 right-0 flex justify-between px-4 z-10" style={{ bottom: '-2%' }}>
+          <button
+            className="text-white flex items-center justify-start gap-2"
+            style={{
+              backgroundColor: 'var(--color-bg-darkest)',
+              height: '10px',
+              padding: '1rem',
+              borderRadius: '6px'
+            }}
+          >
+            <Image
+              src="/images/Icons/Favoriten weiß.png"
+              alt="Wunschlist"
+              width={16}
+              height={16}
+            />
+            <div className="flex flex-col items-start">
+              <span className="text-[0.65rem] leading-tight">Auf die</span>
+              <span className="text-xs font-bold leading-tight">Merkliste</span>
+            </div>
+          </button>
+          <button
+            className="text-white flex items-center justify-start gap-2"
+            style={{
+              backgroundColor: 'var(--color-bg-darkest)',
+              height: '10px',
+              padding: '1rem',
+              borderRadius: '6px'
+            }}
+          >
+            <Image
+              src="/images/Icons/Musterbox weiß.png"
+              alt="Muster bestellen"
+              width={16}
+              height={16}
+            />
+            <div className="flex flex-col items-start">
+              <span className="text-[0.65rem] leading-tight">Kostenloses</span>
+              <span className="text-xs font-bold leading-tight">Muster</span>
+            </div>
+          </button>
+        </div>
         </div>
 
         {/* Produktinfo-Bereich */}

@@ -168,6 +168,30 @@ export default function ProductCard({ product, showDescription = false }: Produc
             🎨 Muster
           </button>
         </div>
+
+        {/* Test Buttons on Border */}
+        <div className="absolute -bottom-[5px] left-0 right-0 flex justify-between px-4 z-10">
+          <button
+            className="text-white text-xs font-medium flex items-center justify-center"
+            style={{
+              backgroundColor: 'var(--color-bg-darkest)',
+              height: '10px',
+              padding: '2%'
+            }}
+          >
+            testen 1
+          </button>
+          <button
+            className="text-white text-xs font-medium flex items-center justify-center"
+            style={{
+              backgroundColor: 'var(--color-bg-darkest)',
+              height: '10px',
+              padding: '2%'
+            }}
+          >
+            testen 2
+          </button>
+        </div>
       </div>
 
       {/* Content Section */}
