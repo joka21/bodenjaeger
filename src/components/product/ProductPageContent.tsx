@@ -241,29 +241,48 @@ export default function ProductPageContent({
 
   // ========== SIMPLE PRODUCT LAYOUT COMPONENTS (for Accessories) ==========
 
-  // Service Icons for Simple Layout
+  // Service Icons for Simple Layout (matches Layout 1 styling)
   const ServiceIcons = () => (
     <div className="space-y-0 text-base sm:text-lg lg:text-2xl text-gray-700">
-      <div className="flex items-center gap-4 py-2 text-gray-900">
-        <span className="text-2xl sm:text-3xl lg:text-4xl">🚚</span>
-        <div className="flex-1">
-          <span className="font-semibold">Kostenloser Versand</span>
-          <span className="hidden sm:inline"> ab 750 € in Deutschland</span>
-        </div>
+      <div className="flex items-center gap-2 sm:gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+        <Image
+          src="/images/Icons/Telefon schieferschwarz.png"
+          alt="Telefon"
+          width={24}
+          height={24}
+          className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
+        />
+        <span className="break-words">Persönliche Beratung unter 02433938884</span>
       </div>
-      <div className="flex items-center gap-4 py-2 text-gray-900">
-        <span className="text-2xl sm:text-3xl lg:text-4xl">💰</span>
-        <div className="flex-1">
-          <span className="font-semibold">Kauf auf Rechnung</span>
-          <span className="hidden sm:inline"> für Geschäftskunden</span>
-        </div>
+      <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+        <Image
+          src="/images/Icons/Lager schieferschwarz.png"
+          alt="Lager"
+          width={24}
+          height={24}
+          className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
+        />
+        <span className="break-words">Kostenlose Einlagerung bis zu 6 Monate</span>
       </div>
-      <div className="flex items-center gap-4 py-2 text-gray-900">
-        <span className="text-2xl sm:text-3xl lg:text-4xl">🏆</span>
-        <div className="flex-1">
-          <span className="font-semibold">Premium Qualität</span>
-          <span className="hidden sm:inline"> geprüfte Markenprodukte</span>
-        </div>
+      <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
+        <Image
+          src="/images/Icons/Termin schieferschwarz.png"
+          alt="Termin"
+          width={24}
+          height={24}
+          className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
+        />
+        <span className="break-words">Lieferung zum Wunschtermin</span>
+      </div>
+      <div className="flex items-center gap-2 sm:gap-3 pt-3">
+        <Image
+          src="/images/Icons/Lieferung schieferschwarz.png"
+          alt="Lieferung"
+          width={24}
+          height={24}
+          className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
+        />
+        <span className="break-words">Kostenlose Lieferung ab 999€</span>
       </div>
     </div>
   );
@@ -401,10 +420,10 @@ export default function ProductPageContent({
     };
 
     return (
-      <div className="bg-white rounded-lg p-6 space-y-4">
+      <div className="bg-[#e8e8e8] rounded-2xl p-6 space-y-4">
         {/* Top Section: Content and Price per Unit */}
-        <div className="bg-[#e8e8e8] rounded-2xl px-6 py-4 flex items-center justify-between">
-          <div className="text-[#2e2d32] text-base font-normal">
+        <div className="flex items-center justify-between px-2">
+          <div className="text-[#2e2d32] text-base font-bold">
             Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €
           </div>
           <div className="text-[#2e2d32] text-4xl font-bold">
@@ -413,7 +432,7 @@ export default function ProductPageContent({
         </div>
 
         {/* Quantity Selectors: Packages and Units */}
-        <div className="bg-[#e8e8e8] rounded-2xl p-4 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           {/* Packages Selector */}
           <div className="text-center">
             <div className="text-[#2e2d32] text-base font-normal mb-3">Paket(e)</div>
@@ -429,7 +448,7 @@ export default function ProductPageContent({
                 type="number"
                 value={packages}
                 onChange={(e) => handlePackagesChange(parseInt(e.target.value) || 1)}
-                className="w-24 h-12 text-center border-t border-b border-gray-300
+                className="w-24 h-12 text-center border-t border-b border-gray-300 bg-white
                          text-lg font-medium text-[#2e2d32] focus:outline-none"
                 min="1"
               />
@@ -446,7 +465,7 @@ export default function ProductPageContent({
           {/* Units Selector */}
           <div className="text-center">
             <div className="text-[#2e2d32] text-base font-normal mb-3">
-              {einheitShort === 'm²' ? 'Quadratmeter' : einheitShort}
+              {product.einheit || einheitShort}
             </div>
             <div className="flex items-center justify-center gap-0">
               <button
@@ -461,7 +480,7 @@ export default function ProductPageContent({
                 value={units}
                 step={paketinhalt}
                 onChange={(e) => handleUnitsChange(parseFloat(e.target.value) || paketinhalt)}
-                className="w-24 h-12 text-center border-t border-b border-gray-300
+                className="w-24 h-12 text-center border-t border-b border-gray-300 bg-white
                          text-lg font-medium text-[#2e2d32] focus:outline-none"
                 min={paketinhalt}
               />
@@ -476,10 +495,9 @@ export default function ProductPageContent({
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-300 pt-4">
-          {/* Total Price */}
-          <div className="flex items-center justify-between mb-6">
+        {/* Total Price with Border Top */}
+        <div className="border-t-2 border-gray-400 pt-4">
+          <div className="flex items-center justify-between mb-6 px-2">
             <div className="text-[#2e2d32] text-2xl font-bold">
               Gesamtsumme <span className="text-base font-normal">(inkl. MwSt.)</span>
             </div>
@@ -492,7 +510,7 @@ export default function ProductPageContent({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <button
               onClick={handleRequestQuote}
-              className="px-6 py-3 rounded-lg border-2 border-[#2e2d32] text-[#2e2d32]
+              className="px-6 py-3 rounded-lg border-2 border-[#2e2d32] text-[#2e2d32] bg-white
                        font-medium hover:bg-gray-50 transition-colors text-center"
             >
               Individuelles Angebot anfragen
@@ -513,7 +531,7 @@ export default function ProductPageContent({
           </div>
 
           {/* Delivery Info */}
-          <div className="text-[#2e2d32] text-sm text-left">
+          <div className="text-[#2e2d32] text-sm text-left px-2">
             Lieferzeit: {product.lieferzeit || '3-7 Arbeitstage oder im Markt abholen'}
           </div>
         </div>
@@ -600,9 +618,6 @@ export default function ProductPageContent({
         <div className="space-y-6">
           {/* Image Gallery - reused */}
           <ImageGallery product={product} />
-
-          {/* Service Icons - shared */}
-          <ServiceIcons />
         </div>
 
         {/* RIGHT COLUMN */}
@@ -612,6 +627,9 @@ export default function ProductPageContent({
 
           {/* Quantity & Add to Cart */}
           <SimpleQuantityAndCart />
+
+          {/* Service Icons - positioned under prices like Layout 1 */}
+          <ServiceIcons />
 
           {/* Payment Methods */}
           <PaymentMethods />
@@ -915,7 +933,7 @@ export default function ProductPageContent({
                   height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span className="break-words">Persönliche Beratung unter 0800 123 4567</span>
+                <span className="break-words">Persönliche Beratung unter 02433938884</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
