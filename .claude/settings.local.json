@@ -49,7 +49,11 @@
       "Bash(wc:*)",
       "Bash(tree:*)",
       "Bash(powershell -Command:*)",
-      "Bash(vercel env:*)"
+      "Bash(vercel env:*)",
+      "WebSearch",
+      "WebFetch(domain:altaviaa.ai)",
+      "Bash(Get-Content \"C:\\\\Users\\\\jokal\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-jokal-OneDrive-Desktop-Projekte-j-ger-bodenj-ger\\\\tasks\\\\bc77d58.output\" -Tail 50)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

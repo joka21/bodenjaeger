@@ -1,15 +1,15 @@
 import { wordPressClient } from '@/lib/wordpress';
-import WordPressPageComponent from '@/components/WordPressPage';
+import ServicePage from '@/components/ServicePage';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 300; // 5 minutes
+export const revalidate = 300;
 
-export default async function ServicePage() {
+export default async function ServicePageRoute() {
   const page = await wordPressClient.getPageBySlug('servicebereich-bodenjaeger');
 
   if (!page) {
     notFound();
   }
 
-  return <WordPressPageComponent page={page} />;
+  return <ServicePage page={page} />;
 }

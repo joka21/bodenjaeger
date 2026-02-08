@@ -1,8 +1,8 @@
 import { wordPressClient } from '@/lib/wordpress';
-import WordPressPageComponent from '@/components/WordPressPage';
+import WordPressPage from '@/components/WordPressPage';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 300; // 5 minutes
+export const revalidate = 300;
 
 export default async function DatenschutzPage() {
   const page = await wordPressClient.getPageBySlug('datenschutzerklaerung-2');
@@ -11,5 +11,5 @@ export default async function DatenschutzPage() {
     notFound();
   }
 
-  return <WordPressPageComponent page={page} />;
+  return <WordPressPage page={page} />;
 }

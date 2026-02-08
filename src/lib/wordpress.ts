@@ -39,6 +39,22 @@ export interface WordPressPage {
   yoast_head?: string;
   yoast_head_json?: Record<string, unknown>;
   _links: Record<string, unknown>;
+  _embedded?: {
+    'wp:featuredmedia'?: Array<{
+      id: number;
+      source_url: string;
+      alt_text: string;
+      media_details: {
+        width: number;
+        height: number;
+        sizes: Record<string, {
+          source_url: string;
+          width: number;
+          height: number;
+        }>;
+      };
+    }>;
+  };
 }
 
 export interface WordPressPost {
@@ -226,7 +242,8 @@ class WordPressClient {
     }
 
     try {
-      const pages = await this.makeRequest<WordPressPage[]>(`/pages?slug=${slug}`);
+      // Include _embed to get featured media
+      const pages = await this.makeRequest<WordPressPage[]>(`/pages?slug=${slug}&_embed=true`);
 
       if (pages.length === 0) {
         return null;

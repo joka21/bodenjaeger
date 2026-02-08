@@ -1,8 +1,8 @@
 import { wordPressClient } from '@/lib/wordpress';
-import WordPressPageComponent from '@/components/WordPressPage';
+import WordPressPage from '@/components/WordPressPage';
 import { notFound } from 'next/navigation';
 
-export const revalidate = 300; // 5 minutes
+export const revalidate = 300;
 
 export default async function AgbPage() {
   const page = await wordPressClient.getPageBySlug('allgemeine-geschaeftsbedingungen');
@@ -11,5 +11,5 @@ export default async function AgbPage() {
     notFound();
   }
 
-  return <WordPressPageComponent page={page} />;
+  return <WordPressPage page={page} />;
 }
