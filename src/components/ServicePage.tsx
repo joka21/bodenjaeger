@@ -17,7 +17,7 @@ export default function ServicePage({ page }: ServicePageProps) {
     const hero = imgMatch ? imgMatch[1] : null;
 
     // Remove hero image from content
-    const clean = hero ? content.replace(imgMatch[0], '') : content;
+    const clean = (hero && imgMatch) ? content.replace(imgMatch[0], '') : content;
 
     return { heroImage: hero, cleanContent: clean };
   }, [page.content.rendered]);

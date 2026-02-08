@@ -17,7 +17,7 @@ export default function KarrierePage({ page }: KarrierePageProps) {
     const imgs = imgMatches.map(m => {
       const srcMatch = m.match(/src="([^"]+)"/);
       return srcMatch ? srcMatch[1] : null;
-    }).filter(Boolean);
+    }).filter((img): img is string => img !== null);
 
     // Remove all images from content
     let clean = content;

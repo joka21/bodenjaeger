@@ -54,7 +54,7 @@ const serviceCards = [
 ];
 
 export default function FachmarktPage({ page }: FachmarktPageProps) {
-  const { heroImage, categories, restContent } = useMemo(() => {
+  const { heroImage, categories } = useMemo(() => {
     const content = page.content.rendered;
 
     // Extract first image as hero
@@ -62,7 +62,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
     const hero = imgMatch ? imgMatch[1] : null;
 
     // Remove first image
-    let processedContent = hero ? content.replace(imgMatch[0], '') : content;
+    let processedContent = (hero && imgMatch) ? content.replace(imgMatch[0], '') : content;
 
     // Define the exact categories we want to show (first 8 items only)
     const allowedCategories = [
@@ -109,40 +109,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
       processedContent = processedContent.replace(`✓${item}<br />`, '');
     });
 
-    // Remove heading if still there
-    processedContent = processedContent.replace('Alle Vorteile auf einem Blick:', '');
-
-    // Remove "Unsere Filialvorteile auf einem Blick" from content (we'll render it separately)
-    processedContent = processedContent.replace('Unsere Filialvorteile auf einem Blick', '');
-    processedContent = processedContent.replace('\t\t\tUnsere Filialvorteile auf einem Blick\t\t', '');
-
-    // Remove service card sections (h3 + links)
-    const serviceNames = [
-      'Verlegeservice',
-      'Anhängerverleih',
-      'Warenlagerung',
-      'Fachberatung',
-      'Set-Angebote',
-      'Werkzeugverleih',
-      'Lieferservice',
-      'Schausonntag'
-    ];
-
-    serviceNames.forEach(service => {
-      // Remove h3 headings
-      const h3Regex = new RegExp(`<h3[^>]*>\\s*${service}\\s*<\\/h3>`, 'gi');
-      processedContent = processedContent.replace(h3Regex, '');
-
-      // Remove "Mehr erfahren" links
-      processedContent = processedContent.replace(/<p>\s*<a><br \/>\s*Mehr erfahren\s*&gt;\s*<\/a><\/p>/gi, '');
-      processedContent = processedContent.replace(/<p>\s*<a><br \/>\s*Mehr erfahren\s*>\s*<\/a><\/p>/gi, '');
-
-      // Remove service name lines without h3
-      processedContent = processedContent.replace(`${service}<br />`, '');
-      processedContent = processedContent.replace(`\t\t\t\t\t\t${service}<br />`, '');
-    });
-
-    return { heroImage: hero, categories: cats, restContent: processedContent };
+    return { heroImage: hero, categories: cats };
   }, [page.content.rendered]);
 
   return (
