@@ -9,8 +9,13 @@ export default function FloatingContactButton() {
 
   return (
     <>
-      {/* Floating Contact Button - starts 10vh below header, then scrolls with page */}
-      <div className="fixed right-4 top-[calc(200px+10vh)] z-[60]">
+      {/* Floating Contact Button - 10px rechts neben dem Content-Container (max-width: 1400px) */}
+      <div
+        className="fixed top-[calc(200px+10vh)] z-[60]"
+        style={{
+          right: 'max(0.5rem, calc((100vw - 1400px) / 2 - 10px - 3.5rem))',
+        }}
+      >
         <button
           onClick={() => setIsContactDrawerOpen(true)}
           className="w-14 h-14 bg-[#ed1b24] rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
