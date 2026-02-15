@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { WordPressPage } from '@/lib/wordpress';
 
@@ -9,42 +9,30 @@ interface KarrierePageProps {
 }
 
 export default function KarrierePage({ page }: KarrierePageProps) {
-  const { images, cleanContent } = useMemo(() => {
+  const { galleryImages, cleanContent } = useMemo(() => {
     const content = page.content.rendered;
 
-    // Extract all images
-    const imgMatches = content.match(/<img[^>]+src="([^"]+)"[^>]*>/g) || [];
-    const imgs = imgMatches.map(m => {
-      const srcMatch = m.match(/src="([^"]+)"/);
+    // Extract gallery images from data-thumbnail attributes (Elementor Gallery)
+    const thumbnailMatches = content.match(/data-thumbnail="([^"]+)"/g) || [];
+    const imgs = thumbnailMatches.map(m => {
+      const srcMatch = m.match(/data-thumbnail="([^"]+)"/);
       return srcMatch ? srcMatch[1] : null;
     }).filter((img): img is string => img !== null);
 
-    // Remove all images from content
-    let clean = content;
-    imgMatches.forEach(img => {
-      clean = clean.replace(img, '');
-    });
+    // Remove entire gallery section from content
+    let clean = content.replace(/<div class="elementor-gallery__container">[\s\S]*?<\/div>\s*<\/div>/g, '');
 
-    return { images: imgs, cleanContent: clean };
+    // Also remove gallery widget wrapper
+    clean = clean.replace(/<div class="elementor-element.*?elementor-widget-gallery.*?">[\s\S]*?<div class="elementor-widget-container">[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/g, '');
+
+    return { galleryImages: imgs, cleanContent: clean };
   }, [page.content.rendered]);
+
+  const [lightboxImage, setLightboxImage] = useState<number | null>(null);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Image */}
-      {images[0] && (
-        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
-          <Image
-            src={images[0]}
-            alt="Karriere"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-        </div>
-      )}
-
-      {/* Content */}
+      {/* Content with integrated gallery */}
       <div className="content-container py-12">
         <div
           className="prose prose-lg max-w-none mb-12
@@ -58,26 +46,90 @@ export default function KarrierePage({ page }: KarrierePageProps) {
           dangerouslySetInnerHTML={{ __html: cleanContent }}
         />
 
-        {/* Image Gallery - remaining images */}
-        {images.length > 1 && (
-          <div className="mt-12">
-            <h2 className="text-3xl font-bold text-black mb-8">Eindrücke aus unserem Team</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {images.slice(1).map((img, index) => (
-                <div key={index} className="relative h-64 rounded-lg overflow-hidden">
-                  <Image
-                    src={img}
-                    alt={`Team ${index + 1}`}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  />
-                </div>
-              ))}
+        {/* Masonry Gallery - Elementor Style */}
+        {galleryImages.length > 0 && (
+          <div className="mb-12">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5">
+              {galleryImages.map((img, index) => {
+                // Deterministic height pattern for masonry effect
+                const heightClass = index % 3 === 0 ? 'h-64' : index % 3 === 1 ? 'h-80' : 'h-72';
+
+                return (
+                  <div
+                    key={index}
+                    className={`relative group cursor-pointer overflow-hidden rounded-sm ${heightClass}`}
+                    onClick={() => setLightboxImage(index)}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={img}
+                        alt={`Team Bild ${index + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-110"
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                      />
+                      {/* Overlay */}
+                      <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
       </div>
+
+      {/* Lightbox Modal */}
+      {lightboxImage !== null && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white text-4xl font-light hover:text-gray-300 transition-colors"
+            onClick={() => setLightboxImage(null)}
+          >
+            ×
+          </button>
+
+          <div className="relative max-w-7xl max-h-[90vh] w-full h-full">
+            <Image
+              src={galleryImages[lightboxImage]}
+              alt={`Team Bild ${lightboxImage + 1}`}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+
+          {/* Navigation */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxImage(prev => prev === null ? null : Math.max(0, prev - 1));
+              }}
+              disabled={lightboxImage === 0}
+              className="px-6 py-2 bg-white text-black rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              ←
+            </button>
+            <span className="px-6 py-2 bg-white text-black rounded">
+              {lightboxImage + 1} / {galleryImages.length}
+            </span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxImage(prev => prev === null ? null : Math.min(galleryImages.length - 1, prev + 1));
+              }}
+              disabled={lightboxImage === galleryImages.length - 1}
+              className="px-6 py-2 bg-white text-black rounded hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              →
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
