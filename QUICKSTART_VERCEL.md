@@ -23,12 +23,12 @@
 | Variable | Wert | Env |
 |----------|------|-----|
 | `NEXT_PUBLIC_WORDPRESS_URL` | `https://plan-dein-ding.de` | Alle |
-| `WC_CONSUMER_KEY` | `ck_8fd49c60d0ba20673159fe2d1ff1c64dd30db676` | Alle |
-| `WC_CONSUMER_SECRET` | `cs_674a4aab966043b0552766780d964f1d420dcfd2` | Alle |
+| `WC_CONSUMER_KEY` | `[DEIN_WC_CONSUMER_KEY]` | Alle |
+| `WC_CONSUMER_SECRET` | `[DEIN_WC_CONSUMER_SECRET]` | Alle |
 | `NEXT_PUBLIC_SITE_URL` | `https://bodenjaeger.vercel.app` | Production |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_...` (aus Schritt 1) | Production |
 | `STRIPE_SECRET_KEY` | `sk_live_...` (aus Schritt 1) | Production |
-| `REVALIDATE_SECRET` | `T3njoka21!` | Alle |
+| `REVALIDATE_SECRET` | `[DEIN_REVALIDATE_SECRET]` | Alle |
 
 ⚠️ **WICHTIG:** Für jede Variable "Environment" = **"Production"** auswählen!
 

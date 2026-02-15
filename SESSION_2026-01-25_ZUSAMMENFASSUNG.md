@@ -246,8 +246,8 @@
 
 ### WooCommerce API:
 - **URL:** https://plan-dein-ding.de
-- **Consumer Key:** `ck_8fd49c60d0ba20673159fe2d1ff1c64dd30db676`
-- **Consumer Secret:** `cs_674a4aab966043b0552766780d964f1d420dcfd2`
+- **Consumer Key:** `[In Vercel Environment Variables konfiguriert]`
+- **Consumer Secret:** `[In Vercel Environment Variables konfiguriert]`
 
 ### Test-Endpunkte:
 - **API Test:** http://localhost:3003/api/test-connection

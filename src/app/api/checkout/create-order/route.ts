@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
         lineItems: line_items.map((item) => ({
           name: item.name || `Produkt #${item.product_id}`,
           quantity: item.quantity,
-          price: euroToCents(parseFloat(item.total || '0')),
+          price: euroToCents(parseFloat(item.total || '0') / item.quantity),
         })),
         customerEmail: billing.email,
         paymentMethod: 'card',
@@ -145,7 +145,7 @@ export async function POST(request: NextRequest) {
         lineItems: line_items.map((item) => ({
           name: item.name || `Produkt #${item.product_id}`,
           quantity: item.quantity,
-          price: euroToCents(parseFloat(item.total || '0')),
+          price: euroToCents(parseFloat(item.total || '0') / item.quantity),
         })),
         customerEmail: billing.email,
         paymentMethod: 'sofort',
@@ -207,10 +207,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error:
-          error instanceof Error
-            ? error.message
-            : 'Bestellung konnte nicht erstellt werden. Bitte versuchen Sie es erneut.',
+        error: 'Bestellung konnte nicht erstellt werden. Bitte versuchen Sie es erneut.',
       },
       { status: 500 }
     );

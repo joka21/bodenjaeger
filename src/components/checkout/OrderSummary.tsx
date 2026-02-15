@@ -13,7 +13,7 @@ export default function OrderSummary() {
   const subtotal = totalPrice;
   const shipping = calculateShippingCost(subtotal);
   const total = subtotal + shipping;
-  const mwst = total * 0.19;
+  const mwst = total - (total / 1.19);
 
   return (
     <div className="sticky top-6">
@@ -198,9 +198,9 @@ export default function OrderSummary() {
               />
             </svg>
             <div>
-              <p className="text-sm font-medium text-[#2e2d32]">Kostenlose Lieferung ab 999 €</p>
+              <p className="text-sm font-medium text-[#2e2d32]">Kostenlose Lieferung ab 200 €</p>
               <p className="text-xs text-[#4c4c4c]">
-                Bei Bestellungen über 999 € entfallen die Versandkosten
+                Bei Bestellungen über 200 € entfallen die Versandkosten
               </p>
             </div>
           </div>

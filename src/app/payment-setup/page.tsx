@@ -431,8 +431,8 @@ export default function PaymentSetupPage() {
             <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm mb-6 overflow-x-auto">
               <div className="text-green-400"># WooCommerce (bereits vorhanden)</div>
               <div>NEXT_PUBLIC_WORDPRESS_URL=https://plan-dein-ding.de</div>
-              <div>WC_CONSUMER_KEY=ck_effb639d22b10db7fe6063fa4d8034b1ad34e500</div>
-              <div>WC_CONSUMER_SECRET=cs_529f9b5c3bd684cb45f297df28fc3a2515d67648</div>
+              <div>WC_CONSUMER_KEY=ck_YOUR_CONSUMER_KEY_HERE</div>
+              <div>WC_CONSUMER_SECRET=cs_YOUR_CONSUMER_SECRET_HERE</div>
               <div className="mt-4 text-green-400"># Stripe</div>
               <div>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...</div>
               <div>STRIPE_SECRET_KEY=sk_test_...</div>
@@ -444,7 +444,7 @@ export default function PaymentSetupPage() {
               <div className="mt-4 text-green-400"># Site URL</div>
               <div>NEXT_PUBLIC_SITE_URL=https://bodenjaeger.vercel.app</div>
               <div className="mt-4 text-green-400"># Revalidation (bereits vorhanden)</div>
-              <div>REVALIDATE_SECRET=T3njoka21!</div>
+              <div>REVALIDATE_SECRET=YOUR_REVALIDATE_SECRET_HERE</div>
             </div>
 
             <div className="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 mb-6">

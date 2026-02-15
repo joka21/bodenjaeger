@@ -91,30 +91,35 @@ const CART_STORAGE_KEY = 'woocommerce-cart';
 
 // CartProvider component
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
-
-  // Load cart from localStorage on component mount
-  useEffect(() => {
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    if (typeof window === 'undefined') return [];
     try {
       const savedCart = localStorage.getItem(CART_STORAGE_KEY);
       if (savedCart) {
-        const parsedCart: CartItem[] = JSON.parse(savedCart);
-        setCartItems(parsedCart);
+        return JSON.parse(savedCart) as CartItem[];
       }
     } catch (error) {
       console.error('Error loading cart from localStorage:', error);
     }
+    return [];
+  });
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+
+  // Mark cart as loaded after first render (for SSR hydration safety)
+  useEffect(() => {
+    setIsCartLoaded(true);
   }, []);
 
-  // Save cart to localStorage whenever cartItems change
+  // Save cart to localStorage whenever cartItems change (only after initial load)
   useEffect(() => {
+    if (!isCartLoaded) return;
     try {
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
     } catch (error) {
       console.error('Error saving cart to localStorage:', error);
     }
-  }, [cartItems]);
+  }, [cartItems, isCartLoaded]);
 
   // Calculate total item count
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);

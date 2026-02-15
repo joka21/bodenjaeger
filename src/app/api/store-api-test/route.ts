@@ -10,6 +10,10 @@ const cache = new Map<string, CachedData>();
 const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes in milliseconds (reduced for testing)
 
 export async function GET(request: Request) {
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Not available in production' }, { status: 404 });
+  }
+
   console.log('🚀 Store API proxy called');
 
   try {
@@ -149,8 +153,7 @@ export async function GET(request: Request) {
     return NextResponse.json(
       {
         error: 'Failed to fetch from Store API',
-        details: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined
+        details: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     );
@@ -161,7 +164,7 @@ export async function GET(request: Request) {
 export async function OPTIONS() {
   return NextResponse.json({}, {
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://bodenjaeger.vercel.app',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },

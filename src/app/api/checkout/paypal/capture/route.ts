@@ -50,8 +50,17 @@ export async function GET(request: NextRequest) {
     // 3. PayPal Zahlung erfassen (capture)
     const result = await capturePayPalOrder(paypalOrderId);
 
-    // 4. Erfolg: Order-Status aktualisieren
+    // 4. Erfolg: Verifiziere PayPal-WooCommerce Zuordnung und aktualisiere Status
     if (result.success) {
+      // Verify PayPal reference_id matches WooCommerce order ID
+      if (result.referenceId && result.referenceId !== orderId.toString()) {
+        console.error(`❌ PayPal order mismatch: PayPal reference_id=${result.referenceId}, WC order=${orderId}`);
+        return NextResponse.redirect(
+          `${process.env.NEXT_PUBLIC_SITE_URL}/checkout?error=order_mismatch`,
+          { status: 302 }
+        );
+      }
+
       await updateOrderStatus(orderId, 'processing');
 
       const note = `PayPal payment successful. Transaction ID: ${result.transactionId}. Payer: ${result.payerName} (${result.payerEmail})`;
