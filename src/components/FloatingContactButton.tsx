@@ -13,7 +13,7 @@ export default function FloatingContactButton() {
       <div
         className="fixed top-[calc(200px+10vh)] z-[60]"
         style={{
-          right: 'max(0.5rem, calc((100vw - 1400px) / 2 - 10px - 3.5rem))',
+          right: 'max(0.5rem, calc((100vw - 1400px) / 2 - 20px - 3.5rem))',
         }}
       >
         <button
