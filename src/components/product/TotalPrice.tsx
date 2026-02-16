@@ -211,7 +211,7 @@ export default function TotalPrice({
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-transparent border border-[#2e2d32] hover:bg-[#f5f5f5] text-[#2e2d32] font-semibold text-sm py-4 px-3 rounded-md transition-colors"
+          className="w-full bg-transparent border border-[#2e2d32] hover:bg-[#f5f5f5] text-[#2e2d32] font-semibold text-xs whitespace-nowrap rounded-md transition-colors" style={{ padding: '5px' }}
         >
           Individuelles Angebot anfragen
         </button>
@@ -221,11 +221,11 @@ export default function TotalPrice({
           type="button"
           onClick={handleAddToCart}
           disabled={addedToCart}
-          className={`w-full font-semibold text-sm py-4 px-3 rounded-lg transition-all ${
+          className={`w-full font-semibold text-xs whitespace-nowrap rounded-lg transition-all ${
             addedToCart
               ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
               : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
-          }`}
+          }`} style={{ padding: '5px' }}
         >
           {addedToCart ? (
             <span className="flex items-center justify-center">

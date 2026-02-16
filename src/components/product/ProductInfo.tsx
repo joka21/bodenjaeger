@@ -181,9 +181,13 @@ export default function ProductInfo({
           sockelleisteImage={sockelleisteImage}
           sockelleisteSetPricePerUnit={sockelleisteSetPricePerUnit}
           sockelleisteRegularPricePerUnit={sockelleisteRegularPricePerUnit}
+          sockelleisteEinheit={sockelleisteEinheit}
           comparisonPriceTotal={comparisonPriceTotal}
           totalDisplayPrice={totalDisplayPrice}
           savingsPercent={savingsPercent}
+          daemmungOptions={daemmungOptions}
+          sockelleisteOptions={sockelleisteOptions}
+          onProductSelection={onProductSelection}
         />
       </div>
     </div>

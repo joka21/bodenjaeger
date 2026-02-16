@@ -54,7 +54,9 @@
       "WebFetch(domain:altaviaa.ai)",
       "Bash(Get-Content \"C:\\\\Users\\\\jokal\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-jokal-OneDrive-Desktop-Projekte-j-ger-bodenj-ger\\\\tasks\\\\bc77d58.output\" -Tail 50)",
       "Bash(python3:*)",
-      "WebFetch(domain:plan-dein-ding.de)"
+      "WebFetch(domain:plan-dein-ding.de)",
+      "Bash(git stash:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
