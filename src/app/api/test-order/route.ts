@@ -6,6 +6,10 @@
 import { NextResponse } from 'next/server';
 
 export async function POST() {
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Not available in production' }, { status: 404 });
+  }
+
   const WC_BASE_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL;
   const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY;
   const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET;

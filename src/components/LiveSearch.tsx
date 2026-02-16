@@ -92,7 +92,8 @@ export default function LiveSearch() {
   const highlightText = (text: string, search: string) => {
     if (!search.trim()) return text;
 
-    const parts = text.split(new RegExp(`(${search})`, 'gi'));
+    const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const parts = text.split(new RegExp(`(${escapedSearch})`, 'gi'));
     return (
       <>
         {parts.map((part, index) =>

@@ -59,6 +59,7 @@ export interface CapturePayPalOrderResult {
   transactionId?: string;
   payerEmail?: string;
   payerName?: string;
+  referenceId?: string;
 }
 
 // ============================================================================
@@ -288,11 +289,14 @@ export async function capturePayPalOrder(
         data.payer?.name?.surname || ''
       }`.trim();
 
+      const referenceId = data.purchase_units?.[0]?.reference_id;
+
       return {
         success: true,
         transactionId,
         payerEmail,
         payerName,
+        referenceId,
       };
     }
 

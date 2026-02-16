@@ -91,11 +91,11 @@ Value: https://plan-dein-ding.de
 Environment: Production, Preview, Development
 
 # Variable Name: WC_CONSUMER_KEY
-Value: ck_8fd49c60d0ba20673159fe2d1ff1c64dd30db676
+Value: [DEIN_WC_CONSUMER_KEY]
 Environment: Production, Preview, Development
 
 # Variable Name: WC_CONSUMER_SECRET
-Value: cs_674a4aab966043b0552766780d964f1d420dcfd2
+Value: [DEIN_WC_CONSUMER_SECRET]
 Environment: Production, Preview, Development
 ```
 
@@ -145,7 +145,7 @@ Environment: Production
 
 ```bash
 # Variable Name: REVALIDATE_SECRET
-Value: T3njoka21!
+Value: [DEIN_REVALIDATE_SECRET]
 Environment: Production, Preview, Development
 ```
 

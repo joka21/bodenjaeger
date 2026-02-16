@@ -40,3 +40,24 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 node_modules
+
+# debug logs
+*.log
+
+# sensitive files
+test/akeebabackup_secretkey.php
+test/sgs_encrypt_key.php
+
+# large/unnecessary files
+*.xml
+project_structure.txt
+
+# test data dumps
+*_test.json
+test_*.json
+api_test_result.json
+fresh_product.json
+vinyl_products.json
+ripon_pretty.json
+einzelprodukt_detail.json
+einzelprodukt_felder.txt

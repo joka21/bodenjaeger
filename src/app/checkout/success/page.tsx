@@ -14,7 +14,7 @@ function CheckoutSuccessContent() {
   useEffect(() => {
     // Clear cart on success
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('bodenjaeger-cart');
+      localStorage.removeItem('woocommerce-cart');
     }
 
     // If no order ID is present, redirect to home

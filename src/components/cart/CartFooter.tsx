@@ -40,11 +40,9 @@ export default function CartFooter({
         {/* Shipping info */}
         {shipping > 0 && (
           <div className="text-xs text-gray-500">
-            {subtotal >= 250 && subtotal < 500
-              ? 'Noch ' + formatPrice(500 - subtotal) + ' € bis zum kostenlosen Versand'
-              : subtotal < 250
-                ? 'Ab 500€ Bestellwert versandkostenfrei'
-                : ''}
+            {subtotal < 200
+              ? 'Noch ' + formatPrice(200 - subtotal) + ' € bis zum kostenlosen Versand'
+              : ''}
           </div>
         )}
 

@@ -19,12 +19,14 @@ export async function GET() {
     const url = new URL('/wp-json/wc/v3/products', baseUrl);
     url.searchParams.append('category', '66'); // Muster category ID
     url.searchParams.append('per_page', '100');
-    url.searchParams.append('consumer_key', consumerKey);
-    url.searchParams.append('consumer_secret', consumerSecret);
 
-    console.log('🔍 Fetching sample products from WooCommerce REST API...');
+    const credentials = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
 
-    const response = await fetch(url.toString());
+    const response = await fetch(url.toString(), {
+      headers: {
+        'Authorization': `Basic ${credentials}`,
+      },
+    });
 
     if (!response.ok) {
       throw new Error(`WooCommerce API error: ${response.status} ${response.statusText}`);

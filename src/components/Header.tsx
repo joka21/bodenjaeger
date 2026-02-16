@@ -9,7 +9,7 @@ import MobileMenu from './navigation/MobileMenu';
 import LiveSearch from './LiveSearch';
 
 export default function Header() {
-  const { itemCount, isCartDrawerOpen, openCartDrawer, closeCartDrawer } = useCart();
+  const { isCartDrawerOpen, closeCartDrawer } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -45,25 +45,6 @@ export default function Header() {
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                 />
               </Link>
-
-              {/* Warenkorb */}
-              <button
-                onClick={openCartDrawer}
-                className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
-              >
-                <Image
-                  src="/images/Icons/Warenkorb weiß.png"
-                  alt="Warenkorb"
-                  width={32}
-                  height={32}
-                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
-                />
-                {itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 sm:-top-1 sm:-right-1 bg-red-600 text-white text-[10px] sm:text-xs font-bold px-1 sm:px-1.5 py-0.5 rounded-full min-w-[16px] sm:min-w-[20px] text-center">
-                    {itemCount}
-                  </span>
-                )}
-              </button>
 
               {/* Kundenkonto */}
               <Link href="/kundenkonto" className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
