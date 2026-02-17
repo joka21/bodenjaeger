@@ -34,6 +34,25 @@ export default async function ProductPage({ params }: ProductPageProps) {
     console.log('  - setangebot_ersparnis_euro:', product.setangebot_ersparnis_euro);
     console.log('  - setangebot_ersparnis_prozent:', product.setangebot_ersparnis_prozent);
 
+    // Load WooCommerce description (contains Eigenschaften table) via REST API
+    try {
+      const wcUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+      const ck = process.env.WC_CONSUMER_KEY;
+      const cs = process.env.WC_CONSUMER_SECRET;
+      const wcRes = await fetch(
+        `${wcUrl}/wp-json/wc/v3/products/${product.id}?consumer_key=${ck}&consumer_secret=${cs}`,
+        { next: { revalidate: 300 } }
+      );
+      if (wcRes.ok) {
+        const wcProduct = await wcRes.json();
+        if (wcProduct.description) {
+          product.description = wcProduct.description;
+        }
+      }
+    } catch (e) {
+      console.error('Error loading WC description:', e);
+    }
+
     // ✅ USE ROOT-LEVEL FIELDS - Parse all product IDs we need to load
     const daemmungId = product.daemmung_id;
     const sockelleisteId = product.sockelleisten_id;

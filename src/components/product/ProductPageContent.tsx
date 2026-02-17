@@ -239,6 +239,93 @@ export default function ProductPageContent({
     setSelectedSockelleiste(sockelleiste);
   };
 
+  // ========== PRODUCT TABS (Beschreibung / Eigenschaften) ==========
+
+  const ProductTabs = ({ product }: { product: StoreApiProduct }) => {
+    const [activeTab, setActiveTab] = useState<'beschreibung' | 'eigenschaften' | null>('beschreibung');
+
+    const beschreibung = product.artikelbeschreibung || '';
+    const descriptionHtml = product.description || '';
+    const hasBeschreibung = !!beschreibung;
+    const hasEigenschaften = descriptionHtml.includes('<table');
+
+    if (!hasBeschreibung && !hasEigenschaften) return null;
+
+    const toggleTab = (tab: 'beschreibung' | 'eigenschaften') => {
+      setActiveTab(activeTab === tab ? null : tab);
+    };
+
+    return (
+      <div>
+        {/* Tab Buttons */}
+        <div className="flex gap-2 mb-0">
+          {hasBeschreibung && (
+            <button
+              onClick={() => toggleTab('beschreibung')}
+              className={`flex items-center justify-center gap-2 py-2.5 px-8 rounded-full text-sm font-semibold transition-colors ${
+                activeTab === 'beschreibung'
+                  ? 'bg-[#e5e5e5] text-[#2e2d32]'
+                  : 'bg-white text-[#2e2d32] border border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              Artikelbeschreibung
+              <svg className={`w-4 h-4 transition-transform ${activeTab === 'beschreibung' ? 'rotate-0' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+          {hasEigenschaften && (
+            <button
+              onClick={() => toggleTab('eigenschaften')}
+              className={`flex items-center justify-center gap-2 py-2.5 px-8 rounded-full text-sm font-semibold transition-colors ${
+                activeTab === 'eigenschaften'
+                  ? 'bg-[#e5e5e5] text-[#2e2d32]'
+                  : 'bg-white text-[#2e2d32] border border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              Weitere Artikeldetails
+              <svg className={`w-4 h-4 transition-transform ${activeTab === 'eigenschaften' ? 'rotate-0' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Tab Content */}
+        {activeTab && (
+          <div className="bg-[#e5e5e5] rounded-2xl overflow-hidden">
+            <div className="flex">
+              {/* Red accent bar */}
+              <div className="w-1.5 bg-[#ed1b24] flex-shrink-0 rounded-l-2xl"></div>
+              <div className="p-8 flex-1">
+                {activeTab === 'beschreibung' && hasBeschreibung && (
+                  <div
+                    className="prose prose-gray max-w-none text-[#2e2d32]
+                      [&_strong]:font-bold
+                      [&_p]:mb-4 [&_p]:leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: beschreibung }}
+                  />
+                )}
+
+                {activeTab === 'eigenschaften' && hasEigenschaften && (
+                  <div
+                    className="prose prose-gray max-w-none text-[#2e2d32]
+                      [&_table]:w-full [&_table]:border-collapse
+                      [&_td]:py-3 [&_td]:px-4 [&_td]:border-b [&_td]:border-gray-300 [&_td]:text-sm
+                      [&_td:first-child]:text-gray-500 [&_td:first-child]:font-medium [&_td:first-child]:w-1/3
+                      [&_td:last-child]:text-[#2e2d32]
+                      [&_h3]:text-lg [&_h3]:font-bold [&_h3]:mb-4 [&_h3]:hidden"
+                    dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // ========== SIMPLE PRODUCT LAYOUT COMPONENTS (for Accessories) ==========
 
   // Service Icons for Simple Layout (matches Layout 1 styling)
@@ -1104,17 +1191,7 @@ export default function ProductPageContent({
           <ZubehoerSlider product={product} />
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Produktdetails
-          </h2>
-          {product.description && (
-            <div
-              className="prose prose-gray max-w-none"
-              dangerouslySetInnerHTML={{ __html: product.description }}
-            />
-          )}
-        </div>
+        <ProductTabs product={product} />
           </>
         )}
       </div>
