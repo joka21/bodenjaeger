@@ -287,6 +287,27 @@ export default function ProductPageContent({
     </div>
   );
 
+  // Extract features from short_description (same logic as ProductInfo)
+  const getFeatures = (): string[] => {
+    if (product.short_description) {
+      const matches = product.short_description.match(/<li>(.*?)<\/li>/g);
+      if (matches) {
+        return matches.map(match => match.replace(/<\/?li>/g, '').trim()).slice(0, 3);
+      }
+    }
+    const features: string[] = [];
+    if (product.text_produktuebersicht && product.show_text_produktuebersicht) {
+      features.push(product.text_produktuebersicht);
+    }
+    if (product.lieferzeit && product.show_lieferzeit) {
+      features.push(product.lieferzeit);
+    }
+    if (product.paketinhalt) {
+      features.push(`Paketinhalt: ${product.paketinhalt} ${product.einheit_short || 'm²'}`);
+    }
+    return features;
+  };
+
   // Product Info for Simple Layout
   const SimpleProductInfo = () => {
     const price = product.price || 0;
@@ -294,6 +315,7 @@ export default function ProductPageContent({
     const einheitShort = product.einheit_short || 'Stück';
     const uvp = product.uvp || regularPrice;
     const hasDiscount = uvp > price;
+    const features = getFeatures();
 
     return (
       <div className="bg-white rounded-lg p-6">
@@ -301,6 +323,31 @@ export default function ProductPageContent({
         <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
           {product.name}
         </h1>
+
+        {/* Article Number */}
+        <div className="text-sm text-gray-600 mb-4">
+          Art.Nr.: {product.sku || 'N/A'}
+        </div>
+
+        {/* Features List with red checkmarks (same as ProductInfo) */}
+        {features.length > 0 && (
+          <div className="space-y-2 pt-2 mb-6">
+            {features.map((feature, index) => (
+              <div key={index} className="flex items-start gap-3">
+                <Image
+                  src="/images/Icons/Haken rot.png"
+                  alt="Check"
+                  width={20}
+                  height={20}
+                  className="flex-shrink-0 mt-0.5"
+                />
+                <span className="text-gray-700 text-sm leading-relaxed">
+                  {feature}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Price Display */}
         <div className="mb-6">
@@ -325,14 +372,6 @@ export default function ProductPageContent({
             </div>
           )}
         </div>
-
-        {/* Short Description */}
-        {product.short_description && (
-          <div
-            className="prose prose-sm mb-4"
-            dangerouslySetInnerHTML={{ __html: product.short_description }}
-          />
-        )}
 
         {/* Stock Status */}
         {product.stock_status === 'instock' ? (
