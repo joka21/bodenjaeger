@@ -10,10 +10,6 @@ const cache = new Map<string, CachedData>();
 const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes in milliseconds (reduced for testing)
 
 export async function GET(request: Request) {
-  if (process.env.NODE_ENV === 'production') {
-    return NextResponse.json({ error: 'Not available in production' }, { status: 404 });
-  }
-
   console.log('🚀 Store API proxy called');
 
   try {
