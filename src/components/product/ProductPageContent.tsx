@@ -341,7 +341,7 @@ export default function ProductPageContent({
                   height={20}
                   className="flex-shrink-0 mt-0.5"
                 />
-                <span className="text-gray-700 text-sm leading-relaxed">
+                <span className="text-gray-700 text-lg leading-relaxed">
                   {feature}
                 </span>
               </div>
@@ -349,42 +349,6 @@ export default function ProductPageContent({
           </div>
         )}
 
-        {/* Price Display */}
-        <div className="mb-6">
-          <div className="flex items-baseline gap-3">
-            <span className="text-3xl font-bold text-red-600">
-              {price.toFixed(2).replace('.', ',')} €
-            </span>
-            <span className="text-lg text-gray-600">
-              / {einheitShort}
-            </span>
-          </div>
-
-          {/* UVP with Discount */}
-          {hasDiscount && (
-            <div className="flex items-center gap-2 mt-2">
-              <span className="text-lg text-gray-400 line-through">
-                {uvp.toFixed(2).replace('.', ',')} €
-              </span>
-              <span className="text-sm text-red-600 font-semibold">
-                Sie sparen {((uvp - price) / uvp * 100).toFixed(0)}%
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Stock Status */}
-        {product.stock_status === 'instock' ? (
-          <div className="flex items-center gap-2 text-green-600 text-sm">
-            <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-            Auf Lager
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-orange-600 text-sm">
-            <span className="w-2 h-2 bg-orange-600 rounded-full"></span>
-            Lieferzeit: {product.lieferzeit || '3-7 Arbeitstage'}
-          </div>
-        )}
       </div>
     );
   };
@@ -459,17 +423,21 @@ export default function ProductPageContent({
     };
 
     return (
-      <div className="bg-[#e8e8e8] rounded-2xl p-6 space-y-4">
-        {/* Top Section: Content and Price per Unit */}
-        <div className="flex items-center justify-between px-2">
-          <div className="text-[#2e2d32] text-base font-bold">
-            Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €
-          </div>
-          <div className="text-[#2e2d32] text-4xl font-bold">
-            {price.toFixed(2).replace('.', ',')} <span className="text-2xl">€/{einheitShort}</span>
+      <div className="space-y-4">
+        {/* Top Section: Content and Price per Unit - eigener Hintergrund */}
+        <div className="bg-[#e8e8e8] rounded-2xl p-6">
+          <div className="flex items-center justify-between px-2">
+            <div className="text-[#2e2d32] text-base font-normal">
+              Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €
+            </div>
+            <div className="text-[#2e2d32] text-4xl font-bold">
+              {price.toFixed(2).replace('.', ',')} <span className="text-2xl">€/{einheitShort}</span>
+            </div>
           </div>
         </div>
 
+        {/* Quantity, Total, Buttons - eigener Hintergrund */}
+        <div className="bg-[#e8e8e8] rounded-2xl p-6 space-y-4">
         {/* Quantity Selectors: Packages and Units */}
         <div className="grid grid-cols-2 gap-4">
           {/* Packages Selector */}
@@ -487,7 +455,7 @@ export default function ProductPageContent({
                 type="number"
                 value={packages}
                 onChange={(e) => handlePackagesChange(parseInt(e.target.value) || 1)}
-                className="w-24 h-12 text-center border-t border-b border-gray-300 bg-white
+                className="w-28 h-12 text-center border-t border-b border-gray-300 bg-white
                          text-lg font-medium text-[#2e2d32] focus:outline-none"
                 min="1"
               />
@@ -519,7 +487,7 @@ export default function ProductPageContent({
                 value={units}
                 step={paketinhalt}
                 onChange={(e) => handleUnitsChange(parseFloat(e.target.value) || paketinhalt)}
-                className="w-24 h-12 text-center border-t border-b border-gray-300 bg-white
+                className="w-28 h-12 text-center border-t border-b border-gray-300 bg-white
                          text-lg font-medium text-[#2e2d32] focus:outline-none"
                 min={paketinhalt}
               />
@@ -545,34 +513,60 @@ export default function ProductPageContent({
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          {/* Action Buttons (gleich wie TotalPrice bei Böden) */}
+          <div className="grid grid-cols-2 gap-3 mt-5 mb-4">
             <button
+              type="button"
               onClick={handleRequestQuote}
-              className="px-6 py-3 rounded-lg border-2 border-[#2e2d32] text-[#2e2d32] bg-white
-                       font-medium hover:bg-gray-50 transition-colors text-center"
+              className="w-full bg-transparent border border-[#2e2d32] hover:bg-[#f5f5f5] text-[#2e2d32] font-semibold text-xs whitespace-nowrap rounded-md transition-colors"
+              style={{ padding: '10px' }}
             >
               Individuelles Angebot anfragen
             </button>
             <button
+              type="button"
               onClick={handleAddToCart}
               disabled={isAdding}
-              className="px-6 py-3 rounded-lg bg-[#2e2d32] text-white font-bold
-                       hover:opacity-90 transition-opacity disabled:opacity-50
-                       flex items-center justify-center gap-2"
+              className={`w-full font-semibold text-xs whitespace-nowrap rounded-lg transition-all ${
+                isAdding
+                  ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
+                  : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
+              }`}
+              style={{ padding: '10px' }}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              {isAdding ? 'Wird hinzugefügt...' : 'In den Warenkorb'}
+              {isAdding ? (
+                <span className="flex items-center justify-center">
+                  <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Hinzugefügt!
+                </span>
+              ) : (
+                <span className="flex items-center justify-center gap-2">
+                  <Image
+                    src="/images/Icons/Warenkorb weiß.png"
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
+                  In den Warenkorb
+                </span>
+              )}
             </button>
           </div>
 
-          {/* Delivery Info */}
-          <div className="text-[#2e2d32] text-sm text-left px-2">
-            Lieferzeit: {product.lieferzeit || '3-7 Arbeitstage oder im Markt abholen'}
+          {/* Delivery Info (gleich wie TotalPrice bei Böden) */}
+          <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-[#e5e5e5]">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z" />
+              </svg>
+              <span><span className="font-bold">Lieferzeit:</span> {product.lieferzeit || '3-7 Arbeitstage'} oder im Markt abholen</span>
+            </div>
           </div>
+        </div>
         </div>
       </div>
     );
@@ -657,6 +651,12 @@ export default function ProductPageContent({
         <div className="space-y-6">
           {/* Image Gallery - reused */}
           <ImageGallery product={product} />
+
+          {/* Service Icons - direkt unter dem Slider */}
+          <ServiceIcons />
+
+          {/* Product Details - direkt unter Service Icons */}
+          <ProductDetails />
         </div>
 
         {/* RIGHT COLUMN */}
@@ -667,16 +667,11 @@ export default function ProductPageContent({
           {/* Quantity & Add to Cart */}
           <SimpleQuantityAndCart />
 
-          {/* Service Icons - positioned under prices like Layout 1 */}
-          <ServiceIcons />
-
           {/* Payment Methods */}
           <PaymentMethods />
         </div>
       </div>
 
-      {/* Product Details - shared */}
-      <ProductDetails />
     </>
   );
 
