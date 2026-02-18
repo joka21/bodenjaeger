@@ -206,16 +206,16 @@ export default function KarrierePage({ page }: KarrierePageProps) {
         <section className="py-12 md:py-16 bg-[#f9f9fb]">
           <div className="content-container">
             <div
+              suppressHydrationWarning
               className="prose prose-lg max-w-3xl mx-auto text-center
-                prose-headings:text-[#2e2d32]
-                prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6
-                prose-h2:text-2xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-6
-                prose-h3:text-xl prose-h3:font-bold prose-h3:mb-3 prose-h3:mt-4
-                prose-p:text-gray-600 prose-p:mb-3 prose-p:leading-relaxed
-                prose-a:text-[#ed1b24] prose-a:hover:underline
-                prose-ul:text-gray-600 prose-ul:text-left prose-ul:inline-block
-                prose-li:mb-1.5
-                prose-strong:text-[#2e2d32]"
+                [&_h1]:text-4xl [&_h1]:md:text-5xl [&_h1]:font-bold [&_h1]:text-[#2e2d32] [&_h1]:mb-8 [&_h1]:mt-10
+                [&_h2]:text-3xl [&_h2]:md:text-4xl [&_h2]:font-bold [&_h2]:text-[#2e2d32] [&_h2]:mb-6 [&_h2]:mt-16
+                [&_h3]:text-2xl [&_h3]:md:text-3xl [&_h3]:font-bold [&_h3]:text-[#2e2d32] [&_h3]:mb-5 [&_h3]:mt-14
+                [&_p]:text-gray-600 [&_p]:mb-4 [&_p]:leading-relaxed
+                [&_a]:text-[#ed1b24] [&_a]:hover:underline
+                [&_ul]:text-gray-600 [&_ul]:text-left [&_ul]:inline-block
+                [&_li]:mb-1.5
+                [&_strong]:text-[#2e2d32]"
               dangerouslySetInnerHTML={{ __html: cleanContent }}
             />
           </div>
