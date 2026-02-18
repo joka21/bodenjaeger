@@ -57,7 +57,8 @@
       "WebFetch(domain:plan-dein-ding.de)",
       "Bash(git stash:*)",
       "Bash(git merge:*)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(npx next build:*)"
     ],
     "deny": [],
     "ask": []
