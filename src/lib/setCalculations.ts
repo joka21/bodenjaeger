@@ -62,10 +62,13 @@ export function calculateFloorQuantity(
   verschnitt: number,
   paketinhalt: number
 ): FloorQuantityCalculation {
-  // BODEN immer AUFRUNDEN (isFree = false)
-  const packages = calculatePackages(wantedM2, paketinhalt, false);
-  const actualM2 = packages * paketinhalt;
+  // Verschnitt wird NICHT automatisch angewendet (Excel-Logik).
+  // Verschnitt ist nur ein Hinweis für den Kunden - er bestellt selbst mehr.
   const targetM2 = wantedM2;
+
+  // BODEN immer AUFRUNDEN (isFree = false)
+  const packages = calculatePackages(targetM2, paketinhalt, false);
+  const actualM2 = packages * paketinhalt;
 
   return {
     wantedM2,
@@ -183,12 +186,13 @@ export function calculateSetQuantities(
     // Check if insulation is FREE (verrechnung = 0)
     const insulationIsFree = calculatedVerrechnung === 0;
 
-    // Use custom m² if provided, otherwise default to floor m²
-    const insulationM2 = customInsulationM2 !== undefined ? customInsulationM2 : wantedM2;
+    // Use custom m² if provided, otherwise default to floor.actualM2 (Excel-Logik)
+    // Excel: Dämmung basiert auf tatsächlich gekaufter Bodenfläche (26,7m²), nicht auf wantedM2
+    const insulationM2 = customInsulationM2 !== undefined ? customInsulationM2 : floor.actualM2;
 
     console.log('🔧 Insulation calculation INPUT:', {
       customInsulationM2,
-      wantedM2,
+      'floor.actualM2': floor.actualM2,
       insulationM2,
       paketinhalt: insulationProduct.paketinhalt,
       isFree: insulationIsFree,
@@ -215,10 +219,11 @@ export function calculateSetQuantities(
     // Check if baseboard is FREE (verrechnung = 0)
     const baseboardIsFree = calculatedVerrechnung === 0;
 
-    // Use custom lfm if provided, otherwise calculate from floor m²
+    // Use custom lfm if provided, otherwise calculate from floor.actualM2 (Excel-Logik)
+    // Excel: Sockelleiste basiert auf tatsächlich gekaufter Bodenfläche (26,7m²), nicht auf wantedM2
     const baseboardLfm = customBaseboardLfm !== undefined
       ? customBaseboardLfm
-      : calculateBaseboard_lfm(wantedM2);
+      : calculateBaseboard_lfm(floor.actualM2);
     baseboard = calculateBaseboardQuantity(
       baseboardLfm,
       baseboardProduct.paketinhalt,

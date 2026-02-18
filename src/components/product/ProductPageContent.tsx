@@ -140,7 +140,7 @@ export default function ProductPageContent({
       // ✅ VERWENDE MENGEN AUS quantities (mit korrekter Rundung!)
       const istKostenlos = quantities.insulation.isFree;
 
-      // REGULÄRER PREIS (IMMER AUFRUNDEN)
+      // REGULÄRER PREIS: Basis = floor.actualM2 (Excel-Logik), IMMER AUFRUNDEN
       const daemmungPaketeRegular = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
       const daemmungM2Regular = daemmungPaketeRegular * daemmungPaketinhalt;
       daemmungRegularPrice = daemmungM2Regular * daemmungPricePerM2;
@@ -189,7 +189,7 @@ export default function ProductPageContent({
       // ✅ VERWENDE MENGEN AUS quantities (mit korrekter Rundung!)
       const istKostenlos = quantities.baseboard.isFree;
 
-      // REGULÄRER PREIS (IMMER AUFRUNDEN)
+      // REGULÄRER PREIS: Basis = floor.actualM2 (Excel-Logik), IMMER AUFRUNDEN
       const sockelleisteStückRegular = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
       const sockelleisteLfmRegular = sockelleisteStückRegular * sockelleistePaketinhalt;
       sockelleisteRegularPrice = sockelleisteLfmRegular * sockelleistePricePerLfm;

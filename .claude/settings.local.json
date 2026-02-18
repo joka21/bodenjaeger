@@ -56,7 +56,8 @@
       "Bash(python3:*)",
       "WebFetch(domain:plan-dein-ding.de)",
       "Bash(git stash:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(pip install:*)"
     ],
     "deny": [],
     "ask": []
