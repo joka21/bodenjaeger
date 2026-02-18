@@ -64,6 +64,8 @@ export default function SetAngebotMobile({
   );
 
   // Notify parent of selection changes
+  // onProductSelection bewusst NICHT in deps: ist stabil (useCallback) und soll
+  // nicht als Trigger dienen (verhindert Race Condition mit Desktop-Komponente)
   useEffect(() => {
     if (onProductSelection) {
       onProductSelection(
@@ -71,7 +73,8 @@ export default function SetAngebotMobile({
         hasSockelleiste ? selectedSockelleiste : null
       );
     }
-  }, [selectedDaemmung, selectedSockelleiste, hasDaemmung, hasSockelleiste, onProductSelection]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDaemmung, selectedSockelleiste, hasDaemmung, hasSockelleiste]);
 
   const openModal = (type: 'daemmung' | 'sockelleiste') => {
     setModalType(type);

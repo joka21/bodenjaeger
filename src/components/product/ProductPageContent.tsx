@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import Image from 'next/image';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import type { StoreApiProduct } from '@/lib/woocommerce';
@@ -234,10 +234,12 @@ export default function ProductPageContent({
   };
 
   // Handle selected products from SetAngebot
-  const handleProductSelection = (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => {
+  // useCallback: Stabile Referenz verhindert, dass Mobile-SetAngebot's useEffect
+  // die Desktop-Auswahl überschreibt (Race Condition)
+  const handleProductSelection = useCallback((daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => {
     setSelectedDaemmung(daemmung);
     setSelectedSockelleiste(sockelleiste);
-  };
+  }, []);
 
   // ========== PRODUCT TABS (Beschreibung / Eigenschaften) ==========
 

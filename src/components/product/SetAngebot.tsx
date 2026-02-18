@@ -80,6 +80,8 @@ export default function SetAngebot({
   // Diese Werte wurden bereits in ProductPageContent korrekt berechnet
 
   // Notify parent component of product selection changes
+  // onProductSelection bewusst NICHT in deps: ist stabil (useCallback) und soll
+  // nicht als Trigger dienen (verhindert Race Condition mit Mobile-Komponente)
   useEffect(() => {
     if (onProductSelection) {
       onProductSelection(
@@ -87,7 +89,8 @@ export default function SetAngebot({
         hasSockelleiste ? selectedSockelleiste : null
       );
     }
-  }, [selectedDaemmung, selectedSockelleiste, hasDaemmung, hasSockelleiste, onProductSelection]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedDaemmung, selectedSockelleiste, hasDaemmung, hasSockelleiste]);
 
   // Don't render if no addition products
   if (!hasDaemmung && !hasSockelleiste) {
