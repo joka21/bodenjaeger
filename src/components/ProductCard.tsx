@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { StoreApiProduct } from '@/lib/woocommerce';
+import { useWishlist } from '@/contexts/WishlistContext';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -12,6 +13,15 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, showDescription = false }: ProductCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { toggleWishlist, isInWishlist } = useWishlist();
+
+  const wishlisted = isInWishlist(product.id);
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+  };
 
   const images = product.images || [];
   const hasMultipleImages = images.length > 1;
@@ -158,8 +168,15 @@ export default function ProductCard({ product, showDescription = false }: Produc
 
         {/* Action Buttons (Bottom of Image) */}
         <div className="absolute bottom-3 left-3 right-3 flex justify-center space-x-2">
-          <button className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 px-3 py-1 rounded text-xs font-medium transition-colors">
-            💖 Merkliste
+          <button
+            onClick={handleToggleWishlist}
+            className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
+              wishlisted
+                ? 'bg-[#ed1b24] text-white hover:bg-red-700'
+                : 'bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800'
+            }`}
+          >
+            {wishlisted ? '❤️ Gemerkt' : '💖 Merkliste'}
           </button>
           <button className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 px-3 py-1 rounded text-xs font-medium transition-colors">
             📐 Bodenplaner

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { useAlert } from '@/hooks/useAlert';
 
 interface UnifiedProductCardProps {
@@ -18,7 +19,16 @@ interface UnifiedProductCardProps {
 export default function UnifiedProductCard({ product }: UnifiedProductCardProps) {
   const [isOrderingSample, setIsOrderingSample] = useState(false);
   const { cartItems, addSampleToCart, getSampleCount, getFreeSamplesRemaining } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const { showSuccess, showError, showInfo } = useAlert();
+
+  const wishlisted = isInWishlist(product.id);
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+  };
 
   // Check if product is a floor product (only floors have samples)
   const isFloorProduct = useMemo(() => {
@@ -300,9 +310,10 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
         {isFloorProduct && (
           <div className="absolute left-0 right-0 flex justify-between px-4 z-10" style={{ bottom: '-2%' }}>
             <button
-              className="text-white flex items-center justify-start gap-2"
+              onClick={handleToggleWishlist}
+              className="text-white flex items-center justify-start gap-2 transition-colors duration-200"
               style={{
-                backgroundColor: 'var(--color-bg-darkest)',
+                backgroundColor: wishlisted ? 'var(--color-primary)' : 'var(--color-bg-darkest)',
                 height: '10px',
                 padding: '1rem',
                 borderRadius: '6px'
@@ -315,7 +326,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 height={16}
               />
               <div className="flex flex-col items-start">
-                <span className="text-[0.65rem] leading-tight">Auf die</span>
+                <span className="text-[0.65rem] leading-tight">{wishlisted ? 'Auf der' : 'Auf die'}</span>
                 <span className="text-xs font-bold leading-tight">Merkliste</span>
               </div>
             </button>
