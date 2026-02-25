@@ -5,13 +5,26 @@ import { useState } from 'react';
 interface QuantitySelectorProps {
   paketinhalt: number;
   einheit: string;
+  einheitFull?: string;          // Ausgeschrieben, z.B. "Quadratmeter", "Kilogramm"
+  verpackungsartFull?: string;   // Ausgeschrieben, z.B. "Paket(e)", "Stück"
   onQuantityChange?: (packages: number, sqm: number) => void;
 }
 
 export default function QuantitySelector({
   paketinhalt,
+  einheit,
+  einheitFull,
+  verpackungsartFull,
   onQuantityChange
 }: QuantitySelectorProps) {
+  // Ausgeschriebene Labels für über den +/- Feldern
+  const packageLabel = verpackungsartFull || 'Paket(e)';
+  const unitLabel = einheitFull || 'Quadratmeter';
+
+  // Wenn einheit "-" oder leer → kein Einheiten-Feld
+  const showUnitField = einheit !== '-' && einheit.trim() !== '';
+  // Wenn paketinhalt === 1 und beide Labels identisch → nur ein Feld
+  const showBothFields = showUnitField && !(paketinhalt === 1 && packageLabel === unitLabel);
   const [sqm, setSqm] = useState<number>(paketinhalt);
   const [sqmInputValue, setSqmInputValue] = useState<string>(paketinhalt.toFixed(2));
   const [packagesInputValue, setPackagesInputValue] = useState<string>(Math.ceil(paketinhalt / paketinhalt).toString());
@@ -138,7 +151,7 @@ export default function QuantitySelector({
     <div className="mb-6">
 
       {/* Counters Grid */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className={`grid ${showBothFields ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
         {/* Paket Counter */}
         <div className="relative">
           <div className="absolute -top-1 -left-1">
@@ -158,7 +171,7 @@ export default function QuantitySelector({
           </div>
           <div className="flex items-center justify-center mb-2">
             <label className="text-sm font-medium text-gray-700">
-              Paket(e)
+              {packageLabel}
             </label>
           </div>
 
@@ -196,10 +209,11 @@ export default function QuantitySelector({
           </div>
         </div>
 
-        {/* Quadratmeter Counter */}
+        {/* Einheiten Counter - nur wenn sinnvoll */}
+        {showBothFields && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
-            Quadratmeter
+            {unitLabel}
           </label>
 
           {/* Counter Container with Dividers */}
@@ -236,6 +250,7 @@ export default function QuantitySelector({
             </button>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

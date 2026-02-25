@@ -456,6 +456,12 @@ export default function ProductPageContent({
     const einheitShort = showUnit ? rawEinheit : 'Stück';
     const verpackungsart = product.verpackungsart_short || 'Pak.';
 
+    // Ausgeschriebene Labels über den +/- Feldern
+    const packageLabel = product.verpackungsart || 'Paket(e)';
+    const unitLabel = product.einheit || 'Quadratmeter';
+    // Zweites Feld ausblenden wenn: kein Unit ODER (paketinhalt=1 UND Labels identisch)
+    const showBothFields = showUnit && !(paketinhalt === 1 && packageLabel === unitLabel);
+
     // Calculate total content and price
     const totalContent = packages * paketinhalt;
     const totalPrice = totalContent * price;
@@ -537,10 +543,10 @@ export default function ProductPageContent({
         {/* Quantity, Total, Buttons - eigener Hintergrund */}
         <div className="bg-[#e8e8e8] rounded-2xl p-6 space-y-4">
         {/* Quantity Selectors: Packages and Units */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className={`grid ${showBothFields ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
           {/* Packages Selector */}
           <div className="text-center">
-            <div className="text-[#2e2d32] text-base font-normal mb-3">{verpackungsart}</div>
+            <div className="text-[#2e2d32] text-base font-normal mb-3">{packageLabel}</div>
             <div className="flex items-center justify-center gap-0">
               <button
                 onClick={() => handlePackagesChange(packages - 1)}
@@ -567,11 +573,11 @@ export default function ProductPageContent({
             </div>
           </div>
 
-          {/* Units Selector - only show when product has a meaningful unit */}
-          {showUnit && (
+          {/* Units Selector - nur wenn sinnvoll (andere Einheit oder paketinhalt > 1) */}
+          {showBothFields && (
           <div className="text-center">
             <div className="text-[#2e2d32] text-base font-normal mb-3">
-              {product.einheit || einheitShort}
+              {unitLabel}
             </div>
             <div className="flex items-center justify-center gap-0">
               <button
@@ -1127,6 +1133,8 @@ export default function ProductPageContent({
               <QuantitySelector
                 paketinhalt={paketinhalt}
                 einheit={einheit}
+                einheitFull={product.einheit || undefined}
+                verpackungsartFull={product.verpackungsart || undefined}
                 onQuantityChange={handleQuantityChange}
               />
 
