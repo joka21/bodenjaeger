@@ -415,9 +415,14 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
           {/* Preisanzeige */}
           {(() => {
             const unit = product.einheit_short || 'm²';
+            const showUnit = unit !== '-' && unit.trim() !== '';
             const price = product.price || 0;
             const regularPrice = product.regular_price || 0;
             const hasDiscount = product.on_sale && regularPrice > price;
+            const paketinhalt = product.paketinhalt || 1;
+            const verpackungsart = product.verpackungsart_short || 'Pak.';
+            const showPackagePrice = showUnit && paketinhalt > 1;
+            const paketpreis = price * paketinhalt;
 
             return (
               <div className="space-y-1">
@@ -426,7 +431,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-500">Statt</span>
                     <span className="text-gray-500 line-through">
-                      {regularPrice.toFixed(2).replace('.', ',')} €/{unit}
+                      {regularPrice.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
                     </span>
                   </div>
                 )}
@@ -435,9 +440,19 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 <div className="flex justify-between items-center">
                   <span className="text-gray-900 font-medium">Preis</span>
                   <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
-                    {price.toFixed(2).replace('.', ',')} €/{unit}
+                    {price.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
                   </span>
                 </div>
+
+                {/* Paketpreis wenn paketinhalt > 1 */}
+                {showPackagePrice && (
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-gray-500">{paketinhalt} {unit}/{verpackungsart}</span>
+                    <span className="text-gray-700 font-medium">
+                      {paketpreis.toFixed(2).replace('.', ',')} €/{verpackungsart}
+                    </span>
+                  </div>
+                )}
               </div>
             );
           })()}

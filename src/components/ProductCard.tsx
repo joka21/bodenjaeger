@@ -34,15 +34,26 @@ export default function ProductCard({ product, showDescription = false }: Produc
   // Always use setangebot_ersparnis_prozent (backend calculated)
   const discount = product.setangebot_ersparnis_prozent;
 
+  const showUnit = einheitShort !== '-' && einheitShort.trim() !== '';
+  const paketinhalt = product.paketinhalt || 1;
+  const verpackungsart = product.verpackungsart_short || 'Pak.';
+
   // Get main price from product data
   const getMainPrice = () => {
-    return `${price.toFixed(2).replace('.', ',')} €/${einheitShort}`;
+    return `${price.toFixed(2).replace('.', ',')} ${showUnit ? `€/${einheitShort}` : '€'}`;
   };
 
   // Get strike price if there's a discount
   const getStrikePrice = () => {
     if (!product.on_sale || regularPrice <= price) return null;
-    return `${regularPrice.toFixed(2).replace('.', ',')} €/${einheitShort}`;
+    return `${regularPrice.toFixed(2).replace('.', ',')} ${showUnit ? `€/${einheitShort}` : '€'}`;
+  };
+
+  // Get package price if paketinhalt > 1 and unit is shown
+  const getPackagePrice = () => {
+    if (!showUnit || paketinhalt <= 1) return null;
+    const paketpreis = price * paketinhalt;
+    return `${paketpreis.toFixed(2).replace('.', ',')} €/${verpackungsart}`;
   };
 
   // Navigation functions
@@ -298,6 +309,13 @@ export default function ProductCard({ product, showDescription = false }: Produc
               <div className="text-xl font-bold text-gray-900">
                 {getMainPrice()}
               </div>
+
+              {/* Package Price */}
+              {getPackagePrice() && (
+                <div className="text-sm text-gray-600">
+                  {getPackagePrice()}
+                </div>
+              )}
             </div>
           </div>
         )}

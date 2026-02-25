@@ -146,12 +146,13 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
         total += item.setPricePerUnit * item.actualM2;
       }
-      // Regular item: use product price × quantity
+      // Regular item: use product price × paketinhalt × quantity
       else {
         const price = item.product.prices?.price
           ? parseFloat(item.product.prices.price) / 100
           : (item.product.price || 0);
-        total += price * item.quantity;
+        const paketinhalt = item.product.paketinhalt || 1;
+        total += price * paketinhalt * item.quantity;
       }
     });
 

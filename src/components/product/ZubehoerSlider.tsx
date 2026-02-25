@@ -274,7 +274,9 @@ export default function ZubehoerSlider({
                     const price = product.prices?.price
                       ? parseFloat(product.prices.price) / 100
                       : (product.price || 0);  // ✅ Backend liefert bereits Euro, nicht Cent!
-                    const unit = product.einheit_short || 'Stk.';
+                    const rawUnit = product.einheit_short || 'Stk.';
+                    const showUnit = rawUnit !== '-' && rawUnit.trim() !== '';
+                    const unit = showUnit ? rawUnit : (product.verpackungsart_short || 'Stk.');
 
                     return (
                       <div

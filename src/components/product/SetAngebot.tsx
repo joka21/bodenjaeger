@@ -180,8 +180,8 @@ export default function SetAngebot({
                 </span>
                 <span className="text-sm font-bold text-red-600 whitespace-nowrap">
                   {daemmungSetPricePerUnit <= 0
-                    ? `0,00 €/m²`
-                    : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/m²`
+                    ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
+                    : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
                   }
                 </span>
               </div>
@@ -213,8 +213,8 @@ export default function SetAngebot({
                 </span>
                 <span className="text-sm font-bold text-red-600 whitespace-nowrap">
                   {sockelleisteSetPricePerUnit <= 0
-                    ? `0,00 €/lfm`
-                    : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/lfm`
+                    ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
+                    : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
                   }
                 </span>
               </div>
@@ -300,8 +300,8 @@ export default function SetAngebot({
                     </span>
                     <span className="font-bold whitespace-nowrap text-red-600 text-xs">
                       {daemmungSetPricePerUnit <= 0
-                        ? `0,00 €/m²`
-                        : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/m²`
+                        ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
+                        : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
                       }
                     </span>
                   </div>
@@ -353,8 +353,8 @@ export default function SetAngebot({
                     </span>
                     <span className="font-bold whitespace-nowrap text-red-600 text-xs">
                       {sockelleisteSetPricePerUnit <= 0
-                        ? `0,00 €/lfm`
-                        : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/lfm`
+                        ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
+                        : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
                       }
                     </span>
                   </div>

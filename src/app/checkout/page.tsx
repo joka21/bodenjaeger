@@ -118,8 +118,9 @@ export default function CheckoutPage() {
           // setPricePerUnit ist bereits der korrekte Preis (0 für kostenlos, verrechnung für Premium)
           totalPrice = item.setPricePerUnit * item.actualM2;
         } else {
-          // Reguläres Item: Normaler Preis
-          totalPrice = item.product.price * item.quantity;
+          // Reguläres Item: Paketpreis = Einheitspreis × Paketinhalt × Anzahl Pakete
+          const paketinhalt = item.product.paketinhalt || 1;
+          totalPrice = item.product.price * paketinhalt * item.quantity;
         }
 
         // Metadata für Set-Angebot Items (umfassend für Rechnungen/Refunds)

@@ -165,9 +165,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         } else {
           // Regular product - use standard pricing
           const singlePaketinhalt = item.product.paketinhalt || 1;
-          // ✅ Backend liefert Preise bereits in Euro, nicht Cent!
-          const singlePaketpreis = item.product.price || 0;
-          const singleRegularPaketpreis = item.product.regular_price || undefined;
+          // ✅ Backend liefert Preise pro Einheit (€/m², €/kg, etc.)
+          const unitPrice = item.product.price || 0;
+          const regularUnitPrice = item.product.regular_price || undefined;
+          const paketpreis = unitPrice * singlePaketinhalt;
 
           const product: CartItemBase = {
             id: `single-${item.id}`,
@@ -177,9 +178,9 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             quantity: item.quantity,
             unit: toProductUnit(item.product.einheit_short, 'm²'),
             unitValue: singlePaketinhalt,
-            pricePerUnit: singlePaketpreis / singlePaketinhalt, // Preis pro m²/lfm
-            originalPricePerUnit: singleRegularPaketpreis ? singleRegularPaketpreis / singlePaketinhalt : undefined,
-            total: singlePaketpreis * item.quantity, // Total = Paketpreis × Anzahl Pakete
+            pricePerUnit: unitPrice, // Preis pro Einheit (€/m², €/kg)
+            originalPricePerUnit: regularUnitPrice, // Regulärer Preis pro Einheit
+            total: paketpreis * item.quantity, // Total = Paketpreis × Anzahl Pakete
           };
 
           const singleItem: CartSingleItemType = {

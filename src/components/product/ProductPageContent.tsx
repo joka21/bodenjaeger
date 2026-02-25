@@ -451,7 +451,10 @@ export default function ProductPageContent({
 
     const price = product.price || 0;
     const paketinhalt = product.paketinhalt || 1;
-    const einheitShort = product.einheit_short || 'Stück';
+    const rawEinheit = product.einheit_short || 'Stück';
+    const showUnit = rawEinheit !== '-' && rawEinheit.trim() !== '';
+    const einheitShort = showUnit ? rawEinheit : 'Stück';
+    const verpackungsart = product.verpackungsart_short || 'Pak.';
 
     // Calculate total content and price
     const totalContent = packages * paketinhalt;
@@ -517,10 +520,16 @@ export default function ProductPageContent({
         <div className="bg-[#e8e8e8] rounded-2xl p-6">
           <div className="flex items-center justify-between px-2">
             <div className="text-[#2e2d32] text-base font-normal">
-              Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €
+              {showUnit
+                ? <>Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €</>
+                : <>{packages} {verpackungsart} = {totalPrice.toFixed(2).replace('.', ',')} €</>
+              }
             </div>
             <div className="text-[#2e2d32] text-4xl font-bold">
-              {price.toFixed(2).replace('.', ',')} <span className="text-2xl">€/{einheitShort}</span>
+              {showUnit
+                ? <>{price.toFixed(2).replace('.', ',')} <span className="text-2xl">€/{einheitShort}</span></>
+                : <>{totalPrice.toFixed(2).replace('.', ',')} <span className="text-2xl">€</span></>
+              }
             </div>
           </div>
         </div>
@@ -531,7 +540,7 @@ export default function ProductPageContent({
         <div className="grid grid-cols-2 gap-4">
           {/* Packages Selector */}
           <div className="text-center">
-            <div className="text-[#2e2d32] text-base font-normal mb-3">Paket(e)</div>
+            <div className="text-[#2e2d32] text-base font-normal mb-3">{verpackungsart}</div>
             <div className="flex items-center justify-center gap-0">
               <button
                 onClick={() => handlePackagesChange(packages - 1)}
@@ -558,7 +567,8 @@ export default function ProductPageContent({
             </div>
           </div>
 
-          {/* Units Selector */}
+          {/* Units Selector - only show when product has a meaningful unit */}
+          {showUnit && (
           <div className="text-center">
             <div className="text-[#2e2d32] text-base font-normal mb-3">
               {product.einheit || einheitShort}
@@ -589,6 +599,7 @@ export default function ProductPageContent({
               </button>
             </div>
           </div>
+          )}
         </div>
 
         {/* Total Price with Border Top */}

@@ -35,11 +35,12 @@ export default function OrderSummary() {
             displayAmount = Number(item.actualM2);
             totalItemPrice = pricePerUnit * displayAmount;
           } else {
-            // Regular Item: Verwende Produktpreise (als Zahl konvertieren)
+            // Regular Item: Paketpreis = Einheitspreis × Paketinhalt × Anzahl Pakete
             const rawPrice = item.product.price || 0;
             pricePerUnit = Number(rawPrice);
-            displayAmount = item.quantity * (item.product.paketinhalt || 1);
-            totalItemPrice = pricePerUnit * item.quantity;
+            const paketinhalt = item.product.paketinhalt || 1;
+            displayAmount = item.quantity * paketinhalt;
+            totalItemPrice = pricePerUnit * paketinhalt * item.quantity;
           }
 
           const isFree = pricePerUnit === 0 && item.isSetItem;
