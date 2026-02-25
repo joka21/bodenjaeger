@@ -53,7 +53,7 @@ export default function ProductPageContent({
   const isFloorProduct = useMemo(() => {
     if (!product.categories || !Array.isArray(product.categories)) return false;
 
-    const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl', 'laminat', 'parkett', 'teppichboden'];
+    const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl', 'laminat', 'parkett'];
     return product.categories.some(cat =>
       floorCategories.includes(cat.slug.toLowerCase())
     );

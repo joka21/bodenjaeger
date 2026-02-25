@@ -17,7 +17,7 @@ export function isAccessoryProduct(product: StoreApiProduct): boolean {
  */
 export function isFloorProduct(product: StoreApiProduct): boolean {
   const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl',
-                          'laminat', 'parkett', 'teppichboden'];
+                          'laminat', 'parkett'];
   return product.categories?.some(cat =>
     floorCategories.includes(cat.slug.toLowerCase())
   ) ?? false;

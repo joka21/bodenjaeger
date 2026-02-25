@@ -69,16 +69,6 @@ export const categoriesData: Category[] = [
     ],
   },
   {
-    id: '4',
-    label: 'Teppichboden',
-    slug: 'teppichboden',
-    hasChildren: true,
-    children: [
-      { id: '4-1', label: 'Teppich-Arten', slug: 'teppich-arten', hasChildren: false },
-      { id: '4-2', label: 'Teppich-Marken', slug: 'teppich-marken', hasChildren: false },
-    ],
-  },
-  {
     id: '5',
     label: 'Sockelleisten',
     slug: 'sockelleisten',

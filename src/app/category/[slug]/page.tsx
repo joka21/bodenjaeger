@@ -8,7 +8,6 @@ const categoryNames: Record<string, string> = {
   'rigid-vinyl': 'Rigid-Vinyl',
   'laminat': 'Laminat',
   'parkett': 'Parkett',
-  'teppichboden': 'Teppichboden',
   'sockelleisten': 'Sockelleisten',
   'daemmung': 'Dämmung',
   'zubehoer': 'Zubehör'
@@ -49,7 +48,6 @@ export async function generateStaticParams() {
     'rigid-vinyl',
     'laminat',
     'parkett',
-    'teppichboden',
     'sockelleisten',
     'daemmung',
     'zubehoer',

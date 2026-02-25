@@ -72,8 +72,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
       'Fußmatten',
       'Klebe-Vinyl',
       'Zubehör',
-      'CV-Boden',
-      'Teppichboden'
+      'CV-Boden'
     ];
 
     // Extract only allowed categories

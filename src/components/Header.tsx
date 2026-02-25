@@ -117,12 +117,6 @@ export default function Header() {
               Parkett
             </Link>
             <Link
-              href="/category/teppichboden"
-              className="text-white hover:text-gray-200 transition-colors font-medium"
-            >
-              Teppichboden
-            </Link>
-            <Link
               href="/category/sockelleisten"
               className="text-white hover:text-gray-200 transition-colors font-medium"
             >
