@@ -33,7 +33,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Back to Blog Link */}
         <Link
           href="/blog"
-          className="inline-flex items-center text-[#5095cb] hover:text-[#1e40af] mb-8 font-semibold"
+          className="inline-flex items-center text-ocean hover:text-navy mb-8 font-semibold"
         >
           <span className="mr-2">←</span>
           Zurück zum Blog
@@ -53,7 +53,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Post Title */}
         <h1
-          className="text-4xl md:text-5xl font-bold text-[#2e2d32] mb-6"
+          className="text-4xl md:text-5xl font-bold text-dark mb-6"
           dangerouslySetInnerHTML={{ __html: post.title.rendered }}
         />
 
@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {author && (
             <div className="flex items-center gap-2">
               <span className="text-sm">von</span>
-              <span className="text-sm font-semibold text-[#2e2d32]">{author.name}</span>
+              <span className="text-sm font-semibold text-dark">{author.name}</span>
             </div>
           )}
         </div>
@@ -73,16 +73,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Post Content */}
         <div
           className="prose prose-lg max-w-none
-            prose-headings:text-[#2e2d32]
+            prose-headings:text-dark
             prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6
             prose-h3:text-2xl prose-h3:font-bold prose-h3:mt-8 prose-h3:mb-4
             prose-p:text-[#333333] prose-p:leading-relaxed prose-p:mb-6
-            prose-a:text-[#5095cb] prose-a:hover:text-[#1e40af] prose-a:no-underline prose-a:hover:underline
-            prose-strong:text-[#2e2d32] prose-strong:font-bold
+            prose-a:text-ocean prose-a:hover:text-navy prose-a:no-underline prose-a:hover:underline
+            prose-strong:text-dark prose-strong:font-bold
             prose-ul:text-[#333333] prose-ul:my-6
             prose-ol:text-[#333333] prose-ol:my-6
             prose-li:mb-2
-            prose-blockquote:border-l-4 prose-blockquote:border-[#5095cb] prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-[#666666]
+            prose-blockquote:border-l-4 prose-blockquote:border-ocean prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-[#666666]
             prose-img:rounded-lg prose-img:shadow-lg prose-img:my-8"
           dangerouslySetInnerHTML={{ __html: post.content.rendered }}
         />
@@ -101,7 +101,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 />
               )}
               <div>
-                <h3 className="text-xl font-bold text-[#2e2d32] mb-2">
+                <h3 className="text-xl font-bold text-dark mb-2">
                   Über {author.name}
                 </h3>
                 {author.description && (
@@ -116,7 +116,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="mt-12 text-center">
           <Link
             href="/blog"
-            className="inline-block bg-[#5095cb] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#1e40af] transition-colors"
+            className="inline-block bg-ocean text-white px-8 py-3 rounded-lg font-semibold hover:bg-navy transition-colors"
           >
             Weitere Beiträge lesen
           </Link>

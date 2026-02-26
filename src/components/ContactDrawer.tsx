@@ -62,12 +62,12 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
       >
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
-          <h2 id="contact-drawer-title" className="text-2xl font-bold text-[#2e2d32]">
+          <h2 id="contact-drawer-title" className="text-2xl font-bold text-dark">
             Kontakt
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:text-[#ed1b24] transition-colors rounded-full hover:bg-gray-100"
+            className="p-2 hover:text-brand transition-colors rounded-full hover:bg-gray-100"
             aria-label="Kontakt schließen"
           >
             <svg
@@ -89,7 +89,7 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
         {/* Content */}
         <div className="p-6 space-y-6">
           {/* Intro Text */}
-          <p className="text-base text-[#2e2d32]">
+          <p className="text-base text-dark">
             Du brauchst Hilfe oder hast Fragen? Unser Team freut sich darauf, dir weiterzuhelfen!
           </p>
 
@@ -100,41 +100,41 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
                 isCurrentlyOpen() ? 'bg-green-500' : 'bg-red-500'
               }`}
             />
-            <span className="text-sm font-medium text-[#2e2d32]">
+            <span className="text-sm font-medium text-dark">
               {isCurrentlyOpen() ? 'Wir sind jetzt erreichbar' : 'Aktuell geschlossen'}
             </span>
           </div>
 
           {/* Call Section */}
-          <div className="space-y-3 p-4 bg-[#f9f9fb] rounded-lg">
-            <h3 className="text-lg font-bold text-[#2e2d32]">Ruf uns an:</h3>
+          <div className="space-y-3 p-4 bg-pale rounded-lg">
+            <h3 className="text-lg font-bold text-dark">Ruf uns an:</h3>
             <p className="text-sm text-[#666666]">
               Unsere Experten beraten dich gerne persönlich.
             </p>
             <a
               href="tel:02433938884"
-              className="text-3xl font-bold text-[#2e2d32] hover:text-[#ed1b24] transition-colors block"
+              className="text-3xl font-bold text-dark hover:text-brand transition-colors block"
             >
               02433 938884
             </a>
             <a
               href="tel:02433938884"
-              className="inline-block w-full text-center bg-[#ed1b24] text-white px-6 py-3 rounded hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md font-medium"
+              className="inline-block w-full text-center bg-brand text-white px-6 py-3 rounded hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md font-medium"
             >
               Jetzt anrufen
             </a>
           </div>
 
           {/* Email Section */}
-          <div className="space-y-3 p-4 bg-[#f9f9fb] rounded-lg">
-            <h3 className="text-lg font-bold text-[#2e2d32]">Schreibe uns:</h3>
+          <div className="space-y-3 p-4 bg-pale rounded-lg">
+            <h3 className="text-lg font-bold text-dark">Schreibe uns:</h3>
             <p className="text-sm text-[#666666]">
               Sende uns eine Nachricht, und wir antworten dir so schnell wie möglich.
             </p>
             <Link
               href="/kontakt"
               onClick={onClose}
-              className="inline-block w-full text-center bg-[#ed1b24] text-white px-6 py-3 rounded hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md font-medium"
+              className="inline-block w-full text-center bg-brand text-white px-6 py-3 rounded hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md font-medium"
             >
               Zum Kontaktformular
             </Link>
@@ -142,27 +142,27 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
 
           {/* Opening Hours Section */}
           <div className="space-y-3 p-4 border border-gray-200 rounded-lg">
-            <h3 className="text-lg font-bold text-[#2e2d32]">Service- und Beratungszeiten:</h3>
+            <h3 className="text-lg font-bold text-dark">Service- und Beratungszeiten:</h3>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-[#666666]">Mo. bis Fr.</span>
-                <span className="font-medium text-[#2e2d32]">9:00 - 18:30 Uhr</span>
+                <span className="font-medium text-dark">9:00 - 18:30 Uhr</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-[#666666]">Sa.</span>
-                <span className="font-medium text-[#2e2d32]">9:00 - 14:00 Uhr</span>
+                <span className="font-medium text-dark">9:00 - 14:00 Uhr</span>
               </div>
             </div>
           </div>
 
           {/* Additional Contact Options */}
           <div className="space-y-3">
-            <h3 className="text-lg font-bold text-[#2e2d32]">Weitere Kontaktmöglichkeiten:</h3>
+            <h3 className="text-lg font-bold text-dark">Weitere Kontaktmöglichkeiten:</h3>
 
             {/* Address */}
             <div className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
               <svg
-                className="w-6 h-6 text-[#ed1b24] flex-shrink-0 mt-0.5"
+                className="w-6 h-6 text-brand flex-shrink-0 mt-0.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -181,7 +181,7 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
                 />
               </svg>
               <div>
-                <p className="font-medium text-[#2e2d32]">Fachmarkt Hückelhoven</p>
+                <p className="font-medium text-dark">Fachmarkt Hückelhoven</p>
                 <p className="text-sm text-[#666666]">Parkhofstraße 61</p>
                 <p className="text-sm text-[#666666]">41836 Hückelhoven</p>
               </div>
@@ -193,7 +193,7 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
               className="flex items-start gap-3 p-3 hover:bg-gray-50 rounded-lg transition-colors"
             >
               <svg
-                className="w-6 h-6 text-[#ed1b24] flex-shrink-0 mt-0.5"
+                className="w-6 h-6 text-brand flex-shrink-0 mt-0.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -206,8 +206,8 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
                 />
               </svg>
               <div>
-                <p className="font-medium text-[#2e2d32]">E-Mail</p>
-                <p className="text-sm text-[#ed1b24] hover:underline">info@bodenjaeger.de</p>
+                <p className="font-medium text-dark">E-Mail</p>
+                <p className="text-sm text-brand hover:underline">info@bodenjaeger.de</p>
               </div>
             </a>
           </div>
@@ -218,14 +218,14 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
               <Link
                 href="/fachmarkt-hueckelhoven"
                 onClick={onClose}
-                className="text-center px-4 py-2 border border-gray-300 rounded hover:border-[#ed1b24] hover:text-[#ed1b24] transition-colors text-sm font-medium"
+                className="text-center px-4 py-2 border border-gray-300 rounded hover:border-brand hover:text-brand transition-colors text-sm font-medium"
               >
                 Fachmarkt
               </Link>
               <Link
                 href="/service"
                 onClick={onClose}
-                className="text-center px-4 py-2 border border-gray-300 rounded hover:border-[#ed1b24] hover:text-[#ed1b24] transition-colors text-sm font-medium"
+                className="text-center px-4 py-2 border border-gray-300 rounded hover:border-brand hover:text-brand transition-colors text-sm font-medium"
               >
                 Service
               </Link>

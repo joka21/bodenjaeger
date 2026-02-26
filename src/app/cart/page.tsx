@@ -138,7 +138,7 @@ export default function CartPage() {
               const isFree = (pricePerUnit === 0 && item.isSetItem) || (item.isSample && item.samplePrice === 0);
 
               return (
-                <div key={item.id} className="flex flex-col gap-1 py-4 px-6 border-b border-[#e5e5e5]">
+                <div key={item.id} className="flex flex-col gap-1 py-4 px-6 border-b border-ash">
                   {/* Zeile 1: Bild + Name + X-Button */}
                   <div className="flex flex-row items-start gap-3">
                     <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden">
@@ -152,13 +152,13 @@ export default function CartPage() {
                     </div>
                     <Link
                       href={`/products/${item.product.slug}`}
-                      className="flex-1 text-sm font-medium text-[#2e2d32] hover:text-[#ed1b24] transition-colors"
+                      className="flex-1 text-sm font-medium text-dark hover:text-brand transition-colors"
                     >
                       {item.product.name}
                     </Link>
                     <button
                       onClick={() => removeFromCart(item.id)}
-                      className="text-[#4c4c4c] hover:text-[#ed1b24] text-xl leading-none transition-colors"
+                      className="text-mid hover:text-brand text-xl leading-none transition-colors"
                       title="Artikel entfernen"
                     >
                       ×
@@ -170,28 +170,28 @@ export default function CartPage() {
                     {/* Quantity Control - nur für floor items im Set und reguläre Produkte (NICHT für Muster) */}
                     {item.isSample ? (
                       // Samples: Show lock message instead of controls
-                      <span className="text-xs text-[#4c4c4c] italic">Nur 1 Stk. möglich</span>
+                      <span className="text-xs text-mid italic">Nur 1 Stk. möglich</span>
                     ) : (!item.isSetItem || item.setItemType === 'floor') && (
-                      <div className="flex items-center border border-[#e5e5e5] rounded">
+                      <div className="flex items-center border border-ash rounded">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           disabled={item.quantity <= 1}
-                          className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="px-2 py-1 text-mid hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           −
                         </button>
-                        <span className="px-2 py-1 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+                        <span className="px-2 py-1 text-sm text-dark min-w-[2rem] text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="px-2 py-1 text-[#4c4c4c] hover:bg-gray-50"
+                          className="px-2 py-1 text-mid hover:bg-gray-50"
                         >
                           +
                         </button>
                       </div>
                     )}
-                    <span className="text-sm text-[#4c4c4c]">
+                    <span className="text-sm text-mid">
                       {item.isSample
                         ? `${item.quantity} Stk.`
                         : item.isSetItem && item.actualM2
@@ -200,7 +200,7 @@ export default function CartPage() {
                       }
                     </span>
                     {item.isSetItem && (
-                      <span className="text-xs text-[#4c4c4c] italic">
+                      <span className="text-xs text-mid italic">
                         (Set-Angebot)
                       </span>
                     )}
@@ -209,20 +209,20 @@ export default function CartPage() {
                   {/* Zeile 3: Preise */}
                   <div className="flex flex-row items-center justify-end gap-2">
                     {isFree ? (
-                      <span className="text-sm font-semibold" style={{ color: '#28a745' }}>
+                      <span className="text-sm font-semibold" style={{ color: 'var(--color-success)' }}>
                         Kostenlos
                       </span>
                     ) : (
                       <>
                         {hasDiscount && regularPricePerUnit > 0 && (
-                          <span className="text-sm text-[#4c4c4c] line-through">
+                          <span className="text-sm text-mid line-through">
                             {regularPricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
                           </span>
                         )}
-                        <span className={`text-sm font-semibold ${hasDiscount ? 'text-[#ed1b24]' : 'text-[#2e2d32]'}`}>
+                        <span className={`text-sm font-semibold ${hasDiscount ? 'text-brand' : 'text-dark'}`}>
                           {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
                         </span>
-                        <span className="text-sm font-semibold text-[#2e2d32]">
+                        <span className="text-sm font-semibold text-dark">
                           Gesamt: {totalPrice.toFixed(2).replace('.', ',')} €
                         </span>
                       </>

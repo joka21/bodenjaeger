@@ -49,7 +49,7 @@ export default function AlertModal({
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="w-12 h-12" style={{ color: '#28a745' }} />;
+        return <CheckCircle className="w-12 h-12" style={{ color: 'var(--color-success)' }} />;
       case 'error':
         return <AlertCircle className="w-12 h-12" style={{ color: 'var(--color-primary)' }} />;
       case 'info':

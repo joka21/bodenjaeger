@@ -7,15 +7,15 @@ export default function PaymentOptions() {
 
   return (
     <div className="mb-8">
-      <h2 className="text-lg font-semibold text-[#2e2d32] mb-4">Zahlung</h2>
+      <h2 className="text-lg font-semibold text-dark mb-4">Zahlung</h2>
 
       <div className="space-y-0">
         {/* Vorkasse - Aktiv */}
         <div
           className={`p-4 cursor-pointer transition-colors ${
             selectedPayment === 'vorkasse'
-              ? 'bg-[#2e2d32] text-white rounded-t-lg'
-              : 'bg-white border border-[#e5e5e5] border-t-0'
+              ? 'bg-dark text-white rounded-t-lg'
+              : 'bg-white border border-ash border-t-0'
           }`}
           onClick={() => setSelectedPayment('vorkasse')}
         >
@@ -28,9 +28,9 @@ export default function PaymentOptions() {
               onChange={(e) => setSelectedPayment(e.target.value)}
               className={`w-5 h-5 ${
                 selectedPayment === 'vorkasse'
-                  ? 'text-[#ed1b24] border-white'
-                  : 'text-[#ed1b24] border-[#e5e5e5]'
-              } focus:ring-[#ed1b24]`}
+                  ? 'text-brand border-white'
+                  : 'text-brand border-ash'
+              } focus:ring-brand`}
             />
             <span className="text-sm font-medium">
               Vorkasse per Überweisung (2% Skonto)
@@ -49,8 +49,8 @@ export default function PaymentOptions() {
         <div
           className={`p-4 cursor-pointer transition-colors ${
             selectedPayment === 'kreditkarte'
-              ? 'bg-[#2e2d32] text-white'
-              : 'bg-white border border-[#e5e5e5] border-t-0'
+              ? 'bg-dark text-white'
+              : 'bg-white border border-ash border-t-0'
           }`}
           onClick={() => setSelectedPayment('kreditkarte')}
         >
@@ -64,9 +64,9 @@ export default function PaymentOptions() {
                 onChange={(e) => setSelectedPayment(e.target.value)}
                 className={`w-5 h-5 ${
                   selectedPayment === 'kreditkarte'
-                    ? 'text-[#ed1b24] border-white'
-                    : 'text-[#ed1b24] border-[#e5e5e5]'
-                } focus:ring-[#ed1b24]`}
+                    ? 'text-brand border-white'
+                    : 'text-brand border-ash'
+                } focus:ring-brand`}
               />
               <span className="text-sm">Kreditkarte</span>
             </div>
@@ -81,8 +81,8 @@ export default function PaymentOptions() {
         <div
           className={`p-4 cursor-pointer transition-colors ${
             selectedPayment === 'paypal'
-              ? 'bg-[#2e2d32] text-white'
-              : 'bg-white border border-[#e5e5e5] border-t-0'
+              ? 'bg-dark text-white'
+              : 'bg-white border border-ash border-t-0'
           }`}
           onClick={() => setSelectedPayment('paypal')}
         >
@@ -96,9 +96,9 @@ export default function PaymentOptions() {
                 onChange={(e) => setSelectedPayment(e.target.value)}
                 className={`w-5 h-5 ${
                   selectedPayment === 'paypal'
-                    ? 'text-[#ed1b24] border-white'
-                    : 'text-[#ed1b24] border-[#e5e5e5]'
-                } focus:ring-[#ed1b24]`}
+                    ? 'text-brand border-white'
+                    : 'text-brand border-ash'
+                } focus:ring-brand`}
               />
               <span className="text-sm">PayPal</span>
             </div>
@@ -110,8 +110,8 @@ export default function PaymentOptions() {
         <div
           className={`p-4 cursor-pointer transition-colors ${
             selectedPayment === 'klarna'
-              ? 'bg-[#2e2d32] text-white rounded-b-lg'
-              : 'bg-white border border-[#e5e5e5] border-t-0 rounded-b-lg'
+              ? 'bg-dark text-white rounded-b-lg'
+              : 'bg-white border border-ash border-t-0 rounded-b-lg'
           }`}
           onClick={() => setSelectedPayment('klarna')}
         >
@@ -125,9 +125,9 @@ export default function PaymentOptions() {
                 onChange={(e) => setSelectedPayment(e.target.value)}
                 className={`w-5 h-5 ${
                   selectedPayment === 'klarna'
-                    ? 'text-[#ed1b24] border-white'
-                    : 'text-[#ed1b24] border-[#e5e5e5]'
-                } focus:ring-[#ed1b24]`}
+                    ? 'text-brand border-white'
+                    : 'text-brand border-ash'
+                } focus:ring-brand`}
               />
               <span className="text-sm">Klarna Sofortüberweisung</span>
             </div>

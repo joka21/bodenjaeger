@@ -56,21 +56,21 @@ export default function OrderSummary() {
                   className="object-cover rounded"
                   sizes="64px"
                 />
-                <span className="absolute -top-2 -right-2 w-5 h-5 bg-[#4c4c4c] text-white text-xs rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-mid text-white text-xs rounded-full flex items-center justify-center">
                   {item.quantity}
                 </span>
               </div>
 
               {/* Info */}
               <div className="flex-1">
-                <p className="text-sm font-medium text-[#2e2d32] line-clamp-2">{name}</p>
+                <p className="text-sm font-medium text-dark line-clamp-2">{name}</p>
                 {!isFree && (
-                  <p className="text-xs text-[#4c4c4c]">
+                  <p className="text-xs text-mid">
                     {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
                   </p>
                 )}
                 {item.isSetItem && (
-                  <p className="text-xs text-[#4c4c4c] italic">
+                  <p className="text-xs text-mid italic">
                     (Set-Angebot)
                   </p>
                 )}
@@ -78,11 +78,11 @@ export default function OrderSummary() {
 
               {/* Preis */}
               {isFree ? (
-                <span className="text-sm font-semibold" style={{ color: '#28a745' }}>
+                <span className="text-sm font-semibold" style={{ color: 'var(--color-success)' }}>
                   Kostenlos
                 </span>
               ) : (
-                <span className="text-sm font-medium text-[#2e2d32]">
+                <span className="text-sm font-medium text-dark">
                   {totalItemPrice.toFixed(2).replace('.', ',')} €
                 </span>
               )}
@@ -98,51 +98,51 @@ export default function OrderSummary() {
           placeholder="Rabattcode"
           value={discountCode}
           onChange={(e) => setDiscountCode(e.target.value)}
-          className="flex-1 h-12 px-4 text-sm border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+          className="flex-1 h-12 px-4 text-sm border border-ash rounded-lg focus:outline-none focus:border-brand"
         />
-        <button className="px-6 h-12 text-sm font-medium text-[#2e2d32] bg-[#f9f9fb] border border-[#e5e5e5] rounded-lg hover:bg-[#e5e5e5] transition-colors">
+        <button className="px-6 h-12 text-sm font-medium text-dark bg-pale border border-ash rounded-lg hover:bg-ash transition-colors">
           Anwenden
         </button>
       </div>
 
       {/* Summen */}
-      <div className="space-y-2 py-4 border-t border-[#e5e5e5]">
-        <div className="flex justify-between text-sm text-[#4c4c4c]">
+      <div className="space-y-2 py-4 border-t border-ash">
+        <div className="flex justify-between text-sm text-mid">
           <span>Zwischensumme · {itemCount} Artikel</span>
           <span>{subtotal.toFixed(2).replace('.', ',')} €</span>
         </div>
-        <div className="flex justify-between text-sm text-[#4c4c4c]">
+        <div className="flex justify-between text-sm text-mid">
           <span>Versand</span>
           <span>{shipping === 0 ? 'Kostenlos' : `${shipping.toFixed(2).replace('.', ',')} €`}</span>
         </div>
       </div>
 
       {/* Gesamt */}
-      <div className="flex justify-between items-baseline pt-4 border-t border-[#e5e5e5]">
+      <div className="flex justify-between items-baseline pt-4 border-t border-ash">
         <div>
-          <span className="text-lg font-semibold text-[#2e2d32]">Gesamt</span>
-          <p className="text-xs text-[#4c4c4c]">
+          <span className="text-lg font-semibold text-dark">Gesamt</span>
+          <p className="text-xs text-mid">
             inkl. {mwst.toFixed(2).replace('.', ',')} € MwSt
           </p>
         </div>
         <div className="text-right">
-          <span className="text-xs text-[#4c4c4c]">EUR</span>
-          <span className="text-xl font-bold text-[#2e2d32] ml-1">
+          <span className="text-xs text-mid">EUR</span>
+          <span className="text-xl font-bold text-dark ml-1">
             {total.toFixed(2).replace('.', ',')} €
           </span>
         </div>
       </div>
 
       {/* Vorteile */}
-      <div className="mt-6 p-4 bg-[#f9f9fb] rounded-lg">
-        <h3 className="text-sm font-semibold text-[#2e2d32] mb-4">
+      <div className="mt-6 p-4 bg-pale rounded-lg">
+        <h3 className="text-sm font-semibold text-dark mb-4">
           Deine Vorteile mit Bodenjäger
         </h3>
 
         <div className="space-y-4">
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-[#2e2d32] flex-shrink-0"
+              className="w-5 h-5 text-dark flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -155,8 +155,8 @@ export default function OrderSummary() {
               />
             </svg>
             <div>
-              <p className="text-sm font-medium text-[#2e2d32]">Trusted Shops Käuferschutz</p>
-              <p className="text-xs text-[#4c4c4c]">
+              <p className="text-sm font-medium text-dark">Trusted Shops Käuferschutz</p>
+              <p className="text-xs text-mid">
                 Garantiert sicher einkaufen – deine Zahlung ist bis zu 30.000 € geschützt
               </p>
             </div>
@@ -164,7 +164,7 @@ export default function OrderSummary() {
 
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-[#2e2d32] flex-shrink-0"
+              className="w-5 h-5 text-dark flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -177,8 +177,8 @@ export default function OrderSummary() {
               />
             </svg>
             <div>
-              <p className="text-sm font-medium text-[#2e2d32]">100 Tage Rückgaberecht</p>
-              <p className="text-xs text-[#4c4c4c]">
+              <p className="text-sm font-medium text-dark">100 Tage Rückgaberecht</p>
+              <p className="text-xs text-mid">
                 Du hast volle 100 Tage Zeit, deine Bestellung zurückzusenden
               </p>
             </div>
@@ -186,7 +186,7 @@ export default function OrderSummary() {
 
           <div className="flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-[#2e2d32] flex-shrink-0"
+              className="w-5 h-5 text-dark flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -199,8 +199,8 @@ export default function OrderSummary() {
               />
             </svg>
             <div>
-              <p className="text-sm font-medium text-[#2e2d32]">Kostenlose Lieferung ab 200 €</p>
-              <p className="text-xs text-[#4c4c4c]">
+              <p className="text-sm font-medium text-dark">Kostenlose Lieferung ab 200 €</p>
+              <p className="text-xs text-mid">
                 Bei Bestellungen über 200 € entfallen die Versandkosten
               </p>
             </div>

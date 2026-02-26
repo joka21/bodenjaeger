@@ -18,9 +18,9 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
   const totalM2 = mainProduct.quantity * mainProduct.unitValue;
 
   return (
-    <div className="bg-[#f9f9fb] rounded-md p-3 mb-3">
+    <div className="bg-pale rounded-md p-3 mb-3">
       {/* Main Product (Boden) */}
-      <div className="flex flex-col gap-0.5 pb-2 border-b border-[#e5e5e5]">
+      <div className="flex flex-col gap-0.5 pb-2 border-b border-ash">
         {/* Zeile 1: Bild + "Boden • Produktname" + X */}
         <div className="flex flex-row items-start gap-2">
           <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden">
@@ -40,12 +40,12 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
               </div>
             )}
           </div>
-          <span className="flex-1 text-sm font-semibold text-[#2e2d32]">
+          <span className="flex-1 text-sm font-semibold text-dark">
             Boden • {mainProduct.name}
           </span>
           <button
             onClick={onRemove}
-            className="text-[#4c4c4c] hover:text-[#ed1b24] text-xl font-bold leading-none transition-colors"
+            className="text-mid hover:text-brand text-xl font-bold leading-none transition-colors"
             title="Set entfernen"
           >
             ×
@@ -65,11 +65,11 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
                 {formatPrice(mainProduct.originalPricePerUnit)}
               </span>
             )}
-            <span className="text-sm font-semibold text-[#ed1b24]">
+            <span className="text-sm font-semibold text-brand">
               {formatPrice(mainProduct.pricePerUnit)} €/m²
             </span>
           </div>
-          <span className="text-sm font-semibold text-[#2e2d32]">
+          <span className="text-sm font-semibold text-dark">
             {formatPrice(mainProduct.total)} €
           </span>
         </div>
@@ -77,25 +77,25 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
         {/* Zeile 4: [- Menge +] Pak. + [X] rechtsbündig (schon oben) */}
         <div className="ml-14 flex items-center justify-between mt-1">
           <div className="flex items-center gap-2">
-            <div className="flex items-center border border-[#e5e5e5] rounded">
+            <div className="flex items-center border border-ash rounded">
               <button
                 onClick={() => onQuantityChange(mainProduct.quantity - 1)}
                 disabled={mainProduct.quantity <= 1}
-                className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 text-sm"
+                className="px-2 py-0.5 text-mid hover:bg-gray-50 disabled:opacity-50 text-sm"
               >
                 −
               </button>
-              <span className="px-2 py-0.5 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+              <span className="px-2 py-0.5 text-sm text-dark min-w-[2rem] text-center">
                 {mainProduct.quantity}
               </span>
               <button
                 onClick={() => onQuantityChange(mainProduct.quantity + 1)}
-                className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 text-sm"
+                className="px-2 py-0.5 text-mid hover:bg-gray-50 text-sm"
               >
                 +
               </button>
             </div>
-            <span className="text-xs text-[#4c4c4c]">Pak.</span>
+            <span className="text-xs text-mid">Pak.</span>
           </div>
         </div>
       </div>
@@ -106,9 +106,9 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
       ))}
 
       {/* Set Total */}
-      <div className="flex items-center justify-between pt-2 mt-2 border-t border-[#e5e5e5]">
-        <span className="font-bold text-sm text-[#2e2d32]">Gesamt:</span>
-        <span className="text-base font-bold text-[#2e2d32]">{formatPrice(setTotal)} €</span>
+      <div className="flex items-center justify-between pt-2 mt-2 border-t border-ash">
+        <span className="font-bold text-sm text-dark">Gesamt:</span>
+        <span className="text-base font-bold text-dark">{formatPrice(setTotal)} €</span>
       </div>
     </div>
   );
@@ -154,7 +154,7 @@ function BundleProductItem({ product }: { product: CartItemBase }) {
   });
 
   return (
-    <div className="flex flex-col gap-0.5 py-2 border-b border-[#e5e5e5] last:border-b-0">
+    <div className="flex flex-col gap-0.5 py-2 border-b border-ash last:border-b-0">
       {/* Zeile 1: Bild + "Dämmung" / "Sockelleiste" */}
       <div className="flex flex-row items-start gap-2">
         <div className="w-12 h-12 flex-shrink-0 rounded overflow-hidden">
@@ -174,13 +174,13 @@ function BundleProductItem({ product }: { product: CartItemBase }) {
             </div>
           )}
         </div>
-        <span className="flex-1 text-sm font-semibold text-[#2e2d32]">
+        <span className="flex-1 text-sm font-semibold text-dark">
           {typeLabel}
         </span>
       </div>
 
       {/* Zeile 2: Produktname */}
-      <div className="ml-14 text-xs text-[#2e2d32]">
+      <div className="ml-14 text-xs text-dark">
         {product.name}
       </div>
 
@@ -197,11 +197,11 @@ function BundleProductItem({ product }: { product: CartItemBase }) {
               {formatPrice(product.originalPricePerUnit)}
             </span>
           )}
-          <span className="text-sm font-semibold text-[#ed1b24]">
+          <span className="text-sm font-semibold text-brand">
             {formatPrice(product.pricePerUnit)} €/{unitDisplay}
           </span>
         </div>
-        <span className="text-sm font-semibold text-[#2e2d32]">
+        <span className="text-sm font-semibold text-dark">
           {formatPrice(product.total)} €
         </span>
       </div>

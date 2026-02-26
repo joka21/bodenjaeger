@@ -11,18 +11,18 @@ export default function FachberatungPage() {
     <main className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <nav className="mb-6 text-sm">
-          <Link href="/fachmarkt-hueckelhoven" className="text-[#1e40af] hover:underline">
+          <Link href="/fachmarkt-hueckelhoven" className="text-navy hover:underline">
             ← Zurück zum Fachmarkt Hückelhoven
           </Link>
         </nav>
 
-        <h1 className="text-4xl lg:text-5xl font-bold text-[#1e40af] mb-8">
+        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-8">
           Fachberatung
         </h1>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Kompetente Beratung für Ihren perfekten Boden
             </h2>
             <p className="mb-4">
@@ -34,13 +34,13 @@ export default function FachberatungPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Unsere Beratungsthemen
             </h2>
 
             <div className="space-y-6">
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Materialauswahl
                 </h3>
                 <p className="text-sm mb-3">
@@ -57,7 +57,7 @@ export default function FachberatungPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Design & Optik
                 </h3>
                 <p className="text-sm mb-3">
@@ -74,7 +74,7 @@ export default function FachberatungPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Technische Beratung
                 </h3>
                 <p className="text-sm mb-3">
@@ -90,7 +90,7 @@ export default function FachberatungPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Kostenplanung
                 </h3>
                 <p className="text-sm mb-3">
@@ -108,7 +108,7 @@ export default function FachberatungPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Unsere Berater
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
@@ -118,19 +118,19 @@ export default function FachberatungPage() {
               </p>
               <ul className="space-y-2">
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">✓</span>
+                  <span className="text-navy font-bold">✓</span>
                   <span>Geprüfte Bodenleger mit Meisterbrief</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">✓</span>
+                  <span className="text-navy font-bold">✓</span>
                   <span>Geschulte Fachverkäufer</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">✓</span>
+                  <span className="text-navy font-bold">✓</span>
                   <span>Regelmäßige Hersteller-Schulungen</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">✓</span>
+                  <span className="text-navy font-bold">✓</span>
                   <span>Über 20 Jahre Erfahrung im Fachhandel</span>
                 </li>
               </ul>
@@ -138,13 +138,13 @@ export default function FachberatungPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Beratungsablauf
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ol className="space-y-4">
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">1.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">1.</span>
                   <div>
                     <p className="font-semibold">Bedarfsanalyse</p>
                     <p className="text-sm">
@@ -153,7 +153,7 @@ export default function FachberatungPage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">2.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">2.</span>
                   <div>
                     <p className="font-semibold">Produktvorstellung</p>
                     <p className="text-sm">
@@ -162,7 +162,7 @@ export default function FachberatungPage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">3.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">3.</span>
                   <div>
                     <p className="font-semibold">Musterauswahl</p>
                     <p className="text-sm">
@@ -171,7 +171,7 @@ export default function FachberatungPage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">4.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">4.</span>
                   <div>
                     <p className="font-semibold">Kostenvoranschlag</p>
                     <p className="text-sm">
@@ -185,7 +185,7 @@ export default function FachberatungPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Beratungstermin vereinbaren
             </h2>
             <p className="mb-4">
@@ -195,7 +195,7 @@ export default function FachberatungPage() {
             </p>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="font-semibold text-[#1e40af] mb-3">
+                <h3 className="font-semibold text-navy mb-3">
                   Mit Termin (empfohlen)
                 </h3>
                 <p className="text-sm mb-4">
@@ -204,20 +204,20 @@ export default function FachberatungPage() {
                 </p>
                 <a
                   href="tel:+492433123456"
-                  className="inline-block bg-[#1e40af] text-white px-4 py-2 rounded text-sm font-semibold hover:bg-[#1e3a8a] transition-colors"
+                  className="inline-block bg-navy text-white px-4 py-2 rounded text-sm font-semibold hover:bg-[#1e3a8a] transition-colors"
                 >
                   Termin vereinbaren
                 </a>
               </div>
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="font-semibold text-[#1e40af] mb-3">Ohne Termin</h3>
+                <h3 className="font-semibold text-navy mb-3">Ohne Termin</h3>
                 <p className="text-sm mb-4">
                   Kommen Sie spontan vorbei – wir beraten Sie gerne (ggf. Wartezeit
                   möglich)
                 </p>
                 <Link
                   href="/fachmarkt-hueckelhoven"
-                  className="inline-block border-2 border-[#1e40af] text-[#1e40af] px-4 py-2 rounded text-sm font-semibold hover:bg-[#1e40af] hover:text-white transition-colors"
+                  className="inline-block border-2 border-navy text-navy px-4 py-2 rounded text-sm font-semibold hover:bg-navy hover:text-white transition-colors"
                 >
                   Öffnungszeiten ansehen
                 </Link>
@@ -226,10 +226,10 @@ export default function FachberatungPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Kostenlose Beratung
             </h2>
-            <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
+            <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
               <p className="mb-2">
                 <strong>Unsere Beratung ist selbstverständlich kostenlos und
                 unverbindlich!</strong>

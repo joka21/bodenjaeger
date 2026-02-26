@@ -65,7 +65,7 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
 
           {/* Aktion Badge */}
           {jaegerMeta?.show_aktion && jaegerMeta?.aktion && (
-            <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+            <div className="bg-dark text-white px-3 py-1 rounded font-medium text-sm shadow-md">
               {jaegerMeta.aktion}
             </div>
           )}
@@ -109,7 +109,7 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
               onClick={() => selectImage(index)}
               className={`relative aspect-[4/3] rounded-lg overflow-hidden border-2 transition-all ${
                 currentImageIndex === index
-                  ? 'border-[#2e2d32] ring-2 ring-[#2e2d32] ring-offset-2'
+                  ? 'border-dark ring-2 ring-dark ring-offset-2'
                   : 'border-gray-200 hover:border-gray-300'
               }`}
             >

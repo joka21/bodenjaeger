@@ -17,7 +17,7 @@ export default function CartSingleItem({
   onRemove,
 }: CartSingleItemProps) {
   return (
-    <div className="bg-[#f9f9fb] rounded-md p-3 mb-3">
+    <div className="bg-pale rounded-md p-3 mb-3">
       <div className="flex flex-col gap-0.5">
         {/* Zeile 1: Bild + Produktname + Gesamtpreis rechtsbündig */}
         <div className="flex flex-row items-start gap-2">
@@ -39,8 +39,8 @@ export default function CartSingleItem({
             )}
           </div>
           <div className="flex-1 flex items-start justify-between">
-            <span className="text-sm font-semibold text-[#2e2d32]">{product.name}</span>
-            <span className="text-sm font-semibold text-[#2e2d32] ml-2">
+            <span className="text-sm font-semibold text-dark">{product.name}</span>
+            <span className="text-sm font-semibold text-dark ml-2">
               {formatPrice(product.total)} €
             </span>
           </div>
@@ -51,35 +51,35 @@ export default function CartSingleItem({
           <div className="flex items-center gap-2">
             {product.isSample ? (
               // Samples: Locked to quantity 1
-              <span className="text-xs text-[#4c4c4c] italic">Nur 1 Stk. möglich</span>
+              <span className="text-xs text-mid italic">Nur 1 Stk. möglich</span>
             ) : (
               // Regular products: Quantity controls
               <>
-                <div className="flex items-center border border-[#e5e5e5] rounded">
+                <div className="flex items-center border border-ash rounded">
                   <button
                     onClick={() => onQuantityChange(product.quantity - 1)}
                     disabled={product.quantity <= 1}
-                    className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 disabled:opacity-50 text-sm"
+                    className="px-2 py-0.5 text-mid hover:bg-gray-50 disabled:opacity-50 text-sm"
                   >
                     −
                   </button>
-                  <span className="px-2 py-0.5 text-sm text-[#2e2d32] min-w-[2rem] text-center">
+                  <span className="px-2 py-0.5 text-sm text-dark min-w-[2rem] text-center">
                     {product.quantity}
                   </span>
                   <button
                     onClick={() => onQuantityChange(product.quantity + 1)}
-                    className="px-2 py-0.5 text-[#4c4c4c] hover:bg-gray-50 text-sm"
+                    className="px-2 py-0.5 text-mid hover:bg-gray-50 text-sm"
                   >
                     +
                   </button>
                 </div>
-                <span className="text-xs text-[#4c4c4c]">Stk.</span>
+                <span className="text-xs text-mid">Stk.</span>
               </>
             )}
           </div>
           <button
             onClick={onRemove}
-            className="text-[#4c4c4c] hover:text-[#ed1b24] text-xl font-bold leading-none transition-colors"
+            className="text-mid hover:text-brand text-xl font-bold leading-none transition-colors"
             title="Produkt entfernen"
           >
             ×

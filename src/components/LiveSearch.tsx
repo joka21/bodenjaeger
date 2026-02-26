@@ -144,7 +144,7 @@ export default function LiveSearch() {
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-[100] max-h-[70vh] overflow-y-auto">
           {loading && (
             <div className="p-4 text-center text-gray-500">
-              <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-[#1e40af]"></div>
+              <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-navy"></div>
             </div>
           )}
 
@@ -168,7 +168,7 @@ export default function LiveSearch() {
                         key={index}
                         href={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
                         onClick={() => setIsOpen(false)}
-                        className="block px-4 py-2 hover:bg-gray-50 text-sm text-[#2e2d32]"
+                        className="block px-4 py-2 hover:bg-gray-50 text-sm text-dark"
                       >
                         📁 {category}
                       </Link>
@@ -209,7 +209,7 @@ export default function LiveSearch() {
 
                       {/* Product Info */}
                       <div className="flex-grow min-w-0">
-                        <div className="text-sm font-medium text-[#2e2d32]">
+                        <div className="text-sm font-medium text-dark">
                           {highlightText(product.name, searchQuery.trim())}
                         </div>
                         <div className="text-xs text-gray-500 truncate">
@@ -226,7 +226,7 @@ export default function LiveSearch() {
                       </div>
 
                       {/* Price */}
-                      <div className="flex-shrink-0 text-sm font-semibold text-[#2e2d32]">
+                      <div className="flex-shrink-0 text-sm font-semibold text-dark">
                         {parseFloat(product.price).toFixed(2)} €
                       </div>
                     </Link>
@@ -240,7 +240,7 @@ export default function LiveSearch() {
                   <Link
                     href={`/search?q=${encodeURIComponent(searchQuery)}`}
                     onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 text-center text-sm font-medium text-[#1e40af] hover:bg-gray-50"
+                    className="block px-4 py-3 text-center text-sm font-medium text-navy hover:bg-gray-50"
                   >
                     {results.length >= 50
                       ? `Alle Ergebnisse anzeigen (${results.length}+)`

@@ -11,14 +11,14 @@ interface MobileMenuLevel1Props {
 
 export default function MobileMenuLevel1({ categories, onCategoryClick }: MobileMenuLevel1Props) {
   return (
-    <div className="flex-1 overflow-y-auto bg-[#f9f9fb]">
+    <div className="flex-1 overflow-y-auto bg-pale">
       {/* Search Field */}
       <div className="bg-white px-4 py-3 border-b border-gray-200">
         <div className="relative">
           <input
             type="text"
             placeholder="Suchbegriff eingeben"
-            className="w-full h-12 pl-4 pr-12 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-[#ed1b24]"
+            className="w-full h-12 pl-4 pr-12 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-brand"
           />
           <Image
             src="/images/Icons/Lupe schieferschwarz.png"
@@ -38,7 +38,7 @@ export default function MobileMenuLevel1({ categories, onCategoryClick }: Mobile
               onClick={() => onCategoryClick(category)}
               className="w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors"
             >
-              <span className="text-[#2e2d32] font-medium text-base">{category.label}</span>
+              <span className="text-dark font-medium text-base">{category.label}</span>
               <svg
                 className="w-5 h-5 text-gray-400"
                 fill="none"

@@ -11,18 +11,18 @@ export default function SetAngebotePage() {
     <main className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <nav className="mb-6 text-sm">
-          <Link href="/fachmarkt-hueckelhoven" className="text-[#1e40af] hover:underline">
+          <Link href="/fachmarkt-hueckelhoven" className="text-navy hover:underline">
             ← Zurück zum Fachmarkt Hückelhoven
           </Link>
         </nav>
 
-        <h1 className="text-4xl lg:text-5xl font-bold text-[#1e40af] mb-8">
+        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-8">
           Set-Angebote
         </h1>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Alles aus einer Hand zum Vorteilspreis
             </h2>
             <p className="mb-4">
@@ -34,17 +34,17 @@ export default function SetAngebotePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Aktuelle Set-Angebote
             </h2>
 
             <div className="space-y-6">
-              <div className="bg-gray-50 p-6 rounded-lg border-2 border-[#1e40af]">
+              <div className="bg-gray-50 p-6 rounded-lg border-2 border-navy">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-xl font-semibold text-[#1e40af]">
+                  <h3 className="text-xl font-semibold text-navy">
                     Starter-Set Laminat
                   </h3>
-                  <span className="bg-[#1e40af] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-navy text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Bestseller
                   </span>
                 </div>
@@ -66,7 +66,7 @@ export default function SetAngebotePage() {
                     <p className="text-sm line-through text-gray-500">
                       Einzelpreis: 589,00 €
                     </p>
-                    <p className="text-2xl font-bold text-[#1e40af]">Set-Preis: 499,00 €</p>
+                    <p className="text-2xl font-bold text-navy">Set-Preis: 499,00 €</p>
                   </div>
                   <span className="bg-green-100 text-green-800 px-3 py-1 rounded font-semibold text-sm">
                     Ersparnis: 90,00 €
@@ -75,7 +75,7 @@ export default function SetAngebotePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Komplett-Set Vinyl
                 </h3>
                 <p className="text-sm mb-4">
@@ -96,7 +96,7 @@ export default function SetAngebotePage() {
                     <p className="text-sm line-through text-gray-500">
                       Einzelpreis: 849,00 €
                     </p>
-                    <p className="text-2xl font-bold text-[#1e40af]">Set-Preis: 749,00 €</p>
+                    <p className="text-2xl font-bold text-navy">Set-Preis: 749,00 €</p>
                   </div>
                   <span className="bg-green-100 text-green-800 px-3 py-1 rounded font-semibold text-sm">
                     Ersparnis: 100,00 €
@@ -105,7 +105,7 @@ export default function SetAngebotePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Premium-Set Parkett
                 </h3>
                 <p className="text-sm mb-4">
@@ -126,7 +126,7 @@ export default function SetAngebotePage() {
                     <p className="text-sm line-through text-gray-500">
                       Einzelpreis: 2.299,00 €
                     </p>
-                    <p className="text-2xl font-bold text-[#1e40af]">
+                    <p className="text-2xl font-bold text-navy">
                       Set-Preis: 1.999,00 €
                     </p>
                   </div>
@@ -137,7 +137,7 @@ export default function SetAngebotePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Komplett-Set mit Verlegung
                 </h3>
                 <p className="text-sm mb-4">
@@ -159,7 +159,7 @@ export default function SetAngebotePage() {
                     <p className="text-sm line-through text-gray-500">
                       Einzelpreis: 1.299,00 €
                     </p>
-                    <p className="text-2xl font-bold text-[#1e40af]">
+                    <p className="text-2xl font-bold text-navy">
                       Set-Preis: 1.099,00 €
                     </p>
                   </div>
@@ -172,7 +172,7 @@ export default function SetAngebotePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Individuelle Set-Zusammenstellung
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
@@ -182,17 +182,17 @@ export default function SetAngebotePage() {
               </p>
               <ul className="space-y-3">
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">1.</span>
+                  <span className="text-navy font-bold">1.</span>
                   <span>
                     Wählen Sie Ihren Wunsch-Bodenbelag aus unserem Sortiment
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">2.</span>
+                  <span className="text-navy font-bold">2.</span>
                   <span>Wir beraten Sie zu passendem Zubehör und Material</span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">3.</span>
+                  <span className="text-navy font-bold">3.</span>
                   <span>
                     Sie erhalten einen Set-Rabatt auf das Gesamtpaket (5-15%)
                   </span>
@@ -202,36 +202,36 @@ export default function SetAngebotePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Vorteile unserer Set-Angebote
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Preisersparnis</p>
+                <p className="font-semibold text-navy mb-2">Preisersparnis</p>
                 <p className="text-sm">
                   Bis zu 20% günstiger als Einzelkauf
                 </p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Perfekt abgestimmt</p>
+                <p className="font-semibold text-navy mb-2">Perfekt abgestimmt</p>
                 <p className="text-sm">Alle Komponenten passen zusammen</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Zeitersparnis</p>
+                <p className="font-semibold text-navy mb-2">Zeitersparnis</p>
                 <p className="text-sm">Keine aufwendige Einzelsuche nötig</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Alles dabei</p>
+                <p className="font-semibold text-navy mb-2">Alles dabei</p>
                 <p className="text-sm">Nichts vergessen, direkt loslegen</p>
               </div>
             </div>
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Wichtige Hinweise
             </h2>
-            <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
+            <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
               <ul className="space-y-2">
                 <li>• Set-Angebote gelten nur bei komplettem Kauf aller Komponenten</li>
                 <li>• Preise verstehen sich inkl. MwSt.</li>
@@ -248,7 +248,7 @@ export default function SetAngebotePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Set-Angebot anfragen
             </h2>
             <p className="mb-4">
@@ -258,13 +258,13 @@ export default function SetAngebotePage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/kontakt"
-                className="inline-block bg-[#1e40af] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
+                className="inline-block bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
               >
                 Kontakt aufnehmen
               </Link>
               <a
                 href="tel:+492433123456"
-                className="inline-block border-2 border-[#1e40af] text-[#1e40af] px-6 py-3 rounded-lg font-semibold hover:bg-[#1e40af] hover:text-white transition-colors"
+                className="inline-block border-2 border-navy text-navy px-6 py-3 rounded-lg font-semibold hover:bg-navy hover:text-white transition-colors"
               >
                 Anrufen: +49 (0) 2433 123456
               </a>

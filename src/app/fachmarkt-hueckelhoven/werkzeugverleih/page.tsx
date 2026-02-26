@@ -11,18 +11,18 @@ export default function WerkzeugverleihPage() {
     <main className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <nav className="mb-6 text-sm">
-          <Link href="/fachmarkt-hueckelhoven" className="text-[#1e40af] hover:underline">
+          <Link href="/fachmarkt-hueckelhoven" className="text-navy hover:underline">
             ← Zurück zum Fachmarkt Hückelhoven
           </Link>
         </nav>
 
-        <h1 className="text-4xl lg:text-5xl font-bold text-[#1e40af] mb-8">
+        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-8">
           Werkzeugverleih
         </h1>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Professionelles Werkzeug für die Selbstverlegung
             </h2>
             <p className="mb-4">
@@ -34,13 +34,13 @@ export default function WerkzeugverleihPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Unser Werkzeugsortiment
             </h2>
 
             <div className="space-y-6">
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Schneidemaschinen
                 </h3>
                 <div className="space-y-4">
@@ -78,7 +78,7 @@ export default function WerkzeugverleihPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Schleif- und Vorbereitungsgeräte
                 </h3>
                 <div className="space-y-4">
@@ -116,7 +116,7 @@ export default function WerkzeugverleihPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Spezialwerkzeuge
                 </h3>
                 <div className="space-y-4">
@@ -152,7 +152,7 @@ export default function WerkzeugverleihPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Kombi-Pakete
                 </h3>
                 <div className="space-y-4">
@@ -180,46 +180,46 @@ export default function WerkzeugverleihPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Mietbedingungen
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ul className="space-y-3">
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Kaution:</strong> Je nach Werkzeug 50,00 € - 200,00 €
                     (Rückzahlung bei ordnungsgemäßer Rückgabe)
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Tagesmiete:</strong> Von 09:00 Uhr bis 18:00 Uhr am selben
                     Tag
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Wochenendmiete:</strong> Freitag 14:00 Uhr bis Montag 10:00
                     Uhr
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Wochenmiete:</strong> 7 Tage zum Preis von 4 Tagesmieten
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Reservierung:</strong> Telefonisch oder direkt im Fachmarkt
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Ausweis:</strong> Personalausweis oder Führerschein
                     erforderlich
@@ -230,10 +230,10 @@ export default function WerkzeugverleihPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Einweisung & Support
             </h2>
-            <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
+            <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
               <p className="mb-3">
                 <strong>Kostenlose Einweisung vor Ort!</strong>
               </p>
@@ -250,7 +250,7 @@ export default function WerkzeugverleihPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Wichtige Hinweise
             </h2>
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded">
@@ -273,7 +273,7 @@ export default function WerkzeugverleihPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Werkzeug reservieren
             </h2>
             <p className="mb-4">

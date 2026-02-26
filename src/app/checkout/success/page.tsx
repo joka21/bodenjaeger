@@ -29,7 +29,7 @@ function CheckoutSuccessContent() {
       <header className="border-b border-gray-200 bg-white">
         <div className="container mx-auto px-4 py-6">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="font-bold text-2xl text-[#2e2d32]">Bodenjäger</div>
+            <div className="font-bold text-2xl text-dark">Bodenjäger</div>
           </Link>
         </div>
       </header>
@@ -58,7 +58,7 @@ function CheckoutSuccessContent() {
 
           {/* Success Message */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#2e2d32] mb-4">
+            <h1 className="text-3xl font-bold text-dark mb-4">
               Vielen Dank für Ihre Bestellung!
             </h1>
             <p className="text-lg text-gray-700 mb-2">
@@ -66,7 +66,7 @@ function CheckoutSuccessContent() {
             </p>
             {orderId && (
               <p className="text-gray-600">
-                Bestellnummer: <span className="font-semibold text-[#2e2d32]">#{orderId}</span>
+                Bestellnummer: <span className="font-semibold text-dark">#{orderId}</span>
               </p>
             )}
             {(paypalSuccess || stripeSessionId) && (
@@ -79,7 +79,7 @@ function CheckoutSuccessContent() {
 
           {/* Order Confirmation Details */}
           <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-            <h2 className="text-xl font-bold text-[#2e2d32] mb-6">Was passiert jetzt?</h2>
+            <h2 className="text-xl font-bold text-dark mb-6">Was passiert jetzt?</h2>
 
             <div className="space-y-6">
               {/* Step 1 */}
@@ -88,7 +88,7 @@ function CheckoutSuccessContent() {
                   1
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-[#2e2d32] mb-1">
+                  <h3 className="font-semibold text-dark mb-1">
                     Bestellbestätigung per E-Mail
                   </h3>
                   <p className="text-gray-600">
@@ -103,7 +103,7 @@ function CheckoutSuccessContent() {
                   2
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-[#2e2d32] mb-1">Bearbeitung</h3>
+                  <h3 className="font-semibold text-dark mb-1">Bearbeitung</h3>
                   <p className="text-gray-600">
                     Wir bearbeiten Ihre Bestellung und bereiten den Versand vor.
                   </p>
@@ -116,7 +116,7 @@ function CheckoutSuccessContent() {
                   3
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-[#2e2d32] mb-1">Versand</h3>
+                  <h3 className="font-semibold text-dark mb-1">Versand</h3>
                   <p className="text-gray-600">
                     Sobald Ihre Bestellung versandt wurde, erhalten Sie eine Versandbestätigung mit
                     Tracking-Nummer.
@@ -130,7 +130,7 @@ function CheckoutSuccessContent() {
                   4
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-[#2e2d32] mb-1">Lieferung</h3>
+                  <h3 className="font-semibold text-dark mb-1">Lieferung</h3>
                   <p className="text-gray-600">
                     Ihre Bestellung wird in den nächsten Tagen bei Ihnen eintreffen.
                   </p>
@@ -141,7 +141,7 @@ function CheckoutSuccessContent() {
 
           {/* Additional Information */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <h3 className="font-semibold text-[#2e2d32] mb-3">Wichtige Informationen</h3>
+            <h3 className="font-semibold text-dark mb-3">Wichtige Informationen</h3>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start">
                 <svg
@@ -199,13 +199,13 @@ function CheckoutSuccessContent() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/"
-              className="px-8 py-3 bg-[#2e2d32] text-white font-semibold rounded-lg hover:bg-[#1e1d22] focus:outline-none focus:ring-4 focus:ring-[#2e2d32]/30 transition-all text-center"
+              className="px-8 py-3 bg-dark text-white font-semibold rounded-lg hover:bg-[#1e1d22] focus:outline-none focus:ring-4 focus:ring-dark/30 transition-all text-center"
             >
               Zurück zur Startseite
             </Link>
             <Link
               href="/products"
-              className="px-8 py-3 bg-white text-[#2e2d32] font-semibold rounded-lg border-2 border-[#2e2d32] hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-[#2e2d32]/30 transition-all text-center"
+              className="px-8 py-3 bg-white text-dark font-semibold rounded-lg border-2 border-dark hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-dark/30 transition-all text-center"
             >
               Weiter einkaufen
             </Link>
@@ -213,7 +213,7 @@ function CheckoutSuccessContent() {
 
           {/* Support Info */}
           <div className="text-center mt-12 pt-8 border-t border-gray-200">
-            <h3 className="font-semibold text-[#2e2d32] mb-2">Brauchen Sie Hilfe?</h3>
+            <h3 className="font-semibold text-dark mb-2">Brauchen Sie Hilfe?</h3>
             <p className="text-gray-600 mb-4">
               Unser Kundenservice steht Ihnen gerne zur Verfügung.
             </p>
@@ -265,16 +265,16 @@ function CheckoutSuccessContent() {
       <footer className="border-t border-gray-200 bg-white mt-12">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
-            <Link href="/agb" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/agb" className="hover:text-dark transition-colors">
               AGB
             </Link>
-            <Link href="/datenschutz" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/datenschutz" className="hover:text-dark transition-colors">
               Datenschutz
             </Link>
-            <Link href="/widerruf" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/widerruf" className="hover:text-dark transition-colors">
               Widerrufsbelehrung
             </Link>
-            <Link href="/impressum" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/impressum" className="hover:text-dark transition-colors">
               Impressum
             </Link>
           </div>
@@ -291,7 +291,7 @@ export default function CheckoutSuccessPage() {
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2e2d32]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dark"></div>
       </div>
     }>
       <CheckoutSuccessContent />

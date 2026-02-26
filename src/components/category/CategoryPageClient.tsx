@@ -21,6 +21,7 @@ interface CategoryPageClientProps {
 
 export default function CategoryPageClient({ slug, categoryName, categoryDescription, categoryImage }: CategoryPageClientProps) {
   const [products, setProducts] = useState<StoreApiProduct[]>([]);
+  const [addonProductsMap, setAddonProductsMap] = useState<Map<number, StoreApiProduct>>(new Map());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,6 +78,29 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
       // Use the total pages and total products count from the API
       setTotalPages(totalPagesFromAPI);
       setTotalProducts(totalProductsCount);
+
+      // Batch-fetch Dämmung + Sockelleiste für Set-Angebot Preisvergleich
+      const addonIds = new Set<number>();
+      fetchedProducts.forEach((p: StoreApiProduct) => {
+        if (p.show_setangebot) {
+          if (p.daemmung_id) addonIds.add(p.daemmung_id);
+          if (p.sockelleisten_id) addonIds.add(p.sockelleisten_id);
+        }
+      });
+      if (addonIds.size > 0) {
+        fetch('/api/products/by-ids', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ids: Array.from(addonIds) }),
+        })
+          .then(r => r.ok ? r.json() : [])
+          .then((addonProducts: StoreApiProduct[]) => {
+            const map = new Map<number, StoreApiProduct>();
+            addonProducts.forEach(p => map.set(p.id, p));
+            setAddonProductsMap(map);
+          })
+          .catch(() => {});
+      }
 
     } catch (err) {
       console.error('❌ Error fetching category products:', err);
@@ -276,7 +300,12 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
         {products.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
             {products.map((product) => (
-              <UnifiedProductCard key={product.id} product={product} />
+              <UnifiedProductCard
+                key={product.id}
+                product={product}
+                daemmungProduct={product.daemmung_id ? (addonProductsMap.get(product.daemmung_id) ?? null) : null}
+                sockelleisteProduct={product.sockelleisten_id ? (addonProductsMap.get(product.sockelleisten_id) ?? null) : null}
+              />
             ))}
           </div>
         ) : (
@@ -316,7 +345,7 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
                   onClick={() => handlePageChange(page)}
                   className={`px-3 py-2 rounded-lg border transition-colors ${
                     currentPage === page
-                      ? 'bg-[#ed1b24] text-white border-[#ed1b24]'
+                      ? 'bg-brand text-white border-brand'
                       : 'border-gray-300 text-gray-500 hover:bg-gray-100'
                   }`}
                 >
@@ -338,19 +367,19 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
         {/* Full Category Description at bottom */}
         {categoryDescription && categoryDescription.replace(/<[^>]+>/g, '').trim().length > 200 && (
           <div id="category-full-description" className="mt-16 bg-gray-100 rounded-md p-8">
-            <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">
+            <h2 className="text-2xl font-bold text-dark mb-6">
               Über {categoryName}
             </h2>
             <div
-              className="text-[#2e2d32] prose prose-lg max-w-none
-                [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-[#2e2d32] [&_h3]:mt-6 [&_h3]:mb-4
-                [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-[#2e2d32] [&_h2]:mt-8 [&_h2]:mb-4
-                [&_p]:text-[#2e2d32] [&_p]:leading-relaxed [&_p]:mb-6
-                [&_ul]:text-[#2e2d32] [&_ul]:mb-4 [&_ul]:space-y-2
-                [&_ol]:text-[#2e2d32] [&_ol]:mb-4 [&_ol]:space-y-2
-                [&_li]:text-[#2e2d32] [&_li]:leading-relaxed
-                [&_strong]:text-[#2e2d32] [&_strong]:font-semibold
-                [&_em]:text-[#2e2d32]
+              className="text-dark prose prose-lg max-w-none
+                [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-dark [&_h3]:mt-6 [&_h3]:mb-4
+                [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-dark [&_h2]:mt-8 [&_h2]:mb-4
+                [&_p]:text-dark [&_p]:leading-relaxed [&_p]:mb-6
+                [&_ul]:text-dark [&_ul]:mb-4 [&_ul]:space-y-2
+                [&_ol]:text-dark [&_ol]:mb-4 [&_ol]:space-y-2
+                [&_li]:text-dark [&_li]:leading-relaxed
+                [&_strong]:text-dark [&_strong]:font-semibold
+                [&_em]:text-dark
                 [&_br]:block [&_br]:my-4
                 whitespace-pre-line"
               dangerouslySetInnerHTML={{ __html: categoryDescription }}

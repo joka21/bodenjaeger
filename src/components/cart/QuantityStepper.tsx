@@ -61,7 +61,7 @@ export default function QuantityStepper({
         disabled={disabled}
         min={min}
         max={max}
-        className="w-16 h-8 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#2e2d32] disabled:bg-gray-100 disabled:cursor-not-allowed"
+        className="w-16 h-8 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-dark disabled:bg-gray-100 disabled:cursor-not-allowed"
         aria-label="Menge"
       />
 

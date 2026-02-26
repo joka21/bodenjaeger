@@ -104,7 +104,7 @@ export default function StandardProductCard({ product }: StandardProductCardProp
 
             {/* Aktion-Badge */}
             {product._aktion && (
-              <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+              <div className="bg-dark text-white px-3 py-1 rounded font-medium text-sm shadow-md">
                 {product._aktion}
               </div>
             )}
@@ -186,7 +186,7 @@ export default function StandardProductCard({ product }: StandardProductCardProp
           </h3>
 
           {/* Trennlinie */}
-          <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
+          <div className="h-[1px] bg-dark mx-8 mb-3" />
 
           {/* Preisanzeige - Nur wenn Set-Angebot aktiv */}
           <div className="flex justify-between items-center">

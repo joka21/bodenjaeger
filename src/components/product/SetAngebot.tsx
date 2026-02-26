@@ -126,7 +126,7 @@ export default function SetAngebot({
       </div>
 
       {/* Grauer Container mit Produkten */}
-      <div className="bg-[#e5e5e5] rounded-md p-4 sm:p-6 pt-10 sm:pt-12 w-full">
+      <div className="bg-ash rounded-md p-4 sm:p-6 pt-10 sm:pt-12 w-full">
 
         {/* ===== MOBILE: Kompakte Zeilen-Liste ===== */}
         <div className="md:hidden">

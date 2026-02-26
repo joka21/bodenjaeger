@@ -11,18 +11,18 @@ export default function VerlegeservicePage() {
     <main className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <nav className="mb-6 text-sm">
-          <Link href="/fachmarkt-hueckelhoven" className="text-[#1e40af] hover:underline">
+          <Link href="/fachmarkt-hueckelhoven" className="text-navy hover:underline">
             ← Zurück zum Fachmarkt Hückelhoven
           </Link>
         </nav>
 
-        <h1 className="text-4xl lg:text-5xl font-bold text-[#1e40af] mb-8">
+        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-8">
           Verlegeservice
         </h1>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Professionelle Verlegung vom Fachmann
             </h2>
             <p className="mb-4">
@@ -34,13 +34,13 @@ export default function VerlegeservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Unsere Verlegeleistungen
             </h2>
 
             <div className="space-y-6">
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Laminat & Parkett
                 </h3>
                 <p className="mb-3">
@@ -51,7 +51,7 @@ export default function VerlegeservicePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Vinyl & Designböden
                 </h3>
                 <p className="mb-3">
@@ -61,7 +61,7 @@ export default function VerlegeservicePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Teppichboden
                 </h3>
                 <p className="mb-3">
@@ -71,7 +71,7 @@ export default function VerlegeservicePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Kork & Linoleum
                 </h3>
                 <p className="mb-3">
@@ -83,7 +83,7 @@ export default function VerlegeservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Zusätzliche Leistungen
             </h2>
             <ul className="list-disc list-inside space-y-2">
@@ -98,13 +98,13 @@ export default function VerlegeservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               So läuft&apos;s ab
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ol className="space-y-4">
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">1.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">1.</span>
                   <div>
                     <p className="font-semibold">Beratungsgespräch</p>
                     <p className="text-sm">
@@ -113,7 +113,7 @@ export default function VerlegeservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">2.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">2.</span>
                   <div>
                     <p className="font-semibold">Angebot</p>
                     <p className="text-sm">
@@ -122,7 +122,7 @@ export default function VerlegeservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">3.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">3.</span>
                   <div>
                     <p className="font-semibold">Terminvereinbarung</p>
                     <p className="text-sm">
@@ -131,7 +131,7 @@ export default function VerlegeservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">4.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">4.</span>
                   <div>
                     <p className="font-semibold">Verlegung</p>
                     <p className="text-sm">
@@ -140,7 +140,7 @@ export default function VerlegeservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">5.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">5.</span>
                   <div>
                     <p className="font-semibold">Abnahme</p>
                     <p className="text-sm">
@@ -153,31 +153,31 @@ export default function VerlegeservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Ihre Vorteile
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Festpreisgarantie</p>
+                <p className="font-semibold text-navy mb-2">Festpreisgarantie</p>
                 <p className="text-sm">Keine versteckten Kosten</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Erfahrene Profis</p>
+                <p className="font-semibold text-navy mb-2">Erfahrene Profis</p>
                 <p className="text-sm">Langjährige Expertise</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Termintreue</p>
+                <p className="font-semibold text-navy mb-2">Termintreue</p>
                 <p className="text-sm">Verlässliche Absprachen</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Gewährleistung</p>
+                <p className="font-semibold text-navy mb-2">Gewährleistung</p>
                 <p className="text-sm">2 Jahre Garantie auf Verlegung</p>
               </div>
             </div>
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Jetzt Verlegung anfragen
             </h2>
             <p className="mb-4">
@@ -187,13 +187,13 @@ export default function VerlegeservicePage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/kontakt"
-                className="inline-block bg-[#1e40af] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
+                className="inline-block bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
               >
                 Kontakt aufnehmen
               </Link>
               <a
                 href="tel:+492433123456"
-                className="inline-block border-2 border-[#1e40af] text-[#1e40af] px-6 py-3 rounded-lg font-semibold hover:bg-[#1e40af] hover:text-white transition-colors"
+                className="inline-block border-2 border-navy text-navy px-6 py-3 rounded-lg font-semibold hover:bg-navy hover:text-white transition-colors"
               >
                 Anrufen: +49 (0) 2433 123456
               </a>

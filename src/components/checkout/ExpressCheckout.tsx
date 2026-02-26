@@ -3,7 +3,7 @@
 export default function ExpressCheckout() {
   return (
     <div className="mb-6">
-      <p className="text-center text-sm text-[#4c4c4c] mb-4">Express Checkout</p>
+      <p className="text-center text-sm text-mid mb-4">Express Checkout</p>
 
       <div className="flex flex-row gap-3">
         {/* PayPal Button */}
@@ -19,9 +19,9 @@ export default function ExpressCheckout() {
 
       {/* Trennlinie */}
       <div className="flex items-center gap-4 my-6">
-        <div className="flex-1 h-px bg-[#e5e5e5]"></div>
-        <span className="text-sm text-[#4c4c4c]">ODER</span>
-        <div className="flex-1 h-px bg-[#e5e5e5]"></div>
+        <div className="flex-1 h-px bg-ash"></div>
+        <span className="text-sm text-mid">ODER</span>
+        <div className="flex-1 h-px bg-ash"></div>
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default function ProgressIndicator({ currentStep }: ProgressIndicatorProp
                         isCompleted
                           ? 'bg-[#4CAF50] text-white'
                           : isCurrent
-                            ? 'bg-[#2e2d32] text-white ring-4 ring-[#2e2d32]/20'
+                            ? 'bg-dark text-white ring-4 ring-dark/20'
                             : 'bg-gray-200 text-gray-400'
                       }
                     `}
@@ -69,7 +69,7 @@ export default function ProgressIndicator({ currentStep }: ProgressIndicatorProp
                   <div
                     className={`
                       mt-2 text-sm font-medium text-center
-                      ${isCurrent ? 'text-[#2e2d32]' : isCompleted ? 'text-gray-700' : 'text-gray-400'}
+                      ${isCurrent ? 'text-dark' : isCompleted ? 'text-gray-700' : 'text-gray-400'}
                     `}
                   >
                     {step.label}
@@ -101,7 +101,7 @@ export default function ProgressIndicator({ currentStep }: ProgressIndicatorProp
             <div className="text-sm text-gray-500 mb-1">
               Schritt {currentIndex + 1} von {steps.length}
             </div>
-            <div className="text-lg font-semibold text-[#2e2d32]">
+            <div className="text-lg font-semibold text-dark">
               {steps[currentIndex].label}
             </div>
           </div>
@@ -132,7 +132,7 @@ export default function ProgressIndicator({ currentStep }: ProgressIndicatorProp
                       isCompleted
                         ? 'bg-[#4CAF50] text-white'
                         : isCurrent
-                          ? 'bg-[#2e2d32] text-white'
+                          ? 'bg-dark text-white'
                           : 'bg-gray-200 text-gray-400'
                     }
                   `}

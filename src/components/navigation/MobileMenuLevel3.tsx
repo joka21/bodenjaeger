@@ -9,10 +9,10 @@ interface MobileMenuLevel3Props {
 
 export default function MobileMenuLevel3({ parentCategory, subCategory, onClose }: MobileMenuLevel3Props) {
   return (
-    <div className="flex-1 overflow-y-auto bg-[#f9f9fb]">
+    <div className="flex-1 overflow-y-auto bg-pale">
       {/* Breadcrumb/Parent Title */}
       <div className="px-4 py-3 bg-white border-b border-gray-200">
-        <h2 className="text-lg font-bold text-[#2e2d32]">{parentCategory.label}</h2>
+        <h2 className="text-lg font-bold text-dark">{parentCategory.label}</h2>
       </div>
 
       {/* "Alle [Parent Kategorie] anzeigen" Link */}
@@ -21,12 +21,12 @@ export default function MobileMenuLevel3({ parentCategory, subCategory, onClose 
         onClick={onClose}
         className="block px-4 py-4 bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors"
       >
-        <span className="text-[#2e2d32] text-base">Alle {parentCategory.label} anzeigen</span>
+        <span className="text-dark text-base">Alle {parentCategory.label} anzeigen</span>
       </Link>
 
       {/* Subcategory Title (non-clickable) */}
       <div className="px-4 py-3 bg-gray-50">
-        <h3 className="text-base font-bold text-[#2e2d32]">{subCategory.label}</h3>
+        <h3 className="text-base font-bold text-dark">{subCategory.label}</h3>
       </div>
 
       {/* Final Items (indented) */}
@@ -38,7 +38,7 @@ export default function MobileMenuLevel3({ parentCategory, subCategory, onClose 
             onClick={onClose}
             className="block px-4 py-4 pl-8 bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors"
           >
-            <span className="text-[#2e2d32] text-base">{item.label}</span>
+            <span className="text-dark text-base">{item.label}</span>
           </Link>
         ))}
       </div>
@@ -53,7 +53,7 @@ export default function MobileMenuLevel3({ parentCategory, subCategory, onClose 
                 {otherSubCategory.hasChildren ? (
                   <div>
                     <div className="px-4 py-3 bg-gray-50">
-                      <h3 className="text-base font-bold text-[#2e2d32]">{otherSubCategory.label}</h3>
+                      <h3 className="text-base font-bold text-dark">{otherSubCategory.label}</h3>
                     </div>
                     {otherSubCategory.children?.map((item) => (
                       <Link
@@ -62,7 +62,7 @@ export default function MobileMenuLevel3({ parentCategory, subCategory, onClose 
                         onClick={onClose}
                         className="block px-4 py-4 pl-8 bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors"
                       >
-                        <span className="text-[#2e2d32] text-base">{item.label}</span>
+                        <span className="text-dark text-base">{item.label}</span>
                       </Link>
                     ))}
                   </div>
@@ -72,7 +72,7 @@ export default function MobileMenuLevel3({ parentCategory, subCategory, onClose 
                     onClick={onClose}
                     className="block px-4 py-4 hover:bg-gray-50 transition-colors"
                   >
-                    <span className="text-[#2e2d32] text-base">{otherSubCategory.label}</span>
+                    <span className="text-dark text-base">{otherSubCategory.label}</span>
                   </Link>
                 )}
               </div>

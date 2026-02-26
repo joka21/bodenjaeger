@@ -58,7 +58,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
       {/* Hero Section */}
       <section
         className="relative w-full py-16 md:py-24"
-        style={{ background: 'linear-gradient(135deg, #2e2d32 0%, #4c4c4c 100%)' }}
+        style={{ background: 'var(--gradient-dark)' }}
       >
         <div className="content-container relative z-10">
           <div className="text-center max-w-3xl mx-auto">
@@ -92,11 +92,11 @@ export default function KontaktPage({ page }: KontaktPageProps) {
             {/* Phone Card */}
             <a
               href="tel:02433938884"
-              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-[#ed1b24]/20"
+              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-brand/20"
             >
-              <div className="w-14 h-14 mx-auto mb-4 bg-[#ed1b24]/10 rounded-full flex items-center justify-center group-hover:bg-[#ed1b24] transition-colors duration-300">
+              <div className="w-14 h-14 mx-auto mb-4 bg-brand/10 rounded-full flex items-center justify-center group-hover:bg-brand transition-colors duration-300">
                 <svg
-                  className="w-6 h-6 text-[#ed1b24] group-hover:text-white transition-colors duration-300"
+                  className="w-6 h-6 text-brand group-hover:text-white transition-colors duration-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -109,19 +109,19 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-[#2e2d32] mb-1">Telefon</h3>
-              <p className="text-xl font-bold text-[#ed1b24]">02433 938884</p>
+              <h3 className="text-lg font-bold text-dark mb-1">Telefon</h3>
+              <p className="text-xl font-bold text-brand">02433 938884</p>
               <p className="text-sm text-gray-500 mt-2">Mo-Fr 9-18:30 &middot; Sa 9-14 Uhr</p>
             </a>
 
             {/* Email Card */}
             <a
               href="mailto:info@bodenjaeger.de"
-              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-[#ed1b24]/20"
+              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-brand/20"
             >
-              <div className="w-14 h-14 mx-auto mb-4 bg-[#ed1b24]/10 rounded-full flex items-center justify-center group-hover:bg-[#ed1b24] transition-colors duration-300">
+              <div className="w-14 h-14 mx-auto mb-4 bg-brand/10 rounded-full flex items-center justify-center group-hover:bg-brand transition-colors duration-300">
                 <svg
-                  className="w-6 h-6 text-[#ed1b24] group-hover:text-white transition-colors duration-300"
+                  className="w-6 h-6 text-brand group-hover:text-white transition-colors duration-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -134,8 +134,8 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-[#2e2d32] mb-1">E-Mail</h3>
-              <p className="text-xl font-bold text-[#ed1b24]">info@bodenjaeger.de</p>
+              <h3 className="text-lg font-bold text-dark mb-1">E-Mail</h3>
+              <p className="text-xl font-bold text-brand">info@bodenjaeger.de</p>
               <p className="text-sm text-gray-500 mt-2">Antwort innerhalb von 24h</p>
             </a>
 
@@ -144,11 +144,11 @@ export default function KontaktPage({ page }: KontaktPageProps) {
               href="https://maps.google.com/?q=Parkhofstraße+61+41836+Hückelhoven"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-[#ed1b24]/20"
+              className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-brand/20"
             >
-              <div className="w-14 h-14 mx-auto mb-4 bg-[#ed1b24]/10 rounded-full flex items-center justify-center group-hover:bg-[#ed1b24] transition-colors duration-300">
+              <div className="w-14 h-14 mx-auto mb-4 bg-brand/10 rounded-full flex items-center justify-center group-hover:bg-brand transition-colors duration-300">
                 <svg
-                  className="w-6 h-6 text-[#ed1b24] group-hover:text-white transition-colors duration-300"
+                  className="w-6 h-6 text-brand group-hover:text-white transition-colors duration-300"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -167,8 +167,8 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-[#2e2d32] mb-1">Fachmarkt</h3>
-              <p className="text-sm font-medium text-[#2e2d32]">Parkhofstraße 61</p>
+              <h3 className="text-lg font-bold text-dark mb-1">Fachmarkt</h3>
+              <p className="text-sm font-medium text-dark">Parkhofstraße 61</p>
               <p className="text-sm text-gray-500">41836 Hückelhoven</p>
             </a>
           </div>
@@ -181,7 +181,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 max-w-6xl mx-auto">
             {/* Contact Form - 3 columns */}
             <div className="lg:col-span-3">
-              <h2 className="text-2xl md:text-3xl font-bold text-[#2e2d32] mb-2">
+              <h2 className="text-2xl md:text-3xl font-bold text-dark mb-2">
                 Schreib uns eine Nachricht
               </h2>
               <p className="text-gray-500 mb-8">
@@ -211,7 +211,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Name */}
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-[#2e2d32] mb-1.5">
+                      <label htmlFor="name" className="block text-sm font-medium text-dark mb-1.5">
                         Name *
                       </label>
                       <input
@@ -222,13 +222,13 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Max Mustermann"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed1b24]/20 focus:border-[#ed1b24] outline-none transition-all text-[#2e2d32] placeholder:text-gray-400"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none transition-all text-dark placeholder:text-gray-400"
                       />
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-[#2e2d32] mb-1.5">
+                      <label htmlFor="email" className="block text-sm font-medium text-dark mb-1.5">
                         E-Mail *
                       </label>
                       <input
@@ -239,7 +239,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="max@beispiel.de"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed1b24]/20 focus:border-[#ed1b24] outline-none transition-all text-[#2e2d32] placeholder:text-gray-400"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none transition-all text-dark placeholder:text-gray-400"
                       />
                     </div>
                   </div>
@@ -247,7 +247,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {/* Phone */}
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-[#2e2d32] mb-1.5">
+                      <label htmlFor="phone" className="block text-sm font-medium text-dark mb-1.5">
                         Telefon
                       </label>
                       <input
@@ -257,13 +257,13 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="Optional"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed1b24]/20 focus:border-[#ed1b24] outline-none transition-all text-[#2e2d32] placeholder:text-gray-400"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none transition-all text-dark placeholder:text-gray-400"
                       />
                     </div>
 
                     {/* Subject */}
                     <div>
-                      <label htmlFor="subject" className="block text-sm font-medium text-[#2e2d32] mb-1.5">
+                      <label htmlFor="subject" className="block text-sm font-medium text-dark mb-1.5">
                         Betreff *
                       </label>
                       <select
@@ -272,7 +272,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                         required
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed1b24]/20 focus:border-[#ed1b24] outline-none transition-all text-[#2e2d32] bg-white"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none transition-all text-dark bg-white"
                       >
                         <option value="">Bitte wählen...</option>
                         <option value="beratung">Produktberatung</option>
@@ -287,7 +287,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
 
                   {/* Message */}
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-[#2e2d32] mb-1.5">
+                    <label htmlFor="message" className="block text-sm font-medium text-dark mb-1.5">
                       Nachricht *
                     </label>
                     <textarea
@@ -298,7 +298,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Wie können wir dir helfen?"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ed1b24]/20 focus:border-[#ed1b24] outline-none transition-all text-[#2e2d32] placeholder:text-gray-400 resize-vertical"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand outline-none transition-all text-dark placeholder:text-gray-400 resize-vertical"
                     />
                   </div>
 
@@ -311,7 +311,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   <button
                     type="submit"
                     disabled={formStatus === 'sending'}
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[#ed1b24] text-white font-bold rounded-lg hover:bg-[#d11820] transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-brand text-white font-bold rounded-lg hover:bg-[#d11820] transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
                   >
                     {formStatus === 'sending' ? (
                       <span className="flex items-center justify-center gap-2">
@@ -332,9 +332,9 @@ export default function KontaktPage({ page }: KontaktPageProps) {
             {/* Sidebar - 2 columns */}
             <div className="lg:col-span-2 space-y-6">
               {/* Opening Hours */}
-              <div className="bg-[#f9f9fb] rounded-xl p-6">
-                <h3 className="text-lg font-bold text-[#2e2d32] mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-[#ed1b24]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-pale rounded-xl p-6">
+                <h3 className="text-lg font-bold text-dark mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Öffnungszeiten
@@ -357,11 +357,11 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                       <div
                         key={day}
                         className={`flex justify-between items-center text-sm py-1.5 px-2 rounded ${
-                          isToday ? 'bg-[#ed1b24]/5 font-medium' : ''
+                          isToday ? 'bg-brand/5 font-medium' : ''
                         }`}
                       >
-                        <span className={isToday ? 'text-[#ed1b24]' : 'text-gray-600'}>{day}</span>
-                        <span className={isToday ? 'text-[#ed1b24]' : 'text-[#2e2d32]'}>{time}</span>
+                        <span className={isToday ? 'text-brand' : 'text-gray-600'}>{day}</span>
+                        <span className={isToday ? 'text-brand' : 'text-dark'}>{time}</span>
                       </div>
                     );
                   })}
@@ -369,9 +369,9 @@ export default function KontaktPage({ page }: KontaktPageProps) {
               </div>
 
               {/* Address Card */}
-              <div className="bg-[#f9f9fb] rounded-xl p-6">
-                <h3 className="text-lg font-bold text-[#2e2d32] mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-[#ed1b24]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-pale rounded-xl p-6">
+                <h3 className="text-lg font-bold text-dark mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -384,7 +384,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                 <div className="mt-4 space-y-2">
                   <a
                     href="tel:02433938884"
-                    className="flex items-center gap-2 text-sm text-[#2e2d32] hover:text-[#ed1b24] transition-colors"
+                    className="flex items-center gap-2 text-sm text-dark hover:text-brand transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
@@ -393,7 +393,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   </a>
                   <a
                     href="mailto:info@bodenjaeger.de"
-                    className="flex items-center gap-2 text-sm text-[#2e2d32] hover:text-[#ed1b24] transition-colors"
+                    className="flex items-center gap-2 text-sm text-dark hover:text-brand transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -405,7 +405,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   href="https://maps.google.com/?q=Parkhofstraße+61+41836+Hückelhoven"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#ed1b24] hover:underline"
+                  className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"
                 >
                   Route planen
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -417,7 +417,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
               {/* CTA Phone */}
               <a
                 href="tel:02433938884"
-                className="block bg-[#ed1b24] rounded-xl p-6 text-white text-center hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md"
+                className="block bg-brand rounded-xl p-6 text-white text-center hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md"
               >
                 <p className="text-sm font-medium mb-1 opacity-90">Schnelle Hilfe?</p>
                 <p className="text-2xl font-bold">02433 938884</p>
@@ -429,9 +429,9 @@ export default function KontaktPage({ page }: KontaktPageProps) {
       </section>
 
       {/* Map Section */}
-      <section className="bg-[#f9f9fb] py-12">
+      <section className="bg-pale py-12">
         <div className="content-container">
-          <h2 className="text-2xl md:text-3xl font-bold text-[#2e2d32] text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-8">
             Hier findest du uns
           </h2>
           <div className="rounded-xl overflow-hidden shadow-lg max-w-5xl mx-auto" style={{ height: '400px' }}>
@@ -458,7 +458,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                 prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6
                 prose-h2:text-2xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-8
                 prose-p:text-gray-700 prose-p:mb-4
-                prose-a:text-[#ed1b24] prose-a:hover:underline
+                prose-a:text-brand prose-a:hover:underline
                 prose-img:rounded-xl prose-img:shadow-md"
               dangerouslySetInnerHTML={{ __html: page.content.rendered }}
             />

@@ -10,8 +10,8 @@ export default function ContactForm() {
     <div className="mb-8">
       {/* Sektion-Header */}
       <div className="flex flex-row items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-[#2e2d32]">Kontakt</h2>
-        <a href="/login" className="text-sm text-[#ed1b24] hover:underline">
+        <h2 className="text-lg font-semibold text-dark">Kontakt</h2>
+        <a href="/login" className="text-sm text-brand hover:underline">
           Anmelden
         </a>
       </div>
@@ -22,7 +22,7 @@ export default function ContactForm() {
         placeholder="E-Mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full h-12 px-4 text-sm text-[#2e2d32] bg-white border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24] focus:ring-1 focus:ring-[#ed1b24] transition-colors"
+        className="w-full h-12 px-4 text-sm text-dark bg-white border border-ash rounded-lg focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors"
       />
 
       {/* Newsletter Checkbox */}
@@ -31,9 +31,9 @@ export default function ContactForm() {
           type="checkbox"
           checked={newsletter}
           onChange={(e) => setNewsletter(e.target.checked)}
-          className="w-5 h-5 rounded border-[#e5e5e5] text-[#ed1b24] focus:ring-[#ed1b24]"
+          className="w-5 h-5 rounded border-ash text-brand focus:ring-brand"
         />
-        <span className="text-sm text-[#4c4c4c]">
+        <span className="text-sm text-mid">
           Neuigkeiten und Angebote via E-Mail erhalten
         </span>
       </label>

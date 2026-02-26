@@ -277,7 +277,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
-          <h2 className="text-xl font-bold text-[#2e2d32]">Warenkorb</h2>
+          <h2 className="text-xl font-bold text-dark">Warenkorb</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 transition-colors"

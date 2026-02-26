@@ -59,11 +59,11 @@ export default function PaymentStep() {
     <div className="space-y-8">
       {/* Payment Methods */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">Zahlungsmethode</h2>
+        <h2 className="text-2xl font-bold text-dark mb-6">Zahlungsmethode</h2>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2e2d32]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-dark"></div>
           </div>
         ) : (
           <div className="space-y-3">
@@ -74,7 +74,7 @@ export default function PaymentStep() {
                   flex items-start p-4 border rounded-lg cursor-pointer transition-all
                   ${
                     formData.selectedPaymentMethod?.id === method.id
-                      ? 'border-[#2e2d32] bg-[#2e2d32]/5 ring-2 ring-[#2e2d32]'
+                      ? 'border-dark bg-dark/5 ring-2 ring-dark'
                       : 'border-gray-300 hover:border-gray-400'
                   }
                 `}
@@ -85,10 +85,10 @@ export default function PaymentStep() {
                   value={method.id}
                   checked={formData.selectedPaymentMethod?.id === method.id}
                   onChange={() => handlePaymentMethodSelect(method)}
-                  className="w-4 h-4 mt-1 text-[#2e2d32] focus:ring-[#2e2d32]"
+                  className="w-4 h-4 mt-1 text-dark focus:ring-dark"
                 />
                 <div className="ml-3 flex-1">
-                  <div className="font-medium text-[#2e2d32]">{method.title}</div>
+                  <div className="font-medium text-dark">{method.title}</div>
                   {method.description && (
                     <div
                       className="text-sm text-gray-500 mt-1"
@@ -108,7 +108,7 @@ export default function PaymentStep() {
 
       {/* Billing Address */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">Rechnungsadresse</h2>
+        <h2 className="text-2xl font-bold text-dark mb-6">Rechnungsadresse</h2>
 
         {/* Same as Shipping Toggle */}
         <div className="mb-6">
@@ -117,7 +117,7 @@ export default function PaymentStep() {
               type="checkbox"
               checked={formData.billingAddressSameAsShipping}
               onChange={(e) => handleBillingAddressToggle(e.target.checked)}
-              className="w-5 h-5 text-[#2e2d32] rounded focus:ring-[#2e2d32] mt-0.5"
+              className="w-5 h-5 text-dark rounded focus:ring-dark mt-0.5"
             />
             <span className="text-sm font-medium text-gray-700">
               Rechnungsadresse ist identisch mit Versandadresse
@@ -143,7 +143,7 @@ export default function PaymentStep() {
                   value={formData.billingAddress?.firstName || ''}
                   onChange={(e) => handleBillingInputChange('firstName', e.target.value)}
                   className={`
-                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                     ${validationErrors.billingAddress?.firstName ? 'border-red-500' : 'border-gray-300'}
                   `}
                   placeholder="Max"
@@ -168,7 +168,7 @@ export default function PaymentStep() {
                   value={formData.billingAddress?.lastName || ''}
                   onChange={(e) => handleBillingInputChange('lastName', e.target.value)}
                   className={`
-                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                     ${validationErrors.billingAddress?.lastName ? 'border-red-500' : 'border-gray-300'}
                   `}
                   placeholder="Mustermann"
@@ -194,7 +194,7 @@ export default function PaymentStep() {
                 id="billing-company"
                 value={formData.billingAddress?.company || ''}
                 onChange={(e) => handleBillingInputChange('company', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all"
                 placeholder="Muster GmbH"
               />
             </div>
@@ -213,7 +213,7 @@ export default function PaymentStep() {
                 value={formData.billingAddress?.address1 || ''}
                 onChange={(e) => handleBillingInputChange('address1', e.target.value)}
                 className={`
-                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                   ${validationErrors.billingAddress?.address1 ? 'border-red-500' : 'border-gray-300'}
                 `}
                 placeholder="Musterstraße 123"
@@ -238,7 +238,7 @@ export default function PaymentStep() {
                 id="billing-address2"
                 value={formData.billingAddress?.address2 || ''}
                 onChange={(e) => handleBillingInputChange('address2', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all"
                 placeholder="Wohnung 4B"
               />
             </div>
@@ -258,7 +258,7 @@ export default function PaymentStep() {
                   value={formData.billingAddress?.postcode || ''}
                   onChange={(e) => handleBillingInputChange('postcode', e.target.value)}
                   className={`
-                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                     ${validationErrors.billingAddress?.postcode ? 'border-red-500' : 'border-gray-300'}
                   `}
                   placeholder="12345"
@@ -283,7 +283,7 @@ export default function PaymentStep() {
                   value={formData.billingAddress?.city || ''}
                   onChange={(e) => handleBillingInputChange('city', e.target.value)}
                   className={`
-                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                    w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                     ${validationErrors.billingAddress?.city ? 'border-red-500' : 'border-gray-300'}
                   `}
                   placeholder="Berlin"
@@ -309,7 +309,7 @@ export default function PaymentStep() {
                 value={formData.billingAddress?.country || 'DE'}
                 onChange={(e) => handleBillingInputChange('country', e.target.value)}
                 className={`
-                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                   ${validationErrors.billingAddress?.country ? 'border-red-500' : 'border-gray-300'}
                 `}
               >
@@ -331,7 +331,7 @@ export default function PaymentStep() {
       <div className="flex items-center justify-between pt-6 border-t border-gray-200">
         <button
           onClick={previousStep}
-          className="text-[#2e2d32] font-medium hover:underline focus:outline-none focus:underline"
+          className="text-dark font-medium hover:underline focus:outline-none focus:underline"
         >
           Zurück
         </button>

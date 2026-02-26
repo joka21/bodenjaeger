@@ -26,13 +26,13 @@ export default function CartFooter({
         {/* Subtotal */}
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Zwischensumme</span>
-          <span className="font-semibold text-[#2e2d32]">{formatPrice(subtotal)} €</span>
+          <span className="font-semibold text-dark">{formatPrice(subtotal)} €</span>
         </div>
 
         {/* Shipping */}
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Versandkosten</span>
-          <span className="font-semibold text-[#2e2d32]">
+          <span className="font-semibold text-dark">
             {shipping === 0 ? 'Kostenlos' : `${formatPrice(shipping)} €`}
           </span>
         </div>
@@ -48,8 +48,8 @@ export default function CartFooter({
 
         {/* Total */}
         <div className="flex items-center justify-between pt-2 border-t border-gray-200">
-          <span className="text-lg font-bold text-[#2e2d32]">Gesamtsumme</span>
-          <span className="text-2xl font-bold text-[#2e2d32]">{formatPrice(total)} €</span>
+          <span className="text-lg font-bold text-dark">Gesamtsumme</span>
+          <span className="text-2xl font-bold text-dark">{formatPrice(total)} €</span>
         </div>
 
         {/* Savings */}
@@ -78,7 +78,7 @@ export default function CartFooter({
       {/* Action buttons */}
       <div className="grid grid-cols-2 gap-3">
         <button
-          className="flex items-center justify-center px-4 py-2 bg-white border-2 border-[#2e2d32] text-[#2e2d32] font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex items-center justify-center px-4 py-2 bg-white border-2 border-dark text-dark font-semibold rounded-lg hover:bg-gray-50 transition-colors"
           aria-label="Lieferwunsch"
         >
           <svg
@@ -98,7 +98,7 @@ export default function CartFooter({
         </button>
 
         <button
-          className="flex items-center justify-center px-4 py-2 bg-white border-2 border-[#2e2d32] text-[#2e2d32] font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex items-center justify-center px-4 py-2 bg-white border-2 border-dark text-dark font-semibold rounded-lg hover:bg-gray-50 transition-colors"
           aria-label="Anmerkung"
         >
           <svg
@@ -120,7 +120,7 @@ export default function CartFooter({
 
       {/* Checkout button */}
       <Link href="/checkout" onClick={onCheckout}>
-        <button className="w-full py-4 bg-[#2e2d32] text-white font-bold text-lg rounded-lg hover:bg-[#1e1d22] transition-colors shadow-lg">
+        <button className="w-full py-4 bg-dark text-white font-bold text-lg rounded-lg hover:bg-[#1e1d22] transition-colors shadow-lg">
           Zur Kasse
         </button>
       </Link>

@@ -44,7 +44,7 @@ export default function ContactStep() {
     <div className="space-y-8">
       {/* Contact Information */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">Kontaktdaten</h2>
+        <h2 className="text-2xl font-bold text-dark mb-6">Kontaktdaten</h2>
 
         <div className="space-y-4">
           {/* Email */}
@@ -60,7 +60,7 @@ export default function ContactStep() {
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
               className={`
-                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                 ${validationErrors.email ? 'border-red-500' : 'border-gray-300'}
               `}
               placeholder="max@mustermann.de"
@@ -74,7 +74,7 @@ export default function ContactStep() {
 
       {/* Shipping Address */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">Versandadresse</h2>
+        <h2 className="text-2xl font-bold text-dark mb-6">Versandadresse</h2>
 
         <div className="space-y-4">
           {/* First Name & Last Name */}
@@ -94,7 +94,7 @@ export default function ContactStep() {
                 value={formData.shippingAddress.firstName}
                 onChange={(e) => handleInputChange('shippingAddress.firstName', e.target.value)}
                 className={`
-                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                   ${validationErrors.shippingAddress?.firstName ? 'border-red-500' : 'border-gray-300'}
                 `}
                 placeholder="Max"
@@ -118,7 +118,7 @@ export default function ContactStep() {
                 value={formData.shippingAddress.lastName}
                 onChange={(e) => handleInputChange('shippingAddress.lastName', e.target.value)}
                 className={`
-                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                   ${validationErrors.shippingAddress?.lastName ? 'border-red-500' : 'border-gray-300'}
                 `}
                 placeholder="Mustermann"
@@ -143,7 +143,7 @@ export default function ContactStep() {
               autoComplete="organization"
               value={formData.shippingAddress.company || ''}
               onChange={(e) => handleInputChange('shippingAddress.company', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all"
               placeholder="Muster GmbH"
             />
           </div>
@@ -161,7 +161,7 @@ export default function ContactStep() {
               value={formData.shippingAddress.address1}
               onChange={(e) => handleInputChange('shippingAddress.address1', e.target.value)}
               className={`
-                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                 ${validationErrors.shippingAddress?.address1 ? 'border-red-500' : 'border-gray-300'}
               `}
               placeholder="Musterstraße 123"
@@ -185,7 +185,7 @@ export default function ContactStep() {
               autoComplete="address-line2"
               value={formData.shippingAddress.address2 || ''}
               onChange={(e) => handleInputChange('shippingAddress.address2', e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all"
               placeholder="Wohnung 4B"
             />
           </div>
@@ -204,7 +204,7 @@ export default function ContactStep() {
                 value={formData.shippingAddress.postcode}
                 onChange={(e) => handleInputChange('shippingAddress.postcode', e.target.value)}
                 className={`
-                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                   ${validationErrors.shippingAddress?.postcode ? 'border-red-500' : 'border-gray-300'}
                 `}
                 placeholder="12345"
@@ -228,7 +228,7 @@ export default function ContactStep() {
                 value={formData.shippingAddress.city}
                 onChange={(e) => handleInputChange('shippingAddress.city', e.target.value)}
                 className={`
-                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                  w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                   ${validationErrors.shippingAddress?.city ? 'border-red-500' : 'border-gray-300'}
                 `}
                 placeholder="Berlin"
@@ -251,7 +251,7 @@ export default function ContactStep() {
               value={formData.shippingAddress.country}
               onChange={(e) => handleInputChange('shippingAddress.country', e.target.value)}
               className={`
-                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                 ${validationErrors.shippingAddress?.country ? 'border-red-500' : 'border-gray-300'}
               `}
             >
@@ -279,7 +279,7 @@ export default function ContactStep() {
               value={formData.shippingAddress.phone || ''}
               onChange={(e) => handleInputChange('shippingAddress.phone', e.target.value)}
               className={`
-                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e2d32] transition-all
+                w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-dark transition-all
                 ${validationErrors.shippingAddress?.phone ? 'border-red-500' : 'border-gray-300'}
               `}
               placeholder="+49 123 456789"
@@ -293,11 +293,11 @@ export default function ContactStep() {
 
       {/* Shipping Methods */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">Versandmethode</h2>
+        <h2 className="text-2xl font-bold text-dark mb-6">Versandmethode</h2>
 
         {isLoading ? (
           <div className="flex items-center justify-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2e2d32]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-dark"></div>
           </div>
         ) : (
           <div className="space-y-3">
@@ -308,7 +308,7 @@ export default function ContactStep() {
                   flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-all
                   ${
                     formData.selectedShippingMethod?.id === method.id
-                      ? 'border-[#2e2d32] bg-[#2e2d32]/5 ring-2 ring-[#2e2d32]'
+                      ? 'border-dark bg-dark/5 ring-2 ring-dark'
                       : 'border-gray-300 hover:border-gray-400'
                   }
                 `}
@@ -320,16 +320,16 @@ export default function ContactStep() {
                     value={method.id}
                     checked={formData.selectedShippingMethod?.id === method.id}
                     onChange={() => handleShippingMethodSelect(method)}
-                    className="w-4 h-4 text-[#2e2d32] focus:ring-[#2e2d32]"
+                    className="w-4 h-4 text-dark focus:ring-dark"
                   />
                   <div>
-                    <div className="font-medium text-[#2e2d32]">{method.title}</div>
+                    <div className="font-medium text-dark">{method.title}</div>
                     {method.description && (
                       <div className="text-sm text-gray-500">{method.description}</div>
                     )}
                   </div>
                 </div>
-                <div className="font-semibold text-[#2e2d32]">
+                <div className="font-semibold text-dark">
                   {parseFloat(method.cost) === 0 ? 'Kostenlos' : `${method.cost} €`}
                 </div>
               </label>
@@ -346,7 +346,7 @@ export default function ContactStep() {
       <div className="flex items-center justify-between pt-6 border-t border-gray-200">
         <a
           href="/cart"
-          className="text-[#2e2d32] font-medium hover:underline focus:outline-none focus:underline"
+          className="text-dark font-medium hover:underline focus:outline-none focus:underline"
         >
           Zurück zum Warenkorb
         </a>

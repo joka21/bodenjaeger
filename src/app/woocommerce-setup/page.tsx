@@ -7,14 +7,14 @@ export default function WooCommerceSetupPage() {
       <header className="border-b border-gray-200 bg-white">
         <div className="container mx-auto px-4 py-6">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="font-bold text-2xl text-[#2e2d32]">Bodenjäger</div>
+            <div className="font-bold text-2xl text-dark">Bodenjäger</div>
           </Link>
         </div>
       </header>
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <h1 className="text-4xl font-bold text-[#2e2d32] mb-4">
+        <h1 className="text-4xl font-bold text-dark mb-4">
           WooCommerce Backend Setup
         </h1>
         <p className="text-lg text-gray-600 mb-8">
@@ -23,7 +23,7 @@ export default function WooCommerceSetupPage() {
 
         {/* Status Box */}
         <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-12">
-          <h2 className="text-xl font-bold text-[#2e2d32] mb-3">📊 Wichtig</h2>
+          <h2 className="text-xl font-bold text-dark mb-3">📊 Wichtig</h2>
           <p className="text-gray-700">
             Diese Einstellungen müssen im <strong>WordPress Backend</strong> unter{' '}
             <a
@@ -55,12 +55,12 @@ export default function WooCommerceSetupPage() {
               </p>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Navigation:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Navigation:</h3>
             <div className="bg-gray-100 px-4 py-2 rounded-lg mb-6 font-mono text-sm">
               WooCommerce → Einstellungen → Erweitert → Seiteneinrichtung
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Benötigte Seiten:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Benötigte Seiten:</h3>
             <div className="space-y-4">
               <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
                 <div className="flex items-center gap-3 mb-2">
@@ -154,12 +154,12 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Navigation:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Navigation:</h3>
             <div className="bg-gray-100 px-4 py-2 rounded-lg mb-6 font-mono text-sm">
               WooCommerce → Einstellungen → Versand
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Einstellungen:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Einstellungen:</h3>
             <ol className="list-decimal list-inside space-y-4 text-gray-700">
               <li>
                 <strong>Versandzone erstellen:</strong>
@@ -208,12 +208,12 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Navigation:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Navigation:</h3>
             <div className="bg-gray-100 px-4 py-2 rounded-lg mb-6 font-mono text-sm">
               WooCommerce → Einstellungen → Zahlungen
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Verfügbare Methoden:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Verfügbare Methoden:</h3>
 
             <div className="space-y-4">
               {/* BACS */}
@@ -302,18 +302,18 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Navigation:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Navigation:</h3>
             <div className="bg-gray-100 px-4 py-2 rounded-lg mb-6 font-mono text-sm">
               WooCommerce → Einstellungen → E-Mails
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Wichtige E-Mail-Templates:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Wichtige E-Mail-Templates:</h3>
 
             <div className="space-y-3">
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">📩</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">Neue Bestellung (an Admin)</h4>
+                  <h4 className="font-bold text-dark">Neue Bestellung (an Admin)</h4>
                   <p className="text-sm text-gray-600">
                     Benachrichtigt dich über neue Bestellungen - AKTIVIEREN!
                   </p>
@@ -323,7 +323,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-yellow-50 border-2 border-yellow-300 rounded-lg p-3">
                 <span className="text-xl">✉️</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">Bestellbestätigung (an Kunde) - WICHTIG!</h4>
+                  <h4 className="font-bold text-dark">Bestellbestätigung (an Kunde) - WICHTIG!</h4>
                   <p className="text-sm text-gray-600">
                     Kunde erhält Bestätigung mit Bestellnummer - MUSS aktiviert sein!
                   </p>
@@ -333,7 +333,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">🔄</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">Bestellung wird bearbeitet</h4>
+                  <h4 className="font-bold text-dark">Bestellung wird bearbeitet</h4>
                   <p className="text-sm text-gray-600">
                     Nach Zahlungseingang - optional aber empfohlen
                   </p>
@@ -343,7 +343,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">✅</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">Bestellung abgeschlossen</h4>
+                  <h4 className="font-bold text-dark">Bestellung abgeschlossen</h4>
                   <p className="text-sm text-gray-600">
                     Nach Versand - optional
                   </p>
@@ -353,7 +353,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">🧾</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">Rechnung (an Kunde)</h4>
+                  <h4 className="font-bold text-dark">Rechnung (an Kunde)</h4>
                   <p className="text-sm text-gray-600">
                     Bei Vorkasse/Überweisung - AKTIVIEREN!
                   </p>
@@ -361,7 +361,7 @@ export default function WooCommerceSetupPage() {
               </div>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mt-6 mb-4">E-Mail-Absender konfigurieren:</h3>
+            <h3 className="text-xl font-bold text-dark mt-6 mb-4">E-Mail-Absender konfigurieren:</h3>
             <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
               <li>Absender-Name: &quot;Bodenjäger&quot; oder &quot;Jäger GmbH&quot;</li>
               <li>Absender-E-Mail: info@plan-dein-ding.de (oder shop@...)</li>
@@ -392,15 +392,15 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Navigation:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Navigation:</h3>
             <div className="bg-gray-100 px-4 py-2 rounded-lg mb-6 font-mono text-sm">
               WooCommerce → Einstellungen → Steuern
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Deutschland:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Deutschland:</h3>
             <div className="space-y-3">
               <div className="bg-white border border-gray-200 rounded-lg p-4">
-                <p className="font-bold text-[#2e2d32] mb-2">Standardsteuersatz (Deutschland):</p>
+                <p className="font-bold text-dark mb-2">Standardsteuersatz (Deutschland):</p>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
                   <li>Steuersatz: <strong>19%</strong> (Mehrwertsteuer)</li>
                   <li>Ländercode: DE</li>
@@ -409,7 +409,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div className="bg-white border border-gray-200 rounded-lg p-4">
-                <p className="font-bold text-[#2e2d32] mb-2">Ermäßigter Steuersatz (optional):</p>
+                <p className="font-bold text-dark mb-2">Ermäßigter Steuersatz (optional):</p>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
                   <li>Steuersatz: <strong>7%</strong></li>
                   <li>Nur falls du Artikel mit ermäßigter MwSt. verkaufst</li>
@@ -447,11 +447,11 @@ export default function WooCommerceSetupPage() {
               </p>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Benötigte Seiten erstellen:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Benötigte Seiten erstellen:</h3>
 
             <div className="space-y-4">
               <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
-                <h4 className="font-bold text-[#2e2d32] mb-2">1. Impressum</h4>
+                <h4 className="font-bold text-dark mb-2">1. Impressum</h4>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Slug:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/impressum</code>
                 </p>
@@ -463,7 +463,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
-                <h4 className="font-bold text-[#2e2d32] mb-2">2. Datenschutzerklärung</h4>
+                <h4 className="font-bold text-dark mb-2">2. Datenschutzerklärung</h4>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Slug:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/datenschutz</code>
                 </p>
@@ -475,7 +475,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
-                <h4 className="font-bold text-[#2e2d32] mb-2">3. AGB (Allgemeine Geschäftsbedingungen)</h4>
+                <h4 className="font-bold text-dark mb-2">3. AGB (Allgemeine Geschäftsbedingungen)</h4>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Slug:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/agb</code>
                 </p>
@@ -490,7 +490,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
-                <h4 className="font-bold text-[#2e2d32] mb-2">4. Widerrufsbelehrung</h4>
+                <h4 className="font-bold text-dark mb-2">4. Widerrufsbelehrung</h4>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Slug:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/widerruf</code>
                 </p>
@@ -502,7 +502,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
-                <h4 className="font-bold text-[#2e2d32] mb-2">5. Versand & Lieferzeit</h4>
+                <h4 className="font-bold text-dark mb-2">5. Versand & Lieferzeit</h4>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Slug:</strong> <code className="bg-gray-100 px-2 py-1 rounded">/versand-lieferzeit</code>
                 </p>
@@ -531,11 +531,11 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Wichtige Einstellungen prüfen:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Wichtige Einstellungen prüfen:</h3>
 
             <div className="space-y-6">
               <div>
-                <h4 className="font-bold text-[#2e2d32] mb-2">🌍 Allgemein (WooCommerce → Einstellungen → Allgemein)</h4>
+                <h4 className="font-bold text-dark mb-2">🌍 Allgemein (WooCommerce → Einstellungen → Allgemein)</h4>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 ml-4">
                   <li>Verkaufsland: Deutschland</li>
                   <li>Währung: Euro (€)</li>
@@ -545,7 +545,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div>
-                <h4 className="font-bold text-[#2e2d32] mb-2">📦 Produkte (WooCommerce → Einstellungen → Produkte)</h4>
+                <h4 className="font-bold text-dark mb-2">📦 Produkte (WooCommerce → Einstellungen → Produkte)</h4>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 ml-4">
                   <li>Shop-Seite: Auswählen (z.B. &quot;Shop&quot; oder &quot;Produkte&quot;)</li>
                   <li>Lagerbestandsverwaltung aktivieren: <strong>JA</strong></li>
@@ -555,7 +555,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div>
-                <h4 className="font-bold text-[#2e2d32] mb-2">🔐 Erweitert (WooCommerce → Einstellungen → Erweitert)</h4>
+                <h4 className="font-bold text-dark mb-2">🔐 Erweitert (WooCommerce → Einstellungen → Erweitert)</h4>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 ml-4">
                   <li>REST API: Aktiviert (für Next.js Frontend)</li>
                   <li>Kasse-Prozess: &quot;Kundenkonto optional&quot; (empfohlen für Gast-Bestellungen)</li>
@@ -574,13 +574,13 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Benötigte Plugins:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Benötigte Plugins:</h3>
 
             <div className="space-y-3">
               <div className="flex items-start gap-3 bg-green-50 border-2 border-green-200 rounded-lg p-3">
                 <span className="text-xl">✅</span>
                 <div className="flex-1">
-                  <h4 className="font-bold text-[#2e2d32]">Jaeger Plugin</h4>
+                  <h4 className="font-bold text-dark">Jaeger Plugin</h4>
                   <p className="text-sm text-gray-600 mb-2">
                     Custom API für Next.js Frontend - <strong>MUSS AKTIV SEIN!</strong>
                   </p>
@@ -593,7 +593,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">📦</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">WooCommerce</h4>
+                  <h4 className="font-bold text-dark">WooCommerce</h4>
                   <p className="text-sm text-gray-600">
                     Core Plugin - sollte auf neuester Version sein
                   </p>
@@ -603,7 +603,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">📧</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">WP Mail SMTP (empfohlen)</h4>
+                  <h4 className="font-bold text-dark">WP Mail SMTP (empfohlen)</h4>
                   <p className="text-sm text-gray-600">
                     Für zuverlässigen E-Mail-Versand - verhindert Spam-Probleme
                   </p>
@@ -613,7 +613,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">💳</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">Stripe for WooCommerce (optional)</h4>
+                  <h4 className="font-bold text-dark">Stripe for WooCommerce (optional)</h4>
                   <p className="text-sm text-gray-600">
                     Falls du Stripe als Zahlungsmethode nutzen willst
                   </p>
@@ -623,7 +623,7 @@ export default function WooCommerceSetupPage() {
               <div className="flex items-start gap-3 bg-white border border-gray-200 rounded-lg p-3">
                 <span className="text-xl">💰</span>
                 <div>
-                  <h4 className="font-bold text-[#2e2d32]">PayPal for WooCommerce (optional)</h4>
+                  <h4 className="font-bold text-dark">PayPal for WooCommerce (optional)</h4>
                   <p className="text-sm text-gray-600">
                     Falls du PayPal als Zahlungsmethode nutzen willst
                   </p>
@@ -631,7 +631,7 @@ export default function WooCommerceSetupPage() {
               </div>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mt-6 mb-4">Plugins prüfen:</h3>
+            <h3 className="text-xl font-bold text-dark mt-6 mb-4">Plugins prüfen:</h3>
             <div className="bg-gray-100 px-4 py-2 rounded-lg mb-2 font-mono text-sm">
               WordPress Backend → Plugins → Installierte Plugins
             </div>
@@ -649,7 +649,7 @@ export default function WooCommerceSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Checkout-Flow testen:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Checkout-Flow testen:</h3>
 
             <ol className="list-decimal list-inside space-y-4 text-gray-700">
               <li>
@@ -697,7 +697,7 @@ export default function WooCommerceSetupPage() {
               </li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mt-6 mb-4">Nach Bestellung prüfen:</h3>
+            <h3 className="text-xl font-bold text-dark mt-6 mb-4">Nach Bestellung prüfen:</h3>
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
               <ul className="space-y-2 text-sm">
                 <li className="flex items-start gap-2">
@@ -794,7 +794,7 @@ export default function WooCommerceSetupPage() {
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
             <div className="space-y-6">
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ Fehler: &quot;Kasse-Seite nicht gefunden&quot;
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -805,7 +805,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ Fehler: &quot;Keine Zahlungsmethode verfügbar&quot;
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -816,7 +816,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ AGB-Checkbox erscheint nicht im Checkout
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -827,7 +827,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ E-Mails werden nicht versendet
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -839,7 +839,7 @@ export default function WooCommerceSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ Jaeger API liefert keine Produkte
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -910,13 +910,13 @@ export default function WooCommerceSetupPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/"
-              className="inline-block px-8 py-3 bg-[#2e2d32] text-white font-semibold rounded-lg hover:bg-[#1e1d22] transition-colors"
+              className="inline-block px-8 py-3 bg-dark text-white font-semibold rounded-lg hover:bg-[#1e1d22] transition-colors"
             >
               Zurück zur Startseite
             </Link>
             <Link
               href="/payment-setup"
-              className="inline-block px-8 py-3 border-2 border-[#2e2d32] text-[#2e2d32] font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+              className="inline-block px-8 py-3 border-2 border-dark text-dark font-semibold rounded-lg hover:bg-gray-50 transition-colors"
             >
               Weiter zu Payment Setup →
             </Link>

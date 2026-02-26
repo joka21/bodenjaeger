@@ -249,7 +249,7 @@ export default function CheckoutPage() {
             <div className="w-full lg:w-3/5 order-2 lg:order-1">
               {/* Kontakt */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-[#2e2d32] mb-4">Kontakt</h2>
+                <h2 className="text-lg font-semibold text-dark mb-4">Kontakt</h2>
                 <div className="space-y-4">
                   <input
                     type="email"
@@ -258,7 +258,7 @@ export default function CheckoutPage() {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                   />
                   <input
                     type="tel"
@@ -267,14 +267,14 @@ export default function CheckoutPage() {
                     required
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                   />
                 </div>
               </div>
 
               {/* Lieferadresse */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-[#2e2d32] mb-4">Lieferadresse</h2>
+                <h2 className="text-lg font-semibold text-dark mb-4">Lieferadresse</h2>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <input
@@ -284,7 +284,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                     />
                     <input
                       type="text"
@@ -293,7 +293,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                     />
                   </div>
                   <input
@@ -302,7 +302,7 @@ export default function CheckoutPage() {
                     placeholder="Firma (optional)"
                     value={formData.company}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                   />
                   <input
                     type="text"
@@ -311,7 +311,7 @@ export default function CheckoutPage() {
                     required
                     value={formData.address1}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                   />
                   <input
                     type="text"
@@ -319,7 +319,7 @@ export default function CheckoutPage() {
                     placeholder="Adresszusatz (optional)"
                     value={formData.address2}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                   />
                   <div className="grid grid-cols-2 gap-4">
                     <input
@@ -329,7 +329,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.postcode}
                       onChange={handleInputChange}
-                      className="px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                     />
                     <input
                       type="text"
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
                       required
                       value={formData.city}
                       onChange={handleInputChange}
-                      className="px-4 py-3 border border-[#e5e5e5] rounded-lg focus:outline-none focus:border-[#ed1b24]"
+                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                     />
                   </div>
                 </div>
@@ -346,78 +346,78 @@ export default function CheckoutPage() {
 
               {/* Zahlungsmethode */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-[#2e2d32] mb-4">Zahlungsmethode</h2>
+                <h2 className="text-lg font-semibold text-dark mb-4">Zahlungsmethode</h2>
                 <div className="space-y-3">
-                  <label className="flex items-center gap-3 p-4 border border-[#e5e5e5] rounded-lg cursor-pointer hover:border-[#ed1b24] transition-colors">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="stripe"
                       checked={formData.paymentMethod === 'stripe'}
                       onChange={handleInputChange}
-                      className="w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                    <span className="text-sm text-[#2e2d32]">💳 Kreditkarte (Visa, Mastercard, Amex)</span>
+                    <span className="text-sm text-dark">💳 Kreditkarte (Visa, Mastercard, Amex)</span>
                   </label>
-                  <label className="flex items-center gap-3 p-4 border border-[#e5e5e5] rounded-lg cursor-pointer hover:border-[#ed1b24] transition-colors">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="paypal"
                       checked={formData.paymentMethod === 'paypal'}
                       onChange={handleInputChange}
-                      className="w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                    <span className="text-sm text-[#2e2d32]">💰 PayPal</span>
+                    <span className="text-sm text-dark">💰 PayPal</span>
                   </label>
-                  <label className="flex items-center gap-3 p-4 border border-[#e5e5e5] rounded-lg cursor-pointer hover:border-[#ed1b24] transition-colors">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="sofort"
                       checked={formData.paymentMethod === 'sofort'}
                       onChange={handleInputChange}
-                      className="w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                    <span className="text-sm text-[#2e2d32]">🏦 Sofortüberweisung</span>
+                    <span className="text-sm text-dark">🏦 Sofortüberweisung</span>
                   </label>
-                  <label className="flex items-center gap-3 p-4 border border-[#e5e5e5] rounded-lg cursor-pointer hover:border-[#ed1b24] transition-colors">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
                       type="radio"
                       name="paymentMethod"
                       value="bacs"
                       checked={formData.paymentMethod === 'bacs'}
                       onChange={handleInputChange}
-                      className="w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                    <span className="text-sm text-[#2e2d32]">📄 Vorkasse / Überweisung</span>
+                    <span className="text-sm text-dark">📄 Vorkasse / Überweisung</span>
                   </label>
                 </div>
               </div>
 
               {/* Rechnungsadresse */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-[#2e2d32] mb-4">Rechnungsadresse</h2>
+                <h2 className="text-lg font-semibold text-dark mb-4">Rechnungsadresse</h2>
                 <div className="space-y-3">
-                  <label className="flex items-center gap-3 p-4 border border-[#e5e5e5] rounded-lg cursor-pointer hover:border-[#ed1b24] transition-colors">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
                       type="radio"
                       name="sameAsBilling"
                       checked={formData.sameAsBilling}
                       onChange={() => setFormData((prev) => ({ ...prev, sameAsBilling: true }))}
-                      className="w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                    <span className="text-sm text-[#2e2d32]">Gleich wie Lieferadresse</span>
+                    <span className="text-sm text-dark">Gleich wie Lieferadresse</span>
                   </label>
-                  <label className="flex items-center gap-3 p-4 border border-[#e5e5e5] rounded-lg cursor-pointer hover:border-[#ed1b24] transition-colors">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
                       type="radio"
                       name="sameAsBilling"
                       checked={!formData.sameAsBilling}
                       onChange={() => setFormData((prev) => ({ ...prev, sameAsBilling: false }))}
-                      className="w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                    <span className="text-sm text-[#2e2d32]">Andere Rechnungsadresse verwenden</span>
+                    <span className="text-sm text-dark">Andere Rechnungsadresse verwenden</span>
                   </label>
                 </div>
               </div>
@@ -431,15 +431,15 @@ export default function CheckoutPage() {
                     checked={formData.acceptTerms}
                     onChange={handleInputChange}
                     required
-                    className="mt-1 w-5 h-5 text-[#ed1b24] border-[#e5e5e5] focus:ring-[#ed1b24]"
+                    className="mt-1 w-5 h-5 text-brand border-ash focus:ring-brand"
                   />
-                  <span className="text-sm text-[#2e2d32]">
+                  <span className="text-sm text-dark">
                     Ich habe die{' '}
-                    <a href="/agb" target="_blank" className="text-[#ed1b24] hover:underline">
+                    <a href="/agb" target="_blank" className="text-brand hover:underline">
                       AGB
                     </a>{' '}
                     und{' '}
-                    <a href="/datenschutz" target="_blank" className="text-[#ed1b24] hover:underline">
+                    <a href="/datenschutz" target="_blank" className="text-brand hover:underline">
                       Datenschutzerklärung
                     </a>{' '}
                     gelesen und akzeptiere diese. *
@@ -451,13 +451,13 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-14 mt-6 text-base font-semibold text-white bg-[#ed1b24] rounded-lg hover:bg-[#d11920] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="w-full h-14 mt-6 text-base font-semibold text-white bg-brand rounded-lg hover:bg-[#d11920] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
                 {loading ? 'Bestellung wird erstellt...' : 'Jetzt kaufen'}
               </button>
 
               {/* Footer Links */}
-              <div className="flex flex-wrap justify-center gap-4 mt-6 text-sm text-[#ed1b24]">
+              <div className="flex flex-wrap justify-center gap-4 mt-6 text-sm text-brand">
                 <a href="/widerruf" className="hover:underline">Widerrufsrecht</a>
                 <a href="/versand" className="hover:underline">Versand</a>
                 <a href="/datenschutz" className="hover:underline">Datenschutzerklärung</a>

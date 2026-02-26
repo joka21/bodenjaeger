@@ -12,8 +12,7 @@ input[type="number"] {
 
 :root {
   /* Brand Colors */
-  --color-primary: #ed1b24;        /* Bodenjäger Rot - Accent */
-  --color-accent: #ed1b24;         /* Alias für Primary */
+  --color-primary: #ed1b24;        /* Bodenjäger Rot */
 
   /* Text Colors */
   --color-text-primary: #2e2d32;   /* Haupt-Textfarbe (Dunkelgrau) */
@@ -27,12 +26,16 @@ input[type="number"] {
   --color-bg-dark: #4c4c4c;        /* Dunkler Hintergrund */
   --color-bg-darkest: #2e2d32;     /* Dunkelster Hintergrund */
 
+  /* Semantic Colors */
+  --color-success: #28a745;        /* Erfolgsmeldungen / Kostenlos */
+
   /* Legacy Variables (für Kompatibilität) */
   --background: #ffffff;
   --foreground: #2e2d32;
 
   /* Gradient Definitions */
   --gradient-mid-to-sky: radial-gradient(circle at center, #a8dcf4 0%, #5095cb 100%);
+  --gradient-dark: linear-gradient(135deg, #2e2d32 0%, #4c4c4c 100%);
 }
 
 @theme inline {
@@ -40,27 +43,30 @@ input[type="number"] {
   --color-foreground: var(--foreground);
   --font-sans: var(--font-poppins-regular);
   --font-bold: var(--font-poppins-bold);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Tailwind-Farbklassen (text-brand, bg-brand, border-brand etc.) */
+  --color-brand: #ed1b24;    /* Bodenjäger Rot  → text-brand, bg-brand   */
+  --color-dark: #2e2d32;     /* Fast Schwarz     → text-dark,  bg-dark    */
+  --color-mid: #4c4c4c;      /* Dunkelgrau       → text-mid,   bg-mid     */
+  --color-ash: #e5e5e5;      /* Hellgrau         → text-ash,   bg-ash, border-ash */
+  --color-pale: #f9f9fb;     /* Off-White        → bg-pale                */
+  --color-navy: #1e40af;     /* Dunkelblau       → text-navy,  bg-navy    */
+  --color-ocean: #5095cb;    /* Mittelblau       → text-ocean, bg-ocean   */
+  --color-success: #28a745;  /* Grün             → text-success, bg-success */
 }
 
 body {
   background: var(--color-bg-white);
   color: var(--color-text-primary);
   font-family: var(--font-poppins-regular), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   max-width: 100vw;
   position: relative;
 }
 
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   max-width: 100vw;
 }

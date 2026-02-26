@@ -266,8 +266,8 @@ export default function ProductPageContent({
               onClick={() => toggleTab('beschreibung')}
               className={`flex items-center justify-center gap-2 py-2.5 px-8 rounded-full text-sm font-semibold transition-colors ${
                 activeTab === 'beschreibung'
-                  ? 'bg-[#e5e5e5] text-[#2e2d32]'
-                  : 'bg-white text-[#2e2d32] border border-gray-300 hover:bg-gray-50'
+                  ? 'bg-ash text-dark'
+                  : 'bg-white text-dark border border-gray-300 hover:bg-gray-50'
               }`}
             >
               Artikelbeschreibung
@@ -281,8 +281,8 @@ export default function ProductPageContent({
               onClick={() => toggleTab('eigenschaften')}
               className={`flex items-center justify-center gap-2 py-2.5 px-8 rounded-full text-sm font-semibold transition-colors ${
                 activeTab === 'eigenschaften'
-                  ? 'bg-[#e5e5e5] text-[#2e2d32]'
-                  : 'bg-white text-[#2e2d32] border border-gray-300 hover:bg-gray-50'
+                  ? 'bg-ash text-dark'
+                  : 'bg-white text-dark border border-gray-300 hover:bg-gray-50'
               }`}
             >
               Weitere Artikeldetails
@@ -295,14 +295,14 @@ export default function ProductPageContent({
 
         {/* Tab Content */}
         {activeTab && (
-          <div className="bg-[#e5e5e5] rounded-2xl overflow-hidden">
+          <div className="bg-ash rounded-2xl overflow-hidden">
             <div className="flex">
               {/* Red accent bar */}
-              <div className="w-1.5 bg-[#ed1b24] flex-shrink-0 rounded-l-2xl"></div>
+              <div className="w-1.5 bg-brand flex-shrink-0 rounded-l-2xl"></div>
               <div className="p-8 flex-1">
                 {activeTab === 'beschreibung' && hasBeschreibung && (
                   <div
-                    className="prose prose-gray max-w-none text-[#2e2d32]
+                    className="prose prose-gray max-w-none text-dark
                       [&_strong]:font-bold
                       [&_p]:mb-4 [&_p]:leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: beschreibung }}
@@ -311,11 +311,11 @@ export default function ProductPageContent({
 
                 {activeTab === 'eigenschaften' && hasEigenschaften && (
                   <div
-                    className="prose prose-gray max-w-none text-[#2e2d32]
+                    className="prose prose-gray max-w-none text-dark
                       [&_table]:w-full [&_table]:border-collapse
                       [&_td]:py-3 [&_td]:px-4 [&_td]:border-b [&_td]:border-gray-300 [&_td]:text-sm
                       [&_td:first-child]:text-gray-500 [&_td:first-child]:font-medium [&_td:first-child]:w-1/3
-                      [&_td:last-child]:text-[#2e2d32]
+                      [&_td:last-child]:text-dark
                       [&_h3]:text-lg [&_h3]:font-bold [&_h3]:mb-4 [&_h3]:hidden"
                     dangerouslySetInnerHTML={{ __html: descriptionHtml }}
                   />
@@ -525,13 +525,13 @@ export default function ProductPageContent({
         {/* Top Section: Content and Price per Unit - eigener Hintergrund */}
         <div className="bg-[#e8e8e8] rounded-2xl p-6">
           <div className="flex items-center justify-between px-2">
-            <div className="text-[#2e2d32] text-base font-normal">
+            <div className="text-dark text-base font-normal">
               {showUnit
                 ? <>Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €</>
                 : <>{packages} {verpackungsart} = {totalPrice.toFixed(2).replace('.', ',')} €</>
               }
             </div>
-            <div className="text-[#2e2d32] text-4xl font-bold">
+            <div className="text-dark text-4xl font-bold">
               {showUnit
                 ? <>{price.toFixed(2).replace('.', ',')} <span className="text-2xl">€/{einheitShort}</span></>
                 : <>{totalPrice.toFixed(2).replace('.', ',')} <span className="text-2xl">€</span></>
@@ -546,21 +546,21 @@ export default function ProductPageContent({
         <div className={`grid ${showBothFields ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
           {/* Packages Selector */}
           <div className="text-center">
-            <div className="text-[#2e2d32] text-base font-normal mb-3">{packageLabel}</div>
+            <div className="text-dark text-base font-normal mb-3">{packageLabel}</div>
             <div className="flex items-center justify-center gap-0">
               <button
                 onClick={() => handlePackagesChange(packages - 1)}
                 className="w-12 h-12 bg-white border border-gray-300 rounded-l-lg
                          hover:bg-gray-50 flex items-center justify-center transition-colors"
               >
-                <MinusIcon className="w-5 h-5 text-[#2e2d32]" />
+                <MinusIcon className="w-5 h-5 text-dark" />
               </button>
               <input
                 type="number"
                 value={packages}
                 onChange={(e) => handlePackagesChange(parseInt(e.target.value) || 1)}
                 className="w-28 h-12 text-center border-t border-b border-gray-300 bg-white
-                         text-lg font-medium text-[#2e2d32] focus:outline-none"
+                         text-lg font-medium text-dark focus:outline-none"
                 min="1"
               />
               <button
@@ -568,7 +568,7 @@ export default function ProductPageContent({
                 className="w-12 h-12 bg-white border border-gray-300 rounded-r-lg
                          hover:bg-gray-50 flex items-center justify-center transition-colors"
               >
-                <PlusIcon className="w-5 h-5 text-[#2e2d32]" />
+                <PlusIcon className="w-5 h-5 text-dark" />
               </button>
             </div>
           </div>
@@ -576,7 +576,7 @@ export default function ProductPageContent({
           {/* Units Selector - nur wenn sinnvoll (andere Einheit oder paketinhalt > 1) */}
           {showBothFields && (
           <div className="text-center">
-            <div className="text-[#2e2d32] text-base font-normal mb-3">
+            <div className="text-dark text-base font-normal mb-3">
               {unitLabel}
             </div>
             <div className="flex items-center justify-center gap-0">
@@ -585,7 +585,7 @@ export default function ProductPageContent({
                 className="w-12 h-12 bg-white border border-gray-300 rounded-l-lg
                          hover:bg-gray-50 flex items-center justify-center transition-colors"
               >
-                <MinusIcon className="w-5 h-5 text-[#2e2d32]" />
+                <MinusIcon className="w-5 h-5 text-dark" />
               </button>
               <input
                 type="number"
@@ -593,7 +593,7 @@ export default function ProductPageContent({
                 step={paketinhalt}
                 onChange={(e) => handleUnitsChange(parseFloat(e.target.value) || paketinhalt)}
                 className="w-28 h-12 text-center border-t border-b border-gray-300 bg-white
-                         text-lg font-medium text-[#2e2d32] focus:outline-none"
+                         text-lg font-medium text-dark focus:outline-none"
                 min={paketinhalt}
               />
               <button
@@ -601,7 +601,7 @@ export default function ProductPageContent({
                 className="w-12 h-12 bg-white border border-gray-300 rounded-r-lg
                          hover:bg-gray-50 flex items-center justify-center transition-colors"
               >
-                <PlusIcon className="w-5 h-5 text-[#2e2d32]" />
+                <PlusIcon className="w-5 h-5 text-dark" />
               </button>
             </div>
           </div>
@@ -611,10 +611,10 @@ export default function ProductPageContent({
         {/* Total Price with Border Top */}
         <div className="border-t-2 border-gray-400 pt-4">
           <div className="flex items-center justify-between mb-6 px-2">
-            <div className="text-[#2e2d32] text-2xl font-bold">
+            <div className="text-dark text-2xl font-bold">
               Gesamtsumme <span className="text-base font-normal">(inkl. MwSt.)</span>
             </div>
-            <div className="text-[#2e2d32] text-4xl font-bold">
+            <div className="text-dark text-4xl font-bold">
               {totalPrice.toFixed(2).replace('.', ',')} €
             </div>
           </div>
@@ -624,7 +624,7 @@ export default function ProductPageContent({
             <button
               type="button"
               onClick={handleRequestQuote}
-              className="w-full bg-transparent border border-[#2e2d32] hover:bg-[#f5f5f5] text-[#2e2d32] font-semibold text-xs whitespace-nowrap rounded-md transition-colors"
+              className="w-full bg-transparent border border-dark hover:bg-[#f5f5f5] text-dark font-semibold text-xs whitespace-nowrap rounded-md transition-colors"
               style={{ padding: '10px' }}
             >
               Individuelles Angebot anfragen
@@ -636,7 +636,7 @@ export default function ProductPageContent({
               className={`w-full font-semibold text-xs whitespace-nowrap rounded-lg transition-all ${
                 isAdding
                   ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
-                  : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
+                  : 'bg-dark hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
               }`}
               style={{ padding: '10px' }}
             >
@@ -663,7 +663,7 @@ export default function ProductPageContent({
           </div>
 
           {/* Delivery Info (gleich wie TotalPrice bei Böden) */}
-          <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-[#e5e5e5]">
+          <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-ash">
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
@@ -680,8 +680,8 @@ export default function ProductPageContent({
 
   // Payment Methods for Simple Layout
   const PaymentMethods = () => (
-    <div className="bg-[#e5e5e5] rounded-md p-4">
-      <h3 className="text-lg font-semibold text-[#2e2d32] mb-3">
+    <div className="bg-ash rounded-md p-4">
+      <h3 className="text-lg font-semibold text-dark mb-3">
         Zahlungsarten
       </h3>
       <div className="flex flex-wrap gap-3 items-center">
@@ -1128,7 +1128,7 @@ export default function ProductPageContent({
             />
 
             {/* Quantity + Price Container with Gray Background */}
-            <div className="bg-[#e5e5e5] rounded-md p-4">
+            <div className="bg-ash rounded-md p-4">
               {/* Quantity Selector */}
               <QuantitySelector
                 paketinhalt={paketinhalt}
@@ -1153,8 +1153,8 @@ export default function ProductPageContent({
             </div>
 
             {/* Zahlungsarten Section */}
-            <div className="bg-[#e5e5e5] rounded-md p-4">
-              <h3 className="text-lg font-semibold text-[#2e2d32] mb-3">
+            <div className="bg-ash rounded-md p-4">
+              <h3 className="text-lg font-semibold text-dark mb-3">
                 Zahlungsarten
               </h3>
               <div className="flex flex-wrap gap-3 items-center">

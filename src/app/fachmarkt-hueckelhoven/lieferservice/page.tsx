@@ -11,18 +11,18 @@ export default function LieferservicePage() {
     <main className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <nav className="mb-6 text-sm">
-          <Link href="/fachmarkt-hueckelhoven" className="text-[#1e40af] hover:underline">
+          <Link href="/fachmarkt-hueckelhoven" className="text-navy hover:underline">
             ← Zurück zum Fachmarkt Hückelhoven
           </Link>
         </nav>
 
-        <h1 className="text-4xl lg:text-5xl font-bold text-[#1e40af] mb-8">
+        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-8">
           Lieferservice
         </h1>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Bequem nach Hause geliefert
             </h2>
             <p className="mb-4">
@@ -33,17 +33,17 @@ export default function LieferservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Lieferoptionen
             </h2>
 
             <div className="space-y-6">
-              <div className="bg-gray-50 p-6 rounded-lg border-2 border-[#1e40af]">
+              <div className="bg-gray-50 p-6 rounded-lg border-2 border-navy">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-xl font-semibold text-[#1e40af]">
+                  <h3 className="text-xl font-semibold text-navy">
                     Standard-Lieferung
                   </h3>
-                  <span className="bg-[#1e40af] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="bg-navy text-white px-3 py-1 rounded-full text-sm font-semibold">
                     Beliebt
                   </span>
                 </div>
@@ -69,7 +69,7 @@ export default function LieferservicePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Premium-Lieferung
                 </h3>
                 <p className="text-sm mb-4">
@@ -95,7 +95,7 @@ export default function LieferservicePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Express-Lieferung
                 </h3>
                 <p className="text-sm mb-4">
@@ -118,7 +118,7 @@ export default function LieferservicePage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Speditionsversand
                 </h3>
                 <p className="text-sm mb-4">
@@ -146,12 +146,12 @@ export default function LieferservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Liefergebiete
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <div className="mb-6">
-                <h3 className="font-semibold text-[#1e40af] mb-3">
+                <h3 className="font-semibold text-navy mb-3">
                   Kostenlose Lieferung (ab 500 € Warenwert)
                 </h3>
                 <p className="text-sm mb-2">
@@ -164,7 +164,7 @@ export default function LieferservicePage() {
               </div>
 
               <div className="mb-6">
-                <h3 className="font-semibold text-[#1e40af] mb-3">
+                <h3 className="font-semibold text-navy mb-3">
                   Erweiterte Lieferzone (39,00 € Lieferkosten)
                 </h3>
                 <p className="text-sm mb-2">Bis ca. 30 km Radius:</p>
@@ -174,7 +174,7 @@ export default function LieferservicePage() {
               </div>
 
               <div>
-                <h3 className="font-semibold text-[#1e40af] mb-3">
+                <h3 className="font-semibold text-navy mb-3">
                   Deutschlandweiter Versand
                 </h3>
                 <p className="text-sm">
@@ -186,13 +186,13 @@ export default function LieferservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               So funktioniert&apos;s
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ol className="space-y-4">
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">1.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">1.</span>
                   <div>
                     <p className="font-semibold">Bestellung aufgeben</p>
                     <p className="text-sm">
@@ -201,7 +201,7 @@ export default function LieferservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">2.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">2.</span>
                   <div>
                     <p className="font-semibold">Lieferoption wählen</p>
                     <p className="text-sm">
@@ -210,7 +210,7 @@ export default function LieferservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">3.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">3.</span>
                   <div>
                     <p className="font-semibold">Terminbestätigung</p>
                     <p className="text-sm">
@@ -219,7 +219,7 @@ export default function LieferservicePage() {
                   </div>
                 </li>
                 <li className="flex gap-4">
-                  <span className="font-bold text-[#1e40af] text-xl min-w-[2rem]">4.</span>
+                  <span className="font-bold text-navy text-xl min-w-[2rem]">4.</span>
                   <div>
                     <p className="font-semibold">Lieferung</p>
                     <p className="text-sm">
@@ -232,39 +232,39 @@ export default function LieferservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Wichtige Hinweise
             </h2>
-            <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
+            <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
               <ul className="space-y-3">
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     Bitte stellen Sie sicher, dass am Liefertag jemand vor Ort ist
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     Bei Speditionslieferung erfolgt eine telefonische Avisierung am
                     Vortag
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     Prüfen Sie die Ware bei Anlieferung auf Vollständigkeit und
                     Unversehrtheit
                 </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     Lassen Sie eventuelle Schäden sofort auf dem Lieferschein vermerken
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     Bei Selbstabholung entfallen natürlich alle Lieferkosten
                   </span>
@@ -274,12 +274,12 @@ export default function LieferservicePage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Zusatzleistungen
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">
+                <p className="font-semibold text-navy mb-2">
                   Altmaterial-Entsorgung
                 </p>
                 <p className="text-sm mb-2">
@@ -288,7 +288,7 @@ export default function LieferservicePage() {
                 <p className="text-sm font-semibold">ab 49,00 €</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">
+                <p className="font-semibold text-navy mb-2">
                   Verpackungs-Rücknahme
                 </p>
                 <p className="text-sm mb-2">
@@ -297,14 +297,14 @@ export default function LieferservicePage() {
                 <p className="text-sm font-semibold">Kostenlos</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Lagerung</p>
+                <p className="font-semibold text-navy mb-2">Lagerung</p>
                 <p className="text-sm mb-2">
                   Ware bei uns lagern bis zur Verlegung
                 </p>
                 <p className="text-sm font-semibold">4 Wochen kostenlos</p>
               </div>
               <div className="bg-gray-50 p-4 rounded-lg">
-                <p className="font-semibold text-[#1e40af] mb-2">Wunschzeit</p>
+                <p className="font-semibold text-navy mb-2">Wunschzeit</p>
                 <p className="text-sm mb-2">Lieferung zu bestimmter Uhrzeit</p>
                 <p className="text-sm font-semibold">+25,00 €</p>
               </div>
@@ -312,7 +312,7 @@ export default function LieferservicePage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Lieferung anfragen
             </h2>
             <p className="mb-4">
@@ -322,13 +322,13 @@ export default function LieferservicePage() {
             <div className="flex flex-wrap gap-4 mb-6">
               <Link
                 href="/kontakt"
-                className="inline-block bg-[#1e40af] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
+                className="inline-block bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
               >
                 Kontakt aufnehmen
               </Link>
               <a
                 href="tel:+492433123456"
-                className="inline-block border-2 border-[#1e40af] text-[#1e40af] px-6 py-3 rounded-lg font-semibold hover:bg-[#1e40af] hover:text-white transition-colors"
+                className="inline-block border-2 border-navy text-navy px-6 py-3 rounded-lg font-semibold hover:bg-navy hover:text-white transition-colors"
               >
                 Anrufen: +49 (0) 2433 123456
               </a>

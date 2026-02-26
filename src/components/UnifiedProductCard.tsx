@@ -10,13 +10,15 @@ import { useAlert } from '@/hooks/useAlert';
 
 interface UnifiedProductCardProps {
   product: StoreApiProduct;
+  daemmungProduct?: StoreApiProduct | null;
+  sockelleisteProduct?: StoreApiProduct | null;
 }
 
 /**
  * Einheitliche Produktkarte für alle Übersichten
  * Basiert auf CategoryPageClient Design
  */
-export default function UnifiedProductCard({ product }: UnifiedProductCardProps) {
+export default function UnifiedProductCard({ product, daemmungProduct, sockelleisteProduct }: UnifiedProductCardProps) {
   const [isOrderingSample, setIsOrderingSample] = useState(false);
   const { cartItems, addSampleToCart, getSampleCount, getFreeSamplesRemaining } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -285,15 +287,26 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             {/* Sale Badge */}
-            {product.on_sale && (
-              <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
-                -{Math.round(product.has_setangebot ? (product.setangebot_ersparnis_prozent || 0) : (product.discount_percent || 0))}%
-              </div>
-            )}
+            {(() => {
+              let discountPct = 0;
+              if (product.show_setangebot) {
+                const setPreis = product.setangebot_gesamtpreis || 0;
+                const addonV = (daemmungProduct?.price || 0) + (sockelleisteProduct?.price || 0);
+                const vergleich = (product.setangebot_einzelpreis || 0) + addonV;
+                discountPct = vergleich > 0 ? (vergleich - setPreis) / vergleich * 100 : (product.setangebot_ersparnis_prozent || 0);
+              } else if (product.on_sale) {
+                discountPct = product.discount_percent || 0;
+              }
+              return discountPct > 0 ? (
+                <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
+                  -{Math.round(discountPct)}%
+                </div>
+              ) : null;
+            })()}
 
             {/* Aktion Badge */}
             {product.show_aktion && product.aktion && (
-              <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+              <div className="bg-dark text-white px-3 py-1 rounded font-medium text-sm shadow-md">
                 {product.aktion}
               </div>
             )}
@@ -410,28 +423,43 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
           })()}
 
           {/* Trennlinie */}
-          <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
+          <div className="h-[1px] bg-dark mx-8 mb-3" />
 
           {/* Preisanzeige */}
           {(() => {
             const unit = product.einheit_short || 'm²';
             const showUnit = unit !== '-' && unit.trim() !== '';
-            const price = product.price || 0;
-            const regularPrice = product.regular_price || 0;
-            const hasDiscount = product.on_sale && regularPrice > price;
             const paketinhalt = product.paketinhalt || 1;
             const verpackungsart = product.verpackungsart_short || 'Pak.';
+
+            // Set-Angebot: Preise aus Bundle-Feldern (identisch mit Produktseite)
+            const hasSetangebot = product.show_setangebot && product.setangebot_gesamtpreis;
+            const displayPrice = hasSetangebot
+              ? (product.setangebot_gesamtpreis || 0)
+              : (product.price || 0);
+            // Voller Vergleichspreis = setangebot_einzelpreis + Dämmung.price + Sockelleiste.price
+            // (identisch mit der Berechnung auf der Produktseite)
+            const addonVergleich = hasSetangebot
+              ? ((daemmungProduct?.price || 0) + (sockelleisteProduct?.price || 0))
+              : 0;
+            const stattPrice = hasSetangebot
+              ? (product.setangebot_einzelpreis || 0) + addonVergleich
+              : (product.regular_price || 0);
+            const hasDiscount = hasSetangebot
+              ? stattPrice > displayPrice
+              : (product.on_sale && (product.regular_price || 0) > (product.price || 0));
+
             const showPackagePrice = showUnit && paketinhalt > 1;
-            const paketpreis = price * paketinhalt;
+            const paketpreis = displayPrice * paketinhalt;
 
             return (
               <div className="space-y-1">
-                {/* Streichpreis wenn Rabatt vorhanden */}
+                {/* Streichpreis: Set-Gesamtpreis (Boden + Dämmung + Sockel) */}
                 {hasDiscount && (
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-500">Statt</span>
                     <span className="text-gray-500 line-through">
-                      {regularPrice.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
+                      {stattPrice.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
                     </span>
                   </div>
                 )}
@@ -440,7 +468,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 <div className="flex justify-between items-center">
                   <span className="text-gray-900 font-medium">Preis</span>
                   <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
-                    {price.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
+                    {displayPrice.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
                   </span>
                 </div>
 

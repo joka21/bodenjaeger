@@ -171,7 +171,7 @@ export default function TotalPrice({
     <div className="p-0">
       {/* 1. GESAMTSUMMEN-HEADER */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[#2e2d32] text-2xl md:text-3xl font-bold">
+        <span className="text-dark text-2xl md:text-3xl font-bold">
           Gesamtsumme <span className="text-base font-normal">(inkl. MwSt.)</span>
         </span>
         <div className="text-right">
@@ -186,7 +186,7 @@ export default function TotalPrice({
         <div className="py-2 my-4">
           <div
             className="font-semibold text-sm md:text-base"
-            style={{ color: '#28a745' }}
+            style={{ color: 'var(--color-success)' }}
           >
             Du sparst {savings?.toFixed(2).replace('.', ',')}€ ({Math.round(savingsPercent || 0)}%)
           </div>
@@ -211,7 +211,7 @@ export default function TotalPrice({
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-transparent border border-[#2e2d32] hover:bg-[#f5f5f5] text-[#2e2d32] font-semibold text-xs whitespace-nowrap rounded-md transition-colors" style={{ padding: '5px' }}
+          className="w-full bg-transparent border border-dark hover:bg-[#f5f5f5] text-dark font-semibold text-xs whitespace-nowrap rounded-md transition-colors" style={{ padding: '5px' }}
         >
           Individuelles Angebot anfragen
         </button>
@@ -224,7 +224,7 @@ export default function TotalPrice({
           className={`w-full font-semibold text-xs whitespace-nowrap rounded-lg transition-all ${
             addedToCart
               ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
-              : 'bg-[#2e2d32] hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
+              : 'bg-dark hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
           }`} style={{ padding: '5px' }}
         >
           {addedToCart ? (
@@ -250,7 +250,7 @@ export default function TotalPrice({
       </div>
 
       {/* 5. LIEFERHINWEIS */}
-      <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-[#e5e5e5]">
+      <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-ash">
         <div className="flex items-center gap-2">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
             <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />

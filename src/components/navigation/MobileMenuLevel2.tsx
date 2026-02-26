@@ -9,10 +9,10 @@ interface MobileMenuLevel2Props {
 
 export default function MobileMenuLevel2({ category, onSubCategoryClick, onClose }: MobileMenuLevel2Props) {
   return (
-    <div className="flex-1 overflow-y-auto bg-[#f9f9fb]">
+    <div className="flex-1 overflow-y-auto bg-pale">
       {/* Breadcrumb/Title */}
       <div className="px-4 py-3 bg-white border-b border-gray-200">
-        <h2 className="text-lg font-bold text-[#2e2d32]">{category.label}</h2>
+        <h2 className="text-lg font-bold text-dark">{category.label}</h2>
       </div>
 
       {/* "Alle [Kategorie] anzeigen" Link */}
@@ -21,7 +21,7 @@ export default function MobileMenuLevel2({ category, onSubCategoryClick, onClose
         onClick={onClose}
         className="block px-4 py-4 bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors"
       >
-        <span className="text-[#2e2d32] text-base">Alle {category.label} anzeigen</span>
+        <span className="text-dark text-base">Alle {category.label} anzeigen</span>
       </Link>
 
       {/* Subcategories */}
@@ -33,7 +33,7 @@ export default function MobileMenuLevel2({ category, onSubCategoryClick, onClose
                 onClick={() => onSubCategoryClick(subCategory)}
                 className="w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors"
               >
-                <span className="text-[#2e2d32] font-medium text-base">{subCategory.label}</span>
+                <span className="text-dark font-medium text-base">{subCategory.label}</span>
                 <svg
                   className="w-5 h-5 text-gray-400"
                   fill="none"
@@ -54,7 +54,7 @@ export default function MobileMenuLevel2({ category, onSubCategoryClick, onClose
                 onClick={onClose}
                 className="block px-4 py-4 hover:bg-gray-50 transition-colors"
               >
-                <span className="text-[#2e2d32] text-base">{subCategory.label}</span>
+                <span className="text-dark text-base">{subCategory.label}</span>
               </Link>
             )}
           </div>

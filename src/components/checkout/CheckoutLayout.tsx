@@ -21,7 +21,7 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              <div className="font-bold text-2xl text-[#2e2d32]">Bodenjäger</div>
+              <div className="font-bold text-2xl text-dark">Bodenjäger</div>
             </Link>
 
             {/* Secure Checkout Badge */}
@@ -72,16 +72,16 @@ export default function CheckoutLayout({ children }: CheckoutLayoutProps) {
       <footer className="border-t border-gray-200 bg-gray-50 mt-12 overflow-hidden">
         <div className="content-container py-8">
           <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600">
-            <Link href="/agb" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/agb" className="hover:text-dark transition-colors">
               AGB
             </Link>
-            <Link href="/datenschutz" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/datenschutz" className="hover:text-dark transition-colors">
               Datenschutz
             </Link>
-            <Link href="/widerruf" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/widerruf" className="hover:text-dark transition-colors">
               Widerrufsbelehrung
             </Link>
-            <Link href="/impressum" className="hover:text-[#2e2d32] transition-colors">
+            <Link href="/impressum" className="hover:text-dark transition-colors">
               Impressum
             </Link>
           </div>

@@ -21,7 +21,7 @@ export default function FloatingContactButton() {
         {/* Kontakt Button */}
         <button
           onClick={() => setIsContactDrawerOpen(true)}
-          className="w-14 h-14 bg-[#ed1b24] rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
+          className="w-14 h-14 bg-brand rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
           aria-label="Kontakt öffnen"
         >
           <Image
@@ -47,7 +47,7 @@ export default function FloatingContactButton() {
             className="w-7 h-7"
           />
           {itemCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-[#ed1b24] text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+            <span className="absolute -top-1 -right-1 bg-brand text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
               {itemCount}
             </span>
           )}

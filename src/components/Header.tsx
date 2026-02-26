@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
-      <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-[#2e2d32] overflow-visible">
+      <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-dark overflow-visible">
         <div className="max-w-[1500px] mx-auto h-full px-2 sm:px-4">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
@@ -47,7 +47,7 @@ export default function Header() {
                   className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
                 />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-[#ed1b24] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-brand text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -85,7 +85,7 @@ export default function Header() {
       </div>
 
       {/* Bottom Section - 50px height - #4c4c4c - Navigation */}
-      <div className="w-full h-[50px] bg-[#4c4c4c] overflow-hidden">
+      <div className="w-full h-[50px] bg-mid overflow-hidden">
         <div className="max-w-[1500px] mx-auto px-2 sm:px-4 lg:px-8 h-full">
           <nav className="hidden lg:flex items-center justify-center h-full space-x-8">
             <div className="relative group">

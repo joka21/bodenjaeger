@@ -183,7 +183,7 @@ export default function ProductCard({ product, showDescription = false }: Produc
             onClick={handleToggleWishlist}
             className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
               wishlisted
-                ? 'bg-[#ed1b24] text-white hover:bg-red-700'
+                ? 'bg-brand text-white hover:bg-red-700'
                 : 'bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800'
             }`}
           >

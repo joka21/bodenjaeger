@@ -94,9 +94,9 @@ export default function SetAngebotMobile({
     : 0;
 
   return (
-    <div className="bg-[#e5e5e5] rounded-lg p-3">
+    <div className="bg-ash rounded-lg p-3">
       {/* Badge Header */}
-      <div className="inline-flex items-center px-3 py-1 mb-3 text-sm font-semibold text-white bg-[#ed1b24] rounded">
+      <div className="inline-flex items-center px-3 py-1 mb-3 text-sm font-semibold text-white bg-brand rounded">
         {setangebotTitel}
       </div>
 
@@ -116,14 +116,14 @@ export default function SetAngebotMobile({
           {/* 2. Kategorie + Name */}
           <div className="min-w-0">
             <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Boden</h3>
-            <p className="text-sm text-[#2e2d32] truncate">{productName}</p>
+            <p className="text-sm text-dark truncate">{productName}</p>
           </div>
           {/* 3. Preise */}
           <div className="flex flex-col items-end flex-shrink-0">
-            <span className="text-[11px] text-[#4c4c4c] line-through">
+            <span className="text-[11px] text-mid line-through">
               {regularPrice.toFixed(2).replace('.', ',')} €
             </span>
-            <span className="text-sm font-semibold text-[#ed1b24]">
+            <span className="text-sm font-semibold text-brand">
               {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
           </div>
@@ -144,12 +144,12 @@ export default function SetAngebotMobile({
             {/* 2. Kategorie + Name + Button */}
             <div className="min-w-0">
               <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Dämmung</h3>
-              <p className="text-sm text-[#2e2d32] truncate">{selectedDaemmung?.name || daemmungName}</p>
+              <p className="text-sm text-dark truncate">{selectedDaemmung?.name || daemmungName}</p>
               {daemmungOptions.length > 0 && (
                 <button
                   type="button"
                   onClick={() => openModal('daemmung')}
-                  className="mt-1.5 bg-[#2e2d32] text-white text-[10px] font-semibold py-1.5 px-3 rounded hover:bg-[#1a1a1d] transition-colors"
+                  className="mt-1.5 bg-dark text-white text-[10px] font-semibold py-1.5 px-3 rounded hover:bg-[#1a1a1d] transition-colors"
                 >
                   Andere Dämmung &gt;
                 </button>
@@ -158,11 +158,11 @@ export default function SetAngebotMobile({
             {/* 3. Preise */}
             <div className="flex flex-col items-end flex-shrink-0">
               {daemmungRegularPricePerUnit && daemmungRegularPricePerUnit > 0 && (
-                <span className="text-[11px] text-[#4c4c4c] line-through">
+                <span className="text-[11px] text-mid line-through">
                   {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                 </span>
               )}
-              <span className="text-sm font-semibold text-[#ed1b24]">
+              <span className="text-sm font-semibold text-brand">
                 {daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             </div>
@@ -184,12 +184,12 @@ export default function SetAngebotMobile({
             {/* 2. Kategorie + Name + Button */}
             <div className="min-w-0">
               <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Sockelleiste</h3>
-              <p className="text-sm text-[#2e2d32] truncate">{selectedSockelleiste?.name || sockelleisteName}</p>
+              <p className="text-sm text-dark truncate">{selectedSockelleiste?.name || sockelleisteName}</p>
               {sockelleisteOptions.length > 0 && (
                 <button
                   type="button"
                   onClick={() => openModal('sockelleiste')}
-                  className="mt-1.5 bg-[#2e2d32] text-white text-[10px] font-semibold py-1.5 px-3 rounded hover:bg-[#1a1a1d] transition-colors"
+                  className="mt-1.5 bg-dark text-white text-[10px] font-semibold py-1.5 px-3 rounded hover:bg-[#1a1a1d] transition-colors"
                 >
                   Andere Sockelleiste &gt;
                 </button>
@@ -198,11 +198,11 @@ export default function SetAngebotMobile({
             {/* 3. Preise */}
             <div className="flex flex-col items-end flex-shrink-0">
               {sockelleisteRegularPricePerUnit && sockelleisteRegularPricePerUnit > 0 && (
-                <span className="text-[11px] text-[#4c4c4c] line-through">
+                <span className="text-[11px] text-mid line-through">
                   {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
                 </span>
               )}
-              <span className="text-sm font-semibold text-[#ed1b24]">
+              <span className="text-sm font-semibold text-brand">
                 {sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/{sockelleisteEinheit}
               </span>
             </div>
@@ -213,18 +213,18 @@ export default function SetAngebotMobile({
       {/* Gesamt-Block */}
       <div className="mt-3 pt-3 border-t-2 border-gray-300">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-base font-bold text-[#2e2d32]">Gesamt</span>
+          <span className="text-base font-bold text-dark">Gesamt</span>
           <div className="flex items-center gap-2">
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
-              <span className="line-through text-sm text-[#4c4c4c]">
+              <span className="line-through text-sm text-mid">
                 {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/m²
               </span>
             )}
-            <span className="text-lg font-bold text-[#ed1b24]">
+            <span className="text-lg font-bold text-brand">
               {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/m²
             </span>
             {ersparnisProzent > 0 && (
-              <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-white bg-[#ed1b24] rounded">
+              <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-white bg-brand rounded">
                 -{Math.round(ersparnisProzent)}%
               </span>
             )}

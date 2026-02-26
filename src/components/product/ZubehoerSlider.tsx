@@ -190,8 +190,8 @@ export default function ZubehoerSlider({
     <section className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="flex flex-col lg:flex-row">
         {/* LINKE SEITE - Info Box (Fixed) */}
-        <div className="lg:w-[280px] flex-shrink-0 bg-[#e5e5e5] p-6 lg:sticky lg:top-0 lg:self-start">
-          <h2 className="text-2xl font-bold text-[#2e2d32] mb-4">
+        <div className="lg:w-[280px] flex-shrink-0 bg-ash p-6 lg:sticky lg:top-0 lg:self-start">
+          <h2 className="text-2xl font-bold text-dark mb-4">
             Passendes Zubehör:
           </h2>
 

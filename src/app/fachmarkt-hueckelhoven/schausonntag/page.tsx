@@ -11,18 +11,18 @@ export default function SchausonntagPage() {
     <main className="min-h-screen">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <nav className="mb-6 text-sm">
-          <Link href="/fachmarkt-hueckelhoven" className="text-[#1e40af] hover:underline">
+          <Link href="/fachmarkt-hueckelhoven" className="text-navy hover:underline">
             ← Zurück zum Fachmarkt Hückelhoven
           </Link>
         </nav>
 
-        <h1 className="text-4xl lg:text-5xl font-bold text-[#1e40af] mb-8">
+        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-8">
           Schausonntag
         </h1>
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Entspannt einkaufen am Sonntag
             </h2>
             <p className="mb-4">
@@ -34,15 +34,15 @@ export default function SchausonntagPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Nächste Termine 2025
             </h2>
 
             <div className="space-y-4">
-              <div className="bg-gray-50 p-6 rounded-lg border-l-4 border-[#1e40af]">
+              <div className="bg-gray-50 p-6 rounded-lg border-l-4 border-navy">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <p className="text-2xl font-bold text-[#1e40af]">23. März 2025</p>
+                    <p className="text-2xl font-bold text-navy">23. März 2025</p>
                     <p className="text-sm text-gray-600">Frühjahrs-Schausonntag</p>
                   </div>
                   <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">
@@ -59,7 +59,7 @@ export default function SchausonntagPage() {
               <div className="bg-gray-50 p-6 rounded-lg">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <p className="text-2xl font-bold text-[#1e40af]">15. Juni 2025</p>
+                    <p className="text-2xl font-bold text-navy">15. Juni 2025</p>
                     <p className="text-sm text-gray-600">Sommer-Aktionstag</p>
                   </div>
                 </div>
@@ -73,7 +73,7 @@ export default function SchausonntagPage() {
               <div className="bg-gray-50 p-6 rounded-lg">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <p className="text-2xl font-bold text-[#1e40af]">
+                    <p className="text-2xl font-bold text-navy">
                       28. September 2025
                     </p>
                     <p className="text-sm text-gray-600">Herbst-Schausonntag</p>
@@ -89,7 +89,7 @@ export default function SchausonntagPage() {
               <div className="bg-gray-50 p-6 rounded-lg">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <p className="text-2xl font-bold text-[#1e40af]">
+                    <p className="text-2xl font-bold text-navy">
                       30. November 2025
                     </p>
                     <p className="text-sm text-gray-600">Advents-Shopping</p>
@@ -105,13 +105,13 @@ export default function SchausonntagPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Das erwartet Sie an unseren Schausonntagen
             </h2>
 
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Umfangreiche Ausstellung
                 </h3>
                 <p className="text-sm">
@@ -122,7 +122,7 @@ export default function SchausonntagPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Fachberatung
                 </h3>
                 <p className="text-sm">
@@ -133,7 +133,7 @@ export default function SchausonntagPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Sonntags-Specials
                 </h3>
                 <p className="text-sm">
@@ -143,7 +143,7 @@ export default function SchausonntagPage() {
               </div>
 
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-[#1e40af] mb-3">
+                <h3 className="text-xl font-semibold text-navy mb-3">
                   Für die ganze Familie
                 </h3>
                 <p className="text-sm">
@@ -155,12 +155,12 @@ export default function SchausonntagPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Besondere Aktionen
             </h2>
             <div className="space-y-4">
-              <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
-                <p className="font-semibold text-[#1e40af] mb-2">
+              <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
+                <p className="font-semibold text-navy mb-2">
                   Live-Verlegedemonstrationen
                 </p>
                 <p className="text-sm">
@@ -173,16 +173,16 @@ export default function SchausonntagPage() {
                 </p>
               </div>
 
-              <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
-                <p className="font-semibold text-[#1e40af] mb-2">Gewinnspiel</p>
+              <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
+                <p className="font-semibold text-navy mb-2">Gewinnspiel</p>
                 <p className="text-sm">
                   Nehmen Sie an unserem Schausonntags-Gewinnspiel teil und gewinnen Sie
                   attraktive Preise rund um Ihren Boden!
                 </p>
               </div>
 
-              <div className="bg-blue-50 border-l-4 border-[#1e40af] p-6 rounded">
-                <p className="font-semibold text-[#1e40af] mb-2">
+              <div className="bg-blue-50 border-l-4 border-navy p-6 rounded">
+                <p className="font-semibold text-navy mb-2">
                   Kostenlose Raumplanung
                 </p>
                 <p className="text-sm">
@@ -194,40 +194,40 @@ export default function SchausonntagPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Wichtige Informationen
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ul className="space-y-3">
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Parkplätze:</strong> Ausreichend kostenfreie Parkplätze
                     direkt vor Ort
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Barrierefreiheit:</strong> Unser Fachmarkt ist barrierefrei
                     zugänglich
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Zahlung:</strong> Alle gängigen Zahlungsmethoden möglich
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Sofortkauf:</strong> Kleine Artikel können direkt
                     mitgenommen werden
                   </span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="text-[#1e40af] font-bold">•</span>
+                  <span className="text-navy font-bold">•</span>
                   <span>
                     <strong>Bestellungen:</strong> Größere Mengen werden termingerecht
                     geliefert
@@ -238,7 +238,7 @@ export default function SchausonntagPage() {
           </section>
 
           <section className="mb-12">
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Newsletter abonnieren
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
@@ -249,7 +249,7 @@ export default function SchausonntagPage() {
               </p>
               <Link
                 href="/kontakt"
-                className="inline-block bg-[#1e40af] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
+                className="inline-block bg-navy text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
               >
                 Zum Newsletter anmelden
               </Link>
@@ -257,7 +257,7 @@ export default function SchausonntagPage() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold text-[#1e40af] mb-4">
+            <h2 className="text-2xl font-bold text-navy mb-4">
               Kontakt & Anfahrt
             </h2>
             <div className="bg-gray-50 p-6 rounded-lg">
@@ -272,7 +272,7 @@ export default function SchausonntagPage() {
               </p>
               <Link
                 href="/fachmarkt-hueckelhoven"
-                className="text-[#1e40af] font-semibold text-sm hover:underline"
+                className="text-navy font-semibold text-sm hover:underline"
               >
                 Anfahrt & weitere Informationen →
               </Link>

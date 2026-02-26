@@ -34,12 +34,12 @@ export default function ReviewStep() {
     <div className="space-y-8">
       {/* Order Review */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">Bestellung überprüfen</h2>
+        <h2 className="text-2xl font-bold text-dark mb-6">Bestellung überprüfen</h2>
 
         {/* Contact Information */}
         <div className="bg-gray-50 rounded-lg p-6 mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-[#2e2d32]">Kontaktdaten</h3>
+            <h3 className="font-semibold text-dark">Kontaktdaten</h3>
             <button
               onClick={() => previousStep()}
               className="text-sm text-[#4CAF50] hover:underline focus:outline-none"
@@ -53,7 +53,7 @@ export default function ReviewStep() {
         {/* Shipping Address */}
         <div className="bg-gray-50 rounded-lg p-6 mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-[#2e2d32]">Versandadresse</h3>
+            <h3 className="font-semibold text-dark">Versandadresse</h3>
             <button
               onClick={() => previousStep()}
               className="text-sm text-[#4CAF50] hover:underline focus:outline-none"
@@ -79,7 +79,7 @@ export default function ReviewStep() {
         {/* Shipping Method */}
         <div className="bg-gray-50 rounded-lg p-6 mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-[#2e2d32]">Versandmethode</h3>
+            <h3 className="font-semibold text-dark">Versandmethode</h3>
             <button
               onClick={() => previousStep()}
               className="text-sm text-[#4CAF50] hover:underline focus:outline-none"
@@ -89,7 +89,7 @@ export default function ReviewStep() {
           </div>
           <div className="flex items-center justify-between">
             <span className="text-gray-700">{formData.selectedShippingMethod?.title}</span>
-            <span className="font-semibold text-[#2e2d32]">
+            <span className="font-semibold text-dark">
               {formData.selectedShippingMethod?.cost &&
               parseFloat(formData.selectedShippingMethod.cost) === 0
                 ? 'Kostenlos'
@@ -101,7 +101,7 @@ export default function ReviewStep() {
         {/* Payment Method */}
         <div className="bg-gray-50 rounded-lg p-6 mb-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-[#2e2d32]">Zahlungsmethode</h3>
+            <h3 className="font-semibold text-dark">Zahlungsmethode</h3>
             <button
               onClick={() => previousStep()}
               className="text-sm text-[#4CAF50] hover:underline focus:outline-none"
@@ -115,7 +115,7 @@ export default function ReviewStep() {
         {/* Billing Address */}
         <div className="bg-gray-50 rounded-lg p-6">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-semibold text-[#2e2d32]">Rechnungsadresse</h3>
+            <h3 className="font-semibold text-dark">Rechnungsadresse</h3>
             <button
               onClick={() => previousStep()}
               className="text-sm text-[#4CAF50] hover:underline focus:outline-none"
@@ -144,7 +144,7 @@ export default function ReviewStep() {
 
       {/* Terms and Conditions */}
       <section>
-        <h2 className="text-2xl font-bold text-[#2e2d32] mb-6">
+        <h2 className="text-2xl font-bold text-dark mb-6">
           Allgemeine Geschäftsbedingungen
         </h2>
 
@@ -157,7 +157,7 @@ export default function ReviewStep() {
                 checked={formData.acceptTerms}
                 onChange={(e) => updateFormData({ acceptTerms: e.target.checked })}
                 className={`
-                  w-5 h-5 text-[#2e2d32] rounded focus:ring-[#2e2d32] mt-0.5
+                  w-5 h-5 text-dark rounded focus:ring-dark mt-0.5
                   ${validationErrors.acceptTerms ? 'border-red-500' : ''}
                 `}
               />
@@ -187,7 +187,7 @@ export default function ReviewStep() {
                 checked={formData.acceptPrivacy}
                 onChange={(e) => updateFormData({ acceptPrivacy: e.target.checked })}
                 className={`
-                  w-5 h-5 text-[#2e2d32] rounded focus:ring-[#2e2d32] mt-0.5
+                  w-5 h-5 text-dark rounded focus:ring-dark mt-0.5
                   ${validationErrors.acceptPrivacy ? 'border-red-500' : ''}
                 `}
               />
@@ -211,7 +211,7 @@ export default function ReviewStep() {
 
           {/* Withdrawal Right Info */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-semibold text-[#2e2d32] mb-2">Widerrufsbelehrung</h4>
+            <h4 className="font-semibold text-dark mb-2">Widerrufsbelehrung</h4>
             <p className="text-sm text-gray-700 mb-2">
               Sie haben das Recht, binnen vierzehn Tagen ohne Angabe von Gründen diesen Vertrag zu
               widerrufen.
@@ -233,7 +233,7 @@ export default function ReviewStep() {
                 type="checkbox"
                 checked={formData.newsletter || false}
                 onChange={(e) => updateFormData({ newsletter: e.target.checked })}
-                className="w-5 h-5 text-[#2e2d32] rounded focus:ring-[#2e2d32] mt-0.5"
+                className="w-5 h-5 text-dark rounded focus:ring-dark mt-0.5"
               />
               <span className="text-sm text-gray-700">
                 Ich möchte den Newsletter abonnieren und über Angebote und Neuheiten informiert
@@ -249,7 +249,7 @@ export default function ReviewStep() {
         <button
           onClick={previousStep}
           disabled={isSubmitting}
-          className="text-[#2e2d32] font-medium hover:underline focus:outline-none focus:underline disabled:opacity-50 disabled:cursor-not-allowed"
+          className="text-dark font-medium hover:underline focus:outline-none focus:underline disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Zurück
         </button>

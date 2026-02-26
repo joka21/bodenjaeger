@@ -124,7 +124,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
       {/* Menu Container */}
       <div
-        className={`fixed inset-y-0 right-0 w-full bg-[#f9f9fb] z-50 flex flex-col overflow-hidden transform transition-transform duration-300 ease-in-out lg:hidden ${
+        className={`fixed inset-y-0 right-0 w-full bg-pale z-50 flex flex-col overflow-hidden transform transition-transform duration-300 ease-in-out lg:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         role="dialog"

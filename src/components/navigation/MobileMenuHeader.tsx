@@ -8,7 +8,7 @@ interface MobileMenuHeaderProps {
 
 export default function MobileMenuHeader({ currentLevel, onClose, onBack }: MobileMenuHeaderProps) {
   return (
-    <div className="flex items-center justify-between px-4 h-[60px] bg-[#2e2d32] flex-shrink-0">
+    <div className="flex items-center justify-between px-4 h-[60px] bg-dark flex-shrink-0">
       {/* Left: Back Button (only on level 2 and 3) */}
       <div className="w-8">
         {currentLevel > 1 && onBack && (

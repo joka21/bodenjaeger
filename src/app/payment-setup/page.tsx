@@ -7,14 +7,14 @@ export default function PaymentSetupPage() {
       <header className="border-b border-gray-200 bg-white">
         <div className="container mx-auto px-4 py-6">
           <Link href="/" className="flex items-center space-x-2">
-            <div className="font-bold text-2xl text-[#2e2d32]">Bodenjäger</div>
+            <div className="font-bold text-2xl text-dark">Bodenjäger</div>
           </Link>
         </div>
       </header>
 
       {/* Content */}
       <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <h1 className="text-4xl font-bold text-[#2e2d32] mb-4">
+        <h1 className="text-4xl font-bold text-dark mb-4">
           Payment Provider Setup
         </h1>
         <p className="text-lg text-gray-600 mb-8">
@@ -23,7 +23,7 @@ export default function PaymentSetupPage() {
 
         {/* Status Box */}
         <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-12">
-          <h2 className="text-xl font-bold text-[#2e2d32] mb-3">📊 Aktueller Status</h2>
+          <h2 className="text-xl font-bold text-dark mb-3">📊 Aktueller Status</h2>
           <div className="space-y-2">
             <div className="flex items-center gap-3">
               <span className="text-2xl">✅</span>
@@ -70,7 +70,7 @@ export default function PaymentSetupPage() {
               </p>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 1: WordPress Backend öffnen
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -88,7 +88,7 @@ export default function PaymentSetupPage() {
               <li>Mit Admin-Account einloggen</li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 2: WooCommerce REST API Keys erstellen
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -116,7 +116,7 @@ export default function PaymentSetupPage() {
               <li>Klicke auf &quot;Schlüssel generieren&quot;</li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 3: API Keys kopieren
             </h3>
             <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-4">
@@ -140,7 +140,7 @@ export default function PaymentSetupPage() {
               </li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 4: Environment Variables eintragen
             </h3>
             <p className="text-gray-700 mb-4">
@@ -166,7 +166,7 @@ export default function PaymentSetupPage() {
               </p>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 5: Vercel Environment Variables
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -188,7 +188,7 @@ export default function PaymentSetupPage() {
               <li>Füge die gleichen WooCommerce Variables hinzu (Production + Preview + Development)</li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 6: Testen
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -221,7 +221,7 @@ export default function PaymentSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 1: Stripe Account erstellen
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -243,7 +243,7 @@ export default function PaymentSetupPage() {
               </li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 2: API Keys kopieren
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -261,7 +261,7 @@ export default function PaymentSetupPage() {
               </li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 3: Webhook einrichten
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -293,7 +293,7 @@ export default function PaymentSetupPage() {
               <li>Speichern und &quot;Signing secret&quot; kopieren (beginnt mit whsec_...)</li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 4: Environment Variables eintragen
             </h3>
             <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm mb-6 overflow-x-auto">
@@ -323,7 +323,7 @@ export default function PaymentSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 1: PayPal Developer Account
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -347,7 +347,7 @@ export default function PaymentSetupPage() {
               </li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 2: App erstellen
             </h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
@@ -358,7 +358,7 @@ export default function PaymentSetupPage() {
               <li>Kopiere beide Werte</li>
             </ol>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Schritt 3: Environment Variables eintragen
             </h3>
             <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm mb-6 overflow-x-auto">
@@ -405,7 +405,7 @@ export default function PaymentSetupPage() {
               auch in Vercel eingetragen werden, damit sie im Production Build verfügbar sind.
             </p>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Schritt-für-Schritt:</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Schritt-für-Schritt:</h3>
             <ol className="list-decimal list-inside space-y-3 mb-6 text-gray-700">
               <li>
                 Gehe zu{' '}
@@ -472,7 +472,7 @@ export default function PaymentSetupPage() {
             </h2>
           </div>
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">Stripe Test-Kreditkarten</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">Stripe Test-Kreditkarten</h3>
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
               <table className="w-full text-sm">
                 <thead>
@@ -503,7 +503,7 @@ export default function PaymentSetupPage() {
               </p>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">PayPal Sandbox Testing</h3>
+            <h3 className="text-xl font-bold text-dark mb-4">PayPal Sandbox Testing</h3>
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
               <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
                 <li>
@@ -522,7 +522,7 @@ export default function PaymentSetupPage() {
               </ol>
             </div>
 
-            <h3 className="text-xl font-bold text-[#2e2d32] mb-4">
+            <h3 className="text-xl font-bold text-dark mb-4">
               Test-Workflow: Komplette Bestellung
             </h3>
             <ol className="list-decimal list-inside space-y-3 text-gray-700">
@@ -559,7 +559,7 @@ export default function PaymentSetupPage() {
 
         {/* Troubleshooting */}
         <section className="mb-12">
-          <div className="bg-[#ed1b24] text-white p-6 rounded-t-lg">
+          <div className="bg-brand text-white p-6 rounded-t-lg">
             <h2 className="text-2xl font-bold flex items-center gap-3">
               <span>🔧</span> Troubleshooting
             </h2>
@@ -567,7 +567,7 @@ export default function PaymentSetupPage() {
           <div className="border-2 border-gray-200 rounded-b-lg p-6">
             <div className="space-y-6">
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ Fehler: &quot;Stripe credentials not configured&quot;
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -577,7 +577,7 @@ export default function PaymentSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ Bestellung bleibt bei &quot;pending&quot; stecken
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -588,7 +588,7 @@ export default function PaymentSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ PayPal redirect funktioniert nicht
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -599,7 +599,7 @@ export default function PaymentSetupPage() {
               </div>
 
               <div>
-                <h3 className="font-bold text-[#2e2d32] mb-2">
+                <h3 className="font-bold text-dark mb-2">
                   ❌ Order erscheint nicht in WordPress
                 </h3>
                 <p className="text-gray-700 text-sm">
@@ -662,7 +662,7 @@ export default function PaymentSetupPage() {
         <div className="text-center pt-8 border-t border-gray-200">
           <Link
             href="/"
-            className="inline-block px-8 py-3 bg-[#2e2d32] text-white font-semibold rounded-lg hover:bg-[#1e1d22] transition-colors"
+            className="inline-block px-8 py-3 bg-dark text-white font-semibold rounded-lg hover:bg-[#1e1d22] transition-colors"
           >
             Zurück zur Startseite
           </Link>

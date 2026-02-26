@@ -203,7 +203,7 @@ export default function SaleProductSlider({
 
                         {/* Aktion Badge */}
                         {product.show_aktion && product.aktion && (
-                          <div className="bg-[#2e2d32] text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+                          <div className="bg-dark text-white px-3 py-1 rounded font-medium text-sm shadow-md">
                             {product.aktion}
                           </div>
                         )}
@@ -225,7 +225,7 @@ export default function SaleProductSlider({
                       </h3>
 
                       {/* Trennlinie */}
-                      <div className="h-[1px] bg-[#2e2d32] mx-8 mb-3" />
+                      <div className="h-[1px] bg-dark mx-8 mb-3" />
 
                       {/* Preisanzeige */}
                       {(() => {
