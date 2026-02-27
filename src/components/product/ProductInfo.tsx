@@ -69,9 +69,11 @@ export default function ProductInfo({
     }
   }
 
-  // ✅ STATISCHE Preise für Produktkarten (WooCommerce-Felder verwenden!)
-  // Roter Preis (Boden-Karte) = WooCommerce aktueller Preis
-  const basePrice = product.price || 0;
+  // Set-Preis (Boden im Set) = setangebot_gesamtpreis aus Jäger-Plugin
+  // Fallback auf product.price wenn Feld nicht gesetzt
+  const basePrice = (product.setangebot_gesamtpreis && product.setangebot_gesamtpreis > 0)
+    ? product.setangebot_gesamtpreis
+    : product.price || 0;
 
   // Durchstrichener Preis (Boden-Karte) = WooCommerce Regulärer Preis
   const regularPrice = product.uvp || product.regular_price || product.price || 0;

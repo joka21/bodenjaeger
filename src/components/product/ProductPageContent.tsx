@@ -90,9 +90,11 @@ export default function ProductPageContent({
     if (!product || !quantities) return null;
 
     // SCHRITT 1: BODEN BERECHNUNG
-    // Set-Preis = WooCommerce price (Angebotspreis/Verkaufspreis)
-    // NICHT setangebot_gesamtpreis verwenden – das Feld ist inkonsistent im Backend
-    const bodenPricePerM2 = product.price || 0;
+    // Set-Preis = setangebot_gesamtpreis aus Jäger-Plugin (konfigurierter Set-Preis)
+    // Fallback auf product.price wenn Feld nicht gesetzt
+    const bodenPricePerM2 = (product.setangebot_gesamtpreis && product.setangebot_gesamtpreis > 0)
+      ? product.setangebot_gesamtpreis
+      : product.price || 0;
     const bodenPriceTotal = quantities.floor.actualM2 * bodenPricePerM2;
 
     // Vergleichspreis (für die durchgestrichene Preisanzeige im SetAngebot)
