@@ -20,6 +20,7 @@ interface SetAngebotMobileProps {
   sockelleisteSetPricePerUnit: number;
   sockelleisteRegularPricePerUnit: number;
   sockelleisteEinheit?: string;
+  gesamtVergleichspreisProM2?: number;
   comparisonPriceTotal?: number;
   totalDisplayPrice?: number;
   savingsPercent?: number;
@@ -44,6 +45,7 @@ export default function SetAngebotMobile({
   sockelleisteSetPricePerUnit,
   sockelleisteRegularPricePerUnit,
   sockelleisteEinheit = 'lfm',
+  gesamtVergleichspreisProM2,
   daemmungOptions = [],
   sockelleisteOptions = [],
   onProductSelection
@@ -88,7 +90,9 @@ export default function SetAngebotMobile({
 
   // STATISCHER M²-PREIS
   const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
-  const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
+  // gesamtVergleichspreisProM2 = setangebot_einzelpreis vom Backend (enthält Boden + Zubehör bereits)
+  // Fallback: regularPrice + Zubehör (falls nicht vorhanden)
+  const vergleichspreisProM2 = gesamtVergleichspreisProM2 ?? (regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit);
   const ersparnisProzent = vergleichspreisProM2 > 0
     ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
     : 0;

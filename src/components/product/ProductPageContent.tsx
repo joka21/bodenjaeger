@@ -95,18 +95,20 @@ export default function ProductPageContent({
     const bodenPriceTotal = quantities.floor.actualM2 * bodenPricePerM2;
 
     // Vergleichspreis (für die durchgestrichene Preisanzeige im SetAngebot)
-    const bodenComparisonPricePerM2 = product.setangebot_einzelpreis || product.uvp || product.price || 0;
+    const bodenComparisonPricePerM2 = product.setangebot_einzelpreis || product.uvp || product.regular_price || product.price || 0;
     const bodenComparisonPriceTotal = quantities.floor.actualM2 * bodenComparisonPricePerM2;
 
     console.log('🔧 BODEN PREIS DEBUG:', {
       produktName: product.name,
+      price: product.price,
+      regular_price: product.regular_price,
+      sale_price: product.sale_price,
+      uvp: product.uvp,
+      paketpreis: product.paketpreis,
+      paketpreis_s: product.paketpreis_s,
+      paketinhalt: product.paketinhalt,
       setangebot_einzelpreis: product.setangebot_einzelpreis,
       setangebot_gesamtpreis: product.setangebot_gesamtpreis,
-      uvp: product.uvp,
-      price: product.price,
-      verwendeterVergleichspreis: bodenComparisonPricePerM2,
-      verwendeterSetPreis: bodenPricePerM2,
-      quelle: product.setangebot_einzelpreis ? 'setangebot_einzelpreis' : (product.uvp ? 'uvp' : 'price')
     });
 
     // SCHRITT 2: DÄMMUNG BERECHNUNG (falls vorhanden)

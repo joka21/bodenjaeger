@@ -24,6 +24,7 @@ interface SetAngebotProps {
   sockelleisteVE?: string;
   sockelleisteEinheit?: string;
   sockelleisteOptions?: StoreApiProduct[];
+  gesamtVergleichspreisProM2?: number;
   onProductSelection?: (daemmung: StoreApiProduct | null, sockelleiste: StoreApiProduct | null) => void;
   // BACKEND PRICES - DIREKT VOM PARENT (ProductPageContent) - KEINE BERECHNUNG HIER!
   comparisonPriceTotal?: number;
@@ -52,6 +53,7 @@ export default function SetAngebot({
   sockelleisteVE,
   sockelleisteEinheit = 'lfm',
   sockelleisteOptions = [],
+  gesamtVergleichspreisProM2,
   onProductSelection
 }: SetAngebotProps) {
   // Modal state
@@ -100,7 +102,9 @@ export default function SetAngebot({
   // ✅ STATISCHER M²-PREIS für Set-Angebot (ändert sich NUR bei Produktwechsel)
   // Zeigt: "Boden €/m² + Dämmung Aufpreis + Sockelleiste Aufpreis = Gesamt €/m²"
   const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
-  const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
+  // gesamtVergleichspreisProM2 = setangebot_einzelpreis vom Backend (enthält Boden + Zubehör bereits)
+  // Fallback: regularPrice + Zubehör (falls nicht vorhanden)
+  const vergleichspreisProM2 = gesamtVergleichspreisProM2 ?? (regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit);
   const ersparnisProzent = vergleichspreisProM2 > 0
     ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
     : 0;

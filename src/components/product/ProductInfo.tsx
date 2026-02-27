@@ -69,12 +69,15 @@ export default function ProductInfo({
     }
   }
 
-  // ✅ STATISCHE Preise für Produktkarten (NICHT berechnen, Backend-Felder verwenden!)
-  // Set-Preis (rot, rabattiert) - DIREKT aus Backend
-  const basePrice = product.setangebot_gesamtpreis || product.price || 0;
+  // ✅ STATISCHE Preise für Produktkarten (WooCommerce-Felder verwenden!)
+  // Roter Preis (Boden-Karte) = WooCommerce aktueller Preis
+  const basePrice = product.price || 0;
 
-  // Vergleichspreis (durchgestrichen) - DIREKT aus Backend
-  const regularPrice = product.setangebot_einzelpreis || product.uvp || product.price || 0;
+  // Durchstrichener Preis (Boden-Karte) = WooCommerce Regulärer Preis
+  const regularPrice = product.uvp || product.regular_price || product.price || 0;
+
+  // Gesamt-Vergleichspreis = Backend-Gesamtvergleich (Boden + Zubehör kombiniert)
+  const gesamtVergleichspreisProM2 = product.setangebot_einzelpreis || product.uvp || product.regular_price || product.price || 0;
   const einheit = product.einheit_short || 'm²';
   const productImage = product.images && product.images.length > 0
     ? product.images[0].src
@@ -142,6 +145,7 @@ export default function ProductInfo({
           productImage={productImage}
           basePrice={basePrice}
           regularPrice={regularPrice}
+          gesamtVergleichspreisProM2={gesamtVergleichspreisProM2}
           einheit={einheit}
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
@@ -172,6 +176,7 @@ export default function ProductInfo({
           productImage={productImage}
           basePrice={basePrice}
           regularPrice={regularPrice}
+          gesamtVergleichspreisProM2={gesamtVergleichspreisProM2}
           einheit={einheit}
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}
