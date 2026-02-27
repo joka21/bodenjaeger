@@ -18,7 +18,7 @@ interface UnifiedProductCardProps {
  * Einheitliche Produktkarte für alle Übersichten
  * Basiert auf CategoryPageClient Design
  */
-export default function UnifiedProductCard({ product, daemmungProduct, sockelleisteProduct }: UnifiedProductCardProps) {
+export default function UnifiedProductCard({ product }: UnifiedProductCardProps) {
   const [isOrderingSample, setIsOrderingSample] = useState(false);
   const { cartItems, addSampleToCart, getSampleCount, getFreeSamplesRemaining } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -288,15 +288,11 @@ export default function UnifiedProductCard({ product, daemmungProduct, sockellei
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
             {/* Sale Badge */}
             {(() => {
-              let discountPct = 0;
-              if (product.show_setangebot) {
-                const setPreis = product.setangebot_gesamtpreis || 0;
-                const addonV = (daemmungProduct?.price || 0) + (sockelleisteProduct?.price || 0);
-                const vergleich = (product.setangebot_einzelpreis || 0) + addonV;
-                discountPct = vergleich > 0 ? (vergleich - setPreis) / vergleich * 100 : (product.setangebot_ersparnis_prozent || 0);
-              } else if (product.on_sale) {
-                discountPct = product.discount_percent || 0;
-              }
+              const mainPrice = product.price || 0;
+              const regPrice = product.regular_price || 0;
+              const discountPct = regPrice > mainPrice && regPrice > 0
+                ? ((regPrice - mainPrice) / regPrice) * 100
+                : 0;
               return discountPct > 0 ? (
                 <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
                   -{Math.round(discountPct)}%
@@ -432,29 +428,17 @@ export default function UnifiedProductCard({ product, daemmungProduct, sockellei
             const paketinhalt = product.paketinhalt || 1;
             const verpackungsart = product.verpackungsart_short || 'Pak.';
 
-            // Set-Angebot: Preise aus Bundle-Feldern (identisch mit Produktseite)
-            const hasSetangebot = product.show_setangebot && product.setangebot_gesamtpreis;
-            const displayPrice = hasSetangebot
-              ? (product.setangebot_gesamtpreis || 0)
-              : (product.price || 0);
-            // Voller Vergleichspreis = setangebot_einzelpreis + Dämmung.price + Sockelleiste.price
-            // (identisch mit der Berechnung auf der Produktseite)
-            const addonVergleich = hasSetangebot
-              ? ((daemmungProduct?.price || 0) + (sockelleisteProduct?.price || 0))
-              : 0;
-            const stattPrice = hasSetangebot
-              ? (product.setangebot_einzelpreis || 0) + addonVergleich
-              : (product.regular_price || 0);
-            const hasDiscount = hasSetangebot
-              ? stattPrice > displayPrice
-              : (product.on_sale && (product.regular_price || 0) > (product.price || 0));
+            // Preise direkt aus WooCommerce-Feldern (identisch mit Produktseite)
+            const displayPrice = product.price || 0;
+            const stattPrice = product.regular_price || product.price || 0;
+            const hasDiscount = stattPrice > displayPrice;
 
             const showPackagePrice = showUnit && paketinhalt > 1;
             const paketpreis = displayPrice * paketinhalt;
 
             return (
               <div className="space-y-1">
-                {/* Streichpreis: Set-Gesamtpreis (Boden + Dämmung + Sockel) */}
+                {/* Streichpreis: WooCommerce Regulärer Preis */}
                 {hasDiscount && (
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-500">Statt</span>

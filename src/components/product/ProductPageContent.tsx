@@ -90,8 +90,9 @@ export default function ProductPageContent({
     if (!product || !quantities) return null;
 
     // SCHRITT 1: BODEN BERECHNUNG
-    // Set-Preis (für den Warenkorb und Gesamt-Set-Preis)
-    const bodenPricePerM2 = product.setangebot_gesamtpreis || product.price || 0;
+    // Set-Preis = WooCommerce price (Angebotspreis/Verkaufspreis)
+    // NICHT setangebot_gesamtpreis verwenden – das Feld ist inkonsistent im Backend
+    const bodenPricePerM2 = product.price || 0;
     const bodenPriceTotal = quantities.floor.actualM2 * bodenPricePerM2;
 
     // Vergleichspreis (für die durchgestrichene Preisanzeige im SetAngebot)
