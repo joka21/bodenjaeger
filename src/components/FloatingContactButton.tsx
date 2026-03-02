@@ -13,15 +13,12 @@ export default function FloatingContactButton() {
     <>
       {/* Floating Buttons - 10px rechts neben dem Content-Container (max-width: 1400px) */}
       <div
-        className="fixed top-[calc(200px+10vh)] z-[60] flex flex-col gap-3"
-        style={{
-          right: 'max(0.5rem, calc((100vw - 1400px) / 2 - 20px - 3.5rem))',
-        }}
+        className="fixed bottom-6 right-6 z-[60] flex flex-col gap-3"
       >
         {/* Kontakt Button */}
         <button
           onClick={() => setIsContactDrawerOpen(true)}
-          className="w-14 h-14 bg-brand rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
+          className="w-11 h-11 md:w-14 md:h-14 bg-brand rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
           aria-label="Kontakt öffnen"
         >
           <Image
@@ -29,14 +26,14 @@ export default function FloatingContactButton() {
             alt="Kontakt"
             width={28}
             height={28}
-            className="w-7 h-7"
+            className="w-[22px] h-[22px] md:w-7 md:h-7"
           />
         </button>
 
         {/* Warenkorb Button */}
         <button
           onClick={openCartDrawer}
-          className="relative w-14 h-14 bg-white rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
+          className="relative w-11 h-11 md:w-14 md:h-14 bg-white rounded-full hover:scale-110 transition-transform shadow-lg flex items-center justify-center"
           aria-label="Warenkorb öffnen"
         >
           <Image
@@ -44,7 +41,7 @@ export default function FloatingContactButton() {
             alt="Warenkorb"
             width={28}
             height={28}
-            className="w-7 h-7"
+            className="w-[22px] h-[22px] md:w-7 md:h-7"
           />
           {itemCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-brand text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">

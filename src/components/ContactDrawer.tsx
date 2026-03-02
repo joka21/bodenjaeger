@@ -182,7 +182,7 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
               </svg>
               <div>
                 <p className="font-medium text-dark">Fachmarkt Hückelhoven</p>
-                <p className="text-sm text-[#666666]">Parkhofstraße 61</p>
+                <p className="text-sm text-[#666666]">Neckarstraße 9</p>
                 <p className="text-sm text-[#666666]">41836 Hückelhoven</p>
               </div>
             </div>
