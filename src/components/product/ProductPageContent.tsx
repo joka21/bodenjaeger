@@ -90,15 +90,12 @@ export default function ProductPageContent({
     if (!product || !quantities) return null;
 
     // SCHRITT 1: BODEN BERECHNUNG
-    // Set-Preis = setangebot_gesamtpreis aus Jäger-Plugin (konfigurierter Set-Preis)
-    // Fallback auf product.price wenn Feld nicht gesetzt
-    const bodenPricePerM2 = (product.setangebot_gesamtpreis && product.setangebot_gesamtpreis > 0)
-      ? product.setangebot_gesamtpreis
-      : product.price || 0;
+    // Set-Preis = aktueller WooCommerce-Preis (product.price)
+    const bodenPricePerM2 = product.price || 0;
     const bodenPriceTotal = quantities.floor.actualM2 * bodenPricePerM2;
 
-    // Vergleichspreis (für die durchgestrichene Preisanzeige im SetAngebot)
-    const bodenComparisonPricePerM2 = product.setangebot_einzelpreis || product.uvp || product.regular_price || product.price || 0;
+    // Vergleichspreis (nur Boden-Anteil, Streichpreis = bodenRegular + standardDämmung + standardSockelleiste wird in SCHRITT 4 zusammengesetzt)
+    const bodenComparisonPricePerM2 = product.uvp || product.regular_price || product.price || 0;
     const bodenComparisonPriceTotal = quantities.floor.actualM2 * bodenComparisonPricePerM2;
 
     console.log('🔧 BODEN PREIS DEBUG:', {
@@ -145,22 +142,17 @@ export default function ProductPageContent({
       // ✅ VERWENDE MENGEN AUS quantities (mit korrekter Rundung!)
       const istKostenlos = quantities.insulation.isFree;
 
-      // REGULÄRER PREIS: Basis = floor.actualM2 (Excel-Logik), IMMER AUFRUNDEN
+      // REGULÄRER PREIS (Streichpreis): Preis des gewählten Produkts (Einzelkauf)
+      // Standard-Produkt: eigener Preis = standardDaemmungPrice
+      // Options-Produkt: eigener (höherer) Preis = daemmungPricePerM2
       const daemmungPaketeRegular = Math.ceil(quantities.floor.actualM2 / daemmungPaketinhalt);
       const daemmungM2Regular = daemmungPaketeRegular * daemmungPaketinhalt;
       daemmungRegularPrice = daemmungM2Regular * daemmungPricePerM2;
-      daemmungRegularPricePerUnit = daemmungPricePerM2;  // ✅ NEU
+      daemmungRegularPricePerUnit = daemmungPricePerM2;
 
-      // SET-ANGEBOT PREIS
-      if (istKostenlos) {
-        // KOSTENLOS → 0€ (Mengen bereits korrekt abgerundet in quantities)
-        daemmungSetPrice = 0;
-        daemmungSetPricePerUnit = 0;  // ✅ NEU
-      } else {
-        // AUFPREIS → Verrechnung × actualM2 (Mengen bereits korrekt aufgerundet in quantities)
-        daemmungSetPrice = quantities.insulation.actualM2 * daemmungVerrechnung;
-        daemmungSetPricePerUnit = daemmungVerrechnung;  // ✅ NEU
-      }
+      // SET-ANGEBOT PREIS: verrechnung = 0 → kostenlos, verrechnung > 0 → nur Aufpreis
+      daemmungSetPricePerUnit = daemmungVerrechnung;
+      daemmungSetPrice = quantities.insulation.actualM2 * daemmungVerrechnung;
     }
 
     // SCHRITT 3: SOCKELLEISTE BERECHNUNG
@@ -194,27 +186,25 @@ export default function ProductPageContent({
       // ✅ VERWENDE MENGEN AUS quantities (mit korrekter Rundung!)
       const istKostenlos = quantities.baseboard.isFree;
 
-      // REGULÄRER PREIS: Basis = floor.actualM2 (Excel-Logik), IMMER AUFRUNDEN
+      // REGULÄRER PREIS (Streichpreis): Preis des gewählten Produkts (Einzelkauf)
+      // Standard-Produkt: eigener Preis = standardSockelleistePrice
+      // Options-Produkt: eigener (höherer) Preis = sockelleistePricePerLfm
       const sockelleisteStückRegular = Math.ceil(quantities.floor.actualM2 / sockelleistePaketinhalt);
       const sockelleisteLfmRegular = sockelleisteStückRegular * sockelleistePaketinhalt;
       sockelleisteRegularPrice = sockelleisteLfmRegular * sockelleistePricePerLfm;
-      sockelleisteRegularPricePerUnit = sockelleistePricePerLfm;  // ✅ NEU
+      sockelleisteRegularPricePerUnit = sockelleistePricePerLfm;
 
-      // SET-ANGEBOT PREIS
-      if (istKostenlos) {
-        // KOSTENLOS → 0€ (Mengen bereits korrekt abgerundet in quantities)
-        sockelleisteSetPrice = 0;
-        sockelleisteSetPricePerUnit = 0;  // ✅ NEU
-      } else {
-        // AUFPREIS → Verrechnung × actualLfm (Mengen bereits korrekt aufgerundet in quantities)
-        sockelleisteSetPrice = quantities.baseboard.actualLfm * sockelleisteVerrechnung;
-        sockelleisteSetPricePerUnit = sockelleisteVerrechnung;  // ✅ NEU
-      }
+      // SET-ANGEBOT PREIS: verrechnung = 0 → kostenlos, verrechnung > 0 → nur Aufpreis
+      sockelleisteSetPricePerUnit = sockelleisteVerrechnung;
+      sockelleisteSetPrice = quantities.baseboard.actualLfm * sockelleisteVerrechnung;
     }
 
     // SCHRITT 4: GESAMTPREISE
-    // comparisonPriceTotal = Vergleichspreis (was der Kunde OHNE Set bezahlen würde)
-    const comparisonPriceTotal = bodenComparisonPriceTotal + daemmungRegularPrice + sockelleisteRegularPrice;
+    // Streichpreis pro m²: immer dynamisch berechnet aus den gewählten Produkten
+    // (setangebot_einzelpreis ist statisch und kennt keine Premium-Optionen)
+    const gesamtStreichpreisProM2 = bodenComparisonPricePerM2 + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
+    // comparisonPriceTotal = Streichpreis × m² (konsistent mit per-m²-Anzeige in SetAngebot)
+    const comparisonPriceTotal = quantities.floor.actualM2 * gesamtStreichpreisProM2;
     // totalDisplayPrice = Set-Preis (was der Kunde MIT Set bezahlt)
     const totalDisplayPrice = bodenPriceTotal + daemmungSetPrice + sockelleisteSetPrice;
     const savings = comparisonPriceTotal - totalDisplayPrice;

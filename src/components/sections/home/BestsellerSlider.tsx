@@ -231,17 +231,21 @@ export default function BestsellerSlider({
                       {(() => {
                         const unit = product.einheit_short || 'm²';
                         const price = product.price;
-                        const regularPrice = product.regular_price;
-                        const hasDiscount = product.on_sale && regularPrice > price;
+                        // Streichpreis: Bei Set-Produkten = setangebot_einzelpreis (inkl. Zusatzprodukte)
+                        const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
+                        const stattPrice = isSetProduct
+                          ? (product.setangebot_einzelpreis || 0)
+                          : (product.regular_price || 0);
+                        const hasDiscount = stattPrice > price;
 
                         return (
                           <div className="space-y-1">
                             <div className="flex justify-between items-center">
-                              <span className="text-gray-900 font-medium">Preis</span>
+                              <span className="text-gray-900 font-medium">{isSetProduct ? 'Set-Preis' : 'Preis'}</span>
                               <div className="flex flex-col items-end">
                                 {hasDiscount && (
                                   <span className="text-gray-500 text-sm line-through">
-                                    {regularPrice.toFixed(2).replace('.', ',')} €/{unit}
+                                    {stattPrice.toFixed(2).replace('.', ',')} €/{unit}
                                   </span>
                                 )}
                                 <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>

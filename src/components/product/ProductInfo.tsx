@@ -69,17 +69,18 @@ export default function ProductInfo({
     }
   }
 
-  // Set-Preis (Boden im Set) = setangebot_gesamtpreis aus Jäger-Plugin
-  // Fallback auf product.price wenn Feld nicht gesetzt
-  const basePrice = (product.setangebot_gesamtpreis && product.setangebot_gesamtpreis > 0)
-    ? product.setangebot_gesamtpreis
-    : product.price || 0;
+  // Set-Preis (Boden im Set) = aktueller WooCommerce-Preis (product.price)
+  const basePrice = product.price || 0;
 
   // Durchstrichener Preis (Boden-Karte) = WooCommerce Regulärer Preis
   const regularPrice = product.uvp || product.regular_price || product.price || 0;
 
-  // Gesamt-Vergleichspreis = Backend-Gesamtvergleich (Boden + Zubehör kombiniert)
-  const gesamtVergleichspreisProM2 = product.setangebot_einzelpreis || product.uvp || product.regular_price || product.price || 0;
+  // Gesamt-Vergleichspreis = regulärer Boden-Preis + Standard-Dämmung + Standard-Sockelleiste
+  const bodenRegular = product.uvp || product.regular_price || product.price || 0;
+  const standardDaemmungPrice = daemmungProduct?.price || 0;
+  const standardSockelleistePrice = sockelleisteProduct?.price || 0;
+  const gesamtVergleichspreisProM2 = product.setangebot_einzelpreis ||
+    (bodenRegular + standardDaemmungPrice + standardSockelleistePrice);
   const einheit = product.einheit_short || 'm²';
   const productImage = product.images && product.images.length > 0
     ? product.images[0].src

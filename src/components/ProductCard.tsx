@@ -44,9 +44,15 @@ export default function ProductCard({ product, showDescription = false }: Produc
   };
 
   // Get strike price if there's a discount
+  // Bei Set-Produkten: setangebot_einzelpreis (Vergleichspreis inkl. Zusatzprodukte)
+  // Sonst: WooCommerce regular_price
   const getStrikePrice = () => {
-    if (!product.on_sale || regularPrice <= price) return null;
-    return `${regularPrice.toFixed(2).replace('.', ',')} ${showUnit ? `€/${einheitShort}` : '€'}`;
+    const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
+    const stattPrice = isSetProduct
+      ? (product.setangebot_einzelpreis || 0)
+      : regularPrice;
+    if (stattPrice <= price) return null;
+    return `${stattPrice.toFixed(2).replace('.', ',')} ${showUnit ? `€/${einheitShort}` : '€'}`;
   };
 
   // Get package price if paketinhalt > 1 and unit is shown

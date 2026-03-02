@@ -430,7 +430,13 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
 
             // Preise direkt aus WooCommerce-Feldern (identisch mit Produktseite)
             const displayPrice = product.price || 0;
-            const stattPrice = product.regular_price || product.price || 0;
+
+            // Streichpreis: Bei Set-Produkten = setangebot_einzelpreis (Vergleichspreis inkl. Zusatzprodukte),
+            // sonst = WooCommerce regular_price
+            const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
+            const stattPrice = isSetProduct
+              ? (product.setangebot_einzelpreis || 0)
+              : (product.regular_price || product.price || 0);
             const hasDiscount = stattPrice > displayPrice;
 
             const showPackagePrice = showUnit && paketinhalt > 1;
@@ -438,7 +444,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
 
             return (
               <div className="space-y-1">
-                {/* Streichpreis: WooCommerce Regulärer Preis */}
+                {/* Streichpreis: Vergleichspreis inkl. Zusatzprodukte (Set) oder WooCommerce Regulärpreis */}
                 {hasDiscount && (
                   <div className="flex justify-between items-center text-sm">
                     <span className="text-gray-500">Statt</span>
@@ -450,7 +456,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
 
                 {/* Hauptpreis */}
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-900 font-medium">Preis</span>
+                  <span className="text-gray-900 font-medium">{isSetProduct ? 'Set-Preis' : 'Preis'}</span>
                   <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
                     {displayPrice.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
                   </span>

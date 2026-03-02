@@ -99,12 +99,12 @@ export default function SetAngebot({
     return null;
   }
 
-  // ✅ STATISCHER M²-PREIS für Set-Angebot (ändert sich NUR bei Produktwechsel)
+  // ✅ DYNAMISCHER M²-PREIS für Set-Angebot (ändert sich bei Produktwechsel)
   // Zeigt: "Boden €/m² + Dämmung Aufpreis + Sockelleiste Aufpreis = Gesamt €/m²"
   const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
-  // gesamtVergleichspreisProM2 = setangebot_einzelpreis vom Backend (enthält Boden + Zubehör bereits)
-  // Fallback: regularPrice + Zubehör (falls nicht vorhanden)
-  const vergleichspreisProM2 = gesamtVergleichspreisProM2 ?? (regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit);
+  // Streichpreis immer dynamisch berechnen: Boden-UVP + voller Preis des gewählten Zubehörs
+  // (gesamtVergleichspreisProM2 ist statisch und kennt keine Premium-Optionen)
+  const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
   const ersparnisProzent = vergleichspreisProM2 > 0
     ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
     : 0;
@@ -150,9 +150,11 @@ export default function SetAngebot({
               <h3 className="text-xs font-semibold text-gray-900 line-clamp-1">{productName}</h3>
             </div>
             <div className="flex flex-col items-end flex-shrink-0">
-              <span className="text-[10px] text-gray-400 line-through whitespace-nowrap">
-                statt {regularPrice.toFixed(2).replace('.', ',')} €
-              </span>
+              {vergleichspreisProM2 > basePrice && (
+                <span className="text-[10px] text-gray-400 line-through whitespace-nowrap">
+                  statt {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
+                </span>
+              )}
               <span className="text-sm font-bold text-red-600 whitespace-nowrap">
                 {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
@@ -251,9 +253,11 @@ export default function SetAngebot({
                 {productName}
               </h3>
               <div className="mt-auto flex items-center justify-end gap-2 w-full text-[10px]">
-                <span className="text-gray-400 line-through">
-                  {regularPrice.toFixed(2).replace('.', ',')} €
-                </span>
+                {vergleichspreisProM2 > basePrice && (
+                  <span className="text-gray-400 line-through">
+                    {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
+                  </span>
+                )}
                 <span className="font-bold text-red-600 whitespace-nowrap">
                   {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
                 </span>
