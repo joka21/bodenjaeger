@@ -27,6 +27,9 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
           const image = item.product.images?.[0]?.src || '/images/placeholder.jpg';
           const name = item.product.name;
           const einheit = item.product.einheit_short || 'm²';
+          const isAreaUnitDisplay = ['m²', 'lfm', 'm'].includes(einheit);
+          // Bei Boden: €/m², bei Zubehör: €/Stk.
+          const priceUnit = isAreaUnitDisplay ? einheit : (item.product.verpackungsart_short || 'Stk.');
 
           // Preise berechnen - KORREKT für Set-Angebote
           let pricePerUnit: number;
@@ -39,12 +42,21 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
             displayAmount = Number(item.actualM2);
             totalItemPrice = pricePerUnit * displayAmount;
           } else {
-            // Regular Item: Paketpreis = Einheitspreis × Paketinhalt × Anzahl Pakete
+            // Regular Item
             const rawPrice = item.product.price || 0;
             pricePerUnit = Number(rawPrice);
             const paketinhalt = item.product.paketinhalt || 1;
-            displayAmount = item.quantity * paketinhalt;
-            totalItemPrice = pricePerUnit * paketinhalt * item.quantity;
+            const einheitVal = item.product.einheit_short || 'm²';
+            const isAreaUnit = ['m²', 'lfm', 'm'].includes(einheitVal);
+            if (isAreaUnit) {
+              // Boden: price = €/m², displayAmount = Pakete × paketinhalt
+              displayAmount = item.quantity * paketinhalt;
+              totalItemPrice = pricePerUnit * paketinhalt * item.quantity;
+            } else {
+              // Zubehör: price = €/Stk., paketinhalt ist nur Inhaltsangabe
+              displayAmount = item.quantity;
+              totalItemPrice = pricePerUnit * item.quantity;
+            }
           }
 
           const isFree = pricePerUnit === 0 && item.isSetItem;
@@ -70,7 +82,7 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
                 <p className="text-sm font-medium text-dark line-clamp-2">{name}</p>
                 {!isFree && (
                   <p className="text-xs text-mid">
-                    {pricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                    {pricePerUnit.toFixed(2).replace('.', ',')} €/{priceUnit}
                   </p>
                 )}
                 {item.isSetItem && (

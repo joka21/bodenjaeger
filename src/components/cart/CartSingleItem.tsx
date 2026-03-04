@@ -46,8 +46,8 @@ export default function CartSingleItem({
           </div>
         </div>
 
-        {/* Zeile 2: X Pak./Stk. = Y m²/lfm */}
-        {!product.isSample && product.unitValue > 1 && (
+        {/* Zeile 2: X Pak./Stk. = Y m²/kg/lfm — anzeigen wenn zwei verschiedene Einheiten vorhanden */}
+        {!product.isSample && product.contentUnit && product.unit !== product.contentUnit && (
           <div className="ml-14 text-xs text-gray-500">
             {product.quantity} {product.unit} = {formatUnitValue(product.quantity * product.unitValue)} {product.contentUnit}
           </div>

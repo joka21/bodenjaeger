@@ -189,13 +189,17 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
         total += item.setPricePerUnit * item.actualM2;
       }
-      // Regular item: use product price × paketinhalt × quantity
+      // Regular item
       else {
         const price = item.product.prices?.price
           ? parseFloat(item.product.prices.price) / 100
           : (item.product.price || 0);
         const paketinhalt = item.product.paketinhalt || 1;
-        total += price * paketinhalt * item.quantity;
+        const einheit = item.product.einheit_short || 'm²';
+        // Boden: price = €/m², Paketpreis = price × paketinhalt
+        // Zubehör: price = €/Stk., paketinhalt ist nur Inhaltsangabe (kg, Liter)
+        const isAreaUnit = ['m²', 'lfm', 'm'].includes(einheit);
+        total += isAreaUnit ? price * paketinhalt * item.quantity : price * item.quantity;
       }
     });
 

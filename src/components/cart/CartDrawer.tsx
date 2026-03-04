@@ -164,10 +164,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         } else {
           // Regular product - use standard pricing
           const singlePaketinhalt = item.product.paketinhalt || 1;
-          // ✅ Backend liefert Preise pro Einheit (€/m², €/kg, etc.)
           const unitPrice = item.product.price || 0;
           const regularUnitPrice = item.product.regular_price || undefined;
-          const paketpreis = unitPrice * singlePaketinhalt;
+          const einheit = item.product.einheit_short || 'm²';
+          const verpackungsart = toProductUnit(item.product.verpackungsart_short, 'Stk.');
+
+          // Boden: price = €/m², Paketpreis = price × paketinhalt
+          // Zubehör: price = €/Stk., paketinhalt ist nur Inhaltsangabe (kg, Liter)
+          const isAreaUnit = ['m²', 'lfm', 'm'].includes(einheit);
+          const paketpreis = isAreaUnit ? unitPrice * singlePaketinhalt : unitPrice;
 
           const product: CartItemBase = {
             id: `single-${item.id}`,
@@ -175,10 +180,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             name: item.product.name,
             image: item.product.images?.[0]?.src || '',
             quantity: item.quantity,
-            unit: toProductUnit(item.product.verpackungsart_short, 'Stk.'),
-            contentUnit: item.product.einheit_short || 'm²',
+            unit: verpackungsart,
+            contentUnit: einheit,
             unitValue: singlePaketinhalt,
-            pricePerUnit: unitPrice,
+            pricePerUnit: isAreaUnit ? unitPrice : unitPrice,
             originalPricePerUnit: regularUnitPrice,
             total: paketpreis * item.quantity,
           };
