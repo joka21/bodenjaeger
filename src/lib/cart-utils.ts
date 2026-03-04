@@ -1,12 +1,14 @@
 // Cart Utility Functions for Bodenjäger E-Commerce
 
 import { CartDrawerData, CartDrawerItem } from '@/types/cart-drawer';
+import type { CartItem } from '@/contexts/CartContext';
+import { calculateShippingCost } from '@/lib/shippingConfig';
 
 /**
- * Calculate shipping costs - IMMER 0
+ * Calculate shipping costs based on subtotal and cart items
  */
-export function calculateShipping(): number {
-  return 0;
+export function calculateShipping(subtotal: number = 0, cartItems?: CartItem[]): number {
+  return calculateShippingCost(subtotal, cartItems);
 }
 
 /**
@@ -90,9 +92,9 @@ export function getUnitDisplayText(unit: string, unitValue: number): string {
 /**
  * Calculate total cart data
  */
-export function calculateCartData(items: CartDrawerItem[]): CartDrawerData {
+export function calculateCartData(items: CartDrawerItem[], cartItems?: CartItem[]): CartDrawerData {
   const subtotal = calculateSubtotal(items);
-  const shipping = calculateShipping();
+  const shipping = calculateShipping(subtotal, cartItems);
   const savings = calculateSavings();
   const total = subtotal + shipping;
 

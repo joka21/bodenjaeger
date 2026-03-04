@@ -63,6 +63,11 @@ export interface CartContextType {
   getItemQuantity: (productId: number) => number;
   getSampleCount: () => number;
   getFreeSamplesRemaining: () => number;
+  // Customer notes
+  customerNote: string;
+  setCustomerNote: (note: string) => void;
+  deliveryNote: string;
+  setDeliveryNote: (note: string) => void;
   // Cart Drawer state
   isCartDrawerOpen: boolean;
   openCartDrawer: () => void;
@@ -86,8 +91,10 @@ interface CartProviderProps {
   children: ReactNode;
 }
 
-// LocalStorage key for persisting cart data
+// LocalStorage keys for persisting data
 const CART_STORAGE_KEY = 'woocommerce-cart';
+const NOTE_STORAGE_KEY = 'bodenjager-customer-note';
+const DELIVERY_NOTE_STORAGE_KEY = 'bodenjager-delivery-note';
 
 // CartProvider component
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
@@ -102,6 +109,22 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Error loading cart from localStorage:', error);
     }
     return [];
+  });
+  const [customerNote, setCustomerNote] = useState<string>(() => {
+    if (typeof window === 'undefined') return '';
+    try {
+      return localStorage.getItem(NOTE_STORAGE_KEY) || '';
+    } catch {
+      return '';
+    }
+  });
+  const [deliveryNote, setDeliveryNote] = useState<string>(() => {
+    if (typeof window === 'undefined') return '';
+    try {
+      return localStorage.getItem(DELIVERY_NOTE_STORAGE_KEY) || '';
+    } catch {
+      return '';
+    }
   });
   const [isCartLoaded, setIsCartLoaded] = useState(false);
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
@@ -120,6 +143,26 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       console.error('Error saving cart to localStorage:', error);
     }
   }, [cartItems, isCartLoaded]);
+
+  // Save customer note to localStorage
+  useEffect(() => {
+    if (!isCartLoaded) return;
+    try {
+      localStorage.setItem(NOTE_STORAGE_KEY, customerNote);
+    } catch (error) {
+      console.error('Error saving customer note to localStorage:', error);
+    }
+  }, [customerNote, isCartLoaded]);
+
+  // Save delivery note to localStorage
+  useEffect(() => {
+    if (!isCartLoaded) return;
+    try {
+      localStorage.setItem(DELIVERY_NOTE_STORAGE_KEY, deliveryNote);
+    } catch (error) {
+      console.error('Error saving delivery note to localStorage:', error);
+    }
+  }, [deliveryNote, isCartLoaded]);
 
   // Calculate total item count
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -366,6 +409,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     getItemQuantity,
     getSampleCount,
     getFreeSamplesRemaining,
+    customerNote,
+    setCustomerNote,
+    deliveryNote,
+    setDeliveryNote,
     isCartDrawerOpen,
     openCartDrawer,
     closeCartDrawer

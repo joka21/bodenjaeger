@@ -20,7 +20,7 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { cartItems, updateQuantity, removeFromCart, removeSet } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, removeSet, customerNote, setCustomerNote, deliveryNote, setDeliveryNote } = useCart();
   const [drawerItems, setDrawerItems] = useState<CartDrawerItem[]>([]);
 
   // Helper function: Calculate dynamic sample price based on position
@@ -68,11 +68,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           name: mainItem.product.name,
           image: mainItem.product.images?.[0]?.src || '',
           quantity: mainItem.quantity,
-          unit: toProductUnit(mainItem.product.einheit_short, 'm²'),
-          unitValue: mainActualM2 / mainItem.quantity, // m² per package
-          pricePerUnit: mainSetPricePerUnit, // Preis pro m² (SET PRICE!)
+          unit: toProductUnit(mainItem.product.verpackungsart_short, 'Pak.'),
+          contentUnit: mainItem.product.einheit_short || 'm²',
+          unitValue: mainActualM2 / mainItem.quantity, // content per package
+          pricePerUnit: mainSetPricePerUnit,
           originalPricePerUnit: mainRegularPricePerUnit !== mainSetPricePerUnit ? mainRegularPricePerUnit : undefined,
-          total: mainSetPricePerUnit * mainActualM2, // Total = Preis/m² × tatsächliche m²
+          total: mainSetPricePerUnit * mainActualM2,
         };
 
         // Convert bundle products
@@ -107,16 +108,14 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               name: bundleItem.product.name,
               image: bundleItem.product.images?.[0]?.src || '',
               quantity: bundleItem.quantity,
-              unit: toProductUnit(
-                bundleItem.product.einheit_short,
-                bundleItem.setItemType === 'insulation' ? 'm²' : 'lfm'
-              ),
-              unitValue, // ✅ Safe calculation
-              pricePerUnit: bundleSetPricePerUnit, // Preis pro m²/lfm (SET PRICE!)
+              unit: toProductUnit(bundleItem.product.verpackungsart_short, bundleItem.setItemType === 'baseboard' ? 'Stk.' : 'Pak.'),
+              contentUnit: bundleItem.product.einheit_short || (bundleItem.setItemType === 'baseboard' ? 'lfm' : 'm²'),
+              unitValue,
+              pricePerUnit: bundleSetPricePerUnit,
               originalPricePerUnit: bundleRegularPricePerUnit !== bundleSetPricePerUnit ? bundleRegularPricePerUnit : undefined,
-              total: bundleSetPricePerUnit * bundleActualM2, // Total = Preis/m² × tatsächliche m²/lfm
+              total: bundleSetPricePerUnit * bundleActualM2,
               isFree,
-              itemType: bundleItem.setItemType, // ✅ Pass through itemType for label detection
+              itemType: bundleItem.setItemType,
             };
           });
 
@@ -176,11 +175,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             name: item.product.name,
             image: item.product.images?.[0]?.src || '',
             quantity: item.quantity,
-            unit: toProductUnit(item.product.einheit_short, 'm²'),
+            unit: toProductUnit(item.product.verpackungsart_short, 'Stk.'),
+            contentUnit: item.product.einheit_short || 'm²',
             unitValue: singlePaketinhalt,
-            pricePerUnit: unitPrice, // Preis pro Einheit (€/m², €/kg)
-            originalPricePerUnit: regularUnitPrice, // Regulärer Preis pro Einheit
-            total: paketpreis * item.quantity, // Total = Paketpreis × Anzahl Pakete
+            pricePerUnit: unitPrice,
+            originalPricePerUnit: regularUnitPrice,
+            total: paketpreis * item.quantity,
           };
 
           const singleItem: CartSingleItemType = {
@@ -196,35 +196,33 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     setDrawerItems(convertedItems);
   }, [cartItems]);
 
-  // Calculate cart data
-  const cartData = calculateCartData(drawerItems);
+  // Calculate cart data (pass cartItems for shipping rules)
+  const cartData = calculateCartData(drawerItems, cartItems);
 
   // Handle quantity change for single items
   const handleSingleQuantityChange = (productId: number, newQuantity: number) => {
     updateQuantity(productId, newQuantity);
   };
 
-  // Handle quantity change for set items (updates all items in set proportionally)
+  // Handle quantity change for set items
+  // Uses same logic as setCalculations.ts: ceil/floor(newFloorM2 / bundlePaketinhalt)
   const handleSetQuantityChange = (setId: string, newQuantity: number) => {
     const setItem = drawerItems.find(
       (item): item is CartSetItemType => item.type === 'set' && item.setId === setId
     );
     if (!setItem) return;
 
-    const ratio = newQuantity / setItem.mainProduct.quantity;
-
-    // Update main product with new actualM2
+    // New floor actualM2 = floor package size × new package count
     const newMainActualM2 = setItem.mainProduct.unitValue * newQuantity;
     updateQuantity(setItem.mainProduct.productId, newQuantity, newMainActualM2);
 
-    // Update bundle products proportionally
-    // IMPORTANT: Bundle actualM2 should match floor actualM2, not be based on bundle quantity!
+    // Recalculate each bundle from scratch (identical to setCalculations.ts logic)
+    // isFree → Math.floor (kostenlos: abrunden), premium → Math.ceil (aufpreis: aufrunden)
     setItem.bundleProducts.forEach((bundleProduct) => {
-      const newBundleQuantity = Math.max(0, Math.ceil(bundleProduct.quantity * ratio));
-
-      // Dämmung/Insulation: Same m² as floor
-      // Sockelleiste/Baseboard: Same value in lfm (perimeter ≈ floor area)
-      const newBundleActualM2 = newMainActualM2;
+      const newBundleQuantity = bundleProduct.isFree
+        ? Math.floor(newMainActualM2 / bundleProduct.unitValue)
+        : Math.ceil(newMainActualM2 / bundleProduct.unitValue);
+      const newBundleActualM2 = bundleProduct.unitValue * newBundleQuantity;
 
       updateQuantity(bundleProduct.productId, newBundleQuantity, newBundleActualM2);
     });
@@ -351,6 +349,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             savings={cartData.savings}
             total={cartData.total}
             onCheckout={handleCheckout}
+            customerNote={customerNote}
+            onCustomerNoteChange={setCustomerNote}
+            deliveryNote={deliveryNote}
+            onDeliveryNoteChange={setDeliveryNote}
           />
         )}
       </div>

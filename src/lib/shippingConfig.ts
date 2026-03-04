@@ -1,9 +1,10 @@
 /**
  * Versandkosten-Konfiguration
  *
- * Hier kannst du die Versandkosten einfach anpassen.
- * Die Stufen werden von oben nach unten geprüft.
+ * Staffelung nach Warenwert + Sonderregeln für Muster und Zubehör.
  */
+
+import type { CartItem } from '@/contexts/CartContext';
 
 export interface ShippingTier {
   minAmount: number;  // Mindestbestellwert in €
@@ -12,51 +13,82 @@ export interface ShippingTier {
 }
 
 /**
- * VERSANDKOSTEN-STUFEN
- * ==================
- * Passe diese Werte an, um die Versandkosten zu ändern.
+ * VERSANDKOSTEN-STUFEN (Standard-Versand)
  */
 export const SHIPPING_TIERS: ShippingTier[] = [
   {
-    minAmount: 200,   // Ab 200€
-    cost: 0,          // Kostenlos
-    label: 'Kostenloser Versand ab 200€'
+    minAmount: 999,
+    cost: 0,
+    label: 'Kostenloser Versand ab 999€'
   },
   {
-    minAmount: 49,    // Ab 49€
-    cost: 6,          // 6€ Versand
-    label: 'Versand 6€'
+    minAmount: 500,
+    cost: 29.99,
+    label: 'Versand 29,99€'
   },
   {
-    minAmount: 0,     // Bis 49€
-    cost: 50,         // 50€ Versand
-    label: 'Versand 50€'
+    minAmount: 0,
+    cost: 59.99,
+    label: 'Versand 59,99€'
   }
 ];
 
+/** Versandkosten für reine Zubehör-/Kleinteile-Bestellungen */
+export const ACCESSORIES_SHIPPING = 4.99;
+
 /**
- * Berechnet die Versandkosten basierend auf dem Warenwert
+ * Prüft ob ein CartItem ein Zubehör-Produkt ist
+ */
+function isAccessory(item: CartItem): boolean {
+  return item.product.categories?.some(c => c.slug === 'zubehoer') ?? false;
+}
+
+/**
+ * Berechnet die Versandkosten basierend auf Warenwert UND Warenkorb-Inhalt.
+ *
+ * Regeln:
+ * 1. Nur Muster → kostenlos
+ * 2. Nur Zubehör/Kleinteile (kein Boden) → 4,99€
+ * 3. Enthält Boden/Set → Staffelung nach Warenwert
  *
  * @param subtotal - Zwischensumme (Warenwert ohne Versand)
- * @returns Versandkosten in €
+ * @param cartItems - Optional: Cart-Items für Sonderregeln (Muster, Zubehör)
  */
-export function calculateShippingCost(subtotal: number): number {
-  // Finde die passende Versandkosten-Stufe
+export function calculateShippingCost(subtotal: number, cartItems?: CartItem[]): number {
+  if (!cartItems || cartItems.length === 0) {
+    // Fallback ohne Cart-Items: nur Staffelung nach Warenwert
+    return getShippingBySubtotal(subtotal);
+  }
+
+  // Nur Muster → kostenlos
+  const onlySamples = cartItems.every(item => item.isSample);
+  if (onlySamples) return 0;
+
+  // Nicht-Muster Items filtern
+  const nonSampleItems = cartItems.filter(item => !item.isSample);
+
+  // Nur Zubehör (ohne Muster) → 4,99€
+  const onlyAccessories = nonSampleItems.every(item => isAccessory(item));
+  if (onlyAccessories) return ACCESSORIES_SHIPPING;
+
+  // Standard-Staffelung nach Warenwert
+  return getShippingBySubtotal(subtotal);
+}
+
+/**
+ * Reine Staffelung nach Warenwert
+ */
+function getShippingBySubtotal(subtotal: number): number {
   for (const tier of SHIPPING_TIERS) {
     if (subtotal >= tier.minAmount) {
       return tier.cost;
     }
   }
-
-  // Fallback: Höchste Versandkosten (sollte nie passieren)
   return SHIPPING_TIERS[SHIPPING_TIERS.length - 1].cost;
 }
 
 /**
  * Gibt die passende Versandkosten-Stufe für einen Warenwert zurück
- *
- * @param subtotal - Zwischensumme (Warenwert ohne Versand)
- * @returns Die passende Versandkosten-Stufe
  */
 export function getShippingTier(subtotal: number): ShippingTier {
   for (const tier of SHIPPING_TIERS) {
@@ -64,25 +96,15 @@ export function getShippingTier(subtotal: number): ShippingTier {
       return tier;
     }
   }
-
-  // Fallback
   return SHIPPING_TIERS[SHIPPING_TIERS.length - 1];
 }
 
 /**
- * Gibt den nächsten kostenlosen Versand-Schwellenwert zurück
- *
- * @param subtotal - Aktuelle Zwischensumme
- * @returns Betrag bis zum kostenlosen Versand, oder null wenn bereits erreicht
+ * Gibt den Betrag bis zum kostenlosen Versand zurück
  */
 export function getAmountUntilFreeShipping(subtotal: number): number | null {
   const freeShippingTier = SHIPPING_TIERS.find(tier => tier.cost === 0);
-
   if (!freeShippingTier) return null;
-
-  if (subtotal >= freeShippingTier.minAmount) {
-    return null; // Bereits kostenloser Versand
-  }
-
+  if (subtotal >= freeShippingTier.minAmount) return null;
   return freeShippingTier.minAmount - subtotal;
 }

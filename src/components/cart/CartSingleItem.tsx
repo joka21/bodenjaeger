@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { CartItemBase } from '@/types/cart-drawer';
-import { formatPrice } from '@/lib/cart-utils';
+import { formatPrice, formatUnitValue } from '@/lib/cart-utils';
 
 interface CartSingleItemProps {
   product: CartItemBase;
@@ -46,7 +46,14 @@ export default function CartSingleItem({
           </div>
         </div>
 
-        {/* Zeile 2: [- Menge +] Stk. + [X] rechtsbündig */}
+        {/* Zeile 2: X Pak./Stk. = Y m²/lfm */}
+        {!product.isSample && product.unitValue > 1 && (
+          <div className="ml-14 text-xs text-gray-500">
+            {product.quantity} {product.unit} = {formatUnitValue(product.quantity * product.unitValue)} {product.contentUnit}
+          </div>
+        )}
+
+        {/* Zeile 3: [- Menge +] Pak./Stk. + [X] rechtsbündig */}
         <div className="ml-14 flex items-center justify-between mt-1">
           <div className="flex items-center gap-2">
             {product.isSample ? (
@@ -73,7 +80,7 @@ export default function CartSingleItem({
                     +
                   </button>
                 </div>
-                <span className="text-xs text-mid">Stk.</span>
+                <span className="text-xs text-mid">{product.unit}</span>
               </>
             )}
           </div>

@@ -8,6 +8,7 @@ import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
 type PaymentMethod = 'stripe' | 'paypal' | 'sofort' | 'bacs';
+type ShippingMethod = 'delivery' | 'pickup';
 
 interface FormData {
   // Contact
@@ -39,7 +40,7 @@ interface FormData {
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cartItems, totalPrice } = useCart();
+  const { cartItems, totalPrice, customerNote, deliveryNote } = useCart();
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -65,6 +66,7 @@ export default function CheckoutPage() {
     acceptTerms: false,
   });
 
+  const [shippingMethod, setShippingMethod] = useState<ShippingMethod>('delivery');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -92,9 +94,20 @@ export default function CheckoutPage() {
 
     try {
       // Validierung
-      if (!formData.email || !formData.phone || !formData.firstName || !formData.lastName ||
-          !formData.address1 || !formData.city || !formData.postcode) {
+      if (!formData.email || !formData.phone || !formData.firstName || !formData.lastName) {
         setError('Bitte füllen Sie alle Pflichtfelder aus');
+        setLoading(false);
+        return;
+      }
+
+      if (shippingMethod === 'delivery' && (!formData.address1 || !formData.city || !formData.postcode)) {
+        setError('Bitte füllen Sie alle Pflichtfelder der Lieferadresse aus');
+        setLoading(false);
+        return;
+      }
+
+      if (shippingMethod === 'pickup' && (!formData.billingAddress1 || !formData.billingCity || !formData.billingPostcode)) {
+        setError('Bitte füllen Sie alle Pflichtfelder der Rechnungsadresse aus');
         setLoading(false);
         return;
       }
@@ -153,9 +166,63 @@ export default function CheckoutPage() {
         };
       });
 
-      // Billing Address (gleich wie Shipping falls sameAsBilling)
-      const billing = formData.sameAsBilling
+      // Billing Address
+      let billing;
+      if (shippingMethod === 'pickup') {
+        // Bei Abholung: Rechnungsadresse aus den Billing-Feldern
+        billing = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          company: formData.company,
+          address_1: formData.billingAddress1,
+          address_2: formData.billingAddress2,
+          city: formData.billingCity,
+          postcode: formData.billingPostcode,
+          country: formData.billingCountry || 'DE',
+          email: formData.email,
+          phone: formData.phone,
+        };
+      } else if (formData.sameAsBilling) {
+        billing = {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          company: formData.company,
+          address_1: formData.address1,
+          address_2: formData.address2,
+          city: formData.city,
+          postcode: formData.postcode,
+          country: formData.country,
+          email: formData.email,
+          phone: formData.phone,
+        };
+      } else {
+        billing = {
+          first_name: formData.billingFirstName,
+          last_name: formData.billingLastName,
+          company: formData.billingCompany,
+          address_1: formData.billingAddress1,
+          address_2: formData.billingAddress2,
+          city: formData.billingCity,
+          postcode: formData.billingPostcode,
+          country: formData.billingCountry,
+          email: formData.email,
+          phone: formData.phone,
+        };
+      }
+
+      // Shipping Address
+      const shipping = shippingMethod === 'pickup'
         ? {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            company: 'Abholung im Fachmarkt',
+            address_1: 'Neckarstraße 9',
+            address_2: '',
+            city: 'Hückelhoven',
+            postcode: '41836',
+            country: 'DE',
+          }
+        : {
             first_name: formData.firstName,
             last_name: formData.lastName,
             company: formData.company,
@@ -164,36 +231,10 @@ export default function CheckoutPage() {
             city: formData.city,
             postcode: formData.postcode,
             country: formData.country,
-            email: formData.email,
-            phone: formData.phone,
-          }
-        : {
-            first_name: formData.billingFirstName,
-            last_name: formData.billingLastName,
-            company: formData.billingCompany,
-            address_1: formData.billingAddress1,
-            address_2: formData.billingAddress2,
-            city: formData.billingCity,
-            postcode: formData.billingPostcode,
-            country: formData.billingCountry,
-            email: formData.email,
-            phone: formData.phone,
           };
 
-      // Shipping Address
-      const shipping = {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        company: formData.company,
-        address_1: formData.address1,
-        address_2: formData.address2,
-        city: formData.city,
-        postcode: formData.postcode,
-        country: formData.country,
-      };
-
       // Versandkosten berechnen
-      const shippingCost = calculateShippingCost(totalPrice);
+      const shippingCost = shippingMethod === 'pickup' ? 0 : calculateShippingCost(totalPrice, cartItems);
 
       // API Call
       const response = await fetch('/api/checkout/create-order', {
@@ -204,7 +245,11 @@ export default function CheckoutPage() {
           shipping,
           line_items,
           payment_method: formData.paymentMethod,
-          customer_note: '',
+          shipping_method: shippingMethod,
+          customer_note: [
+            deliveryNote.trim() && `Lieferwunsch: ${deliveryNote.trim()}`,
+            customerNote.trim() && `Anmerkung: ${customerNote.trim()}`,
+          ].filter(Boolean).join('\n\n'),
           shipping_cost: shippingCost,
         }),
       });
@@ -272,76 +317,137 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Lieferadresse */}
+              {/* Versandart */}
               <div className="mb-8">
-                <h2 className="text-lg font-semibold text-dark mb-4">Lieferadresse</h2>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                <h2 className="text-lg font-semibold text-dark mb-4">Versandart</h2>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
-                      type="text"
-                      name="firstName"
-                      placeholder="Vorname *"
-                      required
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      type="radio"
+                      name="shippingMethod"
+                      checked={shippingMethod === 'delivery'}
+                      onChange={() => setShippingMethod('delivery')}
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
+                    <span className="text-sm text-dark">Versand</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
-                      type="text"
-                      name="lastName"
-                      placeholder="Nachname *"
-                      required
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      type="radio"
+                      name="shippingMethod"
+                      checked={shippingMethod === 'pickup'}
+                      onChange={() => setShippingMethod('pickup')}
+                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
-                  </div>
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="Firma (optional)"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
-                  />
-                  <input
-                    type="text"
-                    name="address1"
-                    placeholder="Straße und Hausnummer *"
-                    required
-                    value={formData.address1}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
-                  />
-                  <input
-                    type="text"
-                    name="address2"
-                    placeholder="Adresszusatz (optional)"
-                    value={formData.address2}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
-                  />
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      name="postcode"
-                      placeholder="PLZ *"
-                      required
-                      value={formData.postcode}
-                      onChange={handleInputChange}
-                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
-                    />
-                    <input
-                      type="text"
-                      name="city"
-                      placeholder="Stadt *"
-                      required
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
-                    />
-                  </div>
+                    <span className="text-sm text-dark">Abholung im Fachmarkt Hückelhoven</span>
+                  </label>
                 </div>
+              </div>
+
+              {/* Lieferadresse / Abholung Info */}
+              <div className="mb-8">
+                {shippingMethod === 'pickup' ? (
+                  <>
+                    <h2 className="text-lg font-semibold text-dark mb-4">Abholadresse</h2>
+                    <div className="p-4 bg-gray-50 border border-ash rounded-lg">
+                      <p className="text-sm font-semibold text-dark">Fachmarkt Hückelhoven</p>
+                      <p className="text-sm text-mid">Neckarstraße 9</p>
+                      <p className="text-sm text-mid">41836 Hückelhoven</p>
+                    </div>
+                    {/* Name fields still needed for order */}
+                    <div className="grid grid-cols-2 gap-4 mt-4">
+                      <input
+                        type="text"
+                        name="firstName"
+                        placeholder="Vorname *"
+                        required
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                      <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Nachname *"
+                        required
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <h2 className="text-lg font-semibold text-dark mb-4">Lieferadresse</h2>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          name="firstName"
+                          placeholder="Vorname *"
+                          required
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                        <input
+                          type="text"
+                          name="lastName"
+                          placeholder="Nachname *"
+                          required
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                      </div>
+                      <input
+                        type="text"
+                        name="company"
+                        placeholder="Firma (optional)"
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                      <input
+                        type="text"
+                        name="address1"
+                        placeholder="Straße und Hausnummer *"
+                        required
+                        value={formData.address1}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                      <input
+                        type="text"
+                        name="address2"
+                        placeholder="Adresszusatz (optional)"
+                        value={formData.address2}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                      <div className="grid grid-cols-2 gap-4">
+                        <input
+                          type="text"
+                          name="postcode"
+                          placeholder="PLZ *"
+                          required
+                          value={formData.postcode}
+                          onChange={handleInputChange}
+                          className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                        <input
+                          type="text"
+                          name="city"
+                          placeholder="Stadt *"
+                          required
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Zahlungsmethode */}
@@ -398,29 +504,84 @@ export default function CheckoutPage() {
               {/* Rechnungsadresse */}
               <div className="mb-8">
                 <h2 className="text-lg font-semibold text-dark mb-4">Rechnungsadresse</h2>
-                <div className="space-y-3">
-                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
+                {shippingMethod === 'delivery' ? (
+                  <div className="space-y-3">
+                    <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
+                      <input
+                        type="radio"
+                        name="sameAsBilling"
+                        checked={formData.sameAsBilling}
+                        onChange={() => setFormData((prev) => ({ ...prev, sameAsBilling: true }))}
+                        className="w-5 h-5 text-brand border-ash focus:ring-brand"
+                      />
+                      <span className="text-sm text-dark">Gleich wie Lieferadresse</span>
+                    </label>
+                    <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
+                      <input
+                        type="radio"
+                        name="sameAsBilling"
+                        checked={!formData.sameAsBilling}
+                        onChange={() => setFormData((prev) => ({ ...prev, sameAsBilling: false }))}
+                        className="w-5 h-5 text-brand border-ash focus:ring-brand"
+                      />
+                      <span className="text-sm text-dark">Andere Rechnungsadresse verwenden</span>
+                    </label>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
                     <input
-                      type="radio"
-                      name="sameAsBilling"
-                      checked={formData.sameAsBilling}
-                      onChange={() => setFormData((prev) => ({ ...prev, sameAsBilling: true }))}
-                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
+                      type="text"
+                      name="billingAddress1"
+                      placeholder="Straße und Hausnummer *"
+                      required
+                      value={formData.billingAddress1}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
                     />
-                    <span className="text-sm text-dark">Gleich wie Lieferadresse</span>
-                  </label>
-                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
-                    <input
-                      type="radio"
-                      name="sameAsBilling"
-                      checked={!formData.sameAsBilling}
-                      onChange={() => setFormData((prev) => ({ ...prev, sameAsBilling: false }))}
-                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
-                    />
-                    <span className="text-sm text-dark">Andere Rechnungsadresse verwenden</span>
-                  </label>
-                </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <input
+                        type="text"
+                        name="billingPostcode"
+                        placeholder="PLZ *"
+                        required
+                        value={formData.billingPostcode}
+                        onChange={handleInputChange}
+                        className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                      <input
+                        type="text"
+                        name="billingCity"
+                        placeholder="Stadt *"
+                        required
+                        value={formData.billingCity}
+                        onChange={handleInputChange}
+                        className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* Notes (readonly, from cart) */}
+              {(deliveryNote.trim() || customerNote.trim()) && (
+                <div className="mb-8">
+                  <h2 className="text-lg font-semibold text-dark mb-4">Ihre Notizen</h2>
+                  <div className="p-4 bg-gray-50 border border-ash rounded-lg space-y-3">
+                    {deliveryNote.trim() && (
+                      <div>
+                        <span className="text-xs font-semibold text-gray-500 uppercase">Lieferwunsch</span>
+                        <p className="text-sm text-dark whitespace-pre-wrap mt-1">{deliveryNote}</p>
+                      </div>
+                    )}
+                    {customerNote.trim() && (
+                      <div>
+                        <span className="text-xs font-semibold text-gray-500 uppercase">Anmerkung</span>
+                        <p className="text-sm text-dark whitespace-pre-wrap mt-1">{customerNote}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* AGB Checkbox */}
               <div className="mb-6">
@@ -468,7 +629,7 @@ export default function CheckoutPage() {
 
             {/* RECHTE SPALTE (40%) */}
             <div className="w-full lg:w-2/5 order-1 lg:order-2">
-              <OrderSummary />
+              <OrderSummary shippingMethod={shippingMethod} />
             </div>
           </div>
         </div>

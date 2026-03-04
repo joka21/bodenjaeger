@@ -59,7 +59,8 @@
       "Bash(git merge:*)",
       "Bash(pip install:*)",
       "Bash(npx next build:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(npx next:*)"
     ],
     "deny": [],
     "ask": []

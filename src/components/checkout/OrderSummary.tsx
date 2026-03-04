@@ -5,13 +5,17 @@ import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
 
-export default function OrderSummary() {
+interface OrderSummaryProps {
+  shippingMethod?: 'delivery' | 'pickup';
+}
+
+export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSummaryProps) {
   const { cartItems, totalPrice, itemCount } = useCart();
   const [discountCode, setDiscountCode] = useState('');
 
   // Berechne Zwischensumme, Versand, MwSt
   const subtotal = totalPrice;
-  const shipping = calculateShippingCost(subtotal);
+  const shipping = shippingMethod === 'pickup' ? 0 : calculateShippingCost(subtotal, cartItems);
   const total = subtotal + shipping;
   const mwst = total - (total / 1.19);
 
@@ -112,8 +116,14 @@ export default function OrderSummary() {
           <span>{subtotal.toFixed(2).replace('.', ',')} €</span>
         </div>
         <div className="flex justify-between text-sm text-mid">
-          <span>Versand</span>
-          <span>{shipping === 0 ? 'Kostenlos' : `${shipping.toFixed(2).replace('.', ',')} €`}</span>
+          <span>{shippingMethod === 'pickup' ? 'Abholung' : 'Versand'}</span>
+          <span>
+            {shippingMethod === 'pickup'
+              ? 'Kostenlos'
+              : shipping === 0
+                ? 'Kostenlos'
+                : `${shipping.toFixed(2).replace('.', ',')} €`}
+          </span>
         </div>
       </div>
 

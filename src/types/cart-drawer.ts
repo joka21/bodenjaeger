@@ -19,8 +19,9 @@ export interface CartItemBase {
   name: string;
   image: string;
   quantity: number;
-  unit: ProductUnit;
-  unitValue: number; // e.g., 2.22 for "2.22 m²"
+  unit: ProductUnit;       // package unit: Pak., Stk., Rol. (from verpackungsart_short)
+  contentUnit?: string;    // content unit: m², lfm, m (from einheit_short)
+  unitValue: number;       // content per package (paketinhalt), e.g. 2.22 m²/Pak
   pricePerUnit: number; // Current price per unit
   originalPricePerUnit?: number; // UVP (strikethrough)
   total: number;

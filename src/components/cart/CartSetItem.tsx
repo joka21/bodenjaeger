@@ -14,8 +14,10 @@ interface CartSetItemProps {
 export default function CartSetItem({ setItem, onQuantityChange, onRemove }: CartSetItemProps) {
   const { mainProduct, bundleProducts, setTotal } = setItem;
 
-  // Calculate total m² for main product
+  // Calculate total content for main product (m², lfm, etc.)
   const totalM2 = mainProduct.quantity * mainProduct.unitValue;
+  const mainContentUnit = mainProduct.contentUnit || 'm²';
+  const mainPackageUnit = mainProduct.unit || 'Pak.';
 
   return (
     <div className="bg-pale rounded-md p-3 mb-3">
@@ -54,7 +56,7 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
 
         {/* Zeile 2: X Pak. = Y m² */}
         <div className="ml-14 text-xs text-gray-500">
-          {mainProduct.quantity} Pak. = {formatUnitValue(totalM2)} m²
+          {mainProduct.quantity} {mainPackageUnit} = {formatUnitValue(totalM2)} {mainContentUnit}
         </div>
 
         {/* Zeile 3: ~~Alt€~~ Neu€/m² (mittig) + Gesamt€ (rechts) */}
@@ -95,7 +97,7 @@ export default function CartSetItem({ setItem, onQuantityChange, onRemove }: Car
                 +
               </button>
             </div>
-            <span className="text-xs text-mid">Pak.</span>
+            <span className="text-xs text-mid">{mainPackageUnit}</span>
           </div>
         </div>
       </div>
@@ -131,16 +133,15 @@ function BundleProductItem({ product }: { product: CartItemBase }) {
   };
 
   const typeLabel = getTypeLabel();
-  const isBaseboard = product.itemType === 'baseboard' || typeLabel === 'Sockelleiste';
 
   // Calculate total quantity × unitValue - handle invalid values
   const totalValue = (product.quantity && product.unitValue)
     ? product.quantity * product.unitValue
     : 0;
-  const unitDisplay = isBaseboard ? 'm' : 'm²';
 
-  // Determine package unit display (Pak. für Dämmung, Stk. für Sockelleiste)
-  const packageUnit = isBaseboard ? 'Stk.' : 'Pak.';
+  // Use backend units from product, with sensible fallbacks
+  const packageUnit = product.unit || (product.itemType === 'baseboard' ? 'Stk.' : 'Pak.');
+  const unitDisplay = product.contentUnit || (product.itemType === 'baseboard' ? 'lfm' : 'm²');
 
   // Debug log
   console.log('🔧 BundleProduct:', {

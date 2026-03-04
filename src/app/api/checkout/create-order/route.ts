@@ -56,6 +56,7 @@ interface CreateOrderRequestBody {
     }>;
   }>;
   payment_method: 'stripe' | 'paypal' | 'sofort' | 'bacs';
+  shipping_method?: 'delivery' | 'pickup';
   customer_note?: string;
   shipping_cost?: number;
 }
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
   try {
     // 1. Request Body parsen
     const body: CreateOrderRequestBody = await request.json();
-    const { billing, shipping, line_items, payment_method, customer_note, shipping_cost } =
+    const { billing, shipping, line_items, payment_method, shipping_method, customer_note, shipping_cost } =
       body;
 
     // 2. Validierung
@@ -96,15 +97,23 @@ export async function POST(request: NextRequest) {
       shipping,
       line_items,
       customer_note,
-      shipping_lines: shipping_cost
+      shipping_lines: shipping_method === 'pickup'
         ? [
             {
-              method_id: 'flat_rate',
-              method_title: 'Standardversand',
-              total: shipping_cost.toFixed(2),
+              method_id: 'local_pickup',
+              method_title: 'Abholung im Fachmarkt',
+              total: '0.00',
             },
           ]
-        : undefined,
+        : shipping_cost
+          ? [
+              {
+                method_id: 'flat_rate',
+                method_title: 'Standardversand',
+                total: shipping_cost.toFixed(2),
+              },
+            ]
+          : undefined,
     };
 
     const order = await createWooCommerceOrder(orderData);
