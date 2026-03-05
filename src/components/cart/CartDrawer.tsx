@@ -219,7 +219,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
     // New floor actualM2 = floor package size × new package count
     const newMainActualM2 = setItem.mainProduct.unitValue * newQuantity;
-    updateQuantity(setItem.mainProduct.productId, newQuantity, newMainActualM2);
+    updateQuantity(setItem.mainProduct.productId, newQuantity, newMainActualM2, setId);
 
     // Recalculate each bundle from scratch (identical to setCalculations.ts logic)
     // isFree → Math.floor (kostenlos: abrunden), premium → Math.ceil (aufpreis: aufrunden)
@@ -229,7 +229,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         : Math.ceil(newMainActualM2 / bundleProduct.unitValue);
       const newBundleActualM2 = bundleProduct.unitValue * newBundleQuantity;
 
-      updateQuantity(bundleProduct.productId, newBundleQuantity, newBundleActualM2);
+      updateQuantity(bundleProduct.productId, newBundleQuantity, newBundleActualM2, setId);
     });
   };
 

@@ -57,7 +57,7 @@ export interface CartContextType {
   addSetToCart: (setBundle: SetBundle) => void;
   removeFromCart: (productId: number) => void;
   removeSet: (setId: string) => void;
-  updateQuantity: (productId: number, quantity: number, newActualM2?: number) => void;
+  updateQuantity: (productId: number, quantity: number, newActualM2?: number, setId?: string) => void;
   clearCart: () => void;
   isInCart: (productId: number) => boolean;
   getItemQuantity: (productId: number) => number;
@@ -298,10 +298,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   };
 
   // Update item quantity and optionally actualM2 for set items
-  const updateQuantity = (productId: number, quantity: number, newActualM2?: number) => {
+  // When setId is provided, only update the item within that specific set
+  const updateQuantity = (productId: number, quantity: number, newActualM2?: number, setId?: string) => {
     setCartItems(prevItems =>
       prevItems.map(item => {
-        if (item.id === productId) {
+        if (item.id === productId && (!setId || item.setId === setId)) {
           // SAMPLE LOCK: Samples are always locked to quantity 1
           if (item.isSample) {
             console.warn('⚠️ Muster können nicht in der Menge geändert werden. Menge bleibt bei 1.');

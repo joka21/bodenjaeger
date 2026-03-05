@@ -71,10 +71,9 @@ export default function TotalPrice({
     // We need to pass pricing info to prepareSetForCart
     // For now, we'll create the bundle directly here with correct pricing
 
-    // Calculate prices for each product (same logic as ProductPageContent.tsx)
-    const bodenPricePerM2 = (product.setangebot_gesamtpreis && product.setangebot_gesamtpreis > 0)
-      ? product.setangebot_gesamtpreis
-      : product.price || 0;
+    // Calculate prices for each product (same logic as ProductPageContent.tsx line 94)
+    // Use product.price directly — setangebot_gesamtpreis is the combined set price, not the floor price
+    const bodenPricePerM2 = product.price || 0;
 
     console.log('🛒 WARENKORB DEBUG:', {
       bodenPricePerM2,
