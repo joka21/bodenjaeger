@@ -14,6 +14,7 @@ interface ZubehoerCategory {
 
 interface ZubehoerSliderProps {
   product?: StoreApiProduct; // Hauptprodukt für Meta-Keys
+  selectedSockelleiste?: StoreApiProduct | null; // Ausgewählte Sockelleiste aus Set-Angebot
   categories?: ZubehoerCategory[];
 }
 
@@ -41,6 +42,7 @@ const DEFAULT_CATEGORIES: ZubehoerCategory[] = [
  */
 export default function ZubehoerSlider({
   product,
+  selectedSockelleiste,
   categories = DEFAULT_CATEGORIES
 }: ZubehoerSliderProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -52,10 +54,19 @@ export default function ZubehoerSlider({
 
   const { addToCart, openCartDrawer } = useCart();
 
+  // Hilfsfunktion: Für "Zubehör für Sockelleisten" die ausgewählte Sockelleiste nutzen,
+  // für alle anderen Kategorien das Hauptprodukt
+  const getSourceProduct = (metaKey: string): StoreApiProduct | undefined | null => {
+    if (metaKey === 'option_products_zubehoer_fuer_sockelleisten' && selectedSockelleiste) {
+      return selectedSockelleiste;
+    }
+    return product;
+  };
+
   // Filtere Kategorien: Nur die anzeigen, die Produkt-IDs haben
-  // ✅ WICHTIG: Felder sind jetzt auf ROOT-LEVEL, nicht in jaeger_meta
   const availableCategories = categories.filter((category) => {
-    const productIdsString = product?.[category.metaKey as keyof typeof product];
+    const source = getSourceProduct(category.metaKey);
+    const productIdsString = source?.[category.metaKey as keyof typeof source];
     return productIdsString && typeof productIdsString === 'string' && productIdsString.trim().length > 0;
   });
 
@@ -73,15 +84,15 @@ export default function ZubehoerSlider({
     const loadProducts = async () => {
       if (!activeCategory || !product) return;
 
+      const source = getSourceProduct(activeCategory);
+      if (!source) return;
+
       setLoading(true);
       setError(null);
 
       try {
-        console.log(`🔍 Loading products for meta key: ${activeCategory}`);
-        console.log('📦 Available root-level keys:', Object.keys(product || {}));
-
-        // 1. Produkt-IDs aus ROOT-LEVEL auslesen (nicht mehr jaeger_meta!)
-        const productIdsString = product[activeCategory as keyof typeof product];
+        // 1. Produkt-IDs aus dem richtigen Quell-Produkt auslesen
+        const productIdsString = source[activeCategory as keyof typeof source];
 
         if (!productIdsString || typeof productIdsString !== 'string') {
           console.warn(`⚠️ No product IDs found for key: ${activeCategory}`);
@@ -135,7 +146,7 @@ export default function ZubehoerSlider({
     };
 
     loadProducts();
-  }, [activeCategory, product]);
+  }, [activeCategory, product, selectedSockelleiste]);
 
   // Scroll-Position prüfen
   const checkScrollPosition = () => {

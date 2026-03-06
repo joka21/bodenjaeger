@@ -1204,7 +1204,7 @@ export default function ProductPageContent({
 
         {/* Zubehör Slider Section */}
         <div id="zubehoer-section" className="mb-8">
-          <ZubehoerSlider product={product} />
+          <ZubehoerSlider product={product} selectedSockelleiste={selectedSockelleiste} />
         </div>
 
         <ProductTabs product={product} />
