@@ -7,13 +7,15 @@ import ContactDrawer from './ContactDrawer';
 
 export default function FloatingContactButton() {
   const [isContactDrawerOpen, setIsContactDrawerOpen] = useState(false);
-  const { itemCount, openCartDrawer } = useCart();
+  const { itemCount, openCartDrawer, isCartDrawerOpen } = useCart();
 
   return (
     <>
       {/* Floating Buttons - 10px rechts neben dem Content-Container (max-width: 1400px) */}
       <div
-        className="fixed bottom-6 right-6 z-[60] flex flex-col gap-3"
+        className={`fixed bottom-6 right-6 z-[60] flex flex-col gap-3 transition-opacity duration-300 ${
+          isCartDrawerOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
       >
         {/* Kontakt Button */}
         <button
