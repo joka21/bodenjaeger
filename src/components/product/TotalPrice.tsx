@@ -159,6 +159,14 @@ export default function TotalPrice({
     addSetToCart(setBundle);
     setAddedToCart(true);
 
+    // Scroll to Zubehör section
+    setTimeout(() => {
+      const zubehoerSection = document.getElementById('zubehoer-section');
+      if (zubehoerSection) {
+        zubehoerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
+
     setTimeout(() => setAddedToCart(false), 3000);
   };
 

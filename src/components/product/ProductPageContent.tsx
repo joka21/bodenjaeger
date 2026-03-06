@@ -1203,7 +1203,7 @@ export default function ProductPageContent({
         </div>
 
         {/* Zubehör Slider Section */}
-        <div className="mb-8">
+        <div id="zubehoer-section" className="mb-8">
           <ZubehoerSlider product={product} />
         </div>
 
