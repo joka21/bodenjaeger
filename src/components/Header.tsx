@@ -33,7 +33,7 @@ export default function Header() {
     <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
       <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-dark overflow-visible">
-        <div className="max-w-[1500px] mx-auto h-full px-2 sm:px-4">
+        <div className="max-w-[1500px] mx-auto h-full px-4 sm:px-6 md:px-8">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:min-w-[200px]">
@@ -156,7 +156,7 @@ export default function Header() {
       </div>
 
       {/* Bottom Section - 50px height - #4c4c4c - Navigation */}
-      <div className="w-full h-[50px] bg-mid overflow-hidden">
+      <div className="hidden lg:block w-full h-[50px] bg-mid overflow-hidden">
         <div className="max-w-[1500px] mx-auto px-2 sm:px-4 lg:px-8 h-full">
           <nav className="hidden lg:flex items-center justify-center h-full space-x-8">
             <div className="relative group">
