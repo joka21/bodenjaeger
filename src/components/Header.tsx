@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useAuth } from '@/contexts/AuthContext';
 import CartDrawer from './cart/CartDrawer';
 import MobileMenu from './navigation/MobileMenu';
 import LiveSearch from './LiveSearch';
@@ -12,7 +13,21 @@ import LiveSearch from './LiveSearch';
 export default function Header() {
   const { isCartDrawerOpen, closeCartDrawer } = useCart();
   const { wishlistCount } = useWishlist();
+  const { user, isLoggedIn, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close account dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target as Node)) {
+        setIsAccountMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="w-full sticky top-0 z-50">
@@ -54,15 +69,71 @@ export default function Header() {
               </Link>
 
               {/* Kundenkonto */}
-              <Link href="/kundenkonto" className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
-                <Image
-                  src="/images/Icons/Kundenkonto weiß.png"
-                  alt="Kundenkonto"
-                  width={32}
-                  height={32}
-                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
-                />
-              </Link>
+              <div className="relative" ref={accountMenuRef}>
+                {isLoggedIn ? (
+                  <>
+                    <button
+                      onClick={() => setIsAccountMenuOpen((prev) => !prev)}
+                      className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
+                      aria-label="Kundenkonto"
+                    >
+                      <Image
+                        src="/images/Icons/Kundenkonto weiß.png"
+                        alt="Kundenkonto"
+                        width={32}
+                        height={32}
+                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
+                      />
+                    </button>
+                    {isAccountMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-ash z-50">
+                        <div className="px-4 py-3 border-b border-ash">
+                          <p className="text-sm font-semibold text-dark truncate">
+                            {user?.firstName || user?.displayName}
+                          </p>
+                          <p className="text-xs text-mid truncate">{user?.email}</p>
+                        </div>
+                        <Link
+                          href="/konto"
+                          onClick={() => setIsAccountMenuOpen(false)}
+                          className="block px-4 py-2.5 text-sm text-dark hover:bg-gray-50 transition-colors"
+                        >
+                          Mein Konto
+                        </Link>
+                        <Link
+                          href="/konto/bestellungen"
+                          onClick={() => setIsAccountMenuOpen(false)}
+                          className="block px-4 py-2.5 text-sm text-dark hover:bg-gray-50 transition-colors"
+                        >
+                          Bestellungen
+                        </Link>
+                        <button
+                          onClick={async () => {
+                            setIsAccountMenuOpen(false);
+                            await logout();
+                          }}
+                          className="w-full text-left px-4 py-2.5 text-sm text-mid hover:bg-gray-50 transition-colors border-t border-ash"
+                        >
+                          Abmelden
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
+                  >
+                    <Image
+                      src="/images/Icons/Kundenkonto weiß.png"
+                      alt="Anmelden"
+                      width={32}
+                      height={32}
+                      className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
+                    />
+                  </Link>
+                )}
+              </div>
 
               {/* Hamburger Menu Button (Mobile Only - ganz rechts) */}
               <button

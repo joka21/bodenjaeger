@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
@@ -41,6 +42,7 @@ interface FormData {
 export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, totalPrice, customerNote, deliveryNote } = useCart();
+  const { isLoggedIn } = useAuth();
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -76,6 +78,40 @@ export default function CheckoutPage() {
       router.push('/cart');
     }
   }, [cartItems, router]);
+
+  // Auto-fill from customer account
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    fetch('/api/auth/customer')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.success) return;
+        const c = data.customer;
+        setFormData((prev) => ({
+          ...prev,
+          email: prev.email || c.email || '',
+          phone: prev.phone || c.billing?.phone || '',
+          firstName: prev.firstName || c.shipping?.first_name || c.billing?.first_name || '',
+          lastName: prev.lastName || c.shipping?.last_name || c.billing?.last_name || '',
+          company: prev.company || c.shipping?.company || '',
+          address1: prev.address1 || c.shipping?.address_1 || '',
+          address2: prev.address2 || c.shipping?.address_2 || '',
+          city: prev.city || c.shipping?.city || '',
+          postcode: prev.postcode || c.shipping?.postcode || '',
+          country: c.shipping?.country || prev.country,
+          billingFirstName: prev.billingFirstName || c.billing?.first_name || '',
+          billingLastName: prev.billingLastName || c.billing?.last_name || '',
+          billingCompany: prev.billingCompany || c.billing?.company || '',
+          billingAddress1: prev.billingAddress1 || c.billing?.address_1 || '',
+          billingAddress2: prev.billingAddress2 || c.billing?.address_2 || '',
+          billingCity: prev.billingCity || c.billing?.city || '',
+          billingPostcode: prev.billingPostcode || c.billing?.postcode || '',
+          billingCountry: c.billing?.country || prev.billingCountry,
+        }));
+      })
+      .catch(() => {});
+  }, [isLoggedIn]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;

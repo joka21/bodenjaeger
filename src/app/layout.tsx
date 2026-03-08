@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
@@ -48,14 +49,16 @@ export default function RootLayout({
       <body
         className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}
       >
-        <CartProvider>
-          <WishlistProvider>
-            <HeaderWrapper />
-            <FloatingContactButton />
-            {children}
-            <Footer />
-          </WishlistProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <HeaderWrapper />
+              <FloatingContactButton />
+              {children}
+              <Footer />
+            </WishlistProvider>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

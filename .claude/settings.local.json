@@ -60,7 +60,12 @@
       "Bash(pip install:*)",
       "Bash(npx next build:*)",
       "Bash(cd:*)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(openssl rand:*)",
+      "Bash(printf {\"\"username\"\":\"\"joka\"\",\"\"password\"\":\"\"JY5964T3n!Joka21!\"\"}:*)",
+      "Bash(set +H:*)",
+      "Bash(xxd:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []
