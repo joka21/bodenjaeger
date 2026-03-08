@@ -180,8 +180,8 @@ export default function TotalPrice({
     <div className="p-0">
       {/* 1. GESAMTSUMMEN-HEADER */}
       <div className="flex items-center justify-between mb-4">
-        <span className="text-dark text-2xl md:text-3xl font-bold">
-          Gesamtsumme <span className="text-base font-normal">(inkl. MwSt.)</span>
+        <span className="text-dark text-base sm:text-2xl md:text-3xl font-bold whitespace-nowrap">
+          Gesamtsumme <span className="text-xs sm:text-base font-normal">(inkl. MwSt.)</span>
         </span>
         <div className="text-right">
           <div className="text-[#000000] font-bold text-[28px] md:text-[32px] leading-tight">
@@ -220,7 +220,7 @@ export default function TotalPrice({
         <button
           type="button"
           onClick={handleRequestQuote}
-          className="w-full bg-transparent border border-dark hover:bg-[#f5f5f5] text-dark font-semibold text-xs whitespace-nowrap rounded-md transition-colors" style={{ padding: '5px' }}
+          className="w-full bg-transparent border border-dark hover:bg-[#f5f5f5] text-dark font-semibold text-[10px] sm:text-xs text-center leading-tight rounded-md transition-colors" style={{ padding: '5px' }}
         >
           Individuelles Angebot anfragen
         </button>
@@ -230,7 +230,7 @@ export default function TotalPrice({
           type="button"
           onClick={handleAddToCart}
           disabled={addedToCart}
-          className={`w-full font-semibold text-xs whitespace-nowrap rounded-lg transition-all ${
+          className={`w-full font-semibold text-[10px] sm:text-xs text-center leading-tight rounded-lg transition-all ${
             addedToCart
               ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
               : 'bg-dark hover:bg-[#1a1a1d] active:scale-[0.98] text-white'

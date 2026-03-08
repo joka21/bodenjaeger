@@ -275,7 +275,7 @@ export default function SetAngebot({
             <button
               type="button"
               onClick={() => openModal('daemmung')}
-              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
+              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200"
             >
               Andere Dämmung wählen
               <span>&gt;</span>
@@ -328,7 +328,7 @@ export default function SetAngebot({
             <button
               type="button"
               onClick={() => openModal('sockelleiste')}
-              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200 whitespace-nowrap"
+              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200"
             >
               Andere Sockelleiste wählen
               <span>&gt;</span>

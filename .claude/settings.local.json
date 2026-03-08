@@ -65,7 +65,8 @@
       "Bash(printf {\"\"username\"\":\"\"joka\"\",\"\"password\"\":\"\"JY5964T3n!Joka21!\"\"}:*)",
       "Bash(set +H:*)",
       "Bash(xxd:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []
