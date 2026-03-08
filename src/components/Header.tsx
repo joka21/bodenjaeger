@@ -156,7 +156,7 @@ export default function Header() {
       </div>
 
       {/* Bottom Section - 50px height - #4c4c4c - Navigation */}
-      <div className="hidden lg:block w-full h-[50px] bg-mid overflow-hidden">
+      <div className="hidden lg:block w-full h-[50px] bg-mid overflow-visible">
         <div className="max-w-[1500px] mx-auto px-2 sm:px-4 lg:px-8 h-full">
           <nav className="hidden lg:flex items-center justify-center h-full space-x-8">
             <div className="relative group">
@@ -166,7 +166,7 @@ export default function Header() {
               >
                 Vinylboden
               </Link>
-              <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+              <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
                 <Link href="/category/klebe-vinyl" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
                   Klebe-Vinyl
                 </Link>
