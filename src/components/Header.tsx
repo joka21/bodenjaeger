@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import CartDrawer from './cart/CartDrawer';
 import MobileMenu from './navigation/MobileMenu';
 import LiveSearch from './LiveSearch';
+import { categoriesData } from '@/types/mobile-menu';
 
 export default function Header() {
   const { isCartDrawerOpen, closeCartDrawer } = useCart();
@@ -159,58 +160,59 @@ export default function Header() {
       <div className="hidden lg:block w-full h-[50px] bg-mid overflow-visible">
         <div className="content-container h-full">
           <nav className="hidden lg:flex items-center justify-center h-full space-x-8">
+            {categoriesData.map((category) => (
+              <div key={category.id} className="relative group">
+                <Link
+                  href={`/category/${category.slug}`}
+                  className="text-white hover:text-gray-200 transition-colors font-medium"
+                >
+                  {category.label}
+                </Link>
+                {category.hasChildren && category.children && category.children.length > 0 && (
+                  <div className="absolute left-0 mt-2 w-52 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
+                    {category.children.map((sub) =>
+                      sub.hasChildren && sub.children ? (
+                        sub.children.map((leaf) => (
+                          <Link
+                            key={leaf.id}
+                            href={`/category/${leaf.slug}`}
+                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                          >
+                            {leaf.label}
+                          </Link>
+                        ))
+                      ) : (
+                        <Link
+                          key={sub.id}
+                          href={`/category/${sub.slug}`}
+                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                        >
+                          {sub.label}
+                        </Link>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+            {/* Marken */}
             <div className="relative group">
               <Link
-                href="/category/vinylboden"
+                href="/marken"
                 className="text-white hover:text-gray-200 transition-colors font-medium"
               >
-                Vinylboden
+                Marken
               </Link>
-              <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
-                <Link href="/category/klebe-vinyl" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                  Klebe-Vinyl
+              <div className="absolute left-0 mt-2 w-52 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
+                <Link href="/category/coretec" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                  COREtec
                 </Link>
-                <Link href="/category/rigid-vinyl" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                  Rigid-Vinyl
+                <Link href="/category/primecore" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+                  primeCORE
                 </Link>
               </div>
             </div>
-            <Link
-              href="/category/laminat"
-              className="text-white hover:text-gray-200 transition-colors font-medium"
-            >
-              Laminat
-            </Link>
-            <Link
-              href="/category/parkett"
-              className="text-white hover:text-gray-200 transition-colors font-medium"
-            >
-              Parkett
-            </Link>
-            <Link
-              href="/category/sockelleisten"
-              className="text-white hover:text-gray-200 transition-colors font-medium"
-            >
-              Sockelleisten
-            </Link>
-            <Link
-              href="/category/daemmung"
-              className="text-white hover:text-gray-200 transition-colors font-medium"
-            >
-              Dämmung
-            </Link>
-            <Link
-              href="/category/zubehoer"
-              className="text-white hover:text-gray-200 transition-colors font-medium"
-            >
-              Zubehör
-            </Link>
           </nav>
-
-          {/* Empty div on mobile - menu button moved to top section */}
-          <div className="lg:hidden flex items-center justify-center h-full">
-            {/* Hamburger button now in top section with other icons */}
-          </div>
         </div>
       </div>
 
