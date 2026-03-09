@@ -32,7 +32,7 @@ export default function Header() {
   return (
     <header className="w-full sticky top-0 z-50">
       {/* Top Section - 150px height - #2e2d32 */}
-      <div className="w-full h-[80px] sm:h-[100px] md:h-[150px] bg-dark overflow-visible">
+      <div className="w-full h-[70px] sm:h-[80px] md:h-[100px] bg-dark overflow-visible">
         <div className="content-container h-full">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
@@ -42,7 +42,7 @@ export default function Header() {
                 alt="Bodenjäger Logo"
                 width={200}
                 height={80}
-                className="h-10 sm:h-12 md:h-20 w-auto"
+                className="h-10 sm:h-12 md:h-14 w-auto"
                 priority
               />
             </Link>
