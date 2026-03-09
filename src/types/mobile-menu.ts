@@ -21,83 +21,51 @@ export interface NavigationItem {
 
 export const categoriesData: Category[] = [
   {
-    id: '1',
+    id: '16',
     label: 'Vinylboden',
     slug: 'vinylboden',
     hasChildren: true,
     children: [
-      {
-        id: '1-1',
-        label: 'Art des Vinylbodens',
-        slug: 'art-vinylboden',
-        hasChildren: true,
-        children: [
-          { id: '1-1-1', label: 'Klebe-Vinyl', slug: 'klebe-vinyl', hasChildren: false },
-          { id: '1-1-2', label: 'Rigid-Vinyl', slug: 'rigid-vinyl', hasChildren: false },
-        ],
-      },
-      {
-        id: '1-2',
-        label: 'Marken',
-        slug: 'marken-vinyl',
-        hasChildren: true,
-        children: [
-          { id: '1-2-1', label: 'COREtec', slug: 'coretec', hasChildren: false },
-          { id: '1-2-2', label: 'primeCORE', slug: 'primecore', hasChildren: false },
-        ],
-      },
+      { id: '24', label: 'Klebe-Vinyl', slug: 'klebe-vinyl', hasChildren: false },
+      { id: '17', label: 'Rigid-Vinyl', slug: 'rigid-vinyl', hasChildren: false },
     ],
   },
   {
-    id: '2',
+    id: '25',
     label: 'Laminat',
     slug: 'laminat',
-    hasChildren: true,
-    children: [
-      { id: '2-1', label: 'Nutzungsklassen', slug: 'nutzungsklassen', hasChildren: false },
-      { id: '2-2', label: 'Laminat-Marken', slug: 'laminat-marken', hasChildren: false },
-    ],
+    hasChildren: false,
   },
   {
-    id: '3',
+    id: '29',
     label: 'Parkett',
     slug: 'parkett',
-    hasChildren: true,
-    children: [
-      { id: '3-1', label: 'Parkett-Arten', slug: 'parkett-arten', hasChildren: false },
-      { id: '3-2', label: 'Parkett-Marken', slug: 'parkett-marken', hasChildren: false },
-    ],
+    hasChildren: false,
   },
   {
-    id: '5',
+    id: '43',
     label: 'Sockelleisten',
     slug: 'sockelleisten',
-    hasChildren: true,
-    children: [
-      { id: '5-1', label: 'Sockelleisten-Arten', slug: 'sockelleisten-arten', hasChildren: false },
-      { id: '5-2', label: 'Sockelleisten-Marken', slug: 'sockelleisten-marken', hasChildren: false },
-    ],
+    hasChildren: false,
   },
   {
-    id: '6',
+    id: '38',
     label: 'Dämmung',
     slug: 'daemmung',
-    hasChildren: true,
-    children: [
-      { id: '6-1', label: 'Dämmung-Arten', slug: 'daemmung-arten', hasChildren: false },
-      { id: '6-2', label: 'Dämmung-Marken', slug: 'daemmung-marken', hasChildren: false },
-    ],
+    hasChildren: false,
   },
   {
-    id: '7',
+    id: '40',
     label: 'Zubehör',
     slug: 'zubehoer',
     hasChildren: true,
     children: [
-      { id: '7-1', label: 'Untergrundvorbereitung', slug: 'untergrundvorbereitung', hasChildren: false },
-      { id: '7-2', label: 'Werkzeug', slug: 'werkzeug', hasChildren: false },
-      { id: '7-3', label: 'Kleber', slug: 'kleber', hasChildren: false },
-      { id: '7-4', label: 'Reinigung & Pflege', slug: 'reinigung-pflege', hasChildren: false },
+      { id: '41', label: 'Untergrundvorbereitung', slug: 'untergrundvorbereitung', hasChildren: false },
+      { id: '64', label: 'Werkzeug', slug: 'werkzeug', hasChildren: false },
+      { id: '61', label: 'Kleber', slug: 'kleber', hasChildren: false },
+      { id: '58', label: 'Montagekleber & Silikon', slug: 'montagekleber-silikon', hasChildren: false },
+      { id: '72', label: 'Reinigung & Pflege', slug: 'reinigung-pflege', hasChildren: false },
+      { id: '53', label: 'Zubehör für Sockelleisten', slug: 'zubehoer-fuer-sockelleisten', hasChildren: false },
     ],
   },
 ];
