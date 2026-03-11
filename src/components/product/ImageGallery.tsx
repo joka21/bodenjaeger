@@ -56,8 +56,8 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
         {/* Badges (top left) */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
           {/* Discount Badge */}
-          {discountPercent > 0 && (
-            <div className="bg-red-600 text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap' }}>
+          {discountPercent > 0 && product.show_discount_badge !== false && (
+            <div className="text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap', backgroundColor: '#ed1b24' }}>
               -{discountPercent}%
             </div>
           )}

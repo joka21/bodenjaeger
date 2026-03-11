@@ -60,6 +60,9 @@ interface JaegerMeta {
   // Verrechnung (für Premium-Artikel Berechnung)
   verrechnung?: number | null;
 
+  // Prozent-Badge
+  show_discount_badge?: boolean;
+
   // Aktions-System
   aktion?: string | null;
   show_aktion?: boolean;
@@ -231,6 +234,9 @@ interface StoreApiProduct {
   sockelleisten_id?: number | null;
   daemmung_option_ids?: number[];
   sockelleisten_option_ids?: number[];
+
+  // Prozent-Badge
+  show_discount_badge?: boolean;
 
   // Aktionen & Badges (10)
   show_aktion?: boolean;

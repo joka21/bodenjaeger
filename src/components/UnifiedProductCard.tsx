@@ -293,8 +293,8 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
               const discountPct = regPrice > mainPrice && regPrice > 0
                 ? ((regPrice - mainPrice) / regPrice) * 100
                 : 0;
-              return discountPct > 0 ? (
-                <div className="bg-red-600 text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap' }}>
+              return discountPct > 0 && product.show_discount_badge !== false ? (
+                <div className="text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap', backgroundColor: '#ed1b24' }}>
                   -{Math.round(discountPct)}%
                 </div>
               ) : null;

@@ -76,7 +76,21 @@ function jaeger_add_actions_product_data_panels() {
     $style_options = jaeger_get_style_options();
     
     echo '<div id="aktionen_product_data" class="panel woocommerce_options_panel">';
-    
+
+    // Prozentanzeige Bereich
+    echo '<div class="options_group"><h4 style="margin-left: 12px;">Prozentanzeige im Bild</h4>';
+
+    woocommerce_wp_checkbox(
+        array(
+            'id'          => '_show_discount_badge',
+            'label'       => __('Prozent-Badge anzeigen', 'woocommerce'),
+            'description' => __('Zeigt den Rabatt in % als Badge auf dem Produktbild an', 'woocommerce'),
+            'desc_tip'    => true,
+        )
+    );
+
+    echo '</div>';
+
     // Aktion 1 Bereich
     echo '<div class="options_group"><h4 style="margin-left: 12px;">Aktion 1</h4>';
     
@@ -205,6 +219,10 @@ function jaeger_save_actions_fields($post_id) {
         return;
     }
     
+    // Prozent-Badge
+    $show_discount_badge = isset($_POST['_show_discount_badge']) ? 'yes' : 'no';
+    update_post_meta($post_id, '_show_discount_badge', $show_discount_badge);
+
     // Aktion 1 Felder
     $show_aktion = isset($_POST['_show_aktion']) ? 'yes' : 'no';
     update_post_meta($post_id, '_show_aktion', $show_aktion);

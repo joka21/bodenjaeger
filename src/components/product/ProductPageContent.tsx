@@ -241,10 +241,22 @@ export default function ProductPageContent({
   const ProductTabs = ({ product }: { product: StoreApiProduct }) => {
     const [activeTab, setActiveTab] = useState<'beschreibung' | 'eigenschaften' | null>('beschreibung');
 
-    const beschreibung = product.artikelbeschreibung || '';
+    const rawBeschreibung = product.artikelbeschreibung || '';
+    // ChatGPT-UI-HTML bereinigen: Nur <p>, <strong>, <em>, <br>, <ul>, <li>, <ol> behalten
+    const cleanHtml = (html: string): string => {
+      // Entferne alle div-Wrapper (ChatGPT kopiert UI-Container mit)
+      let cleaned = html.replace(/<div[^>]*>/gi, '').replace(/<\/div>/gi, '');
+      // Entferne class/style/data-Attribute von allen Tags
+      cleaned = cleaned.replace(/<(\w+)\s+[^>]*?>/gi, '<$1>');
+      return cleaned.trim();
+    };
+    const cleanedBeschreibung = cleanHtml(rawBeschreibung);
+    const beschreibung = cleanedBeschreibung.includes('<p')
+      ? cleanedBeschreibung
+      : cleanedBeschreibung.replace(/\r?\n\r?\n/g, '<br/><br/>').replace(/\r?\n/g, '<br/>');
     const descriptionHtml = product.description || '';
     const hasBeschreibung = !!beschreibung;
-    const hasEigenschaften = descriptionHtml.includes('<table');
+    const hasEigenschaften = descriptionHtml.includes('<table') || descriptionHtml.includes('bj-specs');
 
     if (!hasBeschreibung && !hasEigenschaften) return null;
 
@@ -253,20 +265,23 @@ export default function ProductPageContent({
     };
 
     return (
-      <div>
+      <div style={{ width: '100%' }}>
         {/* Tab Buttons */}
-        <div className="flex gap-2 mb-0">
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '0' }}>
           {hasBeschreibung && (
             <button
               onClick={() => toggleTab('beschreibung')}
-              className={`flex items-center justify-center gap-2 py-2.5 px-8 rounded-full text-sm font-semibold transition-colors ${
-                activeTab === 'beschreibung'
-                  ? 'bg-ash text-dark'
-                  : 'bg-white text-dark border border-gray-300 hover:bg-gray-50'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '10px 32px', borderRadius: '9999px',
+                fontSize: '14px', fontWeight: 600, cursor: 'pointer', border: 'none',
+                backgroundColor: activeTab === 'beschreibung' ? '#e5e5e5' : '#fff',
+                color: '#2e2d32',
+                outline: activeTab === 'beschreibung' ? 'none' : '1px solid #d1d5db',
+              }}
             >
               Artikelbeschreibung
-              <svg className={`w-4 h-4 transition-transform ${activeTab === 'beschreibung' ? 'rotate-0' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg style={{ width: '16px', height: '16px', transform: activeTab === 'beschreibung' ? 'rotate(0)' : 'rotate(-90deg)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -274,14 +289,17 @@ export default function ProductPageContent({
           {hasEigenschaften && (
             <button
               onClick={() => toggleTab('eigenschaften')}
-              className={`flex items-center justify-center gap-2 py-2.5 px-8 rounded-full text-sm font-semibold transition-colors ${
-                activeTab === 'eigenschaften'
-                  ? 'bg-ash text-dark'
-                  : 'bg-white text-dark border border-gray-300 hover:bg-gray-50'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '8px',
+                padding: '10px 32px', borderRadius: '9999px',
+                fontSize: '14px', fontWeight: 600, cursor: 'pointer', border: 'none',
+                backgroundColor: activeTab === 'eigenschaften' ? '#e5e5e5' : '#fff',
+                color: '#2e2d32',
+                outline: activeTab === 'eigenschaften' ? 'none' : '1px solid #d1d5db',
+              }}
             >
               Weitere Artikeldetails
-              <svg className={`w-4 h-4 transition-transform ${activeTab === 'eigenschaften' ? 'rotate-0' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg style={{ width: '16px', height: '16px', transform: activeTab === 'eigenschaften' ? 'rotate(0)' : 'rotate(-90deg)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -290,33 +308,20 @@ export default function ProductPageContent({
 
         {/* Tab Content */}
         {activeTab && (
-          <div className="bg-ash rounded-2xl overflow-hidden">
-            <div className="flex">
-              {/* Red accent bar */}
-              <div className="w-1.5 bg-brand flex-shrink-0 rounded-l-2xl"></div>
-              <div className="p-8 flex-1">
-                {activeTab === 'beschreibung' && hasBeschreibung && (
-                  <div
-                    className="prose prose-gray max-w-none text-dark
-                      [&_strong]:font-bold
-                      [&_p]:mb-4 [&_p]:leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: beschreibung }}
-                  />
-                )}
+          <div style={{ backgroundColor: '#e5e5e5', borderRadius: '16px', borderLeft: '6px solid #ed1b24', padding: '32px', width: '100%', boxSizing: 'border-box' }}>
+            {activeTab === 'beschreibung' && hasBeschreibung && (
+              <div
+                style={{ color: '#2e2d32', fontSize: '14px', lineHeight: '1.75' }}
+                dangerouslySetInnerHTML={{ __html: beschreibung }}
+              />
+            )}
 
-                {activeTab === 'eigenschaften' && hasEigenschaften && (
-                  <div
-                    className="prose prose-gray max-w-none text-dark
-                      [&_table]:w-full [&_table]:border-collapse
-                      [&_td]:py-3 [&_td]:px-4 [&_td]:border-b [&_td]:border-gray-300 [&_td]:text-sm
-                      [&_td:first-child]:text-gray-500 [&_td:first-child]:font-medium [&_td:first-child]:w-1/3
-                      [&_td:last-child]:text-dark
-                      [&_h3]:text-lg [&_h3]:font-bold [&_h3]:mb-4 [&_h3]:hidden"
-                    dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-                  />
-                )}
-              </div>
-            </div>
+            {activeTab === 'eigenschaften' && hasEigenschaften && (
+              <div
+                style={{ color: '#2e2d32', fontSize: '14px' }}
+                dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+              />
+            )}
           </div>
         )}
       </div>

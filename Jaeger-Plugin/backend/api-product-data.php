@@ -273,6 +273,9 @@ class Jaeger_Product_Data_API {
             $data['daemmung_option_ids'] = !empty($daemmung_options) ? array_map('intval', explode(',', $daemmung_options)) : [];
             $data['sockelleisten_option_ids'] = !empty($sockelleisten_options) ? array_map('intval', explode(',', $sockelleisten_options)) : [];
 
+            // Prozent-Badge
+            $data['show_discount_badge'] = get_post_meta($product_id, '_show_discount_badge', true) === 'yes';
+
             // Aktionen & Badges (10 Felder)
             $data['show_aktion'] = get_post_meta($product_id, '_show_aktion', true) === 'yes';
             $data['aktion'] = get_post_meta($product_id, '_aktion', true) ?: null;
@@ -485,6 +488,9 @@ class Jaeger_Product_Data_API {
 
                             // Set-Angebot
                             'show_setangebot' => get_post_meta($product_id, '_show_setangebot', true) === 'yes',
+
+                            // Prozent-Badge
+                            'show_discount_badge' => get_post_meta($product_id, '_show_discount_badge', true) === 'yes',
 
                             // Aktionen & Badges
                             'show_aktion' => get_post_meta($product_id, '_show_aktion', true) === 'yes',
@@ -818,6 +824,7 @@ class Jaeger_Product_Data_API {
             'uvp' => $data['uvp'] ?? null,
             'show_uvp' => $data['show_uvp'] ?? false,
             'verpackungsart_short' => $data['verpackungsart_short'] ?? 'Pak.',
+            'show_discount_badge' => $data['show_discount_badge'] ?? false,
             'show_aktion' => $data['show_aktion'] ?? false,
             'aktion' => $data['aktion'] ?? null,
             'show_angebotspreis_hinweis' => $data['show_angebotspreis_hinweis'] ?? false,
@@ -887,6 +894,7 @@ class Jaeger_Product_Data_API {
             'stock_status' => $product['stock_status'] ?? 'outofstock',
 
             // Badges (Root-Level)
+            'show_discount_badge' => $product['show_discount_badge'] ?? false,
             'show_aktion' => $product['show_aktion'] ?? false,
             'aktion' => $product['aktion'] ?? null,
             'show_angebotspreis_hinweis' => $product['show_angebotspreis_hinweis'] ?? false,
