@@ -300,16 +300,76 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
               ) : null;
             })()}
 
-            {/* Aktion Badge */}
+            {/* Aktion Badge — Stil aus Backend, Jäger-Farben */}
             {product.show_aktion && product.aktion && (
-              <div className="bg-dark text-white px-3 py-1 rounded font-medium text-sm shadow-md">
+              <div
+                className="px-3 py-1 rounded font-medium shadow-md"
+                style={{
+                  backgroundColor: {
+                    'aktion-bg-black': '#2e2d32',
+                    'aktion-bg-red': '#ed1b24',
+                    'aktion-bg-blue': '#5095cb',
+                    'aktion-bg-navy': '#1e40af',
+                    'aktion-bg-green': '#28a745',
+                    'aktion-bg-yellow': '#F59E0B',
+                    'aktion-bg-gray': '#4c4c4c',
+                  }[product.aktion_button_style || ''] || '#2e2d32',
+                  color: product.aktion_text_color
+                    ? {
+                        'aktion-text-red': '#ed1b24',
+                        'aktion-text-blue': '#5095cb',
+                        'aktion-text-green': '#28a745',
+                        'aktion-text-yellow': '#F59E0B',
+                        'aktion-text-white': '#FFFFFF',
+                        'aktion-text-black': '#2e2d32',
+                      }[product.aktion_text_color] || '#FFFFFF'
+                    : product.aktion_button_style === 'aktion-bg-yellow' ? '#2e2d32' : '#FFFFFF',
+                  fontSize: {
+                    'aktion-text-sm': '0.875rem',
+                    'aktion-text-base': '1rem',
+                    'aktion-text-lg': '1.125rem',
+                    'aktion-text-xl': '1.25rem',
+                    'aktion-text-2xl': '1.5rem',
+                  }[product.aktion_text_size || ''] || '0.875rem',
+                }}
+              >
                 {product.aktion}
               </div>
             )}
 
-            {/* Angebotspreis Hinweis Badge */}
+            {/* Angebotspreis Hinweis Badge — Stil aus Backend, Jäger-Farben */}
             {product.show_angebotspreis_hinweis && product.angebotspreis_hinweis && (
-              <div className="bg-black text-white px-3 py-1 rounded font-bold text-sm shadow-md">
+              <div
+                className="px-3 py-1 rounded font-bold shadow-md"
+                style={{
+                  backgroundColor: {
+                    'aktion-bg-black': '#2e2d32',
+                    'aktion-bg-red': '#ed1b24',
+                    'aktion-bg-blue': '#5095cb',
+                    'aktion-bg-navy': '#1e40af',
+                    'aktion-bg-green': '#28a745',
+                    'aktion-bg-yellow': '#F59E0B',
+                    'aktion-bg-gray': '#4c4c4c',
+                  }[product.angebotspreis_button_style || ''] || '#2e2d32',
+                  color: product.angebotspreis_text_color
+                    ? {
+                        'aktion-text-red': '#ed1b24',
+                        'aktion-text-blue': '#5095cb',
+                        'aktion-text-green': '#28a745',
+                        'aktion-text-yellow': '#F59E0B',
+                        'aktion-text-white': '#FFFFFF',
+                        'aktion-text-black': '#2e2d32',
+                      }[product.angebotspreis_text_color] || '#FFFFFF'
+                    : product.angebotspreis_button_style === 'aktion-bg-yellow' ? '#2e2d32' : '#FFFFFF',
+                  fontSize: {
+                    'aktion-text-sm': '0.875rem',
+                    'aktion-text-base': '1rem',
+                    'aktion-text-lg': '1.125rem',
+                    'aktion-text-xl': '1.25rem',
+                    'aktion-text-2xl': '1.5rem',
+                  }[product.angebotspreis_text_size || ''] || '0.875rem',
+                }}
+              >
                 {product.angebotspreis_hinweis}
               </div>
             )}
@@ -424,8 +484,6 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
           {(() => {
             const unit = product.einheit_short || 'm²';
             const showUnit = unit !== '-' && unit.trim() !== '';
-            const paketinhalt = product.paketinhalt || 1;
-            const verpackungsart = product.verpackungsart_short || 'Pak.';
 
             // Preise direkt aus WooCommerce-Feldern (identisch mit Produktseite)
             const displayPrice = product.price || 0;
@@ -437,9 +495,6 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
               ? (product.setangebot_einzelpreis || 0)
               : (product.regular_price || product.price || 0);
             const hasDiscount = stattPrice > displayPrice;
-
-            const showPackagePrice = showUnit && paketinhalt > 1;
-            const paketpreis = displayPrice * paketinhalt;
 
             return (
               <div className="space-y-1">
@@ -455,21 +510,11 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
 
                 {/* Hauptpreis */}
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-900 font-medium">{isSetProduct ? 'Set-Preis' : 'Preis'}</span>
+                  <span className="text-gray-900 font-medium">{isSetProduct && isFloorProduct ? 'Set-Preis' : 'Preis'}</span>
                   <span className={`font-bold text-xl ${hasDiscount ? 'text-red-600' : 'text-gray-900'}`}>
                     {displayPrice.toFixed(2).replace('.', ',')} {showUnit ? `€/${unit}` : '€'}
                   </span>
                 </div>
-
-                {/* Paketpreis wenn paketinhalt > 1 */}
-                {showPackagePrice && (
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-500">{paketinhalt} {unit}/{verpackungsart}</span>
-                    <span className="text-gray-700 font-medium">
-                      {paketpreis.toFixed(2).replace('.', ',')} €/{verpackungsart}
-                    </span>
-                  </div>
-                )}
               </div>
             );
           })()}

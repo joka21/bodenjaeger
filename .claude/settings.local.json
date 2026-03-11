@@ -66,7 +66,8 @@
       "Bash(set +H:*)",
       "Bash(xxd:*)",
       "Bash(rm:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "WebFetch(domain:localhost)"
     ],
     "deny": [],
     "ask": []

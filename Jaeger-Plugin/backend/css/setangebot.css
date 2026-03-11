@@ -1,0 +1,136 @@
+/* Setangebot Frontend Styles */
+.jaeger-setangebot {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.jaeger-setangebot-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.jaeger-setangebot-products {
+    margin-bottom: 15px;
+}
+
+.jaeger-setangebot-product {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.jaeger-setangebot-product-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.jaeger-setangebot-prices {
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.jaeger-setangebot-price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.jaeger-setangebot-savings {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+.jaeger-setangebot-button {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 3px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.jaeger-setangebot-button:hover {
+    background-color: #45a049;
+    color: white !important;
+}
+
+/* Text Farben von der Aktionen-Komponente */
+.aktion-text-red {
+    color: #cc0000;
+}
+
+.aktion-text-blue {
+    color: #0066cc;
+}
+
+.aktion-text-green {
+    color: #4CAF50;
+}
+
+.aktion-text-yellow {
+    color: #FFD700;
+}
+
+.aktion-text-white {
+    color: #ffffff;
+}
+
+.aktion-text-black {
+    color: #000000;
+}
+
+/* Text Größen von der Aktionen-Komponente */
+.aktion-text-sm {
+    font-size: 0.8em;
+}
+
+.aktion-text-base {
+    font-size: 1em;
+}
+
+.aktion-text-lg {
+    font-size: 1.2em;
+}
+
+.aktion-text-xl {
+    font-size: 1.5em;
+}
+
+.aktion-text-2xl {
+    font-size: 1.8em;
+}
+
+/* Button Styles von der Aktionen-Komponente */
+.aktion-bg-red {
+    background-color: #cc0000;
+    color: white !important;
+}
+
+.aktion-bg-blue {
+    background-color: #0066cc;
+    color: white !important;
+}
+
+.aktion-bg-green {
+    background-color: #4CAF50;
+    color: white !important;
+}
+
+.aktion-bg-yellow {
+    background-color: #FFD700;
+    color: black !important;
+}
+
+.aktion-bg-gray {
+    background-color: #808080;
+    color: white !important;
+}
