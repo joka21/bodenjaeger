@@ -372,46 +372,45 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
             {product.name}
           </h3>
 
-          {/* Produktbeschreibung als Liste mit Haken */}
+          {/* Produktbeschreibung als Liste mit Haken — gleiche Logik wie ProductInfo.tsx */}
           {(() => {
-            const description = product.short_description || product.description || '';
-            if (!description) return null;
+            // Gleiche Extraktion wie auf der Produktseite: <li>-Tags aus short_description
+            let features: string[] = [];
 
-            // HTML bereinigen und in Listenpunkte aufteilen
-            const cleanText = description
-              .replace(/<br\s*\/?>/gi, '\n')
-              .replace(/<li[^>]*>/gi, '\n')
-              .replace(/<\/li>/gi, '')
-              .replace(/<ul[^>]*>|<\/ul>/gi, '')
-              .replace(/<ol[^>]*>|<\/ol>/gi, '')
-              .replace(/<p[^>]*>|<\/p>/gi, '\n')
-              .replace(/<[^>]+>/g, '')
-              .replace(/&nbsp;/g, ' ')
-              .replace(/&amp;/g, '&')
-              .replace(/&lt;/g, '<')
-              .replace(/&gt;/g, '>')
-              .trim();
+            if (product.short_description) {
+              const matches = product.short_description.match(/<li>(.*?)<\/li>/g);
+              if (matches) {
+                features = matches.map(match => match.replace(/<\/?li>/g, '').trim()).slice(0, 3);
+              }
+            }
 
-            const points = cleanText
-              .split('\n')
-              .map(line => line.trim())
-              .filter(line => line.length > 0 && line.length < 200)
-              .slice(0, 4); // Max 4 Punkte
+            // Fallback: Root-Level-Felder (identisch mit ProductInfo.tsx)
+            if (features.length === 0) {
+              if (product.text_produktuebersicht && product.show_text_produktuebersicht) {
+                features.push(product.text_produktuebersicht);
+              }
+              if (product.lieferzeit && product.show_lieferzeit) {
+                features.push(product.lieferzeit);
+              }
+              if (product.paketinhalt) {
+                features.push(`Paketinhalt: ${product.paketinhalt} ${product.einheit_short || 'm²'}`);
+              }
+            }
 
-            if (points.length === 0) return null;
+            if (features.length === 0) return null;
 
             return (
               <ul className="mb-3 space-y-1">
-                {points.map((point, index) => (
-                  <li key={index} className="flex items-start text-xs text-gray-600">
+                {features.map((feature, index) => (
+                  <li key={index} className="flex items-start text-xs text-gray-700">
                     <Image
-                      src="/images/Icons/Haken schieferschwarz.png"
-                      alt="Checkmark"
-                      width={12}
-                      height={12}
+                      src="/images/Icons/Haken rot.png"
+                      alt="Check"
+                      width={14}
+                      height={14}
                       className="mr-1.5 flex-shrink-0 mt-0.5"
                     />
-                    <span className="line-clamp-1">{point}</span>
+                    <span className="line-clamp-1">{feature}</span>
                   </li>
                 ))}
               </ul>

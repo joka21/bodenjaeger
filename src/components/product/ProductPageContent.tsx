@@ -753,11 +753,15 @@ export default function ProductPageContent({
           {/* Image Gallery - reused */}
           <ImageGallery product={product} />
 
-          {/* Service Icons - direkt unter dem Slider */}
-          <ServiceIcons />
+          {/* Service Icons - only on desktop (on mobile shown after right column) */}
+          <div className="hidden lg:block">
+            <ServiceIcons />
+          </div>
 
-          {/* Product Details - direkt unter Service Icons */}
-          <ProductDetails />
+          {/* Product Details - only on desktop (on mobile shown at bottom) */}
+          <div className="hidden lg:block">
+            <ProductDetails />
+          </div>
         </div>
 
         {/* RIGHT COLUMN */}
@@ -770,9 +774,18 @@ export default function ProductPageContent({
 
           {/* Payment Methods */}
           <PaymentMethods />
+
+          {/* Service Icons - mobile only */}
+          <div className="lg:hidden">
+            <ServiceIcons />
+          </div>
         </div>
       </div>
 
+      {/* Product Details - mobile only, after grid */}
+      <div className="lg:hidden mb-12">
+        <ProductDetails />
+      </div>
     </>
   );
 
