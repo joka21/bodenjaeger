@@ -294,7 +294,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 ? ((regPrice - mainPrice) / regPrice) * 100
                 : 0;
               return discountPct > 0 ? (
-                <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
+                <div className="bg-red-600 text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap' }}>
                   -{Math.round(discountPct)}%
                 </div>
               ) : null;
@@ -303,8 +303,11 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
             {/* Aktion Badge — Stil aus Backend, Jäger-Farben */}
             {product.show_aktion && product.aktion && (
               <div
-                className="px-3 py-1 rounded font-medium shadow-md"
+                className="rounded font-bold shadow-md w-fit"
                 style={{
+                  fontSize: '12px',
+                  padding: '3% 10%',
+                  whiteSpace: 'nowrap' as const,
                   backgroundColor: {
                     'aktion-bg-black': '#2e2d32',
                     'aktion-bg-red': '#ed1b24',
@@ -324,13 +327,6 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                         'aktion-text-black': '#2e2d32',
                       }[product.aktion_text_color] || '#FFFFFF'
                     : product.aktion_button_style === 'aktion-bg-yellow' ? '#2e2d32' : '#FFFFFF',
-                  fontSize: {
-                    'aktion-text-sm': '0.875rem',
-                    'aktion-text-base': '1rem',
-                    'aktion-text-lg': '1.125rem',
-                    'aktion-text-xl': '1.25rem',
-                    'aktion-text-2xl': '1.5rem',
-                  }[product.aktion_text_size || ''] || '0.875rem',
                 }}
               >
                 {product.aktion}
@@ -340,8 +336,11 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
             {/* Angebotspreis Hinweis Badge — Stil aus Backend, Jäger-Farben */}
             {product.show_angebotspreis_hinweis && product.angebotspreis_hinweis && (
               <div
-                className="px-3 py-1 rounded font-bold shadow-md"
+                className="rounded font-bold shadow-md w-fit"
                 style={{
+                  fontSize: '12px',
+                  padding: '3% 10%',
+                  whiteSpace: 'nowrap' as const,
                   backgroundColor: {
                     'aktion-bg-black': '#2e2d32',
                     'aktion-bg-red': '#ed1b24',
@@ -361,13 +360,6 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                         'aktion-text-black': '#2e2d32',
                       }[product.angebotspreis_text_color] || '#FFFFFF'
                     : product.angebotspreis_button_style === 'aktion-bg-yellow' ? '#2e2d32' : '#FFFFFF',
-                  fontSize: {
-                    'aktion-text-sm': '0.875rem',
-                    'aktion-text-base': '1rem',
-                    'aktion-text-lg': '1.125rem',
-                    'aktion-text-xl': '1.25rem',
-                    'aktion-text-2xl': '1.5rem',
-                  }[product.angebotspreis_text_size || ''] || '0.875rem',
                 }}
               >
                 {product.angebotspreis_hinweis}

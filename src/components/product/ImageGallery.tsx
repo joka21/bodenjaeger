@@ -34,7 +34,6 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
   }
 
   const currentImage = images[currentImageIndex];
-  const jaegerMeta = product.jaeger_meta;
 
   // ✅ USE BACKEND-CALCULATED DISCOUNT
   // Always use setangebot_ersparnis_prozent (backend calculated)
@@ -58,22 +57,74 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
         <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
           {/* Discount Badge */}
           {discountPercent > 0 && (
-            <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
+            <div className="bg-red-600 text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap' }}>
               -{discountPercent}%
             </div>
           )}
 
-          {/* Aktion Badge */}
-          {jaegerMeta?.show_aktion && jaegerMeta?.aktion && (
-            <div className="bg-dark text-white px-3 py-1 rounded font-medium text-sm shadow-md">
-              {jaegerMeta.aktion}
+          {/* Aktion Badge — Root-Level-Felder + Backend-Stil (Jäger-Farben) */}
+          {product.show_aktion && product.aktion && (
+            <div
+              className="rounded font-bold shadow-md w-fit"
+              style={{
+                fontSize: '12px',
+                padding: '3% 10%',
+                whiteSpace: 'nowrap' as const,
+                backgroundColor: {
+                  'aktion-bg-black': '#2e2d32',
+                  'aktion-bg-red': '#ed1b24',
+                  'aktion-bg-blue': '#5095cb',
+                  'aktion-bg-navy': '#1e40af',
+                  'aktion-bg-green': '#28a745',
+                  'aktion-bg-yellow': '#F59E0B',
+                  'aktion-bg-gray': '#4c4c4c',
+                }[product.aktion_button_style || ''] || '#2e2d32',
+                color: product.aktion_text_color
+                  ? {
+                      'aktion-text-red': '#ed1b24',
+                      'aktion-text-blue': '#5095cb',
+                      'aktion-text-green': '#28a745',
+                      'aktion-text-yellow': '#F59E0B',
+                      'aktion-text-white': '#FFFFFF',
+                      'aktion-text-black': '#2e2d32',
+                    }[product.aktion_text_color] || '#FFFFFF'
+                  : product.aktion_button_style === 'aktion-bg-yellow' ? '#2e2d32' : '#FFFFFF',
+              }}
+            >
+              {product.aktion}
             </div>
           )}
 
-          {/* Angebotspreis Hinweis Badge */}
-          {jaegerMeta?.show_angebotspreis_hinweis && (
-            <div className="bg-black text-white px-3 py-1 rounded font-bold text-sm shadow-md">
-              {jaegerMeta.angebotspreis_hinweis || 'Angebot'}
+          {/* Angebotspreis Hinweis Badge — Root-Level-Felder + Backend-Stil (Jäger-Farben) */}
+          {product.show_angebotspreis_hinweis && product.angebotspreis_hinweis && (
+            <div
+              className="rounded font-bold shadow-md w-fit"
+              style={{
+                fontSize: '12px',
+                padding: '3% 10%',
+                whiteSpace: 'nowrap' as const,
+                backgroundColor: {
+                  'aktion-bg-black': '#2e2d32',
+                  'aktion-bg-red': '#ed1b24',
+                  'aktion-bg-blue': '#5095cb',
+                  'aktion-bg-navy': '#1e40af',
+                  'aktion-bg-green': '#28a745',
+                  'aktion-bg-yellow': '#F59E0B',
+                  'aktion-bg-gray': '#4c4c4c',
+                }[product.angebotspreis_button_style || ''] || '#2e2d32',
+                color: product.angebotspreis_text_color
+                  ? {
+                      'aktion-text-red': '#ed1b24',
+                      'aktion-text-blue': '#5095cb',
+                      'aktion-text-green': '#28a745',
+                      'aktion-text-yellow': '#F59E0B',
+                      'aktion-text-white': '#FFFFFF',
+                      'aktion-text-black': '#2e2d32',
+                    }[product.angebotspreis_text_color] || '#FFFFFF'
+                  : product.angebotspreis_button_style === 'aktion-bg-yellow' ? '#2e2d32' : '#FFFFFF',
+              }}
+            >
+              {product.angebotspreis_hinweis}
             </div>
           )}
         </div>
