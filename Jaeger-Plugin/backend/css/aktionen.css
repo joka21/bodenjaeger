@@ -2,7 +2,7 @@
 .aktion-text-red { color: #ed1b24; }    /* brand */
 .aktion-text-blue { color: #5095cb; }   /* ocean */
 .aktion-text-green { color: #28a745; }  /* success */
-.aktion-text-yellow { color: #F59E0B; }
+.aktion-text-yellow { color: #fff201; }
 .aktion-text-white { color: #FFFFFF; }
 .aktion-text-black { color: #2e2d32; }  /* dark */
 
@@ -39,7 +39,7 @@
     border-radius: 0.25rem;
 }
 .aktion-bg-yellow {
-    background-color: #F59E0B;
+    background-color: #fff201;
     color: black;
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;

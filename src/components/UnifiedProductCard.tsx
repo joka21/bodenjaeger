@@ -314,7 +314,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                     'aktion-bg-blue': '#5095cb',
                     'aktion-bg-navy': '#1e40af',
                     'aktion-bg-green': '#28a745',
-                    'aktion-bg-yellow': '#F59E0B',
+                    'aktion-bg-yellow': '#fff201',
                     'aktion-bg-gray': '#4c4c4c',
                   }[product.aktion_button_style || ''] || '#2e2d32',
                   color: product.aktion_text_color
@@ -322,7 +322,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                         'aktion-text-red': '#ed1b24',
                         'aktion-text-blue': '#5095cb',
                         'aktion-text-green': '#28a745',
-                        'aktion-text-yellow': '#F59E0B',
+                        'aktion-text-yellow': '#fff201',
                         'aktion-text-white': '#FFFFFF',
                         'aktion-text-black': '#2e2d32',
                       }[product.aktion_text_color] || '#FFFFFF'
@@ -347,7 +347,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                     'aktion-bg-blue': '#5095cb',
                     'aktion-bg-navy': '#1e40af',
                     'aktion-bg-green': '#28a745',
-                    'aktion-bg-yellow': '#F59E0B',
+                    'aktion-bg-yellow': '#fff201',
                     'aktion-bg-gray': '#4c4c4c',
                   }[product.angebotspreis_button_style || ''] || '#2e2d32',
                   color: product.angebotspreis_text_color
@@ -355,7 +355,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                         'aktion-text-red': '#ed1b24',
                         'aktion-text-blue': '#5095cb',
                         'aktion-text-green': '#28a745',
-                        'aktion-text-yellow': '#F59E0B',
+                        'aktion-text-yellow': '#fff201',
                         'aktion-text-white': '#FFFFFF',
                         'aktion-text-black': '#2e2d32',
                       }[product.angebotspreis_text_color] || '#FFFFFF'
