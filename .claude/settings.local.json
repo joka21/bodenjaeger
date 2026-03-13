@@ -67,7 +67,8 @@
       "Bash(xxd:*)",
       "Bash(rm:*)",
       "Bash(grep:*)",
-      "WebFetch(domain:localhost)"
+      "WebFetch(domain:localhost)",
+      "Bash(find \"C:\\\\Users\\\\jokal\\\\OneDrive\\\\Desktop\\\\Projekte\\\\jäger\\\\bodenjäger\" -maxdepth 2 -type f \\\\\\( -name \".env*\" -o -name \"*.env\" \\\\\\) 2>/dev/null | head -20)"
     ],
     "deny": [],
     "ask": []
