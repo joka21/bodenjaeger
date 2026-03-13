@@ -130,8 +130,12 @@ button, .button, .btn {
   border-bottom: 1px solid var(--color-bg-gray);
 }
 
+.bj-specs-table table tr {
+  background-color: var(--color-bg-white);
+}
+
 .bj-specs-table table tr:nth-child(even) {
-  background-color: var(--color-bg-gray);
+  background-color: var(--color-bg-light);
 }
 
 .bj-specs-table table td,

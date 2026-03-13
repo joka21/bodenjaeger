@@ -308,7 +308,7 @@ export default function ProductPageContent({
 
         {/* Tab Content */}
         {activeTab && (
-          <div style={{ backgroundColor: '#e5e5e5', borderRadius: '16px', borderLeft: '6px solid #ed1b24', padding: '32px', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', width: '100%', boxSizing: 'border-box' }}>
             {activeTab === 'beschreibung' && hasBeschreibung && (
               <div
                 style={{ color: '#2e2d32', fontSize: '14px', lineHeight: '1.75' }}
