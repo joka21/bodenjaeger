@@ -169,13 +169,8 @@ export default function CheckoutPage() {
         } else {
           // Reguläres Item
           const paketinhalt = item.product.paketinhalt || 1;
-          const einheit = item.product.einheit_short || 'm²';
-          // Boden: price = €/m², Paketpreis = price × paketinhalt
-          // Zubehör: price = €/Stk., paketinhalt ist nur Inhaltsangabe (kg, Liter)
-          const isAreaUnit = ['m²', 'lfm', 'm'].includes(einheit);
-          totalPrice = isAreaUnit
-            ? item.product.price * paketinhalt * item.quantity
-            : item.product.price * item.quantity;
+          // Paketpreis = Einzelpreis × Paketinhalt (gilt für ALLE Einheiten: m², lfm, kg, Liter etc.)
+          totalPrice = item.product.price * paketinhalt * item.quantity;
         }
 
         // Metadata für Set-Angebot Items (umfassend für Rechnungen/Refunds)

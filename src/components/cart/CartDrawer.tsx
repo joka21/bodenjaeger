@@ -169,10 +169,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           const einheit = item.product.einheit_short || 'm²';
           const verpackungsart = toProductUnit(item.product.verpackungsart_short, 'Stk.');
 
-          // Boden: price = €/m², Paketpreis = price × paketinhalt
-          // Zubehör: price = €/Stk., paketinhalt ist nur Inhaltsangabe (kg, Liter)
-          const isAreaUnit = ['m²', 'lfm', 'm'].includes(einheit);
-          const paketpreis = isAreaUnit ? unitPrice * singlePaketinhalt : unitPrice;
+          // Paketpreis = Einzelpreis × Paketinhalt (gilt für ALLE Einheiten: m², lfm, kg, Liter etc.)
+          const paketpreis = unitPrice * singlePaketinhalt;
 
           const product: CartItemBase = {
             id: `single-${item.id}`,
@@ -183,7 +181,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             unit: verpackungsart,
             contentUnit: einheit,
             unitValue: singlePaketinhalt,
-            pricePerUnit: isAreaUnit ? unitPrice : unitPrice,
+            pricePerUnit: unitPrice,
             originalPricePerUnit: regularUnitPrice,
             total: paketpreis * item.quantity,
           };
