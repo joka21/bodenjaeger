@@ -8,6 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import {
   createWooCommerceOrder,
   updateOrderStatus,
@@ -15,6 +16,7 @@ import {
 } from '@/lib/woocommerce-checkout';
 import { createStripeCheckoutSession, euroToCents } from '@/lib/stripe';
 import { createPayPalOrder } from '@/lib/paypal';
+import { wpValidateToken, wpGetCurrentUser } from '@/lib/auth';
 
 // ============================================================================
 // TypeScript Interfaces
@@ -84,11 +86,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 3. Payment Method für WooCommerce festlegen
+    // 3. Eingeloggten Kunden erkennen (optional, Gastbestellung bleibt möglich)
+    let customerId: number | undefined;
+    try {
+      const cookieStore = await cookies();
+      const token = cookieStore.get('auth_token')?.value;
+      if (token) {
+        const isValid = await wpValidateToken(token);
+        if (isValid) {
+          const user = await wpGetCurrentUser(token);
+          if (user) {
+            customerId = user.id;
+            console.log(`👤 Eingeloggter Kunde: ${user.id} (${user.email})`);
+          }
+        }
+      }
+    } catch {
+      // Kein Auth — Gastbestellung, kein Problem
+    }
+
+    // 4. Payment Method für WooCommerce festlegen
     const wcPaymentMethod = payment_method === 'sofort' ? 'stripe_sofort' : payment_method;
 
-    // 4. WooCommerce Order erstellen (Status: pending)
+    // 5. WooCommerce Order erstellen (Status: pending)
     const orderData: WooCommerceOrderData = {
+      ...(customerId ? { customer_id: customerId } : {}),
       payment_method: wcPaymentMethod,
       payment_method_title: getPaymentMethodTitle(payment_method),
       set_paid: false,
@@ -120,7 +142,22 @@ export async function POST(request: NextRequest) {
 
     console.log(`✅ WooCommerce Order created: ${order.id}`);
 
-    // 5. Je nach Zahlungsmethode: Payment Session erstellen oder direkt zur Success-Page
+    // 6. Kundenprofil mit Adressen aktualisieren (im Hintergrund, blockiert nicht)
+    if (customerId) {
+      const WP_URL = process.env.NEXT_PUBLIC_WORDPRESS_URL;
+      const WC_KEY = process.env.WC_CONSUMER_KEY;
+      const WC_SECRET = process.env.WC_CONSUMER_SECRET;
+      fetch(`${WP_URL}/wp-json/wc/v3/customers/${customerId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString('base64')}`,
+        },
+        body: JSON.stringify({ billing, shipping }),
+      }).catch((err) => console.error('Kundenprofil-Update fehlgeschlagen:', err));
+    }
+
+    // 7. Je nach Zahlungsmethode: Payment Session erstellen oder direkt zur Success-Page
     let redirectUrl: string | null = null;
 
     // ============================

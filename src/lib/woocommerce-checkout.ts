@@ -35,6 +35,7 @@ export interface WooCommerceAddress {
 }
 
 export interface WooCommerceOrderData {
+  customer_id?: number;             // WooCommerce Kunden-ID (falls eingeloggt)
   payment_method: string;           // "bacs" (Vorkasse), "paypal", "stripe"
   payment_method_title: string;     // "Vorkasse", "PayPal", etc.
   set_paid: boolean;                // false für Vorkasse, true nach Payment
