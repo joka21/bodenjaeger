@@ -20,7 +20,6 @@ interface SetAngebotMobileProps {
   sockelleisteSetPricePerUnit: number;
   sockelleisteRegularPricePerUnit: number;
   sockelleisteEinheit?: string;
-  gesamtVergleichspreisProM2?: number;
   comparisonPriceTotal?: number;
   totalDisplayPrice?: number;
   savingsPercent?: number;
@@ -45,7 +44,6 @@ export default function SetAngebotMobile({
   sockelleisteSetPricePerUnit,
   sockelleisteRegularPricePerUnit,
   sockelleisteEinheit = 'lfm',
-  gesamtVergleichspreisProM2,
   daemmungOptions = [],
   sockelleisteOptions = [],
   onProductSelection
@@ -88,11 +86,9 @@ export default function SetAngebotMobile({
     setModalType(null);
   };
 
-  // STATISCHER M²-PREIS
+  // STATISCHER M²-PREIS (dynamisch berechnet aus gewählten Produkten)
   const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
-  // gesamtVergleichspreisProM2 = setangebot_einzelpreis vom Backend (enthält Boden + Zubehör bereits)
-  // Fallback: regularPrice + Zubehör (falls nicht vorhanden)
-  const vergleichspreisProM2 = gesamtVergleichspreisProM2 ?? (regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit);
+  const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
   const ersparnisProzent = vergleichspreisProM2 > 0
     ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
     : 0;
@@ -124,9 +120,11 @@ export default function SetAngebotMobile({
           </div>
           {/* 3. Preise */}
           <div className="flex flex-col items-end flex-shrink-0">
-            <span className="text-[11px] text-mid line-through">
-              {regularPrice.toFixed(2).replace('.', ',')} €
-            </span>
+            {regularPrice > basePrice && (
+              <span className="text-[11px] text-mid line-through">
+                {regularPrice.toFixed(2).replace('.', ',')} €/{einheit}
+              </span>
+            )}
             <span className="text-sm font-semibold text-brand">
               {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
@@ -161,13 +159,14 @@ export default function SetAngebotMobile({
             </div>
             {/* 3. Preise */}
             <div className="flex flex-col items-end flex-shrink-0">
-              {daemmungRegularPricePerUnit && daemmungRegularPricePerUnit > 0 && (
-                <span className="text-[11px] text-mid line-through">
-                  {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
-                </span>
-              )}
+              <span className="text-[11px] text-mid line-through">
+                {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
+              </span>
               <span className="text-sm font-semibold text-brand">
-                {daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/{einheit}
+                {daemmungSetPricePerUnit <= 0
+                  ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
+                  : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
+                }
               </span>
             </div>
           </div>
@@ -201,13 +200,14 @@ export default function SetAngebotMobile({
             </div>
             {/* 3. Preise */}
             <div className="flex flex-col items-end flex-shrink-0">
-              {sockelleisteRegularPricePerUnit && sockelleisteRegularPricePerUnit > 0 && (
-                <span className="text-[11px] text-mid line-through">
-                  {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
-                </span>
-              )}
+              <span className="text-[11px] text-mid line-through">
+                {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
+              </span>
               <span className="text-sm font-semibold text-brand">
-                {sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/{sockelleisteEinheit}
+                {sockelleisteSetPricePerUnit <= 0
+                  ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
+                  : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
+                }
               </span>
             </div>
           </div>
@@ -221,11 +221,11 @@ export default function SetAngebotMobile({
           <div className="flex items-center gap-2">
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
               <span className="line-through text-sm text-mid">
-                {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/m²
+                {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
             <span className="text-lg font-bold text-brand">
-              {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/m²
+              {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
             {ersparnisProzent > 0 && (
               <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-white bg-brand rounded">

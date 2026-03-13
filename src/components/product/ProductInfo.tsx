@@ -179,7 +179,6 @@ export default function ProductInfo({
           productImage={productImage}
           basePrice={basePrice}
           regularPrice={regularPrice}
-          gesamtVergleichspreisProM2={gesamtVergleichspreisProM2}
           einheit={einheit}
           daemmungName={daemmungName}
           daemmungImage={daemmungImage}

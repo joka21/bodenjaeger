@@ -132,104 +132,8 @@ export default function SetAngebot({
       {/* Grauer Container mit Produkten */}
       <div className="bg-ash rounded-md p-4 sm:p-6 pt-10 sm:pt-12 w-full">
 
-        {/* ===== MOBILE: Kompakte Zeilen-Liste ===== */}
-        <div className="md:hidden">
-          {/* Boden Zeile */}
-          <div className="flex items-center gap-3 py-3 border-b border-gray-300">
-            <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-50">
-              <Image
-                src={productImage}
-                alt={productName}
-                width={64}
-                height={64}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Boden</span>
-              <h3 className="text-xs font-semibold text-gray-900 line-clamp-1">{productName}</h3>
-            </div>
-            <div className="flex flex-col items-end flex-shrink-0">
-              {vergleichspreisProM2 > basePrice && (
-                <span className="text-[10px] text-gray-400 line-through whitespace-nowrap">
-                  statt {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
-                </span>
-              )}
-              <span className="text-sm font-bold text-red-600 whitespace-nowrap">
-                {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
-              </span>
-            </div>
-          </div>
-
-          {/* Dämmung Zeile */}
-          {hasDaemmung && (
-            <div
-              className="flex items-center gap-3 py-3 border-b border-gray-300 cursor-pointer active:bg-gray-200/50 transition-colors"
-              onClick={() => openModal('daemmung')}
-            >
-              <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-50">
-                <Image
-                  src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
-                  alt={selectedDaemmung?.name || daemmungName}
-                  width={64}
-                  height={64}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Dämmung</span>
-                <h3 className="text-xs font-semibold text-gray-900 line-clamp-1">{selectedDaemmung?.name || daemmungName}</h3>
-              </div>
-              <div className="flex flex-col items-end flex-shrink-0">
-                <span className="text-[10px] text-gray-400 line-through whitespace-nowrap">
-                  {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
-                </span>
-                <span className="text-sm font-bold text-red-600 whitespace-nowrap">
-                  {daemmungSetPricePerUnit <= 0
-                    ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
-                    : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
-                  }
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Sockelleiste Zeile */}
-          {hasSockelleiste && (
-            <div
-              className="flex items-center gap-3 py-3 cursor-pointer active:bg-gray-200/50 transition-colors"
-              onClick={() => openModal('sockelleiste')}
-            >
-              <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-50">
-                <Image
-                  src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
-                  alt={selectedSockelleiste?.name || sockelleisteName}
-                  width={64}
-                  height={64}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Sockelleiste</span>
-                <h3 className="text-xs font-semibold text-gray-900 line-clamp-1">{selectedSockelleiste?.name || sockelleisteName}</h3>
-              </div>
-              <div className="flex flex-col items-end flex-shrink-0">
-                <span className="text-[10px] text-gray-400 line-through whitespace-nowrap">
-                  {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
-                </span>
-                <span className="text-sm font-bold text-red-600 whitespace-nowrap">
-                  {sockelleisteSetPricePerUnit <= 0
-                    ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
-                    : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
-                  }
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* ===== DESKTOP: Karten-Grid ===== */}
-        <div className={`hidden md:grid ${gridCols} gap-6 w-full`}>
+        <div className={`grid ${gridCols} gap-6 w-full`}>
         {/* Boden Card - KEIN Button */}
         <div className="space-y-3">
           <div className="text-center">
@@ -253,9 +157,9 @@ export default function SetAngebot({
                 {productName}
               </h3>
               <div className="mt-auto flex items-center justify-end gap-2 w-full text-[10px]">
-                {vergleichspreisProM2 > basePrice && (
+                {regularPrice > basePrice && (
                   <span className="text-gray-400 line-through">
-                    {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
+                    {regularPrice.toFixed(2).replace('.', ',')} €/{einheit}
                   </span>
                 )}
                 <span className="font-bold text-red-600 whitespace-nowrap">
@@ -373,8 +277,8 @@ export default function SetAngebot({
         )}
         </div>
 
-        {/* Gesamt-Preiszeile - Desktop (STATISCHER M²-PREIS) */}
-        <div className="hidden md:flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
+        {/* Gesamt-Preiszeile (STATISCHER M²-PREIS) */}
+        <div className="flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
           <div className="flex items-center gap-4">
             <span className="text-3xl font-extrabold text-gray-700">Gesamt</span>
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
@@ -395,27 +299,6 @@ export default function SetAngebot({
           )}
         </div>
 
-        {/* Gesamt-Block - Mobile Kompakt (STATISCHER M²-PREIS) */}
-        <div className="md:hidden mt-4 pt-3 border-t-2 border-gray-300">
-          <div className="flex items-center justify-between">
-            <span className="text-base font-extrabold text-gray-700">Gesamt</span>
-            <div className="flex items-center gap-2">
-              {vergleichspreisProM2 > setAngebotPreisProM2 && (
-                <span className="line-through text-xs text-gray-400 whitespace-nowrap">
-                  {vergleichspreisProM2.toFixed(2).replace('.', ',')} €
-                </span>
-              )}
-              <span className="text-lg font-bold text-red-600 whitespace-nowrap">
-                {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
-              </span>
-              {ersparnisProzent > 0 && (
-                <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold ml-1">
-                  -{Math.round(ersparnisProzent)}%
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Modal für Produktauswahl */}
