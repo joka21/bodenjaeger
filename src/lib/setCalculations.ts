@@ -23,7 +23,8 @@ export function calculatePackages(
 ): number {
   if (isFree) {
     // KOSTENLOS: ABRUNDEN → drunter bleiben (kundenfreundlich)
-    return Math.floor(targetM2 / paketinhalt);
+    // Minimum 1 Paket wenn Menge > 0 (Produkt wurde ausgewählt)
+    return targetM2 > 0 ? Math.max(1, Math.floor(targetM2 / paketinhalt)) : 0;
   } else {
     // AUFPREIS oder BODEN: AUFRUNDEN → drüber gehen (Kunde bekommt mehr)
     return Math.ceil(targetM2 / paketinhalt);

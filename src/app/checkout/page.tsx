@@ -154,8 +154,8 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Line Items aus Cart erstellen
-      const line_items = cartItems.map((item) => {
+      // Line Items aus Cart erstellen (Items mit quantity 0 ausfiltern)
+      const line_items = cartItems.filter((item) => item.quantity > 0).map((item) => {
         let totalPrice: number;
 
         // Preisberechnung abhängig vom Item-Typ
