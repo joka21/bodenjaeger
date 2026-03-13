@@ -131,7 +131,7 @@ button, .button, .btn {
 }
 
 .bj-specs-table table tr:nth-child(even) {
-  background-color: var(--color-bg-light);
+  background-color: var(--color-bg-gray);
 }
 
 .bj-specs-table table td,
