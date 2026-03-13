@@ -318,7 +318,7 @@ export default function ProductPageContent({
 
             {activeTab === 'eigenschaften' && hasEigenschaften && (
               <div
-                style={{ color: '#2e2d32', fontSize: '14px' }}
+                className="bj-specs-table"
                 dangerouslySetInnerHTML={{ __html: descriptionHtml }}
               />
             )}
