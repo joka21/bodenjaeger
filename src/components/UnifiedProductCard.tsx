@@ -483,15 +483,12 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
             const unit = product.einheit_short || 'm²';
             const showUnit = unit !== '-' && unit.trim() !== '';
 
-            // Preise direkt aus WooCommerce-Feldern (identisch mit Produktseite)
+            // Preise direkt aus Backend-Feldern (identisch mit Produktseite)
             const displayPrice = product.price || 0;
 
-            // Streichpreis: Bei Set-Produkten = setangebot_einzelpreis (Vergleichspreis inkl. Zusatzprodukte),
-            // sonst = WooCommerce regular_price
-            const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
-            const stattPrice = isSetProduct
-              ? (product.setangebot_einzelpreis || 0)
-              : (product.regular_price || product.price || 0);
+            // Streichpreis: uvp > regular_price > price (gleiche Logik wie ProductPageContent)
+            const isSetProduct = product.show_setangebot;
+            const stattPrice = product.uvp || product.regular_price || product.price || 0;
             const hasDiscount = stattPrice > displayPrice;
 
             return (
