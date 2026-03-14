@@ -423,9 +423,22 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
             let features: string[] = [];
 
             if (product.short_description) {
+              // Strategy 1: Extract from <li> tags
               const matches = product.short_description.match(/<li>(.*?)<\/li>/g);
               if (matches) {
                 features = matches.map(match => match.replace(/<\/?li>/g, '').trim()).slice(0, 3);
+              }
+
+              // Strategy 2: Bullet points as plain text (• or -)
+              if (features.length === 0) {
+                const lines = product.short_description
+                  .replace(/<[^>]*>/g, '') // Strip HTML tags
+                  .split(/\n|<br\s*\/?>/)
+                  .map(line => line.replace(/^[\s•\-–]+/, '').trim())
+                  .filter(line => line.length > 0);
+                if (lines.length > 0) {
+                  features = lines.slice(0, 3);
+                }
               }
             }
 
