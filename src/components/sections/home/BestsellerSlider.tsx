@@ -231,9 +231,11 @@ export default function BestsellerSlider({
                       {(() => {
                         const unit = product.einheit_short || 'm²';
                         const price = product.price;
-                        // Streichpreis: uvp > regular_price > price (gleiche Logik wie ProductPageContent)
-                        const isSetProduct = product.show_setangebot;
-                        const stattPrice = product.uvp || product.regular_price || 0;
+                        // Streichpreis: Bei Set-Produkten = setangebot_einzelpreis (Vergleichspreis inkl. Zusatzprodukte)
+                        const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
+                        const stattPrice = isSetProduct
+                          ? (product.setangebot_einzelpreis || 0)
+                          : (product.regular_price || 0);
                         const hasDiscount = stattPrice > price;
 
                         return (

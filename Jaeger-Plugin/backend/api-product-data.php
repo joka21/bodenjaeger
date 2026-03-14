@@ -257,11 +257,11 @@ class Jaeger_Product_Data_API {
             $data['setangebot_button_style'] = get_post_meta($product_id, '_setangebot_button_style', true) ?: null;
             $data['setangebot_rabatt'] = floatval(get_post_meta($product_id, '_setangebot_rabatt', true)) ?: 0;
 
-            // Set-Angebot Berechnete Werte (4 Felder)
-            $data['setangebot_einzelpreis'] = floatval(get_post_meta($product_id, '_setangebot_einzelpreis', true)) ?: null;
-            $data['setangebot_gesamtpreis'] = floatval(get_post_meta($product_id, '_setangebot_gesamtpreis', true)) ?: null;
-            $data['setangebot_ersparnis_euro'] = floatval(get_post_meta($product_id, '_setangebot_ersparnis_euro', true)) ?: null;
-            $data['setangebot_ersparnis_prozent'] = floatval(get_post_meta($product_id, '_setangebot_ersparnis_prozent', true)) ?: null;
+            // Set-Angebot Berechnete Werte (4 Felder) — Live-Berechnung
+            $data['setangebot_einzelpreis'] = $this->calculate_setangebot_einzelpreis($product, $product_id);
+            $data['setangebot_gesamtpreis'] = $this->calculate_setangebot_gesamtpreis($product, $product_id);
+            $data['setangebot_ersparnis_euro'] = $this->calculate_setangebot_ersparnis_euro($product, $product_id);
+            $data['setangebot_ersparnis_prozent'] = $this->calculate_setangebot_ersparnis_prozent($product, $product_id);
 
             // Zusatzprodukte (4 Felder)
             $data['daemmung_id'] = intval(get_post_meta($product_id, '_standard_addition_daemmung', true)) ?: null;
@@ -539,17 +539,18 @@ class Jaeger_Product_Data_API {
                                 : null,
 
                             // ===== SETANGEBOT PREISE (4 FELDER) =====
+                            // Live-Berechnung: Vergleichspreis = höchster Bodenpreis + Dämmung + Sockelleiste
                             'setangebot_einzelpreis' => get_post_meta($product_id, '_show_setangebot', true) === 'yes'
-                                ? floatval(get_post_meta($product_id, '_setangebot_einzelpreis', true))
+                                ? $this->calculate_setangebot_einzelpreis($product, $product_id)
                                 : null,
                             'setangebot_gesamtpreis' => get_post_meta($product_id, '_show_setangebot', true) === 'yes'
-                                ? floatval(get_post_meta($product_id, '_setangebot_gesamtpreis', true))
+                                ? $this->calculate_setangebot_gesamtpreis($product, $product_id)
                                 : null,
                             'setangebot_ersparnis_euro' => get_post_meta($product_id, '_show_setangebot', true) === 'yes'
-                                ? floatval(get_post_meta($product_id, '_setangebot_ersparnis_euro', true))
+                                ? $this->calculate_setangebot_ersparnis_euro($product, $product_id)
                                 : null,
                             'setangebot_ersparnis_prozent' => get_post_meta($product_id, '_show_setangebot', true) === 'yes'
-                                ? floatval(get_post_meta($product_id, '_setangebot_ersparnis_prozent', true))
+                                ? $this->calculate_setangebot_ersparnis_prozent($product, $product_id)
                                 : null,
 
                             // ===== ZUSATZPRODUKT-IDs (4 FELDER) =====
@@ -925,6 +926,79 @@ class Jaeger_Product_Data_API {
             'verpackungsart_short' => $product['verpackungsart_short'] ?? 'Pak.',
             'is_in_stock' => $product['stock_status'] === 'instock',
         );
+    }
+
+    /**
+     * Live-Berechnung: Vergleichspreis mit Zusatzprodukten (identisch mit backend-setangebot.php AJAX)
+     * Höchster Bodenpreis (UVP oder regular_price) + Dämmung + Sockelleiste
+     */
+    private function calculate_setangebot_einzelpreis($product, $product_id) {
+        // Höchsten Preis ermitteln
+        $show_uvp = get_post_meta($product_id, '_show_uvp', true) === 'yes';
+        $uvp_price = floatval(get_post_meta($product_id, '_uvp', true));
+        $regular_price = floatval($product->get_regular_price());
+
+        $highest_price = $regular_price;
+        if ($show_uvp && $uvp_price > 0) {
+            $highest_price = $uvp_price;
+        }
+
+        // Zusatzprodukt-Preise
+        $daemmung_price = 0;
+        $sockelleisten_price = 0;
+
+        $daemmung_id = intval(get_post_meta($product_id, '_standard_addition_daemmung', true));
+        if ($daemmung_id > 0) {
+            $daemmung = wc_get_product($daemmung_id);
+            if ($daemmung) {
+                $daemmung_price = floatval($daemmung->get_price());
+            }
+        }
+
+        $sockelleisten_id = intval(get_post_meta($product_id, '_standard_addition_sockelleisten', true));
+        if ($sockelleisten_id > 0) {
+            $sockelleiste = wc_get_product($sockelleisten_id);
+            if ($sockelleiste) {
+                $sockelleisten_price = floatval($sockelleiste->get_price());
+            }
+        }
+
+        return round($highest_price + $daemmung_price + $sockelleisten_price, 2);
+    }
+
+    /**
+     * Live-Berechnung: Set-Preis (niedrigster Bodenpreis inkl. Rabatt)
+     */
+    private function calculate_setangebot_gesamtpreis($product, $product_id) {
+        $regular_price = floatval($product->get_regular_price());
+        $sale_price = $product->get_sale_price() ? floatval($product->get_sale_price()) : 0;
+        $rabatt = floatval(get_post_meta($product_id, '_setangebot_rabatt', true));
+
+        $lowest_price = ($sale_price > 0) ? $sale_price : $regular_price;
+
+        if ($rabatt > 0) {
+            $lowest_price = $lowest_price * (1 - ($rabatt / 100));
+        }
+
+        return round($lowest_price, 2);
+    }
+
+    /**
+     * Live-Berechnung: Ersparnis in Euro
+     */
+    private function calculate_setangebot_ersparnis_euro($product, $product_id) {
+        $einzelpreis = $this->calculate_setangebot_einzelpreis($product, $product_id);
+        $gesamtpreis = $this->calculate_setangebot_gesamtpreis($product, $product_id);
+        return round($einzelpreis - $gesamtpreis, 2);
+    }
+
+    /**
+     * Live-Berechnung: Ersparnis in Prozent
+     */
+    private function calculate_setangebot_ersparnis_prozent($product, $product_id) {
+        $einzelpreis = $this->calculate_setangebot_einzelpreis($product, $product_id);
+        $gesamtpreis = $this->calculate_setangebot_gesamtpreis($product, $product_id);
+        return ($einzelpreis > 0) ? round(($einzelpreis - $gesamtpreis) / $einzelpreis * 100, 2) : 0;
     }
 }
 

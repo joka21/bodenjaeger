@@ -44,9 +44,12 @@ export default function ProductCard({ product, showDescription = false }: Produc
   };
 
   // Get strike price if there's a discount
-  // Streichpreis: uvp > regular_price > price (gleiche Logik wie ProductPageContent)
+  // Bei Set-Produkten: setangebot_einzelpreis (Vergleichspreis inkl. Zusatzprodukte)
   const getStrikePrice = () => {
-    const stattPrice = product.uvp || regularPrice;
+    const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
+    const stattPrice = isSetProduct
+      ? (product.setangebot_einzelpreis || 0)
+      : regularPrice;
     if (stattPrice <= price) return null;
     return `${stattPrice.toFixed(2).replace('.', ',')} ${showUnit ? `€/${einheitShort}` : '€'}`;
   };

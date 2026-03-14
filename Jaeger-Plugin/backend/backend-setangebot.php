@@ -489,9 +489,9 @@ function jaeger_save_setangebot_fields($post_id) {
         return;
     }
 
-    // Zusatzprodukte-IDs aus dem aktuellen Save-Request holen
-    $daemmung_id = isset($_POST['_standard_addition_daemmung']) ? intval($_POST['_standard_addition_daemmung']) : 0;
-    $sockelleisten_id = isset($_POST['_standard_addition_sockelleisten']) ? intval($_POST['_standard_addition_sockelleisten']) : 0;
+    // Zusatzprodukte-IDs: erst aus POST, dann Fallback auf DB
+    $daemmung_id = isset($_POST['_standard_addition_daemmung']) ? intval($_POST['_standard_addition_daemmung']) : intval(get_post_meta($post_id, '_standard_addition_daemmung', true));
+    $sockelleisten_id = isset($_POST['_standard_addition_sockelleisten']) ? intval($_POST['_standard_addition_sockelleisten']) : intval(get_post_meta($post_id, '_standard_addition_sockelleisten', true));
 
     // Preise der Zusatzprodukte ermitteln
     $daemmung_price = 0;
@@ -511,11 +511,11 @@ function jaeger_save_setangebot_fields($post_id) {
         }
     }
 
-    // UVP und Preise des Hauptprodukts
-    $show_uvp = isset($_POST['_show_uvp']) ? ($_POST['_show_uvp'] === 'yes') : false;
-    $uvp_price = isset($_POST['_uvp']) ? floatval($_POST['_uvp']) : 0;
-    $regular_price = isset($_POST['_regular_price']) ? floatval($_POST['_regular_price']) : 0;
-    $sale_price = isset($_POST['_sale_price']) ? floatval($_POST['_sale_price']) : 0;
+    // UVP und Preise des Hauptprodukts (POST bevorzugt, Fallback auf DB/Produkt)
+    $show_uvp = isset($_POST['_show_uvp']) ? ($_POST['_show_uvp'] === 'yes') : (get_post_meta($post_id, '_show_uvp', true) === 'yes');
+    $uvp_price = isset($_POST['_uvp']) ? floatval($_POST['_uvp']) : floatval(get_post_meta($post_id, '_uvp', true));
+    $regular_price = isset($_POST['_regular_price']) ? floatval($_POST['_regular_price']) : ($product ? floatval($product->get_regular_price()) : 0);
+    $sale_price = isset($_POST['_sale_price']) ? floatval($_POST['_sale_price']) : ($product ? floatval($product->get_sale_price()) : 0);
 
     // Höchsten Preis ermitteln (für Vergleich)
     $highest_price = $regular_price;
@@ -545,11 +545,11 @@ function jaeger_save_setangebot_fields($post_id) {
     $ersparnis_euro = $einzelpreis - $gesamtpreis;
     $ersparnis_prozent = ($einzelpreis > 0) ? ($ersparnis_euro / $einzelpreis * 100) : 0;
 
-    // In Datenbank speichern
-    update_post_meta($post_id, '_setangebot_einzelpreis', $einzelpreis);
-    update_post_meta($post_id, '_setangebot_gesamtpreis', $gesamtpreis);
-    update_post_meta($post_id, '_setangebot_ersparnis_euro', $ersparnis_euro);
-    update_post_meta($post_id, '_setangebot_ersparnis_prozent', $ersparnis_prozent);
+    // In Datenbank speichern (round auf 2 Dezimalstellen, damit API korrekte Werte liefert)
+    update_post_meta($post_id, '_setangebot_einzelpreis', round($einzelpreis, 2));
+    update_post_meta($post_id, '_setangebot_gesamtpreis', round($gesamtpreis, 2));
+    update_post_meta($post_id, '_setangebot_ersparnis_euro', round($ersparnis_euro, 2));
+    update_post_meta($post_id, '_setangebot_ersparnis_prozent', round($ersparnis_prozent, 2));
 
     // Debug-Log
     error_log("SAVE SETANGEBOT - Product $post_id: Einzelpreis=$einzelpreis, Gesamtpreis=$gesamtpreis, Ersparnis=$ersparnis_prozent%");
