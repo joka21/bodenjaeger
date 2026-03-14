@@ -24,6 +24,7 @@ interface TotalPriceProps {
   daemmungProduct: StoreApiProduct | null;  // Standard dämmung for price calculation
   sockelleisteProduct: StoreApiProduct | null;  // Standard sockelleiste for price calculation
   lieferzeit?: string;
+  showLieferzeit?: boolean;
 }
 
 export default function TotalPrice({
@@ -34,7 +35,8 @@ export default function TotalPrice({
   selectedSockelleiste,
   daemmungProduct,
   sockelleisteProduct,
-  lieferzeit = '3-7 Arbeitstage'
+  lieferzeit = '3-7 Arbeitstage',
+  showLieferzeit = true
 }: TotalPriceProps) {
   const [addedToCart, setAddedToCart] = useState(false);
   const { addSetToCart } = useCart();
@@ -258,7 +260,8 @@ export default function TotalPrice({
         </button>
       </div>
 
-      {/* 5. LIEFERHINWEIS */}
+      {/* 5. LIEFERHINWEIS — nur wenn show_lieferzeit aktiv */}
+      {showLieferzeit && (
       <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-ash">
         <div className="flex items-center gap-2">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -268,6 +271,7 @@ export default function TotalPrice({
           <span><span className="font-bold">Lieferzeit:</span> {lieferzeit} oder im Markt abholen</span>
         </div>
       </div>
+      )}
     </div>
   );
 }

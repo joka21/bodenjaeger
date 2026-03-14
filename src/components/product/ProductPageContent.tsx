@@ -662,7 +662,8 @@ export default function ProductPageContent({
             </button>
           </div>
 
-          {/* Delivery Info (gleich wie TotalPrice bei Böden) */}
+          {/* Delivery Info (gleich wie TotalPrice bei Böden) — nur wenn show_lieferzeit aktiv */}
+          {product.show_lieferzeit && (
           <div className="text-left text-[#666666] text-[13px] md:text-sm pt-3 mt-3 border-t border-ash">
             <div className="flex items-center gap-2">
               <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -672,6 +673,7 @@ export default function ProductPageContent({
               <span><span className="font-bold">Lieferzeit:</span> {product.lieferzeit || '3-7 Arbeitstage'} oder im Markt abholen</span>
             </div>
           </div>
+          )}
         </div>
         </div>
       </div>
@@ -1162,6 +1164,7 @@ export default function ProductPageContent({
                 daemmungProduct={daemmungProduct}
                 sockelleisteProduct={sockelleisteProduct}
                 lieferzeit={product.lieferzeit || '3-7 Arbeitstage'}
+                showLieferzeit={!!product.show_lieferzeit}
               />
             </div>
 
