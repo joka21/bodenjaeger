@@ -39,7 +39,7 @@ export default function TotalPrice({
   showLieferzeit = true
 }: TotalPriceProps) {
   const [addedToCart, setAddedToCart] = useState(false);
-  const { addSetToCart } = useCart();
+  const { addSetToCart, openCartDrawer } = useCart();
 
   // Show loading state if data not yet available
   if (!quantities || !prices) {
@@ -159,6 +159,7 @@ export default function TotalPrice({
     console.log('🛒 SET BUNDLE VOR ADD TO CART:', JSON.stringify(setBundle, null, 2));
 
     addSetToCart(setBundle);
+    openCartDrawer();
     setAddedToCart(true);
 
     // Scroll to Zubehör section

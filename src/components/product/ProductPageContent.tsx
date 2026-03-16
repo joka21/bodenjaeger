@@ -499,12 +499,6 @@ export default function ProductPageContent({
         // Open cart drawer to show success
         openCartDrawer();
 
-        // Show success feedback with alert
-        showSuccess(
-          `${product.name} wurde in den Warenkorb gelegt (${packages} Paket(e))`,
-          'Zum Warenkorb hinzugefügt'
-        );
-
         setTimeout(() => setIsAdding(false), 1000);
       } catch (error) {
         console.error('❌ Fehler beim Hinzufügen zum Warenkorb:', error);
