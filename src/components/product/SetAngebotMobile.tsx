@@ -119,13 +119,13 @@ export default function SetAngebotMobile({
             <p className="text-sm text-dark truncate">{productName}</p>
           </div>
           {/* 3. Preise */}
-          <div className="flex flex-col items-end flex-shrink-0">
+          <div className="flex flex-col items-end flex-shrink-0 max-w-[40%]">
             {regularPrice > basePrice && (
-              <span className="text-[11px] text-mid line-through">
+              <span className="text-[10px] text-mid line-through text-right">
                 {regularPrice.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
-            <span className="text-sm font-semibold text-brand">
+            <span className="text-xs font-semibold text-brand text-right">
               {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
           </div>
@@ -158,11 +158,11 @@ export default function SetAngebotMobile({
               )}
             </div>
             {/* 3. Preise */}
-            <div className="flex flex-col items-end flex-shrink-0">
-              <span className="text-[11px] text-mid line-through">
+            <div className="flex flex-col items-end flex-shrink-0 max-w-[40%]">
+              <span className="text-[10px] text-mid line-through text-right">
                 {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
               </span>
-              <span className="text-sm font-semibold text-brand">
+              <span className="text-xs font-semibold text-brand text-right">
                 {daemmungSetPricePerUnit <= 0
                   ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
                   : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
@@ -199,11 +199,11 @@ export default function SetAngebotMobile({
               )}
             </div>
             {/* 3. Preise */}
-            <div className="flex flex-col items-end flex-shrink-0">
-              <span className="text-[11px] text-mid line-through">
+            <div className="flex flex-col items-end flex-shrink-0 max-w-[40%]">
+              <span className="text-[10px] text-mid line-through text-right">
                 {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
               </span>
-              <span className="text-sm font-semibold text-brand">
+              <span className="text-xs font-semibold text-brand text-right">
                 {sockelleisteSetPricePerUnit <= 0
                   ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
                   : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
@@ -216,19 +216,19 @@ export default function SetAngebotMobile({
 
       {/* Gesamt-Block */}
       <div className="mt-3 pt-3 border-t-2 border-gray-300">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-base font-bold text-dark">Gesamt</span>
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-1.5">
+          <span className="text-sm font-bold text-dark flex-shrink-0">Gesamt</span>
+          <div className="flex items-center gap-1.5 min-w-0 flex-wrap justify-end">
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
-              <span className="line-through text-sm text-mid">
+              <span className="line-through text-xs text-mid">
                 {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
-            <span className="text-lg font-bold text-brand">
+            <span className="text-base font-bold text-brand">
               {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
             {ersparnisProzent > 0 && (
-              <span className="inline-flex items-center px-2 py-1 text-xs font-semibold text-white bg-brand rounded">
+              <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold text-white bg-brand rounded flex-shrink-0">
                 -{Math.round(ersparnisProzent)}%
               </span>
             )}

@@ -308,7 +308,7 @@ export default function ProductPageContent({
 
         {/* Tab Content */}
         {activeTab && (
-          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', width: '100%', boxSizing: 'border-box' }}>
+          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: 'clamp(16px, 4vw, 32px)', width: '100%', boxSizing: 'border-box', overflow: 'hidden' }}>
             {activeTab === 'beschreibung' && hasBeschreibung && (
               <div
                 style={{ color: '#2e2d32', fontSize: '14px', lineHeight: '1.75' }}
@@ -517,18 +517,18 @@ export default function ProductPageContent({
     return (
       <div className="space-y-4">
         {/* Top Section: Content and Price per Unit - eigener Hintergrund */}
-        <div className="bg-[#e8e8e8] rounded-2xl p-6">
-          <div className="flex items-center justify-between px-2">
-            <div className="text-dark text-base font-normal">
+        <div className="bg-[#e8e8e8] rounded-2xl p-4 sm:p-6">
+          <div className="flex items-center justify-between gap-2 px-1 sm:px-2">
+            <div className="text-dark text-xs sm:text-sm md:text-base font-normal min-w-0">
               {showUnit
                 ? <>Inhalt: {totalContent.toFixed(1).replace('.', ',')}{einheitShort} = {totalPrice.toFixed(2).replace('.', ',')} €</>
                 : <>{packages} {verpackungsart} = {totalPrice.toFixed(2).replace('.', ',')} €</>
               }
             </div>
-            <div className="text-dark text-4xl font-bold">
+            <div className="text-dark text-2xl sm:text-3xl md:text-4xl font-bold flex-shrink-0">
               {showUnit
-                ? <>{price.toFixed(2).replace('.', ',')} <span className="text-2xl">€/{einheitShort}</span></>
-                : <>{totalPrice.toFixed(2).replace('.', ',')} <span className="text-2xl">€</span></>
+                ? <>{price.toFixed(2).replace('.', ',')} <span className="text-lg sm:text-xl md:text-2xl">€/{einheitShort}</span></>
+                : <>{totalPrice.toFixed(2).replace('.', ',')} <span className="text-lg sm:text-xl md:text-2xl">€</span></>
               }
             </div>
           </div>
@@ -604,11 +604,11 @@ export default function ProductPageContent({
 
         {/* Total Price with Border Top */}
         <div className="border-t-2 border-gray-400 pt-4">
-          <div className="flex items-center justify-between mb-6 px-2">
-            <div className="text-dark text-2xl font-bold">
-              Gesamtsumme <span className="text-base font-normal">(inkl. MwSt.)</span>
+          <div className="flex items-center justify-between mb-6 px-1 sm:px-2 gap-2">
+            <div className="text-dark text-sm sm:text-xl md:text-2xl font-bold min-w-0">
+              Gesamtsumme <span className="text-[10px] sm:text-sm md:text-base font-normal">(inkl. MwSt.)</span>
             </div>
-            <div className="text-dark text-4xl font-bold">
+            <div className="text-dark text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold flex-shrink-0">
               {totalPrice.toFixed(2).replace('.', ',')} €
             </div>
           </div>
@@ -618,8 +618,8 @@ export default function ProductPageContent({
             <button
               type="button"
               onClick={handleRequestQuote}
-              className="w-full bg-transparent border border-dark hover:bg-[#f5f5f5] text-dark font-semibold text-xs whitespace-nowrap rounded-md transition-colors"
-              style={{ padding: '10px' }}
+              className="w-full bg-transparent border border-dark hover:bg-[#f5f5f5] text-dark font-semibold text-[9px] sm:text-[10px] md:text-xs rounded-md transition-colors text-center leading-tight"
+              style={{ padding: '8px 5px' }}
             >
               Individuelles Angebot anfragen
             </button>
@@ -627,12 +627,12 @@ export default function ProductPageContent({
               type="button"
               onClick={handleAddToCart}
               disabled={isAdding}
-              className={`w-full font-semibold text-xs whitespace-nowrap rounded-lg transition-all ${
+              className={`w-full font-semibold text-[9px] sm:text-[10px] md:text-xs rounded-lg transition-all text-center leading-tight ${
                 isAdding
                   ? 'bg-[#155724] hover:bg-[#0f4419] text-white'
                   : 'bg-dark hover:bg-[#1a1a1d] active:scale-[0.98] text-white'
               }`}
-              style={{ padding: '10px' }}
+              style={{ padding: '8px 5px' }}
             >
               {isAdding ? (
                 <span className="flex items-center justify-center">

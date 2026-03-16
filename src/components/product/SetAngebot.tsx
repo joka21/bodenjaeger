@@ -278,21 +278,21 @@ export default function SetAngebot({
         </div>
 
         {/* Gesamt-Preiszeile (STATISCHER M²-PREIS) */}
-        <div className="flex justify-between items-center mt-8 pt-6 border-t-2 border-gray-200">
-          <div className="flex items-center gap-4">
-            <span className="text-3xl font-extrabold text-gray-700">Gesamt</span>
+        <div className="flex flex-wrap justify-between items-center mt-8 pt-6 border-t-2 border-gray-200 gap-2">
+          <div className="flex flex-wrap items-center gap-2 lg:gap-4 min-w-0">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-700">Gesamt</span>
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
-              <span className="line-through text-2xl text-gray-400">
+              <span className="line-through text-base sm:text-lg lg:text-2xl text-gray-400">
                 {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
-            <span className="text-3xl font-bold text-red-600">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-600">
               {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
           </div>
           {ersparnisProzent > 0 && (
-            <div>
-              <span className="bg-red-600 text-white px-4 py-2 rounded-lg text-xl font-bold shadow-lg">
+            <div className="flex-shrink-0">
+              <span className="bg-red-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base lg:text-xl font-bold shadow-lg">
                 -{Math.round(ersparnisProzent)}%
               </span>
             </div>
