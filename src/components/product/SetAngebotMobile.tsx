@@ -103,7 +103,7 @@ export default function SetAngebotMobile({
       {/* Produktkarten */}
       <div className="flex flex-col gap-2">
         {/* Boden */}
-        <div className="grid grid-cols-[auto_1fr_auto] gap-3 p-3 rounded-lg items-stretch">
+        <div className="grid grid-cols-[auto_1fr_auto] gap-2 p-3 rounded-lg items-stretch">
           {/* 1. Bild */}
           <div className="w-12 relative overflow-hidden rounded">
             <Image
@@ -119,13 +119,13 @@ export default function SetAngebotMobile({
             <p className="text-sm text-dark truncate">{productName}</p>
           </div>
           {/* 3. Preise */}
-          <div className="flex flex-col items-end flex-shrink-0 max-w-[40%]">
+          <div className="flex flex-col items-end flex-shrink-0">
             {regularPrice > basePrice && (
-              <span className="text-[10px] text-mid line-through text-right">
+              <span className="text-[10px] text-mid line-through whitespace-nowrap">
                 {regularPrice.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
-            <span className="text-xs font-semibold text-brand text-right">
+            <span className="text-[11px] font-semibold text-brand whitespace-nowrap">
               {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
           </div>
@@ -133,7 +133,7 @@ export default function SetAngebotMobile({
 
         {/* Dämmung */}
         {hasDaemmung && (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-3 p-3 rounded-lg items-stretch">
+          <div className="grid grid-cols-[auto_1fr_auto] gap-2 p-3 rounded-lg items-stretch">
             {/* 1. Bild */}
             <div className="w-12 relative overflow-hidden rounded">
               <Image
@@ -158,11 +158,11 @@ export default function SetAngebotMobile({
               )}
             </div>
             {/* 3. Preise */}
-            <div className="flex flex-col items-end flex-shrink-0 max-w-[40%]">
-              <span className="text-[10px] text-mid line-through text-right">
+            <div className="flex flex-col items-end flex-shrink-0">
+              <span className="text-[10px] text-mid line-through whitespace-nowrap">
                 {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
               </span>
-              <span className="text-xs font-semibold text-brand text-right">
+              <span className="text-[11px] font-semibold text-brand whitespace-nowrap">
                 {daemmungSetPricePerUnit <= 0
                   ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
                   : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
@@ -174,7 +174,7 @@ export default function SetAngebotMobile({
 
         {/* Sockelleiste */}
         {hasSockelleiste && (
-          <div className="grid grid-cols-[auto_1fr_auto] gap-3 p-3 rounded-lg items-stretch">
+          <div className="grid grid-cols-[auto_1fr_auto] gap-2 p-3 rounded-lg items-stretch">
             {/* 1. Bild */}
             <div className="w-12 relative overflow-hidden rounded">
               <Image
@@ -199,11 +199,11 @@ export default function SetAngebotMobile({
               )}
             </div>
             {/* 3. Preise */}
-            <div className="flex flex-col items-end flex-shrink-0 max-w-[40%]">
-              <span className="text-[10px] text-mid line-through text-right">
+            <div className="flex flex-col items-end flex-shrink-0">
+              <span className="text-[10px] text-mid line-through whitespace-nowrap">
                 {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
               </span>
-              <span className="text-xs font-semibold text-brand text-right">
+              <span className="text-[11px] font-semibold text-brand whitespace-nowrap">
                 {sockelleisteSetPricePerUnit <= 0
                   ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
                   : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
@@ -216,19 +216,19 @@ export default function SetAngebotMobile({
 
       {/* Gesamt-Block */}
       <div className="mt-3 pt-3 border-t-2 border-gray-300">
-        <div className="flex items-center justify-between gap-1.5">
+        <div className="flex items-center justify-between gap-2">
           <span className="text-sm font-bold text-dark flex-shrink-0">Gesamt</span>
-          <div className="flex items-center gap-1.5 min-w-0 flex-wrap justify-end">
+          <div className="flex items-center gap-1.5 flex-shrink-0">
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
-              <span className="line-through text-xs text-mid">
+              <span className="line-through text-[10px] text-mid whitespace-nowrap">
                 {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
-            <span className="text-base font-bold text-brand">
+            <span className="text-sm font-bold text-brand whitespace-nowrap">
               {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
             {ersparnisProzent > 0 && (
-              <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold text-white bg-brand rounded flex-shrink-0">
+              <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-semibold text-white bg-brand rounded whitespace-nowrap">
                 -{Math.round(ersparnisProzent)}%
               </span>
             )}
