@@ -88,26 +88,47 @@ export default function CheckoutPage() {
       .then((data) => {
         if (!data.success) return;
         const c = data.customer;
+        const billing = c.billing || {};
+        const shipping = c.shipping || {};
+
+        // Prüfe ob eine echte Lieferadresse existiert (nicht nur Name)
+        const hasShippingAddress = !!(shipping.address_1 && shipping.city && shipping.postcode);
+
+        // Wenn keine separate Lieferadresse: Rechnungsadresse als Lieferadresse verwenden
+        const shippingSource = hasShippingAddress ? shipping : billing;
+
+        // Prüfe ob Rechnungs- und Lieferadresse identisch sind
+        const addressesMatch = !hasShippingAddress || (
+          billing.address_1 === shipping.address_1 &&
+          billing.city === shipping.city &&
+          billing.postcode === shipping.postcode
+        );
+
         setFormData((prev) => ({
           ...prev,
-          email: prev.email || c.email || '',
-          phone: prev.phone || c.billing?.phone || '',
-          firstName: prev.firstName || c.shipping?.first_name || c.billing?.first_name || '',
-          lastName: prev.lastName || c.shipping?.last_name || c.billing?.last_name || '',
-          company: prev.company || c.shipping?.company || '',
-          address1: prev.address1 || c.shipping?.address_1 || '',
-          address2: prev.address2 || c.shipping?.address_2 || '',
-          city: prev.city || c.shipping?.city || '',
-          postcode: prev.postcode || c.shipping?.postcode || '',
-          country: c.shipping?.country || prev.country,
-          billingFirstName: prev.billingFirstName || c.billing?.first_name || '',
-          billingLastName: prev.billingLastName || c.billing?.last_name || '',
-          billingCompany: prev.billingCompany || c.billing?.company || '',
-          billingAddress1: prev.billingAddress1 || c.billing?.address_1 || '',
-          billingAddress2: prev.billingAddress2 || c.billing?.address_2 || '',
-          billingCity: prev.billingCity || c.billing?.city || '',
-          billingPostcode: prev.billingPostcode || c.billing?.postcode || '',
-          billingCountry: c.billing?.country || prev.billingCountry,
+          // Kontakt
+          email: prev.email || c.email || billing.email || '',
+          phone: prev.phone || billing.phone || '',
+          // Lieferadresse (Shipping, Fallback auf Billing)
+          firstName: prev.firstName || shippingSource.first_name || billing.first_name || '',
+          lastName: prev.lastName || shippingSource.last_name || billing.last_name || '',
+          company: prev.company || shippingSource.company || billing.company || '',
+          address1: prev.address1 || shippingSource.address_1 || '',
+          address2: prev.address2 || shippingSource.address_2 || '',
+          city: prev.city || shippingSource.city || '',
+          postcode: prev.postcode || shippingSource.postcode || '',
+          country: shippingSource.country || prev.country,
+          // Rechnungsadresse
+          billingFirstName: prev.billingFirstName || billing.first_name || '',
+          billingLastName: prev.billingLastName || billing.last_name || '',
+          billingCompany: prev.billingCompany || billing.company || '',
+          billingAddress1: prev.billingAddress1 || billing.address_1 || '',
+          billingAddress2: prev.billingAddress2 || billing.address_2 || '',
+          billingCity: prev.billingCity || billing.city || '',
+          billingPostcode: prev.billingPostcode || billing.postcode || '',
+          billingCountry: billing.country || prev.billingCountry,
+          // Wenn Adressen gleich: sameAsBilling bleibt true
+          sameAsBilling: addressesMatch,
         }));
       })
       .catch(() => {});

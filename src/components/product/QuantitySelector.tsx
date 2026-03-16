@@ -25,6 +25,7 @@ export default function QuantitySelector({
   const showUnitField = einheit !== '-' && einheit.trim() !== '';
   // Wenn paketinhalt === 1 und beide Labels identisch → nur ein Feld
   const showBothFields = showUnitField && !(paketinhalt === 1 && packageLabel === unitLabel);
+  const [showInfo, setShowInfo] = useState(false);
   const [sqm, setSqm] = useState<number>(paketinhalt);
   const [sqmInputValue, setSqmInputValue] = useState<string>(paketinhalt.toFixed(2));
   const [packagesInputValue, setPackagesInputValue] = useState<string>(Math.ceil(paketinhalt / paketinhalt).toString());
@@ -154,8 +155,13 @@ export default function QuantitySelector({
       <div className={`grid ${showBothFields ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
         {/* Paket Counter */}
         <div className="relative">
-          <div className="absolute -top-1 -left-1">
-            <div className="w-6 h-6 rounded-full bg-white border border-gray-300 flex items-center justify-center">
+          <button
+            type="button"
+            onClick={() => setShowInfo(!showInfo)}
+            className="absolute -top-1 -left-1 z-10"
+            aria-label="Verschnitt-Info anzeigen"
+          >
+            <div className="w-6 h-6 rounded-full bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 transition-colors">
               <svg
                 className="w-4 h-4 text-black"
                 fill="currentColor"
@@ -168,7 +174,7 @@ export default function QuantitySelector({
                 />
               </svg>
             </div>
-          </div>
+          </button>
           <div className="flex items-center justify-center mb-2">
             <label className="text-sm font-medium text-gray-700">
               {packageLabel}
@@ -252,6 +258,37 @@ export default function QuantitySelector({
         </div>
         )}
       </div>
+
+      {/* Verschnitt Info Box */}
+      {showInfo && (
+        <div className="mt-4 p-4 bg-white border border-gray-200 rounded-xl text-sm text-gray-700 shadow-sm relative">
+          <button
+            type="button"
+            onClick={() => setShowInfo(false)}
+            className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-500 hover:text-gray-800"
+            aria-label="Info schließen"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <h4 className="font-semibold text-gray-900 mb-2">Verschnitt einplanen</h4>
+          <p className="mb-3">
+            Bei der Verlegung von Bodenbelägen entstehen durch Zuschnitte an Wänden, Türen, Heizkörpern oder Nischen immer Verschnittstücke.
+            Damit während der Verlegung genügend Material vorhanden ist, empfehlen wir eine Materialreserve von 5–15 % zur berechneten Raumfläche.
+          </p>
+          <p className="font-semibold text-gray-900 mb-2">Unsere Empfehlung:</p>
+          <ul className="space-y-1 mb-3">
+            <li>Normale Räume: ca. +5 % Verschnitt</li>
+            <li>Viele Ecken / verwinkelte Räume: ca. +8 % Verschnitt</li>
+            <li>Diagonale Verlegung: ca. +10 % Verschnitt</li>
+            <li>Fischgrät-Verlegung: ca. +15 % Verschnitt</li>
+          </ul>
+          <p className="text-gray-600 italic">
+            Tipp: Bewahren Sie einige Planken als Reserve für spätere Reparaturen oder den Austausch einzelner Elemente auf.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
