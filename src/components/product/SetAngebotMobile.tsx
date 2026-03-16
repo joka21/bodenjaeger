@@ -116,7 +116,7 @@ export default function SetAngebotMobile({
           {/* 2. Kategorie + Name */}
           <div className="min-w-0">
             <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Boden</h3>
-            <p className="text-sm text-dark truncate">{productName}</p>
+            <p className="text-xs text-dark break-words leading-tight">{productName}</p>
           </div>
           {/* 3. Preise */}
           <div className="flex flex-col items-end flex-shrink-0">
@@ -146,7 +146,7 @@ export default function SetAngebotMobile({
             {/* 2. Kategorie + Name + Button */}
             <div className="min-w-0">
               <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Dämmung</h3>
-              <p className="text-sm text-dark truncate">{selectedDaemmung?.name || daemmungName}</p>
+              <p className="text-xs text-dark break-words leading-tight">{selectedDaemmung?.name || daemmungName}</p>
               {daemmungOptions.length > 0 && (
                 <button
                   type="button"
@@ -187,7 +187,7 @@ export default function SetAngebotMobile({
             {/* 2. Kategorie + Name + Button */}
             <div className="min-w-0">
               <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">Sockelleiste</h3>
-              <p className="text-sm text-dark truncate">{selectedSockelleiste?.name || sockelleisteName}</p>
+              <p className="text-xs text-dark break-words leading-tight">{selectedSockelleiste?.name || sockelleisteName}</p>
               {sockelleisteOptions.length > 0 && (
                 <button
                   type="button"
