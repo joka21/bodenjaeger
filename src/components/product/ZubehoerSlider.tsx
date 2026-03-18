@@ -49,6 +49,7 @@ export default function ZubehoerSlider({
   const [products, setProducts] = useState<StoreApiProduct[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [addedProductId, setAddedProductId] = useState<number | null>(null);
 
@@ -152,11 +153,13 @@ export default function ZubehoerSlider({
   const checkScrollPosition = () => {
     if (!scrollContainerRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
   };
 
   useEffect(() => {
-    checkScrollPosition();
+    // Kurz warten bis DOM gerendert ist, dann Scroll-Position prüfen
+    const timer = setTimeout(checkScrollPosition, 100);
     const container = scrollContainerRef.current;
     if (!container) return;
 
@@ -164,16 +167,25 @@ export default function ZubehoerSlider({
     window.addEventListener('resize', checkScrollPosition);
 
     return () => {
+      clearTimeout(timer);
       container.removeEventListener('scroll', checkScrollPosition);
       window.removeEventListener('resize', checkScrollPosition);
     };
   }, [products]);
 
+  // Scroll nach links
+  const scrollLeft = () => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const scrollAmount = 240;
+    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  };
+
   // Scroll nach rechts
   const scrollRight = () => {
     if (!scrollContainerRef.current) return;
     const container = scrollContainerRef.current;
-    const scrollAmount = 240; // Breite einer Karte + Gap
+    const scrollAmount = 240;
     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   };
 
@@ -198,7 +210,7 @@ export default function ZubehoerSlider({
   }
 
   return (
-    <section className="bg-white rounded-lg shadow-md overflow-hidden">
+    <section className="bg-white rounded-lg shadow-md">
       <div className="flex flex-col lg:flex-row">
         {/* LINKE SEITE - Info Box (Fixed) */}
         <div className="lg:w-[280px] flex-shrink-0 bg-ash p-6 lg:sticky lg:top-0 lg:self-start">
@@ -255,7 +267,7 @@ export default function ZubehoerSlider({
           )}
 
           {/* Produkt-Slider */}
-          <div className="relative">
+          <div className="relative px-0 md:px-6">
             {/* Loading State */}
             {loading && (
               <div className="flex items-center justify-center py-12">
@@ -392,18 +404,37 @@ export default function ZubehoerSlider({
                   })}
                 </div>
 
+                {/* Scroll Left Button */}
+                <button
+                  onClick={scrollLeft}
+                  className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg hover:shadow-xl items-center justify-center transition-all z-10 ${
+                    canScrollLeft
+                      ? 'bg-black text-brand cursor-pointer'
+                      : 'bg-black/50 text-brand/40 cursor-not-allowed'
+                  }`}
+                  disabled={!canScrollLeft}
+                  aria-label="Zurück"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+
                 {/* Scroll Right Button */}
-                {canScrollRight && (
-                  <button
-                    onClick={scrollRight}
-                    className="absolute -right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg hover:shadow-xl text-gray-900 flex items-center justify-center transition-all z-10"
-                    aria-label="Weitere Produkte"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                )}
+                <button
+                  onClick={scrollRight}
+                  className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg hover:shadow-xl items-center justify-center transition-all z-10 ${
+                    canScrollRight
+                      ? 'bg-black text-brand cursor-pointer'
+                      : 'bg-black/50 text-brand/40 cursor-not-allowed'
+                  }`}
+                  disabled={!canScrollRight}
+                  aria-label="Weitere Produkte"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </>
             )}
 
