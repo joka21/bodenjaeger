@@ -14,7 +14,7 @@ const requiredEnvVars = {
   'NEXT_PUBLIC_WORDPRESS_URL': {
     required: true,
     description: 'WordPress Backend URL',
-    example: 'https://plan-dein-ding.de',
+    example: 'https://2025.bodenjaeger.de',
     public: true,
   },
   'WC_CONSUMER_KEY': {

@@ -14,7 +14,7 @@ import type { ProductOption } from '@/types/product-optimized';
 // CONFIGURATION
 // ============================================
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || 'https://plan-dein-ding.de';
+const API_BASE_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || 'https://2025.bodenjaeger.de';
 const MAX_RETRIES = 2; // Fewer retries for on-demand data
 const RETRY_DELAY = 500; // ms - faster retry for better UX
 const REQUEST_TIMEOUT = 8000; // 8s - shorter timeout for add-on products

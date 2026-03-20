@@ -107,7 +107,7 @@ export interface ApiError {
 /**
  * API Base URL
  */
-const API_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL || 'https://plan-dein-ding.de/wp-json';
+const API_BASE_URL = process.env.NEXT_PUBLIC_WP_API_URL || 'https://2025.bodenjaeger.de/wp-json';
 const API_NAMESPACE = 'jaeger/v1';
 
 /**

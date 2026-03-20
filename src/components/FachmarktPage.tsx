@@ -34,7 +34,7 @@ const serviceCards = [
   {
     title: 'Set-Angebote',
     link: '/fachmarkt-hueckelhoven/set-angebote',
-    image: 'https://plan-dein-ding.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg',
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg',
   },
   {
     title: 'Werkzeugverleih',
@@ -44,7 +44,7 @@ const serviceCards = [
   {
     title: 'Lieferservice',
     link: '/fachmarkt-hueckelhoven/lieferservice',
-    image: 'https://plan-dein-ding.de/wp-content/uploads/2024/08/Bus-scaled-1-1024x768.jpg',
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/Bus-scaled-1-1024x768.jpg',
   },
   {
     title: 'Schausonntag',
@@ -205,7 +205,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -214,7 +214,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           </div>
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -223,7 +223,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           </div>
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -232,7 +232,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           </div>
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -241,7 +241,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           </div>
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -250,7 +250,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           </div>
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -260,7 +260,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           {/* Bild mit Overlay-Text */}
           <div className="relative h-48 md:h-64 group cursor-pointer">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg"
               alt="Aktuelle Angebote"
               fill
               className="object-cover rounded-lg"
@@ -274,7 +274,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           </div>
           <div className="relative h-48 md:h-64">
             <Image
-              src="https://plan-dein-ding.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg"
+              src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg"
               alt="Fachmarkt"
               fill
               className="object-cover rounded-lg"
@@ -315,7 +315,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
         </h3>
         <div className="relative w-full h-[300px] md:h-[400px]">
           <Image
-            src="https://plan-dein-ding.de/wp-content/uploads/2024/08/Ueberblick-Filiale-Hueckelhoven1-1024x456.png"
+            src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/Ueberblick-Filiale-Hueckelhoven1-1024x456.png"
             alt="Überblick Filiale Hückelhoven"
             fill
             className="object-contain"

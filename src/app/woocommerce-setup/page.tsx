@@ -27,12 +27,12 @@ export default function WooCommerceSetupPage() {
           <p className="text-gray-700">
             Diese Einstellungen müssen im <strong>WordPress Backend</strong> unter{' '}
             <a
-              href="https://plan-dein-ding.de/wp-admin"
+              href="https://2025.bodenjaeger.de/wp-admin"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-600 hover:underline font-semibold"
             >
-              plan-dein-ding.de/wp-admin
+              2025.bodenjaeger.de/wp-admin
             </a>{' '}
             vorgenommen werden.
           </p>
@@ -364,7 +364,7 @@ export default function WooCommerceSetupPage() {
             <h3 className="text-xl font-bold text-dark mt-6 mb-4">E-Mail-Absender konfigurieren:</h3>
             <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
               <li>Absender-Name: &quot;Bodenjäger&quot; oder &quot;Jäger GmbH&quot;</li>
-              <li>Absender-E-Mail: info@plan-dein-ding.de (oder shop@...)</li>
+              <li>Absender-E-Mail: info@2025.bodenjaeger.de (oder shop@...)</li>
               <li>Header-Logo hochladen (optional)</li>
               <li>Fußzeile anpassen (Impressum, Kontakt)</li>
             </ol>

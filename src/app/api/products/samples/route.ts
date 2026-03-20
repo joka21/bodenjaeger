@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://plan-dein-ding.de';
+    const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://2025.bodenjaeger.de';
     const consumerKey = process.env.WC_CONSUMER_KEY;
     const consumerSecret = process.env.WC_CONSUMER_SECRET;
 

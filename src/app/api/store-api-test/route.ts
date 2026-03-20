@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     }
 
     // ✅ Build the Jäger API URL with parameters (includes jaeger_meta!)
-    let storeApiUrl = `https://plan-dein-ding.de/wp-json/jaeger/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
+    let storeApiUrl = `https://2025.bodenjaeger.de/wp-json/jaeger/v1/products?per_page=${per_page}&page=${page}&orderby=${orderby}&order=${order}`;
 
     // Add category filter if provided
     if (category) {

@@ -77,12 +77,12 @@ export default function PaymentSetupPage() {
               <li>
                 Gehe zu{' '}
                 <a
-                  href="https://plan-dein-ding.de/wp-admin"
+                  href="https://2025.bodenjaeger.de/wp-admin"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#7f54b3] hover:underline font-semibold"
                 >
-                  plan-dein-ding.de/wp-admin
+                  2025.bodenjaeger.de/wp-admin
                 </a>
               </li>
               <li>Mit Admin-Account einloggen</li>
@@ -149,7 +149,7 @@ export default function PaymentSetupPage() {
             <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm mb-6 overflow-x-auto">
               <div className="text-green-400"># .env.local (im Root-Verzeichnis des Projekts)</div>
               <div className="mt-2">
-                <div>NEXT_PUBLIC_WORDPRESS_URL=https://plan-dein-ding.de</div>
+                <div>NEXT_PUBLIC_WORDPRESS_URL=https://2025.bodenjaeger.de</div>
                 <div>WC_CONSUMER_KEY=ck_...</div>
                 <div>WC_CONSUMER_SECRET=cs_...</div>
               </div>
@@ -430,7 +430,7 @@ export default function PaymentSetupPage() {
 
             <div className="bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm mb-6 overflow-x-auto">
               <div className="text-green-400"># WooCommerce (bereits vorhanden)</div>
-              <div>NEXT_PUBLIC_WORDPRESS_URL=https://plan-dein-ding.de</div>
+              <div>NEXT_PUBLIC_WORDPRESS_URL=https://2025.bodenjaeger.de</div>
               <div>WC_CONSUMER_KEY=ck_YOUR_CONSUMER_KEY_HERE</div>
               <div>WC_CONSUMER_SECRET=cs_YOUR_CONSUMER_SECRET_HERE</div>
               <div className="mt-4 text-green-400"># Stripe</div>

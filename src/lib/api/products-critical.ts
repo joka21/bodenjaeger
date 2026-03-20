@@ -17,7 +17,7 @@ import type {
 // CONFIGURATION
 // ============================================
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || 'https://plan-dein-ding.de';
+const API_BASE_URL = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || 'https://2025.bodenjaeger.de';
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // ms
 const REQUEST_TIMEOUT = 10000; // 10s

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Bodenjäger is a Next.js headless e-commerce shop for flooring products (Laminat, Vinyl, Parkett) with a WooCommerce backend. The core feature is a **Set-Angebot System** (Bundle System) allowing customers to purchase flooring bundles (Boden + Dämmung + Sockelleiste) with automatic discounts.
 
-- **Backend**: WordPress + WooCommerce + Custom Jäger Plugin (`plan-dein-ding.de`)
+- **Backend**: WordPress + WooCommerce + Custom Jäger Plugin (`2025.bodenjaeger.de`)
 - **Frontend**: Next.js 15.5.9 (App Router), React 19, TypeScript, Tailwind CSS v4
 - **Deployment**: Vercel (`bodenjaeger.vercel.app`)
 - **Payments**: Stripe, PayPal, Bank Transfer (BACS)
@@ -201,7 +201,7 @@ Always use `StoreApiProduct` and access fields at root level.
 
 Required in `.env.local`:
 ```
-NEXT_PUBLIC_WORDPRESS_URL=https://plan-dein-ding.de
+NEXT_PUBLIC_WORDPRESS_URL=https://2025.bodenjaeger.de
 WC_CONSUMER_KEY=ck_...
 WC_CONSUMER_SECRET=cs_...
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...

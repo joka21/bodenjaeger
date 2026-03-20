@@ -39,8 +39,8 @@ export default function RootLayout({
     <html lang="de">
       <head>
         {/* Preconnect to WooCommerce backend for faster API calls */}
-        <link rel="preconnect" href="https://plan-dein-ding.de" />
-        <link rel="dns-prefetch" href="https://plan-dein-ding.de" />
+        <link rel="preconnect" href="https://2025.bodenjaeger.de" />
+        <link rel="dns-prefetch" href="https://2025.bodenjaeger.de" />
 
         {/* Preconnect to external image sources */}
         <link rel="preconnect" href="https://images.unsplash.com" />

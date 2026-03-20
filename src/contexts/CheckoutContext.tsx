@@ -192,7 +192,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
   const fetchShippingMethods = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://plan-dein-ding.de/wp-json/wc/store/v1/shipping/methods', {
+      const response = await fetch('https://2025.bodenjaeger.de/wp-json/wc/store/v1/shipping/methods', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
   const fetchPaymentMethods = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://plan-dein-ding.de/wp-json/wc/store/v1/payment-methods', {
+      const response = await fetch('https://2025.bodenjaeger.de/wp-json/wc/store/v1/payment-methods', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -326,7 +326,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
         shipping_method: [formData.selectedShippingMethod!.id],
       };
 
-      const response = await fetch('https://plan-dein-ding.de/wp-json/wc/store/v1/checkout', {
+      const response = await fetch('https://2025.bodenjaeger.de/wp-json/wc/store/v1/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

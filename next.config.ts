@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'plan-dein-ding.de',
+        hostname: '2025.bodenjaeger.de',
         port: '',
         pathname: '/wp-content/uploads/**',
       },
