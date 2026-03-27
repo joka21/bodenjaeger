@@ -54,7 +54,8 @@ export default function SetAngebot({
   sockelleisteEinheit = 'lfm',
   sockelleisteOptions = [],
   gesamtVergleichspreisProM2,
-  onProductSelection
+  onProductSelection,
+  savingsPercent
 }: SetAngebotProps) {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -105,9 +106,8 @@ export default function SetAngebot({
   // Streichpreis immer dynamisch berechnen: Boden-UVP + voller Preis des gewählten Zubehörs
   // (gesamtVergleichspreisProM2 ist statisch und kennt keine Premium-Optionen)
   const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
-  const ersparnisProzent = vergleichspreisProM2 > 0
-    ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
-    : 0;
+  // ✅ Backend-Wert verwenden (savingsPercent = setangebot_ersparnis_prozent)
+  const ersparnisProzent = savingsPercent || 0;
 
   // Handle button clicks
   const openModal = (type: 'daemmung' | 'sockelleiste') => {

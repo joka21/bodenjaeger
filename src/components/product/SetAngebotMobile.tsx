@@ -46,7 +46,8 @@ export default function SetAngebotMobile({
   sockelleisteEinheit = 'lfm',
   daemmungOptions = [],
   sockelleisteOptions = [],
-  onProductSelection
+  onProductSelection,
+  savingsPercent
 }: SetAngebotMobileProps) {
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';
   const hasSockelleiste = sockelleisteName !== 'Sockelleiste';
@@ -89,9 +90,8 @@ export default function SetAngebotMobile({
   // STATISCHER M²-PREIS (dynamisch berechnet aus gewählten Produkten)
   const setAngebotPreisProM2 = basePrice + daemmungSetPricePerUnit + sockelleisteSetPricePerUnit;
   const vergleichspreisProM2 = regularPrice + daemmungRegularPricePerUnit + sockelleisteRegularPricePerUnit;
-  const ersparnisProzent = vergleichspreisProM2 > 0
-    ? ((vergleichspreisProM2 - setAngebotPreisProM2) / vergleichspreisProM2) * 100
-    : 0;
+  // ✅ Backend-Wert verwenden (savingsPercent = setangebot_ersparnis_prozent)
+  const ersparnisProzent = savingsPercent || 0;
 
   return (
     <div className="bg-ash rounded-lg p-3">

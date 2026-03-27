@@ -61,3 +61,7 @@ vinyl_products.json
 ripon_pretty.json
 einzelprodukt_detail.json
 einzelprodukt_felder.txt
+
+# backend & plugin (separate repos)
+/backend
+/Jaeger-Plugin

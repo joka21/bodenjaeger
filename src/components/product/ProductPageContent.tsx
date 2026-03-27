@@ -208,7 +208,8 @@ export default function ProductPageContent({
     // totalDisplayPrice = Set-Preis (was der Kunde MIT Set bezahlt)
     const totalDisplayPrice = bodenPriceTotal + daemmungSetPrice + sockelleisteSetPrice;
     const savings = comparisonPriceTotal - totalDisplayPrice;
-    const savingsPercent = comparisonPriceTotal > 0 ? (savings / comparisonPriceTotal) * 100 : 0;
+    // ✅ Backend-Wert verwenden (setangebot_ersparnis_prozent) — konsistent mit Produktkarten
+    const savingsPercent = product.setangebot_ersparnis_prozent || 0;
 
     return {
       totalDisplayPrice,

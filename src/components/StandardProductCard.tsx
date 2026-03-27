@@ -19,7 +19,7 @@ interface StandardProductCardProps {
     _show_setangebot?: string;
     _setangebot_einzelpreis?: number;
     _setangebot_gesamtpreis?: number;
-    _setangebot_ersparnis_prozent?: number;
+    setangebot_ersparnis_prozent?: number;
     _aktion?: string;
     _einheit_short?: string;
   };
@@ -56,8 +56,8 @@ export default function StandardProductCard({ product }: StandardProductCardProp
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
-  // Rabatt-Prozent: Nutze Set-Angebot wenn vorhanden
-  const discountPercent = product._setangebot_ersparnis_prozent || 0;
+  // Rabatt-Prozent: Nutze Set-Angebot Backend-Wert
+  const discountPercent = product.setangebot_ersparnis_prozent || 0;
 
   // Zeige Set-Angebot?
   const showSetAngebot = product._show_setangebot === 'yes';
