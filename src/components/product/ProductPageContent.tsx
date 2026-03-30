@@ -380,9 +380,19 @@ export default function ProductPageContent({
   // Extract features from short_description (same logic as ProductInfo)
   const getFeatures = (): string[] => {
     if (product.short_description) {
+      // Strategy 1: Extract from <li> tags
       const matches = product.short_description.match(/<li>(.*?)<\/li>/g);
       if (matches) {
         return matches.map(match => match.replace(/<\/?li>/g, '').trim()).slice(0, 3);
+      }
+      // Strategy 2: Bullet points as plain text (• or -)
+      const lines = product.short_description
+        .replace(/<[^>]*>/g, '')
+        .split(/\n|<br\s*\/?>/)
+        .map(line => line.replace(/^[\s•\-–]+/, '').trim())
+        .filter(line => line.length > 0);
+      if (lines.length > 0) {
+        return lines.slice(0, 3);
       }
     }
     const features: string[] = [];
