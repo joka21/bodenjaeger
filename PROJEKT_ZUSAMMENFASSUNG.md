@@ -1,8 +1,8 @@
 # Projekt-Zusammenfassung: Bodenjaeger Online-Shop
 
-**Stand:** 18. Maerz 2026
+**Stand:** 30. Maerz 2026
 **Projekt:** Bodenjaeger E-Commerce Shop (Next.js 15.5.9 + WooCommerce Headless)
-**Status:** MVP vollstaendig funktionsfaehig | Migration zu neuem Vercel-Account & WordPress-Projekt steht an
+**Status:** MVP vollstaendig funktionsfaehig | Backend migriert auf 2025.bodenjaeger.de | Vercel-Migration steht noch an
 
 ---
 
@@ -43,7 +43,7 @@ Bodenjaeger ist ein Online-Shop fuer Bodenbelaege (Laminat, Vinyl, Parkett) mit 
 - **Wunschliste**: WishlistContext mit localStorage
 - **Newsletter**: Anmeldung ueber WordPress-Backend
 - **Blog**: Dynamische Blog-Seiten
-- **Fachmarkt-Seiten**: 9 Unterseiten fuer Fachmarkt Hueckelhoven
+- **Fachmarkt-Seiten**: 9 Service-Unterseiten fuer Fachmarkt Hueckelhoven (Anhaengerverleih, Fachberatung, Lieferservice, Schausonntag, Set-Angebote, Verlegeservice, Warenlagerung, Werkzeugverleih)
 
 ---
 
@@ -90,13 +90,13 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 
 - **SMTP-Konfiguration**: E-Mails landen oft im Spam
 - **Newsletter-Backend**: WordPress-Endpoint noch nicht vollstaendig (Fallback im Code)
-- **MIGRATION**: Umzug auf neuen Vercel-Account und neues WordPress-Projekt (siehe Migrations-Sektion)
+- **MIGRATION**: Backend migriert auf `2025.bodenjaeger.de` (abgeschlossen). Vercel-Account-Migration steht noch an (siehe Migrations-Sektion)
 
 ### Deployment-Status
 
 **Aktuell:**
 - Frontend: `bodenjaeger.vercel.app` (Vercel)
-- Backend: `plan-dein-ding.de` (WordPress + WooCommerce)
+- Backend: `2025.bodenjaeger.de` (WordPress + WooCommerce) — migriert von `plan-dein-ding.de`
 - Build erfolgreich (`npm run build`)
 - TypeScript strict mode ohne Fehler
 - 24 API Routes funktionsfaehig
@@ -112,7 +112,7 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 | System | Aktuell | Muss migriert werden |
 |--------|---------|---------------------|
 | **Vercel Hosting** | `bodenjaeger.vercel.app` | Neuer Vercel-Account |
-| **WordPress Backend** | `plan-dein-ding.de` | Neues WordPress-Projekt |
+| **WordPress Backend** | `2025.bodenjaeger.de` (migriert von `plan-dein-ding.de`) | Neues WordPress-Projekt |
 | **Stripe** | Test-/Live-Keys gebunden an Account | Neue Keys oder Account-Transfer |
 | **PayPal** | Sandbox/Live-Credentials | Neue Keys oder Account-Transfer |
 | **Vercel KV (Redis)** | Optional, Upstash-basiert | Neues KV-Store erstellen |
@@ -464,7 +464,7 @@ background: var(--gradient-mid-to-sky);
 ### Infrastruktur
 - **Hosting**: Vercel (automatisches Deployment via Git)
 - **Domain**: bodenjaeger.vercel.app (aktuell)
-- **WordPress Backend**: plan-dein-ding.de (aktuell)
+- **WordPress Backend**: 2025.bodenjaeger.de (migriert von plan-dein-ding.de)
 - **Caching**: Vercel KV / Upstash Redis (optional, 30s TTL)
 - **CI/CD**: Keine GitHub Actions, Vercel Git Integration
 
@@ -782,20 +782,42 @@ src/
 │   ├── newsletter/page.tsx               # Newsletter
 │   ├── blog/[slug]/page.tsx              # Blog-Seiten
 │   │
-│   ├── fachmarkt-hueckelhoven/           # 9 Fachmarkt-Unterseiten
+│   ├── fachmarkt-hueckelhoven/           # 9 Fachmarkt-Service-Unterseiten
 │   │   ├── page.tsx                      # Hauptseite
-│   │   ├── laminat/page.tsx
-│   │   ├── vinyl/page.tsx
-│   │   ├── parkett/page.tsx
-│   │   ├── zubehoer/page.tsx
-│   │   ├── team/page.tsx
-│   │   ├── kontakt/page.tsx
-│   │   ├── karriere/page.tsx
-│   │   └── anfahrt/page.tsx
+│   │   ├── anhaengerverleih/page.tsx     # Anhaenger-Verleih Service
+│   │   ├── fachberatung/page.tsx         # Fachberatung Service
+│   │   ├── lieferservice/page.tsx        # Lieferservice
+│   │   ├── schausonntag/page.tsx         # Schausonntag Events
+│   │   ├── set-angebote/page.tsx         # Set-Angebote Showcase
+│   │   ├── verlegeservice/page.tsx       # Verlege-Service
+│   │   ├── warenlagerung/page.tsx        # Warenlagerung Service
+│   │   └── werkzeugverleih/page.tsx      # Werkzeug-Verleih
+│   │
+│   ├── konto/                            # Kundenkonto (mit Layout)
+│   │   ├── page.tsx                      # Konto-Dashboard
+│   │   ├── layout.tsx                    # Konto-Layout mit Navigation
+│   │   ├── bestellungen/page.tsx         # Bestellhistorie
+│   │   ├── bestellungen/[id]/page.tsx    # Einzelne Bestellung
+│   │   ├── adressen/page.tsx             # Gespeicherte Adressen
+│   │   └── einstellungen/page.tsx        # Konto-Einstellungen
+│   │
+│   ├── bestseller/page.tsx               # Bestseller-Produkte
+│   ├── sale/page.tsx                     # Sale-Produkte
+│   ├── search/page.tsx                   # Produkt-Suche
+│   ├── favoriten/page.tsx                # Wunschliste/Favoriten
+│   ├── kontakt/page.tsx                  # Kontakt-Seite
+│   ├── karriere/page.tsx                 # Karriere-Seite
+│   ├── service/page.tsx                  # Service-Uebersicht
+│   ├── passwort-vergessen/page.tsx       # Passwort-Reset
 │   │
 │   ├── agb/, datenschutz/, impressum/    # Rechtsseiten
 │   ├── widerruf/, versand-lieferzeit/
 │   │
+│   ├── styleguide/page.tsx               # Design System Doku
+│   ├── sitemap-page/page.tsx             # Sitemap
+│   ├── product-cards/page.tsx            # Produktkarten-Demo
+│   ├── api-test/page.tsx                 # API-Test Interface
+│   ├── todo/page.tsx                     # Aufgaben-Tracking
 │   ├── payment-setup/, woocommerce-setup/ # Debug-Seiten
 │   │
 │   └── api/                              # 24 API Routes (siehe API-Struktur)
@@ -813,31 +835,66 @@ src/
 │   │   ├── SetAngebot.tsx                # Set-Angebot Desktop
 │   │   ├── SetAngebotMobile.tsx          # Set-Angebot Mobile
 │   │   ├── TotalPrice.tsx                # Gesamtpreis (dynamisch)
-│   │   ├── QuantityDisplay.tsx           # Mengen-Anzeige
-│   │   └── ...                           # Weitere Produkt-Komponenten
+│   │   ├── QuantitySelector.tsx          # Mengen-Eingabe (+/- Buttons)
+│   │   ├── ImageGallery.tsx              # Bildgalerie mit Zoom/Thumbnails
+│   │   ├── ZubehoerSlider.tsx            # Zubehoer-Karussell (Cross-Selling)
+│   │   └── AlertModal.tsx                # Modal-Dialog
 │   │
 │   ├── cart/
-│   │   ├── CartItem.tsx
-│   │   ├── CartSummary.tsx
-│   │   └── CartDrawer.tsx                # Warenkorb-Drawer (Set-Gruppierung)
+│   │   ├── CartDrawer.tsx                # Warenkorb-Drawer (Set-Gruppierung)
+│   │   ├── CartFooter.tsx                # Drawer-Footer mit Checkout-Button
+│   │   ├── CartSingleItem.tsx            # Einzelprodukt im Warenkorb
+│   │   ├── CartSetItem.tsx               # Bundle/Set im Warenkorb
+│   │   └── QuantityStepper.tsx           # Mengen-Stepper im Warenkorb
 │   │
 │   ├── checkout/
-│   │   ├── TrustBadges.tsx
-│   │   ├── OrderSummary.tsx
-│   │   └── PaymentMethodSelector.tsx
+│   │   ├── CheckoutLayout.tsx            # Checkout Layout Wrapper
+│   │   ├── ProgressIndicator.tsx         # Schritt-Anzeige
+│   │   ├── ContactStep.tsx               # Kontakt-Schritt
+│   │   ├── ContactForm.tsx               # E-Mail/Telefon Formular
+│   │   ├── ShippingForm.tsx              # Versandadresse Formular
+│   │   ├── PaymentStep.tsx               # Zahlungsart-Auswahl
+│   │   ├── PaymentOptions.tsx            # Zahlungs-Buttons
+│   │   ├── ReviewStep.tsx                # Bestelluebersicht
+│   │   ├── OrderSummary.tsx              # Warenkorb-Zusammenfassung
+│   │   ├── ExpressCheckout.tsx           # Schnell-Checkout (PayPal/Apple Pay)
+│   │   └── TrustBadges.tsx               # Vertrauens-Badges
+│   │
+│   ├── navigation/
+│   │   ├── MobileMenu.tsx                # Mobile Navigation (3-Level)
+│   │   ├── MobileMenuHeader.tsx          # Mobile Menu Header
+│   │   ├── MobileMenuLevel1.tsx          # Ebene 1: Hauptkategorien
+│   │   ├── MobileMenuLevel2.tsx          # Ebene 2: Unterkategorien
+│   │   └── MobileMenuLevel3.tsx          # Ebene 3: Produkte/Blatt
+│   │
+│   ├── category/
+│   │   └── CategoryPageClient.tsx        # Kategorieseite mit Filter/Sortierung
 │   │
 │   ├── sections/home/
-│   │   ├── BestsellerSlider.tsx
-│   │   ├── SaleProductSlider.tsx
-│   │   ├── VorteileSlider.tsx
-│   │   ├── GoogleReviewsSlider.tsx
-│   │   └── ...                           # Weitere Homepage-Sektionen
+│   │   ├── HeroSlider.tsx                # Hero-Banner Karussell
+│   │   ├── BestsellerSlider.tsx          # Bestseller-Karussell
+│   │   ├── SaleProductSlider.tsx         # Sale-Produkt-Karussell
+│   │   ├── BodenkategorienSection.tsx    # Bodenkategorien Showcase
+│   │   ├── VorteileSlider.tsx            # Vorteile-Karussell
+│   │   └── GoogleReviewsSlider.tsx       # Google Reviews Karussell
 │   │
-│   ├── Header.tsx / HeaderWrapper.tsx
-│   ├── Footer.tsx
-│   ├── FloatingContactButton.tsx
-│   ├── ProductCard.tsx
-│   └── ...
+│   ├── Header.tsx                        # Hauptnavigation
+│   ├── HeaderWrapper.tsx                 # Header Wrapper
+│   ├── Footer.tsx                        # Seiten-Footer
+│   ├── FloatingContactButton.tsx         # Sticky Kontakt-Button
+│   ├── LiveSearch.tsx                    # Echtzeit-Produktsuche mit Autocomplete
+│   ├── ProductCard.tsx                   # Generische Produktkarte
+│   ├── StandardProductCard.tsx           # Standard Produktkarte
+│   ├── UnifiedProductCard.tsx            # Unified Produktkarte (mehrere Modi)
+│   ├── NewsletterSignup.tsx              # Newsletter-Formular
+│   ├── FooterNewsletterSignup.tsx        # Footer-Newsletter
+│   ├── FachmarktPage.tsx                 # Fachmarkt-Seitentemplate
+│   ├── ServicePage.tsx                   # Service-Seitentemplate
+│   ├── KontaktPage.tsx                   # Kontakt-Seite
+│   ├── KarrierePage.tsx                  # Karriere-Seite
+│   ├── VersandLieferzeitPage.tsx         # Versand-Info
+│   ├── WordPressPage.tsx                 # Dynamische WP-Content Seite
+│   └── ContactDrawer.tsx                 # Kontakt-Drawer (Slide-out)
 │
 ├── contexts/
 │   ├── CartContext.tsx                    # Warenkorb (localStorage: 'woocommerce-cart')
@@ -857,13 +914,23 @@ src/
 │   ├── cart-utils.ts                     # formatPrice(), calculateShipping() (= 0)
 │   ├── rate-limit.ts                     # In-Memory Rate Limiting
 │   ├── imageUtils.ts                     # Bild-Optimierung
+│   ├── productHelpers.ts                 # Produkt-Hilfsfunktionen (Kategorie-Erkennung)
+│   ├── wordpress.ts                      # WordPress REST API Client (Pages/Posts)
+│   ├── dummy-data.ts                     # Mock-Daten fuer Entwicklung
+│   ├── mock-products.ts                  # Mock-Produkt-Fixtures
 │   └── api/
 │       ├── adapters.ts                   # VERALTET — liest jaeger_meta.* statt Root-Level
-│       └── ...                           # Geplante optimierte API-Layer (nicht primaer)
+│       ├── jaegerApi.ts                  # Jaeger Plugin REST API Client
+│       ├── product-full.ts               # Vollstaendige Produktdaten
+│       ├── product-options.ts            # Produkt-Optionen/Varianten
+│       └── products-critical.ts          # Critical-Path Produkt-Optimierung
 │
 ├── types/
 │   ├── product.ts                        # Product Type Definitions
-│   └── product-optimized.ts              # Geplante Types (nicht primaer)
+│   ├── product-optimized.ts              # Geplante Types (nicht primaer)
+│   ├── checkout.ts                       # Checkout-Types (Steps, Adressen, Versand)
+│   ├── cart-drawer.ts                    # Cart-Drawer Types (CartSetItem, CartSingleItem)
+│   └── mobile-menu.ts                    # Mobile-Menu Types (Kategorien, Navigation)
 │
 └── scripts/
     └── check-env.js                      # Environment Variable Validator
@@ -883,17 +950,33 @@ Root:
 └── PROJEKT_ZUSAMMENFASSUNG.md            # Diese Datei
 
 public/images/
-├── logo/                                 # Bodenjaeger Logo (SVG)
-├── Icons/                                # UI-Icons
-├── sliderbilder/                         # Carousel-Bilder
-├── Startseite/                           # Homepage-Bilder
-└── vorlagen/                             # Layout-Vorlagen
+├── logo/                                 # Bodenjaeger Logo (SVG, weiss)
+├── Icons/                                # 38 UI-Icons (dunkel + hell Varianten)
+│   └── schieferschwarz/, weiss/          # Warenkorb, Favoriten, Kontakt, Lupe, etc.
+├── sliderbilder/                         # Hero-Carousel (COREtec, primeCORE)
+├── Startseite/                           # Homepage-Bilder (Kategorien + Vorteile)
+└── vorlagen/                             # Layout-Vorlagen (ist/ + soll/ Mockups)
 
 backend/
 ├── ROOT_LEVEL_FIELDS.md                  # Alle 41 Custom Fields
 ├── VERRECHNUNG_FELD_BACKEND.md           # Backend-Anforderung
 ├── API_FIELDS_PARAMETER.md               # API-Parameter Doku
+├── API_FELDER_MAPPING.md                 # Feld-Mapping Frontend <-> WooCommerce
+├── API_TEST_ERGEBNISSE_2025-11-16.md     # API-Testergebnisse
+├── BACKEND_FIX_COMPLETED.md              # Abgeschlossene Backend-Fixes
+├── BACKEND_REQUEST_EINHEIT_SHORT_ROOT_LEVEL.md # Einheiten-Feld Konfiguration
+├── FEHLENDE_API_FELDER.md                # Fehlende API-Felder
 └── FRONTEND_BACKEND_DATENFLUSS.md        # Datenfluss-Doku
+
+Jaeger-Plugin/                             # WordPress Custom Plugin
+├── JaegerPlugin.php                      # Plugin-Bootstrap
+├── includes/                             # Autoloader, Error Handler
+├── backend/                              # Admin: Custom Fields, API, Shortcodes (10+ Dateien)
+├── frontend/                             # Konfigurator, Produkt-Slider
+│   ├── product-slider/                   # Produkt-Slider (Data + Display Handler)
+│   ├── set-angebot/                      # Set-Bundle UI (AJAX, Berechnungen)
+│   └── zubehoer-slider/                  # Zubehoer-Slider
+└── CLAUDE.md                             # Plugin-Dokumentation (28KB)
 ```
 
 ### Provider Hierarchy (layout.tsx)
@@ -968,7 +1051,7 @@ npm run check-env    # Prueft alle erforderlichen Variables
 - **E-Mails**: WooCommerce sendet alle transaktionalen E-Mails
 
 ### Image-Domains (next.config.ts)
-1. `plan-dein-ding.de` — WordPress Uploads (MUSS bei Migration aktualisiert werden)
+1. `2025.bodenjaeger.de` — WordPress Uploads (migriert von `plan-dein-ding.de`)
 2. `bodenjaeger.de` — Alternative Upload-Domain
 3. `images.unsplash.com` — Stock-Fotos
 4. `via.placeholder.com` — Platzhalter-Bilder
@@ -1104,14 +1187,14 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ## Projektstatistik
 
-**Komponenten:** ~50+
-**Pages:** 20+ (Home, Product, Category, Cart, Checkout, Success, Login, Konto, 9 Fachmarkt, Blog, 5 Rechtsseiten)
+**Komponenten:** ~85+
+**Pages:** 45+ (Home, Product, Category, Cart, Checkout, Success, Login, Konto mit 4 Unterseiten, 9 Fachmarkt-Services, Blog, Bestseller, Sale, Search, Favoriten, Kontakt, Karriere, Service, 5 Rechtsseiten, Styleguide, Sitemap, Dev-Seiten)
 **API Routes:** 24 (5 Produkte, 5 Checkout, 8 Auth, 1 Newsletter, 1 Revalidation, 5 Debug)
 **Custom Fields:** 41
 **Contexts:** 3 aktiv (Cart, Wishlist, Auth) + 1 Dead Code (Checkout)
 **Payment Methods:** 3 (Stripe, PayPal, BACS)
 **TypeScript Coverage:** 100%
-**Dependencies:** ~12 Runtime + ~5 Dev
+**Dependencies:** 8 Runtime (next, react, react-dom, stripe, @stripe/stripe-js, @vercel/kv, clsx, lucide-react) + 9 Dev
 
 ### Implementierungsstand
 - **Produkt-Display**: 100%
@@ -1134,7 +1217,7 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ## Kontakt & Ressourcen
 
-**Backend (aktuell):** plan-dein-ding.de
+**Backend (aktuell):** 2025.bodenjaeger.de
 **Frontend (aktuell):** bodenjaeger.vercel.app
 **E-Mail:** info@bodenjaeger.de
 
@@ -1178,5 +1261,5 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ---
 
-**Letzte Aktualisierung:** 18. Maerz 2026
-**Aktueller Status:** MVP vollstaendig funktionsfaehig, Migration auf neuen Vercel-Account & WordPress-Projekt steht an
+**Letzte Aktualisierung:** 30. Maerz 2026
+**Aktueller Status:** MVP vollstaendig funktionsfaehig, Backend migriert auf 2025.bodenjaeger.de, Vercel-Account-Migration steht noch an
