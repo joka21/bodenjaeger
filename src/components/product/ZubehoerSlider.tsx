@@ -407,32 +407,32 @@ export default function ZubehoerSlider({
                 {/* Scroll Left Button */}
                 <button
                   onClick={scrollLeft}
-                  className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg hover:shadow-xl items-center justify-center transition-all z-10 ${
+                  className={`hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full shadow-lg hover:shadow-xl items-center justify-center transition-all z-10 ${
                     canScrollLeft
-                      ? 'bg-black text-brand cursor-pointer'
-                      : 'bg-black/50 text-brand/40 cursor-not-allowed'
+                      ? 'bg-dark text-brand cursor-pointer'
+                      : 'bg-dark/50 text-brand/40 cursor-not-allowed'
                   }`}
                   disabled={!canScrollLeft}
                   aria-label="Zurück"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
                 {/* Scroll Right Button */}
                 <button
                   onClick={scrollRight}
-                  className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full shadow-lg hover:shadow-xl items-center justify-center transition-all z-10 ${
+                  className={`hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full shadow-lg hover:shadow-xl items-center justify-center transition-all z-10 ${
                     canScrollRight
-                      ? 'bg-black text-brand cursor-pointer'
-                      : 'bg-black/50 text-brand/40 cursor-not-allowed'
+                      ? 'bg-dark text-brand cursor-pointer'
+                      : 'bg-dark/50 text-brand/40 cursor-not-allowed'
                   }`}
                   disabled={!canScrollRight}
                   aria-label="Weitere Produkte"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </>
