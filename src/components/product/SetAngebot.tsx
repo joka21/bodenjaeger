@@ -73,10 +73,6 @@ export default function SetAngebot({
   const hasDaemmung = daemmungName !== 'Trittschalldämmung';
   const hasSockelleiste = sockelleisteName !== 'Sockelleiste';
 
-  // Calculate grid columns based on number of products
-  const productCount = 1 + (hasDaemmung ? 1 : 0) + (hasSockelleiste ? 1 : 0);
-  const gridCols = productCount === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3';
-
   // ✅ PREISE KOMMEN DIREKT VOM PARENT - KEINE BERECHNUNG HIER!
   // daemmungSetPricePerUnit: 0 (kostenlos) oder Aufpreis (z.B. 5.00)
   // sockelleisteSetPricePerUnit: 0 (kostenlos) oder Aufpreis (z.B. 2.50)
@@ -121,184 +117,146 @@ export default function SetAngebot({
   };
 
   return (
-    <div className="relative w-full overflow-hidden">
-      {/* Roter Badge-Header - schwebt auf der Kante */}
-      <div className="relative z-10 inline-block mb-[-60px] md:inline-block w-full md:w-auto text-center md:text-left">
-        <span className="bg-red-600 text-white font-bold px-4 sm:px-6 py-2 rounded-full text-base sm:text-lg shadow-lg inline-block">
-          {setangebotTitel}
-        </span>
+    <div className="bg-ash rounded-lg p-4 sm:p-5 w-full">
+      {/* Badge Header */}
+      <div className="inline-flex items-center px-4 py-1.5 mb-4 text-base font-semibold text-white bg-brand rounded">
+        {setangebotTitel}
       </div>
 
-      {/* Grauer Container mit Produkten */}
-      <div className="bg-ash rounded-md p-4 sm:p-6 pt-10 sm:pt-12 w-full">
-
-        {/* ===== DESKTOP: Karten-Grid ===== */}
-        <div className={`grid ${gridCols} gap-6 w-full`}>
-        {/* Boden Card - KEIN Button */}
-        <div className="space-y-3">
-          <div className="text-center">
-            <span className="text-sm font-medium text-gray-700">Boden</span>
+      {/* Produktliste */}
+      <div className="flex flex-col gap-3">
+        {/* Boden */}
+        <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 rounded-lg items-stretch">
+          {/* Bild */}
+          <div className="w-[72px] relative overflow-hidden rounded">
+            <Image
+              src={productImage}
+              alt={productName}
+              fill
+              className="object-cover"
+            />
           </div>
-          {/* Unsichtbarer Platzhalter für Button-Höhe */}
-          <div className="h-[36px]"></div>
+          {/* Kategorie + Name */}
+          <div className="min-w-0">
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wide">Boden</h3>
+            <p className="text-sm text-dark break-words leading-tight">{productName}</p>
+          </div>
+          {/* Preise */}
+          <div className="flex flex-col items-end flex-shrink-0">
+            {regularPrice > basePrice && (
+              <span className="text-xs text-mid line-through whitespace-nowrap">
+                {regularPrice.toFixed(2).replace('.', ',')} €/{einheit}
+              </span>
+            )}
+            <span className="text-sm font-semibold text-brand whitespace-nowrap">
+              {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
+            </span>
+          </div>
+        </div>
 
-          <div className="flex bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex-col">
-            <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
+        {/* Dämmung */}
+        {hasDaemmung && (
+          <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 rounded-lg items-stretch">
+            {/* Bild */}
+            <div className="w-[72px] relative overflow-hidden rounded">
               <Image
-                src={productImage}
-                alt={productName}
-                width={400}
-                height={400}
-                className="w-full h-full object-cover"
+                src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
+                alt={selectedDaemmung?.name || daemmungName}
+                fill
+                className="object-cover"
               />
             </div>
-            <div className="px-4 py-2 flex flex-col flex-grow">
-              <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
-                {productName}
-              </h3>
-              <div className="mt-auto flex items-center justify-end gap-2 w-full text-[10px]">
-                {regularPrice > basePrice && (
-                  <span className="text-gray-400 line-through">
-                    {regularPrice.toFixed(2).replace('.', ',')} €/{einheit}
-                  </span>
-                )}
-                <span className="font-bold text-red-600 whitespace-nowrap">
-                  {basePrice.toFixed(2).replace('.', ',')} €/{einheit}
-                </span>
-              </div>
+            {/* Kategorie + Name + Button */}
+            <div className="min-w-0">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wide">Dämmung</h3>
+              <p className="text-sm text-dark break-words leading-tight">{selectedDaemmung?.name || daemmungName}</p>
+              {daemmungOptions.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => openModal('daemmung')}
+                  className="mt-2 bg-dark text-white text-xs font-semibold py-2 px-4 rounded hover:bg-[#1a1a1d] transition-colors"
+                >
+                  Andere Dämmung &gt;
+                </button>
+              )}
             </div>
-          </div>
-        </div>
-
-        {/* Dämmung Card - MIT Button oben */}
-        {hasDaemmung && (
-          <div className="space-y-3">
-            <div className="text-center">
-              <span className="text-sm font-medium text-gray-700">Dämmung</span>
-            </div>
-            <button
-              type="button"
-              onClick={() => openModal('daemmung')}
-              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200"
-            >
-              Andere Dämmung wählen
-              <span>&gt;</span>
-            </button>
-
-            <div className="flex bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex-col">
-              <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
-                <Image
-                  src={selectedDaemmung?.images?.[0]?.src || daemmungImage}
-                  alt={selectedDaemmung?.name || daemmungName}
-                  width={400}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="px-4 py-2 flex flex-col flex-grow">
-                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
-                  {selectedDaemmung?.name || daemmungName}
-                </h3>
-
-                <div className="mt-auto flex items-center justify-between w-full gap-2 text-[10px]">
-                  <span className="text-gray-600 whitespace-nowrap">
-                    VE: {selectedDaemmung?.paketinhalt
-                      ? `${selectedDaemmung.paketinhalt}${selectedDaemmung.einheit_short || 'm²'}`
-                      : daemmungVE || '-'}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-400 line-through whitespace-nowrap">
-                      {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
-                    </span>
-                    <span className="font-bold whitespace-nowrap text-red-600 text-xs">
-                      {daemmungSetPricePerUnit <= 0
-                        ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
-                        : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* Preise */}
+            <div className="flex flex-col items-end flex-shrink-0">
+              <span className="text-xs text-mid line-through whitespace-nowrap">
+                {daemmungRegularPricePerUnit.toFixed(2).replace('.', ',')} €
+              </span>
+              <span className="text-sm font-semibold text-brand whitespace-nowrap">
+                {daemmungSetPricePerUnit <= 0
+                  ? `0,00 €/${selectedDaemmung?.einheit_short || einheit}`
+                  : `+${daemmungSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedDaemmung?.einheit_short || einheit}`
+                }
+              </span>
             </div>
           </div>
         )}
 
-        {/* Sockelleiste Card - MIT Button oben */}
+        {/* Sockelleiste */}
         {hasSockelleiste && (
-          <div className="space-y-3">
-            <div className="text-center">
-              <span className="text-sm font-medium text-gray-700">Sockelleiste</span>
+          <div className="grid grid-cols-[auto_1fr_auto] gap-4 p-4 rounded-lg items-stretch">
+            {/* Bild */}
+            <div className="w-[72px] relative overflow-hidden rounded">
+              <Image
+                src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
+                alt={selectedSockelleiste?.name || sockelleisteName}
+                fill
+                className="object-cover"
+              />
             </div>
-            <button
-              type="button"
-              onClick={() => openModal('sockelleiste')}
-              className="w-full bg-gray-800 text-white text-[11px] py-2 px-2 rounded-md hover:bg-gray-700 flex items-center justify-center gap-1 transition-colors duration-200"
-            >
-              Andere Sockelleiste wählen
-              <span>&gt;</span>
-            </button>
-
-            <div className="flex bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden min-h-[270px] flex-col">
-              <div className="w-full aspect-square bg-gray-50 flex-shrink-0">
-                <Image
-                  src={selectedSockelleiste?.images?.[0]?.src || sockelleisteImage}
-                  alt={selectedSockelleiste?.name || sockelleisteName}
-                  width={400}
-                  height={400}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="px-4 py-2 flex flex-col flex-grow">
-                <h3 className="text-xs font-semibold mb-2 text-left text-gray-900 line-clamp-2">
-                  {selectedSockelleiste?.name || sockelleisteName}
-                </h3>
-
-                <div className="mt-auto flex items-center justify-between w-full gap-2 text-[10px]">
-                  <span className="text-gray-600 whitespace-nowrap">
-                    VE: {selectedSockelleiste?.paketinhalt
-                      ? `${selectedSockelleiste.paketinhalt}${selectedSockelleiste.einheit_short || 'lfm'}`
-                      : sockelleisteVE || '-'}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <span className="text-gray-400 line-through whitespace-nowrap">
-                      {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
-                    </span>
-                    <span className="font-bold whitespace-nowrap text-red-600 text-xs">
-                      {sockelleisteSetPricePerUnit <= 0
-                        ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
-                        : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
-                      }
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* Kategorie + Name + Button */}
+            <div className="min-w-0">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wide">Sockelleiste</h3>
+              <p className="text-sm text-dark break-words leading-tight">{selectedSockelleiste?.name || sockelleisteName}</p>
+              {sockelleisteOptions.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => openModal('sockelleiste')}
+                  className="mt-2 bg-dark text-white text-xs font-semibold py-2 px-4 rounded hover:bg-[#1a1a1d] transition-colors"
+                >
+                  Andere Sockelleiste &gt;
+                </button>
+              )}
+            </div>
+            {/* Preise */}
+            <div className="flex flex-col items-end flex-shrink-0">
+              <span className="text-xs text-mid line-through whitespace-nowrap">
+                {sockelleisteRegularPricePerUnit.toFixed(2).replace('.', ',')} €
+              </span>
+              <span className="text-sm font-semibold text-brand whitespace-nowrap">
+                {sockelleisteSetPricePerUnit <= 0
+                  ? `0,00 €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
+                  : `+${sockelleisteSetPricePerUnit.toFixed(2).replace('.', ',')} €/${selectedSockelleiste?.einheit_short || sockelleisteEinheit}`
+                }
+              </span>
             </div>
           </div>
         )}
-        </div>
+      </div>
 
-        {/* Gesamt-Preiszeile (STATISCHER M²-PREIS) */}
-        <div className="flex flex-wrap justify-between items-center mt-8 pt-6 border-t-2 border-gray-200 gap-2">
-          <div className="flex flex-wrap items-center gap-2 lg:gap-4 min-w-0">
-            <span className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-700">Gesamt</span>
+      {/* Gesamt-Preiszeile (STATISCHER M²-PREIS) */}
+      <div className="mt-4 pt-4 border-t-2 border-gray-300">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-base font-bold text-dark flex-shrink-0">Gesamt</span>
+          <div className="flex items-center gap-2 flex-shrink-0">
             {vergleichspreisProM2 > setAngebotPreisProM2 && (
-              <span className="line-through text-base sm:text-lg lg:text-2xl text-gray-400">
+              <span className="line-through text-xs text-mid whitespace-nowrap">
                 {vergleichspreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
               </span>
             )}
-            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-600">
+            <span className="text-base font-bold text-brand whitespace-nowrap">
               {setAngebotPreisProM2.toFixed(2).replace('.', ',')} €/{einheit}
             </span>
-          </div>
-          {ersparnisProzent > 0 && (
-            <div className="flex-shrink-0">
-              <span className="bg-red-600 text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-sm sm:text-base lg:text-xl font-bold shadow-lg">
+            {ersparnisProzent > 0 && (
+              <span className="inline-flex items-center px-2 py-0.5 text-xs font-semibold text-white bg-brand rounded whitespace-nowrap">
                 -{Math.round(ersparnisProzent)}%
               </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-
       </div>
 
       {/* Modal für Produktauswahl */}
