@@ -139,22 +139,22 @@ export default function HeroSlider() {
         aria-roledescription="carousel"
       >
         {/* Main Slider Container */}
-        <div className="flex flex-col lg:flex-row min-h-[480px] md:min-h-[600px] lg:min-h-[720px]">
-          {/* Left Column - Text Content - 29% width */}
-          <div className="bg-[#005189] flex items-center justify-center px-8 py-12 md:px-12 md:py-16 lg:px-16 order-2 lg:order-1 lg:w-[29%]">
+        <div className="relative min-h-[400px] md:min-h-[600px] lg:min-h-[720px] lg:flex lg:flex-row">
+          {/* Left Column - Text Content - 29% width (desktop: separate column, mobile: overlay on image) */}
+          <div className="absolute inset-0 z-20 flex items-end lg:items-center lg:relative lg:inset-auto bg-gradient-to-t from-[#005189]/90 via-[#005189]/40 to-transparent lg:bg-[#005189] lg:from-transparent lg:via-transparent px-6 py-8 md:px-12 md:py-16 lg:px-16 lg:w-[29%]">
             <div
               className="max-w-xl transition-opacity duration-500"
               style={{ opacity: mounted && isTransitioning ? 0.5 : 1 }}
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-6">
                 {currentSlideData.title}
               </h2>
-              <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
+              <p className="text-base md:text-xl text-gray-200 mb-4 md:mb-8 leading-relaxed">
                 {currentSlideData.subtitle}
               </p>
               <Link
                 href={currentSlideData.buttonLink}
-                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-[#005189] transition-all duration-300 group"
+                className="inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-[#005189] transition-all duration-300 group"
               >
                 {currentSlideData.buttonText}
                 <svg
@@ -174,8 +174,8 @@ export default function HeroSlider() {
             </div>
           </div>
 
-          {/* Right Column - Image - 71% width */}
-          <div className="relative min-h-[480px] md:min-h-[600px] lg:min-h-[720px] order-1 lg:order-2 lg:w-[71%]">
+          {/* Right Column - Image - 71% width (mobile: full width behind text) */}
+          <div className="absolute inset-0 lg:relative lg:inset-auto lg:w-[71%] min-h-[400px] md:min-h-[600px] lg:min-h-[720px]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}

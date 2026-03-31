@@ -1,13 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import ContactDrawer from './ContactDrawer';
 
 export default function FloatingContactButton() {
   const [isContactDrawerOpen, setIsContactDrawerOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { itemCount, openCartDrawer, isCartDrawerOpen } = useCart();
+
+  useEffect(() => { setMounted(true); }, []);
 
   return (
     <>
@@ -45,7 +48,7 @@ export default function FloatingContactButton() {
             height={28}
             className="w-[22px] h-[22px] md:w-7 md:h-7"
           />
-          {itemCount > 0 && (
+          {mounted && itemCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-brand text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
               {itemCount}
             </span>
