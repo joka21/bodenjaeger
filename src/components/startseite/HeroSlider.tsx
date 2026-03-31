@@ -139,9 +139,9 @@ export default function HeroSlider() {
         aria-roledescription="carousel"
       >
         {/* Main Slider Container */}
-        <div className="relative min-h-[400px] md:min-h-[600px] lg:min-h-[720px] lg:flex lg:flex-row">
-          {/* Left Column - Text Content - 29% width (desktop: separate column, mobile: overlay on image) */}
-          <div className="absolute inset-0 z-20 flex items-end lg:items-center lg:relative lg:inset-auto bg-gradient-to-t from-[#005189]/90 via-[#005189]/40 to-transparent lg:bg-[#005189] lg:from-transparent lg:via-transparent px-6 py-8 md:px-12 md:py-16 lg:px-16 lg:w-[29%]">
+        <div className="flex flex-col lg:flex-row min-h-[480px] md:min-h-[600px] lg:min-h-[720px]">
+          {/* Left Column - Text Content - 29% width */}
+          <div className="bg-[#005189] flex items-center px-6 py-8 md:px-12 md:py-16 lg:px-16 lg:justify-center order-2 lg:order-1 lg:w-[29%]">
             <div
               className="max-w-xl transition-opacity duration-500"
               style={{ opacity: mounted && isTransitioning ? 0.5 : 1 }}
@@ -174,8 +174,8 @@ export default function HeroSlider() {
             </div>
           </div>
 
-          {/* Right Column - Image - 71% width (mobile: full width behind text) */}
-          <div className="absolute inset-0 lg:relative lg:inset-auto lg:w-[71%] min-h-[400px] md:min-h-[600px] lg:min-h-[720px]">
+          {/* Right Column - Image - 71% width */}
+          <div className="relative min-h-[250px] md:min-h-[400px] lg:min-h-[720px] order-1 lg:order-2 lg:w-[71%]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
@@ -203,7 +203,7 @@ export default function HeroSlider() {
         <button
           onClick={goToPrevSlide}
           disabled={isTransitioning}
-          className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
+          className="absolute left-1 md:left-2 top-1/4 lg:top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
           aria-label="Previous slide"
         >
           <svg
@@ -224,7 +224,7 @@ export default function HeroSlider() {
         <button
           onClick={goToNextSlide}
           disabled={isTransitioning}
-          className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
+          className="absolute right-1 md:right-2 top-1/4 lg:top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
           aria-label="Next slide"
         >
           <svg
