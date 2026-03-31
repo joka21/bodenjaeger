@@ -4,7 +4,27 @@
       "Bash(php:*)",
       "Bash(wc -l /c/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/lib/*.ts)",
       "Bash(find \"/c/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src\" -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" \\\\\\) -exec wc -l {} +)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(find C:UsersjokalOneDriveDesktopProjektejägerbodenjägerJaeger-Pluginbackend -type f \\\\\\(-name *.php -o -name *.md \\\\\\))",
+      "Bash(find C:UsersjokalOneDriveDesktopProjektejägerbodenjägerJaeger-Pluginincludes -type f \\\\\\(-name *.php \\\\\\))",
+      "WebFetch(domain:woocommerce.com)",
+      "WebFetch(domain:woocommerce.github.io)",
+      "WebSearch",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:developer.woocommerce.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:hookdeck.com)",
+      "Bash(npx vercel:*)",
+      "Bash(curl -s \"https://2025.bodenjaeger.de/wp-json/jaeger/v1/products?slug=profi-verlegeset\")",
+      "WebFetch(domain:bodenjaeger.vercel.app)",
+      "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); [print\\(f''''ID: {p[\"\"id\"\"]}, Name: {p[\"\"name\"\"]}, Slug: {p[\"\"slug\"\"]}, Short: {repr\\(p.get\\(\"\"short_description\"\",\"\"\"\"\\)[:200]\\)}''''\\) for p in data.get\\(''''products'''',[]\\)]\")",
+      "Bash(node -e \"let d='''''''';process.stdin.on\\(''''data'''',c=>d+=c\\);process.stdin.on\\(''''end'''',\\(\\)=>{const j=JSON.parse\\(d\\);\\(j.products||[]\\).forEach\\(p=>console.log\\(''''ID:'''',p.id,''''Name:'''',p.name,''''Slug:'''',p.slug,''''Short:'''',JSON.stringify\\(\\(p.short_description||''''''''\\).substring\\(0,300\\)\\)\\)\\)}\\)\")",
+      "Bash(npm run:*)",
+      "Bash(npx next:*)",
+      "Bash(find /c/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src -type f \\\\\\(-name *.ts -o -name *.tsx -o -name *.js -o -name *.jsx \\\\\\))",
+      "Bash(curl:*)",
+      "Bash(python3 -c \"import sys,json; [print\\(c[''''id''''],c[''''email''''],c[''''role'''']\\) for c in json.loads\\(sys.stdin.read\\(\\)\\)]\")",
+      "Bash(node -e \"const d=[];process.stdin.on\\(''''data'''',c=>d.push\\(c\\)\\);process.stdin.on\\(''''end'''',\\(\\)=>{JSON.parse\\(d.join\\(''''''''\\)\\).forEach\\(c=>console.log\\(c.id,c.email,c.role\\)\\)}\\)\")"
     ]
   }
 }

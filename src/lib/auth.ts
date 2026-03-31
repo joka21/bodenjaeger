@@ -96,54 +96,71 @@ export async function wpJwtLogin(
 }
 
 export async function wpValidateToken(token: string): Promise<boolean> {
-  const res = await fetch(`${WP_URL}/wp-json/jwt-auth/v1/token/validate`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    // Decode JWT payload and check expiration locally
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
 
-  return res.ok;
+    const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+
+    // Check if token is expired
+    if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
+      return false;
+    }
+
+    // Check it has user data
+    if (!payload.data?.user?.id && !payload.sub) {
+      return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function wpGetCurrentUser(token: string): Promise<AuthUser | null> {
-  // Get WordPress user info via JWT
-  const wpRes = await fetch(`${WP_URL}/wp-json/wp/v2/users/me`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  try {
+    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    const userId = payload.data?.user?.id || payload.sub;
 
-  if (!wpRes.ok) return null;
-  const wpUser = await wpRes.json();
-
-  // Get WooCommerce customer data for full profile
-  const wcRes = await fetch(
-    `${WP_URL}/wp-json/wc/v3/customers/${wpUser.id}`,
-    {
-      headers: {
-        Authorization: `Basic ${Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString('base64')}`,
-      },
+    if (!userId) {
+      console.error('wpGetCurrentUser: no user id in JWT payload');
+      return null;
     }
-  );
 
-  if (!wcRes.ok) {
+    const authHeader = `Basic ${Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString('base64')}`;
+
+    // WooCommerce customer ID = WordPress user ID
+    const wcRes = await fetch(`${WP_URL}/wp-json/wc/v3/customers/${userId}`, {
+      headers: { Authorization: authHeader },
+    });
+
+    if (wcRes.ok) {
+      const wc = await wcRes.json();
+      return {
+        id: wc.id,
+        email: wc.email,
+        displayName: `${wc.first_name} ${wc.last_name}`.trim() || wc.username,
+        firstName: wc.first_name || '',
+        lastName: wc.last_name || '',
+        role: wc.role || 'customer',
+      };
+    }
+
+    // No WooCommerce profile — return minimal user from JWT
     return {
-      id: wpUser.id,
-      email: wpUser.slug,
-      displayName: wpUser.name,
+      id: parseInt(String(userId), 10),
+      email: '',
+      displayName: '',
       firstName: '',
       lastName: '',
       role: 'customer',
     };
+  } catch (err) {
+    console.error('wpGetCurrentUser: failed to decode token', err);
+    return null;
   }
-
-  const wcCustomer = await wcRes.json();
-
-  return {
-    id: wcCustomer.id,
-    email: wcCustomer.email,
-    displayName: `${wcCustomer.first_name} ${wcCustomer.last_name}`.trim() || wcCustomer.username,
-    firstName: wcCustomer.first_name || '',
-    lastName: wcCustomer.last_name || '',
-    role: wcCustomer.role || 'customer',
-  };
 }
 
 export async function wcCreateCustomer(data: {

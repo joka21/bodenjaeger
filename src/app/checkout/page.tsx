@@ -678,7 +678,7 @@ export default function CheckoutPage() {
               {/* Footer Links */}
               <div className="flex flex-wrap justify-center gap-4 mt-6 text-sm text-brand">
                 <a href="/widerruf" className="hover:underline">Widerrufsrecht</a>
-                <a href="/versand" className="hover:underline">Versand</a>
+                <a href="/versand-lieferzeit" className="hover:underline">Versand</a>
                 <a href="/datenschutz" className="hover:underline">Datenschutzerklärung</a>
                 <a href="/agb" className="hover:underline">AGB</a>
                 <a href="/impressum" className="hover:underline">Impressum</a>

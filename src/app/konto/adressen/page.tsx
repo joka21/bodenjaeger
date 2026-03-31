@@ -65,15 +65,37 @@ export default function AdressenPage() {
     setSuccess(null);
   };
 
+  const isShippingEmpty = (addr: Address) => {
+    return !addr.first_name && !addr.last_name && !addr.address_1 && !addr.city && !addr.postcode;
+  };
+
+  const addressesMatch = (a: Address, b: Address) => {
+    return a.first_name === b.first_name && a.last_name === b.last_name &&
+      a.company === b.company && a.address_1 === b.address_1 &&
+      a.address_2 === b.address_2 && a.city === b.city &&
+      a.postcode === b.postcode && a.country === b.country;
+  };
+
   const handleSave = async () => {
-    if (!editingType) return;
+    if (!editingType || !customer) return;
     setSaving(true);
     setError(null);
+
+    // When saving billing: also update shipping if shipping is empty or identical to old billing
+    const shouldSyncShipping = editingType === 'billing' &&
+      (isShippingEmpty(customer.shipping) || addressesMatch(customer.shipping, customer.billing));
+
+    const updatePayload: Record<string, Address> = { [editingType]: formData };
+    if (shouldSyncShipping) {
+      // Copy billing to shipping, but without email/phone (shipping doesn't have those)
+      const { email, phone, ...shippingData } = formData;
+      updatePayload.shipping = shippingData;
+    }
 
     const res = await fetch('/api/auth/customer', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ [editingType]: formData }),
+      body: JSON.stringify(updatePayload),
     });
 
     const data = await res.json();
@@ -85,7 +107,7 @@ export default function AdressenPage() {
         shipping: data.customer.shipping,
       });
       setEditingType(null);
-      setSuccess('Adresse gespeichert');
+      setSuccess(shouldSyncShipping ? 'Rechnungs- und Lieferadresse gespeichert' : 'Adresse gespeichert');
       setTimeout(() => setSuccess(null), 3000);
     } else {
       setError(data.error || 'Speichern fehlgeschlagen');

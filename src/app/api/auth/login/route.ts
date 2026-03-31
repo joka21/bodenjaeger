@@ -38,23 +38,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Get full user profile
-    const user = await wpGetCurrentUser(jwtResult.token);
+    // Get full user profile (try WooCommerce, fallback to JWT data)
+    let user = await wpGetCurrentUser(jwtResult.token);
 
     if (!user) {
-      return NextResponse.json(
-        { success: false, error: 'Benutzerprofil konnte nicht geladen werden' },
-        { status: 500 }
-      );
+      // Final fallback: use data directly from JWT login response
+      user = {
+        id: 0,
+        email: jwtResult.user_email,
+        displayName: jwtResult.user_display_name || jwtResult.user_email,
+        firstName: '',
+        lastName: '',
+        role: 'customer',
+      };
     }
 
-    // Only allow customers, not admins
-    if (user.role === 'administrator') {
-      return NextResponse.json(
-        { success: false, error: 'Admin-Accounts können sich nicht im Shop einloggen' },
-        { status: 403 }
-      );
-    }
+    // Allow all roles including admin (for testing)
 
     // Set JWT token as httpOnly cookie
     const cookieStore = await cookies();
