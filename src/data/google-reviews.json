@@ -1,80 +1,296 @@
 {
   "business": {
-    "name": "Bodenjäger",
+    "name": "Bodenjäger - Hückelhoven",
     "rating": 4.7,
-    "reviewCount": 69
+    "reviewCount": 184
   },
   "reviews": [
     {
       "id": 1,
-      "author": "Tong Su",
+      "author": "Silvana Cr",
       "avatar": null,
       "rating": 5,
-      "date": "vor einem Jahr",
-      "text": "Wir möchten Brombach herzlich für die großartige Arbeit beim Verlegen unseres neuen Bodenbelags danken. Von Anfang an waren sie äußerst geduldig und professionell. Die Arbeiten wurden ohne Probleme ausgeführt und das Ergebnis ist hervorragend.",
+      "date": "vor 2 Monaten",
+      "text": "Top top top! Wir waren schon in diversen Fachhandel Geschäften für Bodenbeläge und so eine freundliche und kompetente Beratung haben wir noch nie erlebt.",
       "isVerified": true
     },
     {
       "id": 2,
-      "author": "Michael Zens",
+      "author": "Ronald",
       "avatar": null,
       "rating": 5,
-      "date": "vor 6 Monaten",
-      "text": "Wir haben die Brombach GmbH mit der Verlegung eines Vinylbodens beauftragt. Die fachliche Beratung war professionell und sehr hilfreich. Die vereinbarten Termine wurden eingehalten. Die Arbeiten wurden ohne Probleme durchgeführt und wir sind sehr zufrieden.",
+      "date": "vor 2 Monaten",
+      "text": "Am 22.01.2026 hatte Daniël von Außenbetrieb angefangen neue Boden zu verlegen. 08:30 angefangen Altboden zu entfernen und 16:00 fertig mit neuem Boden.",
       "isVerified": true
     },
     {
       "id": 3,
-      "author": "Wolfgang Haltmayer",
+      "author": "Petra H.",
       "avatar": null,
       "rating": 5,
-      "date": "vor 4 Monaten",
-      "text": "Top Lieferant - wir hatten 50qm Klickvinyl geordert zur Lieferung nach Bayern - zu einem Top-Preis - die beiden Herren waren sehr bemüht den Auftrag sauber abzuwickeln, auch als dann die gewünschten Sockelleisten nicht mehr lieferbar waren.",
+      "date": "vor 2 Monaten",
+      "text": "Nach fachkundiger Beratung vor Ort bei Bodenjäger haben wir uns für einen Laminatboden entschieden. Wir haben trotz bevorstehender Weihnachtsfeiertage einen schnellen Liefertermin bekommen.",
       "isVerified": true
     },
     {
       "id": 4,
-      "author": "Anke Oeben",
+      "author": "Rosemarie",
       "avatar": null,
       "rating": 5,
-      "date": "vor 7 Monaten",
-      "text": "Wir sind super zufrieden mit unserem neuen Boden. Die Beratung war spitze, Dominik hat sich viel Zeit für uns genommen und uns einige Unterschiede erklärt. Die Rücknahme übrig gebliebener Pakete lief auch problemlos. Werden euch weiterempfehlen! 👍🏼😊",
+      "date": "vor 3 Monaten",
+      "text": "Von der ersten Beratung, bis zum Verlegen des Teppichbodens hat alles wie besprochen hervorragend gepasst.",
       "isVerified": true
     },
     {
       "id": 5,
-      "author": "Harald E. von Zons",
+      "author": "Melina",
       "avatar": null,
       "rating": 5,
       "date": "vor 3 Monaten",
-      "text": "Hier stimmt alles!!! Beratung, Lieferung, Preis, Service!!! Angefangen von der sehr sympathischen und kompetenten Beratung bis hin zum Verlegen kann man hier nur begeistert sein. Wir haben hier sowohl für uns als auch für Mietobjekte Ware gekauft und es gab nie ein Problem.",
+      "text": "Wir haben uns für einen Klebevinyl in Holzoptik entschieden und sind sehr zufrieden.",
       "isVerified": true
     },
     {
       "id": 6,
-      "author": "Janine Gomse",
+      "author": "Maike Siebenhaar",
       "avatar": null,
       "rating": 5,
-      "date": "vor 2 Monaten",
-      "text": "Dort gibt es eine große Auswahl, kompetente Beratung, sehr nette Mitarbeiter!! Große Auswahl und vor allem die engagierte Beratung waren super! Vielen Dank!",
+      "date": "vor 10 Monaten",
+      "text": "Wir sind super zufrieden! Der Boden wurde trotz schiefer Wände absolut sauber und professionell verlegt. Die Beratung war kompetent und freundlich – man hat sich viel Zeit für uns genommen.",
       "isVerified": true
     },
     {
       "id": 7,
-      "author": "Berna Sever",
+      "author": "Ralf Sieke",
       "avatar": null,
-      "rating": 4,
-      "date": "vor 5 Monaten",
-      "text": "Wir waren mit der Beratung bei Bodenjäger super zufrieden. Auch toll, dass viel vorrätig ist, sodass man direkt mit der Renovierung starten kann. Das Angebot 'Sockelleisten kostenlos' könnte etwas klarer kommuniziert werden, aber wir haben trotzdem einiges gespart.",
+      "rating": 5,
+      "date": "vor 2 Monaten",
+      "text": "Einfach klasse! Wir waren in über 10 Geschäften in ganz NRW, aber hier hat alles gepasst, Ware, Qualität, Preis und ganz besonders, die Beratung! Vielen Dank :)",
       "isVerified": true
     },
     {
       "id": 8,
+      "author": "Rolf Preuth",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Monaten",
+      "text": "Sehr kompetente Firma die auf alle Wünsche z.B. alter Boden entfernen auch mehrlagig eingeht. Der Bodenleger war ein super Handwerker den wir auf jeden Fall weiterempfehlen können. Top Firma von A-Z.",
+      "isVerified": true
+    },
+    {
+      "id": 9,
+      "author": "Hotte DerFlotte",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 6 Monaten",
+      "text": "Sehr gute Beratung vor Ort. Es wurde zeitnah ein Termin zur Verlegung eines neuen Vinylbodens vereinbart.",
+      "isVerified": true
+    },
+    {
+      "id": 10,
+      "author": "Ottmar Flöter",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 5 Monaten",
+      "text": "Wir suchten Laminat und per Zufall sind wir auf Bodenjäger gestoßen. Wir wurden sehr fachlich beraten und konnten 6 original Platten zur Auswahl mitnehmen.",
+      "isVerified": true
+    },
+    {
+      "id": 11,
+      "author": "DJ DARMAN",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 6 Monaten",
+      "text": "Vom ersten Kontakt an war ich rundum begeistert. Die Beratung verlief äußerst professionell, freundlich und vor allem sehr ausführlich. Ich hatte sofort das Gefühl, in guten Händen zu sein.",
+      "isVerified": true
+    },
+    {
+      "id": 12,
+      "author": "kumaR 1900",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 6 Monaten",
+      "text": "Haben uns vor kurzem dort beraten lassen und Böden gekauft. Top Beratung, Lieferung war auch top, top Material (selber verlegt) und ich muss sagen: absolut empfehlenswert!",
+      "isVerified": true
+    },
+    {
+      "id": 13,
+      "author": "M. B.",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 9 Monaten",
+      "text": "Jedesmal sofortige höfliche Begrüßung durch alle Mitarbeiter, sowie Beratungsangebot. Man fühlt sich willkommen und nicht bedrängt, auch nicht ignoriert.",
+      "isVerified": true
+    },
+    {
+      "id": 14,
+      "author": "Erika Goelden",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Monaten",
+      "text": "Ware bestellt und recht schnell bekommen. Sind immer bemüht einem zügig zu helfen 👍",
+      "isVerified": true
+    },
+    {
+      "id": 15,
+      "author": "Melanie Kunz",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 7 Monaten",
+      "text": "Sehr kompetente Beratung, absolut kundenorientiert und durch die Muster, die man ganz bequem mit nach Hause nehmen kann, wurde der Traumboden ganz schnell gefunden. Alles in allem bin ich sehr zufrieden und kann es nur weiterempfehlen.",
+      "isVerified": true
+    },
+    {
+      "id": 16,
+      "author": "Herbert",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 7 Monaten",
+      "text": "Perfekt alles super top Arbeit sehr empfehlenswert. Von der Beratung bis zur Fertigstellung alle super freundlich und extrem hilfsbereit.",
+      "isVerified": true
+    },
+    {
+      "id": 17,
+      "author": "Ka Ro",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 6 Monaten",
+      "text": "Wir haben bei der Fa. Bodenjäger Klickvinyl und Zubehör gekauft und vorher ein kostenloses Muster zugesandt bekommen. Mit der Beratung im Vorfeld, der Kaufabwicklung und der Lieferung über eine Speditionsfirma waren wir sehr zufrieden. Daumen hoch!",
+      "isVerified": true
+    },
+    {
+      "id": 18,
+      "author": "SvenYGO",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor einem Jahr",
+      "text": "Sehr nette und hilfsbereite Mitarbeiter. Hochwertiges und leicht zu verarbeitendes Material.",
+      "isVerified": true
+    },
+    {
+      "id": 19,
+      "author": "Silke Thies",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 7 Monaten",
+      "text": "Tolle Beratung, nette Mitarbeiter, sehr guter Preis. Wir waren super zufrieden. Würden jederzeit wieder dort einkaufen.",
+      "isVerified": true
+    },
+    {
+      "id": 20,
+      "author": "Laura Pöttgens",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 8 Monaten",
+      "text": "Ich habe nun zum zweiten Mal meinen Boden bei Bodenjäger gekauft. Neben der freundlichen und kompetenten Beratung sowie der großen Auswahl stimmt hier auch das Preis-Leistungs-Verhältnis.",
+      "isVerified": true
+    },
+    {
+      "id": 21,
+      "author": "Melanie Beckers",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Jahren",
+      "text": "Wir waren auf Empfehlung einer Freundin bei Bodenjäger, nachdem wir in den üblichen Baumärkten aufgrund von mangelnder Qualität und unzumutbaren Lieferzeiten nicht fündig geworden sind. Kurz gesagt: Absoluter Volltreffer und Top-Empfehlung!",
+      "isVerified": true
+    },
+    {
+      "id": 22,
+      "author": "Anika Kaminski",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor einem Jahr",
+      "text": "Wir sind rundum super zufrieden, angefangen von der Beratung bis zum Endergebnis. Gestern und heute ist der Boden verlegt worden und wir sind super zufrieden.",
+      "isVerified": true
+    },
+    {
+      "id": 23,
+      "author": "Michael Gölden",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Monaten",
+      "text": "Gute Beratung vor Ort. Kompetenter Verkäufer. Lieferzeit und Bestellung bestens.",
+      "isVerified": true
+    },
+    {
+      "id": 24,
+      "author": "Anke Oeben",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Jahren",
+      "text": "Wir sind super zufrieden mit unserem neuen Boden. Die Beratung war spitze, Dominik hat sich viel Zeit für uns genommen und uns einige Unterschiede erklärt. Die Rücknahme übrig gebliebener Pakete lief auch problemlos. Werden euch weiterempfehlen! 👍🏼😊",
+      "isVerified": true
+    },
+    {
+      "id": 25,
+      "author": "Harald E. von Zons",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Jahren",
+      "text": "Hier stimmt alles!!! Beratung, Lieferung, Preis, Service!!! Angefangen von der sehr sympathischen und kompetenten Beratung bis hin zum Verlegen kann man hier nur begeistert sein.",
+      "isVerified": true
+    },
+    {
+      "id": 26,
+      "author": "Janine Gomse",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 2 Jahren",
+      "text": "Vorab möchte ich mich für die herzliche und freundliche Bedienung kurz vor Feierabend bedanken! Beide Kollegen waren keineswegs genervt, dass ich noch kurz vor Ladenschluss nach Laminat schauen wollte. Vor Ort findet man ein super kompetentes Team!",
+      "isVerified": true
+    },
+    {
+      "id": 27,
+      "author": "Markus Heister",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 3 Jahren",
+      "text": "Wir sind begeistert vom Bodenfachmarkt Jäger. Von der Beratung bis zur Verlegung alles Top, 5 Sterne plus. Ein tolles Verlegeteam schnell & akkurat.",
+      "isVerified": true
+    },
+    {
+      "id": 28,
+      "author": "MichaEla D.",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor 3 Jahren",
+      "text": "Bisher immer gute Erfahrungen gemacht. Sehr gutes Preis-Leistungs-Verhältnis und sehr nette und kompetente Mitarbeiter. Unser neuer Boden der Marke COREtec XL-end ist der Hammer.",
+      "isVerified": true
+    },
+    {
+      "id": 29,
+      "author": "Wolfgang Haltmayer",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor einem Jahr",
+      "text": "Top Lieferant - wir hatten 50qm Klickvinyl geordert zur Lieferung nach Bayern - zu einem Top-Preis. Die beiden Herren waren sehr bemüht den Auftrag sauber abzuwickeln.",
+      "isVerified": true
+    },
+    {
+      "id": 30,
+      "author": "Tong Su",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor einem Jahr",
+      "text": "Wir möchten herzlich für die großartige Arbeit beim Verlegen unseres neuen Bodenbelags danken. Von Anfang an waren sie äußerst geduldig und professionell. Das Ergebnis ist hervorragend.",
+      "isVerified": true
+    },
+    {
+      "id": 31,
+      "author": "Michael Zens",
+      "avatar": null,
+      "rating": 5,
+      "date": "vor einem Jahr",
+      "text": "Wir haben die Verlegung eines Vinylbodens beauftragt. Die fachliche Beratung war professionell und sehr hilfreich. Die vereinbarten Termine wurden eingehalten und wir sind sehr zufrieden.",
+      "isVerified": true
+    },
+    {
+      "id": 32,
       "author": "Christina S.",
       "avatar": null,
       "rating": 5,
-      "date": "vor 1 Monat",
-      "text": "Toller Kundenservice und große Auswahl! Wir haben Baja Nature gekauft und sind von der Qualität und dem Preis-Leistungs-Verhältnis begeistert. Das Team war jederzeit hilfsbereit und hat uns super beraten.",
+      "date": "vor 6 Monaten",
+      "text": "Toller Kundenservice und große Auswahl! Wir haben Baja Nature gekauft und sind von der Qualität und dem Preis-Leistungs-Verhältnis begeistert. Das Team war jederzeit hilfsbereit.",
       "isVerified": true
     }
   ]

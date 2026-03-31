@@ -24,7 +24,10 @@
       "Bash(find /c/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src -type f \\\\\\(-name *.ts -o -name *.tsx -o -name *.js -o -name *.jsx \\\\\\))",
       "Bash(curl:*)",
       "Bash(python3 -c \"import sys,json; [print\\(c[''''id''''],c[''''email''''],c[''''role'''']\\) for c in json.loads\\(sys.stdin.read\\(\\)\\)]\")",
-      "Bash(node -e \"const d=[];process.stdin.on\\(''''data'''',c=>d.push\\(c\\)\\);process.stdin.on\\(''''end'''',\\(\\)=>{JSON.parse\\(d.join\\(''''''''\\)\\).forEach\\(c=>console.log\\(c.id,c.email,c.role\\)\\)}\\)\")"
+      "Bash(node -e \"const d=[];process.stdin.on\\(''''data'''',c=>d.push\\(c\\)\\);process.stdin.on\\(''''end'''',\\(\\)=>{JSON.parse\\(d.join\\(''''''''\\)\\).forEach\\(c=>console.log\\(c.id,c.email,c.role\\)\\)}\\)\")",
+      "WebFetch(domain:www.google.com)",
+      "WebFetch(domain:www.trustindex.io)",
+      "WebFetch(domain:www.provenexpert.com)"
     ]
   }
 }
