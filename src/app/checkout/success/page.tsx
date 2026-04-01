@@ -142,7 +142,7 @@ function CheckoutSuccessContent() {
           <div className="text-center text-gray-600 mb-8">
             <p>
               Bei Fragen zu Ihrer Bestellung erreichen Sie unser Team jederzeit unter{' '}
-              <a href="tel:+4924339388840" className="font-semibold text-dark hover:text-brand transition-colors">02433 938 884 0</a>{' '}
+              <a href="tel:+492433938884" className="font-semibold text-dark hover:text-brand transition-colors">02433 938884</a>{' '}
               oder{' '}
               <a href="mailto:service@bodenjaeger.de" className="font-semibold text-dark hover:text-brand transition-colors">service@bodenjaeger.de</a>.
             </p>

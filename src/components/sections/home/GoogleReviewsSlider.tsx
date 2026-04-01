@@ -276,14 +276,14 @@ export default function GoogleReviewsSlider() {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-3">
                         {/* Avatar */}
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand to-red-700 flex items-center justify-center text-white font-semibold text-lg flex-shrink-0">
                           {getInitials(review.author)}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <p className="font-semibold text-gray-900">{review.author}</p>
                             {review.isVerified && (
-                              <svg className="w-5 h-5 text-blue-500 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                              <svg className="w-5 h-5 text-brand flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
                               </svg>
                             )}
@@ -310,7 +310,7 @@ export default function GoogleReviewsSlider() {
                     {shouldTruncate && (
                       <button
                         onClick={() => toggleExpanded(review.id)}
-                        className="text-blue-600 hover:text-blue-700 text-sm font-medium hover:underline"
+                        className="text-brand hover:text-red-700 text-sm font-medium hover:underline"
                       >
                         {isExpanded ? 'Weniger anzeigen' : 'Zeig mehr'}
                       </button>
