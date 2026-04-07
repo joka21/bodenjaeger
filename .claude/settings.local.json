@@ -27,7 +27,14 @@
       "Bash(node -e \"const d=[];process.stdin.on\\(''''data'''',c=>d.push\\(c\\)\\);process.stdin.on\\(''''end'''',\\(\\)=>{JSON.parse\\(d.join\\(''''''''\\)\\).forEach\\(c=>console.log\\(c.id,c.email,c.role\\)\\)}\\)\")",
       "WebFetch(domain:www.google.com)",
       "WebFetch(domain:www.trustindex.io)",
-      "WebFetch(domain:www.provenexpert.com)"
+      "WebFetch(domain:www.provenexpert.com)",
+      "Bash(npx tsx:*)",
+      "Bash(python3 -c \"import json,sys; pages=json.load\\(sys.stdin\\); [print\\(f'{p[\\\\\"id\\\\\"]:>6} {p[\\\\\"slug\\\\\"]:<50} {p[\\\\\"title\\\\\"][\\\\\"rendered\\\\\"]}'\\) for p in sorted\\(pages, key=lambda x: x['slug']\\)]\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);p.sort\\(\\(a,b\\)=>a.slug.localeCompare\\(b.slug\\)\\);p.forEach\\(x=>console.log\\(x.id.toString\\(\\).padStart\\(6\\)+' '+x.slug.padEnd\\(50\\)+' '+x.title.rendered\\)\\)}\\)\")",
+      "Bash(rm:*)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\){console.log\\('TITLE:',p[0].title.rendered\\);console.log\\('MODIFIED:',p[0].modified\\);console.log\\('CONTENT:'\\);console.log\\(p[0].content.rendered\\)}else{console.log\\('NOT FOUND'\\)}}\\)\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\){console.log\\('TITLE:',p[0].title.rendered\\);console.log\\('MODIFIED:',p[0].modified\\);console.log\\('CONTENT LENGTH:',p[0].content.rendered.length\\);console.log\\('CONTENT PREVIEW:',p[0].content.rendered.substring\\(0,500\\)\\)}else console.log\\('NOT FOUND'\\)}\\)\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\)console.log\\(p[0].content.rendered\\)}\\)\")"
     ]
   }
 }

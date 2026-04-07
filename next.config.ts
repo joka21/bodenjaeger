@@ -27,6 +27,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'plan-dein-ding.de',
+        port: '',
+        pathname: '/wp-content/uploads/**',
+      },
     ],
     // Optimize image formats - Next.js will automatically serve AVIF/WebP where supported
     formats: ['image/avif', 'image/webp'],

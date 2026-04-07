@@ -301,3 +301,26 @@ class WordPressClient {
 
 // Export singleton instance
 export const wordPressClient = new WordPressClient();
+
+/**
+ * Standalone helper: fetch a WordPress page by slug (no auth required for public pages).
+ * Uses Next.js ISR with 30s revalidation.
+ */
+export async function getWordPressPage(slug: string): Promise<WordPressPage | null> {
+  const baseUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL || 'https://2025.bodenjaeger.de';
+  const url = `${baseUrl.replace(/\/$/, '')}/wp-json/wp/v2/pages?slug=${encodeURIComponent(slug)}&_embed=true`;
+
+  try {
+    const res = await fetch(url, { next: { revalidate: 30 } });
+    if (!res.ok) {
+      console.error(`WordPress page fetch failed for slug "${slug}": HTTP ${res.status}`);
+      return null;
+    }
+    const pages: WordPressPage[] = await res.json();
+    if (!pages || pages.length === 0) return null;
+    return pages[0];
+  } catch (error) {
+    console.error(`Error fetching WordPress page "${slug}":`, error);
+    return null;
+  }
+}
