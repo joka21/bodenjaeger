@@ -248,7 +248,7 @@ export default function ZubehoerSlider({
                   <button
                     key={category.metaKey}
                     onClick={() => setActiveCategory(category.metaKey)}
-                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-all flex items-center justify-between gap-2 whitespace-nowrap ${
+                    className={`px-3 py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center justify-between gap-1.5 ${
                       activeCategory === category.metaKey
                         ? 'bg-gray-200 font-semibold text-gray-900'
                         : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
