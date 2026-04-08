@@ -34,7 +34,8 @@
       "Bash(rm:*)",
       "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\){console.log\\('TITLE:',p[0].title.rendered\\);console.log\\('MODIFIED:',p[0].modified\\);console.log\\('CONTENT:'\\);console.log\\(p[0].content.rendered\\)}else{console.log\\('NOT FOUND'\\)}}\\)\")",
       "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\){console.log\\('TITLE:',p[0].title.rendered\\);console.log\\('MODIFIED:',p[0].modified\\);console.log\\('CONTENT LENGTH:',p[0].content.rendered.length\\);console.log\\('CONTENT PREVIEW:',p[0].content.rendered.substring\\(0,500\\)\\)}else console.log\\('NOT FOUND'\\)}\\)\")",
-      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\)console.log\\(p[0].content.rendered\\)}\\)\")"
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const p=JSON.parse\\(d\\);if\\(p[0]\\)console.log\\(p[0].content.rendered\\)}\\)\")",
+      "Bash(grep:*)"
     ]
   }
 }
