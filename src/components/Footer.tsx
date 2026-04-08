@@ -42,10 +42,10 @@ export default function Footer() {
               <nav>
                 <ul className="space-y-3">
                   <li>
-                    <a href="/fachmarkt-hueckelhoven" className="text-xl hover:underline flex items-start">
+                    <Link href="/fachmarkt-hueckelhoven" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Fachmarkt Hückelhoven</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <a href="/karriere" className="text-xl hover:underline flex items-start">
