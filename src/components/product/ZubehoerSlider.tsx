@@ -338,12 +338,22 @@ export default function ZubehoerSlider({
                                 </h3>
                               </Link>
 
-                              {/* Kurzbeschreibung */}
+                              {/* Kurzbeschreibung als Aufzählung */}
                               {product.short_description && (
-                                <div
-                                  className="text-xs text-gray-600 mb-3 flex-1 line-clamp-3"
-                                  dangerouslySetInnerHTML={{ __html: product.short_description }}
-                                />
+                                <ul className="text-xs text-gray-600 mb-3 flex-1 space-y-1">
+                                  {product.short_description
+                                    .replace(/<[^>]*>/g, '')
+                                    .split(/\n|<br\s*\/?>/)
+                                    .map(line => line.trim())
+                                    .filter(line => line.length > 0)
+                                    .slice(0, 3)
+                                    .map((line, i) => (
+                                      <li key={i} className="flex items-start gap-1.5">
+                                        <span className="text-gray-400 mt-0.5">•</span>
+                                        <span>{line}</span>
+                                      </li>
+                                    ))}
+                                </ul>
                               )}
 
                               {/* Preis */}
