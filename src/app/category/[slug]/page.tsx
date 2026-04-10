@@ -6,14 +6,28 @@ import { buildBreadcrumbSchema } from '@/lib/schema';
 
 // Category mapping for display names (fallback)
 const categoryNames: Record<string, string> = {
+  // Hauptkategorien
   'vinylboden': 'Vinylboden',
-  'klebe-vinyl': 'Klebe-Vinyl',
-  'rigid-vinyl': 'Rigid-Vinyl',
   'laminat': 'Laminat',
   'parkett': 'Parkett',
   'sockelleisten': 'Sockelleisten',
   'daemmung': 'Dämmung',
-  'zubehoer': 'Zubehör'
+  'zubehoer': 'Zubehör',
+  'muster': 'Muster',
+  'teppichboden': 'Teppichboden',
+  // Marken-Kategorien
+  'coretec': 'COREtec',
+  'primecore': 'primeCORE',
+  'o-r-c-a': 'O.R.C.A.',
+  // Unterkategorien Vinylboden
+  'klebe-vinyl': 'Klebe-Vinyl',
+  'rigid-vinyl': 'Rigid-Vinyl',
+  // Unterkategorien Zubehör
+  'zubehoer-fuer-sockelleisten': 'Zubehör für Sockelleisten',
+  'montagekleber-silikon': 'Montagekleber und Silikon',
+  'werkzeug': 'Werkzeug',
+  'untergrundvorbereitung': 'Untergrundvorbereitung',
+  'reinigung-pflege': 'Reinigung und Pflege',
 };
 
 export async function generateMetadata({ params }: PageProps<'/category/[slug]'>): Promise<Metadata> {
@@ -68,16 +82,28 @@ export default async function CategoryPage({ params }: PageProps<'/category/[slu
 // Generate static params for common categories to avoid 404 on direct access
 export async function generateStaticParams() {
   const categories = [
+    // Hauptkategorien
     'vinylboden',
-    'klebe-vinyl',
-    'rigid-vinyl',
     'laminat',
     'parkett',
     'sockelleisten',
     'daemmung',
     'zubehoer',
+    'muster',
+    'teppichboden',
+    // Marken-Kategorien
     'coretec',
-    'primecore'
+    'primecore',
+    'o-r-c-a',
+    // Unterkategorien Vinylboden
+    'klebe-vinyl',
+    'rigid-vinyl',
+    // Unterkategorien Zubehör
+    'zubehoer-fuer-sockelleisten',
+    'montagekleber-silikon',
+    'werkzeug',
+    'untergrundvorbereitung',
+    'reinigung-pflege',
   ];
 
   return categories.map((slug) => ({

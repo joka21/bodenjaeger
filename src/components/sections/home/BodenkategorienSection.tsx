@@ -44,14 +44,14 @@ const categories: Category[] = [
     name: 'primeCORE',
     description: 'Premium Vinyl-Bodenbeläge',
     image: '/images/Startseite/Bodenkategorie primeCORE.webp',
-    slug: null // Noch keine Verlinkung
+    slug: 'primecore'
   },
   {
     id: 6,
     name: 'O.R.C.A',
     description: 'Innovative Bodenlösungen',
     image: '/images/Startseite/Bodenkategorie O.R.C.webp',
-    slug: null // Noch keine Verlinkung
+    slug: 'o-r-c-a'
   }
 ];
 
