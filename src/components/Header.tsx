@@ -171,7 +171,14 @@ export default function Header() {
                 {category.hasChildren && category.children && category.children.length > 0 && (
                   <div className="absolute left-0 mt-2 w-52 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
                     {category.children.map((sub) =>
-                      sub.hasChildren && sub.children ? (
+                      sub.isGroupLabel ? (
+                        <div
+                          key={sub.id}
+                          className="px-4 pt-3 pb-1 text-xs font-bold text-gray-400 uppercase tracking-wider border-t border-gray-100 first:border-t-0"
+                        >
+                          {sub.label}
+                        </div>
+                      ) : sub.hasChildren && sub.children ? (
                         sub.children.map((leaf) => (
                           <Link
                             key={leaf.id}
@@ -195,23 +202,6 @@ export default function Header() {
                 )}
               </div>
             ))}
-            {/* Marken */}
-            <div className="relative group">
-              <Link
-                href="/marken"
-                className="text-white hover:text-gray-200 transition-colors font-medium"
-              >
-                Marken
-              </Link>
-              <div className="absolute left-0 mt-2 w-52 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
-                <Link href="/category/coretec" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                  COREtec
-                </Link>
-                <Link href="/category/primecore" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-                  primeCORE
-                </Link>
-              </div>
-            </div>
           </nav>
         </div>
       </div>

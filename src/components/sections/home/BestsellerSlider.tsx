@@ -302,7 +302,7 @@ export default function BestsellerSlider({
         <div className="flex justify-center mt-8">
           <a
             href="/bestseller"
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+            className="inline-flex items-center gap-2 bg-brand text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors shadow-md hover:shadow-lg"
           >
             Alle Bestseller ansehen
             <svg

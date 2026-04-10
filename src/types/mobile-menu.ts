@@ -4,6 +4,7 @@ export interface Category {
   slug: string;
   hasChildren: boolean;
   children?: Category[];
+  isGroupLabel?: boolean;
 }
 
 export interface MenuState {
@@ -28,13 +29,20 @@ export const categoriesData: Category[] = [
     children: [
       { id: '24', label: 'Klebe-Vinyl', slug: 'klebe-vinyl', hasChildren: false },
       { id: '17', label: 'Rigid-Vinyl', slug: 'rigid-vinyl', hasChildren: false },
+      { id: 'marken-vinyl', label: 'Marken', slug: '', hasChildren: false, isGroupLabel: true },
+      { id: '127', label: 'COREtec', slug: 'coretec', hasChildren: false },
+      { id: '125', label: 'primeCORE', slug: 'primecore', hasChildren: false },
     ],
   },
   {
     id: '25',
     label: 'Laminat',
     slug: 'laminat',
-    hasChildren: false,
+    hasChildren: true,
+    children: [
+      { id: 'marken-laminat', label: 'Marken', slug: '', hasChildren: false, isGroupLabel: true },
+      { id: '126', label: 'O.R.C.A.', slug: 'o-r-c-a', hasChildren: false },
+    ],
   },
   {
     id: '29',

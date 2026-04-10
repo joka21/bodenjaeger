@@ -27,8 +27,12 @@ export default function MobileMenuLevel2({ category, onSubCategoryClick, onClose
       {/* Subcategories */}
       <div className="mt-2">
         {category.children?.map((subCategory) => (
-          <div key={subCategory.id} className="border-b border-gray-200 bg-white">
-            {subCategory.hasChildren ? (
+          <div key={subCategory.id} className={subCategory.isGroupLabel ? 'bg-pale' : 'border-b border-gray-200 bg-white'}>
+            {subCategory.isGroupLabel ? (
+              <div className="px-4 pt-4 pb-2">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">{subCategory.label}</span>
+              </div>
+            ) : subCategory.hasChildren ? (
               <button
                 onClick={() => onSubCategoryClick(subCategory)}
                 className="w-full flex items-center justify-between px-4 py-4 hover:bg-gray-50 transition-colors"
