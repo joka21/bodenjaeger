@@ -47,26 +47,12 @@ export async function GET(request: NextRequest) {
       `🔄 Capturing PayPal payment for WC Order ${orderId}, PayPal Order ${paypalOrderId}`
     );
 
-    // 3. PayPal Zahlung erfassen (capture)
-    const result = await capturePayPalOrder(paypalOrderId);
+    // 3. PayPal Zahlung erfassen (capture) — Proxy aktualisiert WooCommerce Order direkt
+    const result = await capturePayPalOrder(paypalOrderId, orderId);
 
-    // 4. Erfolg: Verifiziere PayPal-WooCommerce Zuordnung und aktualisiere Status
+    // 4. Erfolg: Proxy hat Order bereits auf "processing" gesetzt
     if (result.success) {
-      // Verify PayPal reference_id matches WooCommerce order ID
-      if (result.referenceId && result.referenceId !== orderId.toString()) {
-        console.error(`❌ PayPal order mismatch: PayPal reference_id=${result.referenceId}, WC order=${orderId}`);
-        return NextResponse.redirect(
-          `${process.env.NEXT_PUBLIC_SITE_URL}/checkout?error=order_mismatch`,
-          { status: 302 }
-        );
-      }
-
-      await updateOrderStatus(orderId, 'processing');
-
-      const note = `PayPal payment successful. Transaction ID: ${result.transactionId}. Payer: ${result.payerName} (${result.payerEmail})`;
-      await addOrderNote(orderId, note, false);
-
-      console.log(`✅ Order ${orderId} marked as processing`);
+      console.log(`✅ Order ${orderId} captured via proxy (Transaction: ${result.transactionId})`);
 
       // Redirect zur Success-Page
       return NextResponse.redirect(

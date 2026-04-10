@@ -49,7 +49,8 @@
       "Bash(python -c \" import sys, json data = json.load\\(sys.stdin\\) for p in data['products']: print\\(f\\\\\"slug='{p['slug']}' name='{p['name']}' price={p['price']}\\\\\"\\) \")",
       "Bash(python -c \" import sys, json data = json.load\\(sys.stdin\\) for p in data: print\\(f'{p[\\\\\"slug\\\\\"]:<40} ID={p[\\\\\"id\\\\\"]} parent={p[\\\\\"parent\\\\\"]}'\\) \")",
       "Bash(python -c \" import sys, json, re data = json.load\\(sys.stdin\\) for p in data: slug = p['slug'] if 'lager' in slug or 'set' in slug or 'warenlager' in slug: content = p.get\\('content',{}\\).get\\('rendered',''\\) imgs = re.findall\\(r'<img[^>]+src=\\\\\"\\([^\\\\\"]+\\)\\\\\"', content\\) print\\(f'{slug:<45} ID={p[\\\\\"id\\\\\"]} imgs={len\\(imgs\\)}'\\) for img in imgs[:3]: print\\(f' {img}'\\) \")",
-      "Bash(python -c \" import sys, json, re data = json.load\\(sys.stdin\\) for p in data: slug = p['slug'] if 'set' in slug or 'angebot' in slug: content = p.get\\('content',{}\\).get\\('rendered',''\\) imgs = re.findall\\(r'<img[^>]+src=\\\\\"\\([^\\\\\"]+\\)\\\\\"', content\\) print\\(f'{slug:<45} ID={p[\\\\\"id\\\\\"]} imgs={len\\(imgs\\)}'\\) for img in imgs[:3]: print\\(f' {img}'\\) \")"
+      "Bash(python -c \" import sys, json, re data = json.load\\(sys.stdin\\) for p in data: slug = p['slug'] if 'set' in slug or 'angebot' in slug: content = p.get\\('content',{}\\).get\\('rendered',''\\) imgs = re.findall\\(r'<img[^>]+src=\\\\\"\\([^\\\\\"]+\\)\\\\\"', content\\) print\\(f'{slug:<45} ID={p[\\\\\"id\\\\\"]} imgs={len\\(imgs\\)}'\\) for img in imgs[:3]: print\\(f' {img}'\\) \")",
+      "Bash(npm install:*)"
     ]
   }
 }

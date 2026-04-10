@@ -1,35 +1,33 @@
 /**
  * PayPal Payment Integration
  *
- * Unterstützt PayPal Checkout für sichere Online-Zahlungen
+ * Ruft den WordPress Proxy auf statt PayPal direkt.
+ * Credentials (PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET) bleiben auf dem WordPress-Server.
  */
 
 // ============================================================================
-// PayPal Configuration
+// Proxy Configuration
 // ============================================================================
 
-const PAYPAL_CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-const PAYPAL_CLIENT_SECRET = process.env.PAYPAL_CLIENT_SECRET;
-const PAYPAL_MODE = process.env.PAYPAL_MODE || 'sandbox'; // 'sandbox' oder 'live'
+const PROXY_URL = process.env.PAYMENT_PROXY_URL; // https://2025.bodenjaeger.de/wp-json/bodenjaeger/v1
+const PROXY_KEY = process.env.PAYMENT_PROXY_KEY;
 const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
-const PAYPAL_API_URL =
-  PAYPAL_MODE === 'live'
-    ? 'https://api-m.paypal.com'
-    : 'https://api-m.sandbox.paypal.com';
+function checkProxyConfig() {
+  if (!PROXY_URL) throw new Error('PAYMENT_PROXY_URL is not configured');
+  if (!PROXY_KEY) throw new Error('PAYMENT_PROXY_KEY is not configured');
+  if (!NEXT_PUBLIC_SITE_URL) throw new Error('NEXT_PUBLIC_SITE_URL is not configured');
+}
 
-// Runtime credential check helper
-function checkCredentials() {
-  if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {
-    throw new Error('PayPal credentials are not configured');
-  }
-  if (!NEXT_PUBLIC_SITE_URL) {
-    throw new Error('NEXT_PUBLIC_SITE_URL is not configured');
-  }
+function proxyHeaders(): HeadersInit {
+  return {
+    'Content-Type': 'application/json',
+    'X-Bodenjaeger-Key': PROXY_KEY!,
+  };
 }
 
 // ============================================================================
-// TypeScript Interfaces
+// TypeScript Interfaces (unveraendert – identisch zum Original)
 // ============================================================================
 
 export interface PayPalAccessToken {
@@ -63,64 +61,11 @@ export interface CapturePayPalOrderResult {
 }
 
 // ============================================================================
-// PayPal Access Token
-// ============================================================================
-
-/**
- * Holt einen Access Token von PayPal für API-Calls
- *
- * WICHTIG: Der Access Token ist nur für kurze Zeit gültig (ca. 9 Stunden).
- * In Production sollte dieser gecached werden.
- *
- * @returns Access Token
- *
- * @example
- * ```typescript
- * const token = await getPayPalAccessToken();
- * // Verwende token in API Calls
- * ```
- */
-async function getPayPalAccessToken(): Promise<string> {
-  checkCredentials();
-
-  const auth = Buffer.from(
-    `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`
-  ).toString('base64');
-
-  try {
-    const response = await fetch(`${PAYPAL_API_URL}/v1/oauth2/token`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${auth}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: 'grant_type=client_credentials',
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `PayPal token request failed: ${response.status} ${response.statusText}`
-      );
-    }
-
-    const data: PayPalAccessToken = await response.json();
-    return data.access_token;
-  } catch (error) {
-    console.error('Failed to get PayPal access token:', error);
-    throw new Error(
-      `Failed to get PayPal access token: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`
-    );
-  }
-}
-
-// ============================================================================
 // PayPal Order erstellen
 // ============================================================================
 
 /**
- * Erstellt eine PayPal Order für Checkout
+ * Erstellt eine PayPal Order über den WordPress Proxy.
  *
  * @param params - Order Details (ID, Betrag, Line Items)
  * @returns PayPal Order ID und Approval URL (für Redirect)
@@ -133,91 +78,45 @@ async function getPayPalAccessToken(): Promise<string> {
  *   amount: '2661.61',
  *   lineItems: [
  *     { name: 'Laminat Premium', quantity: 10, unit_amount: '249.99' },
- *     { name: 'Dämmung', quantity: 10, unit_amount: '4.99' },
  *   ],
  * });
- *
  * // Redirect zu: result.approvalUrl
  * ```
  */
 export async function createPayPalOrder(
   params: CreatePayPalOrderParams
 ): Promise<PayPalOrderResult> {
+  checkProxyConfig();
+
   const { orderId, orderKey, amount, lineItems } = params;
 
   try {
-    const accessToken = await getPayPalAccessToken();
-
-    // Line Items für PayPal formatieren
-    const paypalItems = lineItems.map((item) => ({
-      name: item.name.substring(0, 127), // PayPal max 127 chars
-      quantity: item.quantity.toString(),
-      unit_amount: {
-        currency_code: 'EUR',
-        value: item.unit_amount,
-      },
-    }));
-
-    // PayPal Order erstellen
-    const response = await fetch(`${PAYPAL_API_URL}/v2/checkout/orders`, {
+    const res = await fetch(`${PROXY_URL}/paypal/create-order`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
+      headers: proxyHeaders(),
       body: JSON.stringify({
-        intent: 'CAPTURE',
-        purchase_units: [
-          {
-            reference_id: orderId.toString(),
-            custom_id: orderKey,
-            amount: {
-              currency_code: 'EUR',
-              value: amount,
-              breakdown: {
-                item_total: {
-                  currency_code: 'EUR',
-                  value: amount,
-                },
-              },
-            },
-            items: paypalItems,
-          },
-        ],
-        application_context: {
-          brand_name: 'Bodenjäger',
-          locale: 'de-DE',
-          landing_page: 'LOGIN',
-          shipping_preference: 'NO_SHIPPING', // Wir handhaben Versand selbst
-          user_action: 'PAY_NOW',
-          return_url: `${NEXT_PUBLIC_SITE_URL}/api/checkout/paypal/capture?order=${orderId}`,
-          cancel_url: `${NEXT_PUBLIC_SITE_URL}/checkout?cancelled=true&order=${orderId}`,
-        },
+        orderId,
+        orderKey,
+        amount,
+        lineItems,
+        returnUrl: `${NEXT_PUBLIC_SITE_URL}/api/checkout/paypal/capture?order=${orderId}`,
+        cancelUrl: `${NEXT_PUBLIC_SITE_URL}/checkout?cancelled=true&order=${orderId}`,
       }),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('PayPal API Error:', errorData);
-      throw new Error(
-        `PayPal order creation failed: ${response.status} ${response.statusText}`
-      );
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || `Proxy error: ${res.status}`);
     }
 
-    const data = await response.json();
-
-    // Approval URL finden
-    const approvalUrl = data.links?.find(
-      (link: { rel: string; href: string }) => link.rel === 'approve'
-    )?.href;
-
-    if (!approvalUrl) {
-      throw new Error('PayPal approval URL not found in response');
+    if (!data.approvalUrl) {
+      throw new Error('PayPal approval URL not found in proxy response');
     }
 
     return {
-      paypalOrderId: data.id,
-      approvalUrl,
+      paypalOrderId: data.paypalOrderId,
+      approvalUrl: data.approvalUrl,
     };
   } catch (error) {
     console.error('Failed to create PayPal order:', error);
@@ -234,76 +133,53 @@ export async function createPayPalOrder(
 // ============================================================================
 
 /**
- * Erfasst die Zahlung nach Rückkehr vom PayPal Checkout
+ * Erfasst die PayPal Zahlung über den WordPress Proxy.
  *
- * WICHTIG: Diese Funktion muss aufgerufen werden, nachdem der Kunde
- * von PayPal zurück zur return_url weitergeleitet wurde
+ * Der Proxy übernimmt zusätzlich die WooCommerce Order-Aktualisierung direkt.
  *
- * @param paypalOrderId - Die PayPal Order ID (wird als "token" Query-Parameter zurückgegeben)
- * @returns Erfolg und Transaction ID
+ * @param paypalOrderId - Die PayPal Order ID (Query-Parameter "token" von PayPal)
+ * @param wcOrderId - Die WooCommerce Order ID (für den Proxy zur Order-Aktualisierung)
+ * @returns Erfolg, Transaction ID, Payer-Daten
  *
  * @example
  * ```typescript
  * // Kunde kommt zurück von PayPal mit ?token=xxx&order=123
- * const result = await capturePayPalOrder(token);
+ * const result = await capturePayPalOrder(token, orderId);
  *
  * if (result.success) {
- *   await updateOrderStatus(orderId, 'processing');
- *   await addOrderNote(orderId, `PayPal Payment: ${result.transactionId}`);
+ *   // WooCommerce Order wurde bereits vom Proxy auf "processing" gesetzt
+ *   redirect('/checkout/success?order=123&paypal=success');
  * }
  * ```
  */
 export async function capturePayPalOrder(
-  paypalOrderId: string
+  paypalOrderId: string,
+  wcOrderId: number
 ): Promise<CapturePayPalOrderResult> {
+  checkProxyConfig();
+
   try {
-    const accessToken = await getPayPalAccessToken();
+    const res = await fetch(`${PROXY_URL}/paypal/capture`, {
+      method: 'POST',
+      headers: proxyHeaders(),
+      body: JSON.stringify({
+        paypalOrderId,
+        wcOrderId,
+      }),
+    });
 
-    const response = await fetch(
-      `${PAYPAL_API_URL}/v2/checkout/orders/${paypalOrderId}/capture`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const data = await res.json();
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('PayPal capture error:', errorData);
-      throw new Error(
-        `PayPal capture failed: ${response.status} ${response.statusText}`
-      );
+    if (!res.ok) {
+      throw new Error(data.error || `Proxy error: ${res.status}`);
     }
 
-    const data = await response.json();
-
-    // Prüfen ob Zahlung erfolgreich
-    if (data.status === 'COMPLETED') {
-      const capture = data.purchase_units?.[0]?.payments?.captures?.[0];
-      const transactionId = capture?.id;
-      const payerEmail = data.payer?.email_address;
-      const payerName = `${data.payer?.name?.given_name || ''} ${
-        data.payer?.name?.surname || ''
-      }`.trim();
-
-      const referenceId = data.purchase_units?.[0]?.reference_id;
-
-      return {
-        success: true,
-        transactionId,
-        payerEmail,
-        payerName,
-        referenceId,
-      };
-    }
-
-    // Zahlung nicht erfolgreich
-    console.warn('PayPal payment not completed:', data.status);
     return {
-      success: false,
+      success:       data.success       ?? false,
+      transactionId: data.transactionId,
+      payerEmail:    data.payerEmail,
+      payerName:     data.payerName,
+      referenceId:   data.referenceId,
     };
   } catch (error) {
     console.error('Failed to capture PayPal order:', error);
@@ -320,48 +196,15 @@ export async function capturePayPalOrder(
 // ============================================================================
 
 /**
- * Ruft Details einer PayPal Order ab
+ * Ruft Details einer PayPal Order ab.
+ * HINWEIS: Diese Funktion ruft PayPal weiterhin direkt auf (nur für Debugging).
+ * Im Produktionsbetrieb wird sie nicht verwendet.
  *
- * Nützlich für Debugging oder Verifizierung
- *
- * @param paypalOrderId - Die PayPal Order ID
- * @returns Die vollständige PayPal Order
- *
- * @example
- * ```typescript
- * const order = await getPayPalOrder('5O190127TN364715T');
- * console.log(`Order status: ${order.status}`);
- * ```
+ * @deprecated Nur für Debugging. Credentials sind nicht auf diesem Server.
  */
-export async function getPayPalOrder(paypalOrderId: string): Promise<unknown> {
-  try {
-    const accessToken = await getPayPalAccessToken();
-
-    const response = await fetch(
-      `${PAYPAL_API_URL}/v2/checkout/orders/${paypalOrderId}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch PayPal order: ${response.status} ${response.statusText}`
-      );
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Failed to get PayPal order:', error);
-    throw new Error(
-      `Failed to get PayPal order: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`
-    );
-  }
+export async function getPayPalOrder(_paypalOrderId: string): Promise<unknown> {
+  throw new Error(
+    'getPayPalOrder is not available via the proxy. ' +
+    'Use the PayPal Developer Dashboard for debugging.'
+  );
 }
