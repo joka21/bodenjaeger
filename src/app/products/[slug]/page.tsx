@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import ProductPageContent from "@/components/product/ProductPageContent";
+import { JsonLd } from "@/components/JsonLd";
+import { buildProductSchema, buildBreadcrumbSchema, stripHtml } from "@/lib/schema";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -143,14 +145,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  const breadcrumbItems = [
+    { name: 'Startseite', url: 'https://bodenjaeger.de' },
+    ...(product.categories?.[0]
+      ? [{ name: product.categories[0].name, url: `https://bodenjaeger.de/category/${product.categories[0].slug}` }]
+      : []),
+    { name: product.name, url: `https://bodenjaeger.de/products/${product.slug}` },
+  ];
+
   return (
-    <ProductPageContent
-      product={product}
-      daemmungProduct={daemmungProduct}
-      sockelleisteProduct={sockelleisteProduct}
-      daemmungOptions={daemmungOptions}
-      sockelleisteOptions={sockelleisteOptions}
-    />
+    <>
+      <JsonLd data={buildProductSchema(product)} />
+      <JsonLd data={buildBreadcrumbSchema(breadcrumbItems)} />
+      <ProductPageContent
+        product={product}
+        daemmungProduct={daemmungProduct}
+        sockelleisteProduct={sockelleisteProduct}
+        daemmungOptions={daemmungOptions}
+        sockelleisteOptions={sockelleisteOptions}
+      />
+    </>
   );
 }
 
@@ -183,13 +197,23 @@ export async function generateMetadata({ params }: ProductPageProps) {
       };
     }
 
+    const description = stripHtml(
+      product.short_description || product.description?.substring(0, 160) || ''
+    ) || `${product.name} bei Bodenjäger kaufen`;
+    const productUrl = `https://bodenjaeger.de/products/${product.slug}`;
+
     return {
       title: `${product.name} | Bodenjäger`,
-      description: product.short_description || product.description?.substring(0, 160) || `${product.name} bei Bodenjäger kaufen`,
+      description,
+      alternates: {
+        canonical: productUrl,
+      },
       openGraph: {
         title: product.name,
-        description: product.short_description || product.description?.substring(0, 160),
+        description,
         images: product.images?.[0]?.src ? [product.images[0].src] : [],
+        type: 'website',
+        url: productUrl,
       },
     };
   } catch {

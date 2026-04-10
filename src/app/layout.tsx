@@ -6,6 +6,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
+import { JsonLd } from "@/components/JsonLd";
+import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
 import "./globals.css";
 
 const poppinsRegular = localFont({
@@ -23,6 +25,7 @@ const poppinsBold = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://bodenjaeger.de'),
   title: "Bodenjäger - Premium Bodenbeläge Online",
   description: "Hochwertige Vinyl-, Laminat- und Parkettböden von COREtec, primeCORE und mehr. Fachhandel mit großem Lagerbestand und persönlicher Beratung.",
   keywords: "Bodenbelag, Vinyl, Laminat, Parkett, COREtec, primeCORE, Rigid-Vinyl, Klebe-Vinyl",
@@ -45,6 +48,9 @@ export default function RootLayout({
         {/* Preconnect to external image sources */}
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+        <JsonLd data={buildOrganizationSchema()} />
+        <JsonLd data={buildWebSiteSchema()} />
       </head>
       <body
         className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}

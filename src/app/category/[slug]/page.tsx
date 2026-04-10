@@ -1,5 +1,8 @@
+import type { Metadata } from 'next';
 import CategoryPageClient from '@/components/category/CategoryPageClient';
 import { wooCommerceClient } from '@/lib/woocommerce';
+import { JsonLd } from '@/components/JsonLd';
+import { buildBreadcrumbSchema } from '@/lib/schema';
 
 // Category mapping for display names (fallback)
 const categoryNames: Record<string, string> = {
@@ -12,6 +15,20 @@ const categoryNames: Record<string, string> = {
   'daemmung': 'Dämmung',
   'zubehoer': 'Zubehör'
 };
+
+export async function generateMetadata({ params }: PageProps<'/category/[slug]'>): Promise<Metadata> {
+  const { slug } = await params;
+  const categoryData = await wooCommerceClient.getCategoryBySlug(slug).catch(() => null);
+  const name = categoryData?.name || categoryNames[slug] || slug;
+
+  return {
+    title: `${name} – Bodenbeläge online kaufen | Bodenjäger`,
+    description: `${name} in großer Auswahl bei Bodenjäger – Top-Qualität, schnelle Lieferung und persönliche Beratung.`,
+    alternates: {
+      canonical: `https://bodenjaeger.de/category/${slug}`,
+    },
+  };
+}
 
 export default async function CategoryPage({ params }: PageProps<'/category/[slug]'>) {
   const { slug } = await params;
@@ -30,13 +47,21 @@ export default async function CategoryPage({ params }: PageProps<'/category/[slu
   const categoryDescription = categoryData?.description || null;
   const categoryImage = categoryData?.image || null;
 
+  const breadcrumb = buildBreadcrumbSchema([
+    { name: 'Startseite', url: 'https://bodenjaeger.de' },
+    { name: categoryName, url: `https://bodenjaeger.de/category/${slug}` },
+  ]);
+
   return (
-    <CategoryPageClient
-      slug={slug}
-      categoryName={categoryName}
-      categoryDescription={categoryDescription}
-      categoryImage={categoryImage}
-    />
+    <>
+      <JsonLd data={breadcrumb} />
+      <CategoryPageClient
+        slug={slug}
+        categoryName={categoryName}
+        categoryDescription={categoryDescription}
+        categoryImage={categoryImage}
+      />
+    </>
   );
 }
 
