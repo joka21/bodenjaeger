@@ -14,22 +14,22 @@ const serviceCards = [
   {
     title: 'Verlegeservice',
     link: '/fachmarkt-hueckelhoven/verlegeservice',
-    image: null, // Kein Background-Image in Elementor
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/41417bed-227f-441c-8d76-279493c78779-2-scaled-1.jpg',
   },
   {
     title: 'Anhängerverleih',
     link: '/fachmarkt-hueckelhoven/anhaengerverleih',
-    image: null, // Kein Background-Image in Elementor
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/Bodenjager-Kostenloser-Anhangerverleih.jpg',
   },
   {
     title: 'Warenlagerung',
     link: '/fachmarkt-hueckelhoven/warenlagerung',
-    image: null, // Kein Background-Image in Elementor
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/Service-Lagerservice.jpg',
   },
   {
     title: 'Fachberatung',
     link: '/fachmarkt-hueckelhoven/fachberatung',
-    image: null, // Kein Background-Image in Elementor
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/Service-persoenlicher-Kontakt.jpg',
   },
   {
     title: 'Set-Angebote',
@@ -39,17 +39,17 @@ const serviceCards = [
   {
     title: 'Werkzeugverleih',
     link: '/fachmarkt-hueckelhoven/werkzeugverleih',
-    image: null, // Kein Background-Image in Elementor
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/Service-Schneider.jpg',
   },
   {
     title: 'Lieferservice',
     link: '/fachmarkt-hueckelhoven/lieferservice',
-    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/Bus-scaled-1-1024x768.jpg',
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/Bodenjager-Lieferung-zu-Wunschtermin.jpg',
   },
   {
     title: 'Schausonntag',
     link: '/fachmarkt-hueckelhoven/schausonntag',
-    image: null, // Kein Background-Image in Elementor
+    image: 'https://2025.bodenjaeger.de/wp-content/uploads/2026/04/Service-Schausonntag.jpg',
   },
 ];
 
