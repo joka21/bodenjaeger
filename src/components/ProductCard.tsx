@@ -31,9 +31,6 @@ export default function ProductCard({ product, showDescription = false }: Produc
   const regularPrice = product.regular_price || 0;
   const einheitShort = product.einheit_short || 'm²';
 
-  // Always use setangebot_ersparnis_prozent (backend calculated)
-  const discount = product.setangebot_ersparnis_prozent;
-
   const showUnit = einheitShort !== '-' && einheitShort.trim() !== '';
   const paketinhalt = product.paketinhalt || 1;
   const verpackungsart = product.verpackungsart_short || 'Pak.';
@@ -132,11 +129,14 @@ export default function ProductCard({ product, showDescription = false }: Produc
         )}
 
         {/* Sale Badge (Top Left) */}
-        {product.on_sale && (
-          <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 rounded text-sm font-bold">
-            -{Math.round(discount || 0)}%
-          </div>
-        )}
+        {product.on_sale && (() => {
+          const percent = product.setangebot_ersparnis_prozent || product.discount_percent || 0;
+          return percent > 0 ? (
+            <div className="absolute top-3 left-3 bg-red-600 text-white px-2 py-1 rounded text-sm font-bold">
+              -{Math.round(percent)}%
+            </div>
+          ) : null;
+        })()}
 
         {/* Action Badge (Top Right) */}
         {product.show_aktion && product.aktion && (

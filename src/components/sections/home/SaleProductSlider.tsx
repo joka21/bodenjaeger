@@ -195,11 +195,14 @@ export default function SaleProductSlider({
                       {/* Badges */}
                       <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
                         {/* Sale Badge */}
-                        {product.on_sale && (product.setangebot_ersparnis_prozent || 0) > 0 && (
-                          <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
-                            -{Math.round(product.setangebot_ersparnis_prozent || 0)}%
-                          </div>
-                        )}
+                        {product.on_sale && (() => {
+                          const percent = product.setangebot_ersparnis_prozent || product.discount_percent || 0;
+                          return percent > 0 ? (
+                            <div className="bg-red-600 text-white px-3 py-1 rounded font-bold text-sm shadow-md w-fit">
+                              -{Math.round(percent)}%
+                            </div>
+                          ) : null;
+                        })()}
 
                         {/* Aktion Badge */}
                         {product.show_aktion && product.aktion && (

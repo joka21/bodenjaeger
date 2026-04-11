@@ -286,12 +286,15 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
 
           {/* Badges */}
           <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-            {/* Sale Badge - Backend-Feld verwenden */}
-            {(product.setangebot_ersparnis_prozent || 0) > 0 && product.show_discount_badge !== false && (
-              <div className="text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap', backgroundColor: '#ed1b24' }}>
-                -{Math.round(product.setangebot_ersparnis_prozent || 0)}%
-              </div>
-            )}
+            {/* Sale Badge - on_sale aus Backend als Trigger, Prozent aus discount_percent oder setangebot_ersparnis_prozent */}
+            {product.on_sale && (() => {
+              const percent = product.setangebot_ersparnis_prozent || product.discount_percent || 0;
+              return percent > 0 ? (
+                <div className="text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap', backgroundColor: '#ed1b24' }}>
+                  -{Math.round(percent)}%
+                </div>
+              ) : null;
+            })()}
 
             {/* Aktion Badge — Stil aus Backend, Jäger-Farben */}
             {product.show_aktion && product.aktion && (
