@@ -124,7 +124,7 @@ export default function BodenkategorienSection() {
 
                 {/* "Bald verfügbar" Badge für nicht verlinkte Kategorien */}
                 {!category.slug && (
-                  <div className="absolute top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm shadow-lg">
+                  <div className="absolute top-4 right-4 bg-brand text-white px-4 py-2 rounded-lg font-semibold text-sm shadow-lg">
                     Bald verfügbar
                   </div>
                 )}

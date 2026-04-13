@@ -141,7 +141,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
 
             {/* Location Card */}
             <a
-              href="https://maps.google.com/?q=Parkhofstraße+61+41836+Hückelhoven"
+              href="https://maps.google.com/?q=Neckarstraße+9+41836+Hückelhoven"
               target="_blank"
               rel="noopener noreferrer"
               className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-brand/20"
@@ -168,7 +168,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                 </svg>
               </div>
               <h3 className="text-lg font-bold text-dark mb-1">Fachmarkt</h3>
-              <p className="text-sm font-medium text-dark">Parkhofstraße 61</p>
+              <p className="text-sm font-medium text-dark">Neckarstraße 9</p>
               <p className="text-sm text-gray-500">41836 Hückelhoven</p>
             </a>
           </div>
@@ -378,7 +378,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   Fachmarkt Hückelhoven
                 </h3>
                 <div className="space-y-2 text-sm text-gray-600">
-                  <p>Parkhofstraße 61</p>
+                  <p>Neckarstraße 9</p>
                   <p>41836 Hückelhoven</p>
                 </div>
                 <div className="mt-4 space-y-2">
@@ -402,7 +402,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                   </a>
                 </div>
                 <a
-                  href="https://maps.google.com/?q=Parkhofstraße+61+41836+Hückelhoven"
+                  href="https://maps.google.com/?q=Neckarstraße+9+41836+Hückelhoven"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"
@@ -436,7 +436,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
           </h2>
           <div className="rounded-xl overflow-hidden shadow-lg max-w-5xl mx-auto" style={{ height: '400px' }}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2507.5!2d6.2279!3d51.0567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf5f9b1f1b1b1b%3A0x1234567890abcdef!2sParkhofstra%C3%9Fe+61%2C+41836+H%C3%BCckelhoven!5e0!3m2!1sde!2sde!4v1700000000000!5m2!1sde!2sde"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2507.5!2d6.2279!3d51.0567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf5f9b1f1b1b1b%3A0x1234567890abcdef!2sNeckarstra%C3%9Fe+9%2C+41836+H%C3%BCckelhoven!5e0!3m2!1sde!2sde!4v1700000000000!5m2!1sde!2sde"
               width="100%"
               height="100%"
               style={{ border: 0 }}

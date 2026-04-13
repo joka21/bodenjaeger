@@ -231,7 +231,7 @@ export default function ProductCard({ product, showDescription = false }: Produc
       <div className="p-4">
         {/* Product Name */}
         <Link href={`/products/${product.slug}`}>
-          <h3 className="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors line-clamp-2 mb-3">
+          <h3 className="text-lg font-semibold text-gray-900 hover:text-brand transition-colors line-clamp-2 mb-3">
             {product.name}
           </h3>
         </Link>

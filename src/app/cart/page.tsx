@@ -55,7 +55,7 @@ export default function CartPage() {
             </p>
             <Link
               href="/"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-brand hover:bg-[#d11820] text-white font-medium rounded-lg transition-colors"
             >
               Jetzt einkaufen
             </Link>
@@ -245,7 +245,7 @@ export default function CartPage() {
               </button>
               <Link
                 href="/"
-                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                className="text-brand hover:text-[#d11820] font-medium transition-colors"
               >
                 ← Weiter einkaufen
               </Link>

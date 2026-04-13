@@ -48,10 +48,10 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <a href="/karriere" className="text-xl hover:underline flex items-start">
+                    <Link href="/karriere" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Jobs & Karriere</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link href="/newsletter" className="text-xl hover:underline flex items-start">
@@ -60,22 +60,22 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <a href="/datenschutz" className="text-xl hover:underline flex items-start">
+                    <Link href="/datenschutz" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Datenschutzerklärung</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/impressum" className="text-xl hover:underline flex items-start">
+                    <Link href="/impressum" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Impressum</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/agb" className="text-xl hover:underline flex items-start">
+                    <Link href="/agb" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>AGB</span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>
@@ -87,28 +87,28 @@ export default function Footer() {
               <nav>
                 <ul className="space-y-3">
                   <li>
-                    <a href="/kontakt" className="text-xl hover:underline flex items-start">
+                    <Link href="/kontakt" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Kontakt</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/service" className="text-xl hover:underline flex items-start">
+                    <Link href="/service" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Servicebereich</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/versand-lieferzeit" className="text-xl hover:underline flex items-start">
+                    <Link href="/versand-lieferzeit" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Versand & Lieferzeit</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="/widerruf" className="text-xl hover:underline flex items-start">
+                    <Link href="/widerruf" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Widerrufsbelehrung & Widerrufsformular</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link href="/blog" className="text-xl hover:underline flex items-start">
@@ -162,7 +162,7 @@ export default function Footer() {
       >
         <div className="content-container">
           <div className="flex justify-between items-center text-white text-xs py-1">
-            <div>© 2026 Bodenjäger</div>
+            <div>© 2025 Bodenjäger</div>
             <div>* alle Preise inkl. MwSt. und ggf. zzgl. Versandkosten</div>
           </div>
         </div>

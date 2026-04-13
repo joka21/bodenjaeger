@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { WordPressPage } from '@/lib/wordpress';
 
 interface FachmarktPageProps {
@@ -183,7 +184,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
                 <h3 className="text-xl font-bold text-black mb-4">
                   {service.title}
                 </h3>
-                <div className="flex items-center text-blue-600 font-semibold group-hover:text-blue-800 transition-colors">
+                <div className="flex items-center text-brand font-semibold group-hover:text-[#d11820] transition-colors">
                   Mehr erfahren
                   <span className="ml-2 group-hover:translate-x-1 transition-transform">
                     &gt;
@@ -337,12 +338,12 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
                 <p>So. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12:00 – 16:00 Uhr</p>
                 <p className="font-bold">NICHT JEDEN SONNTAG</p>
               </div>
-              <a
-                href="/schausonntag"
-                className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              <Link
+                href="/fachmarkt-hueckelhoven/schausonntag"
+                className="inline-block px-6 py-2 bg-brand text-white rounded-lg hover:bg-[#d11820] transition-colors"
               >
                 Geöffnete Sonntage &gt;
-              </a>
+              </Link>
             </div>
 
             {/* Adresse/Kontakt */}
@@ -354,12 +355,12 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
                 <p>Tel.: 02433938884</p>
                 <p>info@bodenjaeger.de</p>
               </div>
-              <a
+              <Link
                 href="/kontakt"
-                className="inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="inline-block px-6 py-2 bg-brand text-white rounded-lg hover:bg-[#d11820] transition-colors"
               >
                 Kontaktaufnahme &gt;
-              </a>
+              </Link>
             </div>
 
             {/* Google Maps */}

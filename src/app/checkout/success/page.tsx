@@ -157,7 +157,7 @@ function CheckoutSuccessContent() {
               Zurück zur Startseite
             </Link>
             <Link
-              href="/products"
+              href="/"
               className="px-8 py-3 bg-white text-dark font-semibold rounded-lg border-2 border-dark hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-dark/30 transition-all text-center"
             >
               Weiter einkaufen

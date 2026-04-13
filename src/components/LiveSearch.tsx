@@ -178,7 +178,7 @@ export default function LiveSearch() {
               <div className="mt-2 bg-white rounded-lg shadow-xl border border-gray-200 max-h-[70vh] overflow-y-auto">
                 {loading && (
                   <div className="p-4 text-center text-gray-500">
-                    <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-navy"></div>
+                    <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-brand"></div>
                   </div>
                 )}
                 {!loading && results.length === 0 && (
@@ -219,7 +219,7 @@ export default function LiveSearch() {
                       </div>
                     </div>
                     <div className="border-t border-gray-100">
-                      <Link href={`/search?q=${encodeURIComponent(searchQuery)}`} onClick={() => { setIsOpen(false); setMobileSearchOpen(false); }} className="block px-4 py-3 text-center text-sm font-medium text-navy hover:bg-gray-50">
+                      <Link href={`/search?q=${encodeURIComponent(searchQuery)}`} onClick={() => { setIsOpen(false); setMobileSearchOpen(false); }} className="block px-4 py-3 text-center text-sm font-medium text-brand hover:bg-gray-50">
                         {results.length >= 50 ? `Alle Ergebnisse anzeigen (${results.length}+)` : `Alle ${results.length} Ergebnisse anzeigen`}
                       </Link>
                     </div>
@@ -268,7 +268,7 @@ export default function LiveSearch() {
         <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 z-[100] max-h-[70vh] overflow-y-auto">
           {loading && (
             <div className="p-4 text-center text-gray-500">
-              <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-navy"></div>
+              <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-brand"></div>
             </div>
           )}
 
@@ -364,7 +364,7 @@ export default function LiveSearch() {
                   <Link
                     href={`/search?q=${encodeURIComponent(searchQuery)}`}
                     onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 text-center text-sm font-medium text-navy hover:bg-gray-50"
+                    className="block px-4 py-3 text-center text-sm font-medium text-brand hover:bg-gray-50"
                   >
                     {results.length >= 50
                       ? `Alle Ergebnisse anzeigen (${results.length}+)`

@@ -187,7 +187,7 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
 
           <button
             onClick={fetchProducts}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+            className="bg-brand hover:bg-[#d11820] text-white px-6 py-3 rounded-lg font-medium transition-colors"
           >
             Erneut versuchen
           </button>
@@ -319,7 +319,7 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
             </p>
             <button
               onClick={fetchProducts}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+              className="bg-brand hover:bg-[#d11820] text-white px-6 py-3 rounded-lg font-medium transition-colors"
             >
               Aktualisieren
             </button>

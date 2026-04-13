@@ -9,10 +9,10 @@ interface VersandLieferzeitPageProps {
 
 const shippingOptions = [
   {
-    title: 'Standardversand',
-    price: 'ab 4,99 €',
+    title: 'Paketversand',
+    price: '4,99 €',
     delivery: '3–5 Werktage',
-    description: 'Paketversand für kleinere Bestellungen wie Zubehör, Sockelleisten und Muster.',
+    description: 'Paketversand für kleinere Bestellungen wie Zubehör, Sockelleisten und Kleinteile.',
     icon: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -21,9 +21,9 @@ const shippingOptions = [
   },
   {
     title: 'Speditionsversand',
-    price: 'ab 49,99 €',
+    price: 'ab 29,99 €',
     delivery: '5–8 Werktage',
-    description: 'Für Bodenbeläge, große Bestellungen und schwere Pakete. Lieferung per Spedition bis Bordsteinkante.',
+    description: 'Für Bodenbeläge und große Bestellungen. 29,99 € ab 500 € Warenwert, 59,99 € unter 500 €. Ab 999 € versandkostenfrei. Lieferung bis Bordsteinkante.',
     icon: (
       <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 17h8M8 17l-4-4m4 4V3m8 14l4-4m-4 4V3M3 13h18" />

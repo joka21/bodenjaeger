@@ -20,13 +20,13 @@ export default function WordPressPageComponent({ page }: WordPressPageProps) {
             prose-h3:text-2xl prose-h3:font-semibold prose-h3:mb-3 prose-h3:mt-6
             prose-h4:text-xl prose-h4:font-semibold prose-h4:mb-2 prose-h4:mt-4
             prose-p:text-gray-700 prose-p:mb-4 prose-p:leading-relaxed
-            prose-a:text-blue-600 prose-a:no-underline prose-a:hover:underline prose-a:hover:text-blue-800
+            prose-a:text-brand prose-a:no-underline prose-a:hover:underline prose-a:hover:text-[#d11820]
             prose-strong:text-gray-900 prose-strong:font-semibold
             prose-ul:text-gray-700 prose-ul:mb-4
             prose-ol:text-gray-700 prose-ol:mb-4
             prose-li:mb-2
             prose-table:text-gray-700
-            prose-blockquote:text-gray-700 prose-blockquote:border-blue-600"
+            prose-blockquote:text-gray-700 prose-blockquote:border-brand"
           dangerouslySetInnerHTML={{ __html: page.content.rendered }}
         />
       </div>

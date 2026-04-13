@@ -34,8 +34,11 @@ export default async function Home() {
       order: 'desc'
     });
 
-    // Adapt to ProductCritical format (optimized data)
-    saleProducts = rawSaleProducts;
+    // Nur Bodenprodukte für "Böden im Sale" — keine Sockelleisten, Dämmung, Zubehör etc.
+    const floorCategories = ['vinylboden', 'klebe-vinyl', 'rigid-vinyl', 'laminat', 'parkett', 'teppichboden'];
+    saleProducts = rawSaleProducts.filter(p =>
+      p.categories?.some(cat => floorCategories.includes(cat.slug))
+    );
 
     console.log('✅ Sale Products fetched & adapted:', saleProducts.length);
     console.log('📊 ALLE SALE PRODUCTS MIT KORREKTEN RABATTEN:');

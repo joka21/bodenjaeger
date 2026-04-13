@@ -54,7 +54,7 @@ export default function SitemapPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-16 max-w-6xl">
-        <h1 className="text-4xl lg:text-5xl font-bold text-navy mb-4">
+        <h1 className="text-4xl lg:text-5xl font-bold text-dark mb-4">
           Sitemap
         </h1>
         <p className="text-gray-700 mb-12 text-lg">
@@ -64,7 +64,7 @@ export default function SitemapPage() {
         <div className="grid md:grid-cols-2 gap-8">
           {pages.map((section) => (
             <div key={section.category} className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-2xl font-bold text-navy mb-4 border-b-2 border-navy pb-2">
+              <h2 className="text-2xl font-bold text-dark mb-4 border-b-2 border-brand pb-2">
                 {section.category}
               </h2>
               <ul className="space-y-3">
@@ -72,9 +72,9 @@ export default function SitemapPage() {
                   <li key={link.url}>
                     <Link
                       href={link.url}
-                      className="text-gray-700 hover:text-navy hover:underline flex items-center group"
+                      className="text-gray-700 hover:text-brand hover:underline flex items-center group"
                     >
-                      <span className="mr-2 text-navy group-hover:translate-x-1 transition-transform">
+                      <span className="mr-2 text-brand group-hover:translate-x-1 transition-transform">
                         →
                       </span>
                       {link.title}
@@ -86,8 +86,8 @@ export default function SitemapPage() {
           ))}
         </div>
 
-        <div className="mt-12 bg-blue-50 border-l-4 border-navy p-6 rounded">
-          <h3 className="text-xl font-semibold text-navy mb-2">
+        <div className="mt-12 bg-pale border-l-4 border-brand p-6 rounded">
+          <h3 className="text-xl font-semibold text-dark mb-2">
             Seite nicht gefunden?
           </h3>
           <p className="text-gray-700 mb-4">
@@ -97,13 +97,13 @@ export default function SitemapPage() {
           <div className="flex flex-wrap gap-4">
             <Link
               href="/kontakt"
-              className="inline-block bg-navy text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#1e3a8a] transition-colors"
+              className="inline-block bg-brand text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#d11820] transition-colors"
             >
               Kontakt
             </Link>
             <Link
               href="/"
-              className="inline-block border-2 border-navy text-navy px-6 py-2 rounded-lg font-semibold hover:bg-navy hover:text-white transition-colors"
+              className="inline-block border-2 border-dark text-dark px-6 py-2 rounded-lg font-semibold hover:bg-dark hover:text-white transition-colors"
             >
               Zur Startseite
             </Link>
@@ -112,7 +112,7 @@ export default function SitemapPage() {
 
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600">
-            Letzte Aktualisierung: Januar 2025
+            Letzte Aktualisierung: April 2025
           </p>
         </div>
       </div>

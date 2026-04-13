@@ -36,8 +36,8 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
   const currentImage = images[currentImageIndex];
 
   // ✅ USE BACKEND-CALCULATED DISCOUNT
-  // Always use setangebot_ersparnis_prozent (backend calculated)
-  const discountPercent = Math.round(product.setangebot_ersparnis_prozent || 0);
+  // on_sale als Trigger, Prozent aus setangebot_ersparnis_prozent oder discount_percent
+  const discountPercent = Math.round(product.setangebot_ersparnis_prozent || product.discount_percent || 0);
 
   return (
     <div className="space-y-4 w-full max-w-full overflow-hidden">
@@ -55,8 +55,8 @@ export default function ImageGallery({ product }: ImageGalleryProps) {
 
         {/* Badges (top left) */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-          {/* Discount Badge */}
-          {discountPercent > 0 && product.show_discount_badge !== false && (
+          {/* Discount Badge — erscheint wenn on_sale aktiv ist */}
+          {product.on_sale && discountPercent > 0 && (
             <div className="text-white rounded font-bold shadow-md w-fit" style={{ fontSize: '12px', padding: '3% 10%', whiteSpace: 'nowrap', backgroundColor: '#ed1b24' }}>
               -{discountPercent}%
             </div>

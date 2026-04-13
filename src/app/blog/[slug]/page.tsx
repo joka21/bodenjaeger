@@ -33,7 +33,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Back to Blog Link */}
         <Link
           href="/blog"
-          className="inline-flex items-center text-ocean hover:text-navy mb-8 font-semibold"
+          className="inline-flex items-center text-brand hover:text-[#d11820] mb-8 font-semibold"
         >
           <span className="mr-2">←</span>
           Zurück zum Blog
@@ -77,12 +77,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             prose-h2:text-3xl prose-h2:font-bold prose-h2:mt-12 prose-h2:mb-6
             prose-h3:text-2xl prose-h3:font-bold prose-h3:mt-8 prose-h3:mb-4
             prose-p:text-[#333333] prose-p:leading-relaxed prose-p:mb-6
-            prose-a:text-ocean prose-a:hover:text-navy prose-a:no-underline prose-a:hover:underline
+            prose-a:text-brand prose-a:hover:text-[#d11820] prose-a:no-underline prose-a:hover:underline
             prose-strong:text-dark prose-strong:font-bold
             prose-ul:text-[#333333] prose-ul:my-6
             prose-ol:text-[#333333] prose-ol:my-6
             prose-li:mb-2
-            prose-blockquote:border-l-4 prose-blockquote:border-ocean prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-[#666666]
+            prose-blockquote:border-l-4 prose-blockquote:border-brand prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-[#666666]
             prose-img:rounded-lg prose-img:shadow-lg prose-img:my-8"
           dangerouslySetInnerHTML={{ __html: post.content.rendered }}
         />
@@ -116,7 +116,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="mt-12 text-center">
           <Link
             href="/blog"
-            className="inline-block bg-ocean text-white px-8 py-3 rounded-lg font-semibold hover:bg-navy transition-colors"
+            className="inline-block bg-brand text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#d11820] transition-colors"
           >
             Weitere Beiträge lesen
           </Link>

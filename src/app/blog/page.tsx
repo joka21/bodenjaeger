@@ -59,7 +59,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                       {/* Title */}
                       <Link href={`/blog/${post.slug}`}>
                         <h2
-                          className="text-2xl font-bold text-dark mb-3 hover:text-ocean transition-colors"
+                          className="text-2xl font-bold text-dark mb-3 hover:text-brand transition-colors"
                           dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                         />
                       </Link>
@@ -79,7 +79,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                       {/* Read More Link */}
                       <Link
                         href={`/blog/${post.slug}`}
-                        className="text-ocean hover:text-navy font-semibold inline-flex items-center"
+                        className="text-brand hover:text-[#d11820] font-semibold inline-flex items-center"
                       >
                         Weiterlesen
                         <span className="ml-2">→</span>
@@ -112,7 +112,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
                       href={`/blog?page=${pageNum}`}
                       className={`px-4 py-2 border rounded transition-colors ${
                         isCurrentPage
-                          ? 'bg-ocean text-white border-ocean'
+                          ? 'bg-brand text-white border-brand'
                           : 'border-gray-300 hover:bg-gray-100'
                       }`}
                     >
