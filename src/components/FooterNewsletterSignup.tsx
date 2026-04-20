@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function FooterNewsletterSignup() {
   const [email, setEmail] = useState('');
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -12,6 +13,14 @@ export default function FooterNewsletterSignup() {
 
     if (!email || !email.includes('@')) {
       setMessage({ type: 'error', text: 'Bitte gültige E-Mail eingeben.' });
+      return;
+    }
+
+    if (!acceptPrivacy) {
+      setMessage({
+        type: 'error',
+        text: 'Bitte Datenschutzerklärung bestätigen.',
+      });
       return;
     }
 
@@ -32,9 +41,10 @@ export default function FooterNewsletterSignup() {
       if (response.ok) {
         setMessage({
           type: 'success',
-          text: 'Vielen Dank! Bestätigungs-E-Mail gesendet.',
+          text: 'Fast geschafft! Bitte Bestätigungs-Link in der E-Mail anklicken.',
         });
         setEmail('');
+        setAcceptPrivacy(false);
       } else {
         setMessage({
           type: 'error',
@@ -82,6 +92,24 @@ export default function FooterNewsletterSignup() {
             {isLoading ? 'Lädt...' : 'Anmelden'}
           </button>
         </div>
+
+        <label className="flex items-start gap-2 mt-3 text-white text-xs cursor-pointer">
+          <input
+            type="checkbox"
+            checked={acceptPrivacy}
+            onChange={(e) => setAcceptPrivacy(e.target.checked)}
+            disabled={isLoading}
+            className="mt-0.5 w-4 h-4 accent-brand shrink-0"
+            required
+          />
+          <span className="opacity-90">
+            Ich akzeptiere die{' '}
+            <a href="/datenschutz" className="underline hover:opacity-100" target="_blank" rel="noopener">
+              Datenschutzerklärung
+            </a>
+            . Bestätigung per E-Mail (Double-Opt-In). Abmeldung jederzeit möglich.
+          </span>
+        </label>
 
         {/* Message */}
         {message && (

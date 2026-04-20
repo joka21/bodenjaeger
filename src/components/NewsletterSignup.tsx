@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function NewsletterSignup() {
   const [email, setEmail] = useState('');
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -12,6 +13,14 @@ export default function NewsletterSignup() {
 
     if (!email || !email.includes('@')) {
       setMessage({ type: 'error', text: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' });
+      return;
+    }
+
+    if (!acceptPrivacy) {
+      setMessage({
+        type: 'error',
+        text: 'Bitte bestätigen Sie die Datenschutzerklärung, um den Newsletter zu abonnieren.',
+      });
       return;
     }
 
@@ -32,9 +41,10 @@ export default function NewsletterSignup() {
       if (response.ok) {
         setMessage({
           type: 'success',
-          text: 'Vielen Dank! Sie erhalten in Kürze eine Bestätigungs-E-Mail.',
+          text: 'Fast geschafft! Wir haben Ihnen eine Bestätigungs-E-Mail geschickt. Bitte klicken Sie auf den Link darin, um die Anmeldung abzuschließen (Double-Opt-In).',
         });
         setEmail('');
+        setAcceptPrivacy(false);
       } else {
         setMessage({
           type: 'error',
@@ -86,27 +96,48 @@ export default function NewsletterSignup() {
 
             {/* Form */}
             <div className="w-full md:w-auto md:flex-shrink-0">
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Deine E-Mail-Adresse"
-                  disabled={isLoading}
-                  className="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 w-full sm:w-64"
-                  required
-                />
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="px-6 py-3 rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                  style={{
-                    backgroundColor: 'var(--color-primary)',
-                    color: 'white',
-                  }}
-                >
-                  {isLoading ? 'Lädt...' : 'Anmelden'}
-                </button>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full md:w-auto">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Deine E-Mail-Adresse"
+                    disabled={isLoading}
+                    className="px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 w-full sm:w-64"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="px-6 py-3 rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                    style={{
+                      backgroundColor: 'var(--color-primary)',
+                      color: 'white',
+                    }}
+                  >
+                    {isLoading ? 'Lädt...' : 'Anmelden'}
+                  </button>
+                </div>
+
+                <label className="flex items-start gap-2 text-white text-xs cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={acceptPrivacy}
+                    onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                    disabled={isLoading}
+                    className="mt-0.5 w-4 h-4 accent-brand shrink-0"
+                    required
+                  />
+                  <span className="opacity-90">
+                    Ich habe die{' '}
+                    <a href="/datenschutz" className="underline hover:opacity-100" target="_blank" rel="noopener">
+                      Datenschutzerklärung
+                    </a>{' '}
+                    gelesen und stimme zu, dass meine E-Mail-Adresse für den Versand des Newsletters
+                    verarbeitet wird. Die Einwilligung kann jederzeit widerrufen werden.
+                  </span>
+                </label>
               </form>
 
               {/* Message */}
@@ -126,11 +157,9 @@ export default function NewsletterSignup() {
 
           {/* Privacy Notice */}
           <p className="text-white text-xs opacity-70 mt-4 text-center md:text-left">
-            Mit der Anmeldung akzeptieren Sie unsere{' '}
-            <a href="/datenschutz" className="underline hover:opacity-100">
-              Datenschutzerklärung
-            </a>
-            . Sie können sich jederzeit wieder abmelden.
+            Die Anmeldung erfolgt im Double-Opt-In-Verfahren: Sie erhalten eine Bestätigungs-E-Mail
+            und müssen den Link darin anklicken, damit Ihre Anmeldung wirksam wird. Sie können sich
+            jederzeit wieder abmelden.
           </p>
         </div>
       </div>

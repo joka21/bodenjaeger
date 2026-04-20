@@ -3,9 +3,11 @@ import localFont from "next/font/local";
 import { CartProvider } from "@/contexts/CartContext";
 import { WishlistProvider } from "@/contexts/WishlistContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
+import CookieConsent from "@/components/CookieConsent";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
 import "./globals.css";
@@ -55,16 +57,19 @@ export default function RootLayout({
       <body
         className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}
       >
-        <AuthProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <HeaderWrapper />
-              <FloatingContactButton />
-              {children}
-              <Footer />
-            </WishlistProvider>
-          </CartProvider>
-        </AuthProvider>
+        <CookieConsentProvider>
+          <AuthProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <CookieConsent />
+                <HeaderWrapper />
+                <FloatingContactButton />
+                {children}
+                <Footer />
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
+        </CookieConsentProvider>
       </body>
     </html>
   );

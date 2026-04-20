@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FooterNewsletterSignup from './FooterNewsletterSignup'
+import CookieSettingsLink from './CookieSettingsLink'
 
 export default function Footer() {
   return (
@@ -64,6 +65,9 @@ export default function Footer() {
                       <span className="mr-2">&gt;</span>
                       <span>Datenschutzerklärung</span>
                     </Link>
+                  </li>
+                  <li>
+                    <CookieSettingsLink />
                   </li>
                   <li>
                     <Link href="/impressum" className="text-xl hover:underline flex items-start">

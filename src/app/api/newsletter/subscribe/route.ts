@@ -4,18 +4,12 @@ export async function POST(request: NextRequest) {
   try {
     const { email, firstName, lastName } = await request.json();
 
-    // Validate email
     if (!email || !email.includes('@')) {
       return NextResponse.json(
         { error: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.' },
         { status: 400 }
       );
     }
-
-    // WordPress Newsletter API Integration
-    // Option 1: WordPress Newsletter Plugin API
-    // Option 2: Custom WordPress endpoint
-    // Option 3: WooCommerce Customer meta field
 
     const wordpressUrl = process.env.NEXT_PUBLIC_WORDPRESS_URL;
     const consumerKey = process.env.WC_CONSUMER_KEY;
@@ -25,8 +19,6 @@ export async function POST(request: NextRequest) {
       throw new Error('WordPress credentials not configured');
     }
 
-    // Send to WordPress custom endpoint
-    // You'll need to create a custom WordPress endpoint or use a newsletter plugin API
     const wpApiUrl = `${wordpressUrl}/wp-json/newsletter/v1/subscribe`;
 
     const response = await fetch(wpApiUrl, {
@@ -45,34 +37,30 @@ export async function POST(request: NextRequest) {
     });
 
     if (!response.ok) {
-      // If WordPress endpoint doesn't exist yet, store in a fallback way
-      // For now, log it and return success (you'll need to set up WordPress endpoint)
-      console.log('Newsletter subscription (WordPress endpoint not ready):', {
+      console.error('Newsletter subscription failed — WordPress endpoint not available', {
+        status: response.status,
         email,
-        firstName,
-        lastName,
       });
 
-      // TODO: Remove this when WordPress endpoint is ready
-      return NextResponse.json({
-        success: true,
-        message: 'Vielen Dank für Ihre Anmeldung! Sie erhalten in Kürze eine Bestätigungs-E-Mail.',
-        note: 'WordPress endpoint pending setup',
-      });
+      return NextResponse.json(
+        {
+          error:
+            'Die Newsletter-Anmeldung ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt.',
+        },
+        { status: 503 }
+      );
     }
 
     const data = await response.json();
 
     return NextResponse.json({
       success: true,
-      message: 'Vielen Dank für Ihre Anmeldung! Sie erhalten in Kürze eine Bestätigungs-E-Mail.',
+      message:
+        'Fast geschafft! Wir haben Ihnen eine Bestätigungs-E-Mail geschickt. Bitte klicken Sie auf den Link darin, um die Anmeldung abzuschließen (Double-Opt-In).',
       data,
     });
   } catch (error) {
     console.error('Newsletter subscription error:', error);
-
-    // For development: Log the subscription attempt
-    console.log('Newsletter subscription attempt (fallback):', await request.json().catch(() => ({})));
 
     return NextResponse.json(
       {

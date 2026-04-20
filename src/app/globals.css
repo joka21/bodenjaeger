@@ -387,3 +387,134 @@ button, .button, .btn {
 .fachmarkt-content .wp-block-image img {
   margin: 0;
 }
+
+/* WordPress Page Content (Datenschutz, Impressum, AGB, Widerruf etc.) */
+.wp-page-content {
+  color: #374151;
+  font-size: 1.125rem;
+  line-height: 2.25;
+}
+
+.wp-page-content h1,
+.wp-page-content h2,
+.wp-page-content h3,
+.wp-page-content h4,
+.wp-page-content h5,
+.wp-page-content h6 {
+  color: #111827;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.wp-page-content h1 {
+  font-size: 2.25rem;
+  margin-top: 4rem;
+  margin-bottom: 2.5rem;
+}
+
+.wp-page-content h2 {
+  font-size: 1.875rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+.wp-page-content h3 {
+  font-size: 1.5rem;
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.wp-page-content h4 {
+  font-size: 1.25rem;
+  margin-top: 3rem;
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.wp-page-content p {
+  margin-bottom: 2.5rem;
+  line-height: 2.25;
+}
+
+.wp-page-content a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.wp-page-content a:hover {
+  text-decoration: underline;
+  color: #d11820;
+}
+
+.wp-page-content strong,
+.wp-page-content b {
+  color: #111827;
+  font-weight: 600;
+}
+
+.wp-page-content ul,
+.wp-page-content ol {
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding-left: 1.5rem;
+}
+
+.wp-page-content ul {
+  list-style-type: disc;
+}
+
+.wp-page-content ol {
+  list-style-type: decimal;
+}
+
+.wp-page-content li {
+  margin-bottom: 1.25rem;
+  line-height: 2;
+}
+
+.wp-page-content li > ul,
+.wp-page-content li > ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.wp-page-content blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1.5rem;
+  margin: 2.5rem 0;
+  font-style: italic;
+  color: #4b5563;
+}
+
+.wp-page-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2.5rem 0;
+}
+
+.wp-page-content th,
+.wp-page-content td {
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  line-height: 1.75;
+}
+
+.wp-page-content th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #111827;
+}
+
+.wp-page-content hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 3rem 0;
+}
+
+.wp-page-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 2rem 0;
+}
