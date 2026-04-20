@@ -40,10 +40,10 @@ export const CookieConsent: React.FC = () => {
     >
       <div className="relative w-full max-w-2xl bg-dark text-white rounded-lg shadow-2xl border-2 border-brand max-h-[90vh] overflow-y-auto p-6">
         {!showSettings ? (
-          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            <div className="flex-1 text-sm leading-relaxed">
-              <h2 className="font-bold text-base mb-1">Wir verwenden Cookies</h2>
-              <p>
+          <div className="flex flex-col gap-6">
+            <div className="text-sm leading-relaxed">
+              <h2 className="font-bold text-xl mb-3">Wir verwenden Cookies</h2>
+              <p className="text-white/90">
                 Diese Website verwendet Cookies und ähnliche Technologien, um die Nutzung zu
                 ermöglichen, Inhalte zu personalisieren, Funktionen für soziale Medien anzubieten
                 und Zugriffe zu analysieren. Details findest du in unserer{' '}
@@ -53,25 +53,25 @@ export const CookieConsent: React.FC = () => {
                 .
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 shrink-0">
+            <div className="flex flex-col sm:flex-row gap-2 w-full">
               <button
                 type="button"
                 onClick={() => setShowSettings(true)}
-                className="px-4 py-2 text-sm font-medium border border-white/40 hover:border-white rounded transition-colors"
+                className="flex-1 px-4 py-3 text-sm font-medium border border-white/40 hover:border-white rounded transition-colors"
               >
                 Einstellungen
               </button>
               <button
                 type="button"
                 onClick={rejectAll}
-                className="px-4 py-2 text-sm font-medium border border-white/40 hover:border-white rounded transition-colors"
+                className="flex-1 px-4 py-3 text-sm font-medium border border-white/40 hover:border-white rounded transition-colors"
               >
                 Nur notwendige
               </button>
               <button
                 type="button"
                 onClick={acceptAll}
-                className="px-4 py-2 text-sm font-bold bg-brand hover:bg-brand/90 text-white rounded transition-colors"
+                className="flex-1 px-4 py-3 text-sm font-bold bg-brand hover:bg-brand/90 text-white rounded transition-colors"
               >
                 Alle akzeptieren
               </button>
