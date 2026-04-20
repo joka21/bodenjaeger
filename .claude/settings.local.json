@@ -68,7 +68,12 @@
       "Bash(node -e \"const d=require\\('./tmp_check.json'\\); const p=d.products[0]; console.log\\(JSON.stringify\\({name:p.name, on_sale:p.on_sale, discount_percent:p.discount_percent, sale_price:p.sale_price, regular_price:p.regular_price, price:p.price, setangebot_ersparnis_prozent:p.setangebot_ersparnis_prozent, categories: p.categories?.map\\(c=>c.slug\\)},null,2\\)\\)\")",
       "WebFetch(domain:localhost)",
       "Bash(node -e \"const d=require\\('./tmp_noauth.json'\\); const p=d.products?.[0] || d[0]; if\\(!p\\){console.log\\('No products or error:', JSON.stringify\\(d\\).slice\\(0,200\\)\\)} else {console.log\\(JSON.stringify\\({name:p.name, on_sale:p.on_sale, discount_percent:p.discount_percent, price:p.price, sale_price:p.sale_price},null,2\\)\\)}\")",
-      "Bash(node -e \"const d=require\\('./tmp_cat.json'\\); const arr=Array.isArray\\(d\\)?d:d.products||[]; const p=arr.find\\(x=>x.slug==='st58-sockelleiste-2141'\\); if\\(!p\\){console.log\\('Not found in',arr.length,'products. Slugs:',arr.map\\(x=>x.slug\\)\\)} else {console.log\\(JSON.stringify\\({name:p.name, on_sale:p.on_sale, discount_percent:p.discount_percent, price:p.price},null,2\\)\\)}\")"
+      "Bash(node -e \"const d=require\\('./tmp_cat.json'\\); const arr=Array.isArray\\(d\\)?d:d.products||[]; const p=arr.find\\(x=>x.slug==='st58-sockelleiste-2141'\\); if\\(!p\\){console.log\\('Not found in',arr.length,'products. Slugs:',arr.map\\(x=>x.slug\\)\\)} else {console.log\\(JSON.stringify\\({name:p.name, on_sale:p.on_sale, discount_percent:p.discount_percent, price:p.price},null,2\\)\\)}\")",
+      "Bash(node *)",
+      "Bash(env)",
+      "Bash(git branch *)",
+      "Bash(git reset *)",
+      "Bash(git push *)"
     ]
   }
 }
