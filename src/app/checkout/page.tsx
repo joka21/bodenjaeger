@@ -218,6 +218,7 @@ export default function CheckoutPage() {
         return {
           product_id: item.product.id,
           quantity: item.quantity,
+          subtotal: totalPrice.toFixed(2),
           total: totalPrice.toFixed(2),
           name: item.product.name,
           meta_data: metadata,

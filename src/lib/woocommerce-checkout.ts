@@ -12,6 +12,7 @@
 export interface WooCommerceOrderLineItem {
   product_id: number;
   quantity: number;
+  subtotal?: string;
   total?: string;
   name?: string;
   meta_data?: Array<{

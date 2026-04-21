@@ -50,6 +50,7 @@ interface CreateOrderRequestBody {
   line_items: Array<{
     product_id: number;
     quantity: number;
+    subtotal?: string;
     total?: string;
     name?: string;
     meta_data?: Array<{
