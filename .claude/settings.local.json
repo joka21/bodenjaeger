@@ -73,7 +73,11 @@
       "Bash(env)",
       "Bash(git branch *)",
       "Bash(git reset *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); print\\(f'Total: {len\\(d\\)}'\\); [print\\(p.get\\('slug','NO_SLUG'\\), '|', p.get\\('name','NO_NAME'\\)\\) for p in d[:15]]\")",
+      "Bash(python -c ' *)",
+      "Bash(python -c \" import sys, json d = json.load\\(sys.stdin\\) print\\(f'Results: {len\\(d\\) if isinstance\\(d,list\\) else d}'\\) if isinstance\\(d, list\\) and d: for p in d: print\\(f' {p.get\\(\\\\\"slug\\\\\"\\)} | {p.get\\(\\\\\"name\\\\\"\\)}'\\) \" echo \"---\" curl -s \"https://2025.bodenjaeger.de/wp-json/wc/v3/products?search=alina&category=66\" -u \"ck_50ef2801e5a844beadac60a56b0fc4f026ca78cb:cs_2c9d4218cc4b9dad9497cbcc72934a40e345cf2c\")",
+      "Bash(curl -s \"https://2025.bodenjaeger.de/wp-json/wc/v3/products?category=parkett&per_page=100\" -u \"ck_50ef2801e5a844beadac60a56b0fc4f026ca78cb:cs_2c9d4218cc4b9dad9497cbcc72934a40e345cf2c\")"
     ]
   }
 }

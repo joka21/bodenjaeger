@@ -1,6 +1,6 @@
 # Fehlende Features & Offene Aufgaben - Bodenjäger
 
-**Stand:** 12. Januar 2026
+**Stand:** 21. April 2026
 **Projekt-Status:** Core-Funktionalität implementiert, E-Commerce-Integration fehlt
 
 ---
@@ -65,6 +65,51 @@ const verrechnung = product.verrechnung ?? Math.max(0, price - standardPrice);
 - `src/contexts/CartContext.tsx` - `addSetToCart()` Funktion erweitern
 
 **Aufwand:** Niedrig (1 Tag)
+
+---
+
+## 🔴 WordPress-Backend: E-Mail-Zustellung & Rechtspflichten (vor B2C-Launch)
+
+### 3a. WP Mail SMTP installieren & konfigurieren
+**Status:** Offen — im alten Shop installiert, muss im neuen WP-Backend nach Migration wieder eingerichtet werden
+
+**Warum kritisch:**
+Alle Kunden-Mails (Bestellbestätigung, Zahlungseingang, Versand, Passwort-Reset, Newsletter Double-Opt-In) laufen über WordPress. Ohne dedizierten SMTP-Versand nutzt WP die PHP-`mail()`-Funktion → landet typischerweise im Spam oder wird gar nicht zugestellt (fehlende SPF/DKIM/DMARC, Blacklist-Gefahr).
+
+**Was zu tun ist:**
+- [ ] Plugin **WP Mail SMTP** im neuen WordPress-Backend installieren
+- [ ] Mailer konfigurieren (bevorzugt derselbe Provider wie im alten Shop — Zugangsdaten/API-Keys übernehmen)
+- [ ] Von-Adresse fest auf `info@bodenjaeger.de` (oder gewünschte Absenderadresse) setzen
+- [ ] SPF/DKIM für Domain prüfen und setzen
+- [ ] Test-Mail über Plugin senden
+- [ ] Ende-zu-Ende Testbestellung durchführen und prüfen, ob Bestellbestätigung ankommt
+
+**Optional zu evaluieren:** Statt klassisches SMTP direkt auf transaktionalen Provider mit API umsteigen (Brevo, Postmark, Resend) — bessere Logs, Bounce-Tracking, Template-Versionierung. WP Mail SMTP unterstützt diese Provider direkt.
+
+**Aufwand:** Niedrig (0,5 Tage, falls Provider-Zugangsdaten vorhanden)
+
+---
+
+### 3b. AGB + Widerrufsbelehrung als PDF an Bestellbestätigung anhängen
+**Status:** Offen — derzeit werden keine Rechtsdokumente an Mails angehängt
+
+**Warum kritisch:**
+**Gesetzliche Pflicht bei B2C-Fernabsatz in Deutschland.** AGB und Widerrufsbelehrung müssen dem Kunden „in Textform" (PDF-Anhang oder vollständig im Mail-Body) mit der Bestellbestätigung zugehen. Nur auf der Website verlinken reicht nicht — Abmahngefahr.
+
+**Empfohlene Lösung: WooCommerce Germanized (Free-Version)**
+- [ ] Plugin **WooCommerce Germanized** installieren
+- [ ] AGB-PDF und Widerrufsbelehrung-PDF erstellen (Inhalte aus `/agb` und `/widerruf` im Frontend, mit Datum/Version im Footer)
+- [ ] PDFs unter *WooCommerce → Germanized → E-Mails* hochladen
+- [ ] Anhänge an „Neue Bestellung" + „Bestellbestätigung" aktivieren
+- [ ] Testbestellung: Anhänge in E-Mail prüfen
+
+**Zusätzlicher Nutzen von Germanized:** Deckt weitere DE-Pflichten ab (Button-Lösung „Zahlungspflichtig bestellen", Grundpreis-Angabe, Preis-inkl-MwSt-Hinweise, Versandkosten-Info).
+
+**Alternativen, falls Germanized nicht gewünscht:**
+- Reines Attachment-Plugin (*WooCommerce Email Attachments*)
+- Custom-Code in Child-Theme via `woocommerce_email_attachments`-Filter
+
+**Aufwand:** Niedrig (0,5–1 Tag inkl. PDF-Erstellung)
 
 ---
 
@@ -327,6 +372,8 @@ const verrechnung = product.verrechnung ?? Math.max(0, price - standardPrice);
 | WooCommerce Checkout | 🔴 KRITISCH | Hoch | 🔥 Sehr Hoch | 1 |
 | "In den Warenkorb" Button | 🔴 KRITISCH | Niedrig | 🔥 Sehr Hoch | 2 |
 | `verrechnung` Backend-Feld | 🔴 KRITISCH | Mittel | 🔥 Sehr Hoch | 3 |
+| WP Mail SMTP (Mail-Zustellung) | 🔴 KRITISCH | Niedrig | 🔥 Sehr Hoch | 3a |
+| AGB/Widerruf PDF-Anhang | 🔴 KRITISCH (legal) | Niedrig | 🔥 Sehr Hoch | 3b |
 | SEO Optimierung | 🟠 WICHTIG | Mittel | ⚡ Hoch | 4 |
 | Produkt-Suche & Filter | 🟠 WICHTIG | Mittel | ⚡ Hoch | 5 |
 | Kategorieseiten Optimierung | 🟠 WICHTIG | Mittel | ⚡ Hoch | 6 |
@@ -347,8 +394,10 @@ const verrechnung = product.verrechnung ?? Math.max(0, price - standardPrice);
 2. "In den Warenkorb" Button implementieren
 3. WooCommerce Checkout-Integration
 4. `verrechnung` Backend-Feld
-5. Basic SEO (Meta-Tags, Sitemap)
-6. TypeScript-Fehler beheben
+5. WP Mail SMTP im neuen WP-Backend einrichten
+6. AGB + Widerrufsbelehrung als PDF-Anhang (Germanized)
+7. Basic SEO (Meta-Tags, Sitemap)
+8. TypeScript-Fehler beheben
 
 **Ziel:** Funktionsfähiger Online-Shop mit Set-Angeboten
 
@@ -418,4 +467,4 @@ const verrechnung = product.verrechnung ?? Math.max(0, price - standardPrice);
 
 ---
 
-**Letzte Aktualisierung:** 12. Januar 2026
+**Letzte Aktualisierung:** 21. April 2026

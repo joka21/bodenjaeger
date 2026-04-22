@@ -23,16 +23,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { cartItems, updateQuantity, removeFromCart, removeSet, customerNote, setCustomerNote, deliveryNote, setDeliveryNote } = useCart();
   const [drawerItems, setDrawerItems] = useState<CartDrawerItem[]>([]);
 
-  // Helper function: Calculate dynamic sample price based on position
-  const getDynamicSamplePrice = (sampleIndex: number): number => {
-    return sampleIndex < 3 ? 0 : 3;
-  };
-
   // Convert CartContext items to CartDrawer format
   useEffect(() => {
     const convertedItems: CartDrawerItem[] = [];
     const processedSetIds = new Set<string>();
-    let sampleIndex = 0; // Track sample position for dynamic pricing
 
     cartItems.forEach((item) => {
       // Handle Set Items
@@ -54,13 +48,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         const mainActualM2 = mainItem.actualM2 || 0;
         const mainSetPricePerUnit = mainItem.setPricePerUnit || 0;
         const mainRegularPricePerUnit = mainItem.regularPricePerUnit || mainSetPricePerUnit;
-
-        console.log('🛒 CART DRAWER - MAIN PRODUCT:', {
-          name: mainItem.product.name,
-          actualM2: mainActualM2,
-          setPricePerUnit: mainSetPricePerUnit,
-          total: mainSetPricePerUnit * mainActualM2
-        });
 
         const mainProduct: CartItemBase = {
           id: `main-${item.setId}`,
@@ -90,17 +77,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             // ⚠️ SAFETY: Avoid division by zero
             const bundleQuantity = bundleItem.quantity || 1;
             const unitValue = bundleActualM2 / bundleQuantity;
-
-            console.log('🛒 CART DRAWER - BUNDLE PRODUCT:', {
-              name: bundleItem.product.name,
-              type: bundleItem.setItemType,
-              quantity: bundleItem.quantity,
-              actualM2: bundleActualM2,
-              unitValue,
-              setPricePerUnit: bundleSetPricePerUnit,
-              total: bundleSetPricePerUnit * bundleActualM2,
-              isFree
-            });
 
             return {
               id: `bundle-${bundleItem.id}`,
@@ -136,8 +112,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
       else if (!item.isSetItem) {
         // Check if this is a sample (Muster) product
         if (item.isSample) {
-          // Sample product - use DYNAMIC price based on position
-          const dynamicSamplePrice = getDynamicSamplePrice(sampleIndex);
+          // Muster sind immer kostenlos; Fracht-Aufschlag erscheint im Checkout.
           const product: CartItemBase = {
             id: `single-${item.id}`,
             productId: item.id,
@@ -146,14 +121,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             quantity: item.quantity,
             unit: 'Stk.',
             unitValue: 1,
-            pricePerUnit: dynamicSamplePrice, // 0€ or 3€ (dynamic based on position)
+            pricePerUnit: 0,
             originalPricePerUnit: undefined,
-            total: dynamicSamplePrice * item.quantity, // Total = dynamicSamplePrice × quantity
+            total: 0,
             isSample: true, // Mark as sample to lock quantity to 1
           };
-
-          // Increment sample index for next sample
-          sampleIndex += item.quantity;
 
           const singleItem: CartSingleItemType = {
             type: 'single',

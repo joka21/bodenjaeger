@@ -3,6 +3,10 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { StoreApiProduct } from '@/lib/woocommerce';
 
+export type AddSampleResult =
+  | { status: 'added' }
+  | { status: 'duplicate' };
+
 // Cart item interface extending the WooCommerce product
 export interface CartItem {
   id: number;
@@ -17,7 +21,7 @@ export interface CartItem {
   actualM2?: number;             // Actual m² or lfm after rounding to packages
   // Sample (Muster) specific
   isSample?: boolean;            // Flag to identify sample products
-  samplePrice?: number;          // Custom price for this sample (0 or 3)
+  samplePrice?: number;          // Legacy, always 0 — Muster sind kostenlos, Fracht läuft über shippingConfig
 }
 
 // Set bundle interface for adding to cart
@@ -53,7 +57,7 @@ export interface CartContextType {
   itemCount: number;
   totalPrice: number;
   addToCart: (product: StoreApiProduct, quantity?: number) => void;
-  addSampleToCart: (product: StoreApiProduct) => void;
+  addSampleToCart: (product: StoreApiProduct) => AddSampleResult;
   addSetToCart: (setBundle: SetBundle) => void;
   removeFromCart: (productId: number) => void;
   removeSet: (setId: string) => void;
@@ -167,41 +171,21 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   // Calculate total item count
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-  // Helper function: Calculate dynamic sample prices
-  // First 3 samples are free (0€), rest cost 3€ each
-  const getDynamicSamplePrice = (sampleIndex: number): number => {
-    return sampleIndex < 3 ? 0 : 3;
-  };
+  // Calculate product subtotal. Muster sind IMMER 0€ (Fracht-Aufschlag
+  // wird separat in shippingConfig.calculateShippingCost behandelt).
+  const totalPrice = cartItems.reduce((total, item) => {
+    if (item.isSample) return total;
 
-  // Calculate total price with correct Set-Angebot logic and dynamic sample pricing
-  const totalPrice = (() => {
-    let total = 0;
-    let sampleIndex = 0;
+    if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+      return total + item.setPricePerUnit * item.actualM2;
+    }
 
-    cartItems.forEach((item) => {
-      // Sample item: use DYNAMIC pricing based on position in cart
-      if (item.isSample) {
-        const dynamicPrice = getDynamicSamplePrice(sampleIndex);
-        total += dynamicPrice * item.quantity;
-        sampleIndex += item.quantity;
-      }
-      // Set item: use setPricePerUnit × actualM2
-      else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
-        total += item.setPricePerUnit * item.actualM2;
-      }
-      // Regular item
-      else {
-        const price = item.product.prices?.price
-          ? parseFloat(item.product.prices.price) / 100
-          : (item.product.price || 0);
-        const paketinhalt = item.product.paketinhalt || 1;
-        // Paketpreis = Einzelpreis × Paketinhalt (gilt für ALLE Einheiten: m², lfm, kg, Liter etc.)
-        total += price * paketinhalt * item.quantity;
-      }
-    });
-
-    return total;
-  })();
+    const price = item.product.prices?.price
+      ? parseFloat(item.product.prices.price) / 100
+      : (item.product.price || 0);
+    const paketinhalt = item.product.paketinhalt || 1;
+    return total + price * paketinhalt * item.quantity;
+  }, 0);
 
   // Add item to cart
   const addToCart = (product: StoreApiProduct, quantity: number = 1) => {
@@ -302,8 +286,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         if (item.id === productId && (!setId || item.setId === setId)) {
           // SAMPLE LOCK: Samples are always locked to quantity 1
           if (item.isSample) {
-            console.warn('⚠️ Muster können nicht in der Menge geändert werden. Menge bleibt bei 1.');
-            return item; // Return unchanged
+            return item;
           }
 
           // For Set-Items: Allow quantity 0 (free bundle items like Dämmung/Sockelleiste)
@@ -355,30 +338,16 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     return Math.max(0, 3 - currentSampleCount);
   };
 
-  // Add sample to cart with dynamic pricing
-  const addSampleToCart = (product: StoreApiProduct) => {
-    // Check if sample already exists in cart
-    const existingSample = cartItems.find(item => item.id === product.id && item.isSample);
+  // Add sample to cart. Deduplicated strictly per sample product ID –
+  // zwei unterschiedliche Muster mit ähnlichem Namen sollen BEIDE
+  // gleichzeitig im Warenkorb liegen können.
+  const addSampleToCart = (product: StoreApiProduct): AddSampleResult => {
+    const isDuplicate = cartItems.some(item => item.isSample && item.id === product.id);
 
-    if (existingSample) {
-      console.warn('⚠️ MUSTER BEREITS IM WARENKORB:', product.name);
-      alert(`Das Muster "${product.name}" befindet sich bereits in Ihrem Warenkorb.`);
-      return;
+    if (isDuplicate) {
+      return { status: 'duplicate' };
     }
 
-    const currentSampleCount = getSampleCount();
-
-    // Determine price: first 3 are free (0€), rest cost 3€
-    const samplePrice = currentSampleCount < 3 ? 0 : 3;
-
-    console.log('➕ ADD SAMPLE TO CART:', {
-      productName: product.name,
-      currentSampleCount,
-      samplePrice,
-      willBeFree: samplePrice === 0
-    });
-
-    // Add new sample to cart
     setCartItems(prevItems => [
       ...prevItems,
       {
@@ -386,9 +355,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         product,
         quantity: 1,
         isSample: true,
-        samplePrice
-      }
+        samplePrice: 0,
+      },
     ]);
+
+    return { status: 'added' };
   };
 
   // Cart Drawer functions

@@ -175,14 +175,14 @@ export default function CheckoutPage() {
         return;
       }
 
-      // Line Items aus Cart erstellen (Items mit quantity 0 ausfiltern)
+      // Line Items aus Cart erstellen (Items mit quantity 0 ausfiltern).
+      // Muster sind immer kostenlos – der Fracht-Aufschlag für Muster 4+
+      // wird in calculateShippingCost auf die Versandkosten aufgeschlagen.
       const line_items = cartItems.filter((item) => item.quantity > 0).map((item) => {
         let totalPrice: number;
 
-        // Preisberechnung abhängig vom Item-Typ
-        if (item.isSample && item.samplePrice !== undefined) {
-          // Sample/Muster: Dynamischer Preis (0€ oder 3€)
-          totalPrice = item.samplePrice * item.quantity;
+        if (item.isSample) {
+          totalPrice = 0;
         } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
           // Set-Angebot Item: Verwende Set-Preis, NICHT regulären Preis!
           // setPricePerUnit ist bereits der korrekte Preis (0 für kostenlos, verrechnung für Premium)
@@ -209,10 +209,7 @@ export default function CheckoutPage() {
         }
 
         if (item.isSample) {
-          metadata.push(
-            { key: '_is_sample', value: 'true' },
-            { key: '_sample_price', value: item.samplePrice?.toString() || '0' }
-          );
+          metadata.push({ key: '_is_sample', value: 'true' });
         }
 
         return {

@@ -5,6 +5,7 @@
  */
 
 import type { CartItem } from '@/contexts/CartContext';
+import { calculateSampleShippingSurcharge, countSamples } from '@/lib/sampleUtils';
 
 export interface ShippingTier {
   minAmount: number;  // Mindestbestellwert in €
@@ -47,9 +48,9 @@ function isAccessory(item: CartItem): boolean {
  * Berechnet die Versandkosten basierend auf Warenwert UND Warenkorb-Inhalt.
  *
  * Regeln:
- * 1. Nur Muster → kostenlos
- * 2. Nur Zubehör/Kleinteile (kein Boden) → 4,99€
- * 3. Enthält Boden/Set → Staffelung nach Warenwert
+ * 1. Nur Muster → Basis 0€ + Fracht-Aufschlag ab dem 4. Muster
+ * 2. Nur Zubehör/Kleinteile (kein Boden) → 4,99€ + ggf. Muster-Aufschlag
+ * 3. Enthält Boden/Set → Staffelung nach Warenwert + ggf. Muster-Aufschlag
  *
  * @param subtotal - Zwischensumme (Warenwert ohne Versand)
  * @param cartItems - Optional: Cart-Items für Sonderregeln (Muster, Zubehör)
@@ -60,19 +61,21 @@ export function calculateShippingCost(subtotal: number, cartItems?: CartItem[]):
     return getShippingBySubtotal(subtotal);
   }
 
-  // Nur Muster → kostenlos
+  const sampleSurcharge = calculateSampleShippingSurcharge(countSamples(cartItems));
+
+  // Nur Muster → Basis 0€, nur der Aufschlag zählt
   const onlySamples = cartItems.every(item => item.isSample);
-  if (onlySamples) return 0;
+  if (onlySamples) return sampleSurcharge;
 
   // Nicht-Muster Items filtern
   const nonSampleItems = cartItems.filter(item => !item.isSample);
 
-  // Nur Zubehör (ohne Muster) → 4,99€
+  // Nur Zubehör (ohne Boden) → 4,99€
   const onlyAccessories = nonSampleItems.every(item => isAccessory(item));
-  if (onlyAccessories) return ACCESSORIES_SHIPPING;
+  if (onlyAccessories) return ACCESSORIES_SHIPPING + sampleSurcharge;
 
   // Standard-Staffelung nach Warenwert
-  return getShippingBySubtotal(subtotal);
+  return getShippingBySubtotal(subtotal) + sampleSurcharge;
 }
 
 /**

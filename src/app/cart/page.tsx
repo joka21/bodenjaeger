@@ -14,19 +14,6 @@ export default function CartPage() {
     clearCart
   } = useCart();
 
-  // Helper function: Calculate dynamic sample price based on position
-  const getDynamicSamplePrice = (sampleIndex: number): number => {
-    return sampleIndex < 3 ? 0 : 3;
-  };
-
-  // Debug: Log all cart items
-  console.log('🛒 CART PAGE - All Items:', cartItems.map(item => ({
-    name: item.product.name,
-    isSample: item.isSample,
-    samplePrice: item.samplePrice,
-    quantity: item.quantity
-  })));
-
   if (itemCount === 0) {
     return (
       <div className="min-h-screen bg-gray-50 py-8">
@@ -78,64 +65,37 @@ export default function CartPage() {
 
           {/* Cart Items */}
           <div className="divide-y divide-gray-200">
-            {(() => {
-              let sampleIndex = 0; // Track sample position for dynamic pricing
+            {cartItems.map((item) => {
+              const paketinhalt = item.product.paketinhalt || 1;
+              const einheit = item.isSample ? 'Stk.' : (item.product.einheit_short || 'm²');
+              const verpackungsart = item.product.verpackungsart_short || 'Pak.';
+              const totalAmount = item.quantity * paketinhalt;
 
-              return cartItems.map((item) => {
-                const paketinhalt = item.product.paketinhalt || 1;
-                const einheit = item.isSample ? 'Stk.' : (item.product.einheit_short || 'm²');
-                const verpackungsart = item.product.verpackungsart_short || 'Pak.';
-                const totalAmount = item.quantity * paketinhalt;
+              let pricePerUnit: number;
+              let regularPricePerUnit: number;
+              let totalPrice: number;
+              let displayAmount: number;
 
-                // Preise berechnen - KORREKT für Set-Angebote und Muster
-                let pricePerUnit: number;
-                let regularPricePerUnit: number;
-                let totalPrice: number;
-                let displayAmount: number;
-
-                if (item.isSample) {
-                  // Muster-Produkt: Verwende DYNAMISCHEN Preis basierend auf Position
-                  const dynamicSamplePrice = getDynamicSamplePrice(sampleIndex);
-                  pricePerUnit = dynamicSamplePrice;
-                  regularPricePerUnit = 0;
-                  displayAmount = item.quantity;
-                  totalPrice = dynamicSamplePrice * item.quantity;
-
-                  // Increment sample index for next sample
-                  sampleIndex += item.quantity;
-
-                  console.log('🛒 CART PAGE - Muster:', {
-                    name: item.product.name,
-                    sampleIndex: sampleIndex - item.quantity,
-                    quantity: item.quantity,
-                    dynamicSamplePrice,
-                    totalPrice,
-                    isSample: item.isSample
-                  });
-                } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
-                // Set-Item: Verwende Set-Preise (als Zahl konvertieren)
+              if (item.isSample) {
+                // Muster sind immer kostenlos; Fracht-Aufschlag erscheint im Checkout.
+                pricePerUnit = 0;
+                regularPricePerUnit = 0;
+                displayAmount = item.quantity;
+                totalPrice = 0;
+              } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
                 pricePerUnit = Number(item.setPricePerUnit);
                 regularPricePerUnit = Number(item.regularPricePerUnit || 0);
                 displayAmount = Number(item.actualM2);
                 totalPrice = pricePerUnit * displayAmount;
               } else {
-                // Regular Item: Verwende Produktpreise (als Zahl konvertieren)
-                console.log('🔍 DEBUG Regular Item:', {
-                  name: item.product.name,
-                  productPrice: item.product.price,
-                  productType: typeof item.product.price,
-                  regularPrice: item.product.regular_price,
-                  allProductKeys: Object.keys(item.product).filter(k => k.includes('price'))
-                });
                 pricePerUnit = Number(item.product.price || 0);
                 regularPricePerUnit = Number(item.product.regular_price || 0);
                 displayAmount = totalAmount;
                 totalPrice = pricePerUnit * item.quantity;
-                console.log('💰 Calculated:', { pricePerUnit, totalPrice });
               }
 
               const hasDiscount = regularPricePerUnit > pricePerUnit;
-              const isFree = (pricePerUnit === 0 && item.isSetItem) || (item.isSample && item.samplePrice === 0);
+              const isFree = pricePerUnit === 0 && (item.isSetItem || item.isSample);
 
               return (
                 <div key={item.id} className="flex flex-col gap-1 py-4 px-6 border-b border-ash">
@@ -230,8 +190,7 @@ export default function CartPage() {
                   </div>
                 </div>
               );
-              });
-            })()}
+            })}
           </div>
 
           {/* Cart Summary */}
