@@ -106,7 +106,7 @@ export default function HeroSlider() {
   return (
     <div className="w-full bg-white overflow-hidden">
       <div
-        className="max-w-[1500px] mx-auto px-2 sm:px-4 relative overflow-hidden bg-white"
+        className="max-w-[1500px] mx-auto sm:px-4 relative overflow-hidden bg-white"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={onTouchStart}
@@ -117,7 +117,7 @@ export default function HeroSlider() {
         aria-roledescription="carousel"
       >
         {/* Main Slider Container - Full-width Image */}
-        <div className="relative aspect-[2/1] lg:aspect-auto lg:min-h-[600px]">
+        <div className="relative aspect-[5/3] lg:aspect-auto lg:min-h-[600px]">
           {slides.map((slide, index) => (
             <div
               key={slide.id}
