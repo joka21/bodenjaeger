@@ -80,7 +80,8 @@
       "Bash(curl -s \"https://2025.bodenjaeger.de/wp-json/wc/v3/products?category=parkett&per_page=100\" -u \"ck_50ef2801e5a844beadac60a56b0fc4f026ca78cb:cs_2c9d4218cc4b9dad9497cbcc72934a40e345cf2c\")",
       "Bash(Grep -rn \"PAYMENT_PROXY\" \"C:/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/\")",
       "Bash(Grep -rln \"CookieConsentProvider\" \"C:/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/app/layout.tsx\")",
-      "Bash(Read \"C:/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/app/layout.tsx\")"
+      "Bash(Read \"C:/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/app/layout.tsx\")",
+      "Bash(powershell -Command 'Add-Type -AssemblyName System.Drawing; Get-ChildItem | ForEach-Object { $img = [System.Drawing.Image]::FromFile\\($_.FullName\\); Write-Output \"$\\($_.Name\\): $\\($img.Width\\)x$\\($img.Height\\)\"; $img.Dispose\\(\\) }')"
     ]
   }
 }

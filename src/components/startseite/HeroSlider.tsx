@@ -2,15 +2,10 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface SlideData {
   id: number;
-  title: string;
-  subtitle: string;
-  buttonText: string;
-  buttonLink: string;
   image: string;
   imageAlt: string;
 }
@@ -18,21 +13,13 @@ interface SlideData {
 const slides: SlideData[] = [
   {
     id: 1,
-    title: "COREtec",
-    subtitle: "Die Markenwelt der Luxusböden mit lebenslanger Garantie.",
-    buttonText: "Mehr erfahren",
-    buttonLink: "/category/coretec",
-    image: "/images/sliderbilder/Slider COREtec.webp",
-    imageAlt: "COREtec Luxusboden"
+    image: "/images/sliderbilder/Slider_Shop_-_Boden_kaufen.jpg",
+    imageAlt: "Boden kaufen im Bodenjäger Shop"
   },
   {
     id: 2,
-    title: "primeCORE",
-    subtitle: "Premium Vinyl-Bodenbeläge für höchste Ansprüche.",
-    buttonText: "Mehr erfahren",
-    buttonLink: "/category/primecore",
-    image: "/images/sliderbilder/Slider primeCORE.webp",
-    imageAlt: "primeCORE Premium Vinyl"
+    image: "/images/sliderbilder/image (13).png",
+    imageAlt: "Bodenjäger Slider"
   }
 ];
 
@@ -40,17 +27,10 @@ export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
-
-  // Ensure client-side hydration matches server-side render
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Navigation callbacks - defined before useEffect that uses them
   const goToNextSlide = useCallback(() => {
@@ -123,8 +103,6 @@ export default function HeroSlider() {
     }
   };
 
-  const currentSlideData = slides[currentSlide];
-
   return (
     <div className="w-full bg-white overflow-hidden">
       <div
@@ -138,72 +116,35 @@ export default function HeroSlider() {
         aria-label="Hero Slider"
         aria-roledescription="carousel"
       >
-        {/* Main Slider Container */}
-        <div className="flex flex-col lg:flex-row min-h-[480px] md:min-h-[600px] lg:min-h-[720px]">
-          {/* Left Column - Text Content - 29% width */}
-          <div className="bg-[#005189] flex items-center px-6 py-8 md:px-12 md:py-16 lg:px-16 lg:justify-center order-2 lg:order-1 lg:w-[29%]">
+        {/* Main Slider Container - Full-width Image */}
+        <div className="relative aspect-[2/1] lg:aspect-auto lg:min-h-[600px]">
+          {slides.map((slide, index) => (
             <div
-              className="max-w-xl transition-opacity duration-500"
-              style={{ opacity: mounted && isTransitioning ? 0.5 : 1 }}
+              key={slide.id}
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
             >
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-6">
-                {currentSlideData.title}
-              </h2>
-              <p className="text-base md:text-xl text-gray-200 mb-4 md:mb-8 leading-relaxed">
-                {currentSlideData.subtitle}
-              </p>
-              <Link
-                href={currentSlideData.buttonLink}
-                className="inline-flex items-center gap-2 px-5 py-2.5 md:px-6 md:py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-[#005189] transition-all duration-300 group"
-              >
-                {currentSlideData.buttonText}
-                <svg
-                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </Link>
+              <Image
+                src={slide.image}
+                alt={slide.imageAlt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1500px) 100vw, 1500px"
+                priority={index === 0}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                placeholder="blur"
+                blurDataURL={shimmerBlurDataURL(1500, 720)}
+              />
             </div>
-          </div>
-
-          {/* Right Column - Image - 71% width */}
-          <div className="relative min-h-[250px] md:min-h-[400px] lg:min-h-[720px] order-1 lg:order-2 lg:w-[71%]">
-            {slides.map((slide, index) => (
-              <div
-                key={slide.id}
-                className={`absolute inset-0 transition-opacity duration-500 ${
-                  index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                }`}
-              >
-                <Image
-                  src={slide.image}
-                  alt={slide.imageAlt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1500px) 50vw, 750px"
-                  priority={index === 0}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  placeholder="blur"
-                  blurDataURL={shimmerBlurDataURL(750, 720)}
-                />
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
 
         {/* Navigation Arrows */}
         <button
           onClick={goToPrevSlide}
           disabled={isTransitioning}
-          className="absolute left-1 md:left-2 top-1/4 lg:top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
+          className="absolute left-1 md:left-2 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
           aria-label="Previous slide"
         >
           <svg
@@ -224,7 +165,7 @@ export default function HeroSlider() {
         <button
           onClick={goToNextSlide}
           disabled={isTransitioning}
-          className="absolute right-1 md:right-2 top-1/4 lg:top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
+          className="absolute right-1 md:right-2 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-gray-800 p-2 md:p-3 rounded-full shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
           aria-label="Next slide"
         >
           <svg
