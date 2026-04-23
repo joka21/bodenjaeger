@@ -7,6 +7,7 @@ import { shimmerBlurDataURL } from '@/lib/imageUtils';
 interface SlideData {
   id: number;
   image: string;
+  mobileImage: string;
   imageAlt: string;
 }
 
@@ -14,11 +15,13 @@ const slides: SlideData[] = [
   {
     id: 1,
     image: "/images/sliderbilder/Slider_Shop_-_Boden_kaufen.jpg",
+    mobileImage: "/images/sliderbilder/mobil1.png",
     imageAlt: "Boden kaufen im Bodenjäger Shop"
   },
   {
     id: 2,
     image: "/images/sliderbilder/image (13).png",
+    mobileImage: "/images/sliderbilder/mobil2.jpg",
     imageAlt: "Bodenjäger Slider"
   }
 ];
@@ -117,7 +120,7 @@ export default function HeroSlider() {
         aria-roledescription="carousel"
       >
         {/* Main Slider Container - Full-width Image */}
-        <div className="relative aspect-[5/3] lg:aspect-auto lg:min-h-[600px]">
+        <div className="relative aspect-[3/2] lg:aspect-auto lg:min-h-[600px]">
           {slides.map((slide, index) => (
             <div
               key={slide.id}
@@ -125,11 +128,24 @@ export default function HeroSlider() {
                 index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
               }`}
             >
+              {/* Mobile Image (< lg) */}
+              <Image
+                src={slide.mobileImage}
+                alt={slide.imageAlt}
+                fill
+                className="object-cover lg:hidden"
+                sizes="100vw"
+                priority={index === 0}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                placeholder="blur"
+                blurDataURL={shimmerBlurDataURL(1200, 800)}
+              />
+              {/* Desktop Image (lg+) */}
               <Image
                 src={slide.image}
                 alt={slide.imageAlt}
                 fill
-                className="object-cover"
+                className="hidden object-cover lg:block"
                 sizes="(max-width: 1500px) 100vw, 1500px"
                 priority={index === 0}
                 loading={index === 0 ? 'eager' : 'lazy'}
