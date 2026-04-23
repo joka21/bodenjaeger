@@ -1,14 +1,14 @@
 # Projekt-Zusammenfassung: Bodenjaeger Online-Shop
 
-**Stand:** 30. Maerz 2026
+**Stand:** 23. April 2026
 **Projekt:** Bodenjaeger E-Commerce Shop (Next.js 15.5.9 + WooCommerce Headless)
-**Status:** MVP vollstaendig funktionsfaehig | Backend migriert auf 2025.bodenjaeger.de | Vercel-Migration steht noch an
+**Status:** MVP vollstaendig funktionsfaehig | Backend migriert auf 2025.bodenjaeger.de | Payment-Architektur auf WordPress-Proxy umgestellt | Vercel-Migration steht noch an
 
 ---
 
 ## Inhaltsverzeichnis
 1. [Projekt-Uebersicht](#projekt-uebersicht)
-2. [Aktueller Status - Maerz 2026](#aktueller-status---maerz-2026)
+2. [Aktueller Status - April 2026](#aktueller-status---april-2026)
 3. [MIGRATION: Vercel & WordPress Umzug (TODOs)](#migration-vercel--wordpress-umzug-todos)
 4. [Design System & Farben](#design-system--farben)
 5. [Technologie-Stack](#technologie-stack)
@@ -37,17 +37,19 @@ Bodenjaeger ist ein Online-Shop fuer Bodenbelaege (Laminat, Vinyl, Parkett) mit 
 - **Automatische Mengenberechnung**: Basierend auf Raumgroesse in m2
 - **Warenkorb-System**: Persistenter Warenkorb mit localStorage
 - **Checkout-Prozess**: Vollstaendiger Bestellablauf mit Kundenformular
-- **Payment-Integration**: Stripe, PayPal und Bankueberweisung
+- **Payment-Integration via WordPress-Proxy**: Stripe, PayPal und Bankueberweisung — Credentials liegen auf WordPress
 - **Order-Management**: WooCommerce Order API Integration
 - **Authentifizierung**: Login, Registrierung, Passwort-Reset ueber WordPress
 - **Wunschliste**: WishlistContext mit localStorage
+- **Cookie-Consent (DSGVO)**: CookieConsentContext mit 4 Kategorien (necessary/functional/analytics/marketing)
+- **SEO/Structured Data**: JSON-LD (Organization, WebSite, Product) via `JsonLd`-Komponente
 - **Newsletter**: Anmeldung ueber WordPress-Backend
-- **Blog**: Dynamische Blog-Seiten
-- **Fachmarkt-Seiten**: 9 Service-Unterseiten fuer Fachmarkt Hueckelhoven (Anhaengerverleih, Fachberatung, Lieferservice, Schausonntag, Set-Angebote, Verlegeservice, Warenlagerung, Werkzeugverleih)
+- **Blog**: Dynamische Blog-Uebersicht + Blog-Detail-Seiten (WordPress-Content)
+- **Fachmarkt-Seiten**: Dynamische `[slug]`-Route mit WordPress-Content (statische Subpages entfernt im Refactoring April 2026)
 
 ---
 
-## Aktueller Status - Maerz 2026
+## Aktueller Status - April 2026
 
 ### Was funktioniert (MVP Complete)
 
@@ -67,15 +69,30 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 - **Checkout-Formular**: Alle Felder mit Validierung, abweichende Rechnungsadresse
 - **Order-Erstellung**: WooCommerce API Integration mit Set-Angebot Meta-Daten
 
-#### Payment-Integration
-- **Stripe**: Kreditkarten mit Checkout Sessions + Webhook
-- **PayPal**: Order Creation & Capture (Return-URL-Flow, kein Webhook)
+#### Payment-Integration (via WordPress-Proxy seit April 2026)
+- **Architektur**: Frontend ruft WordPress-Proxy-Endpoints auf (`/wp-json/bodenjaeger/v1/...`). Stripe/PayPal-Credentials bleiben auf WordPress-Server (nicht mehr in Vercel ENV).
+- **ENV-Variablen**: `PAYMENT_PROXY_URL`, `PAYMENT_PROXY_KEY` (Auth via `X-Bodenjaeger-Key` Header)
+- **npm-SDKs entfernt**: `stripe` und `@stripe/stripe-js` nicht mehr in `package.json`
+- **Stripe**: Kreditkarte + SOFORT via Checkout Session (vom WP-Proxy erstellt) + Webhook (weitergeleitet zu `/api/checkout/stripe/webhook`)
+- **PayPal**: Order Creation & Capture via WP-Proxy (Return-URL-Flow, kein Webhook). Smart Buttons via `NEXT_PUBLIC_PAYPAL_CLIENT_ID`.
 - **Bank Transfer (BACS)**: Vorkasse, Order Status "on-hold"
+- **Status Stand 23.04.2026**: Code produktionsreif. Keys noch als Placeholder in `.env.local` (`DEIN_STRIPE_*_HIER` / `DEIN_PAYPAL_*_HIER`). Siehe `PAYMENT_SETUP.md`.
+
+#### Cookie-Consent (DSGVO, April 2026)
+- `CookieConsentContext` mit 4 Kategorien: necessary (always true), functional, analytics, marketing
+- `CookieConsent.tsx` Banner-UI + `CookieSettingsLink.tsx` Footer-Link fuer spaetere Aenderung
+- Persistenz in localStorage mit Version-Field
+
+#### SEO & Structured Data (April 2026)
+- `src/lib/schema.ts` generiert JSON-LD-Schemas (Organization, WebSite, Product)
+- `src/components/JsonLd.tsx` rendert Schemas im `<head>` (Organization/WebSite global in `layout.tsx`, Product pro Produktseite)
+- `buildProductSchema()` nutzt `StoreApiProduct`-Daten (Preis, Beschreibung, Bilder, Verfuegbarkeit)
 
 #### Authentifizierung & Konto
 - Login/Registrierung ueber WordPress Custom Endpoints
-- AuthContext mit JWT-Token in localStorage
-- Konto-Seite mit Bestellhistorie
+- AuthContext mit JWT-Token in localStorage (jetzt im Provider-Tree aktiv)
+- Konto-Seite mit Bestellhistorie (`/konto/bestellungen` + `/konto/bestellungen/[id]`)
+- Adressenverwaltung (`/konto/adressen`)
 - Passwort-Reset-Funktion
 
 #### Weitere Features
@@ -88,6 +105,7 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 
 ### Was in Arbeit ist
 
+- **Payment-Keys produktiv einrichten**: WordPress-Proxy-Code ist fertig, Stripe-/PayPal-Credentials liegen als Placeholder in `.env.local` — Live-Keys muessen im WordPress-Backend hinterlegt werden
 - **SMTP-Konfiguration**: E-Mails landen oft im Spam
 - **Newsletter-Backend**: WordPress-Endpoint noch nicht vollstaendig (Fallback im Code)
 - **MIGRATION**: Backend migriert auf `2025.bodenjaeger.de` (abgeschlossen). Vercel-Account-Migration steht noch an (siehe Migrations-Sektion)
@@ -204,20 +222,20 @@ NEXT_PUBLIC_WORDPRESS_URL=https://[NEUE-WORDPRESS-URL]
 NEXT_PUBLIC_SITE_URL=https://[NEUE-FRONTEND-URL]
 WC_CONSUMER_KEY=ck_[NEUER_KEY]
 WC_CONSUMER_SECRET=cs_[NEUES_SECRET]
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_[KEY]
-STRIPE_SECRET_KEY=sk_live_[KEY]
-STRIPE_WEBHOOK_SECRET=whsec_[NEUES_SECRET]
+PAYMENT_PROXY_URL=https://[NEUE-WORDPRESS-URL]/wp-json/bodenjaeger/v1
+PAYMENT_PROXY_KEY=[PROXY_AUTH_KEY]
 REVALIDATE_SECRET=[NEUES_SECRET]
 ```
 
 **OPTIONAL:**
 ```
-PAYPAL_CLIENT_ID=[NEUE_ID]
-PAYPAL_CLIENT_SECRET=[NEUES_SECRET]
-PAYPAL_MODE=live
+NEXT_PUBLIC_PAYPAL_CLIENT_ID=[CLIENT_ID_FUER_BROWSER_SDK]
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_[KEY]   # nur falls Stripe Elements clientseitig genutzt werden
 KV_REST_API_URL=https://[NEUER_KV_STORE].upstash.io
 KV_REST_API_TOKEN=[NEUER_TOKEN]
 ```
+
+**Hinweis (April 2026):** Stripe-Secret-Key, Stripe-Webhook-Secret, PayPal-Secret liegen seit dem Proxy-Refactoring NICHT mehr im Frontend, sondern im WordPress-Backend. Das Frontend benoetigt nur noch `PAYMENT_PROXY_URL` und `PAYMENT_PROXY_KEY`.
 
 - [ ] Variables fuer alle Environments setzen (Production, Preview, Development)
 - [ ] `npm run check-env` nach erstem Deployment ausfuehren
@@ -442,10 +460,11 @@ background: var(--gradient-mid-to-sky);
 - **UI**: React 19.1.0 + TypeScript 5
 - **Styling**: Tailwind CSS v4 + CSS Custom Properties (kein `tailwind.config.js`, nur CSS)
 - **Icons**: Lucide React 0.544.0
-- **State Management**: React Context API (CartContext, WishlistContext, AuthContext)
-- **Storage**: localStorage (Warenkorb, Wunschliste, Auth-Token)
+- **State Management**: React Context API (CookieConsent, Auth, Cart, Wishlist)
+- **Storage**: localStorage (Warenkorb, Wunschliste, Auth-Token, Cookie-Consent)
 - **Image Optimization**: Next.js Image Component (AVIF + WebP)
 - **Fonts**: Poppins (lokal, Regular + Bold)
+- **Dependencies (Runtime)**: nur `@vercel/kv`, `clsx`, `lucide-react`, `next`, `react`, `react-dom` (Stripe-/PayPal-SDKs entfernt, Payment laeuft ueber WordPress-Proxy)
 
 ### Backend / CMS
 - **WooCommerce**: Headless CMS fuer Produktverwaltung
@@ -456,10 +475,12 @@ background: var(--gradient-mid-to-sky);
   - Custom Auth-Endpoints (Login, Register, Reset)
   - Custom Newsletter-Endpoint
 
-### Payments
-- **Stripe**: Kreditkarten-Zahlungen (@stripe/stripe-js 8.6.1, stripe 20.1.2)
-- **PayPal**: PayPal Checkout (Return-URL-Flow)
+### Payments (via WordPress-Proxy seit April 2026)
+- **Proxy**: `https://2025.bodenjaeger.de/wp-json/bodenjaeger/v1/*` (Auth via `X-Bodenjaeger-Key`)
+- **Stripe**: Kreditkarten + SOFORT (Checkout Session vom WP-Proxy)
+- **PayPal**: Return-URL-Flow (Order Creation + Capture vom WP-Proxy)
 - **Bank Transfer**: BACS (Vorkasse/Ueberweisung)
+- **npm-SDKs**: nicht mehr benoetigt (keine Stripe/PayPal-Pakete im `package.json`)
 
 ### Infrastruktur
 - **Hosting**: Vercel (automatisches Deployment via Git)
@@ -769,7 +790,7 @@ src/
 │   ├── globals.css                       # Tailwind v4 + CSS Custom Properties
 │   ├── layout.tsx                        # Root Layout (Provider Hierarchy)
 │   ├── page.tsx                          # Startseite
-│   ├── fontsFolder/                      # Poppins Font-Dateien (lokal)
+│   ├── fonts/                            # Poppins Font-Dateien (lokal)
 │   │
 │   ├── products/[slug]/page.tsx          # Produktseite (SSR, revalidate: 30)
 │   ├── category/[slug]/page.tsx          # Kategorieseite
@@ -780,18 +801,13 @@ src/
 │   ├── login/page.tsx                    # Login
 │   ├── konto/page.tsx                    # Kundenkonto
 │   ├── newsletter/page.tsx               # Newsletter
-│   ├── blog/[slug]/page.tsx              # Blog-Seiten
+│   ├── blog/
+│   │   ├── page.tsx                      # Blog-Uebersicht (dynamisch)
+│   │   └── [slug]/page.tsx               # Blog-Detail (WordPress-Post)
 │   │
-│   ├── fachmarkt-hueckelhoven/           # 9 Fachmarkt-Service-Unterseiten
+│   ├── fachmarkt-hueckelhoven/           # Fachmarkt-Seiten (dynamisch seit April 2026)
 │   │   ├── page.tsx                      # Hauptseite
-│   │   ├── anhaengerverleih/page.tsx     # Anhaenger-Verleih Service
-│   │   ├── fachberatung/page.tsx         # Fachberatung Service
-│   │   ├── lieferservice/page.tsx        # Lieferservice
-│   │   ├── schausonntag/page.tsx         # Schausonntag Events
-│   │   ├── set-angebote/page.tsx         # Set-Angebote Showcase
-│   │   ├── verlegeservice/page.tsx       # Verlege-Service
-│   │   ├── warenlagerung/page.tsx        # Warenlagerung Service
-│   │   └── werkzeugverleih/page.tsx      # Werkzeug-Verleih
+│   │   └── [slug]/page.tsx               # Dynamische Subpage (WordPress-Content via FachmarktSubpage.tsx)
 │   │
 │   ├── konto/                            # Kundenkonto (mit Layout)
 │   │   ├── page.tsx                      # Konto-Dashboard
@@ -837,8 +853,7 @@ src/
 │   │   ├── TotalPrice.tsx                # Gesamtpreis (dynamisch)
 │   │   ├── QuantitySelector.tsx          # Mengen-Eingabe (+/- Buttons)
 │   │   ├── ImageGallery.tsx              # Bildgalerie mit Zoom/Thumbnails
-│   │   ├── ZubehoerSlider.tsx            # Zubehoer-Karussell (Cross-Selling)
-│   │   └── AlertModal.tsx                # Modal-Dialog
+│   │   └── ZubehoerSlider.tsx            # Zubehoer-Karussell (Cross-Selling)
 │   │
 │   ├── cart/
 │   │   ├── CartDrawer.tsx                # Warenkorb-Drawer (Set-Gruppierung)
@@ -871,43 +886,53 @@ src/
 │   │   └── CategoryPageClient.tsx        # Kategorieseite mit Filter/Sortierung
 │   │
 │   ├── sections/home/
-│   │   ├── HeroSlider.tsx                # Hero-Banner Karussell
 │   │   ├── BestsellerSlider.tsx          # Bestseller-Karussell
 │   │   ├── SaleProductSlider.tsx         # Sale-Produkt-Karussell
 │   │   ├── BodenkategorienSection.tsx    # Bodenkategorien Showcase
 │   │   ├── VorteileSlider.tsx            # Vorteile-Karussell
-│   │   └── GoogleReviewsSlider.tsx       # Google Reviews Karussell
+│   │   └── GoogleReviewsSlider.tsx       # Google Reviews Karussell (Quelle: src/data/google-reviews.json)
+│   │
+│   ├── startseite/
+│   │   └── HeroSlider.tsx                # Hero-Banner Karussell (verschoben April 2026)
 │   │
 │   ├── Header.tsx                        # Hauptnavigation
 │   ├── HeaderWrapper.tsx                 # Header Wrapper
 │   ├── Footer.tsx                        # Seiten-Footer
 │   ├── FloatingContactButton.tsx         # Sticky Kontakt-Button
+│   ├── ContactDrawer.tsx                 # Kontakt-Drawer (Slide-out)
+│   ├── CookieConsent.tsx                 # DSGVO Cookie-Banner (NEU April 2026)
+│   ├── CookieSettingsLink.tsx            # Footer-Link zum Cookie-Consent neu oeffnen
+│   ├── JsonLd.tsx                        # JSON-LD Structured Data Renderer (NEU April 2026)
 │   ├── LiveSearch.tsx                    # Echtzeit-Produktsuche mit Autocomplete
+│   ├── AlertModal.tsx                    # Generischer Modal-Dialog
 │   ├── ProductCard.tsx                   # Generische Produktkarte
 │   ├── StandardProductCard.tsx           # Standard Produktkarte
 │   ├── UnifiedProductCard.tsx            # Unified Produktkarte (mehrere Modi)
 │   ├── NewsletterSignup.tsx              # Newsletter-Formular
 │   ├── FooterNewsletterSignup.tsx        # Footer-Newsletter
-│   ├── FachmarktPage.tsx                 # Fachmarkt-Seitentemplate
+│   ├── FachmarktPage.tsx                 # Fachmarkt-Hauptseite Template
+│   ├── FachmarktSubpage.tsx              # Fachmarkt-Subpage Template (WP-Content, NEU April 2026)
 │   ├── ServicePage.tsx                   # Service-Seitentemplate
 │   ├── KontaktPage.tsx                   # Kontakt-Seite
 │   ├── KarrierePage.tsx                  # Karriere-Seite
 │   ├── VersandLieferzeitPage.tsx         # Versand-Info
-│   ├── WordPressPage.tsx                 # Dynamische WP-Content Seite
-│   └── ContactDrawer.tsx                 # Kontakt-Drawer (Slide-out)
+│   └── WordPressPage.tsx                 # Dynamische WP-Content Seite
 │
 ├── contexts/
-│   ├── CartContext.tsx                    # Warenkorb (localStorage: 'woocommerce-cart')
+│   ├── CookieConsentContext.tsx          # DSGVO Cookie-Consent (NEU April 2026)
+│   ├── AuthContext.tsx                   # Authentifizierung (JWT in localStorage)
+│   ├── CartContext.tsx                   # Warenkorb (localStorage: 'woocommerce-cart')
 │   ├── WishlistContext.tsx               # Wunschliste
-│   ├── AuthContext.tsx                    # Authentifizierung (JWT in localStorage)
 │   └── CheckoutContext.tsx               # DEAD CODE — nicht im Provider-Tree!
 │
 ├── lib/
 │   ├── woocommerce.ts                    # Produkt-API Client + StoreApiProduct Type
 │   ├── woocommerce-checkout.ts           # Order-API Client (Server-Side Only!)
-│   ├── setCalculations.ts               # Mengenberechnung (KEINE Preise)
-│   ├── stripe.ts                         # Stripe Integration
-│   ├── paypal.ts                         # PayPal Integration
+│   ├── setCalculations.ts                # Mengenberechnung (KEINE Preise)
+│   ├── sampleUtils.ts                    # Muster-Pricing Utilities (NEU April 2026)
+│   ├── schema.ts                         # JSON-LD Schema Builder (NEU April 2026)
+│   ├── stripe.ts                         # Stripe via WordPress-Proxy (refactored April 2026)
+│   ├── paypal.ts                         # PayPal via WordPress-Proxy (refactored April 2026)
 │   ├── auth.ts                           # WordPress Auth-Client
 │   ├── cache.ts                          # Vercel KV Cache (optional)
 │   ├── shippingConfig.ts                 # Versandkosten-Staffelung
@@ -924,6 +949,9 @@ src/
 │       ├── product-full.ts               # Vollstaendige Produktdaten
 │       ├── product-options.ts            # Produkt-Optionen/Varianten
 │       └── products-critical.ts          # Critical-Path Produkt-Optimierung
+│
+├── data/
+│   └── google-reviews.json               # Google Reviews Quelle (NEU April 2026)
 │
 ├── types/
 │   ├── product.ts                        # Product Type Definitions
@@ -981,13 +1009,18 @@ Jaeger-Plugin/                             # WordPress Custom Plugin
 
 ### Provider Hierarchy (layout.tsx)
 ```
-CartProvider
-  WishlistProvider
-    HeaderWrapper (enthaelt CartDrawer Trigger)
-    FloatingContactButton
-    {children}
-    Footer
+CookieConsentProvider
+  AuthProvider
+    CartProvider
+      WishlistProvider
+        CookieConsent (Banner)
+        HeaderWrapper (enthaelt CartDrawer Trigger)
+        FloatingContactButton
+        {children}
+        Footer
 ```
+
+Der Root-Layout injiziert ausserdem globale JSON-LD-Schemas (Organization + WebSite) via `<JsonLd>` in `<head>`.
 
 ---
 
@@ -1001,20 +1034,21 @@ CartProvider
 | `NEXT_PUBLIC_SITE_URL` | Public | Frontend Domain (fuer Redirects, Payment URLs) |
 | `WC_CONSUMER_KEY` | Secret | WooCommerce API Key |
 | `WC_CONSUMER_SECRET` | Secret | WooCommerce API Secret |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Public | Stripe Browser Key |
-| `STRIPE_SECRET_KEY` | Secret | Stripe Server Key |
-| `STRIPE_WEBHOOK_SECRET` | Secret | Stripe Webhook Signatur |
+| `PAYMENT_PROXY_URL` | Secret | WordPress Payment-Proxy Basis-URL (z.B. `https://2025.bodenjaeger.de/wp-json/bodenjaeger/v1`) |
+| `PAYMENT_PROXY_KEY` | Secret | Auth-Key fuer den Proxy (`X-Bodenjaeger-Key` Header) |
+| `NEXT_PUBLIC_SITE_URL` | Public | fuer Payment Return/Cancel URLs |
 | `REVALIDATE_SECRET` | Secret | Cache Revalidation Authentifizierung |
 
 ### Optional
 
 | Variable | Typ | Beschreibung | Fallback |
 |----------|-----|-------------|----------|
-| `PAYPAL_CLIENT_ID` | Secret | PayPal Client ID | PayPal deaktiviert |
-| `PAYPAL_CLIENT_SECRET` | Secret | PayPal Client Secret | PayPal deaktiviert |
-| `PAYPAL_MODE` | Public | `sandbox` oder `live` | `sandbox` |
+| `NEXT_PUBLIC_PAYPAL_CLIENT_ID` | Public | PayPal Smart Buttons Client-SDK (Browser) | PayPal Buttons deaktiviert |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Public | Stripe Browser Key (nur falls Stripe Elements clientseitig) | — |
 | `KV_REST_API_URL` | Secret | Vercel KV/Upstash URL | Caching deaktiviert |
 | `KV_REST_API_TOKEN` | Secret | Vercel KV Auth Token | Caching deaktiviert |
+
+**Hinweis**: Seit April 2026 liegen Stripe-Secret-Key, Stripe-Webhook-Secret und PayPal-Credentials auf dem WordPress-Server (nicht mehr in Vercel). Das Frontend benoetigt nur noch Proxy-URL und Proxy-Key.
 
 ### Validierung
 ```bash
@@ -1025,16 +1059,21 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ## Externe Dienste & Integrationen
 
-### Stripe (Kreditkarten)
-- **SDK**: `@stripe/stripe-js` (Browser) + `stripe` (Server)
-- **Webhook**: `POST /api/checkout/stripe/webhook`
-- **Events**: `checkout.session.completed`, `payment_intent.succeeded`, `payment_intent.payment_failed`
+### Payment-Proxy (WordPress)
+- **Architektur**: Alle Payment-Requests laufen ueber `https://2025.bodenjaeger.de/wp-json/bodenjaeger/v1/*`
+- **Auth**: `X-Bodenjaeger-Key` Header (ENV: `PAYMENT_PROXY_KEY`)
+- **Vorteil**: Stripe-/PayPal-Credentials liegen nicht in Vercel, sondern ausschliesslich auf WordPress
+- **npm-SDKs entfernt**: `stripe`, `@stripe/stripe-js` sind nicht mehr in `package.json`
+
+### Stripe (via WP-Proxy)
+- **Flow**: Frontend ruft `/api/checkout/create-order` auf → WordPress-Proxy erstellt Stripe Checkout Session → Redirect zu Stripe → Rueckkehr zu `/checkout/success`
+- **Webhook**: `POST /api/checkout/stripe/webhook` (WordPress leitet Stripe-Events weiter)
+- **Methoden**: Kreditkarte (Visa/MC/Amex), SOFORT-Ueberweisung
 - **Config**: `src/lib/stripe.ts`
 
-### PayPal (Optional)
-- **Flow**: Return-URL basiert (kein Webhook)
-- **Endpoints**: Sandbox `api-m.sandbox.paypal.com` / Live `api-m.paypal.com`
-- **Capture**: `GET /api/checkout/paypal/capture?order={id}`
+### PayPal (via WP-Proxy, Optional)
+- **Flow**: Return-URL basiert (kein Webhook), Smart Buttons clientseitig via `NEXT_PUBLIC_PAYPAL_CLIENT_ID`
+- **Capture**: `GET /api/checkout/paypal/capture?order={id}` (ruft WP-Proxy auf, der PayPal captured)
 - **Config**: `src/lib/paypal.ts`
 
 ### Vercel KV / Upstash Redis (Optional)
@@ -1057,11 +1096,12 @@ npm run check-env    # Prueft alle erforderlichen Variables
 4. `via.placeholder.com` — Platzhalter-Bilder
 
 ### NICHT konfiguriert (Setup empfohlen)
-- Kein Google Analytics / Conversion Tracking
+- Kein Google Analytics / Conversion Tracking (Cookie-Consent-System bereits vorbereitet)
 - Kein Sentry / Error Tracking
 - Kein SMTP-Service (E-Mails ueber WordPress Mail)
 - Newsletter-Endpoint nicht vollstaendig implementiert
 - Keine WordPress-Webhooks fuer Cache-Revalidation eingerichtet
+- Payment-Live-Keys fehlen noch auf dem WordPress-Proxy
 
 ---
 
@@ -1083,6 +1123,7 @@ npm run check-env    # Prueft alle erforderlichen Variables
   - Frontend-Fallback funktioniert, Backend-Feld fehlt noch
 
 ### E-Commerce (Prioritaet: MITTEL)
+- [ ] **Payment Live-Keys hinterlegen** (Stripe + PayPal im WordPress-Proxy)
 - [ ] **SMTP fuer E-Mails konfigurieren** (SendGrid/Mailgun)
 - [ ] **Versandkosten im CartDrawer anzeigen** (aktuell immer "Kostenlos")
 - [ ] **Gutschein-System** (WooCommerce Coupon API)
@@ -1187,30 +1228,32 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ## Projektstatistik
 
-**Komponenten:** ~85+
-**Pages:** 45+ (Home, Product, Category, Cart, Checkout, Success, Login, Konto mit 4 Unterseiten, 9 Fachmarkt-Services, Blog, Bestseller, Sale, Search, Favoriten, Kontakt, Karriere, Service, 5 Rechtsseiten, Styleguide, Sitemap, Dev-Seiten)
+**Komponenten:** ~90+
+**Pages:** 40+ (Home, Product, Category, Cart, Checkout, Success, Login, Konto mit 4 Unterseiten, Fachmarkt-Hauptseite + dynamische [slug]-Subpages, Blog-Uebersicht + [slug], Bestseller, Sale, Search, Favoriten, Kontakt, Karriere, Service, 5 Rechtsseiten, Styleguide, Sitemap, Dev-Seiten)
 **API Routes:** 24 (5 Produkte, 5 Checkout, 8 Auth, 1 Newsletter, 1 Revalidation, 5 Debug)
 **Custom Fields:** 41
-**Contexts:** 3 aktiv (Cart, Wishlist, Auth) + 1 Dead Code (Checkout)
-**Payment Methods:** 3 (Stripe, PayPal, BACS)
+**Contexts:** 4 aktiv (CookieConsent, Auth, Cart, Wishlist) + 1 Dead Code (Checkout)
+**Payment Methods:** 3 (Stripe, PayPal, BACS) — alle via WordPress-Proxy
 **TypeScript Coverage:** 100%
-**Dependencies:** 8 Runtime (next, react, react-dom, stripe, @stripe/stripe-js, @vercel/kv, clsx, lucide-react) + 9 Dev
+**Dependencies:** 6 Runtime (next, react, react-dom, @vercel/kv, clsx, lucide-react) + 9 Dev — Stripe/PayPal-SDKs entfernt
 
 ### Implementierungsstand
 - **Produkt-Display**: 100%
 - **Set-Angebot System**: 100%
 - **Warenkorb**: 100%
 - **Checkout**: 100%
-- **Payment Integration**: 100%
+- **Payment Integration (Code)**: 100% (WordPress-Proxy-Refactoring abgeschlossen)
+- **Payment Keys (Live)**: 0% (Placeholder in .env.local, Live-Keys im WP-Backend einzutragen)
 - **Order Management**: 100%
 - **Auth-System**: 100%
 - **Wunschliste**: 100%
+- **Cookie-Consent (DSGVO)**: 100%
+- **SEO / Structured Data**: 80% (JSON-LD fuer Organization/WebSite/Product, Meta-Tags vorhanden)
 - **Versandkosten (Checkout)**: 100%
 - **E-Mail System**: 80% (SMTP fehlt)
 - **Newsletter**: 50% (Backend-Endpoint fehlt)
 - **Testing**: 0% (kein Test-Framework)
 - **Filter & Suche**: 30%
-- **SEO**: 50%
 - **Analytics**: 0%
 
 ---
@@ -1223,6 +1266,10 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 **Dokumentation:**
 - `CLAUDE.md` — Entwicklungs-Anweisungen
+- `PAYMENT_SETUP.md` — Payment-Proxy Einrichtung (Stand 10.04.2026)
+- `WORDPRESS_CONTENT_MANAGEMENT.md` — Fachmarkt-Subpages & WordPress-Content
+- `JAEGER_PLUGIN_FELDER_ANALYSE.md` — Jaeger-Plugin Custom-Fields Analyse
+- `FEHLENDE_FEATURES.md` — Offene Features & Roadmap
 - `backend/ROOT_LEVEL_FIELDS.md` — Custom Fields
 - `backend/VERRECHNUNG_FELD_BACKEND.md` — Verrechnung-Logik
 - `backend/FRONTEND_BACKEND_DATENFLUSS.md` — Datenfluss
@@ -1246,9 +1293,21 @@ npm run check-env    # Prueft alle erforderlichen Variables
 - Blog-Seiten
 - Fachmarkt-Seiten
 
-### Version 1.2 - Migration (In Arbeit)
+### Version 1.2 - Sicherheit, SEO & Compliance (Abgeschlossen: April 2026)
+- Payment-Architektur auf WordPress-Proxy umgestellt (Credentials-Isolierung)
+- Stripe/PayPal npm-SDKs aus Frontend entfernt
+- DSGVO Cookie-Consent-System (CookieConsentContext + Banner + Footer-Link)
+- JSON-LD Structured Data (Organization, WebSite, Product)
+- Fachmarkt-Subpages refactored (dynamische `[slug]`-Route mit WordPress-Content)
+- Blog-Uebersicht + dynamische Blog-Detail-Seiten
+- Kategorieseiten-Optimierung + SEO
+- Google Reviews aus JSON-Quelle
+- HeroSlider nach `components/startseite/` verschoben
+
+### Version 1.3 - Migration (In Arbeit)
 - Umzug auf neuen Vercel-Account
 - Umzug auf neues WordPress-Projekt
+- Live-Payment-Keys im WP-Backend hinterlegen
 - SMTP-Konfiguration
 - Analytics-Setup
 
@@ -1261,5 +1320,5 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ---
 
-**Letzte Aktualisierung:** 30. Maerz 2026
-**Aktueller Status:** MVP vollstaendig funktionsfaehig, Backend migriert auf 2025.bodenjaeger.de, Vercel-Account-Migration steht noch an
+**Letzte Aktualisierung:** 23. April 2026
+**Aktueller Status:** MVP vollstaendig funktionsfaehig, Backend migriert auf 2025.bodenjaeger.de, Payment-Architektur auf WordPress-Proxy umgestellt, Cookie-Consent + SEO/JSON-LD live, Vercel-Account-Migration steht noch an

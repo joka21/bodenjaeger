@@ -7,42 +7,6 @@ interface VersandLieferzeitPageProps {
   page: WordPressPage;
 }
 
-const shippingOptions = [
-  {
-    title: 'Paketversand',
-    price: '4,99 €',
-    delivery: '3–5 Werktage',
-    description: 'Paketversand für kleinere Bestellungen wie Zubehör, Sockelleisten und Kleinteile.',
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Speditionsversand',
-    price: 'ab 29,99 €',
-    delivery: '5–8 Werktage',
-    description: 'Für Bodenbeläge und große Bestellungen. 29,99 € ab 500 € Warenwert, 59,99 € unter 500 €. Ab 999 € versandkostenfrei. Lieferung bis Bordsteinkante.',
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 17h8M8 17l-4-4m4 4V3m8 14l4-4m-4 4V3M3 13h18" />
-      </svg>
-    ),
-  },
-  {
-    title: 'Abholung im Fachmarkt',
-    price: 'Kostenlos',
-    delivery: 'Nach Vereinbarung',
-    description: 'Bestelle online und hole deine Ware bequem im Fachmarkt Hückelhoven ab – ohne Versandkosten.',
-    icon: (
-      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-      </svg>
-    ),
-  },
-];
-
 const deliverySteps = [
   {
     step: '1',
@@ -113,35 +77,6 @@ export default function VersandLieferzeitPage({ page }: VersandLieferzeitPagePro
             <p className="text-lg md:text-xl text-gray-300">
               Schnell, sicher und zuverlässig – so kommt dein neuer Boden zu dir nach Hause.
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Shipping Options Cards */}
-      <section className="relative -mt-8 z-20">
-        <div className="content-container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
-            {shippingOptions.map((option) => (
-              <div
-                key={option.title}
-                className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="w-14 h-14 mb-4 bg-brand/10 rounded-full flex items-center justify-center text-brand">
-                  {option.icon}
-                </div>
-                <h3 className="text-lg font-bold text-dark mb-1">{option.title}</h3>
-                <div className="flex items-baseline gap-2 mb-3">
-                  <span className="text-2xl font-bold text-brand">{option.price}</span>
-                </div>
-                <p className="text-sm text-gray-500 mb-3">{option.description}</p>
-                <div className="flex items-center gap-1.5 text-sm font-medium text-dark">
-                  <svg className="w-4 h-4 text-brand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {option.delivery}
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
