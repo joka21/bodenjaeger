@@ -13,7 +13,7 @@ import { clearProductCache, clearAllProductCaches } from '@/lib/cache';
  * 2. Name: z.B. "Cache Revalidation - Produkt aktualisiert"
  * 3. Status: Aktiv
  * 4. Thema: Produkt aktualisiert (bzw. erstellt / geloescht)
- * 5. Auslieferungs-URL: https://bodenjaeger.vercel.app/api/revalidate?secret=DEIN_SECRET
+ * 5. Auslieferungs-URL: https://bodenjaeger.de/api/revalidate?secret=DEIN_SECRET
  * 6. API-Version: WP REST API Integration v3
  */
 
@@ -115,7 +115,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({
     message: 'Revalidation webhook endpoint is ready',
     woocommerce_setup: {
-      url: 'https://bodenjaeger.vercel.app/api/revalidate?secret=YOUR_REVALIDATE_SECRET',
+      url: 'https://bodenjaeger.de/api/revalidate?secret=YOUR_REVALIDATE_SECRET',
       topics: ['product.created', 'product.updated', 'product.deleted'],
     },
     manual_usage: {

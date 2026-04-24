@@ -272,7 +272,7 @@ export default function PaymentSetupPage() {
               <li>
                 Endpoint URL:{' '}
                 <code className="bg-gray-100 px-2 py-1 rounded text-sm block mt-2">
-                  https://bodenjaeger.vercel.app/api/checkout/stripe/webhook
+                  https://bodenjaeger.de/api/checkout/stripe/webhook
                 </code>
               </li>
               <li>
@@ -302,7 +302,7 @@ export default function PaymentSetupPage() {
                 <div>NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...</div>
                 <div>STRIPE_SECRET_KEY=sk_test_...</div>
                 <div>STRIPE_WEBHOOK_SECRET=whsec_...</div>
-                <div>NEXT_PUBLIC_SITE_URL=https://bodenjaeger.vercel.app</div>
+                <div>NEXT_PUBLIC_SITE_URL=https://bodenjaeger.de</div>
               </div>
             </div>
 
@@ -370,7 +370,7 @@ export default function PaymentSetupPage() {
                 <div className="text-gray-500">
                   # Für Production: PAYPAL_MODE=live
                 </div>
-                <div className="mt-2">NEXT_PUBLIC_SITE_URL=https://bodenjaeger.vercel.app</div>
+                <div className="mt-2">NEXT_PUBLIC_SITE_URL=https://bodenjaeger.de</div>
               </div>
             </div>
 
@@ -442,7 +442,7 @@ export default function PaymentSetupPage() {
               <div>PAYPAL_CLIENT_SECRET=...</div>
               <div>PAYPAL_MODE=sandbox</div>
               <div className="mt-4 text-green-400"># Site URL</div>
-              <div>NEXT_PUBLIC_SITE_URL=https://bodenjaeger.vercel.app</div>
+              <div>NEXT_PUBLIC_SITE_URL=https://bodenjaeger.de</div>
               <div className="mt-4 text-green-400"># Revalidation (bereits vorhanden)</div>
               <div>REVALIDATE_SECRET=YOUR_REVALIDATE_SECRET_HERE</div>
             </div>

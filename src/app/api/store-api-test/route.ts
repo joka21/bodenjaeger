@@ -160,7 +160,7 @@ export async function GET(request: Request) {
 export async function OPTIONS() {
   return NextResponse.json({}, {
     headers: {
-      'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://bodenjaeger.vercel.app',
+      'Access-Control-Allow-Origin': process.env.NEXT_PUBLIC_SITE_URL || 'https://bodenjaeger.de',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },
