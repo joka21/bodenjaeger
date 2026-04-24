@@ -2,28 +2,63 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface SlideData {
   id: number;
+  bgColor: string;
   image: string;
-  mobileImage: string;
   imageAlt: string;
+  heading: string;
+  subline?: string;
+  bullets?: string[];
+  text?: string;
+  dateText?: string;
+  buttonLabel: string;
+  buttonHref: string;
+  buttonVariant: 'light' | 'dark';
 }
 
 const slides: SlideData[] = [
   {
     id: 1,
-    image: "/images/sliderbilder/Slider_Shop_-_Boden_kaufen.jpg",
-    mobileImage: "/images/sliderbilder/mobil1.png",
-    imageAlt: "Boden kaufen im Bodenjäger Shop"
+    bgColor: '#4c4c4c',
+    image: '/images/sliderbilder/primecore.webp',
+    imageAlt: 'Primecore',
+    heading: 'primeCORE',
+    subline: 'Der extrem starke Vinylboden.',
+    bullets: [
+      '0,7mm Nutzschicht',
+      '8mm stark',
+      'Korkdämmung integriert',
+      'Lebenslange Garantie',
+    ],
+    buttonLabel: 'Mehr erfahren',
+    buttonHref: '#',
+    buttonVariant: 'light',
   },
   {
     id: 2,
-    image: "/images/sliderbilder/image (13).png",
-    mobileImage: "/images/sliderbilder/mobil2.jpg",
-    imageAlt: "Bodenjäger Slider"
-  }
+    bgColor: '#00518a',
+    image: '/images/sliderbilder/coreTec.webp',
+    imageAlt: 'CoreTec',
+    heading: 'COREtec',
+    text: 'Die Markenwelt der Luxusböden mit lebenslanger Garantie.',
+    buttonLabel: 'Mehr erfahren',
+    buttonHref: '#',
+    buttonVariant: 'dark',
+  },
+  {
+    id: 3,
+    bgColor: '#ed1b24',
+    image: '/images/sliderbilder/angebot.webp',
+    imageAlt: 'Angebot',
+    heading: 'Unsere aktuellen Aktionsböden.',
+    subline: 'Bis zu 47% sparen!',
+    dateText: 'Nur bis zum 27.06.2026',
+    buttonLabel: 'Jetzt sparen',
+    buttonHref: '#',
+    buttonVariant: 'light',
+  },
 ];
 
 export default function HeroSlider() {
@@ -119,41 +154,127 @@ export default function HeroSlider() {
         aria-label="Hero Slider"
         aria-roledescription="carousel"
       >
-        {/* Main Slider Container - Full-width Image */}
-        <div className="relative aspect-[3/2] lg:aspect-auto lg:min-h-[600px]">
-          {slides.map((slide, index) => (
+        {/* Main Slider Container
+            Desktop: Slides absolut gestapelt mit Fade-Transition, feste min-Höhe 600px.
+            Mobile: nur aktiver Slide wird gerendert (natürlicher Flow), damit das Bild
+            volle Breite bekommen kann und der Container mitwächst. */}
+        <div className="relative lg:min-h-[600px]">
+          {slides.map((slide, index) => {
+            const isActive = index === currentSlide;
+            return (
             <div
               key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-500 ${
-                index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-              }`}
+              className={`${
+                isActive
+                  ? 'block lg:opacity-100 lg:z-10'
+                  : 'hidden lg:block lg:opacity-0 lg:z-0'
+              } lg:absolute lg:inset-0 lg:transition-opacity lg:duration-500`}
+              style={{ backgroundColor: slide.bgColor }}
             >
-              {/* Mobile Image (< lg) */}
-              <Image
-                src={slide.mobileImage}
-                alt={slide.imageAlt}
-                fill
-                className="object-cover lg:hidden"
-                sizes="100vw"
-                priority={index === 0}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                placeholder="blur"
-                blurDataURL={shimmerBlurDataURL(1200, 800)}
-              />
-              {/* Desktop Image (lg+) */}
-              <Image
-                src={slide.image}
-                alt={slide.imageAlt}
-                fill
-                className="hidden object-cover lg:block"
-                sizes="(max-width: 1500px) 100vw, 1500px"
-                priority={index === 0}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                placeholder="blur"
-                blurDataURL={shimmerBlurDataURL(1500, 720)}
-              />
+              {/* Desktop-Layout: links Text, rechts Bild (948px) */}
+              <div className="hidden lg:flex h-full min-h-[600px]">
+                <div className="flex-1 flex flex-col justify-center px-12 text-white">
+                  <h2 className="text-4xl xl:text-5xl font-bold mb-6 leading-tight">
+                    {slide.heading}
+                  </h2>
+                  {slide.subline && (
+                    <p className="text-xl xl:text-2xl mb-6 max-w-md">
+                      {slide.subline}
+                    </p>
+                  )}
+                  {slide.bullets && (
+                    <ul className="text-base xl:text-lg mb-8 space-y-1.5">
+                      {slide.bullets.map((b) => (
+                        <li key={b}>• {b}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {slide.text && (
+                    <p className="text-xl xl:text-2xl mb-8 max-w-lg leading-snug">
+                      {slide.text}
+                    </p>
+                  )}
+                  {slide.dateText && (
+                    <p className="text-base xl:text-lg mb-8 max-w-md">
+                      {slide.dateText}
+                    </p>
+                  )}
+                  <a
+                    href={slide.buttonHref}
+                    className={`inline-flex items-center justify-center gap-2 w-fit px-8 py-3 font-semibold rounded-full transition-colors ${
+                      slide.buttonVariant === 'dark'
+                        ? 'bg-dark text-white hover:bg-black'
+                        : 'bg-white text-dark hover:bg-gray-100'
+                    }`}
+                  >
+                    {slide.buttonLabel}
+                    <span aria-hidden>›</span>
+                  </a>
+                </div>
+                <div className="w-[948px] flex-shrink-0 relative">
+                  <Image
+                    src={slide.image}
+                    alt={slide.imageAlt}
+                    fill
+                    className="object-cover"
+                    sizes="948px"
+                    priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </div>
+              </div>
+
+              {/* Mobile-Layout: Bild oben in voller Breite, Text unten.
+                  Container-Aspect passt zum Bild (948x724), sodass das Bild
+                  die ganze Breite füllt und der eingebettete Text komplett sichtbar bleibt. */}
+              <div className="lg:hidden">
+                <div className="relative w-full aspect-[948/724]">
+                  <Image
+                    src={slide.image}
+                    alt={slide.imageAlt}
+                    fill
+                    className="object-contain"
+                    sizes="100vw"
+                    priority={index === 0}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                </div>
+                <div className="flex flex-col items-start px-8 pt-6 pb-16 text-white">
+                  <h2 className="text-3xl font-bold mb-4 leading-tight">
+                    {slide.heading}
+                  </h2>
+                  {slide.subline && (
+                    <p className="text-lg mb-4">{slide.subline}</p>
+                  )}
+                  {slide.bullets && (
+                    <ul className="text-base mb-6 space-y-1.5">
+                      {slide.bullets.map((b) => (
+                        <li key={b}>• {b}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {slide.text && (
+                    <p className="text-lg mb-6 leading-snug">{slide.text}</p>
+                  )}
+                  {slide.dateText && (
+                    <p className="text-base mb-6">{slide.dateText}</p>
+                  )}
+                  <a
+                    href={slide.buttonHref}
+                    className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 font-semibold rounded-full transition-colors ${
+                      slide.buttonVariant === 'dark'
+                        ? 'bg-dark text-white hover:bg-black'
+                        : 'bg-white text-dark hover:bg-gray-100'
+                    }`}
+                  >
+                    {slide.buttonLabel}
+                    <span aria-hidden>›</span>
+                  </a>
+                </div>
+              </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Navigation Arrows */}
