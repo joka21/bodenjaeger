@@ -8,7 +8,7 @@ import { calculateShippingCost } from '@/lib/shippingConfig';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
-type PaymentMethod = 'stripe' | 'paypal' | 'sofort' | 'bacs';
+type PaymentMethod = 'stripe' | 'paypal' | 'bacs';
 type ShippingMethod = 'delivery' | 'pickup';
 
 interface FormData {
@@ -531,17 +531,6 @@ export default function CheckoutPage() {
                       className="w-5 h-5 text-brand border-ash focus:ring-brand"
                     />
                     <span className="text-sm text-dark">💰 PayPal</span>
-                  </label>
-                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="sofort"
-                      checked={formData.paymentMethod === 'sofort'}
-                      onChange={handleInputChange}
-                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
-                    />
-                    <span className="text-sm text-dark">🏦 Sofortüberweisung</span>
                   </label>
                   <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
                     <input
