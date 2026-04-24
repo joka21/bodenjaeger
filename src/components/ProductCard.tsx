@@ -195,9 +195,6 @@ export default function ProductCard({ product, showDescription = false }: Produc
             {wishlisted ? '❤️ Gemerkt' : '💖 Merkliste'}
           </button>
           <button className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 px-3 py-1 rounded text-xs font-medium transition-colors">
-            📐 Bodenplaner
-          </button>
-          <button className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-800 px-3 py-1 rounded text-xs font-medium transition-colors">
             🎨 Muster
           </button>
         </div>

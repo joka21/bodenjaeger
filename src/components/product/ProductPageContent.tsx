@@ -882,11 +882,11 @@ export default function ProductPageContent({
 
             {/* Action Buttons - Only for floor products */}
             {isFloorProduct && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              <div className="w-full">
                 <button
                   onClick={handleOrderSample}
                   disabled={isOrderingSample}
-                  className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ backgroundColor: 'var(--color-bg-darkest)' }}
                 >
                   {isOrderingSample ? (
@@ -909,19 +909,6 @@ export default function ProductPageContent({
                       <span className="truncate">Kostenloses Muster bestellen</span>
                     </>
                   )}
-                </button>
-                <button
-                  className="px-3 sm:px-4 py-3 rounded-lg text-white text-sm sm:text-base font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                  style={{ backgroundColor: 'var(--color-bg-darkest)' }}
-                >
-                  <Image
-                    src="/images/Icons/3D Bodenplaner weiß.png"
-                    alt="3D Bodenplaner"
-                    width={20}
-                    height={20}
-                    className="w-5 h-5 object-contain flex-shrink-0"
-                  />
-                  <span className="truncate">Virtuell im Bodenplaner ansehen</span>
                 </button>
               </div>
             )}
