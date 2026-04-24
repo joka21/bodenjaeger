@@ -109,6 +109,23 @@ export async function POST(request: NextRequest) {
     // 4. Payment Method für WooCommerce festlegen
     const wcPaymentMethod = payment_method === 'sofort' ? 'stripe_sofort' : payment_method;
 
+    // WooCommerce REST API interpretiert line_items.subtotal/total und
+    // shipping_lines.total IMMER als Netto (ex-Tax) — unabhängig von der
+    // "Preise inkl. Steuern eingeben"-Einstellung im Admin. Das Frontend
+    // sendet Brutto (wie im Warenkorb angezeigt), also hier für den
+    // WC-Call auf Netto umrechnen. Stripe/PayPal unten bleiben auf Brutto.
+    const TAX_RATE = 1.19;
+    const lineItemsNet = line_items.map((item) => ({
+      ...item,
+      ...(item.subtotal !== undefined
+        ? { subtotal: (parseFloat(item.subtotal) / TAX_RATE).toFixed(2) }
+        : {}),
+      ...(item.total !== undefined
+        ? { total: (parseFloat(item.total) / TAX_RATE).toFixed(2) }
+        : {}),
+    }));
+    const shippingCostNet = shipping_cost ? shipping_cost / TAX_RATE : 0;
+
     // 5. WooCommerce Order erstellen (Status: pending)
     const orderData: WooCommerceOrderData = {
       ...(customerId ? { customer_id: customerId } : {}),
@@ -118,7 +135,7 @@ export async function POST(request: NextRequest) {
       status: 'pending',
       billing,
       shipping,
-      line_items,
+      line_items: lineItemsNet,
       customer_note,
       shipping_lines: shipping_method === 'pickup'
         ? [
@@ -133,7 +150,7 @@ export async function POST(request: NextRequest) {
               {
                 method_id: 'flat_rate',
                 method_title: 'Standardversand',
-                total: shipping_cost.toFixed(2),
+                total: shippingCostNet.toFixed(2),
               },
             ]
           : undefined,
