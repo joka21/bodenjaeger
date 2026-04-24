@@ -46,7 +46,7 @@ const slides: SlideData[] = [
     bgColor: '#00518a',
     image: '/images/sliderbilder/coreTec.webp',
     imageAlt: 'CoreTec',
-    objectPosition: 'center 30%',
+    objectPosition: 'center 10%',
     heading: 'COREtec',
     text: 'Die Markenwelt der Luxusböden mit lebenslanger Garantie.',
     buttonLabel: 'Mehr erfahren',
