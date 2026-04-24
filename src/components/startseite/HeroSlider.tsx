@@ -148,9 +148,9 @@ export default function HeroSlider() {
   };
 
   return (
-    <div className="w-full bg-white overflow-hidden">
+    <div className="w-full bg-white overflow-hidden p-[10px]">
       <div
-        className="max-w-[1500px] mx-auto sm:px-4 relative overflow-hidden bg-white"
+        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={onTouchStart}
