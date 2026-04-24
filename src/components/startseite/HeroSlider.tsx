@@ -38,7 +38,7 @@ const slides: SlideData[] = [
       'Lebenslange Garantie',
     ],
     buttonLabel: 'Mehr erfahren',
-    buttonHref: '#',
+    buttonHref: '/category/primecore',
     buttonVariant: 'light',
   },
   {
@@ -50,7 +50,7 @@ const slides: SlideData[] = [
     heading: 'COREtec',
     text: 'Die Markenwelt der Luxusböden mit lebenslanger Garantie.',
     buttonLabel: 'Mehr erfahren',
-    buttonHref: '#',
+    buttonHref: '/category/coretec',
     buttonVariant: 'dark',
   },
   {
@@ -62,7 +62,7 @@ const slides: SlideData[] = [
     subline: 'Bis zu 47% sparen!',
     dateText: 'Nur bis zum 27.06.2026',
     buttonLabel: 'Jetzt sparen',
-    buttonHref: '#',
+    buttonHref: '/sale',
     buttonVariant: 'light',
   },
 ];
