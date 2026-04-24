@@ -173,7 +173,7 @@ export default function HeroSlider() {
             >
               {/* Desktop-Layout: links Text, rechts Bild (948px) */}
               <div className="hidden lg:flex h-full min-h-[600px]">
-                <div className="flex-1 flex flex-col justify-center px-12 text-white">
+                <div className="flex-1 flex flex-col justify-center px-16 py-12 text-white">
                   <h2 className="text-4xl xl:text-5xl font-bold mb-6 leading-tight">
                     {slide.heading}
                   </h2>
@@ -239,7 +239,7 @@ export default function HeroSlider() {
                     loading={index === 0 ? 'eager' : 'lazy'}
                   />
                 </div>
-                <div className="flex flex-col items-start px-8 pt-6 pb-16 text-white">
+                <div className="flex flex-col items-start px-10 pt-8 pb-20 text-white">
                   <h2 className="text-3xl font-bold mb-4 leading-tight">
                     {slide.heading}
                   </h2>
