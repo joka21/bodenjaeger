@@ -571,6 +571,77 @@ export default function CheckoutPage() {
                       />
                       <span className="text-sm text-dark">Andere Rechnungsadresse verwenden</span>
                     </label>
+
+                    {/* Felder für abweichende Rechnungsadresse — nur wenn "Andere" gewählt */}
+                    {!formData.sameAsBilling && (
+                      <div className="space-y-4 pt-4 pl-1">
+                        <div className="grid grid-cols-2 gap-4">
+                          <input
+                            type="text"
+                            name="billingFirstName"
+                            placeholder="Vorname *"
+                            required
+                            value={formData.billingFirstName}
+                            onChange={handleInputChange}
+                            className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                          />
+                          <input
+                            type="text"
+                            name="billingLastName"
+                            placeholder="Nachname *"
+                            required
+                            value={formData.billingLastName}
+                            onChange={handleInputChange}
+                            className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          name="billingCompany"
+                          placeholder="Firma (optional)"
+                          value={formData.billingCompany}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                        <input
+                          type="text"
+                          name="billingAddress1"
+                          placeholder="Straße und Hausnummer *"
+                          required
+                          value={formData.billingAddress1}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                        <input
+                          type="text"
+                          name="billingAddress2"
+                          placeholder="Adresszusatz (optional)"
+                          value={formData.billingAddress2}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                        />
+                        <div className="grid grid-cols-2 gap-4">
+                          <input
+                            type="text"
+                            name="billingPostcode"
+                            placeholder="PLZ *"
+                            required
+                            value={formData.billingPostcode}
+                            onChange={handleInputChange}
+                            className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                          />
+                          <input
+                            type="text"
+                            name="billingCity"
+                            placeholder="Stadt *"
+                            required
+                            value={formData.billingCity}
+                            onChange={handleInputChange}
+                            className="px-4 py-3 border border-ash rounded-lg focus:outline-none focus:border-brand"
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-4">
