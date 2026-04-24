@@ -8,6 +8,10 @@ interface SlideData {
   bgColor: string;
   image: string;
   imageAlt: string;
+  // object-position für das Desktop-Bild (object-cover). Verschiebt den
+  // sichtbaren Ausschnitt vertikal. Default "center center" (50% 50%).
+  // Kleinerer Y-Wert = zeigt mehr vom oberen Bildrand = Content rutscht optisch nach unten.
+  objectPosition?: string;
   heading: string;
   subline?: string;
   bullets?: string[];
@@ -24,6 +28,7 @@ const slides: SlideData[] = [
     bgColor: '#4c4c4c',
     image: '/images/sliderbilder/primecore.webp',
     imageAlt: 'Primecore',
+    objectPosition: 'center 45%',
     heading: 'primeCORE',
     subline: 'Der extrem starke Vinylboden.',
     bullets: [
@@ -41,6 +46,7 @@ const slides: SlideData[] = [
     bgColor: '#00518a',
     image: '/images/sliderbilder/coreTec.webp',
     imageAlt: 'CoreTec',
+    objectPosition: 'center 30%',
     heading: 'COREtec',
     text: 'Die Markenwelt der Luxusböden mit lebenslanger Garantie.',
     buttonLabel: 'Mehr erfahren',
@@ -217,6 +223,7 @@ export default function HeroSlider() {
                     alt={slide.imageAlt}
                     fill
                     className="object-cover"
+                    style={{ objectPosition: slide.objectPosition ?? 'center center' }}
                     sizes="948px"
                     priority={index === 0}
                     loading={index === 0 ? 'eager' : 'lazy'}
