@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { type StoreApiProduct } from '@/lib/woocommerce';
 import Image from 'next/image';
 import UnifiedProductCard from '@/components/UnifiedProductCard';
@@ -20,17 +21,42 @@ interface CategoryPageClientProps {
 }
 
 export default function CategoryPageClient({ slug, categoryName, categoryDescription, categoryImage }: CategoryPageClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Initial-State aus URL lesen, damit Back-Button die Position wiederherstellt
+  const initialPage = (() => {
+    const p = parseInt(searchParams.get('page') || '1', 10);
+    return Number.isFinite(p) && p > 0 ? p : 1;
+  })();
+  const initialSort = searchParams.get('sort') || 'date-desc';
+
   const [products, setProducts] = useState<StoreApiProduct[]>([]);
   const [addonProductsMap, setAddonProductsMap] = useState<Map<number, StoreApiProduct>>(new Map());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
-  const [sortBy, setSortBy] = useState<string>('date-desc');
+  const [sortBy, setSortBy] = useState<string>(initialSort);
   const [searchQuery] = useState<string>(''); // Not currently used, but referenced in fetchProducts
 
   const productsPerPage = 12;
+
+  // State → URL synchronisieren (replace statt push, damit der History-Stack
+  // nicht mit jedem Seitenwechsel vollläuft). Defaults werden aus der URL weggelassen.
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (currentPage > 1) params.set('page', String(currentPage));
+    if (sortBy !== 'date-desc') params.set('sort', sortBy);
+    const query = params.toString();
+    const targetUrl = query ? `${pathname}?${query}` : pathname;
+    const currentUrl = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+    if (targetUrl !== currentUrl) {
+      router.replace(targetUrl, { scroll: false });
+    }
+  }, [currentPage, sortBy, pathname, router, searchParams]);
 
   const fetchProducts = useCallback(async () => {
     try {

@@ -8,7 +8,7 @@ Bodenjäger is a Next.js headless e-commerce shop for flooring products (Laminat
 
 - **Backend**: WordPress + WooCommerce + Custom Jäger Plugin (`2025.bodenjaeger.de`)
 - **Frontend**: Next.js 15.5.9 (App Router), React 19, TypeScript, Tailwind CSS v4
-- **Deployment**: Vercel (`bodenjaeger.vercel.app`)
+- **Deployment**: Vercel — live unter `bodenjaeger.de` (seit 27.04.2026)
 - **Payments**: Stripe, PayPal, Bank Transfer (BACS)
 - **No test framework** — there are no unit/integration tests in this project
 

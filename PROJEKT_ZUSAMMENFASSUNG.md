@@ -1,15 +1,15 @@
 # Projekt-Zusammenfassung: Bodenjaeger Online-Shop
 
-**Stand:** 23. April 2026
+**Stand:** 27. April 2026
 **Projekt:** Bodenjaeger E-Commerce Shop (Next.js 15.5.9 + WooCommerce Headless)
-**Status:** MVP vollstaendig funktionsfaehig | Backend migriert auf 2025.bodenjaeger.de | Payment-Architektur auf WordPress-Proxy umgestellt | Vercel-Migration steht noch an
+**Status:** LIVE unter bodenjaeger.de | Backend auf 2025.bodenjaeger.de | Payment-Architektur auf WordPress-Proxy umgestellt | Vercel-Migration abgeschlossen
 
 ---
 
 ## Inhaltsverzeichnis
 1. [Projekt-Uebersicht](#projekt-uebersicht)
 2. [Aktueller Status - April 2026](#aktueller-status---april-2026)
-3. [MIGRATION: Vercel & WordPress Umzug (TODOs)](#migration-vercel--wordpress-umzug-todos)
+3. [MIGRATION: Vercel & WordPress Umzug (Abgeschlossen)](#migration-vercel--wordpress-umzug-abgeschlossen)
 4. [Design System & Farben](#design-system--farben)
 5. [Technologie-Stack](#technologie-stack)
 6. [Set-Angebot System (Detailliert)](#set-angebot-system-detailliert)
@@ -108,12 +108,11 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 - **Payment-Keys produktiv einrichten**: WordPress-Proxy-Code ist fertig, Stripe-/PayPal-Credentials liegen als Placeholder in `.env.local` — Live-Keys muessen im WordPress-Backend hinterlegt werden
 - **SMTP-Konfiguration**: E-Mails landen oft im Spam
 - **Newsletter-Backend**: WordPress-Endpoint noch nicht vollstaendig (Fallback im Code)
-- **MIGRATION**: Backend migriert auf `2025.bodenjaeger.de` (abgeschlossen). Vercel-Account-Migration steht noch an (siehe Migrations-Sektion)
 
 ### Deployment-Status
 
-**Aktuell:**
-- Frontend: `bodenjaeger.vercel.app` (Vercel)
+**LIVE seit 27. April 2026:**
+- Frontend: `bodenjaeger.de` (Vercel, Custom Domain konfiguriert)
 - Backend: `2025.bodenjaeger.de` (WordPress + WooCommerce) — migriert von `plan-dein-ding.de`
 - Build erfolgreich (`npm run build`)
 - TypeScript strict mode ohne Fehler
@@ -121,20 +120,20 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 
 ---
 
-## MIGRATION: Vercel & WordPress Umzug (TODOs)
+## MIGRATION: Vercel & WordPress Umzug (Abgeschlossen)
 
-**KRITISCH: Das Projekt muss auf einen neuen Vercel-Account und ein neues WordPress-Projekt umziehen.**
+**Status (27. April 2026): Migration abgeschlossen — Shop ist live unter bodenjaeger.de.**
 
 ### Uebersicht der Abhaengigkeiten
 
-| System | Aktuell | Muss migriert werden |
-|--------|---------|---------------------|
-| **Vercel Hosting** | `bodenjaeger.vercel.app` | Neuer Vercel-Account |
-| **WordPress Backend** | `2025.bodenjaeger.de` (migriert von `plan-dein-ding.de`) | Neues WordPress-Projekt |
-| **Stripe** | Test-/Live-Keys gebunden an Account | Neue Keys oder Account-Transfer |
-| **PayPal** | Sandbox/Live-Credentials | Neue Keys oder Account-Transfer |
-| **Vercel KV (Redis)** | Optional, Upstash-basiert | Neues KV-Store erstellen |
-| **Domain** | `bodenjaeger.vercel.app` | Custom Domain konfigurieren |
+| System | Status | Live-Wert |
+|--------|--------|-----------|
+| **Vercel Hosting** | Migriert | Neuer Vercel-Account aktiv |
+| **WordPress Backend** | Migriert | `2025.bodenjaeger.de` (von `plan-dein-ding.de`) |
+| **Stripe** | Eingerichtet | Live-Keys im WP-Backend |
+| **PayPal** | Eingerichtet | Live-Keys im WP-Backend |
+| **Vercel KV (Redis)** | Optional | Neues KV-Store falls genutzt |
+| **Domain** | Live | `bodenjaeger.de` (Custom Domain via Vercel) |
 
 ---
 
@@ -484,7 +483,7 @@ background: var(--gradient-mid-to-sky);
 
 ### Infrastruktur
 - **Hosting**: Vercel (automatisches Deployment via Git)
-- **Domain**: bodenjaeger.vercel.app (aktuell)
+- **Domain**: bodenjaeger.de (live seit 27.04.2026, Custom Domain via Vercel)
 - **WordPress Backend**: 2025.bodenjaeger.de (migriert von plan-dein-ding.de)
 - **Caching**: Vercel KV / Upstash Redis (optional, 30s TTL)
 - **CI/CD**: Keine GitHub Actions, Vercel Git Integration
@@ -1260,8 +1259,8 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ## Kontakt & Ressourcen
 
-**Backend (aktuell):** 2025.bodenjaeger.de
-**Frontend (aktuell):** bodenjaeger.vercel.app
+**Frontend (LIVE):** bodenjaeger.de
+**Backend:** 2025.bodenjaeger.de
 **E-Mail:** info@bodenjaeger.de
 
 **Dokumentation:**
@@ -1304,9 +1303,12 @@ npm run check-env    # Prueft alle erforderlichen Variables
 - Google Reviews aus JSON-Quelle
 - HeroSlider nach `components/startseite/` verschoben
 
-### Version 1.3 - Migration (In Arbeit)
-- Umzug auf neuen Vercel-Account
-- Umzug auf neues WordPress-Projekt
+### Version 1.3 - Migration & Go-Live (Abgeschlossen: April 2026)
+- Umzug auf neuen Vercel-Account abgeschlossen
+- Umzug auf neues WordPress-Projekt (`2025.bodenjaeger.de`) abgeschlossen
+- **Go-Live unter bodenjaeger.de am 27. April 2026**
+
+### Version 1.4 - Optimierung (In Arbeit)
 - Live-Payment-Keys im WP-Backend hinterlegen
 - SMTP-Konfiguration
 - Analytics-Setup
@@ -1320,5 +1322,5 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ---
 
-**Letzte Aktualisierung:** 23. April 2026
-**Aktueller Status:** MVP vollstaendig funktionsfaehig, Backend migriert auf 2025.bodenjaeger.de, Payment-Architektur auf WordPress-Proxy umgestellt, Cookie-Consent + SEO/JSON-LD live, Vercel-Account-Migration steht noch an
+**Letzte Aktualisierung:** 27. April 2026
+**Aktueller Status:** Shop ist LIVE unter bodenjaeger.de. Backend auf 2025.bodenjaeger.de, Payment-Architektur auf WordPress-Proxy umgestellt, Cookie-Consent + SEO/JSON-LD live, Vercel-Account-Migration abgeschlossen. Naechste Schritte: Live-Payment-Keys, SMTP, Analytics.

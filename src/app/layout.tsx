@@ -8,6 +8,7 @@ import HeaderWrapper from "@/components/HeaderWrapper";
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
 import CookieConsent from "@/components/CookieConsent";
+import GoogleTagManager from "@/components/GoogleTagManager";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
 import "./globals.css";
@@ -58,6 +59,7 @@ export default function RootLayout({
         className={`${poppinsRegular.variable} ${poppinsBold.variable} antialiased`}
       >
         <CookieConsentProvider>
+          <GoogleTagManager />
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>
