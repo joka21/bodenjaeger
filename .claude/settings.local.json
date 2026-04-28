@@ -82,7 +82,9 @@
       "Bash(Grep -rln \"CookieConsentProvider\" \"C:/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/app/layout.tsx\")",
       "Bash(Read \"C:/Users/jokal/OneDrive/Desktop/Projekte/jäger/bodenjäger/src/app/layout.tsx\")",
       "Bash(powershell -Command 'Add-Type -AssemblyName System.Drawing; Get-ChildItem | ForEach-Object { $img = [System.Drawing.Image]::FromFile\\($_.FullName\\); Write-Output \"$\\($_.Name\\): $\\($img.Width\\)x$\\($img.Height\\)\"; $img.Dispose\\(\\) }')",
-      "Bash(powershell -Command 'Add-Type -AssemblyName System.Drawing; Get-ChildItem -Filter mobil*.* | ForEach-Object { $img = [System.Drawing.Image]::FromFile\\($_.FullName\\); Write-Output \"$\\($_.Name\\): $\\($img.Width\\)x$\\($img.Height\\)\"; $img.Dispose\\(\\) }')"
+      "Bash(powershell -Command 'Add-Type -AssemblyName System.Drawing; Get-ChildItem -Filter mobil*.* | ForEach-Object { $img = [System.Drawing.Image]::FromFile\\($_.FullName\\); Write-Output \"$\\($_.Name\\): $\\($img.Width\\)x$\\($img.Height\\)\"; $img.Dispose\\(\\) }')",
+      "Bash(npx eslint *)",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); [print\\(p['id'], p['slug'], '|', p['name']\\) for p in d.get\\('products', []\\)]\")"
     ]
   }
 }
