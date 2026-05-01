@@ -139,10 +139,10 @@ export default function FachmarktSubpage({ page }: FachmarktSubpageProps) {
                 Kontakt aufnehmen
               </Link>
               <a
-                href="tel:+4924339388840"
+                href="tel:+4924339388884"
                 className="inline-flex items-center justify-center border-2 border-dark text-dark px-8 py-3.5 rounded-lg font-bold hover:bg-dark hover:text-white transition-colors"
               >
-                02433 – 938 88 4
+                02433 938884
               </a>
             </div>
           </div>

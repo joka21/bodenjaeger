@@ -185,7 +185,7 @@ export default function VersandLieferzeitPage({ page }: VersandLieferzeitPagePro
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="tel:02433938884"
+                href="tel:+4924339388884"
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-brand text-white font-bold rounded-lg hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

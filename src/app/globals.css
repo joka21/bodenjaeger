@@ -518,3 +518,19 @@ button, .button, .btn {
   height: auto;
   margin: 2rem 0;
 }
+
+/* Trusted Shops Trustbadge — stable CSS hooks.
+   Das Widget rendert direkt im DOM (kein Shadow DOM). Positionen werden vom
+   Widget per inline-style gesetzt, deshalb braucht es hier !important.
+   Vertikale Position primaer ueber data-*-y-offset in TrustedShops.tsx,
+   horizontale Position ueber computeRightOffset() im selben File.
+   Z-Index NICHT ueberschreiben: das Widget setzt 2147483647 inline; ein
+   niedrigerer Wert wuerde den Badge unter Modals (z. B. Cookie-Banner) druecken. */
+[id^="trustbadge-container-"] #trustbadge-floating {
+  /* Hier koennen Groesse, Border, Schatten etc. angepasst werden. */
+}
+
+[id^="trustbadge-container-custom-maximized"] {
+  /* Aufgeklappter Zustand (Sterne / Reviews-Panel). */
+}
+

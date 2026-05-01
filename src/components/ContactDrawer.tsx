@@ -112,13 +112,13 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
               Unsere Experten beraten dich gerne persönlich.
             </p>
             <a
-              href="tel:02433938884"
+              href="tel:+4924339388884"
               className="text-3xl font-bold text-dark hover:text-brand transition-colors block"
             >
               02433 938884
             </a>
             <a
-              href="tel:02433938884"
+              href="tel:+4924339388884"
               className="inline-block w-full text-center bg-brand text-white px-6 py-3 rounded hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md font-medium"
             >
               Jetzt anrufen

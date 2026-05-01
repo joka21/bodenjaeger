@@ -163,7 +163,7 @@ export default function NewsletterPage() {
               <p className="text-gray-700">
                 Bitte prüfen Sie Ihren Spam-Ordner. Falls Sie dort auch keine E-Mail
                 finden, kontaktieren Sie uns bitte unter{' '}
-                <a href="tel:02433938884" className="text-red-600 hover:underline">
+                <a href="tel:+4924339388884" className="text-red-600 hover:underline">
                   02433 938884
                 </a>{' '}
                 oder per E-Mail.
