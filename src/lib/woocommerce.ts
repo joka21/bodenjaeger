@@ -490,11 +490,17 @@ class WooCommerceClient {
       }
 
       // ✅ Search by slug - Jäger API already returns FULL product data with jaeger_meta!
-      // Bindestriche durch Leerzeichen ersetzen, weil die Jäger-API Bindestriche
-      // als Phrase-Match behandelt und für Slugs sonst 0 Treffer liefert. Der
-      // anschließende exactMatch-Filter sichert Korrektheit ab.
+      // Die API matcht den Produkt-NAMEN, nicht den Slug. Bei Multi-Token-Slugs
+      // mit Umlaut/ß-Mismatches (Slug `weiss` ↔ Name `Weiß`) liefert die AND-
+      // Suche über alle Tokens 0 Treffer. Wir suchen daher nur mit dem längsten
+      // Token (meist distinktiv genug, selten ein Umlaut-Wort) und filtern
+      // danach via exactMatch auf den vollen Slug.
+      const slugTokens = slug.split('-').filter(Boolean);
+      const searchTerm = slugTokens.length > 1
+        ? slugTokens.reduce((a, b) => (a.length >= b.length ? a : b))
+        : slug;
       const searchResults = await this.getProducts({
-        search: slug.replace(/-/g, ' '),
+        search: searchTerm,
         per_page: 100,
       });
       const exactMatch = searchResults.find(p => p.slug === slug);

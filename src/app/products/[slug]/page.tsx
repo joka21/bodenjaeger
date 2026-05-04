@@ -48,11 +48,14 @@ async function findRenamedSlug(requestedSlug: string): Promise<string | null> {
 
     const wantsMuster = requestedSlug.startsWith('muster-');
 
-    // Die Jäger-API-Suche behandelt Bindestriche als Phrase-Match und liefert
-    // dann oft 0 Ergebnisse. Bindestriche durch Leerzeichen ersetzen, damit
-    // tokenweise gematcht wird (`sichtestrich-hell` → `sichtestrich hell`).
+    // Die Jäger-API-Suche matcht den Produkt-NAMEN, nicht den Slug.
+    // Bei mehreren Tokens schlägt das fehl, wenn ein Slug-Token einen
+    // Umlaut oder ß im Namen entspricht (Slug `weiss` ↔ Name `Weiß`).
+    // Wir suchen deshalb nur mit dem längsten Token (meist distinktiv,
+    // selten ein Umlaut-Wort) und filtern danach gegen den Slug.
+    const longestToken = tokens.reduce((a, b) => (a.length >= b.length ? a : b));
     const candidates = await wooCommerceClient.getProducts({
-      search: tokens.join(' '),
+      search: longestToken,
       per_page: 50,
     });
 
