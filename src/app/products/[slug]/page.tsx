@@ -1,8 +1,33 @@
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import ProductPageContent from "@/components/product/ProductPageContent";
 import { JsonLd } from "@/components/JsonLd";
 import { buildProductSchema, buildBreadcrumbSchema, stripHtml } from "@/lib/schema";
+
+// Slug-Präfix → Kategorie-Slug.
+// Reihenfolge wichtig: längere/spezifischere Präfixe zuerst,
+// damit z.B. `klebe-vinyl-` vor `vinyl-` matcht.
+const CATEGORY_PREFIXES: ReadonlyArray<{ prefix: string; category: string }> = [
+  { prefix: 'klebe-vinyl-', category: 'klebe-vinyl' },
+  { prefix: 'rigid-vinyl-', category: 'rigid-vinyl' },
+  { prefix: 'parkett-', category: 'parkett' },
+  { prefix: 'laminat-', category: 'laminat' },
+  { prefix: 'vinyl-', category: 'vinylboden' },
+];
+
+// Wenn weder das Produkt noch ein umbenannter Slug existiert:
+// versuche den Slug mindestens auf die richtige Kategorie zu schicken.
+// Beispiel: `parkett-liam-xl` → `/category/parkett`.
+function findCategoryFromSlug(slug: string): string | null {
+  // Optionalen muster-Präfix abschneiden (`muster-parkett-foo` → `parkett-foo`).
+  const normalized = slug.startsWith('muster-')
+    ? slug.slice('muster-'.length)
+    : slug;
+  for (const { prefix, category } of CATEGORY_PREFIXES) {
+    if (normalized.startsWith(prefix)) return category;
+  }
+  return null;
+}
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -66,14 +91,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
     console.error('Error fetching product:', error);
   }
 
-  // Wenn das Produkt nicht da ist: nach umbenanntem Slug suchen, sonst 404.
-  // permanentRedirect/notFound MÜSSEN außerhalb von try/catch stehen,
+  // Wenn das Produkt nicht da ist: nach umbenanntem Slug suchen, sonst Kategorie-Fallback, sonst 404.
+  // permanentRedirect/redirect/notFound MÜSSEN außerhalb von try/catch stehen,
   // da sie via thrown Error funktionieren.
   if (!product) {
     const renamedSlug = await findRenamedSlug(slug);
     if (renamedSlug) {
       permanentRedirect(`/products/${renamedSlug}`);
     }
+
+    // Migrations-Lücke (Hauptprodukt fehlt im Backend): User wenigstens
+    // in die richtige Kategorie schicken statt auf 404. 307 (temporär),
+    // damit Backend-Fix später wieder den exakten Match liefern kann.
+    const categorySlug = findCategoryFromSlug(slug);
+    if (categorySlug) {
+      console.log(`🔁 Category fallback: ${slug} → /category/${categorySlug}`);
+      redirect(`/category/${categorySlug}`);
+    }
+
     notFound();
   }
 
