@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import ProductPageContent from "@/components/product/ProductPageContent";
 import { JsonLd } from "@/components/JsonLd";
@@ -12,6 +12,45 @@ interface ProductPageProps {
 // Products can change frequently in backend, so shorter cache is needed
 export const revalidate = 30;
 
+// Smart-Fallback bei Slug-Renames aus der Migration:
+// Wenn ein Produkt unter dem angefragten Slug nicht existiert, sucht das Backend
+// nach Produkten mit ähnlichem Slug. Bei genau einem klaren Treffer wird der Slug
+// für einen 301-Redirect zurückgegeben.
+async function findRenamedSlug(requestedSlug: string): Promise<string | null> {
+  try {
+    const tokens = requestedSlug.split('-').filter(Boolean);
+    if (tokens.length < 2) return null; // Single-Token-Slugs zu mehrdeutig
+
+    const wantsMuster = requestedSlug.startsWith('muster-');
+
+    const candidates = await wooCommerceClient.getProducts({
+      search: requestedSlug,
+      per_page: 10,
+    });
+
+    // Match-Kriterien: gleiche muster-prefix-status + ALLE Tokens im Kandidaten-Slug.
+    const matches = candidates.filter((p) => {
+      if (!p.slug || p.slug === requestedSlug) return false;
+      const isMuster = p.slug.startsWith('muster-');
+      if (wantsMuster !== isMuster) return false;
+      return tokens.every((tok) => p.slug.includes(tok));
+    });
+
+    if (matches.length === 1) {
+      console.log(`🔁 Slug-rename detected: ${requestedSlug} → ${matches[0].slug}`);
+      return matches[0].slug;
+    }
+
+    if (matches.length > 1) {
+      console.log(`⚠️  Slug-rename ambiguous (${matches.length} matches) for ${requestedSlug}, falling back to 404`);
+    }
+    return null;
+  } catch (err) {
+    console.error('Error in slug-rename fallback:', err);
+    return null;
+  }
+}
+
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
 
@@ -22,13 +61,23 @@ export default async function ProductPage({ params }: ProductPageProps) {
   let sockelleisteOptions: StoreApiProduct[] = [];
 
   try {
-    // OPTIMIZATION: Load main product and check if we need additional products in parallel
-    // First, we need to get the product to know which IDs to load
     product = await wooCommerceClient.getProduct(slug);
+  } catch (error) {
+    console.error('Error fetching product:', error);
+  }
 
-    if (!product) {
-      notFound();
+  // Wenn das Produkt nicht da ist: nach umbenanntem Slug suchen, sonst 404.
+  // permanentRedirect/notFound MÜSSEN außerhalb von try/catch stehen,
+  // da sie via thrown Error funktionieren.
+  if (!product) {
+    const renamedSlug = await findRenamedSlug(slug);
+    if (renamedSlug) {
+      permanentRedirect(`/products/${renamedSlug}`);
     }
+    notFound();
+  }
+
+  try {
 
     console.log('🔍 Set-Angebot Ersparnis-Felder vom Backend (ROOT-LEVEL):');
     console.log('  - setangebot_einzelpreis:', product.setangebot_einzelpreis);
