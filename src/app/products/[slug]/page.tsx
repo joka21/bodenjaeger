@@ -48,9 +48,12 @@ async function findRenamedSlug(requestedSlug: string): Promise<string | null> {
 
     const wantsMuster = requestedSlug.startsWith('muster-');
 
+    // Die Jäger-API-Suche behandelt Bindestriche als Phrase-Match und liefert
+    // dann oft 0 Ergebnisse. Bindestriche durch Leerzeichen ersetzen, damit
+    // tokenweise gematcht wird (`sichtestrich-hell` → `sichtestrich hell`).
     const candidates = await wooCommerceClient.getProducts({
-      search: requestedSlug,
-      per_page: 10,
+      search: tokens.join(' '),
+      per_page: 50,
     });
 
     // Match-Kriterien: gleiche muster-prefix-status + ALLE Tokens im Kandidaten-Slug.
@@ -67,6 +70,17 @@ async function findRenamedSlug(requestedSlug: string): Promise<string | null> {
     }
 
     if (matches.length > 1) {
+      // Bei Mehrdeutigkeit: wenn der angefragte Slug exakt das Suffix eines
+      // Kandidaten ist (z.B. `sichtestrich-hell` ist Suffix von
+      // `laminat-sichtestrich-hell`), nimm diesen Kandidaten — das ist der
+      // typische Migrations-Fall (Kategorie-Präfix wurde nachträglich angefügt).
+      const suffixMatches = matches.filter((p) =>
+        p.slug.endsWith(`-${requestedSlug}`)
+      );
+      if (suffixMatches.length === 1) {
+        console.log(`🔁 Slug-rename via suffix-match: ${requestedSlug} → ${suffixMatches[0].slug}`);
+        return suffixMatches[0].slug;
+      }
       console.log(`⚠️  Slug-rename ambiguous (${matches.length} matches) for ${requestedSlug}, falling back to 404`);
     }
     return null;
