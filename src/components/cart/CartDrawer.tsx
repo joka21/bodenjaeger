@@ -10,6 +10,8 @@ import {
   toProductUnit,
 } from '@/types/cart-drawer';
 import { calculateCartData } from '@/lib/cart-utils';
+import { track } from '@/lib/analytics/track';
+import { cartItemsToGA4Items, mapCartItemToGA4Item } from '@/lib/analytics/mapItem';
 import CartSetItemComponent from './CartSetItem';
 import CartSingleItemComponent from './CartSingleItem';
 import CartFooter from './CartFooter';
@@ -20,8 +22,16 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
-  const { cartItems, updateQuantity, removeFromCart, removeSet, customerNote, setCustomerNote, deliveryNote, setDeliveryNote } = useCart();
+  const { cartItems, totalPrice, updateQuantity, removeFromCart, removeSet, customerNote, setCustomerNote, deliveryNote, setDeliveryNote } = useCart();
   const [drawerItems, setDrawerItems] = useState<CartDrawerItem[]>([]);
+
+  // GA4 view_cart — pro Öffnen des Drawers einmal feuern.
+  useEffect(() => {
+    if (!isOpen) return;
+    const items = cartItemsToGA4Items(cartItems);
+    if (items.length === 0) return;
+    track.viewCart(items, totalPrice);
+  }, [isOpen]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Convert CartContext items to CartDrawer format
   useEffect(() => {
@@ -205,11 +215,19 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
   // Handle remove single item
   const handleRemoveSingle = (productId: number) => {
+    const target = cartItems.find((it) => it.id === productId && !it.isSetItem);
+    if (target && target.quantity > 0) {
+      track.removeFromCart([mapCartItemToGA4Item(target)]);
+    }
     removeFromCart(productId);
   };
 
-  // Handle remove set
+  // Handle remove set — ein Event mit allen Set-Bestandteilen.
   const handleRemoveSet = (setId: string) => {
+    const setMembers = cartItems.filter((it) => it.setId === setId && it.quantity > 0);
+    if (setMembers.length > 0) {
+      track.removeFromCart(setMembers.map(mapCartItemToGA4Item));
+    }
     removeSet(setId);
   };
 

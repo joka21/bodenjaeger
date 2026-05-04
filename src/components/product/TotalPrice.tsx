@@ -5,6 +5,9 @@ import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import type { SetQuantityCalculation } from '@/lib/setCalculations';
 import { useCart } from '@/contexts/CartContext';
+import { track } from '@/lib/analytics/track';
+import { mapProductToItem } from '@/lib/analytics/mapItem';
+import type { GA4Item } from '@/lib/analytics/types';
 
 // Simple price interface - prices come from backend!
 interface SetPrices {
@@ -159,6 +162,37 @@ export default function TotalPrice({
     console.log('🛒 SET BUNDLE VOR ADD TO CART:', JSON.stringify(setBundle, null, 2));
 
     addSetToCart(setBundle);
+
+    // GA4 add_to_cart — Set-Bundle: ein Event mit allen Bestandteilen.
+    // price = €/Paket (setPricePerUnit ist €/m² bzw. €/lfm).
+    const ga4Items: GA4Item[] = [];
+    const floorPaketinhalt = product.paketinhalt || 1;
+    ga4Items.push(
+      mapProductToItem(product, quantities.floor.packages, {
+        variant: 'Set: Boden',
+        pricePerUnitOverride: bodenPricePerM2 * floorPaketinhalt,
+      })
+    );
+    if (selectedDaemmung && quantities.insulation) {
+      const dPaketinhalt = selectedDaemmung.paketinhalt || 1;
+      ga4Items.push(
+        mapProductToItem(selectedDaemmung, quantities.insulation.packages, {
+          variant: 'Set: Dämmung',
+          pricePerUnitOverride: daemmungSetPricePerUnit * dPaketinhalt,
+        })
+      );
+    }
+    if (selectedSockelleiste && quantities.baseboard) {
+      const sPaketinhalt = selectedSockelleiste.paketinhalt || 1;
+      ga4Items.push(
+        mapProductToItem(selectedSockelleiste, quantities.baseboard.packages, {
+          variant: 'Set: Sockelleiste',
+          pricePerUnitOverride: sockelleisteSetPricePerUnit * sPaketinhalt,
+        })
+      );
+    }
+    track.addToCart(ga4Items, totalDisplayPrice);
+
     openCartDrawer();
     setAddedToCart(true);
 

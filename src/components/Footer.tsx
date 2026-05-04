@@ -27,7 +27,7 @@ export default function Footer() {
                   className="flex-shrink-0"
                 />
                 <div>
-                  <a href="tel:+4924339388884" className="text-lg font-semibold mb-4 inline-block hover:text-brand transition-colors">02433 938884</a>
+                  <a href="tel:+492433938884" className="text-lg font-semibold mb-4 inline-block hover:text-brand transition-colors">02433 938884</a>
                   <p className="text-sm mb-1">Mo. bis Fr.     9:00  – 18.30 Uhr</p>
                   <p className="text-sm">Sa.                 9:00 – 14 Uhr</p>
                 </div>

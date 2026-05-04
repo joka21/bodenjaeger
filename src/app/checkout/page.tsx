@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
+import { track } from '@/lib/analytics/track';
+import { cartItemsToGA4Items } from '@/lib/analytics/mapItem';
+import type { PaymentType, PurchaseTrackingPayload } from '@/lib/analytics/types';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
@@ -78,6 +81,26 @@ export default function CheckoutPage() {
       router.push('/cart');
     }
   }, [cartItems, router]);
+
+  // GA4 begin_checkout — einmal beim Mount, sobald der Cart befüllt ist.
+  // Step-Wechsel innerhalb der Single-Page-Form NICHT nochmal feuern.
+  const beginCheckoutTracked = useRef(false);
+  useEffect(() => {
+    if (beginCheckoutTracked.current) return;
+    if (cartItems.length === 0) return;
+    const items = cartItemsToGA4Items(cartItems);
+    if (items.length === 0) return;
+    track.beginCheckout(items, totalPrice);
+    beginCheckoutTracked.current = true;
+  }, [cartItems, totalPrice]);
+
+  // GA4 add_payment_info — bei jedem Wechsel der Zahlungsart erneut feuern.
+  useEffect(() => {
+    if (cartItems.length === 0) return;
+    const items = cartItemsToGA4Items(cartItems);
+    if (items.length === 0) return;
+    track.addPaymentInfo(items, totalPrice, formData.paymentMethod);
+  }, [formData.paymentMethod]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-fill from customer account
   useEffect(() => {
@@ -313,6 +336,26 @@ export default function CheckoutPage() {
       const result = await response.json();
 
       if (result.success && result.redirectUrl) {
+        // GA4 purchase-Puffer: Tracking-Daten in localStorage ablegen,
+        // damit die Success-Page das Event ohne API-Refetch feuern kann.
+        // localStorage statt sessionStorage — Stripe/PayPal-Redirect ist Cross-Domain
+        // und Tab-scoped sessionStorage ist dabei nicht zuverlässig.
+        try {
+          const trackingPayload: PurchaseTrackingPayload = {
+            items: cartItemsToGA4Items(cartItems),
+            value: totalPrice + shippingCost,
+            currency: 'EUR',
+            paymentType: formData.paymentMethod as PaymentType,
+            shipping: shippingCost,
+          };
+          localStorage.setItem(
+            `order_${result.orderId}_tracking`,
+            JSON.stringify(trackingPayload)
+          );
+        } catch (err) {
+          console.warn('[track.purchase] localStorage write failed:', err);
+        }
+
         // Redirect zum Payment Gateway oder Success-Page
         window.location.href = result.redirectUrl;
       } else {

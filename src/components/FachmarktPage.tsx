@@ -352,7 +352,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
               <div className="space-y-2 text-gray-700 mb-6">
                 <p>Neckarstraße 9</p>
                 <p>41836 Hückelhoven</p>
-                <p>Tel.: <a href="tel:+4924339388884" className="hover:text-brand transition-colors">02433 938884</a></p>
+                <p>Tel.: <a href="tel:+492433938884" className="hover:text-brand transition-colors">02433 938884</a></p>
                 <p>info@bodenjaeger.de</p>
               </div>
               <Link

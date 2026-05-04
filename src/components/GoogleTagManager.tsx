@@ -1,25 +1,26 @@
 'use client';
 
 import Script from 'next/script';
+import { useEffect } from 'react';
 import { useCookieConsent } from '@/contexts/CookieConsentContext';
+import { consent as consentApi } from '@/lib/analytics/track';
 
 const GTM_ID = 'GTM-MW5G8DXD';
 
-declare global {
-  interface Window {
-    dataLayer: Record<string, unknown>[];
-  }
-}
-
-// Pragmatischer Default: GTM laedt nur bei erteiltem Analytics-Consent.
-// Spaeter umstellbar auf Consent Mode v2 (gtag('consent', 'update', ...)) —
-// dann wuerde GTM immer laden, aber einzelne Tags warten auf Consent-Signale.
+// Consent Mode v2:
+// 1) Der Default-Call sitzt als inline-<script> im <head> von app/layout.tsx
+//    und läuft beim HTML-Parse — also vor jedem next/script.
+// 2) `gtm-init` (afterInteractive) lädt GTM unabhängig vom Cookie-Status —
+//    Tags warten intern via Consent Mode auf das Update-Signal.
+// 3) Sobald der User im Banner entschieden hat, pusht ein `useEffect`
+//    ein `gtag('consent','update', …)`.
 export default function GoogleTagManager() {
-  const { isAllowed } = useCookieConsent();
+  const { consent, hasDecided } = useCookieConsent();
 
-  if (!isAllowed('analytics')) {
-    return null;
-  }
+  useEffect(() => {
+    if (!hasDecided || !consent) return;
+    consentApi.update(consent.categories);
+  }, [hasDecided, consent]);
 
   return (
     <>

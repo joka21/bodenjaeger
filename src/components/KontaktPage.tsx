@@ -91,7 +91,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto">
             {/* Phone Card */}
             <a
-              href="tel:+4924339388884"
+              href="tel:+492433938884"
               className="group bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 text-center border border-gray-100 hover:border-brand/20"
             >
               <div className="w-14 h-14 mx-auto mb-4 bg-brand/10 rounded-full flex items-center justify-center group-hover:bg-brand transition-colors duration-300">
@@ -383,7 +383,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                 </div>
                 <div className="mt-4 space-y-2">
                   <a
-                    href="tel:+4924339388884"
+                    href="tel:+492433938884"
                     className="flex items-center gap-2 text-sm text-dark hover:text-brand transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -416,7 +416,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
 
               {/* CTA Phone */}
               <a
-                href="tel:+4924339388884"
+                href="tel:+492433938884"
                 className="block bg-brand rounded-xl p-6 text-white text-center hover:bg-[#d11820] transition-colors shadow-sm hover:shadow-md"
               >
                 <p className="text-sm font-medium mb-1 opacity-90">Schnelle Hilfe?</p>

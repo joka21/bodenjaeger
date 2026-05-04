@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { MinusIcon, PlusIcon } from 'lucide-react';
 import type { StoreApiProduct } from '@/lib/woocommerce';
@@ -13,6 +13,8 @@ import {
 import { useCart } from '@/contexts/CartContext';
 import { useAlert } from '@/hooks/useAlert';
 import AlertModal from '@/components/AlertModal';
+import { track } from '@/lib/analytics/track';
+import { mapProductToItem } from '@/lib/analytics/mapItem';
 import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import QuantitySelector from './QuantitySelector';
@@ -53,6 +55,11 @@ export default function ProductPageContent({
 
   // State for sample order loading
   const [isOrderingSample, setIsOrderingSample] = useState(false);
+
+  // GA4 view_item bei Produktseiten-Mount / Produktwechsel
+  useEffect(() => {
+    track.viewItem(product, 1);
+  }, [product.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Check if product is a floor product (only floors have samples)
   const isFloorProduct = useMemo(() => {
@@ -512,6 +519,13 @@ export default function ProductPageContent({
         // IMPORTANT: Use addToCart, NOT addSetToCart for simple products
         addToCart(product, packages);
 
+        // GA4 add_to_cart — Standard-Produkt (kein Set)
+        const paketpreis = price * paketinhalt;
+        const ga4Item = mapProductToItem(product, packages, {
+          pricePerUnitOverride: paketpreis,
+        });
+        track.addToCart([ga4Item], paketpreis * packages);
+
         // Open cart drawer to show success
         openCartDrawer();
 
@@ -902,6 +916,14 @@ export default function ProductPageContent({
         );
         return;
       }
+
+      // GA4 add_to_cart — Muster (price = 0; Aufschlag steckt im Versand, nicht im Item)
+      const sampleItem = mapProductToItem(sampleProduct, 1, {
+        variant: 'Muster',
+        category: 'Muster',
+        pricePerUnitOverride: 0,
+      });
+      track.addToCart([sampleItem], 0);
 
       const surchargeLabel = SAMPLE_SHIPPING_SURCHARGE.toFixed(2).replace('.', ',');
       const followUp = freeSamplesRemaining > 1

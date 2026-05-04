@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleTagManager from "@/components/GoogleTagManager";
+import PageViewTracker from "@/components/PageViewTracker";
 import TrustedShops from "@/components/TrustedShops";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
@@ -45,6 +46,16 @@ export default function RootLayout({
   return (
     <html lang="de">
       <head>
+        {/* Consent Mode v2 default — MUSS vor gtm.js laufen.
+            Synchroner inline-Script im <head> wird beim HTML-Parse
+            ausgeführt, also lange vor jedem next/script (afterInteractive). */}
+        <script
+          id="gtm-consent-default"
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'denied','personalization_storage':'denied','security_storage':'granted','wait_for_update':500});`,
+          }}
+        />
+
         {/* Preconnect to WooCommerce backend for faster API calls */}
         <link rel="preconnect" href="https://2025.bodenjaeger.de" />
         <link rel="dns-prefetch" href="https://2025.bodenjaeger.de" />
@@ -61,6 +72,7 @@ export default function RootLayout({
       >
         <CookieConsentProvider>
           <GoogleTagManager />
+          <PageViewTracker />
           <TrustedShops />
           <AuthProvider>
             <CartProvider>

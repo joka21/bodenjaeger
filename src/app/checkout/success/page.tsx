@@ -3,6 +3,8 @@
 import React, { useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { track } from '@/lib/analytics/track';
+import type { PurchaseTrackingPayload } from '@/lib/analytics/types';
 
 function CheckoutSuccessContent() {
   const router = useRouter();
@@ -12,14 +14,53 @@ function CheckoutSuccessContent() {
   const stripeSessionId = searchParams.get('session_id');
 
   useEffect(() => {
-    // Clear cart on success
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('woocommerce-cart');
-    }
-
     // If no order ID is present, redirect to home
     if (!orderId) {
       router.push('/');
+      return;
+    }
+
+    if (typeof window === 'undefined') return;
+
+    // GA4 purchase — Doppel-Event-Schutz via sessionStorage.
+    const flagKey = `purchase_tracked_${orderId}`;
+    const trackingKey = `order_${orderId}_tracking`;
+    const alreadyTracked = sessionStorage.getItem(flagKey) === '1';
+
+    if (!alreadyTracked) {
+      try {
+        const raw = localStorage.getItem(trackingKey);
+        if (raw) {
+          const payload = JSON.parse(raw) as PurchaseTrackingPayload;
+          track.purchase({
+            orderId: Number(orderId),
+            items: payload.items,
+            value: payload.value,
+            currency: payload.currency,
+            paymentType: payload.paymentType,
+            shipping: payload.shipping,
+            tax: payload.tax,
+          });
+          sessionStorage.setItem(flagKey, '1');
+        } else {
+          // Kein Puffer — Tracking-Event entfällt; User soll trotzdem Success sehen.
+          console.warn('[track.purchase] tracking payload missing for order', orderId);
+        }
+      } catch (err) {
+        console.warn('[track.purchase] failed:', err);
+      }
+    }
+
+    // Reihenfolge: erst Tracking-Puffer wegräumen, dann den Cart clearen.
+    try {
+      localStorage.removeItem(trackingKey);
+    } catch {
+      // ignore
+    }
+    try {
+      localStorage.removeItem('woocommerce-cart');
+    } catch {
+      // ignore
     }
   }, [orderId, router]);
 
@@ -142,7 +183,7 @@ function CheckoutSuccessContent() {
           <div className="text-center text-gray-600 mb-8">
             <p>
               Bei Fragen zu Ihrer Bestellung erreichen Sie unser Team jederzeit unter{' '}
-              <a href="tel:+4924339388884" className="font-semibold text-dark hover:text-brand transition-colors">02433 938884</a>{' '}
+              <a href="tel:+492433938884" className="font-semibold text-dark hover:text-brand transition-colors">02433 938884</a>{' '}
               oder{' '}
               <a href="mailto:service@bodenjaeger.de" className="font-semibold text-dark hover:text-brand transition-colors">service@bodenjaeger.de</a>.
             </p>

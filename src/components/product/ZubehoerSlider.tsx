@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import { useCart } from '@/contexts/CartContext';
+import { track } from '@/lib/analytics/track';
+import { mapProductToItem } from '@/lib/analytics/mapItem';
 import { shimmerBlurDataURL } from '@/lib/imageUtils';
 
 interface ZubehoerCategory {
@@ -196,6 +198,14 @@ export default function ZubehoerSlider({
 
     console.log('🛒 Adding product to cart:', product.name, product.id);
     addToCart(product, 1);
+
+    // GA4 add_to_cart — Cross-Selling-Karussell, Standard-Single-Item-Logik
+    const paketinhalt = product.paketinhalt || 1;
+    const paketpreis = (Number(product.price) || 0) * paketinhalt;
+    const ga4Item = mapProductToItem(product, 1, {
+      pricePerUnitOverride: paketpreis,
+    });
+    track.addToCart([ga4Item], paketpreis);
 
     // Visuelles Feedback
     setAddedProductId(product.id);

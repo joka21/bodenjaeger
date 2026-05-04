@@ -1,8 +1,11 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
+import { track } from '@/lib/analytics/track';
+import { cartItemsToGA4Items, mapCartItemToGA4Item } from '@/lib/analytics/mapItem';
 
 export default function CartPage() {
   const {
@@ -13,6 +16,27 @@ export default function CartPage() {
     removeFromCart,
     clearCart
   } = useCart();
+
+  // GA4 view_cart — einmal beim Mount der /cart-Seite, sobald Cart hydratisiert ist.
+  // Doppel-Trigger zwischen Drawer und /cart ist beabsichtigt (zwei separate Views).
+  const viewCartTracked = useRef(false);
+  useEffect(() => {
+    if (viewCartTracked.current) return;
+    if (cartItems.length === 0) return;
+    const items = cartItemsToGA4Items(cartItems);
+    if (items.length === 0) return;
+    track.viewCart(items, totalPrice);
+    viewCartTracked.current = true;
+  }, [cartItems, totalPrice]);
+
+  const handleRemove = (itemId: number) => {
+    const target = cartItems.find((it) => it.id === itemId);
+    if (target && target.quantity > 0) {
+      const ga4Item = mapCartItemToGA4Item(target);
+      track.removeFromCart([ga4Item]);
+    }
+    removeFromCart(itemId);
+  };
 
   if (itemCount === 0) {
     return (
@@ -117,7 +141,7 @@ export default function CartPage() {
                       {item.product.name}
                     </Link>
                     <button
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => handleRemove(item.id)}
                       className="text-mid hover:text-brand text-xl leading-none transition-colors"
                       title="Artikel entfernen"
                     >
