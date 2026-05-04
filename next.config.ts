@@ -46,6 +46,14 @@ const nextConfig: NextConfig = {
   // 301-Redirects für Migrations-404er (alter WordPress/WooCommerce-Shop → neuer Next.js-Shop)
   async redirects() {
     return [
+      // Victoria XL — Hauptprodukt fehlt im Backend, temporär in die Kategorie.
+      // 302 (permanent: false) — sobald das Produkt wieder existiert, kann diese Regel raus.
+      // MUSS vor der generischen /product/:slug*-Regel stehen.
+      {
+        source: '/product/victoria-xl',
+        destination: '/category/parkett',
+        permanent: false,
+      },
       // WooCommerce-Default war /product/{slug} (Singular), neue Route ist /products/{slug}
       {
         source: '/product/:slug*',
