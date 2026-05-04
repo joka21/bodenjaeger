@@ -490,7 +490,13 @@ class WooCommerceClient {
       }
 
       // ✅ Search by slug - Jäger API already returns FULL product data with jaeger_meta!
-      const searchResults = await this.getProducts({ search: slug, per_page: 100 });
+      // Bindestriche durch Leerzeichen ersetzen, weil die Jäger-API Bindestriche
+      // als Phrase-Match behandelt und für Slugs sonst 0 Treffer liefert. Der
+      // anschließende exactMatch-Filter sichert Korrektheit ab.
+      const searchResults = await this.getProducts({
+        search: slug.replace(/-/g, ' '),
+        per_page: 100,
+      });
       const exactMatch = searchResults.find(p => p.slug === slug);
 
       if (exactMatch) {
