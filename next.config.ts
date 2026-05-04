@@ -42,6 +42,30 @@ const nextConfig: NextConfig = {
     // Minimize layout shift with placeholder support
     minimumCacheTTL: 60,
   },
+
+  // 301-Redirects für Migrations-404er (alter WordPress/WooCommerce-Shop → neuer Next.js-Shop)
+  async redirects() {
+    return [
+      // WooCommerce-Default war /product/{slug} (Singular), neue Route ist /products/{slug}
+      {
+        source: '/product/:slug*',
+        destination: '/products/:slug*',
+        permanent: true,
+      },
+      // WooCommerce-Default war /product-category/{slug}, neue Route ist /category/{slug}
+      {
+        source: '/product-category/:slug*',
+        destination: '/category/:slug*',
+        permanent: true,
+      },
+      // Alte WordPress-Marketing-Landingpage → passende Kategorie
+      {
+        source: '/klebe-vinyl-sparpaket',
+        destination: '/category/klebe-vinyl',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
