@@ -64,6 +64,23 @@ const nextConfig: NextConfig = {
         destination: '/category/klebe-vinyl',
         permanent: true,
       },
+      // WooCommerce-Konto-Routen (EN + DE Default) → neue Konto-Route
+      {
+        source: '/my-account',
+        destination: '/konto',
+        permanent: true,
+      },
+      {
+        source: '/mein-konto',
+        destination: '/konto',
+        permanent: true,
+      },
+      // WooCommerce-Hauptshop-Seite → Homepage
+      {
+        source: '/shop',
+        destination: '/',
+        permanent: true,
+      },
     ];
   },
 };
