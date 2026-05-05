@@ -71,10 +71,12 @@ html {
   max-width: 100vw;
 }
 
-/* Allow specific elements to exceed but not cause scroll */
+/* Allow specific elements to exceed but not cause scroll.
+   Kein `height: auto` hier — bricht Next.js <Image fill> auf iOS Safari,
+   weil der inline `height: 100%` in bestimmten Layout-Phasen verloren geht
+   und das Bild auf 0px kollabiert. */
 img, svg, video {
   max-width: 100%;
-  height: auto;
 }
 
 /* Überschriften verwenden Bold */

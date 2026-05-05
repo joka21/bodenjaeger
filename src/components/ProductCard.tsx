@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { StoreApiProduct } from '@/lib/woocommerce';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { isMusterProduct } from '@/lib/sampleUtils';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -35,14 +36,19 @@ export default function ProductCard({ product, showDescription = false }: Produc
   const paketinhalt = product.paketinhalt || 1;
   const verpackungsart = product.verpackungsart_short || 'Pak.';
 
+  // Muster sind immer kostenlos — Backend-Preis (Platzhalter) überschreiben.
+  const isMuster = isMusterProduct(product);
+
   // Get main price from product data
   const getMainPrice = () => {
+    if (isMuster) return 'Kostenlos';
     return `${price.toFixed(2).replace('.', ',')} ${showUnit ? `€/${einheitShort}` : '€'}`;
   };
 
   // Get strike price if there's a discount
   // Bei Set-Produkten: setangebot_einzelpreis (Vergleichspreis inkl. Zusatzprodukte)
   const getStrikePrice = () => {
+    if (isMuster) return null;
     const isSetProduct = product.show_setangebot && product.setangebot_einzelpreis;
     const stattPrice = isSetProduct
       ? (product.setangebot_einzelpreis || 0)
@@ -53,6 +59,7 @@ export default function ProductCard({ product, showDescription = false }: Produc
 
   // Get package price if paketinhalt > 1 and unit is shown
   const getPackagePrice = () => {
+    if (isMuster) return null;
     if (!showUnit || paketinhalt <= 1) return null;
     const paketpreis = price * paketinhalt;
     return `${paketpreis.toFixed(2).replace('.', ',')} €/${verpackungsart}`;

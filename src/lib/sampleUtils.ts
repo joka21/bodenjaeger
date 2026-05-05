@@ -11,6 +11,22 @@ export const SAMPLE_SHIPPING_SURCHARGE = 1.99;
 //   Muster: "muster-rigid-vinyl-vara-fjord"
 export const SAMPLE_SLUG_PREFIX = 'muster-';
 
+// Erkennt Muster-Produkte am Slug-Präfix oder an der "muster"-Kategorie.
+// Backend-seitig haben Muster aktuell teilweise einen Platzhalter-Preis (z.B. 10€)
+// stehen — fachlich sind sie aber kostenlos. Frontend muss den Preis-Display deshalb
+// für Muster überschreiben.
+export function isMusterProduct(
+  product:
+    | { slug?: string; categories?: Array<{ slug: string }> }
+    | null
+    | undefined
+): boolean {
+  if (!product) return false;
+  if (product.slug && product.slug.startsWith(SAMPLE_SLUG_PREFIX)) return true;
+  if (product.categories?.some((c) => c.slug === 'muster')) return true;
+  return false;
+}
+
 export function countSamples(items: CartItem[]): number {
   return items.reduce((n, item) => (item.isSample ? n + item.quantity : n), 0);
 }

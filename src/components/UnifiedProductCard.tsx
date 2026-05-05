@@ -11,6 +11,7 @@ import {
   FREE_SAMPLE_LIMIT,
   SAMPLE_SHIPPING_SURCHARGE,
   SAMPLE_SLUG_PREFIX,
+  isMusterProduct,
 } from '@/lib/sampleUtils';
 
 interface UnifiedProductCardProps {
@@ -326,6 +327,16 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
 
           {/* Preisanzeige */}
           {(() => {
+            // Muster sind immer kostenlos — Backend-Preis (Platzhalter) überschreiben.
+            if (isMusterProduct(product)) {
+              return (
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-900 font-medium">Muster</span>
+                  <span className="font-bold text-xl text-success">Kostenlos</span>
+                </div>
+              );
+            }
+
             const unit = product.einheit_short || 'm²';
             const showUnit = unit !== '-' && unit.trim() !== '';
 

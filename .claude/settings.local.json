@@ -90,7 +90,16 @@
       "Bash(findstr :3000)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); [print\\(p['id'], '|', p['slug'], '|', p['name']\\) for p in d.get\\('products', []\\)[:5]]\")",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); [print\\(p['id'], '|', p['slug'], '|', p['name']\\) for p in d.get\\('products', []\\)[:10]]\")",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); slugs = [p['slug'] for p in d.get\\('products', []\\)]; matches = [s for s in slugs if 'sichtestrich' in s]; print\\(f'Found {len\\(slugs\\)} products on page 1, {len\\(matches\\)} sichtestrich matches:'\\); print\\('\\\\n'.join\\(matches\\)\\)\")",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); [print\\(p['id'], '|', p['slug']\\) for p in d.get\\('products', []\\)]\")",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); print\\('Total:', d.get\\('pagination', {}\\).get\\('total'\\)\\); [print\\(p['id'], '|', p['slug']\\) for p in d.get\\('products', []\\)]\")",
+      "Bash(python -c \"import sys, json; d = json.load\\(sys.stdin\\); print\\('Total:', d.get\\('pagination', {}\\).get\\('total'\\)\\); [print\\(p['id'], '|', p['slug'], '|', p['name']\\) for p in d.get\\('products', []\\)]\")",
+      "Bash(PORT=3001 npm run *)",
+      "Bash(PORT=3005 npm run *)",
+      "Read(//tmp/**)"
     ]
   }
 }
