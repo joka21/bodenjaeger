@@ -20,7 +20,12 @@ export default function GoogleTagManager() {
   useEffect(() => {
     if (!hasDecided || !consent) return;
     consentApi.update(consent.categories);
-  }, [hasDecided, consent]);
+  }, [
+    hasDecided,
+    consent?.categories.functional,
+    consent?.categories.analytics,
+    consent?.categories.marketing,
+  ]);
 
   return (
     <>
