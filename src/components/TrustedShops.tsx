@@ -15,7 +15,7 @@ const DATA_ATTRS: Record<string, string> = {
   'data-mobile-y-offset': '80',
   'data-desktop-disable-reviews': 'false',
   'data-desktop-enable-custom': 'false',
-  'data-desktop-position': 'right',
+  'data-desktop-position': 'left',
   'data-desktop-custom-width': '156',
   'data-desktop-enable-fadeout': 'false',
   'data-disable-mobile': 'false',
@@ -29,7 +29,7 @@ const DATA_ATTRS: Record<string, string> = {
   'data-color-scheme': 'light',
 };
 
-function computeRightOffset(viewport: number): number | null {
+function computeLeftOffset(viewport: number): number | null {
   if (viewport < MOBILE_BREAKPOINT) return null;
   if (viewport >= CONTENT_MAX_WIDTH + 2 * PADDING) {
     return (viewport - CONTENT_MAX_WIDTH) / 2 - PADDING + EXTRA_LEFT_OFFSET;
@@ -61,11 +61,12 @@ export default function TrustedShops() {
 
     const applyPosition = () => {
       if (!container) return;
-      const offset = computeRightOffset(window.innerWidth);
+      const offset = computeLeftOffset(window.innerWidth);
+      container.style.removeProperty('right');
       if (offset === null) {
-        container.style.removeProperty('right');
+        container.style.removeProperty('left');
       } else {
-        container.style.setProperty('right', `${offset}px`, 'important');
+        container.style.setProperty('left', `${offset}px`, 'important');
       }
     };
 
