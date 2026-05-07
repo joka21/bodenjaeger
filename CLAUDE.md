@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Arbeitsweise (Wichtig)
+
+- **Nur das tun, was explizit verlangt wird.** Keine zusätzlichen Themen oder Dateien anfassen, die nicht Teil der Aufgabe sind.
+- Keine ungefragten Refactorings, keine "Aufräumarbeiten" nebenbei, keine vorausschauenden Änderungen an anderen Stellen.
+- Bei Unsicherheit über den Umfang: **erst nachfragen**, dann handeln.
+
 ## Project Overview
 
 Bodenjäger is a Next.js headless e-commerce shop for flooring products (Laminat, Vinyl, Parkett) with a WooCommerce backend. The core feature is a **Set-Angebot System** (Bundle System) allowing customers to purchase flooring bundles (Boden + Dämmung + Sockelleiste) with automatic discounts.

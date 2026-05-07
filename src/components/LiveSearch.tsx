@@ -117,7 +117,7 @@ export default function LiveSearch() {
           setMobileSearchOpen(true);
           setTimeout(() => mobileInputRef.current?.focus(), 100);
         }}
-        className="sm:hidden flex items-center justify-center w-8 h-8 hover:opacity-80 transition-opacity"
+        className="sm:hidden flex flex-shrink-0 items-center justify-center w-8 h-8 hover:opacity-80 transition-opacity"
         aria-label="Suche öffnen"
       >
         <Image
@@ -125,7 +125,7 @@ export default function LiveSearch() {
           alt="Suche"
           width={24}
           height={24}
-          className="w-5 h-5"
+          className="w-5 h-5 object-contain shrink-0"
           onError={(e) => {
             // Fallback: use dark icon with invert filter
             (e.target as HTMLImageElement).src = '/images/Icons/Lupe schieferschwarz.png';
