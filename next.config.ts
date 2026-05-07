@@ -48,18 +48,16 @@ const nextConfig: NextConfig = {
     return [
       // Victoria XL — Hauptprodukt fehlt im Backend, temporär in die Kategorie.
       // 302 (permanent: false) — sobald das Produkt wieder existiert, kann diese Regel raus.
-      // MUSS vor der generischen /product/:slug*-Regel stehen.
       {
         source: '/product/victoria-xl',
         destination: '/category/parkett',
         permanent: false,
       },
-      // WooCommerce-Default war /product/{slug} (Singular), neue Route ist /products/{slug}
-      {
-        source: '/product/:slug*',
-        destination: '/products/:slug*',
-        permanent: true,
-      },
+      // /product/:slug → wird von src/middleware.ts behandelt (smarter Backend-Lookup
+      // mit Präfix-Stripping für migrierte Slugs). Eine generische next.config-Regel
+      // würde die Middleware shadowen, da next.config-redirects in Next.js VOR der
+      // Middleware laufen. Nicht wieder reinpacken — sonst bekommen User wieder 404er
+      // auf migrierte Slugs (z. B. /product/vinylboden-rigid-vinyl-coretec-forest).
       // WooCommerce-Default war /product-category/{slug}, neue Route ist /category/{slug}
       {
         source: '/product-category/:slug*',

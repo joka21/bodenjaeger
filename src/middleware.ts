@@ -5,11 +5,27 @@ export const config = {
   matcher: '/product/:slug',
 };
 
-const CACHE_KEY_PREFIX = 'redirect:product:';
+const CACHE_KEY_PREFIX = 'redirect:product:v2:';
 const POSITIVE_TTL_SECONDS = 60 * 60 * 24 * 7;
 const NEGATIVE_TTL_SECONDS = 60 * 60 * 24;
 const NEGATIVE_MARKER = '__none__';
 const FETCH_TIMEOUT_MS = 2000;
+
+// Top-Level-Produktkategorien, die beim WP→WC-Migrationsschnitt aus den
+// Slugs entfernt wurden. Sortiert nach Länge absteigend (längster Match zuerst).
+// WICHTIG: rigid-vinyl-, klebe-vinyl- und Marken-Präfixe (coretec- etc.)
+// sind in den neuen Slugs ERHALTEN — nicht aufnehmen.
+const STRIPPABLE_LEGACY_PREFIXES = [
+  'sockelleisten-',
+  'teppichboden-',
+  'vinylboden-',
+  'zubehoer-',
+  'daemmung-',
+  'laminat-',
+  'parkett-',
+] as const;
+
+const MIN_STRIPPED_SLUG_LENGTH = 3;
 
 interface JaegerProductLookupResult {
   slug?: string;
@@ -71,17 +87,47 @@ async function fetchSearchResults(url: string): Promise<JaegerProductLookupResul
   }
 }
 
+function stripLegacyPrefix(slug: string): string {
+  for (const prefix of STRIPPABLE_LEGACY_PREFIXES) {
+    if (slug.startsWith(prefix)) {
+      const stripped = slug.slice(prefix.length);
+      if (stripped.length >= MIN_STRIPPED_SLUG_LENGTH) {
+        return stripped;
+      }
+    }
+  }
+  return slug;
+}
+
 function pickBestMatch(
   originalSlug: string,
+  strippedSlug: string,
   products: JaegerProductLookupResult[],
 ): string | null {
-  let best: { slug: string; index: number } | null = null;
+  // Phase 1: Exact Match gegen Original- ODER bereinigten Slug
+  for (const product of products) {
+    const candidate = product?.slug;
+    if (typeof candidate !== 'string' || candidate.length === 0) continue;
+    if (candidate.startsWith('muster-')) continue;
+    if (candidate === strippedSlug || candidate === originalSlug) {
+      return candidate;
+    }
+  }
 
+  // Phase 2: Bidirektionales Substring-Match, kürzesten Treffer bevorzugen
+  let best: { slug: string; index: number } | null = null;
   for (let i = 0; i < products.length; i++) {
     const candidate = products[i]?.slug;
     if (typeof candidate !== 'string' || candidate.length === 0) continue;
     if (candidate.startsWith('muster-')) continue;
-    if (!candidate.includes(originalSlug)) continue;
+
+    const matches =
+      candidate.includes(originalSlug) ||
+      candidate.includes(strippedSlug) ||
+      originalSlug.includes(candidate) ||
+      strippedSlug.includes(candidate);
+
+    if (!matches) continue;
 
     if (best === null || candidate.length < best.slug.length) {
       best = { slug: candidate, index: i };
@@ -92,13 +138,14 @@ function pickBestMatch(
 }
 
 async function resolveNewSlug(slug: string, wpUrl: string): Promise<string | null | 'error'> {
-  const searchTerm = slug.replace(/-/g, ' ');
+  const strippedSlug = stripLegacyPrefix(slug);
+  const searchTerm = strippedSlug.replace(/-/g, ' ');
   const searchUrl = `${wpUrl}/wp-json/jaeger/v1/products?search=${encodeURIComponent(searchTerm)}&per_page=10`;
 
   const products = await fetchSearchResults(searchUrl);
   if (products === 'error') return 'error';
 
-  return pickBestMatch(slug, products);
+  return pickBestMatch(slug, strippedSlug, products);
 }
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
