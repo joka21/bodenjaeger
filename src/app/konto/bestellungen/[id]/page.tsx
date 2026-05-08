@@ -2,7 +2,8 @@
 
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
-import { useCart } from '@/contexts/CartContext';
+import { useCart, type SetBundle } from '@/contexts/CartContext';
+import type { StoreApiProduct } from '@/lib/woocommerce';
 
 interface OrderLineItem {
   id: number;
@@ -71,11 +72,14 @@ function formatPrice(price: string | number) {
 
 export default function BestellungDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { addToCart } = useCart();
+  const { addToCart, addSetToCart } = useCart();
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reordering, setReordering] = useState(false);
   const [reorderSuccess, setReorderSuccess] = useState(false);
+  const [reorderWarning, setReorderWarning] = useState<string | null>(null);
+  const [reorderError, setReorderError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/auth/orders/${id}`)
@@ -108,15 +112,136 @@ export default function BestellungDetailPage({ params }: { params: Promise<{ id:
 
   const status = statusLabels[order.status] || { label: order.status, color: 'bg-gray-100 text-gray-800' };
 
-  const handleReorder = () => {
-    order.line_items.forEach((item) => {
-      const isSample = item.meta_data?.some((m) => m.key === '_is_sample');
-      if (!isSample) {
-        addToCart({ id: item.product_id, name: item.name } as never, item.quantity);
+  const getMeta = (item: OrderLineItem, key: string): string | undefined =>
+    item.meta_data?.find((m) => m.key === key)?.value;
+
+  const handleReorder = async () => {
+    setReordering(true);
+    setReorderError(null);
+    setReorderWarning(null);
+
+    try {
+      // Muster überspringen (waren in der Bestellung gratis und werden hier ignoriert)
+      const reorderableItems = order.line_items.filter(
+        (item) => !item.meta_data?.some((m) => m.key === '_is_sample')
+      );
+
+      if (reorderableItems.length === 0) {
+        setReorderError('Keine bestellbaren Artikel in dieser Bestellung.');
+        setReordering(false);
+        setTimeout(() => setReorderError(null), 5000);
+        return;
       }
-    });
-    setReorderSuccess(true);
-    setTimeout(() => setReorderSuccess(false), 3000);
+
+      // Eindeutige Produkt-IDs sammeln und Backend-Daten laden
+      const productIds = Array.from(new Set(reorderableItems.map((i) => i.product_id)));
+      const response = await fetch('/api/products/by-ids', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: productIds }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Produktdaten konnten nicht geladen werden');
+      }
+
+      const products: StoreApiProduct[] = await response.json();
+      const productMap = new Map(products.map((p) => [p.id, p]));
+
+      // Items nach _set_id gruppieren
+      const setGroups = new Map<string, OrderLineItem[]>();
+      const singleItems: OrderLineItem[] = [];
+      let missingProducts = 0;
+
+      for (const item of reorderableItems) {
+        if (!productMap.has(item.product_id)) {
+          missingProducts++;
+          continue;
+        }
+
+        const setId = getMeta(item, '_set_id');
+        if (setId) {
+          const group = setGroups.get(setId) ?? [];
+          group.push(item);
+          setGroups.set(setId, group);
+        } else {
+          singleItems.push(item);
+        }
+      }
+
+      // Sets als Bundle in den Warenkorb legen
+      for (const [, items] of setGroups) {
+        const floorItem = items.find((i) => getMeta(i, '_set_item_type') === 'floor');
+        const insulationItem = items.find((i) => getMeta(i, '_set_item_type') === 'insulation');
+        const baseboardItem = items.find((i) => getMeta(i, '_set_item_type') === 'baseboard');
+
+        // Ohne Boden kann kein Set rekonstruiert werden – einzeln in den Warenkorb
+        if (!floorItem) {
+          for (const item of items) {
+            const product = productMap.get(item.product_id);
+            if (product) addToCart(product, item.quantity);
+          }
+          continue;
+        }
+
+        const floorProduct = productMap.get(floorItem.product_id);
+        if (!floorProduct) continue;
+
+        const insulationProduct = insulationItem ? productMap.get(insulationItem.product_id) : undefined;
+        const baseboardProduct = baseboardItem ? productMap.get(baseboardItem.product_id) : undefined;
+
+        const setBundle: SetBundle = {
+          floor: {
+            product: floorProduct,
+            packages: floorItem.quantity,
+            actualM2: parseFloat(getMeta(floorItem, '_actual_m2') || '0'),
+            setPricePerUnit: parseFloat(getMeta(floorItem, '_set_price_per_unit') || '0'),
+            regularPricePerUnit: parseFloat(getMeta(floorItem, '_regular_price_per_unit') || '0'),
+          },
+          insulation: insulationItem && insulationProduct ? {
+            product: insulationProduct,
+            packages: insulationItem.quantity,
+            actualM2: parseFloat(getMeta(insulationItem, '_actual_m2') || '0'),
+            setPricePerUnit: parseFloat(getMeta(insulationItem, '_set_price_per_unit') || '0'),
+            regularPricePerUnit: parseFloat(getMeta(insulationItem, '_regular_price_per_unit') || '0'),
+            standardProduct: insulationProduct,
+          } : null,
+          baseboard: baseboardItem && baseboardProduct ? {
+            product: baseboardProduct,
+            packages: baseboardItem.quantity,
+            actualLfm: parseFloat(getMeta(baseboardItem, '_actual_m2') || '0'),
+            setPricePerUnit: parseFloat(getMeta(baseboardItem, '_set_price_per_unit') || '0'),
+            regularPricePerUnit: parseFloat(getMeta(baseboardItem, '_regular_price_per_unit') || '0'),
+            standardProduct: baseboardProduct,
+          } : null,
+        };
+
+        addSetToCart(setBundle);
+      }
+
+      // Reguläre Einzelartikel
+      for (const item of singleItems) {
+        const product = productMap.get(item.product_id);
+        if (product) addToCart(product, item.quantity);
+      }
+
+      setReorderSuccess(true);
+      if (missingProducts > 0) {
+        setReorderWarning(
+          `${missingProducts} Artikel ${missingProducts === 1 ? 'ist' : 'sind'} nicht mehr verfügbar und wurde${missingProducts === 1 ? '' : 'n'} übersprungen.`
+        );
+      }
+      setTimeout(() => {
+        setReorderSuccess(false);
+        setReorderWarning(null);
+      }, 5000);
+    } catch (err) {
+      console.error('Reorder failed:', err);
+      setReorderError('Erneut bestellen fehlgeschlagen. Bitte später erneut versuchen.');
+      setTimeout(() => setReorderError(null), 5000);
+    } finally {
+      setReordering(false);
+    }
   };
 
   return (
@@ -173,10 +298,25 @@ export default function BestellungDetailPage({ params }: { params: Promise<{ id:
           {/* Reorder */}
           <button
             onClick={handleReorder}
-            className="mt-4 px-6 py-3 bg-brand text-white text-sm font-semibold rounded-lg hover:bg-[#d11920] transition-colors"
+            disabled={reordering}
+            className="mt-4 px-6 py-3 bg-brand text-white text-sm font-semibold rounded-lg hover:bg-[#d11920] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {reorderSuccess ? 'Artikel wurden in den Warenkorb gelegt!' : 'Erneut bestellen'}
+            {reordering
+              ? 'Wird in den Warenkorb gelegt...'
+              : reorderSuccess
+                ? 'Artikel wurden in den Warenkorb gelegt!'
+                : 'Erneut bestellen'}
           </button>
+          {reorderWarning && (
+            <p className="mt-2 text-xs text-orange-700 bg-orange-50 border border-orange-200 rounded-md px-3 py-2">
+              {reorderWarning}
+            </p>
+          )}
+          {reorderError && (
+            <p className="mt-2 text-xs text-red-700 bg-red-50 border border-red-200 rounded-md px-3 py-2">
+              {reorderError}
+            </p>
+          )}
         </div>
 
         {/* Seitenleiste */}

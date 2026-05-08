@@ -108,7 +108,8 @@
       "PowerShell(gh *)",
       "Bash(git merge *)",
       "Bash(git mv *)",
-      "Read(//c/Users/jokal/AppData/Local/Temp/claude/C--Users-jokal-OneDrive-Desktop-Projekte-j-ger-bodenj-ger/ae625dce-f4a9-466c-a238-47cb403a2419/tasks/**)"
+      "Read(//c/Users/jokal/AppData/Local/Temp/claude/C--Users-jokal-OneDrive-Desktop-Projekte-j-ger-bodenj-ger/ae625dce-f4a9-466c-a238-47cb403a2419/tasks/**)",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }
