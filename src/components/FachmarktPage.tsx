@@ -9,6 +9,18 @@ interface FachmarktPageProps {
   page: WordPressPage;
 }
 
+// Verlegeservice-Vorteile (aus plan-dein-ding.de/filiale-hueckelhoven)
+const verlegeserviceVorteile = [
+  'Fachkompetenz und Erfahrung',
+  'Professionelles Equipment',
+  'Zeitersparnis',
+  'Garantie und Gewährleistung',
+  'Individuelle Beratung',
+  'Fehlervermeidung',
+  'Altboden Entsorgung',
+  'Langfristige Haltbarkeit',
+];
+
 // Service Cards Data - DIREKT AUS ELEMENTOR EXTRAHIERT
 // Reihenfolge basiert auf der Elementor-Struktur
 const serviceCards = [
@@ -114,19 +126,17 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Full Width Hero Image */}
-      {heroImage && (
-        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
-          <Image
-            src={heroImage}
-            alt={page.title.rendered}
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-        </div>
-      )}
+      {/* Full Width Hero Image — lokal aus public/images/fachmarkt-hueckelhoven/ */}
+      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
+        <Image
+          src="/images/fachmarkt-hueckelhoven/hero-DSCF2859.jpg"
+          alt={page.title.rendered}
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+      </div>
 
       {/* Categories Grid */}
       {categories.length > 0 && (
@@ -306,6 +316,53 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
               Vertraue auf über vier Jahrzehnte Erfahrung und Kompetenz – Bodenjäger.de ist dein zuverlässiger Partner für Bodenbeläge!
             </p>
           </div>
+
+          {/* Verlegeservice-Vorteile aus plan-dein-ding */}
+          <div className="mt-10">
+            <h4 className="text-xl font-bold text-black mb-4">
+              Alle Vorteile auf einem Blick:
+            </h4>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 list-none p-0 mb-6">
+              {verlegeserviceVorteile.map((vorteil) => (
+                <li key={vorteil} className="flex items-center gap-2 text-gray-700">
+                  <span className="text-brand font-bold">✓</span>
+                  {vorteil}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/fachmarkt-hueckelhoven/verlegeservice"
+              className="inline-flex items-center gap-2 text-brand font-semibold hover:text-[#d11820] transition-colors"
+            >
+              Mehr erfahren
+              <span>&gt;</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Hast Du Fragen? — Kontakt-Box aus plan-dein-ding */}
+      <div className="content-container py-12">
+        <div className="bg-white border border-ash rounded-lg p-8 max-w-2xl mx-auto text-center">
+          <div className="flex justify-center mb-4">
+            <Image
+              src="/images/fachmarkt-hueckelhoven/telefon.webp"
+              alt="Telefon"
+              width={48}
+              height={48}
+            />
+          </div>
+          <h3 className="text-2xl font-bold text-black mb-4">Hast Du Fragen?</h3>
+          <a
+            href="tel:+492433938884"
+            className="block text-3xl font-bold text-brand hover:text-[#d11820] transition-colors mb-4"
+          >
+            02433 938884
+          </a>
+          <div className="space-y-1 text-gray-700">
+            <p>Mo. bis Fr. &nbsp;&nbsp;&nbsp;9:00 – 18:30 Uhr</p>
+            <p>Sa. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9:00 – 14:00 Uhr</p>
+          </div>
         </div>
       </div>
 
@@ -316,7 +373,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
         </h3>
         <div className="relative w-full h-[300px] md:h-[400px]">
           <Image
-            src="https://2025.bodenjaeger.de/wp-content/uploads/2024/08/Ueberblick-Filiale-Hueckelhoven1-1024x456.png"
+            src="/images/fachmarkt-hueckelhoven/ueberblick-filiale-hueckelhoven.png"
             alt="Überblick Filiale Hückelhoven"
             fill
             className="object-contain"
