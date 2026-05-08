@@ -4,23 +4,11 @@ import { useMemo, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Script from 'next/script';
 import { WordPressPage } from '@/lib/wordpress';
+import BenefitsSlider from '@/components/karriere/BenefitsSlider';
 
 interface KarrierePageProps {
   page: WordPressPage;
 }
-
-const BENEFITS = [
-  '30 Tage Urlaub',
-  'Betriebliche Altersvorsorge',
-  'Faire Vergütung',
-  'Jobrad',
-  'Mitarbeiterrabatt',
-  'Regelmäßige Feedback-Gespräche',
-  'Starker Teamgeist',
-  'Team-Events',
-  'Weiterbildungsmöglichkeiten',
-  'Super Kollegen',
-];
 
 const JOIN_WIDGET_SRC =
   'https://join.com/api/widget/bundle/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXR0aW5ncyI6eyJzaG93Q2F0ZWdvcnlGaWx0ZXIiOnRydWUsInNob3dMb2NhdGlvbkZpbHRlciI6dHJ1ZSwic2hvd0VtcGxveW1lbnRUeXBlRmlsdGVyIjp0cnVlLCJsYW5ndWFnZSI6ImRlIiwiam9ic1BlclBhZ2UiOjI1fSwiam9icyI6e30sImRlc2lnbiI6eyJzaG93TG9nbyI6dHJ1ZSwic2hvd0xvY2F0aW9uIjp0cnVlLCJzaG93RW1wbG95bWVudFR5cGUiOnRydWUsInNob3dDYXRlZ29yeSI6dHJ1ZSwiY29sb3JzIjp7IndpZGdldCI6eyJiYWNrZ3JvdW5kIjoiI0ZGRkZGRiIsImZpbHRlckJvcmRlciI6IiNENEQ0RDgiLCJwYWdpbmF0aW9uIjoiIzI1NjNFQiJ9LCJqb2JDYXJkIjp7InNoYWRvdyI6IiNENEQ0RDgiLCJiYWNrZ3JvdW5kIjoiI0ZGRkZGRiIsInByaW1hcnlUZXh0IjoiIzNGM0Y0NiIsInNlY29uZGFyeVRleHQiOiIjNTI1MjVCIn19fSwidmVyc2lvbiI6MiwiY29tcGFueVB1YmxpY0lkIjoiYTBkZDM0NDU5ODFkODU5N2VmYmRmN2VmNTBlZjM1ZDgiLCJpYXQiOjE3Nzc1NDMwNzYsImp0aSI6ImE4ODE1YTY1LWRmZmMtNDJjZi05OTc1LTkzZmNhMDdhNGJjMCJ9.t3QTLpHIUGdnLsuqFmCwyX1d-6gTBiiU-gyJTjsoXUY';
@@ -148,16 +136,9 @@ export default function KarrierePage({ page }: KarrierePageProps) {
               />
             )}
 
-            {/* Benefits-Pills */}
-            <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto my-10">
-              {BENEFITS.map((benefit) => (
-                <span
-                  key={benefit}
-                  className="bg-brand text-white px-[45px] py-[22px] rounded-[17px] text-sm md:text-base font-medium"
-                >
-                  {benefit}
-                </span>
-              ))}
+            {/* Benefits-Slider mit Auto-Play */}
+            <div className="my-10">
+              <BenefitsSlider />
             </div>
 
             {contentBetweenBenefitsAndWidget && (

@@ -111,7 +111,8 @@
       "Read(//c/Users/jokal/AppData/Local/Temp/claude/C--Users-jokal-OneDrive-Desktop-Projekte-j-ger-bodenj-ger/ae625dce-f4a9-466c-a238-47cb403a2419/tasks/**)",
       "mcp__ide__getDiagnostics",
       "WebFetch(domain:2025.bodenjaeger.de)",
-      "WebFetch(domain:plan-dein-ding.de)"
+      "WebFetch(domain:plan-dein-ding.de)",
+      "Bash(dir \"public\\\\images\\\\jobs\")"
     ]
   }
 }
