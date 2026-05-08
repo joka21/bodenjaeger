@@ -9,11 +9,30 @@ interface KarrierePageProps {
   page: WordPressPage;
 }
 
+const BENEFITS = [
+  '30 Tage Urlaub',
+  'Betriebliche Altersvorsorge',
+  'Faire Vergütung',
+  'Jobrad',
+  'Mitarbeiterrabatt',
+  'Regelmäßige Feedback-Gespräche',
+  'Starker Teamgeist',
+  'Team-Events',
+  'Weiterbildungsmöglichkeiten',
+  'Super Kollegen',
+];
+
 const JOIN_WIDGET_SRC =
   'https://join.com/api/widget/bundle/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXR0aW5ncyI6eyJzaG93Q2F0ZWdvcnlGaWx0ZXIiOnRydWUsInNob3dMb2NhdGlvbkZpbHRlciI6dHJ1ZSwic2hvd0VtcGxveW1lbnRUeXBlRmlsdGVyIjp0cnVlLCJsYW5ndWFnZSI6ImRlIiwiam9ic1BlclBhZ2UiOjI1fSwiam9icyI6e30sImRlc2lnbiI6eyJzaG93TG9nbyI6dHJ1ZSwic2hvd0xvY2F0aW9uIjp0cnVlLCJzaG93RW1wbG95bWVudFR5cGUiOnRydWUsInNob3dDYXRlZ29yeSI6dHJ1ZSwiY29sb3JzIjp7IndpZGdldCI6eyJiYWNrZ3JvdW5kIjoiI0ZGRkZGRiIsImZpbHRlckJvcmRlciI6IiNENEQ0RDgiLCJwYWdpbmF0aW9uIjoiIzI1NjNFQiJ9LCJqb2JDYXJkIjp7InNoYWRvdyI6IiNENEQ0RDgiLCJiYWNrZ3JvdW5kIjoiI0ZGRkZGRiIsInByaW1hcnlUZXh0IjoiIzNGM0Y0NiIsInNlY29uZGFyeVRleHQiOiIjNTI1MjVCIn19fSwidmVyc2lvbiI6MiwiY29tcGFueVB1YmxpY0lkIjoiYTBkZDM0NDU5ODFkODU5N2VmYmRmN2VmNTBlZjM1ZDgiLCJpYXQiOjE3Nzc1NDMwNzYsImp0aSI6ImE4ODE1YTY1LWRmZmMtNDJjZi05OTc1LTkzZmNhMDdhNGJjMCJ9.t3QTLpHIUGdnLsuqFmCwyX1d-6gTBiiU-gyJTjsoXUY';
 
 export default function KarrierePage({ page }: KarrierePageProps) {
-  const { galleryImages, heroTitle, cleanContent } = useMemo(() => {
+  const {
+    galleryImages,
+    heroTitle,
+    contentBeforeBenefits,
+    contentBetweenBenefitsAndWidget,
+    contentAfterWidget,
+  } = useMemo(() => {
     const content = page.content.rendered;
 
     // Extract gallery images from data-thumbnail attributes
@@ -37,19 +56,41 @@ export default function KarrierePage({ page }: KarrierePageProps) {
     // - Galerien (data-thumbnail) raus, weil sie unten in der Team-Gallery angezeigt werden
     let clean = content;
     clean = clean.replace(/<h2[^>]*>[\s\S]*?<\/h2>/i, '');
-    // Nur das erste Bild raus (wird als Hero verwendet). Falls in <figure> verpackt,
-    // das figure entfernen — sonst nur das nackte <img>. So bleiben weitere Bilder erhalten.
-    const beforeFigureRemove = clean;
-    clean = clean.replace(/<figure[^>]*>[\s\S]*?<\/figure>/i, '');
-    if (clean === beforeFigureRemove) {
-      clean = clean.replace(/<img[^>]*>/i, '');
-    }
+    // Alle Backend-Bilder raus: das Hero-Bild kommt aus public/images/jobs/,
+    // das 2. Backend-Bild ist defekt (403 vom CDN).
+    clean = clean.replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, '');
+    clean = clean.replace(/<picture[^>]*>[\s\S]*?<\/picture>/gi, '');
+    clean = clean.replace(/<img[^>]*>/gi, '');
     clean = clean.replace(/<script[\s\S]*?<\/script>/gi, '');
+    // Backend-Widget-Div komplett raus — wir rendern den Mount-Punkt selbst
+    // im JSX, sonst kollidieren prose-Styles mit dem Widget-Mount.
+    clean = clean.replace(/<div[^>]*id=["']join-widget["'][^>]*>[\s\S]*?<\/div>/gi, '');
     clean = clean.replace(/<div[^>]*class="[^"]*elementor-gallery[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '');
     clean = clean.replace(/<div[^>]*class="[^"]*gallery[^"]*"[^>]*>[\s\S]*?<\/div>/gi, '');
     clean = clean.replace(/<p>\s*<\/p>/gi, '');
 
-    return { galleryImages: imgs, heroTitle: title, cleanContent: clean };
+    // Split 1: vor / inkl. H2 "Darauf kannst du dich freuen" (für Pills)
+    const split1 = clean.match(
+      /^([\s\S]*?<h2[^>]*>\s*Darauf kannst du dich freuen\s*<\/h2>)([\s\S]*)$/i
+    );
+    const before = split1 ? split1[1] : clean;
+    const afterPills = split1 ? split1[2] : '';
+
+    // Split 2: vor "Dein Weg zu uns" → dort kommt das Widget zwischen
+    // "Offene Stellen"-Headline und "Dein Weg zu uns"-Block
+    const split2 = afterPills.match(
+      /^([\s\S]*?)(<h2[^>]*>\s*Dein Weg zu uns\s*<\/h2>[\s\S]*)$/i
+    );
+    const betweenBenefitsAndWidget = split2 ? split2[1] : afterPills;
+    const afterWidget = split2 ? split2[2] : '';
+
+    return {
+      galleryImages: imgs,
+      heroTitle: title,
+      contentBeforeBenefits: before,
+      contentBetweenBenefitsAndWidget: betweenBenefitsAndWidget,
+      contentAfterWidget: afterWidget,
+    };
   }, [page.content.rendered]);
 
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
@@ -85,29 +126,73 @@ export default function KarrierePage({ page }: KarrierePageProps) {
         </div>
       </section>
 
-      {/* Backend-Content (Headlines, Texte, Widget-Mount-Punkt aus WordPress) */}
-      {cleanContent && cleanContent.replace(/<[^>]*>/g, '').trim().length > 0 && (
+      {/* Backend-Content (Headlines, Texte) + Pills + Widget */}
+      {((contentBeforeBenefits && contentBeforeBenefits.replace(/<[^>]*>/g, '').trim().length > 0) ||
+        (contentBetweenBenefitsAndWidget && contentBetweenBenefitsAndWidget.replace(/<[^>]*>/g, '').trim().length > 0) ||
+        (contentAfterWidget && contentAfterWidget.replace(/<[^>]*>/g, '').trim().length > 0)) && (
         <section className="py-12 md:py-16 bg-pale">
           <div className="content-container">
-            <div
-              suppressHydrationWarning
-              className="prose prose-lg max-w-3xl mx-auto text-center
-                [&_h1]:text-4xl [&_h1]:md:text-5xl [&_h1]:font-bold [&_h1]:text-dark [&_h1]:mb-8 [&_h1]:mt-10
-                [&_h2]:text-3xl [&_h2]:md:text-4xl [&_h2]:font-bold [&_h2]:text-dark [&_h2]:mb-6 [&_h2]:mt-16
-                [&_h3]:text-2xl [&_h3]:md:text-3xl [&_h3]:font-bold [&_h3]:text-dark [&_h3]:mb-5 [&_h3]:mt-14
-                [&_p]:text-gray-600 [&_p]:mb-4 [&_p]:leading-relaxed
-                [&_a]:text-brand [&_a]:hover:underline
-                [&_ul]:text-gray-600 [&_ul]:text-left [&_ul]:inline-block
-                [&_li]:mb-1.5
-                [&_strong]:text-dark
-                [&_#join-widget]:max-w-4xl [&_#join-widget]:mx-auto [&_#join-widget]:my-8 [&_#join-widget]:text-left"
-              dangerouslySetInnerHTML={{ __html: cleanContent }}
-            />
+            {contentBeforeBenefits && (
+              <div
+                suppressHydrationWarning
+                className="prose prose-lg max-w-3xl mx-auto text-center
+                  [&_h1]:text-4xl [&_h1]:md:text-5xl [&_h1]:font-bold [&_h1]:text-dark [&_h1]:mb-8 [&_h1]:mt-10
+                  [&_h2]:text-3xl [&_h2]:md:text-4xl [&_h2]:font-bold [&_h2]:text-dark [&_h2]:mb-6 [&_h2]:mt-16
+                  [&_h3]:text-2xl [&_h3]:md:text-3xl [&_h3]:font-bold [&_h3]:text-dark [&_h3]:mb-5 [&_h3]:mt-14
+                  [&_p]:text-gray-600 [&_p]:mb-4 [&_p]:leading-relaxed
+                  [&_a]:text-brand [&_a]:hover:underline
+                  [&_ul]:text-gray-600 [&_ul]:text-left [&_ul]:inline-block
+                  [&_li]:mb-1.5
+                  [&_strong]:text-dark"
+                dangerouslySetInnerHTML={{ __html: contentBeforeBenefits }}
+              />
+            )}
+
+            {/* Benefits-Pills */}
+            <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto my-10">
+              {BENEFITS.map((benefit) => (
+                <span
+                  key={benefit}
+                  className="bg-brand text-white px-[45px] py-[22px] rounded-[17px] text-sm md:text-base font-medium"
+                >
+                  {benefit}
+                </span>
+              ))}
+            </div>
+
+            {contentBetweenBenefitsAndWidget && (
+              <div
+                suppressHydrationWarning
+                className="prose prose-lg max-w-3xl mx-auto text-center
+                  [&_h2]:text-3xl [&_h2]:md:text-4xl [&_h2]:font-bold [&_h2]:text-dark [&_h2]:mb-6 [&_h2]:mt-16
+                  [&_h3]:text-2xl [&_h3]:md:text-3xl [&_h3]:font-bold [&_h3]:text-dark [&_h3]:mb-5 [&_h3]:mt-14
+                  [&_p]:text-gray-600 [&_p]:mb-4 [&_p]:leading-relaxed
+                  [&_a]:text-brand [&_a]:hover:underline
+                  [&_strong]:text-dark"
+                dangerouslySetInnerHTML={{ __html: contentBetweenBenefitsAndWidget }}
+              />
+            )}
+
+            {/* Join.com-Widget — eigener Mount-Punkt außerhalb prose */}
+            <div id="join-widget" className="max-w-4xl mx-auto my-8" />
             <Script
               src={JOIN_WIDGET_SRC}
               strategy="afterInteractive"
               data-mount-in="#join-widget"
             />
+
+            {contentAfterWidget && (
+              <div
+                suppressHydrationWarning
+                className="prose prose-lg max-w-3xl mx-auto text-center
+                  [&_h2]:text-3xl [&_h2]:md:text-4xl [&_h2]:font-bold [&_h2]:text-dark [&_h2]:mb-6 [&_h2]:mt-16
+                  [&_h3]:text-2xl [&_h3]:md:text-3xl [&_h3]:font-bold [&_h3]:text-dark [&_h3]:mb-5 [&_h3]:mt-14
+                  [&_p]:text-gray-600 [&_p]:mb-4 [&_p]:leading-relaxed
+                  [&_a]:text-brand [&_a]:hover:underline
+                  [&_strong]:text-dark"
+                dangerouslySetInnerHTML={{ __html: contentAfterWidget }}
+              />
+            )}
           </div>
         </section>
       )}
