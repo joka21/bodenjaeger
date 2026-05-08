@@ -57,6 +57,111 @@ const nextConfig: NextConfig = {
         destination: '/category/parkett',
         permanent: false,
       },
+
+      // ----- Spezifische Slug-Mappings (Middleware findet diese nicht, weil
+      //       die WC-Suche Umlaute im Titel hat, die Slugs aber transliteriert
+      //       sind: 'ä' → 'ae', 'ö' → 'oe', 'ß' → 'ss'). 301 = permanent. -----
+      {
+        source: '/product/oelschiefer',
+        destination: '/products/laminat-oelschiefer',
+        permanent: true,
+      },
+      {
+        source: '/product/aussenecken-ahorn-58mm',
+        destination: '/products/aussenecken-ahorn-58mm',
+        permanent: true,
+      },
+      {
+        source: '/product/vinylboden-rigid-vinyl-coretec-regina-fischgraet',
+        destination: '/products/rigid-vinyl-coretec-regina-fischgraet',
+        permanent: true,
+      },
+      {
+        source: '/product/wm78-weimarer-sockelleiste-78mm-weiss',
+        destination: '/products/wm78-sockelleiste-78mm-weiss',
+        permanent: true,
+      },
+      {
+        source: '/product/wild-west-oak-orca',
+        destination: '/products/laminat-wild-west-oak',
+        permanent: true,
+      },
+      {
+        source: '/product/muster-atlas-oak-weiss',
+        destination: '/products/laminat-atlas-oak-weiss',
+        permanent: true,
+      },
+      {
+        source: '/product/sichtestrich-weiss',
+        destination: '/products/laminat-sichtestrich-weiss',
+        permanent: true,
+      },
+
+      // ----- Gelöschte Produkte (existieren im Backend nicht mehr).
+      //       302 (temporär), damit bei Re-Listing nichts permanent verfälscht ist. -----
+      // Grande-Serie → Rigid-Vinyl Kategorie
+      {
+        source: '/product/rigid-vinyl-grande-lumiere',
+        destination: '/category/rigid-vinyl',
+        permanent: false,
+      },
+      {
+        source: '/product/rigid-vinyl-grande-silvan',
+        destination: '/category/rigid-vinyl',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-rigid-vinyl-grande-lumiere',
+        destination: '/category/rigid-vinyl',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-rigid-vinyl-grande-silvan',
+        destination: '/category/rigid-vinyl',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-rigid-vinyl-grande-terra',
+        destination: '/category/rigid-vinyl',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-rigid-vinyl-bath',
+        destination: '/category/rigid-vinyl',
+        permanent: false,
+      },
+      // Eiche-Serie → Laminat Kategorie
+      {
+        source: '/product/eiche-banchor',
+        destination: '/category/laminat',
+        permanent: false,
+      },
+      {
+        source: '/product/eiche-cowgill',
+        destination: '/category/laminat',
+        permanent: false,
+      },
+      {
+        source: '/product/eiche-daltra',
+        destination: '/category/laminat',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-eiche-derry',
+        destination: '/category/laminat',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-eiche-kingstep',
+        destination: '/category/laminat',
+        permanent: false,
+      },
+      {
+        source: '/product/muster-eiche-mount',
+        destination: '/category/laminat',
+        permanent: false,
+      },
+
       // /product/:slug → wird von src/middleware.ts behandelt (smarter Backend-Lookup
       // mit Präfix-Stripping für migrierte Slugs). Eine generische next.config-Regel
       // würde die Middleware shadowen, da next.config-redirects in Next.js VOR der
