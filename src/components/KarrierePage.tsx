@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react';
 import Image from 'next/image';
+import Script from 'next/script';
 import { WordPressPage } from '@/lib/wordpress';
 
 interface KarrierePageProps {
@@ -65,27 +66,6 @@ const benefits = [
   },
 ];
 
-const openPositions = [
-  {
-    title: 'Verkäufer/in im Fachmarkt',
-    type: 'Vollzeit',
-    location: 'Hückelhoven',
-    description: 'Du berätst unsere Kunden kompetent bei der Auswahl des perfekten Bodenbelags und begleitest sie vom Erstgespräch bis zur Kaufentscheidung.',
-  },
-  {
-    title: 'Lagerist/in',
-    type: 'Vollzeit / Teilzeit',
-    location: 'Hückelhoven',
-    description: 'Du kümmerst dich um Warenannahme, Lagerorganisation und die Kommissionierung von Kundenbestellungen.',
-  },
-  {
-    title: 'Ausbildung zum/zur Kaufmann/-frau im Einzelhandel',
-    type: 'Ausbildung',
-    location: 'Hückelhoven',
-    description: 'Starte deine Karriere im Bodenbelag-Fachhandel mit einer fundierten Ausbildung in einem zukunftssicheren Bereich.',
-  },
-];
-
 export default function KarrierePage({ page }: KarrierePageProps) {
   const { galleryImages, heroImage, cleanContent } = useMemo(() => {
     const content = page.content.rendered;
@@ -115,7 +95,6 @@ export default function KarrierePage({ page }: KarrierePageProps) {
   }, [page.content.rendered]);
 
   const [lightboxImage, setLightboxImage] = useState<number | null>(null);
-  const [expandedPosition, setExpandedPosition] = useState<number | null>(null);
 
   // Lock body scroll when lightbox is open
   useEffect(() => {
@@ -261,80 +240,13 @@ export default function KarrierePage({ page }: KarrierePageProps) {
               Finde die passende Position und bewirb dich direkt bei uns.
             </p>
           </div>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {openPositions.map((position, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
-              >
-                <button
-                  onClick={() => setExpandedPosition(expandedPosition === index ? null : index)}
-                  className="w-full px-6 py-5 flex items-center justify-between text-left"
-                >
-                  <div className="flex-1">
-                    <h3 className="text-lg font-bold text-dark">{position.title}</h3>
-                    <div className="flex flex-wrap items-center gap-3 mt-1.5">
-                      <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-500">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        {position.type}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-500">
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                        {position.location}
-                      </span>
-                    </div>
-                  </div>
-                  <svg
-                    className={`w-5 h-5 text-gray-400 flex-shrink-0 ml-4 transition-transform duration-200 ${
-                      expandedPosition === index ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                {expandedPosition === index && (
-                  <div className="px-6 pb-6 border-t border-gray-100 pt-4">
-                    <p className="text-gray-600 mb-5">{position.description}</p>
-                    <a
-                      href="mailto:info@bodenjaeger.de?subject=Bewerbung: ${position.title}"
-                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand text-white font-bold rounded-lg hover:bg-[#d11820] transition-colors text-sm"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      Jetzt bewerben
-                    </a>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Initiativbewerbung */}
-          <div className="max-w-3xl mx-auto mt-8 text-center">
-            <div className="bg-white rounded-xl border border-dashed border-gray-300 p-8">
-              <h3 className="text-lg font-bold text-dark mb-2">
-                Nichts Passendes dabei?
-              </h3>
-              <p className="text-gray-500 mb-5">
-                Wir freuen uns immer über Initiativbewerbungen. Sag uns, was dich ausmacht!
-              </p>
-              <a
-                href="mailto:info@bodenjaeger.de?subject=Initiativbewerbung"
-                className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-brand text-brand font-bold rounded-lg hover:bg-brand hover:text-white transition-colors text-sm"
-              >
-                Initiativbewerbung senden
-              </a>
-            </div>
+          <div className="max-w-4xl mx-auto">
+            <div id="join-widget" />
+            <Script
+              src="https://join.com/api/widget/bundle/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXR0aW5ncyI6eyJzaG93Q2F0ZWdvcnlGaWx0ZXIiOnRydWUsInNob3dMb2NhdGlvbkZpbHRlciI6dHJ1ZSwic2hvd0VtcGxveW1lbnRUeXBlRmlsdGVyIjp0cnVlLCJsYW5ndWFnZSI6ImRlIiwiam9ic1BlclBhZ2UiOjI1fSwiam9icyI6e30sImRlc2lnbiI6eyJzaG93TG9nbyI6dHJ1ZSwic2hvd0xvY2F0aW9uIjp0cnVlLCJzaG93RW1wbG95bWVudFR5cGUiOnRydWUsInNob3dDYXRlZ29yeSI6dHJ1ZSwiY29sb3JzIjp7IndpZGdldCI6eyJiYWNrZ3JvdW5kIjoiI0ZGRkZGRiIsImZpbHRlckJvcmRlciI6IiNENEQ0RDgiLCJwYWdpbmF0aW9uIjoiIzI1NjNFQiJ9LCJqb2JDYXJkIjp7InNoYWRvdyI6IiNENEQ0RDgiLCJiYWNrZ3JvdW5kIjoiI0ZGRkZGRiIsInByaW1hcnlUZXh0IjoiIzNGM0Y0NiIsInNlY29uZGFyeVRleHQiOiIjNTI1MjVCIn19fSwidmVyc2lvbiI6MiwiY29tcGFueVB1YmxpY0lkIjoiYTBkZDM0NDU5ODFkODU5N2VmYmRmN2VmNTBlZjM1ZDgiLCJpYXQiOjE3Nzc1NDMwNzYsImp0aSI6ImE4ODE1YTY1LWRmZmMtNDJjZi05OTc1LTkzZmNhMDdhNGJjMCJ9.t3QTLpHIUGdnLsuqFmCwyX1d-6gTBiiU-gyJTjsoXUY"
+              strategy="afterInteractive"
+              data-mount-in="#join-widget"
+            />
           </div>
         </div>
       </section>
