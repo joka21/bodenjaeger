@@ -44,8 +44,12 @@ const nextConfig: NextConfig = {
   },
 
   // 301-Redirects für Migrations-404er (alter WordPress/WooCommerce-Shop → neuer Next.js-Shop)
+  // ⚠️ Reihenfolge wichtig: Next.js nutzt FIRST MATCH — spezifische Regeln zuerst.
   async redirects() {
     return [
+      // ============================================================
+      // PRODUKTE
+      // ============================================================
       // Victoria XL — Hauptprodukt fehlt im Backend, temporär in die Kategorie.
       // 302 (permanent: false) — sobald das Produkt wieder existiert, kann diese Regel raus.
       {
@@ -58,6 +62,66 @@ const nextConfig: NextConfig = {
       // würde die Middleware shadowen, da next.config-redirects in Next.js VOR der
       // Middleware laufen. Nicht wieder reinpacken — sonst bekommen User wieder 404er
       // auf migrierte Slugs (z. B. /product/vinylboden-rigid-vinyl-coretec-forest).
+
+      // ============================================================
+      // VERSCHACHTELTE PRODUKT-KATEGORIEN (WP hatte Subkategorien-Pfade)
+      // → letzter Slug = konkretere Subkategorie. Reihenfolge: längere Pfade zuerst.
+      // ============================================================
+      {
+        source: '/product-category/zubehoer/zubehoer-fuer-sockelleisten/werkzeug',
+        destination: '/category/werkzeug',
+        permanent: true,
+      },
+      {
+        source: '/product-category/zubehoer/zubehoer-fuer-sockelleisten',
+        destination: '/category/zubehoer-fuer-sockelleisten',
+        permanent: true,
+      },
+      {
+        source: '/product-category/zubehoer/montagekleber-silikon-und-acryl',
+        destination: '/category/montagekleber-silikon',
+        permanent: true,
+      },
+      {
+        source: '/product-category/parkett/fertigparkett',
+        destination: '/category/fertigparkett',
+        permanent: true,
+      },
+      {
+        source: '/product-category/vinylboden/rigid-vinyl',
+        destination: '/category/rigid-vinyl',
+        permanent: true,
+      },
+      {
+        source: '/product-category/vinylboden/klebe-vinyl',
+        destination: '/category/klebe-vinyl',
+        permanent: true,
+      },
+      {
+        source: '/product-category/teppichboden/sedna-teppichboden',
+        destination: '/category/teppichboden',
+        permanent: true,
+      },
+
+      // ============================================================
+      // PAGINATION (alte WP-Kategorie-/Shop-Pagination existiert nicht)
+      // ============================================================
+      // /product-category/<slug>/page/<n>/ → /category/<slug> (Pagination weg)
+      {
+        source: '/product-category/:slug/page/:n*',
+        destination: '/category/:slug',
+        permanent: true,
+      },
+      // /shop/page/<n>/ (auch mit ?add-to-cart=…) → Homepage
+      {
+        source: '/shop/page/:n*',
+        destination: '/',
+        permanent: true,
+      },
+
+      // ============================================================
+      // KATEGORIEN (generisch — muss NACH den verschachtelten Spezial-Regeln stehen)
+      // ============================================================
       // WooCommerce-Default war /product-category/{slug}, neue Route ist /category/{slug}
       {
         source: '/product-category/:slug*',
@@ -70,7 +134,10 @@ const nextConfig: NextConfig = {
         destination: '/category/klebe-vinyl',
         permanent: true,
       },
-      // WooCommerce-Konto-Routen (EN + DE Default) → neue Konto-Route
+
+      // ============================================================
+      // KONTO
+      // ============================================================
       {
         source: '/my-account',
         destination: '/konto',
@@ -81,9 +148,86 @@ const nextConfig: NextConfig = {
         destination: '/konto',
         permanent: true,
       },
-      // WooCommerce-Hauptshop-Seite → Homepage
+
+      // ============================================================
+      // SHOP
+      // ============================================================
       {
         source: '/shop',
+        destination: '/',
+        permanent: true,
+      },
+
+      // ============================================================
+      // SERVICEBEREICH (alte WP-Subseiten → neue Fachmarkt-Subseiten)
+      // ============================================================
+      {
+        source: '/servicebereich/lagerservice',
+        destination: '/fachmarkt-hueckelhoven/warenlagerung',
+        permanent: true,
+      },
+      {
+        source: '/servicebereich/schausonntag',
+        destination: '/fachmarkt-hueckelhoven/schausonntag',
+        permanent: true,
+      },
+      // Catch-all für unbekannte Servicebereich-Subseiten → /service
+      {
+        source: '/servicebereich/:slug*',
+        destination: '/service',
+        permanent: true,
+      },
+
+      // ============================================================
+      // FILIALANGEBOTE (alte URL-Struktur)
+      // ============================================================
+      {
+        source: '/filialangebote/:slug*',
+        destination: '/fachmarkt-hueckelhoven',
+        permanent: true,
+      },
+
+      // ============================================================
+      // AKTIONSSEITEN
+      // ============================================================
+      {
+        source: '/aktion-premium-boeden-inkl-verlegung',
+        destination: '/sale',
+        permanent: true,
+      },
+
+      // ============================================================
+      // RATGEBER-ARTIKEL ("vor-und-nachteile")
+      // Blog existiert aktuell nicht — leiten auf jeweilige Kategorie um.
+      // Wenn der Blog später kommt, hier auf /blog/<slug> umstellen.
+      // ============================================================
+      {
+        source: '/laminat-vor-und-nachteile',
+        destination: '/category/laminat',
+        permanent: true,
+      },
+      {
+        source: '/rigid-vinyl-vor-und-nachteile',
+        destination: '/category/rigid-vinyl',
+        permanent: true,
+      },
+      {
+        source: '/klebe-vinyl-vor-und-nachteile',
+        destination: '/category/klebe-vinyl',
+        permanent: true,
+      },
+
+      // ============================================================
+      // RSS-FEEDS (existieren im Headless-Shop nicht mehr)
+      // → Homepage als Fallback. Pragmatisch ok; korrekt wäre 410 Gone via Middleware.
+      // ============================================================
+      {
+        source: '/:path*/feed',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/feed',
         destination: '/',
         permanent: true,
       },
