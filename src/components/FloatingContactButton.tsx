@@ -14,9 +14,9 @@ export default function FloatingContactButton() {
 
   return (
     <>
-      {/* Floating Buttons - 10px rechts neben dem Content-Container (max-width: 1400px) */}
+      {/* Floating Buttons - mehr rechter Abstand auf Mobile (iPhone Safe-Area & abgerundete Ecken) */}
       <div
-        className={`fixed bottom-6 right-6 z-[60] flex flex-col gap-3 transition-opacity duration-300 ${
+        className={`fixed right-8 bottom-6 md:right-6 md:bottom-6 z-[60] flex flex-col gap-3 transition-opacity duration-300 ${
           isCartDrawerOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
