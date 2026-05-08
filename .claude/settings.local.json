@@ -112,7 +112,9 @@
       "mcp__ide__getDiagnostics",
       "WebFetch(domain:2025.bodenjaeger.de)",
       "WebFetch(domain:plan-dein-ding.de)",
-      "Bash(dir \"public\\\\images\\\\jobs\")"
+      "Bash(dir \"public\\\\images\\\\jobs\")",
+      "Bash(findstr LISTENING)",
+      "Bash(taskkill *)"
     ]
   }
 }

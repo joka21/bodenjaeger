@@ -17,6 +17,7 @@ import {
 import { createStripeCheckoutSession, euroToCents } from '@/lib/stripe';
 import { createPayPalOrder } from '@/lib/paypal';
 import { wpValidateToken, wpGetCurrentUser } from '@/lib/auth';
+import { buildOrderMetaData, type AttributionData } from '@/lib/attribution';
 
 // ============================================================================
 // TypeScript Interfaces
@@ -62,6 +63,7 @@ interface CreateOrderRequestBody {
   shipping_method?: 'delivery' | 'pickup';
   customer_note?: string;
   shipping_cost?: number;
+  attribution?: AttributionData | null;
 }
 
 // ============================================================================
@@ -72,8 +74,16 @@ export async function POST(request: NextRequest) {
   try {
     // 1. Request Body parsen
     const body: CreateOrderRequestBody = await request.json();
-    const { billing, shipping, line_items, payment_method, shipping_method, customer_note, shipping_cost } =
-      body;
+    const {
+      billing,
+      shipping,
+      line_items,
+      payment_method,
+      shipping_method,
+      customer_note,
+      shipping_cost,
+      attribution,
+    } = body;
 
     // 2. Validierung
     const validation = validateOrderData(body);
@@ -126,6 +136,10 @@ export async function POST(request: NextRequest) {
     }));
     const shippingCostNet = shipping_cost ? shipping_cost / TAX_RATE : 0;
 
+    // Order Attribution Tracking (WooCommerce 8.5+ Native, _wc_order_attribution_*)
+    // Frontend liefert die Daten nur, wenn analytics-Consent vorliegt — sonst null.
+    const attributionMetaData = attribution ? buildOrderMetaData(attribution) : [];
+
     // 5. WooCommerce Order erstellen (Status: pending)
     const orderData: WooCommerceOrderData = {
       ...(customerId ? { customer_id: customerId } : {}),
@@ -137,6 +151,7 @@ export async function POST(request: NextRequest) {
       shipping,
       line_items: lineItemsNet,
       customer_note,
+      ...(attributionMetaData.length > 0 ? { meta_data: attributionMetaData } : {}),
       shipping_lines: shipping_method === 'pickup'
         ? [
             {

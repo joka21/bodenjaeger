@@ -10,6 +10,7 @@ import FloatingContactButton from "@/components/FloatingContactButton";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleTagManager from "@/components/GoogleTagManager";
 import PageViewTracker from "@/components/PageViewTracker";
+import AttributionTracker from "@/components/AttributionTracker";
 import TrustedShops from "@/components/TrustedShops";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
@@ -73,6 +74,7 @@ export default function RootLayout({
         <CookieConsentProvider>
           <GoogleTagManager />
           <PageViewTracker />
+          <AttributionTracker />
           <TrustedShops />
           <AuthProvider>
             <CartProvider>

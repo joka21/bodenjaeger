@@ -8,6 +8,7 @@ import { calculateShippingCost } from '@/lib/shippingConfig';
 import { track } from '@/lib/analytics/track';
 import { cartItemsToGA4Items } from '@/lib/analytics/mapItem';
 import type { PaymentType, PurchaseTrackingPayload } from '@/lib/analytics/types';
+import { useAttribution } from '@/hooks/useAttribution';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
@@ -46,6 +47,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, totalPrice, customerNote, deliveryNote } = useCart();
   const { isLoggedIn } = useAuth();
+  const attribution = useAttribution();
 
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -330,6 +332,7 @@ export default function CheckoutPage() {
             customerNote.trim() && `Anmerkung: ${customerNote.trim()}`,
           ].filter(Boolean).join('\n\n'),
           shipping_cost: shippingCost,
+          attribution,
         }),
       });
 
