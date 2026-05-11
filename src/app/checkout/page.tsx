@@ -84,13 +84,18 @@ export default function CheckoutPage() {
   // Bei Page-Reload muss der Kunde den Code erneut eingeben — er hat ihn aus dem
   // Marketing-Material und das ist akzeptabel.
   const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
-  // `couponNotice` wird in Phase D von OrderSummary konsumiert (Anzeige des
-  // permanenten Hinweises bei Auto-Remove). Hier nur Setter-Aufrufe.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [couponNotice, setCouponNotice] = useState<{
     type: 'replaced' | 'removed';
     message: string;
   } | null>(null);
+
+  // Auto-Dismiss der 'replaced'-Notice nach 5s. 'removed'-Notice bleibt
+  // permanent (B4=b) und muss aktiv vom User geschlossen werden.
+  useEffect(() => {
+    if (couponNotice?.type !== 'replaced') return;
+    const timer = setTimeout(() => setCouponNotice(null), 5000);
+    return () => clearTimeout(timer);
+  }, [couponNotice]);
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -226,6 +231,27 @@ export default function CheckoutPage() {
       })
       .catch(() => {});
   }, [isLoggedIn]);
+
+  // Coupon-Handler — werden von CouponInput (via OrderSummary) aufgerufen.
+  const handleApplyCoupon = (coupon: AppliedCoupon) => {
+    setAppliedCoupon(coupon);
+    setCouponNotice(null);
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponNotice(null);
+  };
+
+  const handleReplaceCoupon = (oldCode: string, newCoupon: AppliedCoupon) => {
+    setAppliedCoupon(newCoupon);
+    setCouponNotice({
+      type: 'replaced',
+      message: `Code „${oldCode}" durch „${newCoupon.code}" ersetzt.`,
+    });
+  };
+
+  const handleDismissNotice = () => setCouponNotice(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -382,8 +408,21 @@ export default function CheckoutPage() {
             country: formData.country,
           };
 
-      // Versandkosten berechnen
-      const shippingCost = shippingMethod === 'pickup' ? 0 : calculateShippingCost(totalPrice, cartItems);
+      // Versandkosten berechnen.
+      // Schwelle (z.B. Free-Shipping ab 999€) wird auf den DISKONTIERTEN
+      // Subtotal angewendet — sonst würden Coupons den Versand künstlich
+      // kostenfrei lassen, obwohl der Cart unter die Schwelle gerutscht ist.
+      // free_shipping-Coupons nullt der Server zusätzlich autoritativ.
+      const subtotalAfterDiscount = Math.max(
+        0,
+        totalPrice - (appliedCoupon?.discountAmount ?? 0)
+      );
+      const shippingCost =
+        shippingMethod === 'pickup'
+          ? 0
+          : appliedCoupon?.freeShipping
+            ? 0
+            : calculateShippingCost(subtotalAfterDiscount, cartItems);
 
       // API Call
       const response = await fetch('/api/checkout/create-order', {
@@ -888,7 +927,15 @@ export default function CheckoutPage() {
 
             {/* RECHTE SPALTE (40%) */}
             <div className="w-full lg:w-2/5 order-1 lg:order-2">
-              <OrderSummary shippingMethod={shippingMethod} />
+              <OrderSummary
+                shippingMethod={shippingMethod}
+                appliedCoupon={appliedCoupon}
+                couponNotice={couponNotice}
+                onApplyCoupon={handleApplyCoupon}
+                onRemoveCoupon={handleRemoveCoupon}
+                onReplaceCoupon={handleReplaceCoupon}
+                onDismissNotice={handleDismissNotice}
+              />
             </div>
           </div>
         </div>
