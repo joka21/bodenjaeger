@@ -2,6 +2,7 @@
 
 import { CartDrawerData, CartDrawerItem } from '@/types/cart-drawer';
 import type { CartItem } from '@/contexts/CartContext';
+import type { CartItemForValidation } from '@/lib/coupon';
 import { calculateShippingCost } from '@/lib/shippingConfig';
 
 /**
@@ -133,4 +134,41 @@ export function getTotalItemCount(items: CartDrawerItem[]): number {
       return count + item.product.quantity;
     }
   }, 0);
+}
+
+/**
+ * Konvertiert Cart-Items in das Validierungsformat für die Coupon-API.
+ *
+ * - Reguläre Items: `price` = Einzelpreis (€/Einheit), `quantity` = Pakete × Paketinhalt
+ *   → Produkt entspricht dem Brutto-Line-Total
+ * - Set-Items: `price` = `setPricePerUnit` (kann 0 für „kostenlos" sein),
+ *              `quantity` = `actualM2` (oder lfm bei Sockelleisten)
+ * - Muster: immer `price = 0`, `isSample: true` → werden vom Validator stets ausgeschlossen
+ */
+export function toValidationItems(cartItems: CartItem[]): CartItemForValidation[] {
+  return cartItems.map((item) => {
+    let price: number;
+    let quantity: number;
+
+    if (item.isSample) {
+      price = 0;
+      quantity = item.quantity;
+    } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+      price = item.setPricePerUnit;
+      quantity = item.actualM2;
+    } else {
+      const paketinhalt = item.product.paketinhalt || 1;
+      price = item.product.price;
+      quantity = item.quantity * paketinhalt;
+    }
+
+    return {
+      productId: item.product.id,
+      price,
+      quantity,
+      isSample: item.isSample ?? false,
+      isOnSale: item.product.on_sale ?? false,
+      categoryIds: item.product.categories?.map((c) => c.id) ?? [],
+    };
+  });
 }

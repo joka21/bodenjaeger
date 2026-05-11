@@ -5,10 +5,13 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
+import { toValidationItems } from '@/lib/cart-utils';
 import { track } from '@/lib/analytics/track';
 import { cartItemsToGA4Items } from '@/lib/analytics/mapItem';
 import type { PaymentType, PurchaseTrackingPayload } from '@/lib/analytics/types';
 import { useAttribution } from '@/hooks/useAttribution';
+import type { AppliedCoupon } from '@/types/checkout';
+import type { ValidateCouponResult } from '@/lib/coupon';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
@@ -77,6 +80,18 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Coupon-State. Bleibt bewusst in-memory (kein localStorage, kein Mount-Hook):
+  // Bei Page-Reload muss der Kunde den Code erneut eingeben — er hat ihn aus dem
+  // Marketing-Material und das ist akzeptabel.
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
+  // `couponNotice` wird in Phase D von OrderSummary konsumiert (Anzeige des
+  // permanenten Hinweises bei Auto-Remove). Hier nur Setter-Aufrufe.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [couponNotice, setCouponNotice] = useState<{
+    type: 'replaced' | 'removed';
+    message: string;
+  } | null>(null);
+
   // Redirect if cart is empty
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -103,6 +118,59 @@ export default function CheckoutPage() {
     if (items.length === 0) return;
     track.addPaymentInfo(items, totalPrice, formData.paymentMethod);
   }, [formData.paymentMethod]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Coupon-Re-Validation bei kritischen Änderungen (Entscheidung B3=c).
+  // Trigger: cartItems.length, totalPrice, shippingMethod. Adress-Eingaben
+  // lösen KEINE Re-Validation aus.
+  // Bei valid:false wird der Coupon entfernt und eine Notice gesetzt (B4=b,
+  // permanent bis User schließt — Anzeige in Phase D).
+  useEffect(() => {
+    if (!appliedCoupon) return;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch('/api/checkout/validate-coupon', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            code: appliedCoupon.code,
+            cartItems: toValidationItems(cartItems),
+          }),
+        });
+        if (cancelled) return;
+        const result: ValidateCouponResult = await response.json();
+        if (!result.valid) {
+          setAppliedCoupon(null);
+          setCouponNotice({
+            type: 'removed',
+            message: `Code „${appliedCoupon.code}" wurde entfernt: ${result.message}`,
+          });
+        } else if (
+          result.coupon.discountAmount !== appliedCoupon.discountAmount ||
+          result.coupon.freeShipping !== appliedCoupon.freeShipping
+        ) {
+          // Discount-Betrag/freeShipping wurde durch Cart-Änderung neu berechnet —
+          // aktualisiere lokalen State (silent, keine Notice).
+          setAppliedCoupon(result.coupon);
+        }
+      } catch (err) {
+        if (cancelled) return;
+        // Netzfehler: Coupon im State behalten, kein UI-Disruption.
+        // WC validiert beim Order-Submit nochmal autoritativ.
+        console.error('[checkout] Coupon re-validation failed:', err);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+    // Re-Validation NUR bei diesen drei Triggern (laut Spec). `appliedCoupon` und
+    // `cartItems` werden im Effect gelesen, sind aber bewusst nicht in den Deps:
+    // - `appliedCoupon`: ein Apply triggert die Validation eigenständig (Phase B)
+    // - `cartItems`: stabile Referenz pro Render würde sonst dauerhafte Re-Runs auslösen
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems.length, totalPrice, shippingMethod]);
 
   // Auto-fill from customer account
   useEffect(() => {
@@ -333,6 +401,15 @@ export default function CheckoutPage() {
           ].filter(Boolean).join('\n\n'),
           shipping_cost: shippingCost,
           attribution,
+          // Coupon-Felder werden nur mitgesendet, wenn ein Code aktiv ist.
+          // Server re-validiert serverseitig (Race-Schutz bei zwischenzeitlicher
+          // Backend-Deaktivierung) und reicht WC `coupon_lines` weiter.
+          ...(appliedCoupon
+            ? {
+                couponCode: appliedCoupon.code,
+                cartItemsForValidation: toValidationItems(cartItems),
+              }
+            : {}),
         }),
       });
 
@@ -344,12 +421,22 @@ export default function CheckoutPage() {
         // localStorage statt sessionStorage — Stripe/PayPal-Redirect ist Cross-Domain
         // und Tab-scoped sessionStorage ist dabei nicht zuverlässig.
         try {
+          // Bei aktivem Coupon authoritative Brutto-Endsumme aus WC-Order übernehmen
+          // (`result.total`), nicht das Pre-Discount-`totalPrice` aus dem Frontend.
+          // Bei `freeShipping` ist die Versand-Komponente in `result.total` bereits
+          // null — für die separate `shipping`-GA4-Property nutzen wir den
+          // tatsächlich gezahlten Versand (0 bei free_shipping, sonst `shippingCost`).
+          const trackedValue = result.total
+            ? parseFloat(result.total)
+            : totalPrice + shippingCost;
+          const trackedShipping = appliedCoupon?.freeShipping ? 0 : shippingCost;
+
           const trackingPayload: PurchaseTrackingPayload = {
             items: cartItemsToGA4Items(cartItems),
-            value: totalPrice + shippingCost,
+            value: trackedValue,
             currency: 'EUR',
             paymentType: formData.paymentMethod as PaymentType,
-            shipping: shippingCost,
+            shipping: trackedShipping,
           };
           localStorage.setItem(
             `order_${result.orderId}_tracking`,
@@ -362,6 +449,16 @@ export default function CheckoutPage() {
         // Redirect zum Payment Gateway oder Success-Page
         window.location.href = result.redirectUrl;
       } else {
+        // Coupon-spezifischer Fehler: zwischen Apply und Submit wurde der Code
+        // ungültig (z.B. im WC-Backend deaktiviert). Coupon lokal entfernen und
+        // Notice setzen, damit Phase-D-UI den Kunden informiert.
+        if (result.errorCode && appliedCoupon) {
+          setCouponNotice({
+            type: 'removed',
+            message: `Code „${appliedCoupon.code}" wurde entfernt: ${result.error}`,
+          });
+          setAppliedCoupon(null);
+        }
         setError(result.error || 'Bestellung konnte nicht erstellt werden');
         setLoading(false);
       }
