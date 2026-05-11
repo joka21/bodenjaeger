@@ -226,7 +226,9 @@ export async function validateAndCalculateCoupon(
       break;
     case 'fixed_product': {
       const totalQty = discountableItems.reduce((sum, i) => sum + i.quantity, 0);
-      rawDiscount = amount * totalQty;
+      // Cap überschreibt die formale Spec-Formel (`amount * Σ(qty)`) zur UI-Konsistenz —
+      // verhindert negative Gesamtsummen bei fehlkonfigurierten Coupons.
+      rawDiscount = Math.min(discountableSubtotal, amount * totalQty);
       break;
     }
     default:
