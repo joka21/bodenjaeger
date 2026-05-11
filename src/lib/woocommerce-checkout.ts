@@ -49,6 +49,9 @@ export interface WooCommerceOrderData {
     method_title: string;
     total: string;
   }>;
+  coupon_lines?: Array<{
+    code: string;
+  }>;
   customer_note?: string;
   meta_data?: Array<{
     key: string;

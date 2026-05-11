@@ -10,14 +10,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import {
+  addOrderNote,
   createWooCommerceOrder,
   updateOrderStatus,
+  type OrderStatus,
   type WooCommerceOrderData,
 } from '@/lib/woocommerce-checkout';
 import { createStripeCheckoutSession, euroToCents } from '@/lib/stripe';
 import { createPayPalOrder } from '@/lib/paypal';
 import { wpValidateToken, wpGetCurrentUser } from '@/lib/auth';
 import { buildOrderMetaData, type AttributionData } from '@/lib/attribution';
+import {
+  validateAndCalculateCoupon,
+  type AppliedCoupon,
+  type CartItemForValidation,
+} from '@/lib/coupon';
 
 // ============================================================================
 // TypeScript Interfaces
@@ -64,6 +71,36 @@ interface CreateOrderRequestBody {
   customer_note?: string;
   shipping_cost?: number;
   attribution?: AttributionData | null;
+  /** Sanitisierter Coupon-Code (optional). Falls gesetzt, ist `cartItemsForValidation` Pflicht. */
+  couponCode?: string;
+  /** Cart-Snapshot für serverseitige Coupon-Re-Validation. */
+  cartItemsForValidation?: CartItemForValidation[];
+}
+
+// ============================================================================
+// Body-Helfer
+// ============================================================================
+
+/**
+ * Type-Guard für `CartItemForValidation`. Bewusst inline dupliziert (gleiche
+ * Logik wie in `validate-coupon/route.ts`) — eine Extraktion in `coupon.ts`
+ * wäre ein Refactor, der nicht zum Scope von Phase E gehört.
+ */
+function isCartItemForValidation(x: unknown): x is CartItemForValidation {
+  if (!x || typeof x !== 'object') return false;
+  const o = x as Record<string, unknown>;
+  return (
+    typeof o.productId === 'number' &&
+    Number.isFinite(o.productId) &&
+    typeof o.price === 'number' &&
+    Number.isFinite(o.price) &&
+    typeof o.quantity === 'number' &&
+    Number.isFinite(o.quantity) &&
+    typeof o.isSample === 'boolean' &&
+    typeof o.isOnSale === 'boolean' &&
+    Array.isArray(o.categoryIds) &&
+    o.categoryIds.every((c) => typeof c === 'number')
+  );
 }
 
 // ============================================================================
@@ -83,6 +120,8 @@ export async function POST(request: NextRequest) {
       customer_note,
       shipping_cost,
       attribution,
+      couponCode,
+      cartItemsForValidation,
     } = body;
 
     // 2. Validierung
@@ -95,6 +134,60 @@ export async function POST(request: NextRequest) {
         },
         { status: 400 }
       );
+    }
+
+    // 2b. Coupon-Re-Validation (vor allem Order-Building).
+    // Wenn ein Coupon-Code vorliegt, validieren wir ihn serverseitig erneut
+    // mit dem aus dem Body rekonstruierten Cart-Snapshot. Schlägt das fehl,
+    // wird die Order NICHT erstellt (Entscheidung B1: PAngV-konform).
+    let appliedCoupon: AppliedCoupon | null = null;
+    if (couponCode !== undefined) {
+      // Strukturelle Voraussetzung: Wenn couponCode gesetzt ist, muss
+      // cartItemsForValidation ein wohlgeformtes Array sein. Ein Verstoß
+      // ist ein Client-Bug, kein Coupon-Validierungs-Fehler → errorCode 'UNKNOWN'.
+      if (typeof couponCode !== 'string') {
+        console.error('[create-order] Bad request: couponCode is not a string', {
+          actualType: typeof couponCode,
+        });
+        return NextResponse.json(
+          { success: false, error: 'Ungültige Anfrage.', errorCode: 'UNKNOWN' },
+          { status: 400 }
+        );
+      }
+      if (!Array.isArray(cartItemsForValidation)) {
+        console.error('[create-order] Bad request: couponCode present but cartItemsForValidation missing or not an array', {
+          couponCode,
+          cartItemsForValidationType: typeof cartItemsForValidation,
+        });
+        return NextResponse.json(
+          { success: false, error: 'Ungültige Anfrage.', errorCode: 'UNKNOWN' },
+          { status: 400 }
+        );
+      }
+      const invalidIndex = cartItemsForValidation.findIndex((it) => !isCartItemForValidation(it));
+      if (invalidIndex !== -1) {
+        console.error('[create-order] Bad request: cartItemsForValidation contains malformed item', {
+          index: invalidIndex,
+          item: cartItemsForValidation[invalidIndex],
+        });
+        return NextResponse.json(
+          { success: false, error: 'Ungültige Anfrage.', errorCode: 'UNKNOWN' },
+          { status: 400 }
+        );
+      }
+
+      const couponResult = await validateAndCalculateCoupon(couponCode, cartItemsForValidation);
+      if (!couponResult.valid) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: couponResult.message,
+            errorCode: couponResult.errorCode,
+          },
+          { status: 400 }
+        );
+      }
+      appliedCoupon = couponResult.coupon;
     }
 
     // 3. Eingeloggten Kunden erkennen (optional, Gastbestellung bleibt möglich)
@@ -141,6 +234,36 @@ export async function POST(request: NextRequest) {
     const attributionMetaData = attribution ? buildOrderMetaData(attribution) : [];
 
     // 5. WooCommerce Order erstellen (Status: pending)
+    // free_shipping-Coupon nullt den GESAMTEN Versand (inkl. Muster-Aufschlag).
+    // Wir setzen shipping_lines deterministisch, anstatt uns auf WC's eigene
+    // Coupon-Verarbeitung der Versandzeile zu verlassen.
+    const shippingLines: WooCommerceOrderData['shipping_lines'] =
+      shipping_method === 'pickup'
+        ? [
+            {
+              method_id: 'local_pickup',
+              method_title: 'Abholung im Fachmarkt',
+              total: '0.00',
+            },
+          ]
+        : appliedCoupon?.freeShipping
+          ? [
+              {
+                method_id: 'flat_rate',
+                method_title: 'Versand (Gutschein)',
+                total: '0.00',
+              },
+            ]
+          : shipping_cost
+            ? [
+                {
+                  method_id: 'flat_rate',
+                  method_title: 'Standardversand',
+                  total: shippingCostNet.toFixed(2),
+                },
+              ]
+            : undefined;
+
     const orderData: WooCommerceOrderData = {
       ...(customerId ? { customer_id: customerId } : {}),
       payment_method: wcPaymentMethod,
@@ -152,23 +275,8 @@ export async function POST(request: NextRequest) {
       line_items: lineItemsNet,
       customer_note,
       ...(attributionMetaData.length > 0 ? { meta_data: attributionMetaData } : {}),
-      shipping_lines: shipping_method === 'pickup'
-        ? [
-            {
-              method_id: 'local_pickup',
-              method_title: 'Abholung im Fachmarkt',
-              total: '0.00',
-            },
-          ]
-        : shipping_cost
-          ? [
-              {
-                method_id: 'flat_rate',
-                method_title: 'Standardversand',
-                total: shippingCostNet.toFixed(2),
-              },
-            ]
-          : undefined,
+      ...(shippingLines ? { shipping_lines: shippingLines } : {}),
+      ...(appliedCoupon ? { coupon_lines: [{ code: appliedCoupon.code }] } : {}),
     };
 
     const order = await createWooCommerceOrder(orderData);
@@ -190,85 +298,134 @@ export async function POST(request: NextRequest) {
       }).catch((err) => console.error('Kundenprofil-Update fehlgeschlagen:', err));
     }
 
-    // 7. Je nach Zahlungsmethode: Payment Session erstellen oder direkt zur Success-Page
+    // 7. Je nach Zahlungsmethode: Payment Session erstellen oder direkt zur Success-Page.
+    //
+    // Konsistenz-Garantie: Bei aktivem Coupon liest der Stripe-/PayPal-Branch den
+    // Gesamtbetrag aus `order.total` (WC = Source of Truth, post-Discount).
+    // Ohne Coupon bleibt das bestehende Per-Item-Layout.
     let redirectUrl: string | null = null;
 
-    // ============================
-    // STRIPE (Kreditkarte)
-    // ============================
-    if (payment_method === 'stripe') {
-      const stripeSession = await createStripeCheckoutSession({
-        orderId: order.id,
-        orderKey: order.order_key,
-        lineItems: line_items.map((item) => ({
-          name: item.name || `Produkt #${item.product_id}`,
-          quantity: item.quantity,
-          price: euroToCents(parseFloat(item.total || '0') / item.quantity),
-        })),
-        customerEmail: billing.email,
-        paymentMethod: 'card',
-        shippingCost: shipping_cost ? euroToCents(shipping_cost) : undefined,
-      });
-
-      redirectUrl = stripeSession.url;
-      console.log(`✅ Stripe Session created: ${stripeSession.sessionId}`);
-    }
+    const consolidatedLabel = `Bodenjäger Bestellung #${order.id}`;
+    const orderTotalBrutto = parseFloat(order.total);
 
     // ============================
-    // SOFORTÜBERWEISUNG (Stripe)
-    // ============================
-    if (payment_method === 'sofort') {
-      const stripeSession = await createStripeCheckoutSession({
-        orderId: order.id,
-        orderKey: order.order_key,
-        lineItems: line_items.map((item) => ({
-          name: item.name || `Produkt #${item.product_id}`,
-          quantity: item.quantity,
-          price: euroToCents(parseFloat(item.total || '0') / item.quantity),
-        })),
-        customerEmail: billing.email,
-        paymentMethod: 'sofort',
-        shippingCost: shipping_cost ? euroToCents(shipping_cost) : undefined,
-      });
-
-      redirectUrl = stripeSession.url;
-      console.log(`✅ Stripe SOFORT Session created: ${stripeSession.sessionId}`);
-    }
-
-    // ============================
-    // PAYPAL
-    // ============================
-    if (payment_method === 'paypal') {
-      // Gesamtbetrag berechnen
-      const subtotal = line_items.reduce(
-        (sum, item) => sum + parseFloat(item.total || '0'),
-        0
-      );
-      const total = subtotal + (shipping_cost || 0);
-
-      const paypalOrder = await createPayPalOrder({
-        orderId: order.id,
-        orderKey: order.order_key,
-        amount: total.toFixed(2),
-        lineItems: line_items.map((item) => ({
-          name: item.name || `Produkt #${item.product_id}`,
-          quantity: item.quantity,
-          unit_amount: (parseFloat(item.total || '0') / item.quantity).toFixed(2),
-        })),
-      });
-
-      redirectUrl = paypalOrder.approvalUrl;
-      console.log(`✅ PayPal Order created: ${paypalOrder.paypalOrderId}`);
-    }
-
-    // ============================
-    // VORKASSE (BACS)
+    // BACS (Vorkasse) — kein externer Payment-Provider, kein Rollback nötig
     // ============================
     if (payment_method === 'bacs') {
-      // Kein Redirect nötig, Status auf "on-hold" setzen (Warten auf Zahlung)
       await updateOrderStatus(order.id, 'on-hold');
       redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.id}&key=${order.order_key}`;
       console.log(`✅ Vorkasse Order created, status set to on-hold`);
+    } else {
+      // STRIPE / SOFORT / PAYPAL — Payment-Session mit Rollback bei Fehler
+      try {
+        if (payment_method === 'stripe' || payment_method === 'sofort') {
+          const stripeLineItems = appliedCoupon
+            ? [
+                {
+                  name: consolidatedLabel,
+                  quantity: 1,
+                  price: euroToCents(orderTotalBrutto),
+                },
+              ]
+            : line_items.map((item) => ({
+                name: item.name || `Produkt #${item.product_id}`,
+                quantity: item.quantity,
+                price: euroToCents(parseFloat(item.total || '0') / item.quantity),
+              }));
+
+          const stripeShippingCost = appliedCoupon
+            ? undefined // bereits in order.total enthalten
+            : shipping_cost
+              ? euroToCents(shipping_cost)
+              : undefined;
+
+          const stripeSession = await createStripeCheckoutSession({
+            orderId: order.id,
+            orderKey: order.order_key,
+            lineItems: stripeLineItems,
+            customerEmail: billing.email,
+            paymentMethod: payment_method === 'sofort' ? 'sofort' : 'card',
+            shippingCost: stripeShippingCost,
+          });
+
+          redirectUrl = stripeSession.url;
+          console.log(
+            `✅ Stripe ${payment_method === 'sofort' ? 'SOFORT ' : ''}Session created: ${stripeSession.sessionId}`
+          );
+        }
+
+        if (payment_method === 'paypal') {
+          let paypalAmount: number;
+          let paypalLineItems: Array<{ name: string; quantity: number; unit_amount: string }>;
+
+          if (appliedCoupon) {
+            paypalAmount = orderTotalBrutto;
+            paypalLineItems = [
+              {
+                name: consolidatedLabel,
+                quantity: 1,
+                unit_amount: orderTotalBrutto.toFixed(2),
+              },
+            ];
+          } else {
+            const subtotal = line_items.reduce(
+              (sum, item) => sum + parseFloat(item.total || '0'),
+              0
+            );
+            paypalAmount = subtotal + (shipping_cost || 0);
+            paypalLineItems = line_items.map((item) => ({
+              name: item.name || `Produkt #${item.product_id}`,
+              quantity: item.quantity,
+              unit_amount: (parseFloat(item.total || '0') / item.quantity).toFixed(2),
+            }));
+          }
+
+          const paypalOrder = await createPayPalOrder({
+            orderId: order.id,
+            orderKey: order.order_key,
+            amount: paypalAmount.toFixed(2),
+            lineItems: paypalLineItems,
+          });
+
+          redirectUrl = paypalOrder.approvalUrl;
+          console.log(`✅ PayPal Order created: ${paypalOrder.paypalOrderId}`);
+        }
+      } catch (paymentErr) {
+        // Rollback: WC-Order existiert bereits, aber Payment-Session schlug fehl.
+        // - Mit Coupon: Status 'cancelled' → WC reduziert `usage_count` (wichtig bei
+        //   `usage_limit=1`-Promo-Codes, damit der Slot nicht verbraucht bleibt).
+        // - Ohne Coupon: Status 'failed' (kein Side-Effect auf Coupons nötig).
+        // Audit-Trail via interner Order-Note. Beide Operationen sind best-effort —
+        // wenn sie scheitern, bleibt die Order pending und WC-Cron räumt auf.
+        const errMsg = paymentErr instanceof Error ? paymentErr.message : 'Unknown error';
+        console.error(
+          `[create-order] Payment session failed for order ${order.id}:`,
+          paymentErr
+        );
+
+        const rollbackStatus: OrderStatus = appliedCoupon ? 'cancelled' : 'failed';
+        await updateOrderStatus(order.id, rollbackStatus).catch((err) =>
+          console.error(
+            `[create-order] Rollback to '${rollbackStatus}' failed for order ${order.id}:`,
+            err
+          )
+        );
+        await addOrderNote(
+          order.id,
+          `Payment session failed (${payment_method}): ${errMsg}`,
+          false
+        ).catch((err) =>
+          console.error(`[create-order] Failed to add order note to ${order.id}:`, err)
+        );
+
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Zahlungs-Session konnte nicht erstellt werden. Bitte versuche es erneut.',
+          },
+          { status: 500 }
+        );
+      }
     }
 
     // 6. Erfolg zurückgeben
