@@ -83,6 +83,32 @@ export type OrderStatus =
   | 'cancelled'
   | 'failed';
 
+export interface WCCoupon {
+  id: number;
+  code: string;                                              // gespeichert in lowercase
+  amount: string;                                            // numeric string, z.B. "10.00"
+  status: string;                                            // 'publish' | 'draft' | 'pending' | ...
+  discount_type: 'percent' | 'fixed_cart' | 'fixed_product';
+  description: string;
+  date_expires: string | null;                               // ISO datetime in Site-Lokalzeit
+  date_expires_gmt: string | null;                           // ISO datetime in GMT (ohne Z-Suffix)
+  usage_count: number;
+  individual_use: boolean;
+  product_ids: number[];
+  excluded_product_ids: number[];
+  usage_limit: number | null;
+  usage_limit_per_user: number | null;
+  limit_usage_to_x_items: number | null;
+  free_shipping: boolean;
+  product_categories: number[];
+  excluded_product_categories: number[];
+  exclude_sale_items: boolean;
+  minimum_amount: string;                                    // numeric string, "0.00" = keine Schwelle
+  maximum_amount: string;                                    // numeric string, "0.00" = keine Schwelle
+  email_restrictions: string[];
+  used_by: string[];
+}
+
 // ============================================================================
 // API Configuration
 // ============================================================================
@@ -340,6 +366,42 @@ export async function addOrderNote(
     }
   } catch (error) {
     console.error(`Failed to add note to order ${orderId}:`, error);
+    throw error;
+  }
+}
+
+/**
+ * Lädt einen WooCommerce-Coupon anhand seines Codes.
+ *
+ * WooCommerce speichert Codes case-insensitiv (intern lowercase). Der Filter
+ * `?code=` matched daher auch bei abweichender Schreibweise.
+ *
+ * @returns Den Coupon oder `null`, wenn kein Coupon mit diesem Code existiert.
+ *          Wirft bei Netz-/Auth-Fehlern.
+ */
+export async function getCouponByCode(code: string): Promise<WCCoupon | null> {
+  const url = `${WC_BASE_URL}/wp-json/wc/v3/coupons?code=${encodeURIComponent(code)}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: getWCAuthHeaders(),
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('WooCommerce API Error:', errorData);
+      throw new Error(
+        `Failed to fetch coupon: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const coupons = await response.json();
+    if (!Array.isArray(coupons) || coupons.length === 0) return null;
+    return coupons[0] as WCCoupon;
+  } catch (error) {
+    console.error(`Failed to get coupon for code "${code}":`, error);
     throw error;
   }
 }
