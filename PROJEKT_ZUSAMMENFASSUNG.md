@@ -902,6 +902,7 @@ src/
 │   ├── CookieConsent.tsx                 # DSGVO Cookie-Banner (NEU April 2026)
 │   ├── CookieSettingsLink.tsx            # Footer-Link zum Cookie-Consent neu oeffnen
 │   ├── JsonLd.tsx                        # JSON-LD Structured Data Renderer (NEU April 2026)
+│   ├── TikTokPixel.tsx                   # TikTok Pixel (DSGVO, laedt nach marketing-Consent)
 │   ├── LiveSearch.tsx                    # Echtzeit-Produktsuche mit Autocomplete
 │   ├── AlertModal.tsx                    # Generischer Modal-Dialog
 │   ├── ProductCard.tsx                   # Generische Produktkarte
@@ -1096,6 +1097,7 @@ npm run check-env    # Prueft alle erforderlichen Variables
 
 ### NICHT konfiguriert (Setup empfohlen)
 - Kein Google Analytics / Conversion Tracking (Cookie-Consent-System bereits vorbereitet)
+- TikTok Pixel integriert (D81DK7JC77U44OJJ3250, "Bodenjaeger TikTok Pixel") — laedt nur nach Marketing-Consent via src/components/TikTokPixel.tsx
 - Kein Sentry / Error Tracking
 - Kein SMTP-Service (E-Mails ueber WordPress Mail)
 - Newsletter-Endpoint nicht vollstaendig implementiert

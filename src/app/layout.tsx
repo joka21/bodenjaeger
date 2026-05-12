@@ -12,6 +12,7 @@ import GoogleTagManager from "@/components/GoogleTagManager";
 import PageViewTracker from "@/components/PageViewTracker";
 import AttributionTracker from "@/components/AttributionTracker";
 import TrustedShops from "@/components/TrustedShops";
+import TikTokPixel from "@/components/TikTokPixel";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
 import "./globals.css";
@@ -79,6 +80,7 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>
+                <TikTokPixel />
                 <CookieConsent />
                 <HeaderWrapper />
                 <FloatingContactButton />
