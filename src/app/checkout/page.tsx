@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,7 +13,7 @@ import { useAttribution } from '@/hooks/useAttribution';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
-type PaymentMethod = 'stripe' | 'paypal' | 'bacs';
+type PaymentMethod = 'stripe' | 'paypal' | 'bacs' | 'klarna';
 type ShippingMethod = 'delivery' | 'pickup';
 
 interface FormData {
@@ -556,38 +557,127 @@ export default function CheckoutPage() {
               <div className="mb-8">
                 <h2 className="text-lg font-semibold text-dark mb-4">Zahlungsmethode</h2>
                 <div className="space-y-3">
-                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="stripe"
-                      checked={formData.paymentMethod === 'stripe'}
-                      onChange={handleInputChange}
-                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
-                    />
-                    <span className="text-sm text-dark">💳 Kreditkarte (Visa, Mastercard, Amex)</span>
+                  {/* PayPal */}
+                  <label className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
+                    formData.paymentMethod === 'paypal'
+                      ? 'border-brand bg-pale'
+                      : 'border-ash hover:border-brand'
+                  }`}>
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="paypal"
+                          checked={formData.paymentMethod === 'paypal'}
+                          onChange={handleInputChange}
+                          className="w-5 h-5 text-brand border-ash focus:ring-brand shrink-0"
+                        />
+                        <span className="text-sm font-medium text-dark">PayPal</span>
+                      </div>
+                      <Image
+                        src="/images/zahlungslogos/paypal.svg"
+                        alt="PayPal"
+                        width={60}
+                        height={24}
+                        className="h-6 w-auto shrink-0"
+                      />
+                    </div>
+                    {formData.paymentMethod === 'paypal' && (
+                      <p className="mt-3 ml-8 text-xs text-gray-600">
+                        PayPal, 30 Tage Rechnungskauf oder flexible Ratenzahlung möglich.
+                      </p>
+                    )}
                   </label>
-                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="paypal"
-                      checked={formData.paymentMethod === 'paypal'}
-                      onChange={handleInputChange}
-                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
-                    />
-                    <span className="text-sm text-dark">💰 PayPal</span>
+
+                  {/* Klarna */}
+                  <label className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
+                    formData.paymentMethod === 'klarna'
+                      ? 'border-brand bg-pale'
+                      : 'border-ash hover:border-brand'
+                  }`}>
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="klarna"
+                          checked={formData.paymentMethod === 'klarna'}
+                          onChange={handleInputChange}
+                          className="w-5 h-5 text-brand border-ash focus:ring-brand shrink-0"
+                        />
+                        <span className="text-sm font-medium text-dark">Klarna – Sofort oder später bezahlen</span>
+                      </div>
+                      <Image
+                        src="/images/zahlungslogos/klarna.svg"
+                        alt="Klarna"
+                        width={60}
+                        height={24}
+                        className="h-6 w-auto shrink-0"
+                      />
+                    </div>
+                    {formData.paymentMethod === 'klarna' && (
+                      <p className="mt-3 ml-8 text-xs text-gray-600">
+                        Mit Klarna bequem per Rechnung, Sofortüberweisung oder flexibler Ratenzahlung bezahlen.
+                      </p>
+                    )}
                   </label>
-                  <label className="flex items-center gap-3 p-4 border border-ash rounded-lg cursor-pointer hover:border-brand transition-colors">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="bacs"
-                      checked={formData.paymentMethod === 'bacs'}
-                      onChange={handleInputChange}
-                      className="w-5 h-5 text-brand border-ash focus:ring-brand"
-                    />
-                    <span className="text-sm text-dark">📄 Vorkasse / Überweisung</span>
+
+                  {/* Kreditkarte (Stripe) */}
+                  <label className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
+                    formData.paymentMethod === 'stripe'
+                      ? 'border-brand bg-pale'
+                      : 'border-ash hover:border-brand'
+                  }`}>
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="stripe"
+                          checked={formData.paymentMethod === 'stripe'}
+                          onChange={handleInputChange}
+                          className="w-5 h-5 text-brand border-ash focus:ring-brand shrink-0"
+                        />
+                        <span className="text-sm font-medium text-dark">Kreditkarte</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <Image src="/images/zahlungslogos/visa.svg" alt="Visa" width={32} height={20} className="h-5 w-auto" />
+                        <Image src="/images/zahlungslogos/mastercard.svg" alt="Mastercard" width={32} height={20} className="h-5 w-auto" />
+                        <Image src="/images/zahlungslogos/amex.svg" alt="American Express" width={32} height={20} className="h-5 w-auto" />
+                        <Image src="/images/zahlungslogos/apple-pay.svg" alt="Apple Pay" width={32} height={20} className="h-5 w-auto" />
+                        <Image src="/images/zahlungslogos/google-pay.svg" alt="Google Pay" width={32} height={20} className="h-5 w-auto" />
+                      </div>
+                    </div>
+                    {formData.paymentMethod === 'stripe' && (
+                      <p className="mt-3 ml-8 text-xs text-gray-600">
+                        Sicher bezahlen mit Visa, Mastercard, American Express, Apple Pay oder Google Pay.
+                      </p>
+                    )}
+                  </label>
+
+                  {/* Vorkasse per Banküberweisung */}
+                  <label className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
+                    formData.paymentMethod === 'bacs'
+                      ? 'border-brand bg-pale'
+                      : 'border-ash hover:border-brand'
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="radio"
+                        name="paymentMethod"
+                        value="bacs"
+                        checked={formData.paymentMethod === 'bacs'}
+                        onChange={handleInputChange}
+                        className="w-5 h-5 text-brand border-ash focus:ring-brand shrink-0"
+                      />
+                      <span className="text-sm font-medium text-dark">Vorkasse per Banküberweisung</span>
+                    </div>
+                    {formData.paymentMethod === 'bacs' && (
+                      <p className="mt-3 ml-8 text-xs text-gray-600">
+                        Überweise den Rechnungsbetrag bequem nach deiner Bestellung. Die Zahlungsinformationen erhältst du direkt per E-Mail.
+                      </p>
+                    )}
                   </label>
                 </div>
               </div>

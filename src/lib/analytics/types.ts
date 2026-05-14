@@ -22,7 +22,7 @@ export interface EcommercePayload {
   items: GA4Item[];
 }
 
-export type PaymentType = 'stripe' | 'paypal' | 'bacs';
+export type PaymentType = 'stripe' | 'paypal' | 'bacs' | 'klarna';
 
 export interface ConsentCategories {
   necessary: true;

@@ -59,7 +59,7 @@ interface CreateOrderRequestBody {
       value: string;
     }>;
   }>;
-  payment_method: 'stripe' | 'paypal' | 'sofort' | 'bacs';
+  payment_method: 'stripe' | 'paypal' | 'sofort' | 'bacs' | 'klarna';
   shipping_method?: 'delivery' | 'pickup';
   customer_note?: string;
   shipping_cost?: number;
@@ -117,7 +117,10 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. Payment Method für WooCommerce festlegen
-    const wcPaymentMethod = payment_method === 'sofort' ? 'stripe_sofort' : payment_method;
+    const wcPaymentMethod =
+      payment_method === 'sofort' ? 'stripe_sofort' :
+      payment_method === 'klarna' ? 'stripe_klarna' :
+      payment_method;
 
     // WooCommerce REST API interpretiert line_items.subtotal/total und
     // shipping_lines.total IMMER als Netto (ex-Tax) — unabhängig von der
@@ -233,6 +236,27 @@ export async function POST(request: NextRequest) {
 
       redirectUrl = stripeSession.url;
       console.log(`✅ Stripe SOFORT Session created: ${stripeSession.sessionId}`);
+    }
+
+    // ============================
+    // KLARNA (Stripe)
+    // ============================
+    if (payment_method === 'klarna') {
+      const stripeSession = await createStripeCheckoutSession({
+        orderId: order.id,
+        orderKey: order.order_key,
+        lineItems: line_items.map((item) => ({
+          name: item.name || `Produkt #${item.product_id}`,
+          quantity: item.quantity,
+          price: euroToCents(parseFloat(item.total || '0') / item.quantity),
+        })),
+        customerEmail: billing.email,
+        paymentMethod: 'klarna',
+        shippingCost: shipping_cost ? euroToCents(shipping_cost) : undefined,
+      });
+
+      redirectUrl = stripeSession.url;
+      console.log(`✅ Stripe Klarna Session created: ${stripeSession.sessionId}`);
     }
 
     // ============================
@@ -388,7 +412,7 @@ function validateOrderData(data: CreateOrderRequestBody): {
     errors.push('Zahlungsmethode ist erforderlich');
   }
 
-  const validPaymentMethods = ['stripe', 'paypal', 'sofort', 'bacs'];
+  const validPaymentMethods = ['stripe', 'paypal', 'sofort', 'bacs', 'klarna'];
   if (data.payment_method && !validPaymentMethods.includes(data.payment_method)) {
     errors.push('Ungültige Zahlungsmethode');
   }
@@ -416,6 +440,7 @@ function getPaymentMethodTitle(method: string): string {
     paypal: 'PayPal',
     sofort: 'Sofortüberweisung',
     bacs: 'Vorkasse / Überweisung',
+    klarna: 'Klarna – Sofort oder später bezahlen',
   };
   return titles[method] || method;
 }
