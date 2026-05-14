@@ -134,3 +134,64 @@ export function getTotalItemCount(items: CartDrawerItem[]): number {
     }
   }, 0);
 }
+
+// ============================================================================
+// Cart → Order-Items Mapping (für API-Übergabe)
+// ============================================================================
+
+export interface OrderItem {
+  product_id: number;
+  name: string;
+  quantity: number;
+  price: number; // Brutto-Einzelpreis in EUR (price × quantity = Item-Total brutto)
+}
+
+/**
+ * Mappt CartItems zu OrderItems für API-Übergabe (PayPal Express etc.).
+ *
+ * Reproduziert das Preis-Pattern aus OrderSummary.tsx (Z.26–52):
+ * - Set-Items:     quantity = actualM2,
+ *                  price    = setPricePerUnit
+ * - Regular-Items: quantity = item.quantity * paketinhalt,
+ *                  price    = product.price
+ *
+ * ACHTUNG bei Free-Items (price === 0):
+ * - PayPal lehnt Items mit unit_amount "0.00" ab → der Caller muss diese
+ *   filtern, bevor er sie an /api/checkout/paypal/express-create sendet
+ *   (passiert im ExpressCheckout-Component, Schritt 7b).
+ * - Für /api/checkout/paypal/express-capture (WooCommerce-Order-Erstellung)
+ *   NICHT filtern — WC akzeptiert Free-Items und braucht sie für die
+ *   vollständige Set-Item-Darstellung im Backoffice.
+ *
+ * Sample-Items (item.isSample === true) werden mit product.price als
+ * Stückpreis behandelt. Die dynamische Sample-Pricing-Logik (erste 3 frei,
+ * danach 3 EUR) wird hier NICHT angewendet — Caller mit Samples im Cart
+ * sollte den Gesamtbetrag separat validieren oder Express für reine
+ * Sample-Bestellungen deaktivieren.
+ *
+ * @param cartItems - CartItems aus dem CartContext (useCart())
+ * @returns OrderItem[] mit Brutto-Werten, inkl. Free-Items (price === 0)
+ */
+export function cartItemsToOrderItems(cartItems: CartItem[]): OrderItem[] {
+  return cartItems.map((item) => {
+    if (
+      item.isSetItem &&
+      item.setPricePerUnit !== undefined &&
+      item.actualM2 !== undefined
+    ) {
+      return {
+        product_id: item.product.id,
+        name:       item.product.name,
+        quantity:   Number(item.actualM2),
+        price:      Number(item.setPricePerUnit),
+      };
+    }
+    const paketinhalt = item.product.paketinhalt || 1;
+    return {
+      product_id: item.product.id,
+      name:       item.product.name,
+      quantity:   item.quantity * paketinhalt,
+      price:      Number(item.product.price || 0),
+    };
+  });
+}

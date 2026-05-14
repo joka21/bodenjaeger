@@ -10,6 +10,7 @@
     "check-env": "node scripts/check-env.js"
   },
   "dependencies": {
+    "@paypal/paypal-js": "^9.7.0",
     "@vercel/kv": "^3.0.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.544.0",

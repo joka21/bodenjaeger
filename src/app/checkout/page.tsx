@@ -12,6 +12,7 @@ import type { PaymentType, PurchaseTrackingPayload } from '@/lib/analytics/types
 import { useAttribution } from '@/hooks/useAttribution';
 import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
+import ExpressCheckout from '@/components/checkout/ExpressCheckout';
 
 type PaymentMethod = 'stripe' | 'paypal' | 'bacs' | 'klarna';
 type ShippingMethod = 'delivery' | 'pickup';
@@ -395,6 +396,8 @@ export default function CheckoutPage() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* LINKE SPALTE (60%) */}
             <div className="w-full lg:w-3/5 order-2 lg:order-1">
+              <ExpressCheckout />
+
               {/* Kontakt */}
               <div className="mb-8">
                 <h2 className="text-lg font-semibold text-dark mb-4">Kontakt</h2>
