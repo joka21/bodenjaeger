@@ -12,7 +12,6 @@ import type { PaymentType, PurchaseTrackingPayload } from '@/lib/analytics/types
 import { useAttribution } from '@/hooks/useAttribution';
 import type { AppliedCoupon } from '@/types/checkout';
 import type { ValidateCouponResult } from '@/lib/coupon';
-import TrustBadges from '@/components/checkout/TrustBadges';
 import OrderSummary from '@/components/checkout/OrderSummary';
 
 type PaymentMethod = 'stripe' | 'paypal' | 'bacs';
@@ -514,9 +513,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Trust Badges Header */}
-      <TrustBadges />
-
       {/* Main Content - Two Column Layout */}
       <form onSubmit={handleSubmit}>
         <div className="content-container py-8">
