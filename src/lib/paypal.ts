@@ -262,11 +262,21 @@ export async function createPayPalExpressOrder(
     `express-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
   try {
+    // PayPal v2 Schema: quantity MUSS integer-string sein, items[] MUSS
+    // mit amount übereinstimmen. Da unsere Set-Items Float-Quantities haben
+    // (z.B. 2.65 m²) und free Items rausgefiltert werden, bündeln wir alles
+    // zu einem schema-konformen Composite-Eintrag.
+    const transformedLineItems = [{
+      name: 'Bodenjäger Bestellung',
+      quantity: 1,
+      unit_amount: Number(amount).toFixed(2),
+    }];
+
     const requestBody = {
       orderId: referenceId, // Plugin nutzt diesen Wert als reference_id
       orderKey: referenceId,
       amount,
-      lineItems,
+      lineItems: transformedLineItems,
       shipping_preference: 'GET_FROM_FILE', // Express-Flow Marker
       returnUrl: `${NEXT_PUBLIC_SITE_URL}/api/checkout/paypal/express-capture`,
       cancelUrl: `${NEXT_PUBLIC_SITE_URL}/checkout?cancelled=true`,
