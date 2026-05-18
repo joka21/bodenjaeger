@@ -30,7 +30,10 @@ export default function QuantitySelector({
   const [sqmInputValue, setSqmInputValue] = useState<string>(paketinhalt.toFixed(2));
   const [packagesInputValue, setPackagesInputValue] = useState<string>(Math.ceil(paketinhalt / paketinhalt).toString());
 
-  const packages = Math.ceil(sqm / paketinhalt);
+  // FP-sicheres Aufrunden: behebt Fälle wie 10 * 1.92 = 19.200000000000003 → ceil(10.000000000000002) wäre fälschlich 11
+  const ceilPackages = (m2: number) => Math.max(1, Math.ceil((m2 - 1e-9) / paketinhalt));
+
+  const packages = ceilPackages(sqm);
 
   const handlePackagesInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -75,7 +78,7 @@ export default function QuantitySelector({
     const inputValue = parseFloat(value);
     if (!isNaN(inputValue) && inputValue > 0) {
       setSqm(inputValue);
-      const calculatedPackages = Math.ceil(inputValue / paketinhalt);
+      const calculatedPackages = ceilPackages(inputValue);
       setPackagesInputValue(calculatedPackages.toString());
 
       if (onQuantityChange) {
@@ -104,7 +107,7 @@ export default function QuantitySelector({
     const newSqm = sqm + paketinhalt;
     setSqm(newSqm);
     setSqmInputValue(newSqm.toFixed(2));
-    const newPackages = Math.ceil(newSqm / paketinhalt);
+    const newPackages = ceilPackages(newSqm);
     setPackagesInputValue(newPackages.toString());
 
     if (onQuantityChange) {
@@ -116,7 +119,7 @@ export default function QuantitySelector({
     const newSqm = Math.max(paketinhalt, sqm - paketinhalt);
     setSqm(newSqm);
     setSqmInputValue(newSqm.toFixed(2));
-    const newPackages = Math.ceil(newSqm / paketinhalt);
+    const newPackages = ceilPackages(newSqm);
     setPackagesInputValue(newPackages.toString());
 
     if (onQuantityChange) {
@@ -125,7 +128,8 @@ export default function QuantitySelector({
   };
 
   const incrementPackages = () => {
-    const newPackages = packages + 1;
+    const currentPackages = parseInt(packagesInputValue) || packages;
+    const newPackages = currentPackages + 1;
     const newSqm = newPackages * paketinhalt;
     setSqm(newSqm);
     setSqmInputValue(newSqm.toFixed(2));
@@ -137,7 +141,8 @@ export default function QuantitySelector({
   };
 
   const decrementPackages = () => {
-    const newPackages = Math.max(1, packages - 1);
+    const currentPackages = parseInt(packagesInputValue) || packages;
+    const newPackages = Math.max(1, currentPackages - 1);
     const newSqm = newPackages * paketinhalt;
     setSqm(newSqm);
     setSqmInputValue(newSqm.toFixed(2));
