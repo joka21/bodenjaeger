@@ -262,18 +262,20 @@ export async function createPayPalExpressOrder(
     `express-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
   try {
+    const requestBody = {
+      orderId: referenceId, // Plugin nutzt diesen Wert als reference_id
+      orderKey: referenceId,
+      amount,
+      lineItems,
+      shipping_preference: 'GET_FROM_FILE', // Express-Flow Marker
+      returnUrl: `${NEXT_PUBLIC_SITE_URL}/api/checkout/paypal/express-capture`,
+      cancelUrl: `${NEXT_PUBLIC_SITE_URL}/checkout?cancelled=true`,
+    };
+    console.log('[PayPal Express] Request body:', JSON.stringify(requestBody, null, 2));
     const res = await fetch(`${PROXY_URL}/paypal/create-order`, {
       method: 'POST',
       headers: proxyHeaders(),
-      body: JSON.stringify({
-        orderId: referenceId, // Plugin nutzt diesen Wert als reference_id
-        orderKey: referenceId,
-        amount,
-        lineItems,
-        shipping_preference: 'GET_FROM_FILE', // Express-Flow Marker
-        returnUrl: `${NEXT_PUBLIC_SITE_URL}/api/checkout/paypal/express-capture`,
-        cancelUrl: `${NEXT_PUBLIC_SITE_URL}/checkout?cancelled=true`,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     const data = await res.json();
