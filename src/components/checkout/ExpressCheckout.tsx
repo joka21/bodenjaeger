@@ -27,6 +27,7 @@ import { calculateShippingCost } from '@/lib/shippingConfig';
  */
 export default function ExpressCheckout() {
   const { cartItems, totalPrice, customerNote, deliveryNote } = useCart();
+  console.log('[ExpressCheckout] mounting — cartItems:', cartItems?.length ?? 'undef');
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonsRenderedRef = useRef(false);
   const [sdkStatus, setSdkStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -66,8 +67,10 @@ export default function ExpressCheckout() {
       locale: 'de_DE',
     })
       .then((paypal) => {
+        console.log('[ExpressCheckout] SDK loaded, paypal:', !!paypal, 'Buttons:', !!paypal?.Buttons, 'container:', !!containerRef.current);
         if (cancelled) return;
         if (!paypal || !paypal.Buttons || !containerRef.current) {
+          console.warn('[ExpressCheckout] silent fail: paypal.Buttons or containerRef missing');
           setSdkStatus('error');
           return;
         }
@@ -175,6 +178,7 @@ export default function ExpressCheckout() {
         });
 
         if (!buttons.isEligible()) {
+          console.warn('[ExpressCheckout] silent fail: buttons.isEligible() returned false');
           setSdkStatus('error');
           return;
         }
@@ -205,8 +209,14 @@ export default function ExpressCheckout() {
   }, []);
 
   // Bei leerem Cart oder SDK-Error: Komponente komplett ausblenden
-  if (cartItems.length === 0) return null;
-  if (sdkStatus === 'error') return null;
+  if (cartItems.length === 0) {
+    console.log('[ExpressCheckout] render skipped: cart empty');
+    return null;
+  }
+  if (sdkStatus === 'error') {
+    console.log('[ExpressCheckout] render skipped: sdkStatus is error');
+    return null;
+  }
 
   return (
     <div className="mb-6">
