@@ -222,14 +222,20 @@ export default function ExpressCheckout() {
     <div className="mb-6">
       <p className="text-center text-sm text-mid mb-4">Express Checkout</p>
 
-      {sdkStatus === 'loading' ? (
+      {/* Container IMMER im DOM, damit containerRef.current verfügbar ist
+          (sonst silent-fail beim SDK-Render). Bei 'loading' via CSS verstecken
+          und Skelett separat anzeigen. */}
+      {sdkStatus === 'loading' && (
         <div
           className="h-12 bg-pale animate-pulse rounded-lg"
           aria-label="PayPal wird geladen"
         />
-      ) : (
-        <div ref={containerRef} className="w-full" />
       )}
+      <div
+        ref={containerRef}
+        className={sdkStatus === 'loading' ? 'w-full hidden' : 'w-full'}
+      />
+
 
       {errorMsg && (
         <p className="mt-3 text-sm text-brand text-center" role="alert">
