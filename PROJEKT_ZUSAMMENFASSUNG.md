@@ -68,6 +68,7 @@ Der Bodenjaeger Online-Shop ist **vollstaendig funktionsfaehig** und bereit fuer
 - **Warenkorb**: Vollstaendig mit localStorage, CartDrawer mit Set-Gruppierung
 - **Checkout-Formular**: Alle Felder mit Validierung, abweichende Rechnungsadresse
 - **Order-Erstellung**: WooCommerce API Integration mit Set-Angebot Meta-Daten
+- **Gutschein-System** (Mai 2026): Klappbares CouponInput in `OrderSummary`, serverseitige Validation gegen WC-Coupons, `coupon_lines` werden an WC-Order weitergereicht, Stripe/PayPal lesen den authoritativen `order.total` (post-Discount). Mit Rollback-Logik (cancelled bei Payment-Fehler restauriert `usage_count`). Setup-Doku: `COUPON_SETUP.md`.
 
 #### Payment-Integration (via WordPress-Proxy seit April 2026)
 - **Architektur**: Frontend ruft WordPress-Proxy-Endpoints auf (`/wp-json/bodenjaeger/v1/...`). Stripe/PayPal-Credentials bleiben auf WordPress-Server (nicht mehr in Vercel ENV).
@@ -668,9 +669,10 @@ GET    /api/products/search             # Produkt-Suche
 GET    /api/products/samples            # Muster-Pricing
 ```
 
-**Checkout & Payments (5):**
+**Checkout & Payments (6):**
 ```
-POST   /api/checkout/create-order       # WooCommerce Order erstellen
+POST   /api/checkout/create-order       # WooCommerce Order erstellen (akzeptiert optionale couponCode + cartItemsForValidation)
+POST   /api/checkout/validate-coupon    # Coupon-Re-Validation mit Rate-Limit (10/min/IP)
 GET    /api/checkout/order/[id]         # Order-Status abrufen
 POST   /api/checkout/stripe/webhook     # Stripe Payment Webhook
 GET    /api/checkout/paypal/capture      # PayPal Payment Capture
@@ -1268,6 +1270,7 @@ npm run check-env    # Prueft alle erforderlichen Variables
 **Dokumentation:**
 - `CLAUDE.md` — Entwicklungs-Anweisungen
 - `PAYMENT_SETUP.md` — Payment-Proxy Einrichtung (Stand 10.04.2026)
+- `COUPON_SETUP.md` — Gutschein-System Setup, Backend-Pflichteinstellungen & End-to-End Test-Plan
 - `WORDPRESS_CONTENT_MANAGEMENT.md` — Fachmarkt-Subpages & WordPress-Content
 - `JAEGER_PLUGIN_FELDER_ANALYSE.md` — Jaeger-Plugin Custom-Fields Analyse
 - `FEHLENDE_FEATURES.md` — Offene Features & Roadmap

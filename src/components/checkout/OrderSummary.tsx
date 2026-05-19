@@ -1,26 +1,88 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
+import { toValidationItems } from '@/lib/cart-utils';
+import type { AppliedCoupon } from '@/types/checkout';
+import CouponInput from '@/components/checkout/CouponInput';
 
 interface OrderSummaryProps {
   shippingMethod?: 'delivery' | 'pickup';
+  appliedCoupon?: AppliedCoupon | null;
+  couponNotice?: { type: 'replaced' | 'removed'; message: string } | null;
+  onApplyCoupon?: (coupon: AppliedCoupon) => void;
+  onRemoveCoupon?: () => void;
+  onReplaceCoupon?: (oldCode: string, newCoupon: AppliedCoupon) => void;
+  onDismissNotice?: () => void;
 }
 
-export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSummaryProps) {
+export default function OrderSummary({
+  shippingMethod = 'delivery',
+  appliedCoupon = null,
+  couponNotice = null,
+  onApplyCoupon,
+  onRemoveCoupon,
+  onReplaceCoupon,
+  onDismissNotice,
+}: OrderSummaryProps) {
   const { cartItems, totalPrice, itemCount } = useCart();
-  const [discountCode, setDiscountCode] = useState('');
 
-  // Berechne Zwischensumme, Versand, MwSt
+  // Pre-Discount Zwischensumme.
   const subtotal = totalPrice;
-  const shipping = shippingMethod === 'pickup' ? 0 : calculateShippingCost(subtotal, cartItems);
-  const total = subtotal + shipping;
-  const mwst = total - (total / 1.19);
+  const discountAmount = appliedCoupon?.discountAmount ?? 0;
+  const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+
+  // Versandkosten-Schwelle (z.B. Free-Shipping ab 999€) wird auf den
+  // diskontierten Subtotal angewendet — d.h. ein Coupon, der den Cart unter
+  // die Schwelle drückt, verteuert den Versand.
+  const baseShipping =
+    shippingMethod === 'pickup'
+      ? 0
+      : calculateShippingCost(subtotalAfterDiscount, cartItems);
+  const shipping = appliedCoupon?.freeShipping ? 0 : baseShipping;
+
+  // Anzeige-Flags für Versandzeile.
+  const showShippingStrikethrough =
+    appliedCoupon?.freeShipping === true &&
+    baseShipping > 0 &&
+    shippingMethod === 'delivery';
+  const showAlreadyFreeHint =
+    appliedCoupon?.freeShipping === true &&
+    baseShipping === 0 &&
+    shippingMethod === 'delivery';
+
+  const total = subtotalAfterDiscount + shipping;
+  const mwst = total - total / 1.19;
+
+  // Validation-Items für CouponInput (live aus aktuellem Cart).
+  const validationItems = toValidationItems(cartItems);
 
   return (
     <div className="sticky top-6">
+      {/* Notice (Coupon ersetzt / automatisch entfernt). Permanent für 'removed'
+          (B4=b), Auto-Dismiss nach 5s für 'replaced' (im Parent gesteuert). */}
+      {couponNotice && (
+        <div
+          className={`mb-4 p-3 rounded-lg border flex items-start gap-2 ${
+            couponNotice.type === 'removed'
+              ? 'bg-amber-50 border-amber-200 text-amber-900'
+              : 'bg-blue-50 border-blue-200 text-blue-900'
+          }`}
+          role="status"
+        >
+          <span className="text-sm flex-1">{couponNotice.message}</span>
+          <button
+            type="button"
+            onClick={onDismissNotice}
+            className="text-base leading-none hover:opacity-70"
+            aria-label="Hinweis schließen"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       {/* Produkt-Liste */}
       <div className="space-y-4 mb-6">
         {cartItems.map((item) => {
@@ -97,19 +159,16 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
         })}
       </div>
 
-      {/* Rabattcode */}
-      <div className="flex flex-row gap-2 mb-6">
-        <input
-          type="text"
-          placeholder="Rabattcode"
-          value={discountCode}
-          onChange={(e) => setDiscountCode(e.target.value)}
-          className="flex-1 h-12 px-4 text-sm border border-ash rounded-lg focus:outline-none focus:border-brand"
+      {/* Gutscheincode-Eingabe (klappbar, Phase B). */}
+      {onApplyCoupon && onRemoveCoupon && onReplaceCoupon && (
+        <CouponInput
+          cartItems={validationItems}
+          appliedCoupon={appliedCoupon}
+          onApply={onApplyCoupon}
+          onRemove={onRemoveCoupon}
+          onReplace={onReplaceCoupon}
         />
-        <button className="px-6 h-12 text-sm font-medium text-dark bg-pale border border-ash rounded-lg hover:bg-ash transition-colors">
-          Anwenden
-        </button>
-      </div>
+      )}
 
       {/* Summen */}
       <div className="space-y-2 py-4 border-t border-ash">
@@ -117,16 +176,40 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
           <span>Zwischensumme · {itemCount} Artikel</span>
           <span>{subtotal.toFixed(2).replace('.', ',')} €</span>
         </div>
+
+        {/* Rabattzeile — zwischen Zwischensumme und Versand (F-4=a). */}
+        {appliedCoupon && discountAmount > 0 && (
+          <div className="flex justify-between text-sm text-brand">
+            <span>Rabatt ({appliedCoupon.code})</span>
+            <span>−{discountAmount.toFixed(2).replace('.', ',')} €</span>
+          </div>
+        )}
+
         <div className="flex justify-between text-sm text-mid">
           <span>{shippingMethod === 'pickup' ? 'Abholung' : 'Versand'}</span>
           <span>
-            {shippingMethod === 'pickup'
-              ? 'Kostenlos'
-              : shipping === 0
-                ? 'Kostenlos'
-                : `${shipping.toFixed(2).replace('.', ',')} €`}
+            {shippingMethod === 'pickup' ? (
+              'Kostenlos'
+            ) : showShippingStrikethrough ? (
+              <>
+                <span className="line-through mr-1">
+                  {baseShipping.toFixed(2).replace('.', ',')} €
+                </span>
+                <span>0,00 €</span>
+                <span className="ml-1 text-xs">(Gutschein)</span>
+              </>
+            ) : shipping === 0 ? (
+              'Kostenlos'
+            ) : (
+              `${shipping.toFixed(2).replace('.', ',')} €`
+            )}
           </span>
         </div>
+        {showAlreadyFreeHint && (
+          <p className="text-xs" style={{ color: 'var(--color-success)' }}>
+            ✓ Code angewendet — Versand ist bereits kostenlos.
+          </p>
+        )}
       </div>
 
       {/* Gesamt */}

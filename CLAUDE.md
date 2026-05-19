@@ -131,7 +131,12 @@ CartProvider
 ### Shipping Discrepancy
 
 - **`cart-utils.ts`**: `calculateShipping()` always returns 0 — used in CartDrawer (shows "Kostenlos")
-- **`shippingConfig.ts`**: real tiered shipping (free ≥200€, 6€ ≥49€, 50€ <49€) — used at checkout only
+- **`shippingConfig.ts`** — real tiered shipping (used at checkout only):
+  - Subtotal ≥ 999€ → 0€ (free)
+  - Subtotal ≥ 500€ → 29.99€
+  - Subtotal < 500€ → 59.99€
+  - Accessory-only cart (only `zubehoer` category): 4.99€
+  - Sample-only cart: 0€ + 1.99€ surcharge per sample beyond the first 3 free
 - Real shipping cost only appears at checkout, not in the cart drawer
 
 ### Styling

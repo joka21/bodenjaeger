@@ -11,6 +11,10 @@ export const SAMPLE_SHIPPING_SURCHARGE = 1.99;
 //   Muster: "muster-rigid-vinyl-vara-fjord"
 export const SAMPLE_SLUG_PREFIX = 'muster-';
 
+// WooCommerce-Kategorie-ID der Muster-Kategorie ("muster").
+// Wird u.a. für Coupon-Validierung (Ausschluss von Mustern) verwendet.
+export const SAMPLE_CATEGORY_ID = 66;
+
 // Erkennt Muster-Produkte am Slug-Präfix oder an der "muster"-Kategorie.
 // Backend-seitig haben Muster aktuell teilweise einen Platzhalter-Preis (z.B. 10€)
 // stehen — fachlich sind sie aber kostenlos. Frontend muss den Preis-Display deshalb

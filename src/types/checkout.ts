@@ -1,5 +1,9 @@
 // Checkout TypeScript Types for Bodenjäger E-Commerce
 
+// Re-Export der Coupon-Types, damit UI-Komponenten sie aus dem
+// Checkout-Namespace beziehen können (statt direkt aus `@/lib/coupon`).
+export type { AppliedCoupon } from '@/lib/coupon';
+
 export type CheckoutStep = 'contact' | 'payment' | 'review';
 
 export interface ShippingAddress {

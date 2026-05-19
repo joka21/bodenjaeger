@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { SAMPLE_CATEGORY_ID } from '@/lib/sampleUtils';
 
 /**
  * API route to fetch sample (Muster) products.
@@ -40,7 +41,7 @@ export async function GET(request: NextRequest) {
     const all: unknown[] = [];
     for (let page = 1; page <= 20; page++) {
       const url = new URL('/wp-json/wc/v3/products', baseUrl);
-      url.searchParams.set('category', '66');
+      url.searchParams.set('category', String(SAMPLE_CATEGORY_ID));
       url.searchParams.set('per_page', String(PER_PAGE));
       url.searchParams.set('page', String(page));
 
