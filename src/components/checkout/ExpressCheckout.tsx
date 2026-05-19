@@ -219,7 +219,9 @@ export default function ExpressCheckout() {
   }
 
   return (
-    <div className="mb-6">
+    // `isolate` erzeugt einen eigenen Stacking-Context, damit die PayPal-iframes
+    // (zoid setzt sehr hohe z-indexes) nicht über den sticky Header (z-50) gehen.
+    <div className="mb-6 relative isolate">
       <p className="text-center text-sm text-mid mb-4">Express Checkout</p>
 
       {/* Container IMMER im DOM, damit containerRef.current verfügbar ist
