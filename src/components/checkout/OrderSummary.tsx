@@ -34,7 +34,12 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
           let totalItemPrice: number;
           let displayAmount: number;
 
-          if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
+          if (item.isSample) {
+            // Muster sind immer kostenlos — Backend-Platzhalterpreis ignorieren.
+            pricePerUnit = 0;
+            displayAmount = item.quantity;
+            totalItemPrice = 0;
+          } else if (item.isSetItem && item.setPricePerUnit !== undefined && item.actualM2 !== undefined) {
             // Set-Item: Verwende Set-Preise (als Zahl konvertieren)
             pricePerUnit = Number(item.setPricePerUnit);
             displayAmount = Number(item.actualM2);
@@ -49,7 +54,7 @@ export default function OrderSummary({ shippingMethod = 'delivery' }: OrderSumma
             totalItemPrice = pricePerUnit * paketinhalt * item.quantity;
           }
 
-          const isFree = pricePerUnit === 0 && item.isSetItem;
+          const isFree = pricePerUnit === 0 && (item.isSetItem || item.isSample);
 
           return (
             <div key={item.id} className="flex flex-row items-start gap-3">
