@@ -139,6 +139,15 @@ export async function POST(request: NextRequest) {
     }));
     const shippingCostNet = shipping_cost ? shipping_cost / TAX_RATE : 0;
 
+    // 0€-Order erkennen (z.B. reine Muster-Bestellung ≤ 3 ohne Versand-Aufschlag).
+    // Diese durchlaufen KEIN Payment-Gateway und werden direkt als bezahlt + processing
+    // erstellt, damit Billbee sie als „Bezahlt" einliest statt als „Bestätigt".
+    const lineItemsTotal = lineItemsNet.reduce(
+      (sum, item) => sum + parseFloat(item.total || '0'),
+      0
+    );
+    const isZeroOrder = lineItemsTotal + shippingCostNet === 0;
+
     // Order Attribution Tracking (WooCommerce 8.5+ Native, _wc_order_attribution_*)
     // Frontend liefert die Daten nur, wenn analytics-Consent vorliegt — sonst null.
     const attributionMetaData = attribution ? buildOrderMetaData(attribution) : [];
@@ -148,8 +157,8 @@ export async function POST(request: NextRequest) {
       ...(customerId ? { customer_id: customerId } : {}),
       payment_method: wcPaymentMethod,
       payment_method_title: getPaymentMethodTitle(payment_method),
-      set_paid: false,
-      status: 'pending',
+      set_paid: isZeroOrder,
+      status: isZeroOrder ? 'processing' : 'pending',
       billing,
       shipping,
       line_items: lineItemsNet,
@@ -197,9 +206,19 @@ export async function POST(request: NextRequest) {
     let redirectUrl: string | null = null;
 
     // ============================
+    // 0€-ORDER (z.B. nur Muster)
+    // ============================
+    // Payment-Gateway überspringen: Stripe/PayPal lehnen 0€-Sessions ab,
+    // und WC ist oben bereits paid + processing gesetzt → direkt zur Success-Page.
+    if (isZeroOrder) {
+      redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.id}&key=${order.order_key}`;
+      console.log(`✅ 0€ Order ${order.id} — Payment Gateway übersprungen (set_paid + processing)`);
+    }
+
+    // ============================
     // STRIPE (Kreditkarte)
     // ============================
-    if (payment_method === 'stripe') {
+    if (!isZeroOrder && payment_method === 'stripe') {
       const stripeSession = await createStripeCheckoutSession({
         orderId: order.id,
         orderKey: order.order_key,
@@ -220,7 +239,7 @@ export async function POST(request: NextRequest) {
     // ============================
     // SOFORTÜBERWEISUNG (Stripe)
     // ============================
-    if (payment_method === 'sofort') {
+    if (!isZeroOrder && payment_method === 'sofort') {
       const stripeSession = await createStripeCheckoutSession({
         orderId: order.id,
         orderKey: order.order_key,
@@ -241,7 +260,7 @@ export async function POST(request: NextRequest) {
     // ============================
     // KLARNA (Stripe)
     // ============================
-    if (payment_method === 'klarna') {
+    if (!isZeroOrder && payment_method === 'klarna') {
       const stripeSession = await createStripeCheckoutSession({
         orderId: order.id,
         orderKey: order.order_key,
@@ -262,7 +281,7 @@ export async function POST(request: NextRequest) {
     // ============================
     // PAYPAL
     // ============================
-    if (payment_method === 'paypal') {
+    if (!isZeroOrder && payment_method === 'paypal') {
       // Gesamtbetrag berechnen
       const subtotal = line_items.reduce(
         (sum, item) => sum + parseFloat(item.total || '0'),
@@ -288,7 +307,7 @@ export async function POST(request: NextRequest) {
     // ============================
     // VORKASSE (BACS)
     // ============================
-    if (payment_method === 'bacs') {
+    if (!isZeroOrder && payment_method === 'bacs') {
       // Kein Redirect nötig, Status auf "on-hold" setzen (Warten auf Zahlung)
       await updateOrderStatus(order.id, 'on-hold');
       redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.id}&key=${order.order_key}`;
