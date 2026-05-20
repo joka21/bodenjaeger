@@ -128,16 +128,11 @@ CartProvider
 - Branches by payment: stripe → Stripe Checkout Session, paypal → PayPal approval URL, bacs → order set to `on-hold`
 - `/checkout/success/page.tsx` reads query params (`?order=`, `?paypal=`, `?session_id=`), clears localStorage
 
-### Shipping Discrepancy
+### Shipping
 
-- **`cart-utils.ts`**: `calculateShipping()` always returns 0 — used in CartDrawer (shows "Kostenlos")
-- **`shippingConfig.ts`** — real tiered shipping (used at checkout only):
-  - Subtotal ≥ 999€ → 0€ (free)
-  - Subtotal ≥ 500€ → 29.99€
-  - Subtotal < 500€ → 59.99€
-  - Accessory-only cart (only `zubehoer` category): 4.99€
-  - Sample-only cart: 0€ + 1.99€ surcharge per sample beyond the first 3 free
-- Real shipping cost only appears at checkout, not in the cart drawer
+- **`shippingConfig.ts`** is the single source of truth: tiered shipping (free ≥999€, 29,99€ ≥500€, 59,99€ <500€) + Muster-Aufschlag (1,99€ ab dem 4. Muster) + Zubehör-Sonderfall (4,99€)
+- **`cart-utils.ts`** `calculateShipping()` is a thin pass-through to `calculateShippingCost()` — used by CartDrawer, OrderSummary, and checkout
+- Cart page (`/cart`) currently shows no shipping line at all (only subtotal)
 
 ### Styling
 
@@ -226,7 +221,6 @@ Optional: `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `KV_REST_API_URL`, `KV_RES
 
 - **Missing `verrechnung` field**: Backend should add this. Frontend fallback in `ProductPageContent.tsx`.
 - **Cart persistence**: localStorage only, not synced across devices.
-- **Shipping display gap**: Cart drawer always shows "Kostenlos"; real shipping only at checkout.
 - **`CheckoutContext.tsx` is dead code**: Not mounted in provider tree, not used by checkout page.
 - **`adapters.ts` reads stale paths**: Uses `product.jaeger_meta.*` instead of root-level fields.
 - **Set quantity duplication**: CartDrawer re-implements floor/ceil logic inline instead of using `setCalculations.ts`.

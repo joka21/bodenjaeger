@@ -66,7 +66,7 @@ interface CreateOrderRequestBody {
       value: string;
     }>;
   }>;
-  payment_method: 'stripe' | 'paypal' | 'sofort' | 'bacs';
+  payment_method: 'stripe' | 'paypal' | 'sofort' | 'bacs' | 'klarna';
   shipping_method?: 'delivery' | 'pickup';
   customer_note?: string;
   shipping_cost?: number;
@@ -210,7 +210,10 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. Payment Method für WooCommerce festlegen
-    const wcPaymentMethod = payment_method === 'sofort' ? 'stripe_sofort' : payment_method;
+    const wcPaymentMethod =
+      payment_method === 'sofort' ? 'stripe_sofort' :
+      payment_method === 'klarna' ? 'stripe_klarna' :
+      payment_method;
 
     // WooCommerce REST API interpretiert line_items.subtotal/total und
     // shipping_lines.total IMMER als Netto (ex-Tax) — unabhängig von der
@@ -228,6 +231,15 @@ export async function POST(request: NextRequest) {
         : {}),
     }));
     const shippingCostNet = shipping_cost ? shipping_cost / TAX_RATE : 0;
+
+    // 0€-Order erkennen (z.B. reine Muster-Bestellung ≤ 3 ohne Versand-Aufschlag).
+    // Diese durchlaufen KEIN Payment-Gateway und werden direkt als bezahlt + processing
+    // erstellt, damit Billbee sie als „Bezahlt" einliest statt als „Bestätigt".
+    const lineItemsTotal = lineItemsNet.reduce(
+      (sum, item) => sum + parseFloat(item.total || '0'),
+      0
+    );
+    const isZeroOrder = lineItemsTotal + shippingCostNet === 0;
 
     // Order Attribution Tracking (WooCommerce 8.5+ Native, _wc_order_attribution_*)
     // Frontend liefert die Daten nur, wenn analytics-Consent vorliegt — sonst null.
@@ -268,8 +280,8 @@ export async function POST(request: NextRequest) {
       ...(customerId ? { customer_id: customerId } : {}),
       payment_method: wcPaymentMethod,
       payment_method_title: getPaymentMethodTitle(payment_method),
-      set_paid: false,
-      status: 'pending',
+      set_paid: isZeroOrder,
+      status: isZeroOrder ? 'processing' : 'pending',
       billing,
       shipping,
       line_items: lineItemsNet,
@@ -309,16 +321,29 @@ export async function POST(request: NextRequest) {
     const orderTotalBrutto = parseFloat(order.total);
 
     // ============================
+    // 0€-ORDER (z.B. nur Muster oder 100%-Coupon)
+    // ============================
+    // Payment-Gateway überspringen: Stripe/PayPal lehnen 0€-Sessions ab,
+    // und WC ist oben bereits paid + processing gesetzt → direkt zur Success-Page.
+    if (isZeroOrder) {
+      redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.id}&key=${order.order_key}`;
+      console.log(`✅ 0€ Order ${order.id} — Payment Gateway übersprungen (set_paid + processing)`);
+    }
+    // ============================
     // BACS (Vorkasse) — kein externer Payment-Provider, kein Rollback nötig
     // ============================
-    if (payment_method === 'bacs') {
+    else if (payment_method === 'bacs') {
       await updateOrderStatus(order.id, 'on-hold');
       redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/checkout/success?order=${order.id}&key=${order.order_key}`;
       console.log(`✅ Vorkasse Order created, status set to on-hold`);
     } else {
-      // STRIPE / SOFORT / PAYPAL — Payment-Session mit Rollback bei Fehler
+      // STRIPE / SOFORT / KLARNA / PAYPAL — Payment-Session mit Rollback bei Fehler
       try {
-        if (payment_method === 'stripe' || payment_method === 'sofort') {
+        if (
+          payment_method === 'stripe' ||
+          payment_method === 'sofort' ||
+          payment_method === 'klarna'
+        ) {
           const stripeLineItems = appliedCoupon
             ? [
                 {
@@ -339,19 +364,30 @@ export async function POST(request: NextRequest) {
               ? euroToCents(shipping_cost)
               : undefined;
 
+          const stripePaymentMethod =
+            payment_method === 'sofort'
+              ? 'sofort'
+              : payment_method === 'klarna'
+                ? 'klarna'
+                : 'card';
+
           const stripeSession = await createStripeCheckoutSession({
             orderId: order.id,
             orderKey: order.order_key,
             lineItems: stripeLineItems,
             customerEmail: billing.email,
-            paymentMethod: payment_method === 'sofort' ? 'sofort' : 'card',
+            paymentMethod: stripePaymentMethod,
             shippingCost: stripeShippingCost,
           });
 
           redirectUrl = stripeSession.url;
-          console.log(
-            `✅ Stripe ${payment_method === 'sofort' ? 'SOFORT ' : ''}Session created: ${stripeSession.sessionId}`
-          );
+          const variantLabel =
+            payment_method === 'sofort'
+              ? 'SOFORT '
+              : payment_method === 'klarna'
+                ? 'Klarna '
+                : '';
+          console.log(`✅ Stripe ${variantLabel}Session created: ${stripeSession.sessionId}`);
         }
 
         if (payment_method === 'paypal') {
@@ -545,7 +581,7 @@ function validateOrderData(data: CreateOrderRequestBody): {
     errors.push('Zahlungsmethode ist erforderlich');
   }
 
-  const validPaymentMethods = ['stripe', 'paypal', 'sofort', 'bacs'];
+  const validPaymentMethods = ['stripe', 'paypal', 'sofort', 'bacs', 'klarna'];
   if (data.payment_method && !validPaymentMethods.includes(data.payment_method)) {
     errors.push('Ungültige Zahlungsmethode');
   }
@@ -573,6 +609,7 @@ function getPaymentMethodTitle(method: string): string {
     paypal: 'PayPal',
     sofort: 'Sofortüberweisung',
     bacs: 'Vorkasse / Überweisung',
+    klarna: 'Klarna – Sofort oder später bezahlen',
   };
   return titles[method] || method;
 }

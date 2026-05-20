@@ -60,6 +60,51 @@ export interface CapturePayPalOrderResult {
   referenceId?: string;
 }
 
+// ----- Express Checkout Flow -----
+
+export interface CreatePayPalExpressOrderParams {
+  amount: string; // z.B. "2661.61"
+  currencyCode?: string; // Default 'EUR'
+  lineItems: Array<{
+    name: string;
+    quantity: number;
+    unit_amount: string;
+  }>;
+  referenceId?: string; // Optional — wird sonst auto-generiert
+}
+
+export interface PayPalExpressOrderResult {
+  paypalOrderId: string;
+  approvalUrl: string;
+  referenceId: string;
+}
+
+export interface PayPalShippingAddress {
+  address_line_1: string;
+  address_line_2: string;
+  admin_area_1: string;  // Bundesland / State
+  admin_area_2: string;  // Stadt
+  postal_code: string;
+  country_code: string;
+}
+
+export interface CapturePayPalExpressOrderResult {
+  success: boolean;
+  status?: string; // bei success=false
+  transactionId?: string;
+  paypalOrderId?: string;
+  payerEmail?: string;
+  payerGivenName?: string;
+  payerSurname?: string;
+  payerPhone?: string;
+  shippingName?: string;
+  shippingAddress?: PayPalShippingAddress;
+  amount?: {
+    value: string;
+    currency_code: string;
+  };
+}
+
 // ============================================================================
 // PayPal Order erstellen
 // ============================================================================
@@ -185,6 +230,145 @@ export async function capturePayPalOrder(
     console.error('Failed to capture PayPal order:', error);
     throw new Error(
       `Failed to capture PayPal order: ${
+        error instanceof Error ? error.message : 'Unknown error'
+      }`
+    );
+  }
+}
+
+// ============================================================================
+// PayPal Express Order erstellen
+// ============================================================================
+
+/**
+ * Erstellt eine PayPal Express Order ohne vorab erstellte WooCommerce-Order.
+ *
+ * Verwendet den bestehenden /paypal/create-order Proxy-Endpoint, aber mit
+ * shipping_preference: 'GET_FROM_FILE' — PayPal fragt den Kunden dann nach
+ * der Versandadresse. Die WC-Order wird erst nach erfolgreichem Capture
+ * (in /api/checkout/paypal/express-capture) erstellt.
+ *
+ * @param params - amount, lineItems (currencyCode optional, Default 'EUR')
+ * @returns paypalOrderId, approvalUrl (Browser-Redirect), referenceId
+ */
+export async function createPayPalExpressOrder(
+  params: CreatePayPalExpressOrderParams
+): Promise<PayPalExpressOrderResult> {
+  checkProxyConfig();
+
+  const { amount, lineItems } = params;
+  const referenceId =
+    params.referenceId ??
+    `express-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+  try {
+    // PayPal v2 Schema: quantity MUSS integer-string sein, items[] MUSS
+    // mit amount übereinstimmen. Da unsere Set-Items Float-Quantities haben
+    // (z.B. 2.65 m²) und free Items rausgefiltert werden, bündeln wir alles
+    // zu einem schema-konformen Composite-Eintrag.
+    const transformedLineItems = [{
+      name: 'Bodenjäger Bestellung',
+      quantity: 1,
+      unit_amount: Number(amount).toFixed(2),
+    }];
+
+    const requestBody = {
+      orderId: referenceId, // Plugin nutzt diesen Wert als reference_id
+      orderKey: referenceId,
+      amount,
+      lineItems: transformedLineItems,
+      shipping_preference: 'GET_FROM_FILE', // Express-Flow Marker
+      returnUrl: `${NEXT_PUBLIC_SITE_URL}/api/checkout/paypal/express-capture`,
+      cancelUrl: `${NEXT_PUBLIC_SITE_URL}/checkout?cancelled=true`,
+    };
+    console.log('[PayPal Express] Request body:', JSON.stringify(requestBody, null, 2));
+    const res = await fetch(`${PROXY_URL}/paypal/create-order`, {
+      method: 'POST',
+      headers: proxyHeaders(),
+      body: JSON.stringify(requestBody),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || `Proxy error: ${res.status}`);
+    }
+
+    if (!data.approvalUrl) {
+      throw new Error('PayPal approval URL not found in proxy response');
+    }
+
+    return {
+      paypalOrderId: data.paypalOrderId,
+      approvalUrl: data.approvalUrl,
+      referenceId,
+    };
+  } catch (error) {
+    console.error('Failed to create PayPal Express order:', error);
+    throw new Error(
+      `Failed to create PayPal Express order: ${
+        error instanceof Error ? error.message : 'Unknown error'
+      }`
+    );
+  }
+}
+
+// ============================================================================
+// PayPal Express Zahlung erfassen (Capture)
+// ============================================================================
+
+/**
+ * Erfasst eine PayPal Express-Zahlung über den WordPress Proxy.
+ *
+ * Verwendet den NEUEN Endpoint /paypal/express-capture, der die WooCommerce
+ * Order NICHT touchiert (existiert zum Capture-Zeitpunkt noch nicht).
+ * Liefert alle PayPal-Daten (Email, Name, Adresse) zurück, mit denen die
+ * Capture-Route danach die WC-Order erstellt.
+ *
+ * @param paypalOrderId - PayPal Order ID (Query-Parameter "token" von PayPal)
+ * @returns success + alle PayPal-Daten (Payer, Shipping, Amount)
+ */
+export async function capturePayPalExpressOrder(
+  paypalOrderId: string
+): Promise<CapturePayPalExpressOrderResult> {
+  checkProxyConfig();
+
+  try {
+    const res = await fetch(`${PROXY_URL}/paypal/express-capture`, {
+      method: 'POST',
+      headers: proxyHeaders(),
+      body: JSON.stringify({ paypalOrderId }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || `Proxy error: ${res.status}`);
+    }
+
+    if (!data.success) {
+      return {
+        success: false,
+        status: data.status,
+      };
+    }
+
+    return {
+      success:         true,
+      transactionId:   data.transactionId,
+      paypalOrderId:   data.paypalOrderId,
+      payerEmail:      data.payerEmail,
+      payerGivenName:  data.payerGivenName,
+      payerSurname:    data.payerSurname,
+      payerPhone:      data.payerPhone,
+      shippingName:    data.shippingName,
+      shippingAddress: data.shippingAddress,
+      amount:          data.amount,
+    };
+  } catch (error) {
+    console.error('Failed to capture PayPal Express order:', error);
+    throw new Error(
+      `Failed to capture PayPal Express order: ${
         error instanceof Error ? error.message : 'Unknown error'
       }`
     );

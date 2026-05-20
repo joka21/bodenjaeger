@@ -6,7 +6,10 @@
  *
  * Unterstützt:
  * - Kreditkartenzahlungen (Visa, Mastercard, Amex)
+ *   inkl. Apple Pay & Google Pay (Stripe zeigt sie automatisch in der
+ *   gehosteten Checkout-Seite, wenn im Stripe-Dashboard aktiviert)
  * - Sofortüberweisung (SOFORT)
+ * - Klarna (Rechnung, Sofortüberweisung, Ratenkauf — Auswahl auf Klarna-Seite)
  */
 
 // ============================================================================
@@ -43,7 +46,7 @@ export interface CreateCheckoutSessionParams {
     price: number; // in Cent!
   }>;
   customerEmail: string;
-  paymentMethod: 'card' | 'sofort';
+  paymentMethod: 'card' | 'sofort' | 'klarna';
   shippingCost?: number;
 }
 
@@ -141,7 +144,10 @@ export async function createStripeCheckoutSession(
           payment_method: paymentMethod,
         },
         customer_email: customerEmail,
-        payment_method_types: paymentMethod === 'sofort' ? ['sofort'] : ['card'],
+        payment_method_types:
+          paymentMethod === 'sofort' ? ['sofort'] :
+          paymentMethod === 'klarna' ? ['klarna'] :
+          ['card'],
       }),
     });
 
