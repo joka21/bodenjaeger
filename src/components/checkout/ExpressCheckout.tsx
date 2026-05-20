@@ -208,9 +208,16 @@ export default function ExpressCheckout() {
     // SDK nur EINMAL laden — Cart-Updates fließen via Refs ein.
   }, []);
 
-  // Bei leerem Cart oder SDK-Error: Komponente komplett ausblenden
+  // Bei leerem Cart oder SDK-Error: Komponente komplett ausblenden.
+  // Auch bei 0€-Warenkorb (z. B. nur Muster) ausblenden — PayPal lehnt
+  // Orders ohne bezahlbare Items ab, und 0€-Orders gehen ohnehin am
+  // Gateway vorbei (siehe /api/checkout/create-order, Commit 925ede9).
   if (cartItems.length === 0) {
     console.log('[ExpressCheckout] render skipped: cart empty');
+    return null;
+  }
+  if (totalPrice === 0) {
+    console.log('[ExpressCheckout] render skipped: totalPrice is 0 (nur Gratis-Items)');
     return null;
   }
   if (sdkStatus === 'error') {
