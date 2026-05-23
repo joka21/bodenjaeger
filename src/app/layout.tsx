@@ -13,6 +13,7 @@ import PageViewTracker from "@/components/PageViewTracker";
 import AttributionTracker from "@/components/AttributionTracker";
 import TrustedShops from "@/components/TrustedShops";
 import TikTokPixel from "@/components/TikTokPixel";
+import Roomvo from "@/components/Roomvo";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
 import "./globals.css";
@@ -81,6 +82,7 @@ export default function RootLayout({
             <CartProvider>
               <WishlistProvider>
                 <TikTokPixel />
+                <Roomvo />
                 <CookieConsent />
                 <HeaderWrapper />
                 <FloatingContactButton />
