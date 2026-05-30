@@ -225,7 +225,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
               }}
             >
               <Image
-                src="/images/Icons/Favoriten weiß.png"
+                src="/images/Icons/favoriten-weiss.png"
                 alt="Wunschlist"
                 width={16}
                 height={16}
@@ -253,7 +253,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 }}
               >
                 <Image
-                  src="/images/Icons/3D Bodenplaner weiß.png"
+                  src="/images/Icons/3d-bodenplaner-weiss.png"
                   alt="3D Bodenplaner"
                   width={16}
                   height={16}
@@ -276,7 +276,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
               }}
             >
               <Image
-                src="/images/Icons/Musterbox weiß.png"
+                src="/images/Icons/musterbox-weiss.png"
                 alt="Muster bestellen"
                 width={16}
                 height={16}
@@ -342,7 +342,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 {features.map((feature, index) => (
                   <li key={index} className="flex items-start text-xs text-gray-700">
                     <Image
-                      src="/images/Icons/Haken rot.png"
+                      src="/images/Icons/haken-rot.png"
                       alt="Check"
                       width={14}
                       height={14}

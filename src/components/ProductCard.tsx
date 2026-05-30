@@ -247,7 +247,7 @@ export default function ProductCard({ product, showDescription = false }: Produc
               {descriptionPoints.map((point, index) => (
                 <li key={index} className="flex items-start text-sm text-gray-600">
                   <Image
-                    src="/images/Icons/Haken schieferschwarz.png"
+                    src="/images/Icons/haken-schieferschwarz.png"
                     alt="Checkmark"
                     width={16}
                     height={16}

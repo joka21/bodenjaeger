@@ -21,7 +21,7 @@ export default function MobileMenuLevel1({ categories, onCategoryClick }: Mobile
             className="w-full h-12 pl-4 pr-12 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-brand"
           />
           <Image
-            src="/images/Icons/Lupe schieferschwarz.png"
+            src="/images/Icons/lupe-schieferschwarz.png"
             alt="Suche"
             width={20}
             height={20}

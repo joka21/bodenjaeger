@@ -56,7 +56,7 @@ export default function Header() {
               {/* Favoriten */}
               <Link href="/favoriten" className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <Image
-                  src="/images/Icons/Favoriten weiß.png"
+                  src="/images/Icons/favoriten-weiss.png"
                   alt="Favoriten"
                   width={32}
                   height={32}
@@ -79,7 +79,7 @@ export default function Header() {
                       aria-label="Kundenkonto"
                     >
                       <Image
-                        src="/images/Icons/Kundenkonto weiß.png"
+                        src="/images/Icons/kundenkonto-weiss.png"
                         alt="Kundenkonto"
                         width={32}
                         height={32}
@@ -126,7 +126,7 @@ export default function Header() {
                     className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
                   >
                     <Image
-                      src="/images/Icons/Kundenkonto weiß.png"
+                      src="/images/Icons/kundenkonto-weiss.png"
                       alt="Anmelden"
                       width={32}
                       height={32}

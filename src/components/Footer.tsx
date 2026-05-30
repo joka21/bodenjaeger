@@ -20,7 +20,7 @@ export default function Footer() {
               <h3 className="text-2xl font-bold mb-6">Hast du Fragen?</h3>
               <div className="flex items-start gap-4">
                 <Image
-                  src="/images/Icons/Kontakt weiß.png"
+                  src="/images/Icons/kontakt-weiss.png"
                   alt="Kontakt"
                   width={40}
                   height={40}

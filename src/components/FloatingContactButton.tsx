@@ -27,7 +27,7 @@ export default function FloatingContactButton() {
           aria-label="Kontakt öffnen"
         >
           <Image
-            src="/images/Icons/Kontakt weiß.png"
+            src="/images/Icons/kontakt-weiss.png"
             alt="Kontakt"
             width={28}
             height={28}
@@ -42,7 +42,7 @@ export default function FloatingContactButton() {
           aria-label="Warenkorb öffnen"
         >
           <Image
-            src="/images/Icons/Warenkorb schieferschwarz.png"
+            src="/images/Icons/warenkorb-schieferschwarz.png"
             alt="Warenkorb"
             width={28}
             height={28}

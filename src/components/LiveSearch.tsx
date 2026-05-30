@@ -121,14 +121,14 @@ export default function LiveSearch() {
         aria-label="Suche öffnen"
       >
         <Image
-          src="/images/Icons/Lupe weiß.png"
+          src="/images/Icons/lupe-weiss.png"
           alt="Suche"
           width={24}
           height={24}
           className="w-5 h-5 object-contain shrink-0"
           onError={(e) => {
             // Fallback: use dark icon with invert filter
-            (e.target as HTMLImageElement).src = '/images/Icons/Lupe schieferschwarz.png';
+            (e.target as HTMLImageElement).src = '/images/Icons/lupe-schieferschwarz.png';
             (e.target as HTMLImageElement).style.filter = 'invert(1)';
           }}
         />
@@ -157,7 +157,7 @@ export default function LiveSearch() {
                 aria-label="Suchen"
               >
                 <Image
-                  src="/images/Icons/Lupe schieferschwarz.png"
+                  src="/images/Icons/lupe-schieferschwarz.png"
                   alt="Suche"
                   width={24}
                   height={24}
@@ -253,7 +253,7 @@ export default function LiveSearch() {
               aria-label="Suchen"
             >
               <Image
-                src="/images/Icons/Lupe schieferschwarz.png"
+                src="/images/Icons/lupe-schieferschwarz.png"
                 alt="Suche"
                 width={24}
                 height={24}

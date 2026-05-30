@@ -348,7 +348,7 @@ export default function ProductPageContent({
     <div className="space-y-0 text-base sm:text-lg lg:text-2xl text-gray-700">
       <div className="flex items-center gap-2 sm:gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
         <Image
-          src="/images/Icons/Telefon schieferschwarz.png"
+          src="/images/Icons/telefon-schieferschwarz.png"
           alt="Telefon"
           width={24}
           height={24}
@@ -358,7 +358,7 @@ export default function ProductPageContent({
       </div>
       <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
         <Image
-          src="/images/Icons/Lager schieferschwarz.png"
+          src="/images/Icons/lager-schieferschwarz.png"
           alt="Lager"
           width={24}
           height={24}
@@ -368,7 +368,7 @@ export default function ProductPageContent({
       </div>
       <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
         <Image
-          src="/images/Icons/Termin schieferschwarz.png"
+          src="/images/Icons/termin-schieferschwarz.png"
           alt="Termin"
           width={24}
           height={24}
@@ -378,7 +378,7 @@ export default function ProductPageContent({
       </div>
       <div className="flex items-center gap-2 sm:gap-3 pt-3">
         <Image
-          src="/images/Icons/Lieferung schieferschwarz.png"
+          src="/images/Icons/lieferung-schieferschwarz.png"
           alt="Lieferung"
           width={24}
           height={24}
@@ -447,7 +447,7 @@ export default function ProductPageContent({
             {features.map((feature, index) => (
               <div key={index} className="flex items-start gap-3">
                 <Image
-                  src="/images/Icons/Haken rot.png"
+                  src="/images/Icons/haken-rot.png"
                   alt="Check"
                   width={20}
                   height={20}
@@ -674,7 +674,7 @@ export default function ProductPageContent({
               ) : (
                 <span className="flex items-center justify-center gap-2">
                   <Image
-                    src="/images/Icons/Warenkorb weiß.png"
+                    src="/images/Icons/warenkorb-weiss.png"
                     alt=""
                     width={20}
                     height={20}
@@ -982,7 +982,7 @@ export default function ProductPageContent({
                   ) : (
                     <>
                       <Image
-                        src="/images/Icons/Musterbox weiß.png"
+                        src="/images/Icons/musterbox-weiss.png"
                         alt="Musterbox"
                         width={20}
                         height={20}
@@ -999,7 +999,7 @@ export default function ProductPageContent({
             <div className="hidden lg:block space-y-0 text-base sm:text-lg lg:text-2xl text-gray-700">
               <div className="flex items-center gap-2 sm:gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
-                  src="/images/Icons/Telefon schieferschwarz.png"
+                  src="/images/Icons/telefon-schieferschwarz.png"
                   alt="Telefon"
                   width={24}
                   height={24}
@@ -1009,7 +1009,7 @@ export default function ProductPageContent({
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
-                  src="/images/Icons/Lager schieferschwarz.png"
+                  src="/images/Icons/lager-schieferschwarz.png"
                   alt="Lager"
                   width={24}
                   height={24}
@@ -1019,7 +1019,7 @@ export default function ProductPageContent({
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
-                  src="/images/Icons/Termin schieferschwarz.png"
+                  src="/images/Icons/termin-schieferschwarz.png"
                   alt="Termin"
                   width={24}
                   height={24}
@@ -1029,7 +1029,7 @@ export default function ProductPageContent({
               </div>
               <div className="flex items-center gap-2 sm:gap-3 pt-3">
                 <Image
-                  src="/images/Icons/Lieferung schieferschwarz.png"
+                  src="/images/Icons/lieferung-schieferschwarz.png"
                   alt="Lieferung"
                   width={24}
                   height={24}
@@ -1092,7 +1092,7 @@ export default function ProductPageContent({
             <div className="lg:hidden space-y-0 text-base sm:text-lg text-gray-700">
               <div className="flex items-center gap-2 sm:gap-3 pb-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
-                  src="/images/Icons/Telefon schieferschwarz.png"
+                  src="/images/Icons/telefon-schieferschwarz.png"
                   alt="Telefon"
                   width={24}
                   height={24}
@@ -1102,7 +1102,7 @@ export default function ProductPageContent({
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
-                  src="/images/Icons/Lager schieferschwarz.png"
+                  src="/images/Icons/lager-schieferschwarz.png"
                   alt="Lager"
                   width={24}
                   height={24}
@@ -1112,7 +1112,7 @@ export default function ProductPageContent({
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
-                  src="/images/Icons/Termin schieferschwarz.png"
+                  src="/images/Icons/termin-schieferschwarz.png"
                   alt="Termin"
                   width={24}
                   height={24}
@@ -1122,7 +1122,7 @@ export default function ProductPageContent({
               </div>
               <div className="flex items-center gap-2 sm:gap-3 pt-3">
                 <Image
-                  src="/images/Icons/Lieferung schieferschwarz.png"
+                  src="/images/Icons/lieferung-schieferschwarz.png"
                   alt="Lieferung"
                   width={24}
                   height={24}

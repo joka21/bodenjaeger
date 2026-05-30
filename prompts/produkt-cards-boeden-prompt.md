@@ -240,7 +240,7 @@ Display:
 - Container: `mb-4`
 - List: `<ul className="space-y-1">`
 - Item: `flex items-start text-sm text-gray-600`
-- Checkmark Icon: `/images/Icons/Haken schieferschwarz.png` (16x16px, mr-2)
+- Checkmark Icon: `/images/Icons/haken-schieferschwarz.png` (16x16px, mr-2)
 
 **Set-Angebot Section (Conditional):**
 

@@ -145,7 +145,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
             {categories.map((category, index) => (
               <div key={index} className="flex items-center gap-3">
                 <Image
-                  src="/images/Icons/Haken schieferschwarz.png"
+                  src="/images/Icons/haken-schieferschwarz.png"
                   alt="checkmark"
                   width={24}
                   height={24}

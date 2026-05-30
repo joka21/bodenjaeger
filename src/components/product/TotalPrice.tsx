@@ -283,7 +283,7 @@ export default function TotalPrice({
           ) : (
             <span className="flex items-center justify-center gap-2">
               <Image
-                src="/images/Icons/Warenkorb weiß.png"
+                src="/images/Icons/warenkorb-weiss.png"
                 alt=""
                 width={20}
                 height={20}

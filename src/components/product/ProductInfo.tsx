@@ -135,7 +135,7 @@ export default function ProductInfo({
           {features.map((feature, index) => (
             <div key={index} className="flex items-start gap-3">
               <Image
-                src="/images/Icons/Haken rot.png"
+                src="/images/Icons/haken-rot.png"
                 alt="Check"
                 width={20}
                 height={20}
