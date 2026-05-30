@@ -124,7 +124,13 @@
       "Bash(npm start *)",
       "PowerShell(Get-Process *)",
       "PowerShell(Stop-Process *)",
-      "Bash(where vercel *)"
+      "Bash(where vercel *)",
+      "WebFetch(domain:cdn.roomvo.com)",
+      "Bash(findstr /I wp-config)",
+      "Bash(git check-ignore *)",
+      "Bash(findstr *)",
+      "Bash(npm i *)",
+      "Bash(more +0)"
     ]
   }
 }

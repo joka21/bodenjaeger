@@ -47,6 +47,7 @@ node_modules
 # sensitive files
 test/akeebabackup_secretkey.php
 test/sgs_encrypt_key.php
+wp-config.php
 
 # large/unnecessary files
 *.xml

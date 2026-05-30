@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { WordPressPage } from '@/lib/wordpress';
 
 interface KontaktPageProps {
@@ -16,6 +17,9 @@ export default function KontaktPage({ page }: KontaktPageProps) {
     message: '',
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [website, setWebsite] = useState('');
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   const isCurrentlyOpen = () => {
     const now = new Date();
@@ -39,13 +43,32 @@ export default function KontaktPage({ page }: KontaktPageProps) {
     e.preventDefault();
     setFormStatus('sending');
 
-    // Simulate form submission - replace with actual endpoint
+    if (!turnstileToken) {
+      setFormStatus('error');
+      turnstileRef.current?.reset();
+      return;
+    }
+
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setFormStatus('success');
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, turnstileToken, website }),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success === true) {
+        setFormStatus('success');
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        setWebsite('');
+      } else {
+        setFormStatus('error');
+      }
     } catch {
       setFormStatus('error');
+    } finally {
+      setTurnstileToken(null);
+      turnstileRef.current?.reset();
     }
   };
 
@@ -302,6 +325,41 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                     />
                   </div>
 
+                  {/* Honeypot — versteckt, nicht von Menschen ausfüllbar */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      left: '-10000px',
+                      top: 'auto',
+                      width: '1px',
+                      height: '1px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <label htmlFor="website">Website (bitte leer lassen)</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                    />
+                  </div>
+
+                  {/* Cloudflare Turnstile */}
+                  <div>
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                      onSuccess={(t) => setTurnstileToken(t)}
+                      onError={() => setTurnstileToken(null)}
+                      onExpire={() => setTurnstileToken(null)}
+                    />
+                  </div>
+
                   {formStatus === 'error' && (
                     <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
                       Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns telefonisch.
@@ -310,7 +368,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
 
                   <button
                     type="submit"
-                    disabled={formStatus === 'sending'}
+                    disabled={formStatus === 'sending' || !turnstileToken}
                     className="w-full sm:w-auto px-8 py-3.5 bg-brand text-white font-bold rounded-lg hover:bg-[#d11820] transition-colors disabled:opacity-60 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
                   >
                     {formStatus === 'sending' ? (
