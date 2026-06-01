@@ -6,7 +6,6 @@ import Image from 'next/image';
 import type { StoreApiProduct } from '@/lib/woocommerce';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
-import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { useAlert } from '@/hooks/useAlert';
 import {
   FREE_SAMPLE_LIMIT,
@@ -29,10 +28,7 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
   const [isOrderingSample, setIsOrderingSample] = useState(false);
   const { addSampleToCart, getFreeSamplesRemaining } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-  const { isAllowed } = useCookieConsent();
   const { showSuccess, showError, showInfo } = useAlert();
-
-  const roomvoAvailable = isAllowed('functional');
 
   const wishlisted = isInWishlist(product.id);
 
@@ -235,35 +231,6 @@ export default function UnifiedProductCard({ product }: UnifiedProductCardProps)
                 <span className="text-xs font-bold leading-tight">Merkliste</span>
               </div>
             </button>
-            {roomvoAvailable && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                className="roomvo-trigger roomvo-stimr text-white flex items-center justify-start gap-2"
-                data-sku={product.sku}
-                data-slug={product.slug}
-                style={{
-                  backgroundColor: 'var(--color-bg-darkest)',
-                  height: '10px',
-                  padding: '1rem',
-                  borderRadius: '6px'
-                }}
-              >
-                <Image
-                  src="/images/Icons/3d-bodenplaner-weiss.png"
-                  alt="3D Bodenplaner"
-                  width={16}
-                  height={16}
-                />
-                <div className="flex flex-col items-start">
-                  <span className="text-[0.65rem] leading-tight">3D-</span>
-                  <span className="text-xs font-bold leading-tight">Bodenplaner</span>
-                </div>
-              </button>
-            )}
             <button
               onClick={handleOrderSample}
               disabled={isOrderingSample}

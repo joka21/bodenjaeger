@@ -302,6 +302,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
                         <option value="bestellung">Frage zur Bestellung</option>
                         <option value="reklamation">Reklamation</option>
                         <option value="lieferung">Versand & Lieferung</option>
+                        <option value="verlegeservice">Verlegeservice</option>
                         <option value="fachmarkt">Fachmarkt Hückelhoven</option>
                         <option value="sonstiges">Sonstiges</option>
                       </select>
