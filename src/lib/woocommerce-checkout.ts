@@ -67,6 +67,8 @@ export interface WooCommerceOrder {
   currency: string;
   date_created: string;
   payment_url?: string;
+  payment_method?: string;        // interne Methode: "stripe", "stripe_sofort", "paypal", "bacs", ...
+  payment_method_title?: string;  // Anzeige-Titel der Zahlart
   line_items: Array<{
     id: number;
     name: string;
