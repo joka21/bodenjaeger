@@ -51,6 +51,9 @@ wp-config.php
 
 # large/unnecessary files
 *.xml
+# Ausnahme: Next.js Merchant-Feed-Route (Verzeichnis heißt feed.xml)
+!src/app/feed.xml/
+!src/app/feed.xml/route.ts
 project_structure.txt
 
 # test data dumps

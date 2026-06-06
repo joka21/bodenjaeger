@@ -3,6 +3,7 @@ import { wooCommerceClient, type StoreApiProduct } from "@/lib/woocommerce";
 import ProductPageContent from "@/components/product/ProductPageContent";
 import { JsonLd } from "@/components/JsonLd";
 import { buildProductSchema, buildBreadcrumbSchema, stripHtml } from "@/lib/schema";
+import { SITE_URL, productUrl, categoryUrl } from "@/lib/site";
 
 // Slug-Präfix → Kategorie-Slug.
 // Reihenfolge wichtig: längere/spezifischere Präfixe zuerst,
@@ -247,11 +248,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const breadcrumbItems = [
-    { name: 'Startseite', url: 'https://bodenjaeger.de' },
+    { name: 'Startseite', url: SITE_URL },
     ...(product.categories?.[0]
-      ? [{ name: product.categories[0].name, url: `https://bodenjaeger.de/category/${product.categories[0].slug}` }]
+      ? [{ name: product.categories[0].name, url: categoryUrl(product.categories[0].slug) }]
       : []),
-    { name: product.name, url: `https://bodenjaeger.de/products/${product.slug}` },
+    { name: product.name, url: productUrl(product.slug) },
   ];
 
   return (
@@ -301,20 +302,20 @@ export async function generateMetadata({ params }: ProductPageProps) {
     const description = stripHtml(
       product.short_description || product.description?.substring(0, 160) || ''
     ) || `${product.name} bei Bodenjäger kaufen`;
-    const productUrl = `https://bodenjaeger.de/products/${product.slug}`;
+    const canonicalUrl = productUrl(product.slug);
 
     return {
       title: `${product.name} | Bodenjäger`,
       description,
       alternates: {
-        canonical: productUrl,
+        canonical: canonicalUrl,
       },
       openGraph: {
         title: product.name,
         description,
         images: product.images?.[0]?.src ? [product.images[0].src] : [],
         type: 'website',
-        url: productUrl,
+        url: canonicalUrl,
       },
     };
   } catch {

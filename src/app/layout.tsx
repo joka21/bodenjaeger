@@ -16,6 +16,7 @@ import TikTokPixel from "@/components/TikTokPixel";
 import Roomvo from "@/components/Roomvo";
 import { JsonLd } from "@/components/JsonLd";
 import { buildOrganizationSchema, buildWebSiteSchema } from "@/lib/schema";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const poppinsRegular = localFont({
@@ -33,7 +34,7 @@ const poppinsBold = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://bodenjaeger.de'),
+  metadataBase: new URL(SITE_URL),
   title: "Bodenjäger - Premium Bodenbeläge Online",
   description: "Hochwertige Vinyl-, Laminat- und Parkettböden von COREtec, primeCORE und mehr. Fachhandel mit großem Lagerbestand und persönlicher Beratung.",
   keywords: "Bodenbelag, Vinyl, Laminat, Parkett, COREtec, primeCORE, Rigid-Vinyl, Klebe-Vinyl",
