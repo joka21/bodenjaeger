@@ -1,6 +1,31 @@
 import type { StoreApiProduct } from '@/lib/woocommerce'
+import { SITE_URL, productUrl } from '@/lib/site'
 
-const SITE_URL = 'https://bodenjaeger.de'
+/**
+ * Paketpreise (das real Kaufbare) — Single Source of Truth für Feed UND JSON-LD,
+ * damit g:price und der strukturierte Seitenpreis nie auseinanderdriften.
+ *
+ * - `regular`   = regulärer Brutto-Paketpreis (`paketpreis`), Fallback: `price`
+ *                 (für Zubehör-Stückartikel ohne separaten Paketpreis).
+ * - `sale`      = Aktions-Brutto-Paketpreis (`paketpreis_s`), nur bei aktiver
+ *                 Aktion und nur wenn günstiger als `regular`, sonst `null`.
+ * - `effective` = was der Kunde aktuell zahlt (`sale ?? regular`).
+ *
+ * Es wird NICHTS neu berechnet — es werden ausschließlich die vom Backend
+ * vorberechneten Felder verwendet.
+ */
+export function getPackagePrices(product: StoreApiProduct): {
+  regular: number
+  sale: number | null
+  effective: number
+} {
+  const regular = product.paketpreis ?? product.price ?? 0
+  const saleRaw = product.paketpreis_s ?? null
+  const onSale =
+    !!product.on_sale && saleRaw !== null && saleRaw > 0 && saleRaw < regular
+  const sale = onSale ? saleRaw : null
+  return { regular, sale, effective: sale ?? regular }
+}
 
 export function stripHtml(html: string): string {
   return html
@@ -16,7 +41,7 @@ export function stripHtml(html: string): string {
 }
 
 export function buildProductSchema(product: StoreApiProduct): object {
-  const url = `${SITE_URL}/products/${product.slug}`
+  const url = productUrl(product.slug)
   const description = product.short_description
     ? stripHtml(product.short_description)
     : undefined
@@ -68,11 +93,14 @@ export function buildProductSchema(product: StoreApiProduct): object {
   priceValidUntil.setFullYear(priceValidUntil.getFullYear() + 1)
   const priceValidUntilStr = priceValidUntil.toISOString().split('T')[0]
 
+  // Preis = Paketpreis (das real Kaufbare), identisch zur Feed-Logik (g:price).
+  // Die menschlich sichtbare €/m²-Anzeige in der UI bleibt davon unberührt.
+  const { effective: packagePrice } = getPackagePrices(product)
   const offers =
-    product.price && product.price > 0
+    packagePrice > 0
       ? {
           '@type': 'Offer',
-          price: product.price,
+          price: packagePrice,
           priceCurrency: 'EUR',
           priceValidUntil: priceValidUntilStr,
           availability:

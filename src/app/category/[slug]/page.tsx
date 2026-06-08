@@ -3,6 +3,7 @@ import CategoryPageClient from '@/components/category/CategoryPageClient';
 import { wooCommerceClient } from '@/lib/woocommerce';
 import { JsonLd } from '@/components/JsonLd';
 import { buildBreadcrumbSchema } from '@/lib/schema';
+import { SITE_URL, categoryUrl } from '@/lib/site';
 
 // Category mapping for display names (fallback)
 const categoryNames: Record<string, string> = {
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }: PageProps<'/category/[slug]'>
     title: `${name} – Bodenbeläge online kaufen | Bodenjäger`,
     description: `${name} in großer Auswahl bei Bodenjäger – Top-Qualität, schnelle Lieferung und persönliche Beratung.`,
     alternates: {
-      canonical: `https://bodenjaeger.de/category/${slug}`,
+      canonical: categoryUrl(slug),
     },
   };
 }
@@ -62,8 +63,8 @@ export default async function CategoryPage({ params }: PageProps<'/category/[slu
   const categoryImage = categoryData?.image || null;
 
   const breadcrumb = buildBreadcrumbSchema([
-    { name: 'Startseite', url: 'https://bodenjaeger.de' },
-    { name: categoryName, url: `https://bodenjaeger.de/category/${slug}` },
+    { name: 'Startseite', url: SITE_URL },
+    { name: categoryName, url: categoryUrl(slug) },
   ]);
 
   return (

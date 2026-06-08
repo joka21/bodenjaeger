@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { wooCommerceClient, type StoreApiProduct, type StoreApiCategory } from '@/lib/woocommerce';
+import { SITE_URL, productUrl, categoryUrl } from '@/lib/site';
 
 /**
  * Sitemap für https://bodenjaeger.de
@@ -13,7 +14,7 @@ import { wooCommerceClient, type StoreApiProduct, type StoreApiCategory } from '
  * Crawler-Hit kontaktiert wird.
  */
 
-const BASE_URL = 'https://bodenjaeger.de';
+const BASE_URL = SITE_URL;
 
 export const revalidate = 3600;
 
@@ -108,7 +109,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     categoryEntries = categories
       .filter((cat) => typeof cat.slug === 'string' && cat.slug.length > 0)
       .map((cat) => ({
-        url: `${BASE_URL}/category/${cat.slug}`,
+        url: categoryUrl(cat.slug),
         lastModified: now,
         changeFrequency: 'daily' as const,
         priority: 0.8,
@@ -124,7 +125,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     productEntries = products
       .filter((p) => typeof p.slug === 'string' && p.slug.length > 0)
       .map((p) => ({
-        url: `${BASE_URL}/products/${p.slug}`,
+        url: productUrl(p.slug),
         lastModified: now,
         changeFrequency: 'weekly' as const,
         priority: 0.6,

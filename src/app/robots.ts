@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/site';
 
-const BASE_URL = 'https://bodenjaeger.de';
+const BASE_URL = SITE_URL;
 
 /**
  * robots.txt für https://bodenjaeger.de
