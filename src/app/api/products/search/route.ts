@@ -148,13 +148,14 @@ export async function GET(request: NextRequest) {
       );
     };
 
-    // Helper: Check if product is in "Teppich" category (always excluded)
+    // Helper: Check if product is in "Teppich(boden)" category (always excluded)
     const isInTeppichCategory = (product: StoreApiProduct): boolean => {
       if (!product.categories || !Array.isArray(product.categories)) return false;
-      return product.categories.some(cat =>
-        cat.slug === 'teppich' ||
-        cat.name.toLowerCase() === 'teppich'
-      );
+      return product.categories.some(cat => {
+        const slug = (cat.slug || '').toLowerCase();
+        const name = (cat.name || '').toLowerCase();
+        return slug.includes('teppich') || name.includes('teppich');
+      });
     };
 
     // Calculate relevance scores for initial results
