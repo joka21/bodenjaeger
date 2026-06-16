@@ -148,6 +148,15 @@ export async function GET(request: NextRequest) {
       );
     };
 
+    // Helper: Check if product is in "Teppich" category (always excluded)
+    const isInTeppichCategory = (product: StoreApiProduct): boolean => {
+      if (!product.categories || !Array.isArray(product.categories)) return false;
+      return product.categories.some(cat =>
+        cat.slug === 'teppich' ||
+        cat.name.toLowerCase() === 'teppich'
+      );
+    };
+
     // Calculate relevance scores for initial results
     let scoredProducts: ProductWithScore[] = products
       .map((product) => ({
@@ -155,6 +164,7 @@ export async function GET(request: NextRequest) {
         score: calculateRelevanceScore(product, query),
       }))
       .filter((item) => item.score > 0) // Only include products with any match
+      .filter((item) => !isInTeppichCategory(item.product)) // Always exclude "Teppich" category
       .filter((item) => {
         // Exclude "Muster" category UNLESS we're explicitly searching for sample products
         if (isSearchingForSamples) {
@@ -189,6 +199,7 @@ export async function GET(request: NextRequest) {
           score: calculateRelevanceScore(product, query),
         }))
         .filter((item) => item.score > 0)
+        .filter((item) => !isInTeppichCategory(item.product)) // Always exclude "Teppich" category
         .filter((item) => {
           // Exclude "Muster" category UNLESS we're explicitly searching for sample products
           if (isSearchingForSamples) {
