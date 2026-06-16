@@ -15,6 +15,7 @@ const categoryNames: Record<string, string> = {
   'daemmung': 'Dämmung',
   'zubehoer': 'Zubehör',
   'muster': 'Muster',
+  'musterbox': 'Kostenlose Bodenmuster bestellen',
   'teppichboden': 'Teppichboden',
   // Marken-Kategorien
   'coretec': 'COREtec',
@@ -91,6 +92,7 @@ export async function generateStaticParams() {
     'daemmung',
     'zubehoer',
     'muster',
+    'musterbox',
     'teppichboden',
     // Marken-Kategorien
     'coretec',
@@ -114,3 +116,7 @@ export async function generateStaticParams() {
 
 // Enable dynamic rendering for categories not in generateStaticParams
 export const dynamicParams = true;
+
+// ISR: Kategorie-Seiten alle 5 Minuten neu rendern, damit neue/aktualisierte
+// Kategorien (Name, Bild, Beschreibung) nicht dauerhaft im Full-Route-Cache einfrieren.
+export const revalidate = 300;
