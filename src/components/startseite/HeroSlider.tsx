@@ -24,6 +24,18 @@ interface SlideData {
 
 const slides: SlideData[] = [
   {
+    id: 3,
+    bgColor: '#ed1b24',
+    image: '/images/sliderbilder/summersale.webp',
+    imageAlt: 'SummerSALE 2026',
+    heading: 'SummerSALE',
+    text: 'Spare auf das gesamte Sortiment 10% extra. Auch auf bereits reduzierte Ware! Mit dem Code: SU10',
+    dateText: 'Nur bis zum 12.09.2026',
+    buttonLabel: 'Alle Böden entdecken',
+    buttonHref: '/category/musterbox',
+    buttonVariant: 'light',
+  },
+  {
     id: 1,
     bgColor: '#4c4c4c',
     image: '/images/sliderbilder/primecore.webp',
@@ -52,18 +64,6 @@ const slides: SlideData[] = [
     buttonLabel: 'Mehr erfahren',
     buttonHref: '/category/coretec',
     buttonVariant: 'dark',
-  },
-  {
-    id: 3,
-    bgColor: '#ed1b24',
-    image: '/images/sliderbilder/angebot.webp',
-    imageAlt: 'Angebot',
-    heading: 'Unsere aktuellen Aktionsböden.',
-    subline: 'Bis zu 47% sparen!',
-    dateText: 'Nur bis zum 27.06.2026',
-    buttonLabel: 'Jetzt sparen',
-    buttonHref: '/sale',
-    buttonVariant: 'light',
   },
 ];
 
@@ -149,6 +149,15 @@ export default function HeroSlider() {
 
   return (
     <div className="w-full bg-white overflow-hidden p-[10px]">
+      {/* Aktions-Balken über dem Slider: Jäger-Gelb Hintergrund, Jäger-Schwarz Schrift */}
+      <div
+        className="max-w-[1500px] mx-auto mb-[10px] px-4 py-2.5 text-center text-dark text-sm md:text-base"
+        style={{ backgroundColor: '#fff301' }}
+      >
+        SummerSALE &ndash; 10% auf das gesamte Sortiment mit dem{' '}
+        <strong className="font-bold">Code: SU10</strong>
+      </div>
+
       <div
         className="max-w-[1500px] mx-auto relative overflow-hidden bg-white"
         onMouseEnter={() => setIsPaused(true)}
