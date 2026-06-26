@@ -26,6 +26,20 @@ interface SlideData {
 
 const slides: SlideData[] = [
   {
+    id: 2,
+    bgColor: '#ed1b24',
+    image: '/images/sliderbilder/Slider Bild - SummerSALE 2026.png',
+    imageAlt: 'SummerSALE 2026',
+    objectPosition: 'right 10%',
+    smallText: true,
+    heading: 'SummerSALE',
+    text: 'Spare auf das gesamte Sortiment 10% extra. Auch auf bereits reduzierte Ware! Mit dem Code: SU10',
+    dateText: 'Nur bis zum 12.09.2026',
+    buttonLabel: 'Alle Böden entdecken',
+    buttonHref: '/category/musterbox',
+    buttonVariant: 'light',
+  },
+  {
     id: 1,
     bgColor: '#4c4c4c',
     image: '/images/sliderbilder/primecore.webp',
@@ -41,20 +55,6 @@ const slides: SlideData[] = [
     ],
     buttonLabel: 'Mehr erfahren',
     buttonHref: '/category/primecore',
-    buttonVariant: 'light',
-  },
-  {
-    id: 2,
-    bgColor: '#ed1b24',
-    image: '/images/sliderbilder/Slider Bild - SummerSALE 2026.png',
-    imageAlt: 'SummerSALE 2026',
-    objectPosition: 'right 10%',
-    smallText: true,
-    heading: 'SummerSALE',
-    text: 'Spare auf das gesamte Sortiment 10% extra. Auch auf bereits reduzierte Ware! Mit dem Code: SU10',
-    dateText: 'Nur bis zum 12.09.2026',
-    buttonLabel: 'Alle Böden entdecken',
-    buttonHref: '/category/musterbox',
     buttonVariant: 'light',
   },
   {
@@ -169,7 +169,7 @@ export default function HeroSlider() {
             Desktop: Slides absolut gestapelt mit Fade-Transition, feste min-Höhe 600px.
             Mobile: nur aktiver Slide wird gerendert (natürlicher Flow), damit das Bild
             volle Breite bekommen kann und der Container mitwächst. */}
-        <div className="relative min-[1400px]:min-h-[800px]">
+        <div className="relative min-[1200px]:min-h-[800px]">
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
             return (
@@ -177,32 +177,32 @@ export default function HeroSlider() {
               key={slide.id}
               className={`${
                 isActive
-                  ? 'block min-[1400px]:opacity-100 min-[1400px]:z-10'
-                  : 'hidden min-[1400px]:block min-[1400px]:opacity-0 min-[1400px]:z-0'
-              } min-[1400px]:absolute min-[1400px]:inset-0 min-[1400px]:transition-opacity min-[1400px]:duration-500`}
+                  ? 'block min-[1200px]:opacity-100 min-[1200px]:z-10'
+                  : 'hidden min-[1200px]:block min-[1200px]:opacity-0 min-[1200px]:z-0'
+              } min-[1200px]:absolute min-[1200px]:inset-0 min-[1200px]:transition-opacity min-[1200px]:duration-500`}
               style={{ backgroundColor: slide.bgColor }}
             >
               {/* Desktop-Layout: links Text, rechts Bild (948px) */}
-              <div className="hidden min-[1400px]:flex h-full min-h-[800px]">
-                <div className="flex-1 flex flex-col justify-center px-16 py-12 text-white">
+              <div className="hidden min-[1200px]:flex h-full min-h-[800px]">
+                <div className="flex-1 min-w-0 flex flex-col justify-center px-16 py-12 text-white">
                   <h2 className={`font-bold mb-6 leading-tight ${
                     slide.smallText
-                      ? 'text-3xl min-[1400px]:text-4xl'
-                      : 'text-4xl min-[1400px]:text-5xl'
+                      ? 'text-3xl min-[1200px]:text-4xl'
+                      : 'text-4xl min-[1200px]:text-5xl'
                   }`}>
                     {slide.heading}
                   </h2>
                   {slide.subline && (
                     <p className={`mb-6 ${
                       slide.smallText
-                        ? 'text-lg min-[1400px]:text-xl'
-                        : 'text-xl min-[1400px]:text-2xl'
+                        ? 'text-lg min-[1200px]:text-xl'
+                        : 'text-xl min-[1200px]:text-2xl'
                     }`}>
                       {slide.subline}
                     </p>
                   )}
                   {slide.bullets && (
-                    <ul className="text-base min-[1400px]:text-lg mb-8 space-y-1.5">
+                    <ul className="text-base min-[1200px]:text-lg mb-8 space-y-1.5">
                       {slide.bullets.map((b) => (
                         <li key={b}>• {b}</li>
                       ))}
@@ -211,8 +211,8 @@ export default function HeroSlider() {
                   {slide.text && (
                     <p className={`mb-8 leading-snug ${
                       slide.smallText
-                        ? 'text-lg min-[1400px]:text-xl'
-                        : 'text-xl min-[1400px]:text-2xl'
+                        ? 'text-lg min-[1200px]:text-xl'
+                        : 'text-xl min-[1200px]:text-2xl'
                     }`}>
                       {slide.text}
                     </p>
@@ -220,8 +220,8 @@ export default function HeroSlider() {
                   {slide.dateText && (
                     <p className={`mb-8 ${
                       slide.smallText
-                        ? 'text-sm min-[1400px]:text-base'
-                        : 'text-base min-[1400px]:text-lg'
+                        ? 'text-sm min-[1200px]:text-base'
+                        : 'text-base min-[1200px]:text-lg'
                     }`}>
                       {slide.dateText}
                     </p>
@@ -238,14 +238,14 @@ export default function HeroSlider() {
                     <span aria-hidden>›</span>
                   </a>
                 </div>
-                <div className="w-[58%] min-[1400px]:w-[948px] flex-shrink-0 relative">
+                <div className="w-[58%] min-[1200px]:w-[70%] flex-shrink-0 relative">
                   <Image
                     src={slide.image}
                     alt={slide.imageAlt}
                     fill
                     className="object-cover"
                     style={{ objectPosition: slide.objectPosition ?? 'right center' }}
-                    sizes="(min-width: 1400px) 948px, 58vw"
+                    sizes="(min-width: 1200px) 70vw, 58vw"
                     priority={index === 0}
                     loading={index === 0 ? 'eager' : 'lazy'}
                   />
@@ -255,7 +255,7 @@ export default function HeroSlider() {
               {/* Mobile/Tablet-Layout: Bild oben in voller Breite, Text unten.
                   Container-Aspect passt zum Bild (948x724), sodass das Bild
                   die ganze Breite füllt und der eingebettete Text komplett sichtbar bleibt. */}
-              <div className="min-[1400px]:hidden">
+              <div className="min-[1200px]:hidden">
                 <div className="relative w-full aspect-[948/724]">
                   <Image
                     src={slide.image}
