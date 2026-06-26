@@ -148,9 +148,10 @@ export default function HeroSlider() {
   };
 
   return (
-    <div className="w-full bg-white overflow-hidden p-[10px]">
+    <div className="w-full bg-white overflow-hidden py-[10px]">
+      <div className="content-container">
       <div
-        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white rounded-[2%]"
+        className="w-full relative overflow-hidden bg-white rounded-[2%]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={onTouchStart}
@@ -217,14 +218,14 @@ export default function HeroSlider() {
                     <span aria-hidden>›</span>
                   </a>
                 </div>
-                <div className="w-[948px] flex-shrink-0 relative">
+                <div className="w-[58%] xl:w-[948px] flex-shrink-0 relative">
                   <Image
                     src={slide.image}
                     alt={slide.imageAlt}
                     fill
                     className="object-cover"
                     style={{ objectPosition: slide.objectPosition ?? 'center center' }}
-                    sizes="948px"
+                    sizes="(min-width: 1280px) 948px, 58vw"
                     priority={index === 0}
                     loading={index === 0 ? 'eager' : 'lazy'}
                   />
@@ -344,6 +345,7 @@ export default function HeroSlider() {
             />
           ))}
         </div>
+      </div>
       </div>
     </div>
   );
