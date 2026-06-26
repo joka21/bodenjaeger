@@ -149,17 +149,8 @@ export default function HeroSlider() {
 
   return (
     <div className="w-full bg-white overflow-hidden p-[10px]">
-      {/* Aktions-Balken über dem Slider: Jäger-Gelb Hintergrund, Jäger-Schwarz Schrift */}
       <div
-        className="max-w-[1500px] mx-auto mb-[10px] px-4 py-2.5 text-center text-dark text-sm md:text-base"
-        style={{ backgroundColor: '#fff301' }}
-      >
-        SummerSALE &ndash; 10% auf das gesamte Sortiment mit dem{' '}
-        <strong className="font-bold">Code: SU10</strong>
-      </div>
-
-      <div
-        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white"
+        className="max-w-[1500px] mx-auto relative overflow-hidden bg-white rounded-[2%]"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onTouchStart={onTouchStart}

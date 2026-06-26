@@ -5,6 +5,7 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
+import SaleBanner from "@/components/SaleBanner";
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
 import CookieConsent from "@/components/CookieConsent";
@@ -86,6 +87,7 @@ export default function RootLayout({
                 <Roomvo />
                 <CookieConsent />
                 <HeaderWrapper />
+                <SaleBanner />
                 <FloatingContactButton />
                 {children}
                 <Footer />
