@@ -165,7 +165,7 @@ export default function HeroSlider() {
             Desktop: Slides absolut gestapelt mit Fade-Transition, feste min-Höhe 600px.
             Mobile: nur aktiver Slide wird gerendert (natürlicher Flow), damit das Bild
             volle Breite bekommen kann und der Container mitwächst. */}
-        <div className="relative lg:min-h-[600px]">
+        <div className="relative xl:min-h-[700px]">
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
             return (
@@ -173,13 +173,13 @@ export default function HeroSlider() {
               key={slide.id}
               className={`${
                 isActive
-                  ? 'block lg:opacity-100 lg:z-10'
-                  : 'hidden lg:block lg:opacity-0 lg:z-0'
-              } lg:absolute lg:inset-0 lg:transition-opacity lg:duration-500`}
+                  ? 'block xl:opacity-100 xl:z-10'
+                  : 'hidden xl:block xl:opacity-0 xl:z-0'
+              } xl:absolute xl:inset-0 xl:transition-opacity xl:duration-500`}
               style={{ backgroundColor: slide.bgColor }}
             >
               {/* Desktop-Layout: links Text, rechts Bild (948px) */}
-              <div className="hidden lg:flex h-full min-h-[600px]">
+              <div className="hidden xl:flex h-full min-h-[700px]">
                 <div className="flex-1 flex flex-col justify-center px-16 py-12 text-white">
                   <h2 className="text-4xl xl:text-5xl font-bold mb-6 leading-tight">
                     {slide.heading}
@@ -232,10 +232,10 @@ export default function HeroSlider() {
                 </div>
               </div>
 
-              {/* Mobile-Layout: Bild oben in voller Breite, Text unten.
+              {/* Mobile/Tablet-Layout: Bild oben in voller Breite, Text unten.
                   Container-Aspect passt zum Bild (948x724), sodass das Bild
                   die ganze Breite füllt und der eingebettete Text komplett sichtbar bleibt. */}
-              <div className="lg:hidden">
+              <div className="xl:hidden">
                 <div className="relative w-full aspect-[948/724]">
                   <Image
                     src={slide.image}
