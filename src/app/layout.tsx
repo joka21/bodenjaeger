@@ -86,8 +86,8 @@ export default function RootLayout({
                 <TikTokPixel />
                 <Roomvo />
                 <CookieConsent />
-                <HeaderWrapper />
                 <SaleBanner />
+                <HeaderWrapper />
                 <FloatingContactButton />
                 {children}
                 <Footer />

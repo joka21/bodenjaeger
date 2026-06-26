@@ -12,6 +12,8 @@ interface SlideData {
   // sichtbaren Ausschnitt vertikal. Default "center center" (50% 50%).
   // Kleinerer Y-Wert = zeigt mehr vom oberen Bildrand = Content rutscht optisch nach unten.
   objectPosition?: string;
+  // Wenn true: kleinere Schriftgrößen für Überschrift/Text/Datum (z. B. SummerSALE).
+  smallText?: boolean;
   heading: string;
   subline?: string;
   bullets?: string[];
@@ -23,18 +25,6 @@ interface SlideData {
 }
 
 const slides: SlideData[] = [
-  {
-    id: 3,
-    bgColor: '#ed1b24',
-    image: '/images/sliderbilder/summersale.webp',
-    imageAlt: 'SummerSALE 2026',
-    heading: 'SummerSALE',
-    text: 'Spare auf das gesamte Sortiment 10% extra. Auch auf bereits reduzierte Ware! Mit dem Code: SU10',
-    dateText: 'Nur bis zum 12.09.2026',
-    buttonLabel: 'Alle Böden entdecken',
-    buttonHref: '/category/musterbox',
-    buttonVariant: 'light',
-  },
   {
     id: 1,
     bgColor: '#4c4c4c',
@@ -55,6 +45,20 @@ const slides: SlideData[] = [
   },
   {
     id: 2,
+    bgColor: '#ed1b24',
+    image: '/images/sliderbilder/Slider Bild - SummerSALE 2026.png',
+    imageAlt: 'SummerSALE 2026',
+    objectPosition: 'right 10%',
+    smallText: true,
+    heading: 'SummerSALE',
+    text: 'Spare auf das gesamte Sortiment 10% extra. Auch auf bereits reduzierte Ware! Mit dem Code: SU10',
+    dateText: 'Nur bis zum 12.09.2026',
+    buttonLabel: 'Alle Böden entdecken',
+    buttonHref: '/category/musterbox',
+    buttonVariant: 'light',
+  },
+  {
+    id: 3,
     bgColor: '#00518a',
     image: '/images/sliderbilder/coreTec.webp',
     imageAlt: 'CoreTec',
@@ -181,11 +185,19 @@ export default function HeroSlider() {
               {/* Desktop-Layout: links Text, rechts Bild (948px) */}
               <div className="hidden min-[1400px]:flex h-full min-h-[800px]">
                 <div className="flex-1 flex flex-col justify-center px-16 py-12 text-white">
-                  <h2 className="text-4xl min-[1400px]:text-5xl font-bold mb-6 leading-tight">
+                  <h2 className={`font-bold mb-6 leading-tight ${
+                    slide.smallText
+                      ? 'text-3xl min-[1400px]:text-4xl'
+                      : 'text-4xl min-[1400px]:text-5xl'
+                  }`}>
                     {slide.heading}
                   </h2>
                   {slide.subline && (
-                    <p className="text-xl min-[1400px]:text-2xl mb-6 max-w-md">
+                    <p className={`mb-6 ${
+                      slide.smallText
+                        ? 'text-lg min-[1400px]:text-xl'
+                        : 'text-xl min-[1400px]:text-2xl'
+                    }`}>
                       {slide.subline}
                     </p>
                   )}
@@ -197,12 +209,20 @@ export default function HeroSlider() {
                     </ul>
                   )}
                   {slide.text && (
-                    <p className="text-xl min-[1400px]:text-2xl mb-8 max-w-lg leading-snug">
+                    <p className={`mb-8 leading-snug ${
+                      slide.smallText
+                        ? 'text-lg min-[1400px]:text-xl'
+                        : 'text-xl min-[1400px]:text-2xl'
+                    }`}>
                       {slide.text}
                     </p>
                   )}
                   {slide.dateText && (
-                    <p className="text-base min-[1400px]:text-lg mb-8 max-w-md">
+                    <p className={`mb-8 ${
+                      slide.smallText
+                        ? 'text-sm min-[1400px]:text-base'
+                        : 'text-base min-[1400px]:text-lg'
+                    }`}>
                       {slide.dateText}
                     </p>
                   )}
