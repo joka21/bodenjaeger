@@ -40,7 +40,7 @@ const slides: SlideData[] = [
     bgColor: '#4c4c4c',
     image: '/images/sliderbilder/primecore.webp',
     imageAlt: 'Primecore',
-    objectPosition: 'center 45%',
+    objectPosition: 'right 45%',
     heading: 'primeCORE',
     subline: 'Der extrem starke Vinylboden.',
     bullets: [
@@ -58,7 +58,7 @@ const slides: SlideData[] = [
     bgColor: '#00518a',
     image: '/images/sliderbilder/coreTec.webp',
     imageAlt: 'CoreTec',
-    objectPosition: 'center 10%',
+    objectPosition: 'right 10%',
     heading: 'COREtec',
     text: 'Die Markenwelt der Luxusböden mit lebenslanger Garantie.',
     buttonLabel: 'Mehr erfahren',
@@ -165,7 +165,7 @@ export default function HeroSlider() {
             Desktop: Slides absolut gestapelt mit Fade-Transition, feste min-Höhe 600px.
             Mobile: nur aktiver Slide wird gerendert (natürlicher Flow), damit das Bild
             volle Breite bekommen kann und der Container mitwächst. */}
-        <div className="relative xl:min-h-[700px]">
+        <div className="relative min-[1400px]:min-h-[800px]">
           {slides.map((slide, index) => {
             const isActive = index === currentSlide;
             return (
@@ -173,36 +173,36 @@ export default function HeroSlider() {
               key={slide.id}
               className={`${
                 isActive
-                  ? 'block xl:opacity-100 xl:z-10'
-                  : 'hidden xl:block xl:opacity-0 xl:z-0'
-              } xl:absolute xl:inset-0 xl:transition-opacity xl:duration-500`}
+                  ? 'block min-[1400px]:opacity-100 min-[1400px]:z-10'
+                  : 'hidden min-[1400px]:block min-[1400px]:opacity-0 min-[1400px]:z-0'
+              } min-[1400px]:absolute min-[1400px]:inset-0 min-[1400px]:transition-opacity min-[1400px]:duration-500`}
               style={{ backgroundColor: slide.bgColor }}
             >
               {/* Desktop-Layout: links Text, rechts Bild (948px) */}
-              <div className="hidden xl:flex h-full min-h-[700px]">
+              <div className="hidden min-[1400px]:flex h-full min-h-[800px]">
                 <div className="flex-1 flex flex-col justify-center px-16 py-12 text-white">
-                  <h2 className="text-4xl xl:text-5xl font-bold mb-6 leading-tight">
+                  <h2 className="text-4xl min-[1400px]:text-5xl font-bold mb-6 leading-tight">
                     {slide.heading}
                   </h2>
                   {slide.subline && (
-                    <p className="text-xl xl:text-2xl mb-6 max-w-md">
+                    <p className="text-xl min-[1400px]:text-2xl mb-6 max-w-md">
                       {slide.subline}
                     </p>
                   )}
                   {slide.bullets && (
-                    <ul className="text-base xl:text-lg mb-8 space-y-1.5">
+                    <ul className="text-base min-[1400px]:text-lg mb-8 space-y-1.5">
                       {slide.bullets.map((b) => (
                         <li key={b}>• {b}</li>
                       ))}
                     </ul>
                   )}
                   {slide.text && (
-                    <p className="text-xl xl:text-2xl mb-8 max-w-lg leading-snug">
+                    <p className="text-xl min-[1400px]:text-2xl mb-8 max-w-lg leading-snug">
                       {slide.text}
                     </p>
                   )}
                   {slide.dateText && (
-                    <p className="text-base xl:text-lg mb-8 max-w-md">
+                    <p className="text-base min-[1400px]:text-lg mb-8 max-w-md">
                       {slide.dateText}
                     </p>
                   )}
@@ -218,14 +218,14 @@ export default function HeroSlider() {
                     <span aria-hidden>›</span>
                   </a>
                 </div>
-                <div className="w-[58%] xl:w-[948px] flex-shrink-0 relative">
+                <div className="w-[58%] min-[1400px]:w-[948px] flex-shrink-0 relative">
                   <Image
                     src={slide.image}
                     alt={slide.imageAlt}
                     fill
                     className="object-cover"
-                    style={{ objectPosition: slide.objectPosition ?? 'center center' }}
-                    sizes="(min-width: 1280px) 948px, 58vw"
+                    style={{ objectPosition: slide.objectPosition ?? 'right center' }}
+                    sizes="(min-width: 1400px) 948px, 58vw"
                     priority={index === 0}
                     loading={index === 0 ? 'eager' : 'lazy'}
                   />
@@ -235,7 +235,7 @@ export default function HeroSlider() {
               {/* Mobile/Tablet-Layout: Bild oben in voller Breite, Text unten.
                   Container-Aspect passt zum Bild (948x724), sodass das Bild
                   die ganze Breite füllt und der eingebettete Text komplett sichtbar bleibt. */}
-              <div className="xl:hidden">
+              <div className="min-[1400px]:hidden">
                 <div className="relative w-full aspect-[948/724]">
                   <Image
                     src={slide.image}
