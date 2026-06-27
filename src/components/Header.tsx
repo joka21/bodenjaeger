@@ -35,7 +35,7 @@ export default function Header() {
       {/* Top Section - 150px height - #2e2d32 */}
       <div className="w-full h-[70px] sm:h-[80px] md:h-[100px] bg-dark overflow-visible">
         <div className="content-container h-full">
-          <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
+          <div className="flex items-center justify-between h-full gap-1 sm:gap-2 md:gap-[1%]">
             {/* Logo */}
             <Link href="/" className="flex items-center flex-shrink-0 sm:min-w-[150px] md:min-w-[200px]">
               <Image
@@ -43,7 +43,7 @@ export default function Header() {
                 alt="Bodenjäger Logo"
                 width={200}
                 height={80}
-                className="h-10 sm:h-12 md:h-14 w-auto"
+                className="h-8 sm:h-12 md:h-14 w-auto"
                 priority
               />
             </Link>
@@ -52,7 +52,7 @@ export default function Header() {
             <LiveSearch />
 
             {/* Icons - Favoriten, Warenkorb, Kundenkonto, Hamburger (Mobile) */}
-            <div className="flex items-center flex-shrink-0 gap-2 sm:gap-3 md:gap-[1%]">
+            <div className="flex items-center flex-shrink-0 gap-1 sm:gap-3 md:gap-[1%]">
               {/* Favoriten */}
               <Link href="/favoriten" className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <Image
