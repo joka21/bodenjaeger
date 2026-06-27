@@ -352,43 +352,64 @@ export default function CategoryPageClient({ slug, categoryName, categoryDescrip
           </div>
         )}
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="flex justify-center items-center space-x-2">
-            <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className="px-3 py-2 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              Zurück
-            </button>
+        {/* Pagination — gekürzt mit Ellipsen, damit die Reihe auf dem Handy nicht überläuft */}
+        {totalPages > 1 && (() => {
+          // Fenster: immer Seite 1 + letzte Seite + aktuelle ±1, dazwischen "…"
+          const pages: (number | 'ellipsis')[] = [];
+          const left = Math.max(2, currentPage - 1);
+          const right = Math.min(totalPages - 1, currentPage + 1);
+          pages.push(1);
+          if (left > 2) pages.push('ellipsis');
+          for (let i = left; i <= right; i++) pages.push(i);
+          if (right < totalPages - 1) pages.push('ellipsis');
+          pages.push(totalPages);
 
-            {[...Array(totalPages)].map((_, index) => {
-              const page = index + 1;
-              return (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 py-2 rounded-lg border transition-colors ${
-                    currentPage === page
-                      ? 'bg-brand text-white border-brand'
-                      : 'border-gray-300 text-gray-500 hover:bg-gray-100'
-                  }`}
-                >
-                  {page}
-                </button>
-              );
-            })}
+          return (
+            <div className="flex justify-center items-center gap-1 sm:gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                aria-label="Vorherige Seite"
+                className="px-3 py-2 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
+              >
+                <span className="hidden sm:inline">Zurück</span>
+                <span className="sm:hidden" aria-hidden="true">‹</span>
+              </button>
 
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className="px-3 py-2 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              Weiter
-            </button>
-          </div>
-        )}
+              {pages.map((page, index) =>
+                page === 'ellipsis' ? (
+                  <span key={`ellipsis-${index}`} className="px-1 sm:px-2 py-2 text-gray-400 select-none">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    aria-label={`Seite ${page}`}
+                    aria-current={currentPage === page ? 'page' : undefined}
+                    className={`px-3 py-2 rounded-lg border transition-colors shrink-0 ${
+                      currentPage === page
+                        ? 'bg-brand text-white border-brand'
+                        : 'border-gray-300 text-gray-500 hover:bg-gray-100'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                )
+              )}
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                aria-label="Nächste Seite"
+                className="px-3 py-2 rounded-lg border border-gray-300 text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shrink-0"
+              >
+                <span className="hidden sm:inline">Weiter</span>
+                <span className="sm:hidden" aria-hidden="true">›</span>
+              </button>
+            </div>
+          );
+        })()}
 
         {/* Full Category Description at bottom */}
         {categoryDescription && categoryDescription.replace(/<[^>]+>/g, '').trim().length > 200 && (

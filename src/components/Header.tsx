@@ -37,7 +37,7 @@ export default function Header() {
         <div className="content-container h-full">
           <div className="flex items-center justify-between h-full gap-2 md:gap-[1%]">
             {/* Logo */}
-            <Link href="/" className="flex items-center flex-shrink-0 min-w-[120px] sm:min-w-[150px] md:min-w-[200px]">
+            <Link href="/" className="flex items-center flex-shrink-0 sm:min-w-[150px] md:min-w-[200px]">
               <Image
                 src="/images/logo/logo-bodenjaeger-fff.svg"
                 alt="Bodenjäger Logo"
@@ -52,7 +52,7 @@ export default function Header() {
             <LiveSearch />
 
             {/* Icons - Favoriten, Warenkorb, Kundenkonto, Hamburger (Mobile) */}
-            <div className="flex items-center gap-2 sm:gap-3 md:gap-[1%]">
+            <div className="flex items-center flex-shrink-0 gap-2 sm:gap-3 md:gap-[1%]">
               {/* Favoriten */}
               <Link href="/favoriten" className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
                 <Image
