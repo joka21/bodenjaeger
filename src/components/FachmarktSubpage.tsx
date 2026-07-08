@@ -70,7 +70,7 @@ export default function FachmarktSubpage({ page }: FachmarktSubpageProps) {
 
       {/* ── Hero ── */}
       {heroImage ? (
-        <section className="relative w-full h-[320px] md:h-[440px] lg:h-[520px]">
+        <section className="relative w-full h-[320px] md:h-[440px] lg:h-[520px] rounded-[2%] overflow-hidden">
           <Image
             src={heroImage.src}
             alt={heroImage.alt || title}

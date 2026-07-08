@@ -101,7 +101,7 @@ export default function KarrierePage({ page }: KarrierePageProps) {
               {heroTitle}
             </h1>
           )}
-          <div className="relative w-full rounded-xl overflow-hidden">
+          <div className="relative w-full rounded-[2%] overflow-hidden">
             <Image
               src="/images/jobs/Dominik-Jaeger-geschnitten.jpg"
               alt={heroTitle || page.title.rendered}

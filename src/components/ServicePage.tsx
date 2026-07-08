@@ -131,7 +131,7 @@ export default function ServicePage({ page }: ServicePageProps) {
                   Mehr als nur Bodenbeläge – wir begleiten Sie von der Beratung bis zur fertigen Verlegung mit umfassenden Serviceleistungen.
                 </p>
               </div>
-              <div className="relative h-[300px] md:h-[400px] rounded-xl overflow-hidden">
+              <div className="relative h-[300px] md:h-[400px] rounded-[2%] overflow-hidden">
                 <Image
                   src={heroImage}
                   alt="Service bei Bodenjäger"

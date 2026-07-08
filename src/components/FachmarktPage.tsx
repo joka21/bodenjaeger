@@ -134,7 +134,7 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
           width={2560}
           height={1707}
           priority
-          className="w-full h-auto"
+          className="w-full h-auto rounded-[2%]"
           sizes="(max-width: 1400px) 100vw, 1400px"
         />
       </div>
