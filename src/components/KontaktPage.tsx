@@ -1,12 +1,40 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { WordPressPage } from '@/lib/wordpress';
 
 interface KontaktPageProps {
   page: WordPressPage;
 }
+
+interface WordPressContentProps {
+  html: string;
+}
+
+// Ausgelagert und memoisiert, damit der injizierte WordPress-HTML-Block (inkl. <img>)
+// nicht bei jeder formData-Änderung (Tastatureingabe) neu gerendert wird.
+const WordPressContent = memo(function WordPressContent({ html }: WordPressContentProps) {
+  if (!html || html.trim().length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="py-12">
+      <div className="content-container">
+        <div
+          className="prose prose-lg max-w-4xl mx-auto
+            prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6
+            prose-h2:text-2xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-8
+            prose-p:text-gray-700 prose-p:mb-4
+            prose-a:text-brand prose-a:hover:underline
+            prose-img:rounded-xl prose-img:shadow-md"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </div>
+    </section>
+  );
+});
 
 export default function KontaktPage({ page }: KontaktPageProps) {
   const [formData, setFormData] = useState({
@@ -509,21 +537,7 @@ export default function KontaktPage({ page }: KontaktPageProps) {
       </section>
 
       {/* WordPress Content (if any beyond hero image) */}
-      {page.content.rendered && page.content.rendered.trim().length > 0 && (
-        <section className="py-12">
-          <div className="content-container">
-            <div
-              className="prose prose-lg max-w-4xl mx-auto
-                prose-h1:text-3xl prose-h1:font-bold prose-h1:mb-6
-                prose-h2:text-2xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-8
-                prose-p:text-gray-700 prose-p:mb-4
-                prose-a:text-brand prose-a:hover:underline
-                prose-img:rounded-xl prose-img:shadow-md"
-              dangerouslySetInnerHTML={{ __html: page.content.rendered }}
-            />
-          </div>
-        </section>
-      )}
+      <WordPressContent html={page.content.rendered} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { consent as consentApi, type ConsentDecisionAction } from '@/lib/analytics/track';
 
 export interface CookieCategories {
   necessary: true;
@@ -71,7 +72,7 @@ export const CookieConsentProvider: React.FC<CookieConsentProviderProps> = ({ ch
     }
   }, [isLoaded, consent]);
 
-  const persist = useCallback((categories: CookieCategories) => {
+  const persist = useCallback((categories: CookieCategories, action: ConsentDecisionAction) => {
     const next: CookieConsent = {
       categories,
       timestamp: Date.now(),
@@ -83,20 +84,23 @@ export const CookieConsentProvider: React.FC<CookieConsentProviderProps> = ({ ch
     } catch {
       // ignore quota errors
     }
+    // Consent-Entscheidung als GA4-Event — bewusst nur hier (echte Nutzeraktion
+    // über den Banner), nicht beim Re-Signaling des Consent Mode auf Folge-Seiten.
+    consentApi.decision(action, categories);
     setIsBannerOpen(false);
   }, []);
 
   const acceptAll = useCallback(() => {
-    persist({ necessary: true, functional: true, analytics: true, marketing: true });
+    persist({ necessary: true, functional: true, analytics: true, marketing: true }, 'accept_all');
   }, [persist]);
 
   const rejectAll = useCallback(() => {
-    persist({ necessary: true, functional: false, analytics: false, marketing: false });
+    persist({ necessary: true, functional: false, analytics: false, marketing: false }, 'reject_all');
   }, [persist]);
 
   const savePreferences = useCallback(
     (prefs: Omit<CookieCategories, 'necessary'>) => {
-      persist({ necessary: true, ...prefs });
+      persist({ necessary: true, ...prefs }, 'save_preferences');
     },
     [persist]
   );

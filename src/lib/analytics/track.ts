@@ -143,6 +143,9 @@ const DEFAULT_DENIED = {
   wait_for_update: 500,
 } as const;
 
+/** Woraus die Consent-Entscheidung stammt — für die Auswertung in GA4. */
+export type ConsentDecisionAction = 'accept_all' | 'reject_all' | 'save_preferences';
+
 export const consent = {
   setDefault(): void {
     if (!isBrowser()) return;
@@ -159,6 +162,28 @@ export const consent = {
       functionality_storage: c.functional ? 'granted' : 'denied',
       personalization_storage: c.functional ? 'granted' : 'denied',
       security_storage: 'granted',
+    });
+  },
+
+  /**
+   * Feuert ein `cookie_consent`-Event ins dataLayer — dokumentiert die
+   * Banner-Entscheidung, damit GA4 die Opt-in-/Opt-out-Rate zählen kann.
+   * Enthält KEINE personenbezogenen Daten (nur die gewählten Kategorien).
+   *
+   * WICHTIG (manueller GTM-Schritt): Der zugehörige GA4-Event-Tag muss
+   * consent-unabhängig feuern ("Keine zusätzliche Einwilligung erforderlich").
+   * Sonst werden Opt-outs nie gesendet und die Rate erscheint als 100 % Opt-in.
+   */
+  decision(action: ConsentDecisionAction, c: ConsentCategories): void {
+    if (!isBrowser()) return;
+    const dl = ensureDataLayer();
+    if (!dl) return;
+    dl.push({
+      event: 'cookie_consent',
+      consent_action: action,
+      analytics_consent: c.analytics ? 'granted' : 'denied',
+      marketing_consent: c.marketing ? 'granted' : 'denied',
+      functional_consent: c.functional ? 'granted' : 'denied',
     });
   },
 };

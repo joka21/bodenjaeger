@@ -101,14 +101,15 @@ export default function KarrierePage({ page }: KarrierePageProps) {
               {heroTitle}
             </h1>
           )}
-          <div className="relative w-full aspect-[21/9] rounded-xl overflow-hidden">
+          <div className="relative w-full rounded-xl overflow-hidden">
             <Image
               src="/images/jobs/Dominik-Jaeger-geschnitten.jpg"
               alt={heroTitle || page.title.rendered}
-              fill
+              width={1172}
+              height={619}
               priority
-              className="object-cover"
-              sizes="100vw"
+              className="w-full h-auto"
+              sizes="(max-width: 1400px) 100vw, 1400px"
             />
           </div>
         </div>

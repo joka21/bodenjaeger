@@ -126,15 +126,16 @@ export default function FachmarktPage({ page }: FachmarktPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Full Width Hero Image — lokal aus public/images/fachmarkt-hueckelhoven/ */}
-      <div className="relative w-full h-[400px] md:h-[500px] lg:h-[600px]">
+      {/* Hero Image — volle Breite bis 1400px (content-container), Höhe proportional, ganzes Bild sichtbar */}
+      <div className="content-container">
         <Image
           src="/images/fachmarkt-hueckelhoven/hero-DSCF2859.jpg"
           alt={page.title.rendered}
-          fill
+          width={2560}
+          height={1707}
           priority
-          className="object-cover"
-          sizes="100vw"
+          className="w-full h-auto"
+          sizes="(max-width: 1400px) 100vw, 1400px"
         />
       </div>
 
