@@ -61,6 +61,40 @@ export default function StyleguidePage() {
       hex: '#2e2d32',
       usage: 'Dunkelster Hintergrund',
     },
+    {
+      name: 'Success',
+      var: '--color-success',
+      hex: '#28a745',
+      usage: 'Erfolgsmeldungen / Kostenlos',
+    },
+  ]
+
+  // Tailwind-Farbtokens (aus @theme inline) — nutzbar als text-*/bg-*/border-*
+  const tailwindColors = [
+    { name: 'Brand', token: 'brand', var: '--color-brand', hex: '#ed1b24', usage: 'Bodenjäger Rot → text-brand, bg-brand' },
+    { name: 'Dark', token: 'dark', var: '--color-dark', hex: '#2e2d32', usage: 'Fast Schwarz → text-dark, bg-dark' },
+    { name: 'Mid', token: 'mid', var: '--color-mid', hex: '#4c4c4c', usage: 'Dunkelgrau → text-mid, bg-mid' },
+    { name: 'Ash', token: 'ash', var: '--color-ash', hex: '#e5e5e5', usage: 'Hellgrau → text-ash, bg-ash, border-ash' },
+    { name: 'Pale', token: 'pale', var: '--color-pale', hex: '#f9f9fb', usage: 'Off-White → bg-pale' },
+    { name: 'Navy', token: 'navy', var: '--color-navy', hex: '#1e40af', usage: 'Dunkelblau → text-navy, bg-navy' },
+    { name: 'Ocean', token: 'ocean', var: '--color-ocean', hex: '#5095cb', usage: 'Mittelblau → text-ocean, bg-ocean' },
+    { name: 'Success', token: 'success', var: '--color-success', hex: '#28a745', usage: 'Grün → text-success, bg-success' },
+  ]
+
+  // Gradienten (als CSS-Variablen, per Inline-Style nutzbar)
+  const gradients = [
+    {
+      name: 'Mid to Sky',
+      var: '--gradient-mid-to-sky',
+      value: 'radial-gradient(circle at center, #a8dcf4 0%, #5095cb 100%)',
+      usage: 'Radialer Blau-Verlauf (Sky → Mid Blue), z. B. Home-Company-Sektion',
+    },
+    {
+      name: 'Dark',
+      var: '--gradient-dark',
+      value: 'linear-gradient(135deg, #2e2d32 0%, #4c4c4c 100%)',
+      usage: 'Dunkler Verlauf für dunkle Sektionen',
+    },
   ]
 
   const fontSizes = [
@@ -113,6 +147,67 @@ export default function StyleguidePage() {
                     <code className="bg-gray-100 px-2 py-1 rounded text-xs">var({color.var})</code>
                   </p>
                   <p className="text-xs text-gray-500">{color.usage}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Tailwind-Farbtokens */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--color-text-primary)' }}>
+            Tailwind-Farbtokens
+          </h2>
+          <p className="text-base mb-6" style={{ color: 'var(--color-text-dark)' }}>
+            Diese Tokens sind im <code className="bg-gray-100 px-2 py-1 rounded text-sm">@theme inline</code>-Block
+            definiert und direkt als Utilities nutzbar (z. B. <code className="bg-gray-100 px-2 py-1 rounded text-sm">text-navy</code>,{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">bg-ocean</code>,{' '}
+            <code className="bg-gray-100 px-2 py-1 rounded text-sm">border-ash</code>).
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {tailwindColors.map((color) => (
+              <div key={color.var} className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div
+                  className="h-32 w-full"
+                  style={{
+                    backgroundColor: `var(${color.var})`,
+                    border: color.hex === '#f9f9fb' ? '1px solid #e5e5e5' : 'none'
+                  }}
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">{color.name}</h3>
+                  <p className="text-sm text-gray-600 mb-1">
+                    <code className="bg-gray-100 px-2 py-1 rounded">{color.hex}</code>
+                  </p>
+                  <p className="text-sm text-gray-600 mb-2">
+                    <code className="bg-gray-100 px-2 py-1 rounded text-xs">text-{color.token} / bg-{color.token}</code>
+                  </p>
+                  <p className="text-xs text-gray-500">{color.usage}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Gradienten */}
+        <section className="mb-16">
+          <h2 className="text-3xl font-bold mb-6" style={{ color: 'var(--color-text-primary)' }}>
+            Gradienten
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {gradients.map((gradient) => (
+              <div key={gradient.var} className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div
+                  className="h-40 w-full"
+                  style={{ background: `var(${gradient.var})` }}
+                />
+                <div className="p-4">
+                  <h3 className="font-bold text-lg mb-2">{gradient.name}</h3>
+                  <p className="text-sm text-gray-600 mb-2">
+                    <code className="bg-gray-100 px-2 py-1 rounded text-xs">var({gradient.var})</code>
+                  </p>
+                  <pre className="text-xs bg-gray-100 p-2 rounded overflow-x-auto mb-2">{gradient.value}</pre>
+                  <p className="text-xs text-gray-500">{gradient.usage}</p>
                 </div>
               </div>
             ))}
@@ -336,7 +431,7 @@ export default function StyleguidePage() {
 {`.element {
   color: var(--color-text-primary);
   background: var(--color-bg-light);
-  border-color: var(--color-accent);
+  border-color: var(--color-primary);
   font-family: var(--font-poppins-regular);
 }`}
             </pre>
@@ -344,7 +439,7 @@ export default function StyleguidePage() {
             <h3 className="text-xl font-bold mb-4 mt-6">Verwendung in JSX (inline)</h3>
             <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
 {`<div style={{
-  color: 'var(--color-accent)',
+  color: 'var(--color-primary)',
   background: 'var(--color-bg-light)',
   fontFamily: 'var(--font-poppins-bold)'
 }}>
