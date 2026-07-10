@@ -161,6 +161,54 @@ export function buildWebSiteSchema(): object {
   }
 }
 
+/**
+ * FlooringStore (Subtyp von LocalBusiness) für den Fachmarkt Hückelhoven.
+ * aggregateRating wird bewusst NICHT gesetzt, bis die Google-Review-Einbindung
+ * geklärt ist (siehe content/fachmarkt.ts → GOOGLE_REVIEWS TODO).
+ */
+export function buildFlooringStoreSchema(input: {
+  name: string
+  street: string
+  postalCode: string
+  city: string
+  country: string
+  telephone: string
+  email: string
+  url: string
+  geo?: { lat: number; lng: number }
+  openingHours?: { days: string[]; opens: string; closes: string }[]
+}): object {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FlooringStore',
+    name: input.name,
+    url: input.url,
+    telephone: input.telephone,
+    email: input.email,
+    image: `${SITE_URL}/images/logo/logo-bodenjaeger-fff.svg`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: input.street,
+      postalCode: input.postalCode,
+      addressLocality: input.city,
+      addressCountry: input.country,
+    },
+    ...(input.geo
+      ? { geo: { '@type': 'GeoCoordinates', latitude: input.geo.lat, longitude: input.geo.lng } }
+      : {}),
+    ...(input.openingHours
+      ? {
+          openingHoursSpecification: input.openingHours.map((h) => ({
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: h.days,
+            opens: h.opens,
+            closes: h.closes,
+          })),
+        }
+      : {}),
+  }
+}
+
 export function buildBreadcrumbSchema(
   items: { name: string; url: string }[]
 ): object {
