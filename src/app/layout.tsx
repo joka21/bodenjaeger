@@ -6,7 +6,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
 import SaleBanner from "@/components/SaleBanner";
-import Footer from "@/components/Footer";
+import FooterWrapper from "@/components/FooterWrapper";
 import FloatingContactButton from "@/components/FloatingContactButton";
 import CookieConsent from "@/components/CookieConsent";
 import GoogleTagManager from "@/components/GoogleTagManager";
@@ -90,7 +90,7 @@ export default function RootLayout({
                 <HeaderWrapper />
                 <FloatingContactButton />
                 {children}
-                <Footer />
+                <FooterWrapper />
               </WishlistProvider>
             </CartProvider>
           </AuthProvider>

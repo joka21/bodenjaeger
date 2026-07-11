@@ -6,7 +6,7 @@ import Reveal from './Reveal'
 /** Sektion 4: Bild links, 6 Vorteile rechts. */
 export default function WarumBodenjaeger() {
   return (
-    <section className="bg-pale py-16 md:py-24">
+    <section className="bg-pale py-24 md:py-32">
       <div className="content-container grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <Reveal className="relative order-1 aspect-[3/4] w-full overflow-hidden rounded-3xl lg:aspect-[4/5]">
           <Image
@@ -23,7 +23,7 @@ export default function WarumBodenjaeger() {
             <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-brand">
               {WARUM.kicker}
             </p>
-            <h2 className="font-bold text-dark" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+            <h2 className="font-bold text-dark" style={{ fontSize: 'clamp(2.25rem, 4.5vw, 3.5rem)' }}>
               {WARUM.headline}
             </h2>
           </Reveal>

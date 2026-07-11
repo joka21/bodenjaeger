@@ -55,7 +55,7 @@ export const MAPS_EMBED_URL =
 // Wiederkehrende CTAs
 const CTA_ROUTE: Cta = { label: 'Route planen', href: MAPS_ROUTE_URL, variant: 'primary', external: true }
 const CTA_ANRUFEN: Cta = { label: 'Jetzt anrufen', href: STANDORT.telefonLink, variant: 'secondary', external: true }
-const CTA_BERATUNG: Cta = { label: 'Beratung vereinbaren', href: '/kontakt', variant: 'outline' }
+const CTA_BERATUNG: Cta = { label: 'Beratung vereinbaren', href: '/kontakt', variant: 'secondary' }
 
 // ── Sektion 1: Hero ───────────────────────────────────────────────────────────
 export const HERO = {
@@ -89,9 +89,13 @@ export const TRUST_STATS = [
 export const AUSSTELLUNG = {
   kicker: 'Ausstellung',
   headline: 'Sehen, fühlen, entscheiden – in unserer Ausstellung',
-  text: 'Böden wirken erst im Raum. Bei uns laufen Sie über echte Verlegemuster, vergleichen Dekore im Tageslicht und finden mit unserer Beratung den Belag, der zu Ihrem Projekt passt.',
+  text: 'Vergleichen Sie Farben, Oberflächen und Formate direkt vor Ort und lassen Sie sich persönlich beraten.',
   image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg',
   imageAlt: 'Blick in die Ausstellung mit verlegten Bodenmustern',
+  // Video-Slot: `video` bleibt null, bis die Quelle geliefert wird. Bei
+  // gesetzter URL rendert die Komponente ein <video> mit `poster` (= image)
+  // und lazy preload; sonst wird nur das Bild gezeigt.
+  video: null as string | null, // TODO(kunde): MP4/WebM-Quelle liefern
   // TODO(360): Quelle des 360°-Rundgangs noch offen.
   cta: { label: '360° Rundgang starten', href: '#', variant: 'primary', external: true } as Cta,
 }
@@ -167,20 +171,23 @@ export function activeBanners(
 
 export const FILIAL_ANGEBOTE = {
   kicker: 'Nur in der Filiale',
-  headline: 'Aktuelle Angebote aus Hückelhoven',
+  headline: 'Aktuelle Angebote aus unserem Fachmarkt',
 }
 
 // ── Sektion 7: Boden-Kategorien ─────────────────────────────────────────────────
 export const BODEN_KATEGORIEN = {
   kicker: 'Sortiment',
   headline: 'Für jeden Raum der passende Boden',
+  // Reihenfolge lt. Kundenfeedback. hrefs sind auf reale WooCommerce-Slugs
+  // gemappt (siehe Abschlussbericht). Slugs, die real NICHT existieren
+  // (Klick-Vinyl, PVC/CV-Belag), stehen bewusst auf '#' — kein geratener Pfad.
   kategorien: [
-    { titel: 'Laminat', href: '/category/laminat', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
-    { titel: 'Rigid-Vinyl', href: '/category/rigid-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' },
-    { titel: 'Parkett', href: '/category/parkett', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
+    { titel: 'Klick-Vinyl', href: '/category/rigid-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' }, // Kunde: Klick-Vinyl = rigid-vinyl
     { titel: 'Klebe-Vinyl', href: '/category/klebe-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
+    { titel: 'Parkett', href: '/category/parkett', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
+    { titel: 'Laminat', href: '/category/laminat', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
     { titel: 'Teppichboden', href: '/category/teppichboden', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' },
-    { titel: 'Zubehör', href: '/category/zubehoer', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' },
+    { titel: 'PVC / CV-Belag', href: '#', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' }, // TODO(kunde): Ziel-Kategorie/Slug klären (kein realer Slug „pvc"/„cv-belag")
   ],
   cta: { label: 'Gesamtes Sortiment ansehen', href: '/', variant: 'outline' } as Cta,
 }
@@ -211,20 +218,22 @@ export const VERGLEICH = {
   },
 }
 
-// ── Sektion 9: Leistungen (Icon-Grid) ───────────────────────────────────────────
-// icon = lucide-react Icon-Name (wird in der Komponente gemappt)
+// ── Sektion 9: Leistungen (Bild + Titel + 1 Satz) ────────────────────────────────
+// `bild` = Interim-Foto aus dem WP-Bestand, bis finale Motive geliefert werden
+// (8 Motive in BILDER-BEDARF.md gelistet). `icon` bleibt als Fallback erhalten.
+// TODO: Kundenfreigabe — Beschreibungstexte final bestätigen.
 export const LEISTUNGEN = {
   kicker: 'Unsere Leistungen',
   headline: 'Rundum-Sorglos – alles aus einer Hand',
   items: [
-    { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/verlegeservice' },
-    { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/lieferservice' },
-    { icon: 'Caravan', titel: 'Anhängerverleih', text: 'Kostenloser Anhänger für den Selbsttransport.', href: '/fachmarkt-hueckelhoven/anhaengerverleih' },
-    { icon: 'Warehouse', titel: 'Warenlagerung', text: 'Wir lagern Ihre Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/warenlagerung' },
-    { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/fachberatung' },
-    { icon: 'Package', titel: 'Set-Angebote', text: 'Boden, Dämmung und Sockelleiste als Komplettpaket.', href: '/fachmarkt-hueckelhoven/set-angebote' },
-    { icon: 'Wrench', titel: 'Werkzeugverleih', text: 'Das passende Werkzeug für Ihr Projekt.', href: '/fachmarkt-hueckelhoven/werkzeugverleih' },
-    { icon: 'CalendarDays', titel: 'Schausonntag', text: 'An ausgewählten Sonntagen geöffnet.', href: '/fachmarkt-hueckelhoven/schausonntag' },
+    { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/verlegeservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
+    { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/lieferservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
+    { icon: 'Caravan', titel: 'Anhängerverleih', text: 'Kostenloser Anhänger für den Selbsttransport.', href: '/fachmarkt-hueckelhoven/anhaengerverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' },
+    { icon: 'Warehouse', titel: 'Warenlagerung', text: 'Wir lagern Ihre Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/warenlagerung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
+    { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/fachberatung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' },
+    { icon: 'Package', titel: 'Set-Angebote', text: 'Boden, Dämmung und Sockelleiste als Komplettpaket.', href: '/fachmarkt-hueckelhoven/set-angebote', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
+    { icon: 'Wrench', titel: 'Werkzeugverleih', text: 'Das passende Werkzeug für Ihr Projekt.', href: '/fachmarkt-hueckelhoven/werkzeugverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
+    { icon: 'CalendarDays', titel: 'Schausonntag', text: 'An ausgewählten Sonntagen geöffnet.', href: '/fachmarkt-hueckelhoven/schausonntag', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' },
   ],
 }
 
@@ -244,27 +253,45 @@ export const GOOGLE_REVIEWS = {
 export const TEAM = {
   kicker: 'Ihr Team vor Ort',
   headline: 'Menschen, die Böden lieben',
-  // TODO(kunde): echte Teamfotos + Namen/Funktionen liefern.
+  // TODO(kunde): echte Teamfotos + Namen/Funktionen/Telefon liefern.
   foto: '/fachmarkt/team-bodenjaeger-hueckelhoven.jpg',
   fotoAlt: 'Das Team des Bodenjäger Fachmarkts Hückelhoven',
+  // TODO: Kundendaten — Namen, Funktionen und Durchwahlen bestätigen.
   mitglieder: [
-    { name: 'N. N.', funktion: 'Filialleitung' },
-    { name: 'N. N.', funktion: 'Fachberatung' },
-    { name: 'N. N.', funktion: 'Verlegeservice' },
+    { name: 'N. N.', funktion: 'Filialleitung', telefon: STANDORT.telefonLink },
+    { name: 'N. N.', funktion: 'Fachberatung', telefon: STANDORT.telefonLink },
+    { name: 'N. N.', funktion: 'Verlegeservice', telefon: STANDORT.telefonLink },
+    { name: 'N. N.', funktion: 'Lieferung & Logistik', telefon: STANDORT.telefonLink },
   ],
+  // Gleiche Zielstrecke wie „Beratung vereinbaren"
+  cta: { label: 'Kontakt aufnehmen', href: '/kontakt', variant: 'secondary' } as Cta,
 }
 
-// ── Sektion 12: Standort ────────────────────────────────────────────────────────
-export const STANDORT_SEKTION = {
-  kicker: 'Besuchen Sie uns',
-  headline: 'So finden Sie zu uns',
-}
-
-// ── Sektion 13: Abschluss-CTA ───────────────────────────────────────────────────
+// ── Sektion 12 + 13 zusammengeführt: Abschluss-CTA inkl. Standort ────────────────
+// StandortSection wurde entfernt; Adresse/Öffnungszeiten/Telefon/Maps leben jetzt
+// im dunklen Abschluss-Block (Komponente AbschlussCta).
 export const ABSCHLUSS = {
-  headline: 'Kommen Sie vorbei – wir freuen uns auf Sie',
-  subline: 'Persönliche Beratung, große Ausstellung und faire Preise in Hückelhoven.',
+  headline: 'Wir freuen uns auf Ihren Besuch.',
+  subline: 'Persönliche Beratung, große Ausstellung und faire Preise – mitten in Hückelhoven.',
+  // Hintergrundbild des dunklen Abschluss-Bands
+  image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg',
+  imageAlt: 'Ausstellungsfläche im Bodenjäger Fachmarkt Hückelhoven',
   ctas: [CTA_ROUTE, CTA_BERATUNG] as Cta[],
+}
+
+// ── Landingpage-Navigation (reduziert) ───────────────────────────────────────────
+// Anker-Links auf die Sektions-ids; CTA rechts dauerhaft sichtbar.
+export const LANDING_NAV = {
+  cta: CTA_BERATUNG,
+  links: [
+    { label: 'Ausstellung', href: '#ausstellung' },
+    { label: 'Angebote', href: '#angebote' },
+    { label: 'Bodenkategorien', href: '#bodenkategorien' },
+    { label: 'Leistungen', href: '#leistungen' },
+    { label: 'Bewertungen', href: '#bewertungen' },
+    { label: 'Team', href: '#team' },
+    { label: 'Kontakt', href: '#kontakt' },
+  ],
 }
 
 // ── Sticky Bottom Bar (mobil) ───────────────────────────────────────────────────

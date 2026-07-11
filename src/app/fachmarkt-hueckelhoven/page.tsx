@@ -5,7 +5,6 @@ import { buildFlooringStoreSchema, buildBreadcrumbSchema } from '@/lib/schema'
 import { SITE_URL } from '@/lib/site'
 import {
   STANDORT,
-  OEFFNUNGSZEITEN,
   FILIAL_BANNER_MOCK,
   activeBanners,
 } from '@/content/fachmarkt'
@@ -19,10 +18,9 @@ import BesuchsAblauf from '@/components/fachmarkt/BesuchsAblauf'
 import FilialAngebote from '@/components/fachmarkt/FilialAngebote'
 import BodenKategorien from '@/components/fachmarkt/BodenKategorien'
 import BaumarktVergleich from '@/components/fachmarkt/BaumarktVergleich'
-import LeistungenGrid from '@/components/fachmarkt/LeistungenGrid'
+import LeistungenSection from '@/components/fachmarkt/LeistungenSection'
 import GoogleReviews from '@/components/fachmarkt/GoogleReviews'
 import TeamSection from '@/components/fachmarkt/TeamSection'
-import StandortSection from '@/components/fachmarkt/StandortSection'
 import AbschlussCta from '@/components/fachmarkt/AbschlussCta'
 import StickyBottomBar from '@/components/fachmarkt/StickyBottomBar'
 
@@ -76,9 +74,6 @@ export default async function FachmarktHueckelhovenPage() {
     { name: 'Fachmarkt Hückelhoven', url: PAGE_URL },
   ])
 
-  // Öffnungszeiten sind in OEFFNUNGSZEITEN gepflegt (Anzeige in StandortSection).
-  void OEFFNUNGSZEITEN
-
   return (
     <main className="pb-16 md:pb-0">
       <JsonLd data={localBusiness} />
@@ -86,17 +81,17 @@ export default async function FachmarktHueckelhovenPage() {
 
       <FachmarktHero />
       <TrustStats />
+      <FilialAngebote banners={banners} />
       <AusstellungErleben />
       <WarumBodenjaeger />
+      {/* Redaktioneller WP-Fließtext — rendert bei leerem Inhalt null (unsichtbar). */}
       <RedaktionsText html={redaktionsHtml} />
       <BesuchsAblauf />
-      <FilialAngebote banners={banners} />
       <BodenKategorien />
       <BaumarktVergleich />
-      <LeistungenGrid />
+      <LeistungenSection />
       <GoogleReviews />
       <TeamSection />
-      <StandortSection />
       <AbschlussCta />
 
       <StickyBottomBar />

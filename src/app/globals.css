@@ -10,6 +10,21 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
+/* Dezenter Ken-Burns-Zoom (Fachmarkt-Hero). Langsam & subtil.
+   Bei prefers-reduced-motion vollständig deaktiviert. */
+@keyframes fm-kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+.fm-kenburns {
+  animation: fm-kenburns 20s ease-out forwards;
+  transform-origin: center;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fm-kenburns { animation: none; transform: none; }
+}
+
 :root {
   /* Brand Colors */
   --color-primary: #ed1b24;        /* Bodenjäger Rot */

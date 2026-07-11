@@ -4,7 +4,7 @@ import { TRUST_STATS } from '@/content/fachmarkt'
 import { useInView } from './useInView'
 import { useCountUp } from './useCountUp'
 
-function StatCard({
+function Stat({
   value,
   suffix,
   label,
@@ -19,26 +19,31 @@ function StatCard({
 }) {
   const display = useCountUp(value, start, { decimals: decimals ?? 0 })
   return (
-    <div className="rounded-2xl bg-white p-6 text-center shadow-sm ring-1 ring-ash">
-      <div className="font-bold text-navy" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+    <div className="text-center">
+      <div
+        className="font-bold leading-none text-navy"
+        style={{ fontSize: 'clamp(3rem, 7vw, 5rem)' }}
+      >
         {display}
         <span className="text-brand">{suffix}</span>
       </div>
-      <div className="mt-2 text-sm font-medium text-mid">{label}</div>
+      <div className="mt-3 text-sm font-medium uppercase tracking-wide text-mid">
+        {label}
+      </div>
     </div>
   )
 }
 
-/** Sektion 2: 6 Kennzahl-Karten mit Count-up beim Scrollen. */
+/** Sektion 2: 6 Kennzahlen ohne Karten-Optik, Count-up beim Scrollen. */
 export default function TrustStats() {
   const [ref, inView] = useInView<HTMLDivElement>()
 
   return (
-    <section className="bg-pale py-16 md:py-20">
+    <section className="py-24 md:py-32">
       <div ref={ref} className="content-container">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-14 md:grid-cols-3 md:gap-y-20">
           {TRUST_STATS.map((stat) => (
-            <StatCard
+            <Stat
               key={stat.label}
               value={stat.value}
               suffix={stat.suffix}

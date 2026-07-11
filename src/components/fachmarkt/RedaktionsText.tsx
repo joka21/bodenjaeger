@@ -14,7 +14,7 @@ export default function RedaktionsText({ html }: RedaktionsTextProps) {
   if (!html || !html.trim()) return null
 
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-24 md:py-32">
       <div className="content-container">
         <Reveal className="prose prose-lg mx-auto max-w-3xl prose-headings:font-bold prose-headings:text-dark prose-p:text-mid prose-a:text-brand">
           <div dangerouslySetInnerHTML={{ __html: html }} />
