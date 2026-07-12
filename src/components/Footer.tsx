@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import FooterNewsletterSignup from './FooterNewsletterSignup'
 import CookieSettingsLink from './CookieSettingsLink'
+import { SERVICE_FOOTER_LINKS } from '@/content/service'
 
 export default function Footer() {
   return (
@@ -14,7 +15,7 @@ export default function Footer() {
         }}
       >
         <div className="content-container">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
             {/* Column 1: Hast du Fragen? + Newsletter */}
             <div className="text-white">
               <h3 className="text-2xl font-bold mb-6">Hast du Fragen?</h3>
@@ -81,6 +82,23 @@ export default function Footer() {
                       <span>AGB</span>
                     </Link>
                   </li>
+                </ul>
+              </nav>
+            </div>
+
+            {/* Column: Service (Ziele aus SERVICE_FOOTER_LINKS → content/service.ts) */}
+            <div className="text-white">
+              <h3 className="text-2xl font-bold mb-6">Service</h3>
+              <nav>
+                <ul className="space-y-3">
+                  {SERVICE_FOOTER_LINKS.map((link) => (
+                    <li key={link.href}>
+                      <Link href={link.href} className="text-xl hover:underline flex items-start">
+                        <span className="mr-2">&gt;</span>
+                        <span>{link.label}</span>
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </nav>
             </div>

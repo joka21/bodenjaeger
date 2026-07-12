@@ -27,6 +27,18 @@ export const SERVICE_LINKS = {
   kontakt: '/kontakt',
 } as const
 
+// Footer-Service-Links (Briefing Abschnitt 8). Ziele aus SERVICE_LINKS — EINE
+// Quelle, keine zweite Link-Liste. Anhängerverleih bewusst nicht enthalten.
+export const SERVICE_FOOTER_LINKS = [
+  { label: 'Muster bestellen', href: SERVICE_LINKS.musterBestellen },
+  { label: 'Verlegeservice', href: SERVICE_LINKS.verlegeservice },
+  { label: 'Lieferung & Abholung', href: SERVICE_LINKS.lieferung },
+  { label: 'Einlagerung', href: SERVICE_LINKS.einlagerung },
+  { label: 'Verlegewerkzeug', href: SERVICE_LINKS.verlegewerkzeug },
+  { label: 'Böden im Set kaufen', href: SERVICE_LINKS.setKaufen },
+  { label: 'Fachberatung', href: SERVICE_LINKS.fachberatung },
+] as const
+
 // ── Meta / SEO ───────────────────────────────────────────────────────────────
 export const SERVICE_META = {
   title: 'Service bei Bodenjäger | Muster, Lieferung, Einlagerung & Verlegung',
