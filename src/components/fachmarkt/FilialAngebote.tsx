@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { FILIAL_ANGEBOTE } from '@/content/fachmarkt'
 import type { FilialBanner } from '@/types/fachmarkt'
-import Reveal from './Reveal'
+import Reveal from '@/components/shared/Reveal'
 
 interface FilialAngeboteProps {
   banners: FilialBanner[]

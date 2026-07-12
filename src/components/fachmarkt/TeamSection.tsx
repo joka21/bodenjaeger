@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { Phone } from 'lucide-react'
 import { TEAM } from '@/content/fachmarkt'
-import CtaButton from './CtaButton'
-import Reveal from './Reveal'
+import CtaButton from '@/components/shared/CtaButton'
+import Reveal from '@/components/shared/Reveal'
 
 /** Sektion 11: Großes Teamfoto, darunter Ansprechpartner (Name/Funktion/Telefon) + CTA. */
 export default function TeamSection() {

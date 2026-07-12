@@ -1,4 +1,4 @@
-import Reveal from './Reveal'
+import Reveal from '@/components/shared/Reveal'
 
 interface RedaktionsTextProps {
   /** roher HTML-Inhalt aus WordPress (page.content.rendered) */

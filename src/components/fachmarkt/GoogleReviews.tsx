@@ -1,6 +1,6 @@
 import { Star } from 'lucide-react'
 import { GOOGLE_REVIEWS } from '@/content/fachmarkt'
-import Reveal from './Reveal'
+import Reveal from '@/components/shared/Reveal'
 
 /**
  * Sektion 10: Google-Bewertung als statische Platzhalter-Kennzahlen

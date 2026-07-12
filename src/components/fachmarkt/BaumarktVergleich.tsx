@@ -1,6 +1,6 @@
 import { Check, X } from 'lucide-react'
 import { VERGLEICH } from '@/content/fachmarkt'
-import Reveal from './Reveal'
+import Reveal from '@/components/shared/Reveal'
 
 /** Sektion 8: Zwei gegenüberliegende Flächen (keine Tabelle). Mobil gestapelt. */
 export default function BaumarktVergleich() {

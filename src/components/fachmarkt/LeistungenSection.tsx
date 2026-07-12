@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { LEISTUNGEN } from '@/content/fachmarkt'
-import Reveal from './Reveal'
+import Reveal from '@/components/shared/Reveal'
 
 /** Sektion 9: 8 Leistungen als Bild + Titel + 1 Satz (statt Icon-Karten). */
 export default function LeistungenSection() {

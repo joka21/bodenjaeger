@@ -10,17 +10,10 @@
  * `TODO(kunde)` markiert.
  */
 import type { FilialBanner } from '@/types/fachmarkt'
-
-/** 🔴 rot = primär · navy = sekundär · ⚫ outline = tertiär (kein Gelb — Projekt-CI) */
-export type CtaVariant = 'primary' | 'secondary' | 'outline'
-
-export interface Cta {
-  label: string
-  href: string
-  variant: CtaVariant
-  /** true → nativer Link (tel:, maps), kein next/link */
-  external?: boolean
-}
+// Cta-Typ ist jetzt zentral in src/types/cta.ts (geteilt mit der Service-Seite).
+// Re-Export für Abwärtskompatibilität bestehender Importe aus diesem Modul.
+import type { Cta, CtaVariant } from '@/types/cta'
+export type { Cta, CtaVariant }
 
 // ── Stammdaten (NAP) ────────────────────────────────────────────────────────
 export const STANDORT = {

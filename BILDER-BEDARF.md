@@ -1,3 +1,21 @@
+# Bilder-Bedarf – Landingpages (Fachmarkt & Service)
+
+## Service-Übersichtsseite (`/service`)
+Aktuell mit Interim-Fotos aus dem WP-Bestand belegt (in `content/service.ts`
+verlinkt). Finale, eigens fotografierte Motive gehören nach `public/service/`:
+
+| Verwendung | Ziel-Datei | Interim aktuell | Motiv |
+|---|---|---|---|
+| Hero rechts | `public/service/beratung-fachmarkt.jpg` | WP `DSCF1968` | Beratungssituation: Mitarbeiter zeigt Kundin Bodenmuster, Musterbox/Dekorbrett sichtbar |
+| Verlegeservice-Block (dunkler Hintergrund) | `public/service/verlegung-hintergrund.jpg` | WP `DSCF1962` | Verlegung eines Bodens (quer, dunkel überlagerbar) |
+| (optional) Musterbox/Musterbretter | `public/service/musterbox.jpg` | — | Musterbox / Musterbretter, für spätere `/service/musterbox` |
+| (optional) Ausstellung | `public/service/ausstellung.jpg` | — | Ausstellung im Fachmarkt, für spätere Unterseiten |
+
+Empf. Format: JPG quer, min. 1600×1200 (Hero/Verlegung 2000×1333+). Auslieferung
+via `next/image` (AVIF/WebP).
+
+---
+
 # Bilder-Bedarf – Fachmarkt-Landingpage Hückelhoven
 
 Die neue Landingpage (`/fachmarkt-hueckelhoven`) nutzt aktuell teils bestehende

@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 /**
  * Meldet, sobald das referenzierte Element in den Viewport scrollt.
  * `once` (default true) trennt den Observer nach dem ersten Sichtbarwerden.
+ *
+ * Geteilt zwischen Fachmarkt- und Service-Seite (dezentes Fade-in via Reveal).
  */
 export function useInView<T extends HTMLElement = HTMLDivElement>(
   options: IntersectionObserverInit = { threshold: 0.2, rootMargin: '0px 0px -10% 0px' },

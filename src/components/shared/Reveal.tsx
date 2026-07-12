@@ -12,7 +12,7 @@ interface RevealProps {
 
 /**
  * Dezenter Fade-in beim Scrollen. Respektiert `prefers-reduced-motion`
- * (dann sofort sichtbar, ohne Transform).
+ * (dann sofort sichtbar, ohne Transform). Geteilt: Fachmarkt + Service.
  */
 export default function Reveal({ children, className = '', delay = 0, as = 'div' }: RevealProps) {
   const [ref, inView] = useInView<HTMLDivElement>()

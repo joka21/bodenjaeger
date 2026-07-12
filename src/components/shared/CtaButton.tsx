@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import type { Cta, CtaVariant } from '@/content/fachmarkt'
+import type { Cta, CtaVariant } from '@/types/cta'
 
 const VARIANTS: Record<CtaVariant, string> = {
   // Primär = Bodenjäger-Rot (ersetzt die "Gelb"-Rolle des Briefings — Projekt-CI)
@@ -18,7 +18,8 @@ interface CtaButtonProps {
 
 /**
  * Einheitlicher CTA-Button. Externe Ziele (tel:, Maps, 360°) als <a>,
- * interne Routen als next/link. Touch-Target min. 44px hoch.
+ * interne Routen als next/link. Touch-Target min. 48px hoch.
+ * Geteilt zwischen Fachmarkt- und Service-Seite.
  */
 export default function CtaButton({ cta, className = '', size = 'md' }: CtaButtonProps) {
   const sizeCls = size === 'lg' ? 'px-10 py-5 text-lg md:text-xl' : 'px-7 py-3.5 text-base'

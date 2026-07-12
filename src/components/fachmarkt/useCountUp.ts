@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { usePrefersReducedMotion } from './useInView'
+import { usePrefersReducedMotion } from '@/components/shared/useInView'
 
 /**
  * Zählt eine Zahl animiert von 0 auf `target` hoch, sobald `start` true wird.

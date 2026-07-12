@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Check } from 'lucide-react'
 import { HERO } from '@/content/fachmarkt'
-import CtaButton from './CtaButton'
+import CtaButton from '@/components/shared/CtaButton'
 
 /**
  * Sektion 1: Vollbild-Hero. Ein Foto (dezenter Ken-Burns-Zoom), dunkler

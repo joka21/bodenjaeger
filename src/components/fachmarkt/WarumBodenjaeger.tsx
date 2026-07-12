@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { Check } from 'lucide-react'
 import { WARUM } from '@/content/fachmarkt'
-import Reveal from './Reveal'
+import Reveal from '@/components/shared/Reveal'
 
 /** Sektion 4: Bild links, 6 Vorteile rechts. */
 export default function WarumBodenjaeger() {

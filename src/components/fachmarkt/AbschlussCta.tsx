@@ -10,8 +10,8 @@ import {
   MAPS_EMBED_URL,
 } from '@/content/fachmarkt'
 import { useCookieConsent } from '@/contexts/CookieConsentContext'
-import CtaButton from './CtaButton'
-import Reveal from './Reveal'
+import CtaButton from '@/components/shared/CtaButton'
+import Reveal from '@/components/shared/Reveal'
 
 /**
  * Sektion 12 + 13 zusammengeführt: dunkles Abschluss-Band mit Hintergrundbild,

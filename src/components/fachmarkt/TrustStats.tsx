@@ -1,7 +1,7 @@
 'use client'
 
 import { TRUST_STATS } from '@/content/fachmarkt'
-import { useInView } from './useInView'
+import { useInView } from '@/components/shared/useInView'
 import { useCountUp } from './useCountUp'
 
 function Stat({

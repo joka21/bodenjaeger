@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { AUSSTELLUNG } from '@/content/fachmarkt'
-import CtaButton from './CtaButton'
-import Reveal from './Reveal'
+import CtaButton from '@/components/shared/CtaButton'
+import Reveal from '@/components/shared/Reveal'
 
 /**
  * Sektion 3: Immersive Vollbild-Sektion. Großes Bild (oder Video, sobald eine

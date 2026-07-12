@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { LANDING_NAV } from '@/content/fachmarkt'
 import { isLandingRoute } from '@/lib/landingRoutes'
-import CtaButton from './CtaButton'
+import CtaButton from '@/components/shared/CtaButton'
 
 /**
  * Reduzierte Navigation der Fachmarkt-Landingpage. Ersetzt die Shop-Navigation

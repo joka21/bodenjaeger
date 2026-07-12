@@ -2,8 +2,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { BODEN_KATEGORIEN } from '@/content/fachmarkt'
-import CtaButton from './CtaButton'
-import Reveal from './Reveal'
+import CtaButton from '@/components/shared/CtaButton'
+import Reveal from '@/components/shared/Reveal'
 
 /** Sektion 7: 6 große Bildkarten mit Hover-Zoom, dunklem Overlay, rotem Akzent. */
 export default function BodenKategorien() {
