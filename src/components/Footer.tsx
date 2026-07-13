@@ -115,7 +115,7 @@ export default function Footer() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/service" className="text-xl hover:underline flex items-start">
+                    <Link href="/fachmarkt-hueckelhoven/service" className="text-xl hover:underline flex items-start">
                       <span className="mr-2">&gt;</span>
                       <span>Servicebereich</span>
                     </Link>

@@ -34,17 +34,17 @@ const STATIC_PAGES: StaticPage[] = [
 
   // Fachmarkt — wichtige Lokal-SEO-Seite
   { path: '/fachmarkt-hueckelhoven', priority: 0.8, changeFrequency: 'weekly' },
+  { path: '/fachmarkt-hueckelhoven/service', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/service/verlegeservice', priority: 0.7, changeFrequency: 'monthly' },
-  { path: '/fachmarkt-hueckelhoven/set-angebote', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/fachmarkt-hueckelhoven/service/set-angebote', priority: 0.7, changeFrequency: 'weekly' },
+  { path: '/fachmarkt-hueckelhoven/service/fachberatung', priority: 0.5, changeFrequency: 'monthly' },
+  { path: '/fachmarkt-hueckelhoven/service/einlagerung', priority: 0.5, changeFrequency: 'monthly' },
+  { path: '/fachmarkt-hueckelhoven/service/werkzeugverleih', priority: 0.5, changeFrequency: 'monthly' },
+  { path: '/fachmarkt-hueckelhoven/service/lieferung-abholung', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/anhaengerverleih', priority: 0.5, changeFrequency: 'monthly' },
-  { path: '/fachmarkt-hueckelhoven/warenlagerung', priority: 0.5, changeFrequency: 'monthly' },
-  { path: '/fachmarkt-hueckelhoven/fachberatung', priority: 0.5, changeFrequency: 'monthly' },
-  { path: '/fachmarkt-hueckelhoven/werkzeugverleih', priority: 0.5, changeFrequency: 'monthly' },
-  { path: '/fachmarkt-hueckelhoven/lieferservice', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/schausonntag', priority: 0.5, changeFrequency: 'monthly' },
 
-  // Service & Karriere
-  { path: '/service', priority: 0.7, changeFrequency: 'monthly' },
+  // Karriere
   { path: '/karriere', priority: 0.6, changeFrequency: 'monthly' },
   { path: '/kontakt', priority: 0.7, changeFrequency: 'yearly' },
 

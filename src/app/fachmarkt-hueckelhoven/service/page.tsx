@@ -17,7 +17,8 @@ import ServiceOrientierung from '@/components/service/ServiceOrientierung'
 import ServiceFaq from '@/components/service/ServiceFaq'
 import ServiceKontaktCta from '@/components/service/ServiceKontaktCta'
 
-const PAGE_URL = `${SITE_URL}/service`
+// Umgezogen von /service (Kundenentscheidung: Service unter den Fachmarkt).
+const PAGE_URL = `${SITE_URL}/fachmarkt-hueckelhoven/service`
 
 export const metadata: Metadata = {
   title: SERVICE_META.title,
@@ -31,9 +32,10 @@ export const metadata: Metadata = {
   },
 }
 
-export default function ServicePageRoute() {
+export default function ServiceUebersichtRoute() {
   const breadcrumb = buildBreadcrumbSchema([
     { name: 'Startseite', url: SITE_URL },
+    { name: 'Fachmarkt Hückelhoven', url: `${SITE_URL}/fachmarkt-hueckelhoven` },
     { name: 'Service', url: PAGE_URL },
   ])
 

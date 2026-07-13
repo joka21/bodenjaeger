@@ -6,17 +6,20 @@ import FachmarktSubpage from '@/components/FachmarktSubpage'
 export const revalidate = 30
 
 /**
- * Mapping: Next.js route slug → WordPress page slug
- * Next.js URLs bleiben kurz und SEO-freundlich,
- * WordPress-Slugs werden intern aufgelöst.
+ * Service-Unterseiten unter dem Fachmarkt (umgezogen aus der früheren
+ * /fachmarkt-hueckelhoven/[slug]-Route). Rendering wie bisher aus WordPress.
+ *
+ * Mapping: Next.js route slug → WordPress page slug. Zwei Slugs wurden beim
+ * Umzug umbenannt (lieferservice → lieferung-abholung, warenlagerung →
+ * einlagerung); der WordPress-Slug bleibt jeweils unverändert.
+ * `verlegeservice` ist eine eigene statische Route und NICHT hier enthalten.
  */
-// Nur noch die NICHT umgezogenen Fachmarkt-Unterseiten.
-// Die Service-Seiten (fachberatung, set-angebote, lieferservice→lieferung-abholung,
-// warenlagerung→einlagerung, werkzeugverleih, verlegeservice) liegen jetzt unter
-// /fachmarkt-hueckelhoven/service/* — alte Pfade per 301-Redirect (next.config.ts).
 const SLUG_MAP: Record<string, { wpSlug: string; label: string }> = {
-  'anhaengerverleih': { wpSlug: 'kostenloser-anhaengerverleih', label: 'Anhängerverleih' },
-  'schausonntag': { wpSlug: 'schausonntag', label: 'Schausonntag' },
+  'fachberatung': { wpSlug: 'persoenliche-fachberatung', label: 'Fachberatung' },
+  'set-angebote': { wpSlug: 'sockelleiste-und-daemmung-kostenlos', label: 'Set-Angebote' },
+  'lieferung-abholung': { wpSlug: 'lieferung-zum-wunschtermin', label: 'Lieferung & Abholung' },
+  'einlagerung': { wpSlug: 'lagerservice', label: 'Einlagerung' },
+  'werkzeugverleih': { wpSlug: 'werkzeugverleih', label: 'Werkzeugverleih' },
 }
 
 export async function generateStaticParams() {
@@ -43,7 +46,7 @@ export async function generateMetadata(
   }
 }
 
-export default async function FachmarktSubpagePage(
+export default async function ServiceSubpagePage(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params

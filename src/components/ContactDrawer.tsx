@@ -223,7 +223,7 @@ export default function ContactDrawer({ isOpen, onClose }: ContactDrawerProps) {
                 Fachmarkt
               </Link>
               <Link
-                href="/service"
+                href="/fachmarkt-hueckelhoven/service"
                 onClick={onClose}
                 className="text-center px-4 py-2 border border-gray-300 rounded hover:border-brand hover:text-brand transition-colors text-sm font-medium"
               >

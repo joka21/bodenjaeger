@@ -17,12 +17,12 @@ import type { Cta } from '@/types/cta'
 export const SERVICE_LINKS = {
   musterBestellen: '/category/musterbox',
   grossmuster: '/fachmarkt-hueckelhoven',
-  setKaufen: '/fachmarkt-hueckelhoven/set-angebote',
-  lieferung: '/fachmarkt-hueckelhoven/lieferservice',
-  einlagerung: '/fachmarkt-hueckelhoven/warenlagerung',
-  verlegewerkzeug: '/fachmarkt-hueckelhoven/werkzeugverleih',
+  setKaufen: '/fachmarkt-hueckelhoven/service/set-angebote',
+  lieferung: '/fachmarkt-hueckelhoven/service/lieferung-abholung',
+  einlagerung: '/fachmarkt-hueckelhoven/service/einlagerung',
+  verlegewerkzeug: '/fachmarkt-hueckelhoven/service/werkzeugverleih',
   verlegeservice: '/fachmarkt-hueckelhoven/service/verlegeservice',
-  fachberatung: '/fachmarkt-hueckelhoven/fachberatung',
+  fachberatung: '/fachmarkt-hueckelhoven/service/fachberatung',
   fachmarkt: '/fachmarkt-hueckelhoven',
   kontakt: '/kontakt',
 } as const

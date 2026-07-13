@@ -145,7 +145,7 @@ export const FILIAL_BANNER_MOCK: FilialBanner[] = [
     bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg',
     bildAlt: 'Set-Angebote im Fachmarkt',
     ctaLabel: 'Zu den Set-Angeboten',
-    ctaUrl: '/fachmarkt-hueckelhoven/set-angebote',
+    ctaUrl: '/fachmarkt-hueckelhoven/service/set-angebote',
     aktiv: true,
     reihenfolge: 2,
     gueltigBis: null,
@@ -220,23 +220,22 @@ export const LEISTUNGEN = {
   headline: 'Rundum-Sorglos – alles aus einer Hand',
   // Aktuell nur 4 Leistungen sichtbar (Kundenwunsch). Reihenfolge lt. Brief.
   items: [
-    { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/fachberatung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' },
+    { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/service/fachberatung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' },
     // Musterservice: neue Kachel. Ziel vorerst /category/musterbox.
     // TODO: Ziel wird später /fachmarkt-hueckelhoven/service/musterservice (Umzug folgt als separates Paket).
     { icon: 'Package', titel: 'Musterservice', text: 'Bis zu 3 Bodenmuster kostenfrei zu dir nach Hause bestellen.', href: '/category/musterbox', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
     // Einlagerung = frühere „Warenlagerung", nur anders benannt.
-    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deine Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/warenlagerung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
+    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deine Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/service/einlagerung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
     { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/service/verlegeservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
     // ── Vorerst ausgeblendet (Daten bleiben erhalten, nicht löschen) ──
-    // { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/lieferservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
+    // { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/service/lieferung-abholung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
     // { icon: 'Caravan', titel: 'Anhängerverleih', text: 'Kostenloser Anhänger für den Selbsttransport.', href: '/fachmarkt-hueckelhoven/anhaengerverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' },
-    // { icon: 'Package', titel: 'Set-Angebote', text: 'Boden, Dämmung und Sockelleiste als Komplettpaket.', href: '/fachmarkt-hueckelhoven/set-angebote', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
-    // { icon: 'Wrench', titel: 'Werkzeugverleih', text: 'Das passende Werkzeug für dein Projekt.', href: '/fachmarkt-hueckelhoven/werkzeugverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
+    // { icon: 'Package', titel: 'Set-Angebote', text: 'Boden, Dämmung und Sockelleiste als Komplettpaket.', href: '/fachmarkt-hueckelhoven/service/set-angebote', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
+    // { icon: 'Wrench', titel: 'Werkzeugverleih', text: 'Das passende Werkzeug für dein Projekt.', href: '/fachmarkt-hueckelhoven/service/werkzeugverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
     // { icon: 'CalendarDays', titel: 'Schausonntag', text: 'An ausgewählten Sonntagen geöffnet.', href: '/fachmarkt-hueckelhoven/schausonntag', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' },
   ],
-  // Button unter den Leistungen. Ziel vorerst /service.
-  // TODO: Ziel wird später /fachmarkt-hueckelhoven/service (Umzug der Service-Übersicht folgt als separates Paket).
-  cta: { label: 'Alle Fachmarkt-Leistungen entdecken', href: '/service', variant: 'secondary' } as Cta,
+  // Button unter den Leistungen → Service-Übersicht (jetzt unter dem Fachmarkt).
+  cta: { label: 'Alle Fachmarkt-Leistungen entdecken', href: '/fachmarkt-hueckelhoven/service', variant: 'secondary' } as Cta,
 }
 
 // ── Sektion 10: Google-Bewertungen ──────────────────────────────────────────────

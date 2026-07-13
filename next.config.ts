@@ -264,20 +264,55 @@ const nextConfig: NextConfig = {
       },
 
       // ============================================================
-      // VERLEGESERVICE (URL-Umzug auf verschachtelte Service-Route)
+      // SERVICE-UMZUG unter den Fachmarkt (Paket B)
+      // Alte Pfade → neue /fachmarkt-hueckelhoven/service/*-Struktur.
+      // Zwei Slugs wurden umbenannt (lieferservice → lieferung-abholung,
+      // warenlagerung → einlagerung). verlegeservice ist bereits umgezogen.
+      // anhaengerverleih + schausonntag ziehen NICHT um (kein Redirect).
       // ============================================================
+      {
+        source: '/service',
+        destination: '/fachmarkt-hueckelhoven/service',
+        permanent: true,
+      },
       {
         source: '/fachmarkt-hueckelhoven/verlegeservice',
         destination: '/fachmarkt-hueckelhoven/service/verlegeservice',
         permanent: true,
       },
+      {
+        source: '/fachmarkt-hueckelhoven/fachberatung',
+        destination: '/fachmarkt-hueckelhoven/service/fachberatung',
+        permanent: true,
+      },
+      {
+        source: '/fachmarkt-hueckelhoven/set-angebote',
+        destination: '/fachmarkt-hueckelhoven/service/set-angebote',
+        permanent: true,
+      },
+      {
+        source: '/fachmarkt-hueckelhoven/lieferservice',
+        destination: '/fachmarkt-hueckelhoven/service/lieferung-abholung',
+        permanent: true,
+      },
+      {
+        source: '/fachmarkt-hueckelhoven/warenlagerung',
+        destination: '/fachmarkt-hueckelhoven/service/einlagerung',
+        permanent: true,
+      },
+      {
+        source: '/fachmarkt-hueckelhoven/werkzeugverleih',
+        destination: '/fachmarkt-hueckelhoven/service/werkzeugverleih',
+        permanent: true,
+      },
 
       // ============================================================
-      // SERVICEBEREICH (alte WP-Subseiten → neue Fachmarkt-Subseiten)
+      // SERVICEBEREICH (alte WP-Subseiten). Ziele direkt auf die FINALEN
+      // Pfade — KEINE Redirect-Ketten (Doppel-Hop vermieden).
       // ============================================================
       {
         source: '/servicebereich/lagerservice',
-        destination: '/fachmarkt-hueckelhoven/warenlagerung',
+        destination: '/fachmarkt-hueckelhoven/service/einlagerung',
         permanent: true,
       },
       {
@@ -285,10 +320,10 @@ const nextConfig: NextConfig = {
         destination: '/fachmarkt-hueckelhoven/schausonntag',
         permanent: true,
       },
-      // Catch-all für unbekannte Servicebereich-Subseiten → /service
+      // Catch-all für unbekannte Servicebereich-Subseiten → Service-Übersicht
       {
         source: '/servicebereich/:slug*',
-        destination: '/service',
+        destination: '/fachmarkt-hueckelhoven/service',
         permanent: true,
       },
 
