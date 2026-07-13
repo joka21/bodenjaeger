@@ -1,40 +1,35 @@
+'use client'
+
+import { useRef, useState, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { FILIAL_ANGEBOTE } from '@/content/fachmarkt'
 import type { FilialBanner } from '@/types/fachmarkt'
 import Reveal from '@/components/shared/Reveal'
+import { usePrefersReducedMotion } from '@/components/shared/useInView'
 
 interface FilialAngeboteProps {
   banners: FilialBanner[]
 }
 
-/** Einzelner Banner (Bild-Fläche mit Verlauf + Text unten). `big` steuert Textgröße. */
-function BannerCard({
-  banner,
-  big = false,
-  sizes,
-}: {
-  banner: FilialBanner
-  big?: boolean
-  sizes: string
-}) {
-  const card = (
-    <div className="group relative h-full min-h-[280px] overflow-hidden rounded-3xl">
+/** Ein Banner (Format 7:3). Klickbar NUR, wenn ctaUrl gesetzt ist. */
+function Banner({ banner }: { banner: FilialBanner }) {
+  const clickable = Boolean(banner.ctaUrl)
+  const inner = (
+    <div className={`group relative aspect-[7/3] w-full overflow-hidden rounded-3xl${clickable ? '' : ''}`}>
       <Image
         src={banner.bild}
         alt={banner.bildAlt || banner.titel}
         fill
-        sizes={sizes}
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        sizes="(max-width: 1024px) 100vw, 1200px"
+        className={`object-cover${clickable ? ' transition-transform duration-500 group-hover:scale-105' : ''}`}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-        <h3 className={big ? 'text-3xl font-bold md:text-4xl' : 'text-2xl font-bold'}>
-          {banner.titel}
-        </h3>
-        {banner.untertitel && <p className="mt-2 text-white/85">{banner.untertitel}</p>}
-        {banner.ctaLabel && banner.ctaUrl && (
+      <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
+        <h3 className="text-2xl font-bold text-white md:text-4xl">{banner.titel}</h3>
+        {banner.untertitel && <p className="mt-2 max-w-xl text-white/85 md:text-lg">{banner.untertitel}</p>}
+        {clickable && banner.ctaLabel && (
           <span className="mt-4 inline-flex items-center gap-2 font-bold text-brand">
             {banner.ctaLabel}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -44,29 +39,45 @@ function BannerCard({
     </div>
   )
 
-  return banner.ctaUrl ? (
-    <Link href={banner.ctaUrl} className="block h-full">
-      {card}
+  return clickable ? (
+    <Link href={banner.ctaUrl!} className="block w-full flex-shrink-0 snap-center">
+      {inner}
     </Link>
   ) : (
-    card
+    // Ohne Link: kein <a>-Wrapper, kein Pointer, kein Hover.
+    <div className="w-full flex-shrink-0 snap-center">{inner}</div>
   )
 }
 
 /**
- * Sektion "Aktuelle Angebote". Layout-Logik (einfachste saubere Lösung):
- *  - 1 Banner  → volle Breite
- *  - 2 Banner  → zwei gleich große Spalten
- *  - ≥3 Banner → Banner 1 groß (2/3) links, Banner 2+3 kleiner rechts gestapelt;
- *                jeder weitere Banner (ab 4) als volle Breite darunter.
- * Bewusst KEIN Slider (weniger JS, bessere UX — siehe Abschlussbericht).
- * Fallback: 0 aktive Banner → Sektion wird komplett ausgeblendet.
+ * Sektion "Aktuelle Angebote" als Banner-Slider (CSS scroll-snap, kein
+ * zusätzliches Paket). Pfeile + Dots, tastaturbedienbar,
+ * `prefers-reduced-motion` respektiert. Fallback: 0 Banner → Sektion aus.
  */
 export default function FilialAngebote({ banners }: FilialAngeboteProps) {
-  if (!banners || banners.length === 0) return null
+  const reduced = usePrefersReducedMotion()
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [active, setActive] = useState(0)
 
-  const featured = banners.slice(0, 3)
-  const rest = banners.slice(3)
+  const scrollToIndex = useCallback(
+    (i: number) => {
+      const el = trackRef.current
+      if (!el) return
+      const clamped = Math.max(0, Math.min(i, banners.length - 1))
+      el.scrollTo({ left: clamped * el.clientWidth, behavior: reduced ? 'auto' : 'smooth' })
+      setActive(clamped)
+    },
+    [banners.length, reduced],
+  )
+
+  const onScroll = useCallback(() => {
+    const el = trackRef.current
+    if (!el) return
+    setActive(Math.round(el.scrollLeft / el.clientWidth))
+  }, [])
+
+  if (!banners || banners.length === 0) return null
+  const multiple = banners.length > 1
 
   return (
     <section id="angebote" className="scroll-mt-24 bg-dark py-28 text-white md:py-40">
@@ -80,45 +91,53 @@ export default function FilialAngebote({ banners }: FilialAngeboteProps) {
           </h2>
         </Reveal>
 
-        <Reveal className="mt-14">
-          {featured.length === 1 && (
-            <div className="min-h-[360px]">
-              <BannerCard banner={featured[0]} big sizes="100vw" />
-            </div>
-          )}
+        <Reveal className="relative mt-14">
+          {/* Slider-Track */}
+          <div
+            ref={trackRef}
+            onScroll={onScroll}
+            className="flex snap-x snap-mandatory gap-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            style={{ msOverflowStyle: 'none' }}
+          >
+            {banners.map((b) => (
+              <Banner key={b.id} banner={b} />
+            ))}
+          </div>
 
-          {featured.length === 2 && (
-            <div className="grid gap-4 md:grid-cols-2 md:gap-6">
-              {featured.map((b) => (
-                <div key={b.id} className="min-h-[320px]">
-                  <BannerCard banner={b} big sizes="(max-width: 768px) 100vw, 50vw" />
-                </div>
-              ))}
-            </div>
-          )}
+          {multiple && (
+            <>
+              {/* Pfeile (Desktop) */}
+              <button
+                type="button"
+                aria-label="Vorheriges Angebot"
+                onClick={() => scrollToIndex(active - 1)}
+                className="absolute left-2 top-1/2 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white/90 p-2 text-dark shadow-lg hover:bg-white md:flex"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                type="button"
+                aria-label="Nächstes Angebot"
+                onClick={() => scrollToIndex(active + 1)}
+                className="absolute right-2 top-1/2 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white/90 p-2 text-dark shadow-lg hover:bg-white md:flex"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
 
-          {featured.length >= 3 && (
-            <div className="grid gap-4 md:gap-6 lg:min-h-[640px] lg:grid-cols-3 lg:grid-rows-2">
-              <div className="lg:col-span-2 lg:row-span-2">
-                <BannerCard
-                  banner={featured[0]}
-                  big
-                  sizes="(max-width: 1024px) 100vw, 66vw"
-                />
+              {/* Dots */}
+              <div className="mt-6 flex justify-center gap-2">
+                {banners.map((b, i) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    aria-label={`Zu Angebot ${i + 1}`}
+                    aria-current={i === active}
+                    onClick={() => scrollToIndex(i)}
+                    className={`h-2.5 rounded-full transition-all ${i === active ? 'w-6 bg-brand' : 'w-2.5 bg-white/40 hover:bg-white/70'}`}
+                  />
+                ))}
               </div>
-              <BannerCard banner={featured[1]} sizes="(max-width: 1024px) 100vw, 33vw" />
-              <BannerCard banner={featured[2]} sizes="(max-width: 1024px) 100vw, 33vw" />
-            </div>
-          )}
-
-          {rest.length > 0 && (
-            <div className="mt-4 grid gap-4 md:mt-6 md:gap-6">
-              {rest.map((b) => (
-                <div key={b.id} className="min-h-[320px]">
-                  <BannerCard banner={b} big sizes="100vw" />
-                </div>
-              ))}
-            </div>
+            </>
           )}
         </Reveal>
       </div>

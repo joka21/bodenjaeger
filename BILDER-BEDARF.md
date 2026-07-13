@@ -52,7 +52,7 @@ Alle **lokalen** Bilder gehören nach `public/fachmarkt/` (bzw. bestehend unter
 | 1 Hero | Vollbild-Hintergrund (Ken-Burns) | `public/images/fachmarkt-hueckelhoven/hero-DSCF2859.jpg` | vorhanden (ggf. NEU in höher) | JPG, quer | 2560×1707 |
 | 3 Ausstellung | Immersives Vollbild **oder Video** | WP: `.../DSCF2023-...1024x683.jpg` | vorhanden (NEU/Video empfohlen) | JPG quer / MP4+WebM | 2560×1440 |
 | 4 Warum Bodenjäger | Bild links | WP: `.../DSCF1968-...1024x683.jpg` | vorhanden (NEU empfohlen) | JPG, 4:5 | 1200×1500 |
-| Angebote | beliebig viele Banner (CMS) | WP-Uploads (Mock) | **CMS-gepflegt** | JPG, 16:9 | 1600×900 |
+| Angebote (Slider) | beliebig viele Banner (CMS) | WP-Uploads (Mock) | **CMS-gepflegt** | JPG, **7:3** | **2800×1200** |
 | 7 Kategorien | 6 Bildkarten (Hochformat) | WP-Uploads | vorhanden (NEU empfohlen) | JPG, 4:5 | 1200×1500 |
 | 9 Leistungen | **8 Motive** (Bild + Titel + Satz) | WP-Uploads (Interim) | **NEU empfohlen** (s. u.) | JPG, 4:3 | 1200×900 |
 | 11 Team | großes Teamfoto (breit) | `public/fachmarkt/team-bodenjaeger-hueckelhoven.jpg` | **NEU – fehlt** | JPG, 21:9/16:9 | 2560×1097 |

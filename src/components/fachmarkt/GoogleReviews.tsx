@@ -13,7 +13,7 @@ export default function GoogleReviews() {
   return (
     <section id="bewertungen" className="scroll-mt-24 py-24 md:py-32">
       <div className="content-container">
-        <Reveal className="mx-auto max-w-3xl rounded-3xl bg-navy px-8 py-12 text-center text-white">
+        <Reveal className="mx-auto max-w-3xl rounded-3xl bg-dark px-8 py-12 text-center text-white">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-white/70">
             {kicker}
           </p>

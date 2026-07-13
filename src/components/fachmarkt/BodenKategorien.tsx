@@ -20,32 +20,47 @@ export default function BodenKategorien() {
         </Reveal>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {kategorien.map((k, i) => (
-            <Reveal key={k.titel} delay={i * 80}>
-              <Link
-                href={k.href}
-                className="group relative block aspect-[4/5] overflow-hidden rounded-3xl"
-              >
-                <Image
-                  src={k.image}
-                  alt={k.titel}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                />
-                {/* Dunkler Overlay — dauerhaft (auch ohne Hover für Touch lesbar) */}
+          {kategorien.map((k, i) => {
+            const bild = (
+              <Image
+                src={k.image}
+                alt={k.titel}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className={`object-cover${k.href ? ' transition-transform duration-500 ease-out group-hover:scale-105' : ''}`}
+              />
+            )
+            const overlay = (
+              <>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6">
-                  {/* Roter Akzent: Linie, wächst bei Hover */}
-                  <span className="block h-1 w-10 rounded-full bg-brand transition-all duration-300 group-hover:w-16" />
+                  <span className={`block h-1 w-10 rounded-full bg-brand${k.href ? ' transition-all duration-300 group-hover:w-16' : ''}`} />
                   <div className="mt-4 flex items-center justify-between">
                     <h3 className="text-2xl font-bold text-white md:text-3xl">{k.titel}</h3>
-                    <ArrowRight className="h-6 w-6 text-white transition-transform group-hover:translate-x-1" />
+                    {k.href && (
+                      <ArrowRight className="h-6 w-6 text-white transition-transform group-hover:translate-x-1" />
+                    )}
                   </div>
                 </div>
-              </Link>
-            </Reveal>
-          ))}
+              </>
+            )
+            return (
+              <Reveal key={k.titel} delay={i * 80}>
+                {k.href ? (
+                  <Link href={k.href} className="group relative block aspect-[4/5] overflow-hidden rounded-3xl">
+                    {bild}
+                    {overlay}
+                  </Link>
+                ) : (
+                  // Nicht klickbar: kein Link, kein Hover, kein Pointer, kein Pfeil.
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
+                    {bild}
+                    {overlay}
+                  </div>
+                )}
+              </Reveal>
+            )
+          })}
         </div>
 
         <div className="mt-14 text-center">

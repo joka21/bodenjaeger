@@ -20,3 +20,13 @@ export function isLandingRoute(pathname: string | null | undefined): boolean {
   const normalized = pathname.length > 1 ? pathname.replace(/\/+$/, '') : pathname
   return (LANDING_ROUTES as readonly string[]).includes(normalized)
 }
+
+/**
+ * true für die Landingpage UND alle Unterseiten (Prefix-Match auf
+ * `/fachmarkt-hueckelhoven`). Für Elemente, die im gesamten Fachmarkt-Bereich
+ * ausgeblendet werden (z. B. die globalen Floating-Buttons).
+ */
+export function isFachmarktRoute(pathname: string | null | undefined): boolean {
+  if (!pathname) return false
+  return pathname === '/fachmarkt-hueckelhoven' || pathname.startsWith('/fachmarkt-hueckelhoven/')
+}

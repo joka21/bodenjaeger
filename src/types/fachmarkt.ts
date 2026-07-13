@@ -11,7 +11,11 @@ export interface FilialBanner {
   id: number | string
   titel: string
   untertitel?: string
-  /** Voll-URL oder /-relativer Pfad zum Bild */
+  /**
+   * Voll-URL oder /-relativer Pfad zum Bild.
+   * CMS-Hinweis (filial_banner): Banner werden als Slider im Format 7:3
+   * ausgespielt — empfohlenes Motiv 2800 × 1200 px (JPG).
+   */
   bild: string
   bildAlt?: string
   ctaLabel?: string

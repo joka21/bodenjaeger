@@ -53,43 +53,44 @@ const CTA_BERATUNG: Cta = { label: 'Beratung vereinbaren', href: '/kontakt', var
 // ── Sektion 1: Hero ───────────────────────────────────────────────────────────
 export const HERO = {
   kicker: 'Bodenfachmarkt Hückelhoven',
-  headline: 'Ihr Bodenbelag. Persönlich beraten. Fair kalkuliert.',
+  headline: 'Böden erleben. Nicht nur ansehen.',
   subline:
-    'Über 40 Jahre Erfahrung, große Ausstellung und ein Rundum-Sorglos-Service – erleben Sie Laminat, Vinyl und Parkett vor Ort in Hückelhoven.',
+    'Entdecke über 1.000 Bodenmuster, erhalte eine persönliche Fachberatung und finde den passenden Boden für dein Zuhause – direkt in unserem Fachmarkt in Hückelhoven.',
   image: '/images/fachmarkt-hueckelhoven/hero-DSCF2859.jpg',
   imageAlt: 'Ausstellung des Bodenjäger Fachmarkts in Hückelhoven',
   ctas: [CTA_ROUTE, CTA_ANRUFEN, CTA_BERATUNG] as Cta[],
   checks: [
-    'Persönliche Fachberatung',
-    'Hoher Lagerbestand',
+    'Über 250 Böden sofort zum Mitnehmen',
     'Faire Festpreise',
-    'Rundum-Sorglos-Service',
+    'Persönliche Fachberatung',
+    'Erfahrene Bodenleger',
   ],
 }
 
 // ── Sektion 2: Trust-Kennzahlen (Count-up) ─────────────────────────────────────
 // TODO(kunde): Zahlen final bestätigen.
+// Google-Bewertung (4,7★) vorerst STATISCH — Sync mit Google Business folgt separat.
 export const TRUST_STATS = [
+  { value: 1000, suffix: '+', label: 'Bodenmuster zum Erleben' },
+  { value: 250, suffix: '+', label: 'Böden sofort zum Mitnehmen' },
   { value: 40, suffix: '+', label: 'Jahre Erfahrung' },
+  { value: 4.7, suffix: '★', label: 'Google-Bewertung', decimals: 1 },
   { value: 10000, suffix: '+', label: 'Zufriedene Kunden' },
-  { value: 1500, suffix: 'm²', label: 'Ausstellungsfläche' },
-  { value: 500, suffix: '+', label: 'Böden auf Lager' },
-  { value: 4.8, suffix: '★', label: 'Google-Bewertung', decimals: 1 },
-  { value: 100, suffix: '%', label: 'Aus eigener Verlegepraxis' },
+  { value: 100, suffix: '%', label: 'Eigene Bodenleger' },
 ] as const
 
 // ── Sektion 3: Ausstellung erleben ─────────────────────────────────────────────
 export const AUSSTELLUNG = {
   kicker: 'Ausstellung',
   headline: 'Sehen, fühlen, entscheiden – in unserer Ausstellung',
-  text: 'Vergleichen Sie Farben, Oberflächen und Formate direkt vor Ort und lassen Sie sich persönlich beraten.',
+  text: 'Vergleiche Farben, Oberflächen und Formate direkt vor Ort und lass dich persönlich beraten.',
   image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg',
   imageAlt: 'Blick in die Ausstellung mit verlegten Bodenmustern',
   // Video-Slot: `video` bleibt null, bis die Quelle geliefert wird. Bei
   // gesetzter URL rendert die Komponente ein <video> mit `poster` (= image)
   // und lazy preload; sonst wird nur das Bild gezeigt.
   video: null as string | null, // TODO(kunde): MP4/WebM-Quelle liefern
-  // TODO(360): Quelle des 360°-Rundgangs noch offen.
+  // TODO(360): Panolocal-Panoramen — Embed/CTA-Slot bleibt vorbereitet, Inhalte folgen.
   cta: { label: '360° Rundgang starten', href: '#', variant: 'primary', external: true } as Cta,
 }
 
@@ -100,7 +101,7 @@ export const WARUM = {
   image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg',
   imageAlt: 'Persönliche Beratung im Bodenjäger Fachmarkt',
   vorteile: [
-    { titel: 'Persönliche Fachberatung', text: 'Wir hören zu, statt Regale zu befüllen – Beratung von Leuten, die selbst verlegen.' },
+    { titel: 'Persönliche Fachberatung', text: 'Praxisnahe Beratung von Fachberatern mit Verlegeerfahrung.' },
     { titel: 'Hoher Lagerbestand', text: 'Viele Böden sofort verfügbar – kein wochenlanges Warten.' },
     { titel: 'Faire Festpreise', text: 'Transparente Preise inklusive passender Sockelleisten und Dämmung.' },
     { titel: 'Rundum-Sorglos-Service', text: 'Von der Auswahl über Lieferung bis zur professionellen Verlegung.' },
@@ -111,14 +112,14 @@ export const WARUM = {
 
 // ── Sektion 5: Besuchs-Ablauf (Timeline) ───────────────────────────────────────
 export const BESUCHS_ABLAUF = {
-  kicker: 'So läuft Ihr Besuch',
+  kicker: 'So läuft dein Besuch',
   headline: 'In fünf entspannten Schritten zum neuen Boden',
   schritte: [
     { nr: 1, titel: 'Ankommen', text: 'Kostenlos parken direkt vor der Tür.' },
     { nr: 2, titel: 'Ausstellung erleben', text: 'Dekore und Verlegemuster in Ruhe vergleichen.' },
-    { nr: 3, titel: 'Beratung', text: 'Wir kalkulieren Ihren Bedarf – ehrlich und genau.' },
+    { nr: 3, titel: 'Beratung', text: 'Wir kalkulieren deinen Bedarf – ehrlich und genau.' },
     { nr: 4, titel: 'Angebot', text: 'Festpreis inklusive Zubehör, ohne Überraschungen.' },
-    { nr: 5, titel: 'Lieferung & Verlegung', text: 'Auf Wunsch liefern und verlegen wir alles für Sie.' },
+    { nr: 5, titel: 'Lieferung & Verlegung', text: 'Auf Wunsch liefern und verlegen wir alles für dich.' },
   ],
 }
 
@@ -171,17 +172,16 @@ export const FILIAL_ANGEBOTE = {
 export const BODEN_KATEGORIEN = {
   kicker: 'Sortiment',
   headline: 'Für jeden Raum der passende Boden',
-  // Reihenfolge lt. Kundenfeedback. hrefs sind auf reale WooCommerce-Slugs
-  // gemappt (siehe Abschlussbericht). Slugs, die real NICHT existieren
-  // (Klick-Vinyl, PVC/CV-Belag), stehen bewusst auf '#' — kein geratener Pfad.
+  // Reihenfolge lt. Kundenfeedback. `href: null` = Karte bewusst NICHT klickbar
+  // (kein Link/Hover/Pointer). Teppichboden + PVC/CV vorerst ohne Verlinkung.
   kategorien: [
     { titel: 'Klick-Vinyl', href: '/category/rigid-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' }, // Kunde: Klick-Vinyl = rigid-vinyl
     { titel: 'Klebe-Vinyl', href: '/category/klebe-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
     { titel: 'Parkett', href: '/category/parkett', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
     { titel: 'Laminat', href: '/category/laminat', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
-    { titel: 'Teppichboden', href: '/category/teppichboden', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' },
-    { titel: 'PVC / CV-Belag', href: '#', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' }, // TODO(kunde): Ziel-Kategorie/Slug klären (kein realer Slug „pvc"/„cv-belag")
-  ],
+    { titel: 'Teppichboden', href: null, image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' }, // vorerst keine Verlinkung
+    { titel: 'PVC / CV-Belag', href: null, image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' }, // vorerst keine Verlinkung
+  ] as { titel: string; href: string | null; image: string }[],
   cta: { label: 'Gesamtes Sortiment ansehen', href: '/', variant: 'outline' } as Cta,
 }
 
@@ -192,11 +192,11 @@ export const VERGLEICH = {
   bodenjaeger: {
     titel: 'Bodenjäger Fachmarkt',
     punkte: [
-      'Beratung von Fachleuten, die selbst verlegen',
-      'Sockelleisten & Dämmung inklusive kalkuliert',
+      'Praxisnahe Beratung von Fachberatern mit Verlegeerfahrung.',
+      'Sockelleisten & Dämmung immer kostenlos dabei.',
       'Hoher Lagerbestand, sofort verfügbar',
       'Lieferung und professionelle Verlegung möglich',
-      'Ehrliche Festpreise ohne Lockangebote',
+      'Ehrliche und faire Festpreise.',
     ],
   },
   baumarkt: {
@@ -205,7 +205,7 @@ export const VERGLEICH = {
       'Selbstbedienung, kaum Fachberatung',
       'Zubehör muss einzeln zusammengesucht werden',
       'Häufig nur Bestellware',
-      'Verlegung ist Ihre Sache',
+      'Verlegung ist deine Sache',
       'Preise wirken günstig, Zubehör kommt obendrauf',
     ],
   },
@@ -218,16 +218,25 @@ export const VERGLEICH = {
 export const LEISTUNGEN = {
   kicker: 'Unsere Leistungen',
   headline: 'Rundum-Sorglos – alles aus einer Hand',
+  // Aktuell nur 4 Leistungen sichtbar (Kundenwunsch). Reihenfolge lt. Brief.
   items: [
-    { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/service/verlegeservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
-    { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/lieferservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
-    { icon: 'Caravan', titel: 'Anhängerverleih', text: 'Kostenloser Anhänger für den Selbsttransport.', href: '/fachmarkt-hueckelhoven/anhaengerverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' },
-    { icon: 'Warehouse', titel: 'Warenlagerung', text: 'Wir lagern Ihre Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/warenlagerung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
     { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/fachberatung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' },
-    { icon: 'Package', titel: 'Set-Angebote', text: 'Boden, Dämmung und Sockelleiste als Komplettpaket.', href: '/fachmarkt-hueckelhoven/set-angebote', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
-    { icon: 'Wrench', titel: 'Werkzeugverleih', text: 'Das passende Werkzeug für Ihr Projekt.', href: '/fachmarkt-hueckelhoven/werkzeugverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
-    { icon: 'CalendarDays', titel: 'Schausonntag', text: 'An ausgewählten Sonntagen geöffnet.', href: '/fachmarkt-hueckelhoven/schausonntag', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' },
+    // Musterservice: neue Kachel. Ziel vorerst /category/musterbox.
+    // TODO: Ziel wird später /fachmarkt-hueckelhoven/service/musterservice (Umzug folgt als separates Paket).
+    { icon: 'Package', titel: 'Musterservice', text: 'Bis zu 3 Bodenmuster kostenfrei zu dir nach Hause bestellen.', href: '/category/musterbox', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
+    // Einlagerung = frühere „Warenlagerung", nur anders benannt.
+    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deine Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/warenlagerung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
+    { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/service/verlegeservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
+    // ── Vorerst ausgeblendet (Daten bleiben erhalten, nicht löschen) ──
+    // { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/lieferservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
+    // { icon: 'Caravan', titel: 'Anhängerverleih', text: 'Kostenloser Anhänger für den Selbsttransport.', href: '/fachmarkt-hueckelhoven/anhaengerverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' },
+    // { icon: 'Package', titel: 'Set-Angebote', text: 'Boden, Dämmung und Sockelleiste als Komplettpaket.', href: '/fachmarkt-hueckelhoven/set-angebote', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
+    // { icon: 'Wrench', titel: 'Werkzeugverleih', text: 'Das passende Werkzeug für dein Projekt.', href: '/fachmarkt-hueckelhoven/werkzeugverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
+    // { icon: 'CalendarDays', titel: 'Schausonntag', text: 'An ausgewählten Sonntagen geöffnet.', href: '/fachmarkt-hueckelhoven/schausonntag', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' },
   ],
+  // Button unter den Leistungen. Ziel vorerst /service.
+  // TODO: Ziel wird später /fachmarkt-hueckelhoven/service (Umzug der Service-Übersicht folgt als separates Paket).
+  cta: { label: 'Alle Fachmarkt-Leistungen entdecken', href: '/service', variant: 'secondary' } as Cta,
 }
 
 // ── Sektion 10: Google-Bewertungen ──────────────────────────────────────────────
@@ -244,7 +253,7 @@ export const GOOGLE_REVIEWS = {
 
 // ── Sektion 11: Team ────────────────────────────────────────────────────────────
 export const TEAM = {
-  kicker: 'Ihr Team vor Ort',
+  kicker: 'Dein Team vor Ort',
   headline: 'Menschen, die Böden lieben',
   // TODO(kunde): echte Teamfotos + Namen/Funktionen/Telefon liefern.
   foto: '/fachmarkt/team-bodenjaeger-hueckelhoven.jpg',
@@ -264,8 +273,8 @@ export const TEAM = {
 // StandortSection wurde entfernt; Adresse/Öffnungszeiten/Telefon/Maps leben jetzt
 // im dunklen Abschluss-Block (Komponente AbschlussCta).
 export const ABSCHLUSS = {
-  headline: 'Wir freuen uns auf Ihren Besuch.',
-  subline: 'Persönliche Beratung, große Ausstellung und faire Preise – mitten in Hückelhoven.',
+  headline: 'Wir freuen uns auf deinen Besuch.',
+  subline: 'Erlebe über 1.000 Bodenmuster, persönliche Fachberatung und professionelle Unterstützung – von der Auswahl bis zur Verlegung.',
   // Hintergrundbild des dunklen Abschluss-Bands
   image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg',
   imageAlt: 'Ausstellungsfläche im Bodenjäger Fachmarkt Hückelhoven',

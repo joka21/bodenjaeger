@@ -21,7 +21,7 @@ function Stat({
   return (
     <div className="text-center">
       <div
-        className="font-bold leading-none text-navy"
+        className="font-bold leading-none text-dark"
         style={{ fontSize: 'clamp(3rem, 7vw, 5rem)' }}
       >
         {display}

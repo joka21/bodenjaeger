@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { LEISTUNGEN } from '@/content/fachmarkt'
+import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
 
-/** Sektion 9: 8 Leistungen als Bild + Titel + 1 Satz (statt Icon-Karten). */
+/** Sektion 9: Leistungen als Bild + Titel + 1 Satz (statt Icon-Karten). */
 export default function LeistungenSection() {
-  const { kicker, headline, items } = LEISTUNGEN
+  const { kicker, headline, items, cta } = LEISTUNGEN
 
   return (
     <section id="leistungen" className="scroll-mt-24 bg-pale py-24 md:py-32">
@@ -38,6 +39,10 @@ export default function LeistungenSection() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-14 text-center">
+          <CtaButton cta={cta} size="lg" />
+        </Reveal>
       </div>
     </section>
   )

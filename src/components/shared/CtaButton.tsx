@@ -4,8 +4,9 @@ import type { Cta, CtaVariant } from '@/types/cta'
 const VARIANTS: Record<CtaVariant, string> = {
   // Primär = Bodenjäger-Rot (ersetzt die "Gelb"-Rolle des Briefings — Projekt-CI)
   primary: 'bg-brand text-white hover:bg-[#c8161e] shadow-sm',
-  // Sekundär = Navy
-  secondary: 'bg-navy text-white hover:bg-[#173583]',
+  // Sekundär = Anthrazit (CI, kein Blau). bg-mid ist heller als bg-dark →
+  // bleibt auf dunklen Bändern (bg-dark) sichtbar.
+  secondary: 'bg-mid text-white hover:bg-dark',
   // Tertiär = dezenter Outline
   outline: 'border-2 border-dark text-dark hover:bg-dark hover:text-white',
 }

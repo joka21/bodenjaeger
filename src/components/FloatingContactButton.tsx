@@ -2,15 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
+import { isFachmarktRoute } from '@/lib/landingRoutes';
 import ContactDrawer from './ContactDrawer';
 
 export default function FloatingContactButton() {
   const [isContactDrawerOpen, setIsContactDrawerOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { itemCount, openCartDrawer, isCartDrawerOpen } = useCart();
+  const pathname = usePathname();
 
   useEffect(() => { setMounted(true); }, []);
+
+  // Auf allen Fachmarkt-Seiten (Landing + Unterseiten) keine Floating-Buttons.
+  if (isFachmarktRoute(pathname)) return null;
 
   return (
     <>
