@@ -21,7 +21,7 @@ export const SERVICE_LINKS = {
   lieferung: '/fachmarkt-hueckelhoven/lieferservice',
   einlagerung: '/fachmarkt-hueckelhoven/warenlagerung',
   verlegewerkzeug: '/fachmarkt-hueckelhoven/werkzeugverleih',
-  verlegeservice: '/fachmarkt-hueckelhoven/verlegeservice',
+  verlegeservice: '/fachmarkt-hueckelhoven/service/verlegeservice',
   fachberatung: '/fachmarkt-hueckelhoven/fachberatung',
   fachmarkt: '/fachmarkt-hueckelhoven',
   kontakt: '/kontakt',

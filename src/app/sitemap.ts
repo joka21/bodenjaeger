@@ -34,7 +34,7 @@ const STATIC_PAGES: StaticPage[] = [
 
   // Fachmarkt — wichtige Lokal-SEO-Seite
   { path: '/fachmarkt-hueckelhoven', priority: 0.8, changeFrequency: 'weekly' },
-  { path: '/fachmarkt-hueckelhoven/verlegeservice', priority: 0.7, changeFrequency: 'monthly' },
+  { path: '/fachmarkt-hueckelhoven/service/verlegeservice', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/set-angebote', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/fachmarkt-hueckelhoven/anhaengerverleih', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/warenlagerung', priority: 0.5, changeFrequency: 'monthly' },

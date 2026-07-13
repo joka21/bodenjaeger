@@ -264,6 +264,15 @@ const nextConfig: NextConfig = {
       },
 
       // ============================================================
+      // VERLEGESERVICE (URL-Umzug auf verschachtelte Service-Route)
+      // ============================================================
+      {
+        source: '/fachmarkt-hueckelhoven/verlegeservice',
+        destination: '/fachmarkt-hueckelhoven/service/verlegeservice',
+        permanent: true,
+      },
+
+      // ============================================================
       // SERVICEBEREICH (alte WP-Subseiten → neue Fachmarkt-Subseiten)
       // ============================================================
       {

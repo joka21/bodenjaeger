@@ -22,7 +22,7 @@ export default function SitemapPage() {
       category: 'Fachmarkt Hückelhoven',
       links: [
         { title: 'Fachmarkt Hückelhoven - Übersicht', url: '/fachmarkt-hueckelhoven' },
-        { title: 'Verlegeservice', url: '/fachmarkt-hueckelhoven/verlegeservice' },
+        { title: 'Verlegeservice', url: '/fachmarkt-hueckelhoven/service/verlegeservice' },
         { title: 'Anhängerverleih', url: '/fachmarkt-hueckelhoven/anhaengerverleih' },
         { title: 'Warenlagerung', url: '/fachmarkt-hueckelhoven/warenlagerung' },
         { title: 'Fachberatung', url: '/fachmarkt-hueckelhoven/fachberatung' },
