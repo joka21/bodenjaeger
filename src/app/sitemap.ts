@@ -38,6 +38,7 @@ const STATIC_PAGES: StaticPage[] = [
   { path: '/fachmarkt-hueckelhoven/service/verlegeservice', priority: 0.7, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/service/set-angebote', priority: 0.7, changeFrequency: 'weekly' },
   { path: '/fachmarkt-hueckelhoven/service/fachberatung', priority: 0.5, changeFrequency: 'monthly' },
+  { path: '/fachmarkt-hueckelhoven/service/musterservice', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/service/einlagerung', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/service/werkzeugverleih', priority: 0.5, changeFrequency: 'monthly' },
   { path: '/fachmarkt-hueckelhoven/service/lieferung-abholung', priority: 0.5, changeFrequency: 'monthly' },

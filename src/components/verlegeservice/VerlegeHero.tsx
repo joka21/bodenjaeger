@@ -2,7 +2,7 @@ import { Check, Phone } from 'lucide-react'
 import { VERLEGE_HERO } from '@/content/verlegeservice'
 import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
-import BildPlatzhalter from './BildPlatzhalter'
+import BildPlatzhalter from '@/components/shared/BildPlatzhalter'
 
 /** Hero: zweispaltig (Text/CTAs links, Verlegebild rechts), einspaltig mobil. */
 export default function VerlegeHero() {

@@ -1,62 +1,68 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getWordPressPage } from '@/lib/wordpress'
-import FachmarktSubpage from '@/components/FachmarktSubpage'
-
-export const revalidate = 30
+import { JsonLd } from '@/components/JsonLd'
+import { buildBreadcrumbSchema } from '@/lib/schema'
+import { SITE_URL } from '@/lib/site'
+import { SERVICE_UNTERSEITEN, SERVICE_UNTERSEITEN_SLUGS } from '@/content/service-unterseiten'
+import ServiceUnterseite from '@/components/service-unterseiten/ServiceUnterseite'
+import ServiceStickyBar from '@/components/shared/ServiceStickyBar'
 
 /**
- * Service-Unterseiten unter dem Fachmarkt (umgezogen aus der früheren
- * /fachmarkt-hueckelhoven/[slug]-Route). Rendering wie bisher aus WordPress.
- *
- * Mapping: Next.js route slug → WordPress page slug. Zwei Slugs wurden beim
- * Umzug umbenannt (lieferservice → lieferung-abholung, warenlagerung →
- * einlagerung); der WordPress-Slug bleibt jeweils unverändert.
- * `verlegeservice` ist eine eigene statische Route und NICHT hier enthalten.
+ * Statische Fachmarkt-Service-Unterseiten (eigene Kundeninhalte, KEIN WordPress).
+ * Eine Route, datengetrieben aus content/service-unterseiten.ts.
+ * `verlegeservice` ist eine eigene statische Route (nicht hier) und `service`
+ * ist die Übersicht — beide gewinnen als statische Segmente gegen diese [slug].
  */
-const SLUG_MAP: Record<string, { wpSlug: string; label: string }> = {
-  'fachberatung': { wpSlug: 'persoenliche-fachberatung', label: 'Fachberatung' },
-  'set-angebote': { wpSlug: 'sockelleiste-und-daemmung-kostenlos', label: 'Set-Angebote' },
-  'lieferung-abholung': { wpSlug: 'lieferung-zum-wunschtermin', label: 'Lieferung & Abholung' },
-  'einlagerung': { wpSlug: 'lagerservice', label: 'Einlagerung' },
-  'werkzeugverleih': { wpSlug: 'werkzeugverleih', label: 'Werkzeugverleih' },
+
+// Kurzlabels für Breadcrumb
+const LABELS: Record<string, string> = {
+  fachberatung: 'Fachberatung',
+  musterservice: 'Musterservice',
+  'set-angebote': 'Set-Angebote',
+  'lieferung-abholung': 'Lieferung & Abholung',
+  einlagerung: 'Einlagerung',
+  werkzeugverleih: 'Werkzeugverleih',
 }
 
-export async function generateStaticParams() {
-  return Object.keys(SLUG_MAP).map((slug) => ({ slug }))
+export function generateStaticParams() {
+  return SERVICE_UNTERSEITEN_SLUGS.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await params
-  const entry = SLUG_MAP[slug]
-  if (!entry) {
-    return { title: 'Seite nicht gefunden | Bodenjäger' }
-  }
-
-  const page = await getWordPressPage(entry.wpSlug)
-  const title = page
-    ? `${page.title.rendered.replace(/&#038;/g, '&').replace(/&#8211;/g, '–')} | Fachmarkt Hückelhoven | Bodenjäger`
-    : `${entry.label} | Fachmarkt Hückelhoven | Bodenjäger`
-
+  const data = SERVICE_UNTERSEITEN[slug]
+  if (!data) return { title: 'Seite nicht gefunden | Bodenjäger' }
+  const url = `${SITE_URL}/fachmarkt-hueckelhoven/service/${slug}`
   return {
-    title,
-    description: `${entry.label} – Service im Fachmarkt Hückelhoven bei Bodenjäger`,
+    title: data.meta.title,
+    description: data.meta.description,
+    alternates: { canonical: url },
+    openGraph: { title: data.meta.title, description: data.meta.description, url, type: 'website' },
   }
 }
 
-export default async function ServiceSubpagePage(
+export default async function ServiceUnterseitePage(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params
-  const entry = SLUG_MAP[slug]
+  const data = SERVICE_UNTERSEITEN[slug]
+  if (!data) notFound()
 
-  if (!entry) notFound()
+  const url = `${SITE_URL}/fachmarkt-hueckelhoven/service/${slug}`
+  const breadcrumb = buildBreadcrumbSchema([
+    { name: 'Startseite', url: SITE_URL },
+    { name: 'Fachmarkt Hückelhoven', url: `${SITE_URL}/fachmarkt-hueckelhoven` },
+    { name: 'Service', url: `${SITE_URL}/fachmarkt-hueckelhoven/service` },
+    { name: LABELS[slug] ?? 'Service', url },
+  ])
 
-  const page = await getWordPressPage(entry.wpSlug)
-
-  if (!page) notFound()
-
-  return <FachmarktSubpage page={page} />
+  return (
+    <main className="pb-16 md:pb-0">
+      <JsonLd data={breadcrumb} />
+      <ServiceUnterseite data={data} />
+      <ServiceStickyBar />
+    </main>
+  )
 }

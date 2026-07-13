@@ -25,6 +25,7 @@ export default function SitemapPage() {
         { title: 'Service - Übersicht', url: '/fachmarkt-hueckelhoven/service' },
         { title: 'Verlegeservice', url: '/fachmarkt-hueckelhoven/service/verlegeservice' },
         { title: 'Fachberatung', url: '/fachmarkt-hueckelhoven/service/fachberatung' },
+        { title: 'Musterservice', url: '/fachmarkt-hueckelhoven/service/musterservice' },
         { title: 'Set-Angebote', url: '/fachmarkt-hueckelhoven/service/set-angebote' },
         { title: 'Lieferung & Abholung', url: '/fachmarkt-hueckelhoven/service/lieferung-abholung' },
         { title: 'Einlagerung', url: '/fachmarkt-hueckelhoven/service/einlagerung' },

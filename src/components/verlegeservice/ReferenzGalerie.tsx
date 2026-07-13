@@ -1,7 +1,7 @@
 import { VERLEGE_REFERENZEN } from '@/content/verlegeservice'
 import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
-import BildPlatzhalter from './BildPlatzhalter'
+import BildPlatzhalter from '@/components/shared/BildPlatzhalter'
 
 /**
  * Referenzen / Vorher-Nachher. Bilder liegen noch nicht vor → sichtbare

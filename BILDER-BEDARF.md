@@ -1,3 +1,20 @@
+# Bilder-Bedarf – Landingpages (Fachmarkt, Service, Verlegeservice & Service-Unterseiten)
+
+## Fachmarkt-Service-Unterseiten (`/fachmarkt-hueckelhoven/service/<slug>`)
+Je Seite ein Hero-Bild. Aktuell **sichtbare Platzhalter** (4:3, Label „Platzhalter — Bild folgt").
+Finale Motive nach `public/service/` (JPG, quer, min. 1600×1200):
+
+| Seite | Ziel-Datei | Motiv |
+|---|---|---|
+| Fachberatung | `public/service/fachberatung.jpg` | Fachberater betrachtet mit Kunden große Bodenmuster im Fachmarkt |
+| Musterservice | `public/service/musterservice.jpg` | Kunde betrachtet großes Bodenmuster im Wohnraum neben Möbeln/Wandfarben |
+| Set-Angebote | `public/service/set-angebote.jpg` | Bodenpaket mit Bodenbelag, Sockelleisten, Dämmung und Zubehör |
+| Lieferung & Abholung | `public/service/lieferung-abholung.jpg` | Bodenjäger-Lieferfahrzeug / Vorbereitung der Übergabe |
+| Einlagerung | `public/service/einlagerung.jpg` | Sauber eingelagerte Bodenpakete im Lager |
+| Werkzeugverleih | `public/service/werkzeugverleih.jpg` | Verlegewerkzeug + professionelle Bodenschneidemaschine |
+
+---
+
 # Bilder-Bedarf – Landingpages (Fachmarkt, Service & Verlegeservice)
 
 ## Unterseite Verlegeservice (`/fachmarkt-hueckelhoven/service/verlegeservice`)

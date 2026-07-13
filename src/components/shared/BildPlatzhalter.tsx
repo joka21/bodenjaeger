@@ -4,7 +4,7 @@ interface BildPlatzhalterProps {
   /** z. B. "4 / 3" oder "16 / 9" */
   ratio?: string
   label: string
-  /** optionale Zusatzangabe (Bodenart/Raum/Projektart) */
+  /** optionale Zusatzangabe (Motiv/Hinweis) */
   hinweis?: string
   className?: string
 }
@@ -13,6 +13,7 @@ interface BildPlatzhalterProps {
  * Sichtbarer Bild-Platzhalter mit korrektem Seitenverhältnis — damit der Kunde
  * Format und Bildbedarf beurteilen kann (Bilder liegen noch nicht vor).
  * Bewusst als Platzhalter erkennbar (gestrichelter Rahmen + Label).
+ * Geteilt: Verlegeservice + Service-Unterseiten.
  */
 export default function BildPlatzhalter({
   ratio = '4 / 3',
