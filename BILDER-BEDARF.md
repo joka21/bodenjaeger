@@ -1,3 +1,23 @@
+# Bilder-Bedarf – Landingpages (Fachmarkt, Service & Verlegeservice)
+
+## Unterseite Verlegeservice (`/fachmarkt-hueckelhoven/service/verlegeservice`)
+Auf der Seite sind aktuell **sichtbare Platzhalter** (gestrichelter Rahmen,
+Label „Platzhalter — Bild folgt", korrektes Seitenverhältnis) eingebaut, damit
+Format und Bildbedarf beurteilbar sind. Finale Motive nach `public/verlegeservice/`:
+
+| Verwendung | Ziel-Datei | Format | Min. Auflösung | Motiv |
+|---|---|---|---|---|
+| Hero rechts | `public/verlegeservice/hero-verlegung.jpg` | 4:3 | 1600×1200 | Bodenleger bei der Verlegung – echt/handwerklich, keine Stockbilder |
+| Ablauf-Block (dunkler Hintergrund) | `public/verlegeservice/ablauf-hintergrund.jpg` | quer 16:9 | 2000×1125 | Verlegung im Detail, dunkel überlagerbar |
+| Referenz 1 (Vorher/Nachher) | `public/verlegeservice/referenz-klickvinyl-wohnzimmer.jpg` | 4:3 | 1200×900 | Klick-Vinyl im Wohnzimmer |
+| Referenz 2 | `public/verlegeservice/referenz-klebevinyl-kueche-flur.jpg` | 4:3 | 1200×900 | Klebe-Vinyl in Küche und Flur |
+| Referenz 3 | `public/verlegeservice/referenz-parkett-wohnbereich.jpg` | 4:3 | 1200×900 | Parkett im Wohnbereich |
+| Referenz 4 | `public/verlegeservice/referenz-treppe.jpg` | 4:3 | 1200×900 | Treppenrenovierung mit Bodenbelag |
+
+Vorher/Nachher wo vorhanden (Split oder zwei Bilder je Karte). 3–6 Referenzen möglich.
+
+---
+
 # Bilder-Bedarf – Landingpages (Fachmarkt & Service)
 
 ## Service-Übersichtsseite (`/service`)

@@ -16,7 +16,8 @@ const SLUG_MAP: Record<string, { wpSlug: string; label: string }> = {
   'lieferservice': { wpSlug: 'lieferung-zum-wunschtermin', label: 'Lieferservice' },
   'schausonntag': { wpSlug: 'schausonntag', label: 'Schausonntag' },
   'set-angebote': { wpSlug: 'sockelleiste-und-daemmung-kostenlos', label: 'Set-Angebote' },
-  'verlegeservice': { wpSlug: 'professioneller-verlegeservice-2', label: 'Verlegeservice' },
+  // 'verlegeservice' bewusst entfernt: eigene Route unter
+  // /fachmarkt-hueckelhoven/service/verlegeservice (301-Redirect in next.config.ts).
   'warenlagerung': { wpSlug: 'lagerservice', label: 'Warenlagerung' },
   'werkzeugverleih': { wpSlug: 'werkzeugverleih', label: 'Werkzeugverleih' },
 }
