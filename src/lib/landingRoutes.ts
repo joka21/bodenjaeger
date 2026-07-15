@@ -1,15 +1,13 @@
 /**
- * Zentrale Definition der Landingpage-Routen, auf denen die reguläre
- * Shop-Navigation (Header + Footer) durch die reduzierte Landing-Navigation
- * ersetzt wird.
+ * Zentrale Definition der Fachmarkt-Routen und ihrer Navigations-Logik.
  *
- * WICHTIG (Kundenvorgabe): Nur der EXAKTE Pfad `/fachmarkt-hueckelhoven` gilt
- * als Landingpage. Die `[slug]`-Unterseiten (z. B.
- * `/fachmarkt-hueckelhoven/verlegeservice`) behalten bewusst die
- * Shop-Navigation und werden hier NICHT erfasst → exakter Match, kein Prefix.
+ * Der Fachmarkt-Header (`FachmarktLandingNav`) ersetzt die Shop-Navigation im
+ * GESAMTEN Bereich `/fachmarkt-hueckelhoven` (Landingpage + alle Unterseiten) –
+ * gesteuert über `isFachmarktRoute` (Prefix-Match). So ist der Fachmarkt
+ * navigatorisch ein geschlossener Bereich (Kundenvorgabe).
  *
- * Einzige Quelle der Wahrheit: HeaderWrapper, FooterWrapper und die
- * Landing-Navigation importieren alle `isLandingRoute` von hier.
+ * `isLandingRoute` (exakter Match) bleibt als schmalere Prüfung erhalten,
+ * falls einzelne Elemente NUR auf der exakten Landingpage gebraucht werden.
  */
 export const LANDING_ROUTES = ['/fachmarkt-hueckelhoven'] as const
 

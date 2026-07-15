@@ -1,13 +1,13 @@
 import FachmarktLandingNav from '@/components/fachmarkt/FachmarktLandingNav'
 
 /**
- * Layout für den Fachmarkt-Bereich. Rendert die reduzierte Landing-Navigation.
+ * Layout für den Fachmarkt-Bereich. Rendert die reduzierte Fachmarkt-Navigation.
  *
- * WICHTIG: Dieses Layout umschließt technisch auch die `[slug]`-Unterseiten.
- * Die Landing-Navigation blendet sich jedoch über `isLandingRoute` selbst aus,
- * sobald der Pfad NICHT exakt `/fachmarkt-hueckelhoven` ist. Die 9 Unterseiten
- * behalten dadurch die reguläre Shop-Navigation (Kundenvorgabe: konservativ,
- * exakter Pfad-Match).
+ * Die Navigation ist im gesamten Bereich sichtbar: auf der Landingpage UND
+ * allen Unterseiten unter `/fachmarkt-hueckelhoven` (Prefix-Match via
+ * `isFachmarktRoute`). Die Shop-Navigation wird dort über den HeaderWrapper
+ * ausgeblendet, sodass der Fachmarkt navigatorisch ein geschlossener Bereich
+ * ist (Kundenvorgabe).
  */
 export default function FachmarktLayout({
   children,

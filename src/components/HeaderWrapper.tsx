@@ -2,11 +2,12 @@
 
 import { usePathname } from 'next/navigation';
 import Header from './Header';
-import { isLandingRoute } from '@/lib/landingRoutes';
+import { isFachmarktRoute } from '@/lib/landingRoutes';
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
-  // Auf der Fachmarkt-Landingpage übernimmt die reduzierte Landing-Navigation.
-  if (isLandingRoute(pathname)) return null;
+  // Im gesamten Fachmarkt-Bereich (Landingpage + alle Unterseiten) übernimmt
+  // die reduzierte Fachmarkt-Navigation; die Shop-Navigation wird ausgeblendet.
+  if (isFachmarktRoute(pathname)) return null;
   return <Header />;
 }

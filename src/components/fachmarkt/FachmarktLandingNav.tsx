@@ -6,15 +6,20 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { LANDING_NAV } from '@/content/fachmarkt'
-import { isLandingRoute } from '@/lib/landingRoutes'
+import { isFachmarktRoute } from '@/lib/landingRoutes'
 import CtaButton from '@/components/shared/CtaButton'
 
 /**
- * Reduzierte Navigation der Fachmarkt-Landingpage. Ersetzt die Shop-Navigation
- * (die auf dieser Route über HeaderWrapper ausgeblendet wird).
+ * Reduzierte Navigation des Fachmarkt-Bereichs. Ersetzt die Shop-Navigation
+ * (die auf diesen Routen über HeaderWrapper ausgeblendet wird).
  *
- * Sichtbar NUR auf der exakten Landing-Route (nicht auf den [slug]-Unterseiten),
- * gesteuert über dieselbe Quelle wie die Wrapper: `isLandingRoute`.
+ * Sichtbar auf der Landingpage UND allen Unterseiten unter
+ * `/fachmarkt-hueckelhoven` (Prefix-Match via `isFachmarktRoute`) – damit der
+ * Fachmarkt navigatorisch ein geschlossener Bereich ist (Kundenvorgabe).
+ *
+ * Die Anker-Links zeigen absolut auf die Abschnitte der Landingpage
+ * (`/fachmarkt-hueckelhoven#…`), damit sie auch von Unterseiten aus dorthin
+ * springen. Das Logo verweist ebenfalls auf die Landingpage.
  *
  * Mobil: schlankes Hamburger-Menü mit Anker-Links, KEIN Beratungs-CTA — die
  * Aktions-CTAs übernimmt dort die StickyBottomBar (keine doppelten CTAs).
@@ -23,7 +28,7 @@ export default function FachmarktLandingNav() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
 
-  if (!isLandingRoute(pathname)) return null
+  if (!isFachmarktRoute(pathname)) return null
 
   return (
     <header className="sticky top-0 z-50 bg-dark/95 backdrop-blur">
@@ -44,7 +49,7 @@ export default function FachmarktLandingNav() {
           {LANDING_NAV.links.map((l) => (
             <a
               key={l.href}
-              href={l.href}
+              href={`/fachmarkt-hueckelhoven${l.href}`}
               className="text-sm font-medium text-white/80 transition-colors hover:text-white"
             >
               {l.label}
@@ -74,7 +79,7 @@ export default function FachmarktLandingNav() {
             {LANDING_NAV.links.map((l) => (
               <li key={l.href}>
                 <a
-                  href={l.href}
+                  href={`/fachmarkt-hueckelhoven${l.href}`}
                   onClick={() => setOpen(false)}
                   className="block py-3 text-base font-medium text-white/85 hover:text-white"
                 >
