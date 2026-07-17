@@ -33,7 +33,8 @@ export default function AusstellungErleben() {
           alt={AUSSTELLUNG.imageAlt}
           fill
           sizes="100vw"
-          className="object-cover object-center"
+          // Mobil weiter rechts (Kopf + Hand der Kundin sichtbar), ab md wieder mittig.
+          className="object-cover object-[75%_center] md:object-center"
         />
       )}
 
