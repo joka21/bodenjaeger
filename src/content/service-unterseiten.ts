@@ -97,7 +97,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
       },
       {
         kind: 'ablauf',
-        headline: 'So funktioniert der Musterservice',
+        headline: 'So funktioniert der Großmusterverleih',
         steps: ['Boden im Fachmarkt auswählen', 'Verfügbarkeit des Großmusters prüfen', 'Muster kostenlos mitnehmen', 'Zu Hause testen und anschließend zurückbringen'],
         hinweis: 'Die verfügbaren Muster und die Leihdauer können je nach Produkt variieren.',
       },

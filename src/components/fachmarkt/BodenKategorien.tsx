@@ -2,12 +2,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { BODEN_KATEGORIEN } from '@/content/fachmarkt'
-import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
 
 /** Sektion 7: 6 große Bildkarten mit Hover-Zoom, dunklem Overlay, rotem Akzent. */
 export default function BodenKategorien() {
-  const { kicker, headline, kategorien, cta } = BODEN_KATEGORIEN
+  const { kicker, headline, kategorien } = BODEN_KATEGORIEN
 
   return (
     <section id="bodenkategorien" className="scroll-mt-24 bg-pale py-24 md:py-32">
@@ -61,10 +60,6 @@ export default function BodenKategorien() {
               </Reveal>
             )
           })}
-        </div>
-
-        <div className="mt-14 text-center">
-          <CtaButton cta={cta} size="lg" />
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { AUSSTELLUNG } from '@/content/fachmarkt'
-import CtaButton from '@/components/shared/CtaButton'
+// import CtaButton from '@/components/shared/CtaButton' // vorerst deaktiviert (360°-Button entfernt)
 import Reveal from '@/components/shared/Reveal'
 
 /**
@@ -33,7 +33,7 @@ export default function AusstellungErleben() {
           alt={AUSSTELLUNG.imageAlt}
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
       )}
 
@@ -48,10 +48,11 @@ export default function AusstellungErleben() {
             {AUSSTELLUNG.headline}
           </h2>
           <p className="mt-5 text-lg text-white/85 md:text-xl">{AUSSTELLUNG.text}</p>
-          <div className="mt-8">
-            {/* TODO(360): echten Rundgang-Link einsetzen, sobald Quelle geklärt */}
+          {/* 360°-Button vorerst entfernt, bis neue Aufnahmen vorliegen.
+              Zum Reaktivieren den folgenden Block wieder einkommentieren: */}
+          {/* <div className="mt-8">
             <CtaButton cta={AUSSTELLUNG.cta} size="lg" />
-          </div>
+          </div> */}
         </Reveal>
       </div>
     </section>

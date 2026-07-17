@@ -84,8 +84,8 @@ export const AUSSTELLUNG = {
   kicker: 'Ausstellung',
   headline: 'Sehen, fühlen, entscheiden – in unserer Ausstellung',
   text: 'Vergleiche Farben, Oberflächen und Formate direkt vor Ort und lass dich persönlich beraten.',
-  image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg',
-  imageAlt: 'Blick in die Ausstellung mit verlegten Bodenmustern',
+  image: '/images/fachmarkt-hueckelhoven/ausstellung/ausstellung.webp',
+  imageAlt: 'Kundin fühlt einen Teppichboden in der Ausstellung',
   // Video-Slot: `video` bleibt null, bis die Quelle geliefert wird. Bei
   // gesetzter URL rendert die Komponente ein <video> mit `poster` (= image)
   // und lazy preload; sonst wird nur das Bild gezeigt.
@@ -220,13 +220,13 @@ export const LEISTUNGEN = {
   headline: 'Rundum-Sorglos – alles aus einer Hand',
   // Aktuell nur 4 Leistungen sichtbar (Kundenwunsch). Reihenfolge lt. Brief.
   items: [
-    { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/service/fachberatung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' },
+    { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/service/fachberatung', bild: '/images/fachmarkt-hueckelhoven/leistungen/fachberatung.png' },
     // Musterservice: neue Kachel. Ziel vorerst /category/musterbox.
     // TODO: Ziel wird später /fachmarkt-hueckelhoven/service/musterservice (Umzug folgt als separates Paket).
-    { icon: 'Package', titel: 'Musterservice', text: 'Bis zu 3 Bodenmuster kostenfrei zu dir nach Hause bestellen.', href: '/category/musterbox', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/IMG_1392-scaled-e1724846184644-853x1024.jpg' },
+    { icon: 'Package', titel: 'Großmuster', text: 'Bis zu 3 Bodenmuster kostenfrei zu dir nach Hause bestellen.', href: '/category/musterbox', bild: '/images/fachmarkt-hueckelhoven/leistungen/grossmuster.png' },
     // Einlagerung = frühere „Warenlagerung", nur anders benannt.
-    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deine Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/service/einlagerung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
-    { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/service/verlegeservice', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
+    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deine Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/service/einlagerung', bild: '/images/fachmarkt-hueckelhoven/leistungen/einlagerung.png' },
+    { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/service/verlegeservice', bild: '/images/fachmarkt-hueckelhoven/leistungen/verlegeservice.png' },
     // ── Vorerst ausgeblendet (Daten bleiben erhalten, nicht löschen) ──
     // { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/service/lieferung-abholung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
     // { icon: 'Caravan', titel: 'Anhängerverleih', text: 'Kostenloser Anhänger für den Selbsttransport.', href: '/fachmarkt-hueckelhoven/anhaengerverleih', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' },
@@ -254,15 +254,14 @@ export const GOOGLE_REVIEWS = {
 export const TEAM = {
   kicker: 'Dein Team vor Ort',
   headline: 'Menschen, die Böden lieben',
-  // TODO(kunde): echte Teamfotos + Namen/Funktionen/Telefon liefern.
-  foto: '/fachmarkt/team-bodenjaeger-hueckelhoven.jpg',
-  fotoAlt: 'Das Team des Bodenjäger Fachmarkts Hückelhoven',
-  // TODO: Kundendaten — Namen, Funktionen und Durchwahlen bestätigen.
+  // Kein Gruppenfoto mehr — die Mitarbeiter werden einzeln mit Porträt vorgestellt.
   mitglieder: [
-    { name: 'N. N.', funktion: 'Filialleitung', telefon: STANDORT.telefonLink },
-    { name: 'N. N.', funktion: 'Fachberatung', telefon: STANDORT.telefonLink },
-    { name: 'N. N.', funktion: 'Verlegeservice', telefon: STANDORT.telefonLink },
-    { name: 'N. N.', funktion: 'Lieferung & Logistik', telefon: STANDORT.telefonLink },
+    { name: 'Dominik Jäger', funktion: 'Geschäftsführer', foto: '/images/fachmarkt-hueckelhoven/team/dominik-jaeger.png', telefon: STANDORT.telefonLink },
+    { name: 'Hans-Dieter Wittmers', funktion: 'Fachberater', foto: '/images/fachmarkt-hueckelhoven/team/hans-dieter-wittmers.png', telefon: STANDORT.telefonLink },
+    { name: 'Sascha Glogowskyj', funktion: 'Fachberater', foto: '/images/fachmarkt-hueckelhoven/team/sascha-glogowskyj.png', telefon: STANDORT.telefonLink },
+    { name: 'Stephan Hallen', funktion: 'Fachberater', foto: '/images/fachmarkt-hueckelhoven/team/stephan-hallen.png', telefon: STANDORT.telefonLink },
+    { name: 'Daniel Schulze', funktion: 'Verlegeservice', foto: '/images/fachmarkt-hueckelhoven/team/daniel-schulze.png', telefon: STANDORT.telefonLink },
+    { name: 'Julian Ritterbex', funktion: 'Lagerist', foto: '/images/fachmarkt-hueckelhoven/team/julian-ritterbex.png', telefon: STANDORT.telefonLink },
   ],
   // Gleiche Zielstrecke wie „Beratung vereinbaren"
   cta: { label: 'Kontakt aufnehmen', href: '/kontakt', variant: 'secondary' } as Cta,

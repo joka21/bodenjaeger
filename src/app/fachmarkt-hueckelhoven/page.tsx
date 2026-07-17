@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { wordPressClient } from '@/lib/wordpress'
 import { JsonLd } from '@/components/JsonLd'
 import { buildFlooringStoreSchema, buildBreadcrumbSchema } from '@/lib/schema'
 import { SITE_URL } from '@/lib/site'
@@ -13,7 +12,6 @@ import FachmarktHero from '@/components/fachmarkt/FachmarktHero'
 import TrustStats from '@/components/fachmarkt/TrustStats'
 import AusstellungErleben from '@/components/fachmarkt/AusstellungErleben'
 import WarumBodenjaeger from '@/components/fachmarkt/WarumBodenjaeger'
-import RedaktionsText from '@/components/fachmarkt/RedaktionsText'
 import BesuchsAblauf from '@/components/fachmarkt/BesuchsAblauf'
 import FilialAngebote from '@/components/fachmarkt/FilialAngebote'
 import BodenKategorien from '@/components/fachmarkt/BodenKategorien'
@@ -44,12 +42,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function FachmarktHueckelhovenPage() {
-  // Variante A: redaktioneller Fließtext aus WordPress (optional — die
-  // strukturierte Landingpage funktioniert auch ohne den WP-Block).
-  const page = await wordPressClient.getPageBySlug('filiale-hueckelhoven')
-  const redaktionsHtml = page?.content?.rendered ?? ''
-
+export default function FachmarktHueckelhovenPage() {
   const banners = activeBanners(FILIAL_BANNER_MOCK)
 
   const localBusiness = buildFlooringStoreSchema({
@@ -84,8 +77,6 @@ export default async function FachmarktHueckelhovenPage() {
       <FilialAngebote banners={banners} />
       <AusstellungErleben />
       <WarumBodenjaeger />
-      {/* Redaktioneller WP-Fließtext — rendert bei leerem Inhalt null (unsichtbar). */}
-      <RedaktionsText html={redaktionsHtml} />
       <BesuchsAblauf />
       <BodenKategorien />
       <BaumarktVergleich />
