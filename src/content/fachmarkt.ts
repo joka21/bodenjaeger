@@ -175,12 +175,12 @@ export const BODEN_KATEGORIEN = {
   // Reihenfolge lt. Kundenfeedback. `href: null` = Karte bewusst NICHT klickbar
   // (kein Link/Hover/Pointer). Teppichboden + PVC/CV vorerst ohne Verlinkung.
   kategorien: [
-    { titel: 'Klick-Vinyl', href: '/category/rigid-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2104-scaled-1-683x1024.jpg' }, // Kunde: Klick-Vinyl = rigid-vinyl
+    { titel: 'Klick-Vinyl', href: '/category/rigid-vinyl', image: '/images/fachmarkt-hueckelhoven/sortiment/klick-vinyl.png' }, // Kunde: Klick-Vinyl = rigid-vinyl
     { titel: 'Klebe-Vinyl', href: '/category/klebe-vinyl', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1946-scaled-1-1024x683.jpg' },
     { titel: 'Parkett', href: '/category/parkett', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1962-scaled-1-1024x683.jpg' },
-    { titel: 'Laminat', href: '/category/laminat', image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2201-scaled-1-683x1024.jpg' },
-    { titel: 'Teppichboden', href: null, image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2023-scaled-1-1024x683.jpg' }, // vorerst keine Verlinkung
-    { titel: 'PVC / CV-Belag', href: null, image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg' }, // vorerst keine Verlinkung
+    { titel: 'Laminat', href: '/category/laminat', image: '/images/fachmarkt-hueckelhoven/sortiment/laminat.png' },
+    { titel: 'Teppichboden', href: null, image: '/images/fachmarkt-hueckelhoven/sortiment/teppichboden.png' }, // vorerst keine Verlinkung
+    { titel: 'PVC / CV-Belag', href: null, image: '/images/fachmarkt-hueckelhoven/sortiment/cv-boden.png' }, // vorerst keine Verlinkung
   ] as { titel: string; href: string | null; image: string }[],
   cta: { label: 'Gesamtes Sortiment ansehen', href: '/', variant: 'outline' } as Cta,
 }
