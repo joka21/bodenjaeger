@@ -69,7 +69,7 @@ export const VERLEGE_BODENARTEN = {
     { titel: 'Parkett', icon: 'TreePine' },
     { titel: 'Teppichboden', icon: 'Rows3' },
     { titel: 'PVC / CV', icon: 'Square' },
-    { titel: 'Treppenlösungen nach Absprache', icon: 'Footprints' },
+    { titel: 'Treppenrenovierung', icon: 'Footprints' },
   ],
   zusatztext:
     'Ob Neubau, Renovierung, einzelne Räume oder komplette Etagen – wir prüfen gemeinsam, welche Lösung zu deinem Projekt passt.',
@@ -117,13 +117,13 @@ export const VERLEGE_LEISTUNGEN = {
     'Aufmaß vor Ort',
     'Beratung zur passenden Bodenart',
     'Lieferung des Bodens',
-    'Altbodenaufnahme nach Vereinbarung',
-    'Untergrundvorbereitung nach Vereinbarung',
-    'Grundierung und Spachtelung nach Vereinbarung',
+    'Altbodenaufnahme und Entsorgung',
+    'Untergrundvorbereitung',
+    'Boden aufbereiten',
     'Verlegung des Bodenbelags',
     'Montage von Sockelleisten',
     'Übergangsprofile und Abschlussarbeiten',
-    'Treppenverlegung nach Absprache',
+    'Treppenverlegung',
     'Endkontrolle / Abnahme',
   ],
   hinweis:
@@ -178,22 +178,22 @@ export const VERLEGE_EINWAND = {
     {
       frage: 'Kann ich den Boden auch selbst kaufen und nur verlegen lassen?',
       antwort:
-        'Idealerweise stimmen wir Boden, Zubehör und Verlegung gemeinsam ab, damit Material und Ausführung zusammenpassen. Sprich uns einfach an.',
+        'Ja. Wir haben eine große Auswahl an Böden direkt im Fachmarkt vorrätig – viele davon kannst du sofort mitnehmen und selbst verlegen. Auf Wunsch zeigen wir dir im Fachmarkt, worauf du achten musst, und geben dir praktische Tipps zu Verlegung, Zubehör, Dämmung und Werkzeug.',
     },
     {
       frage: 'Muss der Untergrund schon fertig sein?',
       antwort:
-        'Der Untergrund muss belegreif sein, sofern nichts anderes vereinbart wurde. Notwendige Vorarbeiten können wir nach Prüfung separat anbieten.',
+        'Das hängt vom Bodenbelag ab. Jeder Oberboden stellt andere Anforderungen an den Untergrund. Klick-Vinyl, Klebe-Vinyl, Parkett, Laminat, Teppich oder PVC/CV benötigen jeweils eine passende Vorbereitung. Wir prüfen den Untergrund gerne und übernehmen bei Bedarf auch die notwendigen Vorarbeiten.',
     },
     {
       frage: 'Was kostet die Verlegung?',
       antwort:
-        'Das hängt von Bodenart, Fläche, Untergrund und Zusatzarbeiten ab. Deshalb erstellen wir nach Beratung und Aufmaß ein individuelles Angebot.',
+        'Die Kosten hängen von Bodenart, Fläche, Untergrund und möglichen Zusatzarbeiten ab. Deshalb erstellen wir kein pauschales Lockangebot, sondern prüfen dein Projekt sauber und erstellen dir nach Beratung und Aufmaß ein transparentes Angebot.',
     },
     {
       frage: 'Wie schnell kann verlegt werden?',
       antwort:
-        'Das hängt von Verfügbarkeit, Material und Projektumfang ab. Wir stimmen den Termin persönlich mit dir ab.',
+        'Das hängt von Materialverfügbarkeit, Projektumfang und unserer aktuellen Auslastung ab. Viele Böden sind direkt verfügbar. Den passenden Verlegetermin stimmen wir persönlich mit dir ab.',
     },
   ],
 }
@@ -273,8 +273,8 @@ export const VERLEGE_FAQ = {
     { frage: 'Welche Böden verlegt ihr?', antwort: 'Wir verlegen unter anderem Vinyl, Laminat, Parkett, Teppichboden, PVC/CV und je nach Projekt auch Treppenlösungen.' },
     { frage: 'Kommt ihr vorher zum Aufmaß?', antwort: 'Ja, bei Verlegeprojekten prüfen wir die Fläche und die Gegebenheiten vor Ort, damit wir ein passendes Angebot erstellen können.' },
     { frage: 'Muss der Untergrund vorbereitet sein?', antwort: 'Der Untergrund muss belegreif sein, sofern nichts anderes vereinbart wurde. Falls Vorarbeiten nötig sind, besprechen wir diese mit dir.' },
-    { frage: 'Entfernt ihr auch alten Boden?', antwort: 'Altbodenaufnahme kann nach Absprache Teil des Angebots sein. Das hängt vom vorhandenen Boden und Projektumfang ab.' },
-    { frage: 'Sind Sockelleisten enthalten?', antwort: 'Viele Böden kannst du bei Bodenjäger im Set kaufen – inkl. Sockelleiste und ggf. inkl. Dämmung. Die Montage wird im Angebot separat berücksichtigt.' },
+    { frage: 'Entfernt ihr auch alten Boden?', antwort: 'Ja, nach Absprache übernehmen wir auch die Aufnahme und Entsorgung des alten Bodens. Wir prüfen beim Aufmaß, welcher Belag aktuell vorhanden ist, wie der Untergrund aussieht und welche Vorarbeiten für den neuen Boden notwendig sind. Die Demontage, Entsorgung und passende Untergrundvorbereitung nehmen wir dann direkt mit ins Angebot auf.' },
+    { frage: 'Sind Sockelleisten enthalten?', antwort: 'Ja, bei jedem Bodenkauf ist eine kostenlose Sockelleiste enthalten. Wenn du eine andere oder höherwertige Sockelleiste wünschst, ist das selbstverständlich möglich. Der Wert der kostenlosen Sockelleiste wird dann im Angebot berücksichtigt bzw. in Abzug gebracht, sodass du nur den entsprechenden Aufpreis zahlst.' },
     { frage: 'Was kostet der Verlegeservice?', antwort: 'Die Kosten hängen von Fläche, Bodenart, Untergrund und Zusatzarbeiten ab. Nach Beratung und Aufmaß erhältst du ein individuelles Angebot.' },
     { frage: 'Kann ich auch nur einzelne Räume verlegen lassen?', antwort: 'Ja, wir prüfen gemeinsam, ob dein Projekt zu unserem Verlegeservice passt.' },
   ],
