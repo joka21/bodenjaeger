@@ -16,8 +16,8 @@ import { MAPS_ROUTE_URL, STANDORT } from '@/content/fachmarkt'
 // TODO(deploy): nach WP-Deploy auf true setzen.
 export const VERLEGE_FORM_ENABLED = false
 
-// Anker für alle "anfragen"-CTAs (Formular auf derselben Seite)
-const ANFRAGE_ANKER = '#anfrage'
+// Ziel aller "anfragen"-CTAs: eigene Anfrage-Landingpage mit Vorqualifizierung.
+const ANFRAGE_ANKER = '/fachmarkt-hueckelhoven/service/verlegeservice-anfrage'
 
 // ── Meta / SEO ────────────────────────────────────────────────────────────────
 export const VERLEGE_META = {
@@ -40,7 +40,7 @@ export const VERLEGE_HERO = {
   badges: ['Aufmaß vor Ort', 'Erfahrene Bodenleger', 'Verlegung im Umkreis von ca. 50 km'],
   image: '/verlegeservice/hero-verlegung.jpg', // Platzhalter — siehe BILDER-BEDARF.md
   imageAlt: 'Bodenleger bei der Verlegung eines Bodens',
-  ctaPrimaer: { label: 'Verlegeservice anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: true } as Cta,
+  ctaPrimaer: { label: 'Verlegeservice anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
   ctaSekundaer: { label: 'Beratung im Fachmarkt vereinbaren', href: SERVICE_LINKS.kontakt, variant: 'secondary' } as Cta,
   telefonText: 'Oder direkt anrufen: 02433 938884',
   telefonLink: STANDORT.telefonLink,
@@ -73,7 +73,7 @@ export const VERLEGE_BODENARTEN = {
   ],
   zusatztext:
     'Ob Neubau, Renovierung, einzelne Räume oder komplette Etagen – wir prüfen gemeinsam, welche Lösung zu deinem Projekt passt.',
-  cta: { label: 'Projekt unverbindlich anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: true } as Cta,
+  cta: { label: 'Projekt unverbindlich anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
 }
 
 // ── 4. Ablauf (7 Schritte) ──────────────────────────────────────────────────────
@@ -90,7 +90,7 @@ export const VERLEGE_ABLAUF = {
     { nr: 6, titel: 'Verlegung', text: 'Unser Team bereitet die Fläche vor und verlegt deinen neuen Boden fachgerecht.' },
     { nr: 7, titel: 'Abnahme', text: 'Wir prüfen gemeinsam das Ergebnis und übergeben dir deinen neuen Boden.' },
   ],
-  cta: { label: 'Jetzt Aufmaß / Verlegung anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: true } as Cta,
+  cta: { label: 'Jetzt Aufmaß / Verlegung anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
 }
 
 // ── 5. Aufmaß-Checkliste ─────────────────────────────────────────────────────────
@@ -140,7 +140,7 @@ export const VERLEGE_REFERENZEN = {
     { titel: 'Treppenrenovierung mit Bodenbelag' },
   ],
   platzhalterLabel: 'Platzhalter — Bild folgt',
-  cta: { label: 'Ähnliches Projekt anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: true } as Cta,
+  cta: { label: 'Ähnliches Projekt anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
 }
 
 // ── 8. Vertrauensbereich (dunkel) ────────────────────────────────────────────────
@@ -284,6 +284,103 @@ export const VERLEGE_FAQ = {
 export const VERLEGE_FINAL = {
   headline: 'Bereit für deinen neuen Boden?',
   text: 'Schick uns deine Anfrage und wir prüfen gemeinsam, wie dein Bodenprojekt sauber und zuverlässig umgesetzt werden kann.',
-  cta: { label: 'Jetzt Verlegeservice anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: true } as Cta,
+  cta: { label: 'Jetzt Verlegeservice anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
   ctaSekundaer: { label: 'Kostenlose Muster bestellen', href: SERVICE_LINKS.musterBestellen, variant: 'secondary' } as Cta,
+}
+
+// ── Anfrage-Landingpage (/…/verlegeservice-anfrage) ──────────────────────────────
+// Eigener Funnel mit Vorqualifizierung. Unpassende Anfragen werden früh freundlich
+// gestoppt (KEINE Erfassung). Qualifizierte Leads gehen an /api/verlegeservice-lead
+// und landen dort als Trello-Karte in der Liste „Neuer Lead (Eingang)".
+
+// Erlaubte PLZ-Präfixe (~50 km um Hückelhoven, 41836). WEICHE Warnung — kein harter
+// Stopp. Liste bewusst großzügig; bei Bedarf verfeinern.
+export const VERLEGE_ANFRAGE_PLZ_ERLAUBT = ['40', '41', '42', '46', '47', '50', '51', '52'] as const
+// Fläche unter diesem Wert → nur Hinweis, KEIN Stopp.
+export const VERLEGE_ANFRAGE_FLAECHE_MIN = 15
+
+// Leistungsart bestimmt die Qualifizierung (Single Source, auch serverseitig geprüft).
+export const VERLEGE_LEISTUNG_OPTIONEN = [
+  { key: 'verlegen', label: 'Boden verlegen lassen', beschreibung: 'Wir verlegen deinen neuen Boden fachgerecht.', qualifiziert: true },
+  { key: 'material', label: 'Nur Material kaufen', beschreibung: 'Ich möchte nur Boden/Zubehör kaufen – keine Verlegung.', qualifiziert: false },
+  { key: 'selbst', label: 'Ich verlege selbst', beschreibung: 'Ich verlege in Eigenleistung und brauche keine Verlegung.', qualifiziert: false },
+] as const
+
+export type VerlegeLeistungKey = (typeof VERLEGE_LEISTUNG_OPTIONEN)[number]['key']
+
+export const VERLEGE_ANFRAGE_META = {
+  title: 'Verlegeservice anfragen | Bodenjäger Hückelhoven',
+  description:
+    'Verlegeservice unverbindlich anfragen: In wenigen Schritten prüfen wir dein Projekt und melden uns mit einem passenden Angebot. Für Hückelhoven und ca. 50 km Umkreis.',
+}
+
+export const VERLEGE_ANFRAGE = {
+  hero: {
+    headline: 'Verlegeservice anfragen',
+    subline:
+      'In wenigen Schritten prüfen wir dein Projekt. Passt es, meldet sich unser Team mit einem individuellen Angebot – unverbindlich.',
+  },
+  schritte: ['Standort', 'Leistung', 'Projekt', 'Kontakt'],
+  navWeiter: 'Weiter',
+  navZurueck: 'Zurück',
+
+  // Schritt 1 — Standort
+  standort: {
+    frage: 'Wo soll verlegt werden?',
+    hinweis: 'Unser Verlegeservice ist im Umkreis von ca. 50 km um Hückelhoven möglich.',
+    plzLabel: 'PLZ',
+    ortLabel: 'Ort',
+    warnung:
+      'Deine PLZ liegt möglicherweise außerhalb unseres üblichen Einsatzgebiets (ca. 50 km um Hückelhoven). Du kannst die Anfrage trotzdem senden – wir prüfen, ob es passt.',
+  },
+
+  // Schritt 2 — Leistungsart
+  leistung: {
+    frage: 'Was können wir für dich tun?',
+    optionen: VERLEGE_LEISTUNG_OPTIONEN,
+  },
+
+  // Schritt 3 — Projekt
+  projekt: {
+    frage: 'Erzähl uns kurz von deinem Projekt',
+    flaecheHinweis:
+      'Für sehr kleine Flächen lohnt sich der Verlegeservice nicht immer – wir melden uns und besprechen die beste Lösung.',
+  },
+
+  // Schritt 4 — Kontakt
+  kontakt: {
+    frage: 'Wie erreichen wir dich?',
+  },
+
+  // Freundlicher Stopp bei disqualifizierten Anfragen (KEIN Trello-Lead)
+  stopp: {
+    material: {
+      headline: 'Dafür bist du im Fachmarkt genau richtig',
+      text: 'Du möchtest nur Material kaufen? Dann besuch uns im Fachmarkt Hückelhoven oder bestell dir kostenlose Muster. Für die reine Verlegung ist keine Anfrage nötig.',
+    },
+    selbst: {
+      headline: 'Du verlegst selbst? Super!',
+      text: 'Dann brauchst du unseren Verlegeservice nicht. Im Fachmarkt beraten wir dich gern zu Boden, Zubehör, Dämmung und Werkzeug – und du kannst kostenlose Muster bestellen.',
+    },
+  },
+  alternativen: [
+    { label: 'Kostenlose Muster bestellen', href: SERVICE_LINKS.musterBestellen, variant: 'primary', external: false },
+    { label: 'Beratung im Fachmarkt', href: SERVICE_LINKS.kontakt, variant: 'secondary', external: false },
+    { label: 'Zur Verlegeservice-Info', href: SERVICE_LINKS.verlegeservice, variant: 'outline', external: false },
+  ] as Cta[],
+  telefonHinweis: 'Oder ruf uns direkt an: 02433 938884',
+  telefonLink: STANDORT.telefonLink,
+
+  submitLabel: 'Anfrage absenden',
+  sendingLabel: 'Wird gesendet …',
+  successHeadline: 'Danke für deine Anfrage!',
+  successText: 'Wir prüfen dein Projekt und melden uns schnellstmöglich bei dir.',
+  errorText: 'Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder ruf uns an: 02433 938884.',
+
+  datenschutzPre: 'Ich habe die ',
+  datenschutzLinkText: 'Datenschutzerklärung',
+  datenschutzHref: '/datenschutz',
+  datenschutzPost:
+    ' gelesen und stimme der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage zu.',
+  marketingLabel: 'Ich möchte eine unverbindliche Beratung zum Verlegeservice erhalten.',
 }
