@@ -14,7 +14,6 @@ import ReferenzGalerie from '@/components/verlegeservice/ReferenzGalerie'
 import VertrauenSection from '@/components/verlegeservice/VertrauenSection'
 import PasstZuDir from '@/components/verlegeservice/PasstZuDir'
 import Einwandbehandlung from '@/components/verlegeservice/Einwandbehandlung'
-import AnfrageFormular from '@/components/verlegeservice/AnfrageFormular'
 import KontaktAlternative from '@/components/verlegeservice/KontaktAlternative'
 import VerlegeFaq from '@/components/verlegeservice/VerlegeFaq'
 import FinalerCta from '@/components/verlegeservice/FinalerCta'
@@ -67,7 +66,6 @@ export default function VerlegeservicePage() {
       <VertrauenSection />
       <PasstZuDir />
       <Einwandbehandlung />
-      <AnfrageFormular />
       <KontaktAlternative />
       <VerlegeFaq />
       <FinalerCta />
