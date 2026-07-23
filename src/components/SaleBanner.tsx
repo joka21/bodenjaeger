@@ -3,11 +3,18 @@
 export default function SaleBanner() {
   return (
     <div
-      className="w-full px-4 py-2.5 text-center text-dark text-sm md:text-base"
+      className="w-full px-4 py-2 text-center text-dark text-sm md:py-2.5 md:text-base"
       style={{ backgroundColor: '#fff301' }}
     >
-      SummerSALE &ndash; 10% auf das gesamte Sortiment mit dem{' '}
-      <strong className="font-bold">Code: SU10</strong>
+      {/* Mobil: kompakt, einzeilig */}
+      <span className="md:hidden">
+        SummerSALE: 10% mit Code <strong className="font-bold">SU10</strong>
+      </span>
+      {/* Desktop: vollständiger Text */}
+      <span className="hidden md:inline">
+        SummerSALE &ndash; 10% auf das gesamte Sortiment mit dem{' '}
+        <strong className="font-bold">Code: SU10</strong>
+      </span>
     </div>
   );
 }

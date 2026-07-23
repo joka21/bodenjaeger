@@ -364,7 +364,7 @@ export default function AnfrageFunnel() {
 
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <section className="py-16 md:py-24">
+    <section id="anfrage" className="scroll-mt-24 py-16 md:py-24">
       <div className="content-container">
         <div className="mx-auto max-w-3xl rounded-2xl border-t-4 border-brand bg-white p-6 shadow-md md:p-10">
           {children}

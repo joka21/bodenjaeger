@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { useCookieConsent } from '@/contexts/CookieConsentContext';
+import { isFachmarktRoute } from '@/lib/landingRoutes';
 
 const TRUSTBADGE_ID = 'XC194F1E7AC0A4EF1D2945E1A065D9618';
 const SCRIPT_ID = 'trustedshops-trustbadge';
@@ -40,6 +42,8 @@ function computeLeftOffset(viewport: number): number | null {
 export default function TrustedShops() {
   const { isAllowed } = useCookieConsent();
   const allowed = isAllowed('functional');
+  const pathname = usePathname();
+  const onFachmarkt = isFachmarktRoute(pathname);
 
   useEffect(() => {
     if (!allowed) return;
@@ -61,12 +65,20 @@ export default function TrustedShops() {
 
     const applyPosition = () => {
       if (!container) return;
-      const offset = computeLeftOffset(window.innerWidth);
+      const viewport = window.innerWidth;
+      const offset = computeLeftOffset(viewport);
       container.style.removeProperty('right');
       if (offset === null) {
         container.style.removeProperty('left');
       } else {
         container.style.setProperty('left', `${offset}px`, 'important');
+      }
+      // Fachmarkt-Mobile: Badge über die fixierte StickyBottomBar (~56px) heben,
+      // damit es Vorteilsliste/Aktionsleiste nicht überlagert. Shop unverändert.
+      if (onFachmarkt && viewport < MOBILE_BREAKPOINT) {
+        container.style.setProperty('bottom', '84px', 'important');
+      } else {
+        container.style.removeProperty('bottom');
       }
     };
 
@@ -94,7 +106,7 @@ export default function TrustedShops() {
       observer?.disconnect();
       window.removeEventListener('resize', applyPosition);
     };
-  }, [allowed]);
+  }, [allowed, onFachmarkt]);
 
   return null;
 }

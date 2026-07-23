@@ -17,7 +17,6 @@ import Einwandbehandlung from '@/components/verlegeservice/Einwandbehandlung'
 import KontaktAlternative from '@/components/verlegeservice/KontaktAlternative'
 import VerlegeFaq from '@/components/verlegeservice/VerlegeFaq'
 import FinalerCta from '@/components/verlegeservice/FinalerCta'
-import StickyAnfrageButton from '@/components/verlegeservice/StickyAnfrageButton'
 
 const PAGE_URL = `${SITE_URL}/fachmarkt-hueckelhoven/service/verlegeservice`
 
@@ -69,8 +68,6 @@ export default function VerlegeservicePage() {
       <KontaktAlternative />
       <VerlegeFaq />
       <FinalerCta />
-
-      <StickyAnfrageButton />
     </main>
   )
 }

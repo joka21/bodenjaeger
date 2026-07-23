@@ -20,7 +20,6 @@ import LeistungenSection from '@/components/fachmarkt/LeistungenSection'
 import GoogleReviews from '@/components/fachmarkt/GoogleReviews'
 import TeamSection from '@/components/fachmarkt/TeamSection'
 import AbschlussCta from '@/components/fachmarkt/AbschlussCta'
-import StickyBottomBar from '@/components/fachmarkt/StickyBottomBar'
 
 export const revalidate = 300
 
@@ -68,7 +67,7 @@ export default function FachmarktHueckelhovenPage() {
   ])
 
   return (
-    <main className="pb-16 md:pb-0">
+    <main>
       <JsonLd data={localBusiness} />
       <JsonLd data={breadcrumb} />
 
@@ -84,8 +83,6 @@ export default function FachmarktHueckelhovenPage() {
       <GoogleReviews />
       <TeamSection />
       <AbschlussCta />
-
-      <StickyBottomBar />
     </main>
   )
 }

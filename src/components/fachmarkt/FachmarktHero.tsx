@@ -32,8 +32,8 @@ export default function FachmarktHero() {
             {HERO.kicker}
           </p>
           <h1
-            className="font-bold leading-[1.05]"
-            style={{ fontSize: 'clamp(2.25rem, 5vw, 3.75rem)' }}
+            className="font-bold leading-[1.08]"
+            style={{ fontSize: 'clamp(1.9rem, 6vw, 3.75rem)' }}
           >
             {HERO.headline}
           </h1>
@@ -56,7 +56,7 @@ export default function FachmarktHero() {
             {HERO.checks.map((check) => (
               <li key={check} className="flex items-center gap-3 text-white/90">
                 <Check className="h-5 w-5 flex-shrink-0 text-brand" strokeWidth={3} />
-                <span className="text-lg font-medium">{check}</span>
+                <span className="text-base font-medium md:text-lg">{check}</span>
               </li>
             ))}
           </ul>

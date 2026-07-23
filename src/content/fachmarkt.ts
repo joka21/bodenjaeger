@@ -279,19 +279,62 @@ export const ABSCHLUSS = {
   ctas: [CTA_ROUTE, CTA_BERATUNG] as Cta[],
 }
 
-// ── Landingpage-Navigation (reduziert) ───────────────────────────────────────────
-// Anker-Links auf die Sektions-ids; CTA rechts dauerhaft sichtbar.
+// ── Landingpage-Navigation ────────────────────────────────────────────────────────
+// Anker-Items springen auf die Sektions-ids der Landingpage; "Leistungen" ist ein
+// Dropdown auf die echten Service-Routen. Reihenfolge lt. Kundenvorgabe.
+const FM = '/fachmarkt-hueckelhoven'
+
+/** Kompakte Öffnungszeiten für die Header-Infozeile. */
+export const OEFFNUNGSZEITEN_KURZ = 'Mo.–Fr. 9:00–18:30 Uhr · Sa. 9:00–14:00 Uhr'
+
+/** Einträge des "Leistungen"-Dropdowns (Desktop) bzw. -Akkordeons (Mobil). */
+export const LEISTUNGEN_DROPDOWN = [
+  { label: 'Alle Leistungen anzeigen', href: `${FM}/service` },
+  { label: 'Fachberatung', href: `${FM}/service/fachberatung` },
+  { label: 'Musterservice', href: `${FM}/service/musterservice` },
+  { label: 'Verlegeservice', href: `${FM}/service/verlegeservice` },
+  { label: 'Set-Angebote', href: `${FM}/service/set-angebote` },
+  { label: 'Lieferung & Abholung', href: `${FM}/service/lieferung-abholung` },
+  { label: 'Einlagerung', href: `${FM}/service/einlagerung` },
+  { label: 'Werkzeugverleih', href: `${FM}/service/werkzeugverleih` },
+] as const
+
+/**
+ * Ordnete Nav-Items. `kind: 'anchor'` → Sprung auf Landingpage-Sektion,
+ * `kind: 'leistungen'` → Dropdown (Items aus LEISTUNGEN_DROPDOWN).
+ */
 export const LANDING_NAV = {
-  cta: CTA_BERATUNG,
-  links: [
-    { label: 'Ausstellung', href: '#ausstellung' },
-    { label: 'Angebote', href: '#angebote' },
-    { label: 'Bodenkategorien', href: '#bodenkategorien' },
-    { label: 'Leistungen', href: '#leistungen' },
-    { label: 'Bewertungen', href: '#bewertungen' },
-    { label: 'Team', href: '#team' },
-    { label: 'Kontakt', href: '#kontakt' },
+  items: [
+    { kind: 'anchor', label: 'Ausstellung', href: '#ausstellung' },
+    { kind: 'anchor', label: 'Böden', href: '#bodenkategorien' },
+    { kind: 'anchor', label: 'Angebote', href: '#angebote' },
+    { kind: 'leistungen', label: 'Leistungen' },
+    { kind: 'anchor', label: 'Bewertungen', href: '#bewertungen' },
+    { kind: 'anchor', label: 'Team', href: '#team' },
+    { kind: 'anchor', label: 'Kontakt', href: '#kontakt' },
   ],
+  shopCta: { label: 'Zum Shop', href: '/' },
+} as const
+
+/**
+ * Dynamisches Primär-CTA je Route. Auf bestimmten Service-Seiten passendes
+ * Label/Ziel, sonst „Beratung vereinbaren". Auswahl in FachmarktLandingNav.
+ */
+export function primaryNavCta(pathname: string): Cta {
+  // verlegeservice-anfrage selbst → Default (nicht auf sich selbst verlinken)
+  if (
+    pathname.startsWith(`${FM}/service/verlegeservice`) &&
+    !pathname.startsWith(`${FM}/service/verlegeservice-anfrage`)
+  ) {
+    return { label: 'Verlegeservice anfragen', href: `${FM}/service/verlegeservice-anfrage`, variant: 'primary' }
+  }
+  if (pathname.startsWith(`${FM}/service/musterservice`)) {
+    return { label: 'Muster anfragen', href: '/kontakt', variant: 'primary' }
+  }
+  if (pathname.startsWith(`${FM}/service/set-angebote`)) {
+    return { label: 'Set-Angebot sichern', href: '/kontakt', variant: 'primary' }
+  }
+  return { label: 'Beratung vereinbaren', href: '/kontakt', variant: 'primary' }
 }
 
 // ── Sticky Bottom Bar (mobil) ───────────────────────────────────────────────────
