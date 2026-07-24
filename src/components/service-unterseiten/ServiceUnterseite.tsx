@@ -5,6 +5,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import type { ServiceSubpage, SubBlock } from '@/content/service-unterseiten'
+import Image from 'next/image'
 import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
 import BildPlatzhalter from '@/components/shared/BildPlatzhalter'
@@ -230,7 +231,23 @@ export default function ServiceUnterseite({ data }: { data: ServiceSubpage }) {
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <BildPlatzhalter ratio="4 / 3" label="Platzhalter — Bild folgt" hinweis={hero.imageAlt} />
+            {hero.image ? (
+              <div
+                className="relative w-full overflow-hidden rounded-2xl shadow-sm"
+                style={{ aspectRatio: '4 / 3' }}
+              >
+                <Image
+                  src={hero.image}
+                  alt={hero.imageAlt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            ) : (
+              <BildPlatzhalter ratio="4 / 3" label="Platzhalter — Bild folgt" hinweis={hero.imageAlt} />
+            )}
           </Reveal>
         </div>
       </section>

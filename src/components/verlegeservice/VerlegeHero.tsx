@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Check, Phone } from 'lucide-react'
 import { VERLEGE_HERO } from '@/content/verlegeservice'
 import CtaButton from '@/components/shared/CtaButton'
@@ -6,7 +7,7 @@ import BildPlatzhalter from '@/components/shared/BildPlatzhalter'
 
 /** Hero: zweispaltig (Text/CTAs links, Verlegebild rechts), einspaltig mobil. */
 export default function VerlegeHero() {
-  const { headline, subline, trustZeile, badges, ctaPrimaer, ctaSekundaer, telefonText, telefonLink } = VERLEGE_HERO
+  const { headline, subline, trustZeile, badges, image, imageAlt, ctaPrimaer, ctaSekundaer, telefonText, telefonLink } = VERLEGE_HERO
 
   return (
     <section className="py-20 md:py-28">
@@ -44,8 +45,23 @@ export default function VerlegeHero() {
         </Reveal>
 
         <Reveal delay={120}>
-          {/* Bild folgt — Platzhalter im korrekten Format (siehe BILDER-BEDARF.md) */}
-          <BildPlatzhalter ratio="4 / 3" label="Platzhalter — Bild folgt" hinweis="Bodenleger bei der Verlegung" />
+          {image ? (
+            <div
+              className="relative w-full overflow-hidden rounded-2xl shadow-sm"
+              style={{ aspectRatio: '4 / 3' }}
+            >
+              <Image
+                src={image}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : (
+            <BildPlatzhalter ratio="4 / 3" label="Platzhalter — Bild folgt" hinweis={imageAlt} />
+          )}
         </Reveal>
       </div>
     </section>

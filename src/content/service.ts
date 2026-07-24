@@ -16,12 +16,14 @@ import type { Cta } from '@/types/cta'
 // /service/* umbiegen — das wäre SEO-schädlich und ist ausdrücklich nicht gewollt.
 export const SERVICE_LINKS = {
   musterBestellen: '/category/musterbox',
+  musterservice: '/fachmarkt-hueckelhoven/service/musterservice',
   grossmuster: '/fachmarkt-hueckelhoven',
   setKaufen: '/fachmarkt-hueckelhoven/service/set-angebote',
   lieferung: '/fachmarkt-hueckelhoven/service/lieferung-abholung',
   einlagerung: '/fachmarkt-hueckelhoven/service/einlagerung',
   verlegewerkzeug: '/fachmarkt-hueckelhoven/service/werkzeugverleih',
   verlegeservice: '/fachmarkt-hueckelhoven/service/verlegeservice',
+  verlegeserviceAnfrage: '/fachmarkt-hueckelhoven/service/verlegeservice-anfrage',
   fachberatung: '/fachmarkt-hueckelhoven/service/fachberatung',
   fachmarkt: '/fachmarkt-hueckelhoven',
   kontakt: '/kontakt',
@@ -30,7 +32,7 @@ export const SERVICE_LINKS = {
 // Footer-Service-Links (Briefing Abschnitt 8). Ziele aus SERVICE_LINKS — EINE
 // Quelle, keine zweite Link-Liste. Anhängerverleih bewusst nicht enthalten.
 export const SERVICE_FOOTER_LINKS = [
-  { label: 'Muster bestellen', href: SERVICE_LINKS.musterBestellen },
+  { label: 'Musterverleih', href: SERVICE_LINKS.musterservice },
   { label: 'Verlegeservice', href: SERVICE_LINKS.verlegeservice },
   { label: 'Lieferung & Abholung', href: SERVICE_LINKS.lieferung },
   { label: 'Einlagerung', href: SERVICE_LINKS.einlagerung },
@@ -51,13 +53,12 @@ export const SERVICE_HERO = {
   headline: 'Unser Service: Vom Muster bis zur fertigen Verlegung',
   subline:
     'Bodenjäger begleitet dich von der persönlichen Beratung über die Lieferung bis zur professionellen Verlegung. Alles aus einer Hand – zuverlässig, ehrlich und regional.',
-  // Interim-Foto aus WP-Bestand. TODO(kunde): finales Motiv nach public/service/beratung-fachmarkt.jpg (Beratungssituation, Musterbox/Dekorbrett sichtbar)
-  image: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF1968-scaled-1-1024x683.jpg',
+  image: '/images/fachmarkt-hueckelhoven/service-uebersicht-hero.webp',
   imageAlt:
     'Beratungssituation im Fachmarkt – Mitarbeiter zeigt einer Kundin Bodenmuster',
   ctas: [
-    { label: 'Muster bestellen', href: SERVICE_LINKS.musterBestellen, variant: 'primary' },
-    { label: 'Verlegeservice anfragen', href: SERVICE_LINKS.kontakt, variant: 'primary' },
+    { label: 'Musterverleih', href: SERVICE_LINKS.musterservice, variant: 'primary' },
+    { label: 'Verlegeservice anfragen', href: SERVICE_LINKS.verlegeserviceAnfrage, variant: 'primary' },
   ] as Cta[],
   sekundaerLink: { label: 'Fachmarkt Hückelhoven besuchen', href: SERVICE_LINKS.fachmarkt },
 }

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { VERLEGE_REFERENZEN } from '@/content/verlegeservice'
 import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
@@ -24,7 +25,22 @@ export default function ReferenzGalerie() {
           {karten.map((k, i) => (
             <Reveal key={k.titel} delay={i * 80}>
               <figure>
-                <BildPlatzhalter ratio="4 / 3" label={platzhalterLabel} hinweis={k.titel} />
+                {k.bild ? (
+                  <div
+                    className="relative w-full overflow-hidden rounded-2xl shadow-sm"
+                    style={{ aspectRatio: '4 / 3' }}
+                  >
+                    <Image
+                      src={k.bild}
+                      alt={k.titel}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <BildPlatzhalter ratio="4 / 3" label={platzhalterLabel} hinweis={k.titel} />
+                )}
                 <figcaption className="mt-3 text-sm font-medium text-dark">{k.titel}</figcaption>
               </figure>
             </Reveal>

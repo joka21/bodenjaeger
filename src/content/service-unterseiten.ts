@@ -23,7 +23,7 @@ export type SubBlock =
 
 export interface ServiceSubpage {
   meta: { title: string; description: string }
-  hero: { headline: string; untertitel: string; imageAlt: string; ctas: Cta[] }
+  hero: { headline: string; untertitel: string; image?: string; imageAlt: string; ctas: Cta[] }
   einleitung: { headline: string; text: string }
   blocks: SubBlock[]
   abschluss: { headline: string; text: string; ctas: Cta[]; telefon?: { anzeige: string; link: string } }
@@ -39,6 +39,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
     hero: {
       headline: 'Der richtige Boden beginnt mit guter Beratung.',
       untertitel: 'Wir helfen dir dabei, den Boden zu finden, der wirklich zu deinen Räumen, deinen Anforderungen und deinem Budget passt.',
+      image: '/images/fachmarkt-hueckelhoven/fachberatung-hero.webp',
       imageAlt: 'Fachberater betrachtet gemeinsam mit Kunden große Bodenmuster im Fachmarkt',
       ctas: [cKontakt('Beratung im Fachmarkt', 'primary'), cKontakt('Kontakt aufnehmen')],
     },
@@ -119,6 +120,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
     hero: {
       headline: 'Alles für deinen neuen Boden im passenden Set.',
       untertitel: 'Boden, Sockelleisten und passendes Zubehör – abgestimmt, vollständig und zu einem attraktiven Paketpreis.',
+      image: '/images/fachmarkt-hueckelhoven/set-angebote-hero.webp',
       imageAlt: 'Bodenpaket mit Bodenbelag, Sockelleisten, Dämmung und Zubehör',
       // TODO: „Set-Angebote entdecken" hat kein echtes Shop-Listing-Ziel → vorerst /kontakt.
       ctas: [cKontakt('Set-Angebote entdecken', 'primary'), cKontakt('Persönlich beraten lassen')],
@@ -182,6 +184,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
     hero: {
       headline: 'Dein Boden kommt sicher bei dir an.',
       untertitel: 'Hole deine Bestellung bequem in unserem Fachmarkt ab oder lass sie dir direkt nach Hause liefern.',
+      image: '/images/fachmarkt-hueckelhoven/lieferung-abholung-hero.webp',
       imageAlt: 'Bodenjäger-Lieferfahrzeug oder Mitarbeiter, der Bodenpakete für die Übergabe vorbereitet',
       ctas: [cKontakt('Lieferung anfragen', 'primary'), cRoute('Route zur Abholung', 'secondary')],
     },
@@ -218,6 +221,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
     hero: {
       headline: 'Jetzt Boden sichern. Später verlegen.',
       untertitel: 'Wir lagern deine bereits gekaufte Ware auf Wunsch bis zu zwölf Monate für dich ein.',
+      image: '/images/fachmarkt-hueckelhoven/einlagerung-hero.webp',
       imageAlt: 'Sauber und ordentlich eingelagerte Bodenpakete im Lager',
       ctas: [cKontakt('Einlagerung anfragen', 'primary'), cKontakt('Beratung im Fachmarkt')],
     },
@@ -258,6 +262,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
     hero: {
       headline: 'Werkzeugverleih für dein Bodenprojekt',
       untertitel: 'Du möchtest deinen Boden selbst verlegen? Bei Bodenjäger bekommst du praktische Unterstützung im Fachmarkt – aktuell mit unserem kostenlosen Laminat- und Vinylschneider für dein DIY-Projekt.',
+      image: '/images/fachmarkt-hueckelhoven/werkzeugverleih-hero.webp',
       imageAlt: 'Mitarbeiter im Fachmarkt mit dem Laminat- und Vinylschneider',
       ctas: [cKontakt('Werkzeug anfragen', 'primary'), cKontakt('Im Fachmarkt beraten lassen')],
     },

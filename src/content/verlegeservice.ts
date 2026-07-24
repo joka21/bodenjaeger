@@ -38,7 +38,7 @@ export const VERLEGE_HERO = {
     'Persönliche Beratung',
   ],
   badges: ['Aufmaß vor Ort', 'Erfahrene Bodenleger', 'Verlegung im Umkreis von ca. 50 km'],
-  image: '/verlegeservice/hero-verlegung.jpg', // Platzhalter — siehe BILDER-BEDARF.md
+  image: '/images/fachmarkt-hueckelhoven/verlegeservice/verlegeservice-hero.webp',
   imageAlt: 'Bodenleger bei der Verlegung eines Bodens',
   ctaPrimaer: { label: 'Verlegeservice anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
   ctaSekundaer: { label: 'Beratung im Fachmarkt vereinbaren', href: SERVICE_LINKS.kontakt, variant: 'secondary' } as Cta,
@@ -134,10 +134,10 @@ export const VERLEGE_LEISTUNGEN = {
 export const VERLEGE_REFERENZEN = {
   headline: 'So kann dein neuer Boden aussehen',
   karten: [
-    { titel: 'Klick-Vinyl im Wohnzimmer' },
-    { titel: 'Klebe-Vinyl in Küche und Flur' },
-    { titel: 'Parkett im Wohnbereich' },
-    { titel: 'Treppenrenovierung mit Bodenbelag' },
+    { titel: 'Klick-Vinyl im Wohnzimmer', bild: '/images/fachmarkt-hueckelhoven/verlegeservice/projekt-klick-vinyl-wohnzimmer.webp' },
+    { titel: 'Klick-Vinyl im Bad', bild: '/images/fachmarkt-hueckelhoven/verlegeservice/projekt-klick-vinyl-bad.webp' },
+    { titel: 'Klebe-Vinyl im Kinderzimmer', bild: '/images/fachmarkt-hueckelhoven/verlegeservice/projekt-klebe-vinyl-kinderzimmer.webp' },
+    { titel: 'Parkett im Flur und auf der Treppe', bild: '/images/fachmarkt-hueckelhoven/verlegeservice/projekt-parkett-flur-treppe.webp' },
   ],
   platzhalterLabel: 'Platzhalter — Bild folgt',
   cta: { label: 'Ähnliches Projekt anfragen', href: ANFRAGE_ANKER, variant: 'primary', external: false } as Cta,
