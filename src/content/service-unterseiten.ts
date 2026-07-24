@@ -16,7 +16,7 @@ const cKontakt = (label: string, variant: Cta['variant'] = 'secondary'): Cta => 
 export type SubBlock =
   | { kind: 'vorteile'; items: { icon: string; titel: string }[]; hinweis?: string }
   | { kind: 'ablauf'; headline: string; steps: string[]; hinweis?: string }
-  | { kind: 'karten'; headline?: string; cards: { titel: string; text?: string; punkte?: string[] }[]; kleingedruckt?: string }
+  | { kind: 'karten'; headline?: string; einleitung?: string; cards: { titel: string; text?: string; punkteLabel?: string; punkte?: string[]; hervorgehoben?: boolean; badge?: string }[]; kleingedruckt?: string }
   | { kind: 'liste'; headline: string; items: string[] }
   | { kind: 'infobox'; text: string }
 
@@ -139,11 +139,30 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
       {
         kind: 'karten',
         headline: 'Unsere Set-Angebote',
+        einleitung: 'Bei Bodenjäger bekommst du je nach Bodenart das passende Zubehör kostenlos dazu – praktisch, abgestimmt und direkt für dein Projekt mitgedacht.',
         cards: [
-          { titel: 'Klick-Vinyl, Laminat und Parkett', text: 'Bei ausgewählten Set-Angeboten erhältst du passende Sockelleisten und Dämmung kostenlos dazu.' },
-          { titel: 'Klebe-Vinyl, Teppich und CV-Boden', text: 'Bei ausgewählten Set-Angeboten erhältst du passende Sockelleisten kostenlos dazu.' },
+          {
+            titel: 'Laminat, Klick-Vinyl & Fertigparkett',
+            text: 'Bei jedem Laminat, Klick-Vinyl und Fertigparkett bekommst du die passenden Sockelleisten und die passende Dämmung kostenlos dazu. So hast du direkt ein vollständiges Boden-Set für dein Projekt.',
+            punkteLabel: 'Kostenlos dabei:',
+            punkte: ['Sockelleisten', 'passende Dämmung'],
+          },
+          {
+            titel: 'Teppichboden & CV-Boden',
+            text: 'Bei jedem Teppichboden und CV-Boden bekommst du passende Sockelleisten kostenlos dazu. Damit ist der saubere Wandabschluss direkt mit eingeplant.',
+            punkteLabel: 'Kostenlos dabei:',
+            punkte: ['Sockelleisten'],
+          },
+          {
+            titel: 'Klebe-Vinyl Sparpaket',
+            text: 'Beim Kauf von Klebe-Vinyl erhältst du unser Sparpaket mit dem wichtigsten Zubehör für die Verlegung kostenlos dazu: Sockelleisten, Grundierung, Spachtelmasse und Bodenkleber.',
+            punkteLabel: 'Kostenlos dabei:',
+            punkte: ['Sockelleisten', 'Grundierung', 'Spachtelmasse', 'Bodenkleber'],
+            hervorgehoben: true,
+            badge: 'Sparpaket',
+          },
         ],
-        kleingedruckt: 'Die genauen Set-Bestandteile und Aktionsbedingungen können je nach Produkt variieren.',
+        kleingedruckt: 'Hinweis: Die kostenlosen Zugaben beziehen sich auf die jeweils passende Standardausführung. Wenn du eine andere oder höherwertige Sockelleiste, Dämmung oder Zubehörvariante wünschst, berücksichtigen wir den Wert der kostenlosen Zugabe im Angebot.',
       },
     ],
     abschluss: {

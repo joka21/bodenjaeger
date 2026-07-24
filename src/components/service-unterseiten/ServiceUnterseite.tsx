@@ -68,31 +68,47 @@ function AblaufBlock({ block }: { block: Extract<SubBlock, { kind: 'ablauf' }> }
 }
 
 function KartenBlock({ block }: { block: Extract<SubBlock, { kind: 'karten' }> }) {
+  const cols = block.cards.length >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'
   return (
     <section className="py-14 md:py-20">
       <div className="content-container">
-        {block.headline && (
+        {(block.headline || block.einleitung) && (
           <Reveal className="mx-auto mb-10 max-w-2xl text-center">
-            <h2 className="font-bold text-dark" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}>
-              {block.headline}
-            </h2>
+            {block.headline && (
+              <h2 className="font-bold text-dark" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}>
+                {block.headline}
+              </h2>
+            )}
+            {block.einleitung && <p className="mt-4 text-lg text-mid">{block.einleitung}</p>}
           </Reveal>
         )}
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className={`grid gap-6 ${cols}`}>
           {block.cards.map((c, i) => (
             <Reveal key={c.titel} delay={i * 80}>
-              <div className="h-full rounded-2xl border border-ash bg-white p-6 shadow-sm md:p-8">
+              <div
+                className={`relative flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm md:p-8 ${
+                  c.hervorgehoben ? 'border-2 border-brand' : 'border border-ash'
+                }`}
+              >
+                {c.badge && (
+                  <span className="absolute -top-3 right-6 inline-flex items-center rounded-full bg-brand px-3 py-1 text-xs font-bold text-white shadow-sm">
+                    {c.badge}
+                  </span>
+                )}
                 <h3 className="text-xl font-bold text-dark">{c.titel}</h3>
                 {c.text && <p className="mt-3 text-mid">{c.text}</p>}
                 {c.punkte && (
-                  <ul className="mt-4 space-y-2">
-                    {c.punkte.map((p) => (
-                      <li key={p} className="flex items-start gap-2 text-mid">
-                        <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand" strokeWidth={3} />
-                        {p}
-                      </li>
-                    ))}
-                  </ul>
+                  <>
+                    {c.punkteLabel && <p className="mt-4 font-bold text-dark">{c.punkteLabel}</p>}
+                    <ul className={`${c.punkteLabel ? 'mt-2' : 'mt-4'} space-y-2`}>
+                      {c.punkte.map((p) => (
+                        <li key={p} className="flex items-start gap-2 text-mid">
+                          <Check className="mt-0.5 h-5 w-5 flex-shrink-0 text-brand" strokeWidth={3} />
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 )}
               </div>
             </Reveal>
