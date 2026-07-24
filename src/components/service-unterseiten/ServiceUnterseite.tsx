@@ -8,6 +8,7 @@ import type { ServiceSubpage, SubBlock } from '@/content/service-unterseiten'
 import CtaButton from '@/components/shared/CtaButton'
 import Reveal from '@/components/shared/Reveal'
 import BildPlatzhalter from '@/components/shared/BildPlatzhalter'
+import Accordion from '@/components/shared/Accordion'
 
 const ICONS: Record<string, LucideIcon> = {
   Users, Layers, HardHat, Wallet, PackageOpen, Sun, Sofa, Clock,
@@ -19,6 +20,13 @@ function VorteileBlock({ block }: { block: Extract<SubBlock, { kind: 'vorteile' 
   return (
     <section className="bg-pale py-14 md:py-20">
       <div className="content-container">
+        {block.headline && (
+          <Reveal className="mx-auto mb-10 max-w-2xl text-center">
+            <h2 className="font-bold text-dark" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}>
+              {block.headline}
+            </h2>
+          </Reveal>
+        )}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {block.items.map((v, i) => {
             const Icon = ICONS[v.icon] ?? Check
@@ -29,6 +37,7 @@ function VorteileBlock({ block }: { block: Extract<SubBlock, { kind: 'vorteile' 
                     <Icon className="h-6 w-6" />
                   </span>
                   <span className="font-bold text-dark">{v.titel}</span>
+                  {v.text && <span className="text-sm text-mid">{v.text}</span>}
                 </div>
               </Reveal>
             )
@@ -51,14 +60,25 @@ function AblaufBlock({ block }: { block: Extract<SubBlock, { kind: 'ablauf' }> }
             {block.headline}
           </h2>
           <ol className="grid gap-4 sm:grid-cols-2">
-            {block.steps.map((s, i) => (
-              <li key={s} className="flex items-start gap-3 rounded-2xl border border-ash bg-white p-5 shadow-sm">
-                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
-                  {i + 1}
-                </span>
-                <span className="pt-1 text-dark">{s}</span>
-              </li>
-            ))}
+            {block.steps.map((s, i) => {
+              const titel = typeof s === 'string' ? s : s.titel
+              const text = typeof s === 'string' ? undefined : s.text
+              return (
+                <li key={titel} className="flex items-start gap-3 rounded-2xl border border-ash bg-white p-5 shadow-sm">
+                  <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">
+                    {i + 1}
+                  </span>
+                  {text ? (
+                    <span className="pt-1">
+                      <span className="block font-bold text-dark">{titel}</span>
+                      <span className="mt-1 block text-mid">{text}</span>
+                    </span>
+                  ) : (
+                    <span className="pt-1 text-dark">{titel}</span>
+                  )}
+                </li>
+              )
+            })}
           </ol>
           {block.hinweis && <p className="mt-6 text-sm text-mid">{block.hinweis}</p>}
         </Reveal>
@@ -155,7 +175,23 @@ function InfoboxBlock({ block }: { block: Extract<SubBlock, { kind: 'infobox' }>
           <div>
             <p className="font-bold text-dark">Wichtiger Hinweis</p>
             <p className="mt-1 text-mid">{block.text}</p>
+            {block.zusatz && <p className="mt-3 text-mid">{block.zusatz}</p>}
           </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+function FaqBlock({ block }: { block: Extract<SubBlock, { kind: 'faq' }> }) {
+  return (
+    <section className="py-14 md:py-20">
+      <div className="content-container">
+        <Reveal className="mx-auto max-w-3xl">
+          <h2 className="mb-8 font-bold text-dark" style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)' }}>
+            {block.headline}
+          </h2>
+          <Accordion items={block.items.map((i) => ({ frage: i.frage, antwort: i.antwort }))} />
         </Reveal>
       </div>
     </section>
@@ -169,6 +205,7 @@ function renderBlock(block: SubBlock, i: number) {
     case 'karten': return <KartenBlock key={i} block={block} />
     case 'liste': return <ListeBlock key={i} block={block} />
     case 'infobox': return <InfoboxBlock key={i} block={block} />
+    case 'faq': return <FaqBlock key={i} block={block} />
   }
 }
 
@@ -224,6 +261,17 @@ export default function ServiceUnterseite({ data }: { data: ServiceSubpage }) {
               <CtaButton key={cta.label} cta={cta} size="lg" />
             ))}
           </div>
+          {abschluss.telefon && (
+            <p className="mt-6 text-white/80">
+              Oder direkt anrufen:{' '}
+              <a
+                href={abschluss.telefon.link}
+                className="font-bold text-white underline underline-offset-4"
+              >
+                {abschluss.telefon.anzeige}
+              </a>
+            </p>
+          )}
         </Reveal>
       </section>
     </>

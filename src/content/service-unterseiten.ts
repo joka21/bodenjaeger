@@ -7,25 +7,26 @@
  * Blocks (Reihenfolge = Briefing) → Abschluss-CTA + Sticky-Leiste.
  */
 import type { Cta } from '@/types/cta'
-import { MAPS_ROUTE_URL } from '@/content/fachmarkt'
+import { MAPS_ROUTE_URL, STANDORT } from '@/content/fachmarkt'
 
 const KONTAKT = '/kontakt'
 const cRoute = (label: string, variant: Cta['variant'] = 'primary'): Cta => ({ label, href: MAPS_ROUTE_URL, variant, external: true })
 const cKontakt = (label: string, variant: Cta['variant'] = 'secondary'): Cta => ({ label, href: KONTAKT, variant })
 
 export type SubBlock =
-  | { kind: 'vorteile'; items: { icon: string; titel: string }[]; hinweis?: string }
-  | { kind: 'ablauf'; headline: string; steps: string[]; hinweis?: string }
+  | { kind: 'vorteile'; headline?: string; items: { icon: string; titel: string; text?: string }[]; hinweis?: string }
+  | { kind: 'ablauf'; headline: string; steps: (string | { titel: string; text?: string })[]; hinweis?: string }
   | { kind: 'karten'; headline?: string; einleitung?: string; cards: { titel: string; text?: string; punkteLabel?: string; punkte?: string[]; hervorgehoben?: boolean; badge?: string }[]; kleingedruckt?: string }
   | { kind: 'liste'; headline: string; items: string[] }
-  | { kind: 'infobox'; text: string }
+  | { kind: 'infobox'; text: string; zusatz?: string }
+  | { kind: 'faq'; headline: string; items: { frage: string; antwort: string }[] }
 
 export interface ServiceSubpage {
   meta: { title: string; description: string }
   hero: { headline: string; untertitel: string; imageAlt: string; ctas: Cta[] }
   einleitung: { headline: string; text: string }
   blocks: SubBlock[]
-  abschluss: { headline: string; text: string; ctas: Cta[] }
+  abschluss: { headline: string; text: string; ctas: Cta[]; telefon?: { anzeige: string; link: string } }
 }
 
 export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
@@ -212,11 +213,11 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
   einlagerung: {
     meta: {
       title: 'Einlagerung – Boden sichern, später verlegen | Bodenjäger Hückelhoven',
-      description: 'Sichere dir deinen Wunschboden frühzeitig: Wir lagern deine gekaufte Ware auf Wunsch bis zu sechs Monate ein und du holst sie ab, wenn deine Räume bereit sind.',
+      description: 'Sichere dir deinen Wunschboden frühzeitig: Wir lagern deine gekaufte Ware auf Wunsch bis zu zwölf Monate ein und du holst sie ab, wenn deine Räume bereit sind.',
     },
     hero: {
       headline: 'Jetzt Boden sichern. Später verlegen.',
-      untertitel: 'Wir lagern deine bereits gekaufte Ware auf Wunsch bis zu sechs Monate für dich ein.',
+      untertitel: 'Wir lagern deine bereits gekaufte Ware auf Wunsch bis zu zwölf Monate für dich ein.',
       imageAlt: 'Sauber und ordentlich eingelagerte Bodenpakete im Lager',
       ctas: [cKontakt('Einlagerung anfragen', 'primary'), cKontakt('Beratung im Fachmarkt')],
     },
@@ -228,7 +229,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
       {
         kind: 'vorteile',
         items: [
-          { icon: 'Warehouse', titel: 'Einlagerung bis zu sechs Monate' },
+          { icon: 'Warehouse', titel: 'Einlagerung bis zu zwölf Monate' },
           { icon: 'CalendarClock', titel: 'Wunschboden und Menge frühzeitig sichern' },
           { icon: 'Home', titel: 'Kein Platzbedarf zu Hause' },
           { icon: 'CalendarCheck', titel: 'Abholung nach vorheriger Terminabsprache' },
@@ -251,43 +252,72 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
   // ── 6. Werkzeugverleih ───────────────────────────────────────────────────
   werkzeugverleih: {
     meta: {
-      title: 'Werkzeugverleih – Verlegewerkzeug ausleihen | Bodenjäger Hückelhoven',
-      description: 'Leih dir ausgewählte Verlegewerkzeuge und Geräte für die fachgerechte Verlegung deines neuen Bodens – mit Einweisung direkt im Fachmarkt Hückelhoven.',
+      title: 'Werkzeugverleih für Bodenverlegung | Bodenjäger Hückelhoven',
+      description: 'Werkzeug für dein Bodenprojekt: Bei Bodenjäger kannst du aktuell kostenlos einen Laminat- und Vinylschneider ausleihen – ideal für Laminat und Klick-Vinyl.',
     },
     hero: {
-      headline: 'Das richtige Werkzeug für deinen Boden.',
-      untertitel: 'Leih dir ausgewählte Werkzeuge und Geräte für die fachgerechte Verlegung deines neuen Bodens.',
-      imageAlt: 'Sauber angeordnetes Verlegewerkzeug und eine professionelle Bodenschneidemaschine',
+      headline: 'Werkzeugverleih für dein Bodenprojekt',
+      untertitel: 'Du möchtest deinen Boden selbst verlegen? Bei Bodenjäger bekommst du praktische Unterstützung im Fachmarkt – aktuell mit unserem kostenlosen Laminat- und Vinylschneider für dein DIY-Projekt.',
+      imageAlt: 'Mitarbeiter im Fachmarkt mit dem Laminat- und Vinylschneider',
       ctas: [cKontakt('Werkzeug anfragen', 'primary'), cKontakt('Im Fachmarkt beraten lassen')],
     },
     einleitung: {
-      headline: 'Professionelles Werkzeug, ohne alles selbst zu kaufen',
-      text: 'Mit dem passenden Werkzeug gelingt die Verlegung sauberer, schneller und einfacher. Deshalb stellen wir unseren Kunden ausgewählte Verlegewerkzeuge und Geräte leihweise zur Verfügung.',
+      headline: 'Aktuell kostenlos ausleihbar: Laminat- & Vinylschneider',
+      text: 'Für eine saubere Verlegung brauchst du nicht nur den richtigen Boden, sondern auch ein passendes Schneidgerät. Deshalb kannst du bei uns aktuell einen Laminat- und Vinylschneider kostenlos ausleihen. So musst du dir für dein Projekt kein eigenes Gerät kaufen und kannst deine Dielen sauber zuschneiden.',
     },
     blocks: [
       {
-        kind: 'liste',
-        headline: 'Mögliche Werkzeuge',
-        items: ['Boden- oder Laminatschneider', 'Zugeisen und Schlagklotz', 'Abstandskeile', 'Andrück- und Verlegewerkzeuge', 'Weitere Geräte auf Anfrage'],
+        kind: 'karten',
+        headline: 'Für welche Böden ist das Werkzeug geeignet?',
+        cards: [
+          { titel: 'Laminat', text: 'Der Schneider eignet sich für viele Laminatböden und hilft dir, die Dielen sauber und kontrolliert zu kürzen.' },
+          { titel: 'Klick-Vinyl', text: 'Auch viele Klick-Vinylböden können mit dem passenden Schneider sauber zugeschnitten werden. Wir prüfen gerne, ob dein Boden dafür geeignet ist.' },
+          { titel: 'Klebe-Vinyl', text: 'Bei Klebe-Vinyl beraten wir dich individuell, welches Werkzeug und welche Arbeitsschritte für dein Projekt sinnvoll sind.' },
+        ],
+        kleingedruckt: 'Ob der Schneider für deinen ausgewählten Boden geeignet ist, prüfen wir gerne direkt im Fachmarkt.',
       },
       {
         kind: 'vorteile',
+        headline: 'Deine Vorteile',
         items: [
-          { icon: 'Wrench', titel: 'Passendes Werkzeug zum Boden' },
-          { icon: 'PiggyBank', titel: 'Keine unnötige Neuanschaffung' },
-          { icon: 'GraduationCap', titel: 'Einweisung durch unsere Mitarbeiter' },
-          { icon: 'Store', titel: 'Verfügbarkeit direkt im Fachmarkt prüfen' },
+          { icon: 'BadgePercent', titel: 'Kostenlos ausleihen', text: 'Du kannst den Laminat- und Vinylschneider kostenlos bei uns ausleihen.' },
+          { icon: 'PiggyBank', titel: 'Keine eigene Anschaffung', text: 'Du musst dir für ein einzelnes Bodenprojekt kein eigenes Schneidgerät kaufen.' },
+          { icon: 'Wrench', titel: 'Einfacher selbst verlegen', text: 'Mit dem passenden Werkzeug kannst du viele Zuschnitte sauberer und kontrollierter ausführen.' },
+          { icon: 'GraduationCap', titel: 'Kurze Erklärung im Fachmarkt', text: 'Wir zeigen dir kurz, worauf du bei der Nutzung achten solltest.' },
+        ],
+      },
+      {
+        kind: 'ablauf',
+        headline: 'So einfach funktioniert’s',
+        steps: [
+          { titel: 'Boden auswählen', text: 'Du suchst dir deinen Boden online oder im Fachmarkt aus.' },
+          { titel: 'Werkzeug anfragen', text: 'Wir prüfen, ob der Laminat- und Vinylschneider zum gewünschten Zeitraum verfügbar ist.' },
+          { titel: 'Abholen & erklären lassen', text: 'Du holst das Werkzeug im Fachmarkt ab und bekommst eine kurze Erklärung zur Nutzung.' },
+          { titel: 'Zuschneiden & zurückbringen', text: 'Du nutzt den Schneider für dein Projekt und bringst ihn anschließend wieder zurück.' },
         ],
       },
       {
         kind: 'infobox',
-        text: 'Die verfügbaren Werkzeuge, Leihdauer, Kaution und mögliche Gebühren können je nach Gerät variieren. Bitte reserviere benötigte Geräte frühzeitig.',
+        text: 'Der kostenlose Verleih gilt aktuell für unseren Laminat- und Vinylschneider nach Verfügbarkeit. Bitte frage das Werkzeug frühzeitig an, damit wir es für dein Projekt reservieren können. Leihdauer und Rückgabe stimmen wir direkt im Fachmarkt mit dir ab.',
+        zusatz: 'Der Werkzeugverleih ist vor allem als Unterstützung für Kunden gedacht, die ihren Boden bei Bodenjäger kaufen oder sich im Fachmarkt beraten lassen.',
+      },
+      {
+        kind: 'faq',
+        headline: 'Häufige Fragen zum Werkzeugverleih',
+        items: [
+          { frage: 'Welches Werkzeug kann ich aktuell bei euch ausleihen?', antwort: 'Aktuell verleihen wir kostenlos einen Laminat- und Vinylschneider.' },
+          { frage: 'Ist der Werkzeugverleih wirklich kostenlos?', antwort: 'Ja, der Laminat- und Vinylschneider kann kostenlos ausgeliehen werden. Die Verfügbarkeit und Leihdauer stimmen wir direkt im Fachmarkt mit dir ab.' },
+          { frage: 'Für welche Böden eignet sich der Schneider?', antwort: 'Der Schneider eignet sich besonders für viele Laminat- und Klick-Vinylböden. Bei Klebe-Vinyl beraten wir dich individuell, welche Werkzeuge und Arbeitsschritte sinnvoll sind.' },
+          { frage: 'Muss ich das Werkzeug vorher reservieren?', antwort: 'Ja, bitte frage das Werkzeug möglichst frühzeitig an, damit wir die Verfügbarkeit prüfen können.' },
+          { frage: 'Zeigt ihr mir, wie ich das Werkzeug benutze?', antwort: 'Ja, wir geben dir im Fachmarkt eine kurze Erklärung und praktische Tipps zur Nutzung.' },
+        ],
       },
     ],
     abschluss: {
-      headline: 'Welches Werkzeug benötigst du?',
-      text: 'Sag uns, welchen Boden du verlegen möchtest. Wir prüfen, welches Werkzeug dafür geeignet und verfügbar ist.',
-      ctas: [cKontakt('Werkzeug reservieren', 'primary'), cKontakt('Kontakt aufnehmen')],
+      headline: 'Du möchtest selbst verlegen?',
+      text: 'Frag unser Werkzeug einfach bei uns an. Wir prüfen die Verfügbarkeit und erklären dir kurz, worauf du bei der Nutzung achten solltest.',
+      ctas: [cKontakt('Werkzeug anfragen', 'primary'), cKontakt('Im Fachmarkt beraten lassen')],
+      telefon: { anzeige: STANDORT.telefonAnzeige, link: STANDORT.telefonLink },
     },
   },
 }

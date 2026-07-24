@@ -58,9 +58,24 @@ export default async function ServiceUnterseitePage(
     { name: LABELS[slug] ?? 'Service', url },
   ])
 
+  // FAQPage-Schema nur, wenn die Seite einen faq-Block mit echten Antworten hat.
+  const faqBlock = data.blocks.find((b) => b.kind === 'faq')
+  const faqSchema = faqBlock
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqBlock.items.map((i) => ({
+          '@type': 'Question',
+          name: i.frage,
+          acceptedAnswer: { '@type': 'Answer', text: i.antwort },
+        })),
+      }
+    : null
+
   return (
     <main className="pb-16 md:pb-0">
       <JsonLd data={breadcrumb} />
+      {faqSchema && <JsonLd data={faqSchema} />}
       <ServiceUnterseite data={data} />
       <ServiceStickyBar />
     </main>

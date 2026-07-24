@@ -364,7 +364,7 @@ export default function ProductPageContent({
           height={24}
           className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
         />
-        <span className="break-words">Kostenlose Einlagerung bis zu 6 Monate</span>
+        <span className="break-words">Kostenlose Einlagerung bis zu 12 Monate</span>
       </div>
       <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
         <Image
@@ -1015,7 +1015,7 @@ export default function ProductPageContent({
                   height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span className="break-words">Kostenlose Einlagerung bis zu 6 Monate</span>
+                <span className="break-words">Kostenlose Einlagerung bis zu 12 Monate</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
@@ -1108,7 +1108,7 @@ export default function ProductPageContent({
                   height={24}
                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain flex-shrink-0"
                 />
-                <span className="break-words">Kostenlose Einlagerung bis zu 6 Monate</span>
+                <span className="break-words">Kostenlose Einlagerung bis zu 12 Monate</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 py-3 border-b-2" style={{ borderBottomColor: 'var(--color-bg-gray)' }}>
                 <Image
