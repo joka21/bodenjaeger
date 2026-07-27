@@ -8,10 +8,13 @@
  */
 import type { Cta } from '@/types/cta'
 import { MAPS_ROUTE_URL, STANDORT } from '@/content/fachmarkt'
+// Ziel-URLs kommen aus der Link-Map der Service-Übersicht (eine Quelle).
+import { SERVICE_LINKS } from '@/content/service'
 
 const KONTAKT = '/kontakt'
 const cRoute = (label: string, variant: Cta['variant'] = 'primary'): Cta => ({ label, href: MAPS_ROUTE_URL, variant, external: true })
 const cKontakt = (label: string, variant: Cta['variant'] = 'secondary'): Cta => ({ label, href: KONTAKT, variant })
+const cMuster = (label: string, variant: Cta['variant'] = 'primary'): Cta => ({ label, href: SERVICE_LINKS.musterBestellen, variant })
 
 export type SubBlock =
   | { kind: 'vorteile'; headline?: string; items: { icon: string; titel: string; text?: string }[]; hinweis?: string }
@@ -124,8 +127,7 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
       untertitel: 'Boden, Sockelleisten und passendes Zubehör – abgestimmt, vollständig und zu einem attraktiven Paketpreis.',
       image: '/images/fachmarkt-hueckelhoven/set-angebote-hero.webp',
       imageAlt: 'Bodenpaket mit Bodenbelag, Sockelleisten, Dämmung und Zubehör',
-      // TODO: „Set-Angebote entdecken" hat kein echtes Shop-Listing-Ziel → vorerst /kontakt.
-      ctas: [cKontakt('Set-Angebote entdecken', 'primary'), cKontakt('Persönlich beraten lassen')],
+      ctas: [cMuster('Set-Angebote entdecken'), cKontakt('Persönlich beraten lassen')],
     },
     einleitung: {
       headline: 'Komplett geplant statt einzeln zusammengesucht',
