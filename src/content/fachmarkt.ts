@@ -146,7 +146,9 @@ export const FILIAL_BANNER_MOCK: FilialBanner[] = [
     bildAlt: 'Set-Angebote im Fachmarkt',
     ctaLabel: 'Zu den Set-Angeboten',
     ctaUrl: '/fachmarkt-hueckelhoven/service/set-angebote',
-    aktiv: true,
+    // Vorerst ausgeblendet (Kundenwunsch). Daten bleiben erhalten — zum
+    // Reaktivieren nur aktiv auf true setzen. activeBanners() filtert darauf.
+    aktiv: false,
     reihenfolge: 2,
     gueltigBis: null,
   },

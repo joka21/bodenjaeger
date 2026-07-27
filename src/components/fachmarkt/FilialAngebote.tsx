@@ -3,7 +3,7 @@
 import { useRef, useState, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { FILIAL_ANGEBOTE } from '@/content/fachmarkt'
 import type { FilialBanner } from '@/types/fachmarkt'
 import Reveal from '@/components/shared/Reveal'
@@ -13,11 +13,17 @@ interface FilialAngeboteProps {
   banners: FilialBanner[]
 }
 
-/** Ein Banner (Format 7:3). Klickbar NUR, wenn ctaUrl gesetzt ist. */
+/**
+ * Ein Banner (Format 7:3). Klickbar NUR, wenn ctaUrl gesetzt ist.
+ *
+ * Bewusst OHNE Text-Overlay: die Aktionsmotive bringen Headline, Preise und
+ * Rabatthinweise schon im Bild mit — eingeblendete Schrift hat sie verdeckt.
+ * `titel`/`untertitel`/`ctaLabel` bleiben in den Daten (Alt-Text, CMS-Phase 2).
+ */
 function Banner({ banner }: { banner: FilialBanner }) {
   const clickable = Boolean(banner.ctaUrl)
   const inner = (
-    <div className={`group relative aspect-[7/3] w-full overflow-hidden rounded-3xl${clickable ? '' : ''}`}>
+    <div className="group relative aspect-[7/3] w-full overflow-hidden rounded-3xl">
       <Image
         src={banner.bild}
         alt={banner.bildAlt || banner.titel}
@@ -25,16 +31,6 @@ function Banner({ banner }: { banner: FilialBanner }) {
         sizes="(max-width: 1024px) 100vw, 1200px"
         className={`object-cover${clickable ? ' transition-transform duration-500 group-hover:scale-105' : ''}`}
       />
-      <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
-        <h3 className="text-2xl font-bold text-white md:text-4xl">{banner.titel}</h3>
-        {banner.untertitel && <p className="mt-2 max-w-xl text-white/85 md:text-lg">{banner.untertitel}</p>}
-        {clickable && banner.ctaLabel && (
-          <span className="mt-4 inline-flex items-center gap-2 font-bold text-brand">
-            {banner.ctaLabel}
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </span>
-        )}
-      </div>
     </div>
   )
 
