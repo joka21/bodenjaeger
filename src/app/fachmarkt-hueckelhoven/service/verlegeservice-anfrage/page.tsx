@@ -2,20 +2,21 @@ import type { Metadata } from 'next'
 import { JsonLd } from '@/components/JsonLd'
 import { buildBreadcrumbSchema } from '@/lib/schema'
 import { SITE_URL } from '@/lib/site'
-import { VERLEGE_ANFRAGE, VERLEGE_ANFRAGE_META } from '@/content/verlegeservice'
-import AnfrageFunnel from '@/components/verlegeservice/anfrage/AnfrageFunnel'
+import { VERLEGE_ANFRAGE } from '@/content/verlegeservice'
+import { VS_META } from '@/content/verlegeservice-anfrage'
+import VerlegeserviceAnfrage from '@/components/verlegeservice/anfrage/VerlegeserviceAnfrage'
 
 const PAGE_URL = `${SITE_URL}/fachmarkt-hueckelhoven/service/verlegeservice-anfrage`
 
 export const metadata: Metadata = {
-  title: VERLEGE_ANFRAGE_META.title,
-  description: VERLEGE_ANFRAGE_META.description,
+  title: VS_META.title,
+  description: VS_META.description,
   alternates: { canonical: PAGE_URL },
   // Anfrage-Funnel gehört nicht in den Index — die Info-Seite ist die SEO-Seite.
   robots: { index: false, follow: true },
   openGraph: {
-    title: VERLEGE_ANFRAGE_META.title,
-    description: VERLEGE_ANFRAGE_META.description,
+    title: VS_META.title,
+    description: VS_META.description,
     url: PAGE_URL,
     type: 'website',
   },
@@ -43,7 +44,7 @@ export default function VerlegeserviceAnfragePage() {
         </div>
       </section>
 
-      <AnfrageFunnel />
+      <VerlegeserviceAnfrage />
     </main>
   )
 }
