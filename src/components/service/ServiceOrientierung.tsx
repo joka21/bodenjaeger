@@ -21,13 +21,19 @@ export default function ServiceOrientierung() {
           <Reveal as="li" key={p.situation} delay={i * 60}>
             <div className="rounded-2xl border border-ash bg-white p-5 shadow-sm md:p-6">
               <p className="font-bold text-dark">{p.situation}</p>
-              <Link
-                href={p.href}
-                className="group mt-2 inline-flex items-center gap-2 font-medium text-brand hover:underline"
-              >
-                <ArrowRight className="h-4 w-4 flex-shrink-0 transition-transform group-hover:translate-x-1" />
-                {p.empfehlung}
-              </Link>
+              {/* Jede Empfehlung eine eigene Zeile mit eigenem Pfeil/Link. */}
+              <div className="mt-2 flex flex-col items-start gap-2">
+                {p.empfehlungen.map((e) => (
+                  <Link
+                    key={e.href}
+                    href={e.href}
+                    className="group inline-flex items-center gap-2 font-medium text-brand hover:underline"
+                  >
+                    <ArrowRight className="h-4 w-4 flex-shrink-0 transition-transform group-hover:translate-x-1" />
+                    {e.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </Reveal>
         ))}

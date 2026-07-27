@@ -17,7 +17,9 @@ import type { Cta } from '@/types/cta'
 export const SERVICE_LINKS = {
   musterBestellen: '/category/musterbox',
   musterservice: '/fachmarkt-hueckelhoven/service/musterservice',
-  grossmuster: '/fachmarkt-hueckelhoven',
+  // Zielt auf die Musterservice-Detailseite (Großmusterverleih), nicht mehr
+  // auf die Fachmarkt-Landingpage.
+  grossmuster: '/fachmarkt-hueckelhoven/service/musterservice',
   setKaufen: '/fachmarkt-hueckelhoven/service/set-angebote',
   lieferung: '/fachmarkt-hueckelhoven/service/lieferung-abholung',
   einlagerung: '/fachmarkt-hueckelhoven/service/einlagerung',
@@ -176,36 +178,44 @@ export const SERVICE_VERLEGEABLAUF = {
 }
 
 // ── 5. Orientierung ──────────────────────────────────────────────────────────
-// Situation → Empfehlung(en). `href` verlinkt die Empfehlung auf den Service.
+// Situation → Empfehlung(en). Jede Empfehlung ist ein eigener Link und wird in
+// der Karte als eigene Zeile mit Pfeil gerendert. Mehrere Einträge sind damit
+// einzeln anklickbar statt als ein Sammel-Link mit "+".
 export const SERVICE_ORIENTIERUNG = {
   headline: 'Welcher Service passt zu dir?',
   paare: [
     {
       situation: 'Ich bin unsicher bei Farbe oder Optik',
-      empfehlung: '3 Muster kostenfrei bestellen + Großmuster im Fachmarkt',
-      href: SERVICE_LINKS.musterBestellen,
+      empfehlungen: [
+        { label: '3 Muster kostenfrei bestellen', href: SERVICE_LINKS.musterBestellen },
+        { label: 'Großmuster im Fachmarkt', href: SERVICE_LINKS.grossmuster },
+      ],
     },
     {
       situation: 'Ich renoviere erst später',
-      empfehlung: 'Kostenlose Einlagerung',
-      href: SERVICE_LINKS.einlagerung,
+      empfehlungen: [
+        { label: 'Kostenlose Einlagerung', href: SERVICE_LINKS.einlagerung },
+      ],
     },
     {
       situation: 'Ich möchte selbst verlegen',
-      empfehlung: 'Verlegewerkzeug + Fachberatung',
-      href: SERVICE_LINKS.verlegewerkzeug,
+      empfehlungen: [
+        { label: 'Verlegewerkzeug + Fachberatung', href: SERVICE_LINKS.verlegewerkzeug },
+      ],
     },
     {
       situation: 'Ich möchte den Boden geliefert bekommen',
-      empfehlung: 'Lieferung & Abholung',
-      href: SERVICE_LINKS.lieferung,
+      empfehlungen: [
+        { label: 'Lieferung & Abholung', href: SERVICE_LINKS.lieferung },
+      ],
     },
     {
       situation: 'Ich will keinen Stress',
-      empfehlung: 'Aufmaß + Verlegeservice',
-      // Konsistent mit allen anderen Empfehlungen: Ziel ist die reale
-      // Verlegeservice-Seite (nicht ein On-Page-Anker) — einheitliche UX.
-      href: SERVICE_LINKS.verlegeservice,
+      empfehlungen: [
+        // Konsistent mit allen anderen Empfehlungen: Ziel ist die reale
+        // Verlegeservice-Seite (nicht ein On-Page-Anker) — einheitliche UX.
+        { label: 'Aufmaß + Verlegeservice', href: SERVICE_LINKS.verlegeservice },
+      ],
     },
   ],
 }
