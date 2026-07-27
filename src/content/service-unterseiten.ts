@@ -80,8 +80,10 @@ export const SERVICE_UNTERSEITEN: Record<string, ServiceSubpage> = {
     hero: {
       headline: 'Muster mit nach Hause nehmen und testen.',
       untertitel: 'Leih dir dein Lieblingsdekor kostenlos als Großmuster aus und prüfe ganz in Ruhe, wie es in deinem Zuhause wirkt.',
-      imageAlt: 'Kunde betrachtet ein großes Bodenmuster im Wohnraum neben Möbeln und Wandfarben',
-      ctas: [cKontakt('Muster im Fachmarkt auswählen', 'primary'), cKontakt('Kontakt aufnehmen')],
+      image: '/images/fachmarkt-hueckelhoven/musterservice-hero.webp',
+      imageAlt: 'Bodenjäger-Mitarbeiter zeigt einer Kundin zwei Großmuster in der Ausstellung',
+      // Großmuster gibt es nur vor Ort — deshalb direkt die Route statt Kontaktformular.
+      ctas: [cRoute('Muster im Fachmarkt auswählen'), cKontakt('Kontakt aufnehmen')],
     },
     einleitung: {
       headline: 'Dein Boden wirkt zu Hause oft ganz anders',
