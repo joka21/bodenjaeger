@@ -107,7 +107,7 @@ export default function GoogleReviews() {
                 </div>
 
                 <blockquote className="mt-3 leading-relaxed text-mid">
-                  „{review.text}"
+                  &bdquo;{review.text}&ldquo;
                 </blockquote>
               </figure>
             ))}
