@@ -56,7 +56,7 @@ export const HERO = {
   headline: 'Böden erleben. Nicht nur ansehen.',
   subline:
     'Entdecke über 1.000 Bodenmuster, erhalte eine persönliche Fachberatung und finde den passenden Boden für dein Zuhause – direkt in unserem Fachmarkt in Hückelhoven.',
-  image: '/images/fachmarkt-hueckelhoven/hero-DSCF2859.jpg',
+  image: '/images/fachmarkt-hueckelhoven/fachmarkt-hero.webp',
   imageAlt: 'Ausstellung des Bodenjäger Fachmarkts in Hückelhoven',
   ctas: [CTA_ROUTE, CTA_ANRUFEN, CTA_BERATUNG] as Cta[],
   checks: [
@@ -130,8 +130,8 @@ export const FILIAL_BANNER_MOCK: FilialBanner[] = [
     id: 1,
     titel: 'Aktuelle Filialangebote',
     untertitel: 'Ausgewählte Böden zum Sonderpreis – nur in der Filiale',
-    bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg',
-    bildAlt: 'Sonderangebote im Fachmarkt',
+    bild: '/images/fachmarkt-hueckelhoven/aktionen/summersale-2026.webp',
+    bildAlt: 'Summer SALE 2026 – Klick-Vinyl Pulse Nature zum Aktionspreis',
     ctaLabel: 'Angebote ansehen',
     ctaUrl: '/sale',
     aktiv: true,
@@ -221,11 +221,9 @@ export const LEISTUNGEN = {
   // Aktuell nur 4 Leistungen sichtbar (Kundenwunsch). Reihenfolge lt. Brief.
   items: [
     { icon: 'Users', titel: 'Fachberatung', text: 'Persönliche Beratung vor Ort und am Telefon.', href: '/fachmarkt-hueckelhoven/service/fachberatung', bild: '/images/fachmarkt-hueckelhoven/leistungen/fachberatung.png' },
-    // Musterservice: neue Kachel. Ziel vorerst /category/musterbox.
-    // TODO: Ziel wird später /fachmarkt-hueckelhoven/service/musterservice (Umzug folgt als separates Paket).
-    { icon: 'Package', titel: 'Großmuster', text: 'Bis zu 3 Bodenmuster kostenfrei zu dir nach Hause bestellen.', href: '/category/musterbox', bild: '/images/fachmarkt-hueckelhoven/leistungen/grossmuster.png' },
+    { icon: 'Package', titel: 'Großmuster', text: 'Nimm deine Favoriten einfach mit und teste sie in Ruhe zuhause.', href: '/fachmarkt-hueckelhoven/service/musterservice', bild: '/images/fachmarkt-hueckelhoven/leistungen/grossmuster.png' },
     // Einlagerung = frühere „Warenlagerung", nur anders benannt.
-    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deine Ware bis zum Verlegetermin.', href: '/fachmarkt-hueckelhoven/service/einlagerung', bild: '/images/fachmarkt-hueckelhoven/leistungen/einlagerung.png' },
+    { icon: 'Warehouse', titel: 'Einlagerung', text: 'Wir lagern deinen neuen Boden kostenfrei ein.', href: '/fachmarkt-hueckelhoven/service/einlagerung', bild: '/images/fachmarkt-hueckelhoven/leistungen/einlagerung.png' },
     { icon: 'Hammer', titel: 'Verlegeservice', text: 'Professionelle Verlegung durch erfahrene Handwerker.', href: '/fachmarkt-hueckelhoven/service/verlegeservice', bild: '/images/fachmarkt-hueckelhoven/leistungen/verlegeservice.png' },
     // ── Vorerst ausgeblendet (Daten bleiben erhalten, nicht löschen) ──
     // { icon: 'Truck', titel: 'Lieferservice', text: 'Lieferung zum Wunschtermin bis vor die Tür.', href: '/fachmarkt-hueckelhoven/service/lieferung-abholung', bild: 'https://2025.bodenjaeger.de/wp-content/uploads/2024/08/DSCF2046-scaled-1-1024x683.jpg' },
@@ -239,7 +237,6 @@ export const LEISTUNGEN = {
 }
 
 // ── Sektion 10: Google-Bewertungen ──────────────────────────────────────────────
-// Statische Platzhalter-Konstanten (siehe Offene Punkte / Review-Einbindung).
 export const GOOGLE_REVIEWS = {
   kicker: 'Das sagen unsere Kunden',
   headline: 'Ausgezeichnet bewertet',
@@ -247,7 +244,12 @@ export const GOOGLE_REVIEWS = {
   count: 180, // TODO(kunde): finale Anzahl bestätigen
   countSuffix: '+',
   hinweis: 'Bewertungen bei Google',
-  // TODO(reviews): echte Einbindung klären (src/data/google-reviews.json vorhanden)
+  // Kuratierte Original-Rezensionen aus src/data/google-reviews.json (per id,
+  // Reihenfolge = Anzeigereihenfolge). Auswahl bewusst mit Fachmarkt-Bezug:
+  // Beratung vor Ort, Muster mitnehmen, Auswahl, Verlege-Kompetenz.
+  // Priorität: die jüngsten Rezensionen des Datensatzes.
+  // Keine Texte hier duplizieren — die JSON bleibt die einzige Quelle.
+  reviewIds: [33, 1, 7, 3, 10, 32],
 }
 
 // ── Sektion 11: Team ────────────────────────────────────────────────────────────
