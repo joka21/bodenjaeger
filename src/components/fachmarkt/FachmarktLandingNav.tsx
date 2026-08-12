@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ChevronDown, Phone } from 'lucide-react'
+import { Menu, X, ChevronDown, Phone, Store } from 'lucide-react'
 import {
   LANDING_NAV,
   LEISTUNGEN_DROPDOWN,
@@ -144,9 +144,17 @@ export default function FachmarktLandingNav() {
           })}
         </div>
 
-        {/* Desktop: Buttons rechts */}
+        {/* Desktop: Buttons rechts.
+            „Zum Shop" ist als Outline-Button gestaltet wie das Gegenstück
+            „Zum Fachmarkt Hückelhoven" im Shop-Header (HeaderNav.tsx):
+            51px hoch, Rahmen hdr-outline, rounded-lg, Icon + Label. Die Breite
+            richtet sich hier nach dem Text, weil das Label deutlich kürzer ist. */}
         <div className="hidden flex-shrink-0 items-center gap-4 lg:flex">
-          <Link href={LANDING_NAV.shopCta.href} className="text-sm font-medium text-white/70 hover:text-white">
+          <Link
+            href={LANDING_NAV.shopCta.href}
+            className="flex h-[51px] flex-shrink-0 items-center justify-center gap-2.5 rounded-lg border border-hdr-outline px-6 text-sm text-white transition-colors hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <Store className="h-[18px] w-[18px] flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
             {LANDING_NAV.shopCta.label}
           </Link>
           <CtaButton cta={primaryCta} size="md" />
@@ -229,8 +237,9 @@ export default function FachmarktLandingNav() {
               <Link
                 href={LANDING_NAV.shopCta.href}
                 onClick={() => setOpen(false)}
-                className="text-center text-sm font-medium text-white/70 hover:text-white"
+                className="flex h-[51px] w-full items-center justify-center gap-2.5 rounded-lg border border-hdr-outline text-sm text-white transition-colors hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
+                <Store className="h-[18px] w-[18px] flex-shrink-0" strokeWidth={1.75} aria-hidden="true" />
                 {LANDING_NAV.shopCta.label}
               </Link>
               <CtaButton cta={primaryCta} size="md" className="w-full" />
