@@ -5,7 +5,6 @@ import { WishlistProvider } from "@/contexts/WishlistContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import HeaderWrapper from "@/components/HeaderWrapper";
-import SaleBanner from "@/components/SaleBanner";
 import Footer from "@/components/Footer";
 import FloatingContactButton from "@/components/FloatingContactButton";
 import CookieConsent from "@/components/CookieConsent";
@@ -86,7 +85,8 @@ export default function RootLayout({
                 <TikTokPixel />
                 <Roomvo />
                 <CookieConsent />
-                <SaleBanner />
+                {/* Gelbes SummerSALE-Banner entfernt — die Aktion läuft jetzt
+                    über den Nav-Punkt „Angebote" (/sale). */}
                 <HeaderWrapper />
                 <FloatingContactButton />
                 {children}

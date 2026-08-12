@@ -20,9 +20,14 @@ export default function FloatingContactButton() {
 
   return (
     <>
-      {/* Floating Buttons - mehr rechter Abstand auf Mobile (iPhone Safe-Area & abgerundete Ecken) */}
+      {/* Floating Buttons - mehr rechter Abstand auf Mobile (iPhone Safe-Area & abgerundete Ecken)
+          z-30: bewusst UNTER dem Header (z-50) und damit unter dem offenen
+          Mobile-Menü — vorher lagen die Buttons auf z-[60] darüber.
+          `data-floating-actions` wird zusätzlich von globals.css genutzt, um sie
+          bei offenem Menü (body.nav-menu-open) auszublenden. */}
       <div
-        className={`fixed right-8 bottom-6 md:right-6 md:bottom-6 z-[60] flex flex-col gap-3 transition-opacity duration-300 ${
+        data-floating-actions
+        className={`fixed right-8 bottom-6 md:right-6 md:bottom-6 z-30 flex flex-col gap-3 transition-opacity duration-300 ${
           isCartDrawerOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >

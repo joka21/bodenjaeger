@@ -1,223 +1,180 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Menu } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
-import { useWishlist } from '@/contexts/WishlistContext';
-import { useAuth } from '@/contexts/AuthContext';
 import CartDrawer from './cart/CartDrawer';
-import MobileMenu from './navigation/MobileMenu';
 import LiveSearch from './LiveSearch';
-import { categoriesData } from '@/types/mobile-menu';
+import HeaderActions from './header/HeaderActions';
+import HeaderLogo from './header/HeaderLogo';
+import HeaderNav from './header/HeaderNav';
+import ShopMobileMenu from './header/ShopMobileMenu';
+import UspBar from './header/UspBar';
 
+/**
+ * Shop-Header.
+ *
+ * Desktop (ab lg) drei Zeilen: USP-Leiste 68px, Hauptzeile 121px, Navigation
+ * 86px. Mobile drei Zeilen: USP-Ticker 40px, Header-Zeile 64px, Suchzeile 60px.
+ * Alle Höhen sind fest, damit beim Laden nichts springt.
+ *
+ * Sticky-Verhalten: Die USP-Leiste scrollt weg, Hauptzeile und Navigation
+ * bleiben oben stehen. Umgesetzt über einen negativen Sticky-Offset in Höhe der
+ * USP-Leiste (mobil -40px, ab lg -68px) — `position: sticky` auf einer inneren
+ * Zeile würde am Rand des Headers enden und mit ihm wegscrollen.
+ *
+ * Bei offenem Mobile-Menü wechselt der Header auf `fixed top-0`, USP-Leiste und
+ * Suchzeile werden ausgeblendet. Die Header-Zeile selbst bleibt unverändert
+ * bedienbar; das Menü-Panel beginnt darunter (siehe ShopMobileMenu).
+ *
+ * Z-Index: Der Header liegt auf z-50, innerhalb davon Backdrop z-[1],
+ * Panel z-[2], Header-Zeilen z-[3]. Vollständige Staffelung ist in
+ * globals.css dokumentiert.
+ */
 export default function Header() {
   const { isCartDrawerOpen, closeCartDrawer } = useCart();
-  const { wishlistCount } = useWishlist();
-  const { user, isLoggedIn, logout } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
-  const accountMenuRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
 
-  // Close account dropdown on outside click
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+    burgerRef.current?.focus();
+  }, []);
+
+  // Scroll-Lock + Body-Klasse, über die Floating-Buttons und das
+  // Trusted-Shops-Badge ausgeblendet werden (globals.css).
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target as Node)) {
-        setIsAccountMenuOpen(false);
+    if (!isMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.body.classList.add('nav-menu-open');
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.classList.remove('nav-menu-open');
+    };
+  }, [isMenuOpen]);
+
+  // ESC schließt das Menü und setzt den Fokus zurück auf den Burger.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeMenu();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isMenuOpen, closeMenu]);
+
+  // Fokus-Falle über den gesamten Header: Die Header-Zeile bleibt bei offenem
+  // Menü bedienbar und gehört deshalb mit in den Zyklus. Ausgeblendete Zeilen
+  // (display: none) fallen über die offsetParent-Prüfung heraus.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab' || !headerRef.current) return;
+
+      const focusable = Array.from(
+        headerRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null);
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey && (active === first || !headerRef.current.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (active === last || !headerRef.current.contains(active))) {
+        e.preventDefault();
+        first.focus();
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isMenuOpen]);
+
+  // Beim Wechsel auf Desktop schließen — dort gibt es keinen Burger mehr.
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)');
+    const onChange = (e: MediaQueryListEvent) => {
+      if (e.matches) setIsMenuOpen(false);
+    };
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
   }, []);
 
   return (
-    <header className="w-full sticky top-0 z-50">
-      {/* Top Section - 150px height - #2e2d32 */}
-      <div className="w-full h-[70px] sm:h-[80px] md:h-[100px] bg-dark overflow-visible">
-        <div className="content-container h-full">
-          <div className="flex items-center justify-between h-full gap-1 sm:gap-2 md:gap-[1%]">
-            {/* Logo */}
-            <Link href="/" className="flex items-center flex-shrink-0 sm:min-w-[150px] md:min-w-[200px]">
-              <Image
-                src="/images/logo/logo-bodenjaeger-fff.svg"
-                alt="Bodenjäger Logo"
-                width={200}
-                height={80}
-                className="h-8 sm:h-12 md:h-14 w-auto"
-                priority
-              />
-            </Link>
+    <header
+      ref={headerRef}
+      className={`w-full bg-hdr-bg ${
+        isMenuOpen
+          ? 'fixed inset-x-0 top-0 z-50 lg:sticky lg:top-[-68px]'
+          : 'sticky top-[-40px] z-50 lg:top-[-68px]'
+      }`}
+    >
+      <div className="relative z-[3] bg-hdr-bg">
+        {/* Zeile 1 — USP-Leiste (Desktop statisch, mobil Ticker) */}
+        <div className={isMenuOpen ? 'hidden lg:block' : undefined}>
+          <UspBar />
+        </div>
 
-            {/* Search Field with Live Results */}
-            <LiveSearch />
-
-            {/* Icons - Favoriten, Warenkorb, Kundenkonto, Hamburger (Mobile) */}
-            <div className="flex items-center flex-shrink-0 gap-1 sm:gap-3 md:gap-[1%]">
-              {/* Favoriten */}
-              <Link href="/favoriten" className="relative flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity">
-                <Image
-                  src="/images/Icons/favoriten-weiss.png"
-                  alt="Favoriten"
-                  width={32}
-                  height={32}
-                  className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
-                />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-brand text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
-              {/* Kundenkonto */}
-              <div className="relative" ref={accountMenuRef}>
-                {isLoggedIn ? (
-                  <>
-                    <button
-                      onClick={() => setIsAccountMenuOpen((prev) => !prev)}
-                      className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
-                      aria-label="Kundenkonto"
-                    >
-                      <Image
-                        src="/images/Icons/kundenkonto-weiss.png"
-                        alt="Kundenkonto"
-                        width={32}
-                        height={32}
-                        className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
-                      />
-                    </button>
-                    {isAccountMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-ash z-50">
-                        <div className="px-4 py-3 border-b border-ash">
-                          <p className="text-sm font-semibold text-dark truncate">
-                            {user?.firstName || user?.displayName}
-                          </p>
-                          <p className="text-xs text-mid truncate">{user?.email}</p>
-                        </div>
-                        <Link
-                          href="/konto"
-                          onClick={() => setIsAccountMenuOpen(false)}
-                          className="block px-4 py-2.5 text-sm text-dark hover:bg-gray-50 transition-colors"
-                        >
-                          Mein Konto
-                        </Link>
-                        <Link
-                          href="/konto/bestellungen"
-                          onClick={() => setIsAccountMenuOpen(false)}
-                          className="block px-4 py-2.5 text-sm text-dark hover:bg-gray-50 transition-colors"
-                        >
-                          Bestellungen
-                        </Link>
-                        <button
-                          onClick={async () => {
-                            setIsAccountMenuOpen(false);
-                            await logout();
-                          }}
-                          className="w-full text-left px-4 py-2.5 text-sm text-mid hover:bg-gray-50 transition-colors border-t border-ash"
-                        >
-                          Abmelden
-                        </button>
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    href="/login"
-                    className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
-                  >
-                    <Image
-                      src="/images/Icons/kundenkonto-weiss.png"
-                      alt="Anmelden"
-                      width={32}
-                      height={32}
-                      className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8"
-                    />
-                  </Link>
-                )}
+        {/* Zeile 2 — Hauptzeile Desktop: Logo, Suche, Aktionen */}
+        <div className="hidden border-b border-hdr-line lg:block">
+          <div className="content-container">
+            <div className="flex h-[121px] items-center">
+              <HeaderLogo />
+              <div className="flex flex-1 justify-center px-8">
+                <LiveSearch size="lg" className="w-[586px]" />
               </div>
-
-              {/* Hamburger Menu Button (Mobile Only - ganz rechts) */}
-              <button
-                onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:opacity-80 transition-opacity"
-                aria-label="Menü öffnen"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
+              <HeaderActions variant="desktop" />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Section - 50px height - #4c4c4c - Navigation */}
-      <div className="hidden lg:block w-full h-[50px] bg-mid overflow-visible">
-        <div className="content-container h-full">
-          <nav className="hidden lg:flex items-center justify-center h-full space-x-8">
-            {categoriesData.map((category) => (
-              <div key={category.id} className="relative group">
-                <Link
-                  href={`/category/${category.slug}`}
-                  className="text-white hover:text-gray-200 transition-colors font-medium"
-                >
-                  {category.label}
-                </Link>
-                {category.hasChildren && category.children && category.children.length > 0 && (
-                  <div className="absolute left-0 mt-2 w-52 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[60]">
-                    {category.children.map((sub) =>
-                      sub.isGroupLabel ? (
-                        <div
-                          key={sub.id}
-                          className="px-4 pt-3 pb-1 text-xs font-bold text-gray-400 uppercase tracking-wider border-t border-gray-100 first:border-t-0"
-                        >
-                          {sub.label}
-                        </div>
-                      ) : sub.hasChildren && sub.children ? (
-                        sub.children.map((leaf) => (
-                          <Link
-                            key={leaf.id}
-                            href={`/category/${leaf.slug}`}
-                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                          >
-                            {leaf.label}
-                          </Link>
-                        ))
-                      ) : (
-                        <Link
-                          key={sub.id}
-                          href={`/category/${sub.slug}`}
-                          className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                        >
-                          {sub.label}
-                        </Link>
-                      )
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
+        {/* Zeile 2 — Header-Zeile Mobile: Burger links, Logo, Aktionen rechts */}
+        <div className="lg:hidden">
+          <div className="flex h-16 items-center gap-2 px-4">
+            <button
+              type="button"
+              ref={burgerRef}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-expanded={isMenuOpen}
+              aria-controls="shop-mobile-menu"
+              aria-label={isMenuOpen ? 'Menü schließen' : 'Menü öffnen'}
+              className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-md text-white transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              <Menu className="h-6 w-6" strokeWidth={2} aria-hidden="true" />
+            </button>
+
+            <HeaderLogo />
+
+            <div className="ml-auto">
+              <HeaderActions variant="mobile" />
+            </div>
+          </div>
+        </div>
+
+        {/* Zeile 3 — Navigation (nur Desktop) */}
+        <HeaderNav />
+
+        {/* Zeile 3 — Suchzeile Mobile, dauerhaft sichtbar außer bei offenem Menü */}
+        <div className={`px-4 pb-3 lg:hidden ${isMenuOpen ? 'hidden' : ''}`}>
+          <LiveSearch size="md" className="w-full" />
         </div>
       </div>
 
-      {/* Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartDrawerOpen}
-        onClose={closeCartDrawer}
-      />
+      <ShopMobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
 
-
-      {/* Mobile Menu */}
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-      />
+      <CartDrawer isOpen={isCartDrawerOpen} onClose={closeCartDrawer} />
     </header>
   );
 }

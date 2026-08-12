@@ -44,6 +44,18 @@ input[type="number"] {
   /* Semantic Colors */
   --color-success: #28a745;        /* Erfolgsmeldungen / Kostenlos */
 
+  /* Shop-Header (Design-Tokens aus dem Header-Mockup).
+     Werden unten in @theme inline auf Tailwind-Utilities gemappt
+     (bg-hdr-bg, text-hdr-link, border-hdr-line, …). */
+  --hdr-bg: #000000;         /* Header-Hintergrund                    */
+  --hdr-red: #cc0e18;        /* Flächen: Logo-Kreis, Such-Btn, Badge  */
+  --hdr-link: #ff0018;       /* Text-Links: Gratis Muster, Fachmarkt  */
+  --hdr-field: #0c0c0c;      /* Suchfeld-Füllung                      */
+  --hdr-line: #171717;       /* Trennlinien                           */
+  --hdr-outline: #585859;    /* Rahmen Outline-Button                 */
+  --hdr-muted: #9a9a9a;      /* Platzhalter / Sublines                */
+  --hdr-panel: #151515;      /* Restfläche Mobile-Menü                */
+
   /* Legacy Variables (für Kompatibilität) */
   --background: #ffffff;
   --foreground: #2e2d32;
@@ -68,6 +80,16 @@ input[type="number"] {
   --color-navy: #1e40af;     /* Dunkelblau       → text-navy,  bg-navy    */
   --color-ocean: #5095cb;    /* Mittelblau       → text-ocean, bg-ocean   */
   --color-success: #28a745;  /* Grün             → text-success, bg-success */
+
+  /* Shop-Header → bg-hdr-bg, text-hdr-link, border-hdr-line usw. */
+  --color-hdr-bg: var(--hdr-bg);
+  --color-hdr-red: var(--hdr-red);
+  --color-hdr-link: var(--hdr-link);
+  --color-hdr-field: var(--hdr-field);
+  --color-hdr-line: var(--hdr-line);
+  --color-hdr-outline: var(--hdr-outline);
+  --color-hdr-muted: var(--hdr-muted);
+  --color-hdr-panel: var(--hdr-panel);
 }
 
 body {
@@ -120,6 +142,54 @@ button, .button, .btn {
   .content-container {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+  }
+}
+
+/* ===== Shop-Header: Z-Index-Staffelung & Overlay-Verhalten =====
+
+   Verbindliche Reihenfolge (von unten nach oben):
+     0–20   Seiteninhalt, Slider, Sticky-Elemente in Sections
+     30     Floating-Buttons (Kontakt/Warenkorb) + Trusted-Shops-Badge
+     50     Shop-Header (sticky bzw. fixed bei offenem Menü).
+            Innerhalb dieses Stacking-Contexts:
+              z-[1]  Mobile-Menü Backdrop
+              z-[2]  Mobile-Menü Panel
+              z-[3]  Header-Zeilen (Burger bleibt über dem Panel klickbar)
+              z-40/50 Cart-Drawer (bewusst über dem Panel)
+     50+    Contact-Drawer (später im DOM als der Header → liegt darüber)
+     200    Cookie-Consent / Modals
+
+   Vorher lagen die Floating-Buttons auf z-[60] und damit über dem Mobile-Menü.
+   Sie sitzen jetzt auf z-30; zusätzlich werden sie und das Trusted-Shops-Badge
+   (Fremd-Widget mit eigenem, sehr hohen z-index) bei offenem Menü über die
+   Body-Klasse `nav-menu-open` ausgeblendet. */
+
+body.nav-menu-open [data-floating-actions],
+body.nav-menu-open [id^='trustbadge-container-'] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* USP-Ticker (Mobile): Fortschrittsbalken läuft während der Anzeigedauer
+   des aktuellen Punktes von 0 % auf 100 %. Dauer = USP_INTERVAL_MS in
+   src/content/shopNav.ts — beide Werte müssen zusammen geändert werden.
+   Neustart pro Punkt erfolgt über den React-`key`. */
+@keyframes hdr-usp-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.hdr-usp-progress {
+  transform-origin: left center;
+  animation: hdr-usp-progress 4s linear forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hdr-usp-progress {
+    animation: none;
+    transform: scaleX(0);
   }
 }
 
