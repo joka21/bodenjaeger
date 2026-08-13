@@ -2,11 +2,14 @@ import { MapPin, ShieldCheck } from 'lucide-react'
 import BadgeGrid from './BadgeGrid'
 import { PAYMENT_BADGES, SHIPPING_BADGES, TRUST_ZONE_TEXTE } from '@/lib/footer-nav'
 
-const BLOCK_TITLE = 'mb-3 text-xs font-bold uppercase tracking-[0.08em] text-white'
+const BLOCK_TITLE = 'mb-2 text-xs font-bold uppercase tracking-[0.08em] text-white'
 
 /**
- * Eigene horizontale Zone unter den Spalten, durch helleren Untergrund
- * (`bg-mid`) klar von der oberen Zone abgesetzt.
+ * Eigene horizontale Zone unter den Spalten.
+ *
+ * Der Footer ist durchgehend `bg-dark` — der frühere hellere Untergrund
+ * (`bg-mid`) ist entfallen. Abgesetzt wird die Zone stattdessen nur noch über
+ * eine dezente Trennlinie, wie sie auch die Bottom-Bar nutzt.
  *
  * Trusted Shops bleibt bewusst ein ruhiger statischer Block ohne Note und
  * ohne Sterne — die Bewertung liefert allein das bestehende Floating-Widget
@@ -14,9 +17,9 @@ const BLOCK_TITLE = 'mb-3 text-xs font-bold uppercase tracking-[0.08em] text-whi
  */
 export default function FooterTrustZone() {
   return (
-    <div className="w-full bg-mid">
+    <div className="w-full bg-dark">
       <div className="content-container">
-        <div className="grid gap-8 py-8 md:grid-cols-2 lg:grid-cols-12">
+        <div className="grid gap-8 border-t border-white/10 py-8 md:grid-cols-2 lg:grid-cols-12">
           {/* 1 — Trusted Shops */}
           <div className="lg:col-span-2">
             <h3 className={BLOCK_TITLE}>Geprüfter Shop</h3>
@@ -36,11 +39,12 @@ export default function FooterTrustZone() {
           {/* 2 — Sichere Zahlung */}
           <div className="lg:col-span-4">
             <h3 className={BLOCK_TITLE}>{TRUST_ZONE_TEXTE.zahlung.titel}</h3>
-            {/* 3 → 4 Spalten. Bei 2 Spalten wären die Kacheln auf 390 px ~175 px
-                breit und das 48-px-Logo würde darin verloren wirken. Mit 3
-                Spalten entspricht die Kachelbreite (~111 px) der Desktop-Optik
-                (~108 px); die letzte Zeile trägt dann 2 Badges — nie eines. */}
-            <BadgeGrid badges={PAYMENT_BADGES} columnsClassName="grid-cols-3 sm:grid-cols-4" />
+            {/* Durchgehend 4 Spalten: Die 8 aktiven Badges gehen damit auf
+                jeder Breite in genau 2 vollen Zeilen auf — keine Zeile endet
+                mit einem einzelnen Badge. Bei der reduzierten Kachelhöhe (36px)
+                bleibt selbst auf 320px Viewport genug Kachelbreite (~67px) für
+                die 22px hohen Logos. */}
+            <BadgeGrid badges={PAYMENT_BADGES} columnsClassName="grid-cols-4" />
           </div>
 
           {/* 3 — Schnelle Lieferung */}

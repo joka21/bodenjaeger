@@ -118,16 +118,20 @@ export const FOOTER_SOCIAL: SocialProfile[] = [
     label: 'Bodenjäger auf Instagram',
     href: 'https://www.instagram.com/bodenjager/',
   },
-  // { key: 'tiktok',  label: 'Bodenjäger auf TikTok',  href: 'TODO: Profil-URL' },
+  {
+    key: 'tiktok',
+    label: 'Bodenjäger auf TikTok',
+    href: 'https://www.tiktok.com/@bodenjaeger_',
+  },
   // { key: 'youtube', label: 'Bodenjäger auf YouTube', href: 'TODO: Profil-URL' },
 ]
 
 // ── Spalten 2–4 ──────────────────────────────────────────────────────────────
 
 /**
- * Es existiert genau EINE Widerrufsseite (/widerruf). Beide Widerrufs-Links
- * der Kundenservice-Spalte, der Button darunter und der Eintrag in der
- * Bottom-Bar zeigen deshalb auf dasselbe Ziel.
+ * Es existiert genau EINE Widerrufsseite (/widerruf). Der Link „Widerruf &
+ * Rücksendung" in der Kundenservice-Spalte, der Button darunter und der
+ * Eintrag in der Bottom-Bar zeigen deshalb auf dasselbe Ziel.
  */
 const WIDERRUF_HREF = '/widerruf'
 
@@ -141,7 +145,6 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
       { label: 'Muster bestellen', href: SERVICE_LINKS.musterBestellen },
       { label: 'Versand & Lieferzeit', href: '/versand-lieferzeit' },
       { label: 'Widerruf & Rücksendung', href: WIDERRUF_HREF },
-      { label: 'Widerrufsbelehrung & Widerrufsformular', href: WIDERRUF_HREF },
       { label: 'AGB', href: '/agb' },
       { label: 'Datenschutz', href: '/datenschutz' },
       { label: 'Impressum', href: '/impressum' },
