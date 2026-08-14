@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ChevronRight, Mail, MapPin, Phone } from 'lucide-react'
+import { ChevronRight, Mail, Map, Phone } from 'lucide-react'
 import CookieSettingsLink from '@/components/CookieSettingsLink'
 import type { FooterIconKey, FooterLink } from '@/lib/footer-nav'
 
@@ -15,31 +15,24 @@ export const FOOTER_FOCUS_RING =
 
 const ICONS: Record<FooterIconKey, typeof Phone> = {
   phone: Phone,
-  route: MapPin,
+  route: Map,
   mail: Mail,
 }
 
 /**
  * Zeileninhalt eines Footer-Links: optionales weißes Icon, Label, weißer Pfeil.
- * Ohne Icon steht der Pfeil links — das ist die Standardform in den Spalten.
+ * Der Pfeil steht immer rechts am Zeilenende — mit und ohne führendes Icon.
  */
 function LinkInner({ link }: { link: FooterLink }) {
   const Icon = link.icon ? ICONS[link.icon] : null
 
-  if (Icon) {
-    return (
-      <>
-        <Icon aria-hidden="true" className="mt-0.5 h-[18px] w-[18px] shrink-0 text-white" />
-        <span className="flex-1">{link.label}</span>
-        <ChevronRight aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-white" />
-      </>
-    )
-  }
-
   return (
     <>
+      {Icon && (
+        <Icon aria-hidden="true" className="mt-0.5 h-[18px] w-[18px] shrink-0 text-white" />
+      )}
+      <span className="flex-1">{link.label}</span>
       <ChevronRight aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-white" />
-      <span>{link.label}</span>
     </>
   )
 }

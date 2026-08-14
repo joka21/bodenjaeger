@@ -1,3 +1,4 @@
+import { Clock3, MapPin, Phone } from 'lucide-react'
 import FooterLinkList, { FOOTER_FOCUS_RING } from './FooterLinkList'
 import FooterSocial from './FooterSocial'
 import {
@@ -28,27 +29,39 @@ export default function FooterContactColumn({
         </h3>
       )}
 
+      {/* Icon-Spalte: MapPin, Phone und Clock3 stehen alle auf derselben
+          Grundlinie links, damit Anschrift, Telefon und Öffnungszeiten als drei
+          gleichwertige Blöcke lesbar bleiben. */}
       <address className="not-italic">
-        <p className="text-[15px] font-bold leading-6 text-white">{FIRMIERUNG}</p>
-        <p className="mt-1 text-[15px] leading-6 text-ash">{FOOTER_ADRESSE.strasse}</p>
-        <p className="text-[15px] leading-6 text-ash">{FOOTER_ADRESSE.plzOrt}</p>
+        <div className="flex gap-2">
+          <MapPin aria-hidden="true" className="mt-1 h-[18px] w-[18px] shrink-0 text-white" />
+          <div>
+            <p className="text-[15px] font-bold leading-6 text-white">{FIRMIERUNG}</p>
+            <p className="text-[15px] leading-6 text-ash">{FOOTER_ADRESSE.strasse}</p>
+            <p className="text-[15px] leading-6 text-ash">{FOOTER_ADRESSE.plzOrt}</p>
+          </div>
+        </div>
 
         <a
           href={FOOTER_TELEFON.href}
-          className={`mt-3 inline-flex min-h-11 items-center rounded-sm text-lg font-bold text-white transition-colors hover:text-ash ${FOOTER_FOCUS_RING}`}
+          className={`mt-3 inline-flex min-h-11 items-center gap-2 rounded-sm text-lg font-bold text-white transition-colors hover:text-ash ${FOOTER_FOCUS_RING}`}
         >
+          <Phone aria-hidden="true" className="h-[18px] w-[18px] shrink-0" />
           {FOOTER_TELEFON.anzeige}
         </a>
       </address>
 
-      <dl className="mt-1 space-y-0.5 text-[15px] leading-6 text-ash">
-        {FOOTER_OEFFNUNGSZEITEN.map((zeile) => (
-          <div key={zeile.tag} className="flex gap-2">
-            <dt className="min-w-[5.5rem]">{zeile.tag}</dt>
-            <dd>{zeile.zeit}</dd>
-          </div>
-        ))}
-      </dl>
+      <div className="mt-1 flex gap-2">
+        <Clock3 aria-hidden="true" className="mt-1 h-[18px] w-[18px] shrink-0 text-white" />
+        <dl className="space-y-0.5 text-[15px] leading-6 text-ash">
+          {FOOTER_OEFFNUNGSZEITEN.map((zeile) => (
+            <div key={zeile.tag} className="flex gap-2">
+              <dt className="min-w-[5.5rem]">{zeile.tag}</dt>
+              <dd>{zeile.zeit}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
 
       <div className="mt-4">
         <FooterLinkList links={FOOTER_KONTAKT_AKTIONEN} ariaLabel="Kontaktmöglichkeiten" />

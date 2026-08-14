@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Undo2 } from 'lucide-react'
+import { CirclePlus } from 'lucide-react'
 import FooterLinkList, { FOOTER_FOCUS_RING } from './FooterLinkList'
 import { WIDERRUF_BUTTON, type FooterColumn as FooterColumnData } from '@/lib/footer-nav'
 
@@ -13,7 +13,7 @@ function WiderrufButton() {
       href={WIDERRUF_BUTTON.href}
       className={`mt-4 inline-flex min-h-11 items-center gap-2 rounded-md border border-white/50 px-4 py-2.5 text-sm text-white transition-colors hover:border-white hover:bg-white/10 ${FOOTER_FOCUS_RING}`}
     >
-      <Undo2 aria-hidden="true" className="h-4 w-4 shrink-0 text-white" />
+      <CirclePlus aria-hidden="true" className="h-4 w-4 shrink-0 text-white" />
       {WIDERRUF_BUTTON.label}
     </Link>
   )

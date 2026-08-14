@@ -1,39 +1,23 @@
 import type { ComponentType, SVGProps } from 'react'
-import { Facebook, Instagram, Youtube } from 'lucide-react'
+import { Youtube } from 'lucide-react'
 import { FOOTER_SOCIAL, type SocialKey } from '@/lib/footer-nav'
 import { FOOTER_FOCUS_RING } from './FooterLinkList'
-
-/**
- * TikTok fehlt in lucide-react — deshalb als Inline-SVG (keine neue Dependency).
- * Bewusst als Outline-Glyphe mit denselben Stroke-Werten wie lucide
- * (24er Viewbox, stroke-width 2, runde Enden), damit die Social-Reihe eine
- * einheitliche Strichstärke hat.
- */
-function TikTokIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-    </svg>
-  )
-}
+import { FacebookBrandIcon, InstagramBrandIcon, TikTokBrandIcon } from './SocialBrandIcons'
 
 /**
  * Alle vier Kanäle sind gemappt. Gerendert wird nur, was in FOOTER_SOCIAL
  * steht — TikTok und YouTube aktiviert man dort durch je ein Objekt mit URL,
  * ohne diese Komponente anzufassen.
+ *
+ * Facebook, Instagram und TikTok kommen als offizielle Marken-Glyphen aus
+ * SocialBrandIcons (Simple Icons). YouTube ist noch nicht freigeschaltet und
+ * bleibt vorläufig beim Lucide-Icon — beim Aktivieren bitte ebenfalls auf ein
+ * Simple Icon umstellen, damit die Reihe einheitlich bleibt.
  */
 const SOCIAL_ICONS: Record<SocialKey, ComponentType<SVGProps<SVGSVGElement>>> = {
-  facebook: Facebook,
-  instagram: Instagram,
-  tiktok: TikTokIcon,
+  facebook: FacebookBrandIcon,
+  instagram: InstagramBrandIcon,
+  tiktok: TikTokBrandIcon,
   youtube: Youtube,
 }
 

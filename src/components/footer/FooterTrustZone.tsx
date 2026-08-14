@@ -1,8 +1,22 @@
-import { MapPin, ShieldCheck } from 'lucide-react'
+import { CreditCard, MapPin, ShieldCheck, Store, Truck, type LucideIcon } from 'lucide-react'
 import BadgeGrid from './BadgeGrid'
 import { PAYMENT_BADGES, SHIPPING_BADGES, TRUST_ZONE_TEXTE } from '@/lib/footer-nav'
 
-const BLOCK_TITLE = 'mb-2 text-xs font-bold uppercase tracking-[0.08em] text-white'
+const BLOCK_TITLE =
+  'mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.08em] text-white'
+
+/**
+ * Blocküberschrift mit vorangestelltem Lucide-Icon. Das Icon ist eine Stufe
+ * größer als die Versalien daneben (16px zu 12px), sonst wirkt es gequetscht.
+ */
+function BlockTitle({ icon: Icon, children }: { icon: LucideIcon; children: string }) {
+  return (
+    <h3 className={BLOCK_TITLE}>
+      <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-white" />
+      {children}
+    </h3>
+  )
+}
 
 /**
  * Eigene horizontale Zone unter den Spalten.
@@ -38,7 +52,7 @@ export default function FooterTrustZone() {
 
           {/* 2 — Sichere Zahlung */}
           <div className="lg:col-span-4">
-            <h3 className={BLOCK_TITLE}>{TRUST_ZONE_TEXTE.zahlung.titel}</h3>
+            <BlockTitle icon={CreditCard}>{TRUST_ZONE_TEXTE.zahlung.titel}</BlockTitle>
             {/* Durchgehend 4 Spalten: Die 8 aktiven Badges gehen damit auf
                 jeder Breite in genau 2 vollen Zeilen auf — keine Zeile endet
                 mit einem einzelnen Badge. Bei der reduzierten Kachelhöhe (36px)
@@ -49,7 +63,7 @@ export default function FooterTrustZone() {
 
           {/* 3 — Schnelle Lieferung */}
           <div className="lg:col-span-3">
-            <h3 className={BLOCK_TITLE}>{TRUST_ZONE_TEXTE.lieferung.titel}</h3>
+            <BlockTitle icon={Truck}>{TRUST_ZONE_TEXTE.lieferung.titel}</BlockTitle>
             <BadgeGrid badges={SHIPPING_BADGES} columnsClassName="grid-cols-3" />
             <p className="mt-2 text-[13px] leading-5 text-ash">
               {TRUST_ZONE_TEXTE.lieferung.zusatz}
@@ -58,7 +72,7 @@ export default function FooterTrustZone() {
 
           {/* 4 — Fachmarkt vor Ort */}
           <div className="lg:col-span-3">
-            <h3 className={BLOCK_TITLE}>{TRUST_ZONE_TEXTE.fachmarkt.titel}</h3>
+            <BlockTitle icon={Store}>{TRUST_ZONE_TEXTE.fachmarkt.titel}</BlockTitle>
             <div className="flex items-start gap-3">
               <MapPin aria-hidden="true" className="mt-0.5 h-6 w-6 shrink-0 text-white" />
               <p className="text-[15px] leading-6 text-ash">
