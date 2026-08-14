@@ -22,6 +22,10 @@ interface ShopMobileMenuProps {
  * Header-Zeile. Unterkategorien öffnen als Akkordeon, damit die Header-Zeile
  * ohne Zurück-Pfeil auskommt.
  *
+ * Tippen auf eine Zeile: Hat die Kategorie Unterpunkte, klappt die gesamte Zeile
+ * (Text und Pfeil) das Akkordeon auf; die Kategorieseite selbst liegt darin als
+ * „Alle Produkte anzeigen". Ohne Unterpunkte navigiert die Zeile direkt.
+ *
  * Bleibt dauerhaft im DOM und wird geschlossen über `invisible` ausgeblendet:
  * das erlaubt die Slide-Animation und nimmt die Inhalte gleichzeitig aus
  * Tab-Reihenfolge und Screenreader-Baum.
@@ -65,33 +69,36 @@ export default function ShopMobileMenu({ isOpen, onClose }: ShopMobileMenuProps)
                 <li key={item.id} className="border-b border-hdr-line">
                   {hasChildren ? (
                     <>
-                      <div className="flex items-stretch">
-                        <Link
-                          href={item.href}
-                          onClick={onClose}
-                          className="flex min-h-14 flex-1 items-center px-4 text-left text-[15px] text-white"
-                        >
-                          {item.label}
-                        </Link>
-                        <button
-                          type="button"
-                          onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                          aria-expanded={isExpanded}
-                          aria-controls={`mobile-sub-${item.id}`}
-                          aria-label={`Unterkategorien von ${item.label} ${isExpanded ? 'schließen' : 'anzeigen'}`}
-                          className="flex w-14 flex-shrink-0 items-center justify-center text-white"
-                        >
-                          {/* Geschlossen zeigt der Pfeil nach rechts, aufgeklappt
-                              dreht er um 90° nach unten. */}
-                          <ChevronRight
-                            className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
-                            strokeWidth={2}
-                            aria-hidden="true"
-                          />
-                        </button>
-                      </div>
+                      {/* Ganze Zeile klappt auf — Text und Pfeil dürfen nicht
+                          unterschiedliche Ziele haben. Die Kategorieseite selbst
+                          steht als erster Eintrag im Untermenü. */}
+                      <button
+                        type="button"
+                        onClick={() => setExpandedId(isExpanded ? null : item.id)}
+                        aria-expanded={isExpanded}
+                        aria-controls={`mobile-sub-${item.id}`}
+                        className="flex min-h-14 w-full items-center justify-between gap-2 px-4 text-left text-[15px] text-white"
+                      >
+                        {item.label}
+                        {/* Geschlossen zeigt der Pfeil nach rechts, aufgeklappt
+                            dreht er um 90° nach unten. */}
+                        <ChevronRight
+                          className={`h-5 w-5 flex-shrink-0 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
+                          strokeWidth={2}
+                          aria-hidden="true"
+                        />
+                      </button>
 
                       <ul id={`mobile-sub-${item.id}`} hidden={!isExpanded} className="bg-hdr-panel">
+                        <li>
+                          <Link
+                            href={item.href}
+                            onClick={onClose}
+                            className="flex min-h-11 items-center px-4 text-sm text-white/90"
+                          >
+                            Alle Produkte anzeigen
+                          </Link>
+                        </li>
                         {item.children?.map((child) =>
                           child.isGroupLabel ? (
                             <li

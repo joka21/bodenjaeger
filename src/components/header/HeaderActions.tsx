@@ -18,7 +18,7 @@ interface HeaderActionsProps {
 /** Roter Zähler-Badge oben rechts am Icon. */
 function Badge({ value, label }: { value: number; label: string }) {
   return (
-    <span className="pointer-events-none absolute -top-0.5 -right-0.5 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-hdr-red px-1 text-[11px] leading-none font-[family-name:var(--font-poppins-bold)] text-white">
+    <span className="pointer-events-none absolute -top-1 -right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full bg-hdr-red px-[3px] text-[10px] leading-none font-[family-name:var(--font-poppins-bold)] text-white">
       <span aria-hidden="true">{value}</span>
       <span className="sr-only">{`${value} ${label}`}</span>
     </span>

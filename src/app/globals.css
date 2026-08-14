@@ -44,17 +44,22 @@ input[type="number"] {
   /* Semantic Colors */
   --color-success: #28a745;        /* Erfolgsmeldungen / Kostenlos */
 
-  /* Shop-Header (Design-Tokens aus dem Header-Mockup).
-     Werden unten in @theme inline auf Tailwind-Utilities gemappt
-     (bg-hdr-bg, text-hdr-link, border-hdr-line, …). */
-  --hdr-bg: #000000;         /* Header-Hintergrund                    */
-  --hdr-red: #cc0e18;        /* Flächen: Logo-Kreis, Such-Btn, Badge  */
-  --hdr-link: #ff0018;       /* Text-Links: Gratis Muster, Fachmarkt  */
-  --hdr-field: #0c0c0c;      /* Suchfeld-Füllung                      */
-  --hdr-line: #171717;       /* Trennlinien                           */
-  --hdr-outline: #585859;    /* Rahmen Outline-Button                 */
-  --hdr-muted: #9a9a9a;      /* Platzhalter / Sublines                */
-  --hdr-panel: #151515;      /* Restfläche Mobile-Menü                */
+  /* Shop-Header (Design-Tokens). Werden unten in @theme inline auf
+     Tailwind-Utilities gemappt (bg-hdr-bg, text-hdr-link, border-hdr-line, …).
+
+     Die Werte sind bewusst identisch zum Footer, damit Kopf und Fuß der Seite
+     dieselbe Palette tragen — der Kommentar hinter jedem Token nennt die
+     Footer-Entsprechung. Flächen und Linien liegen wie im Footer als weiße
+     Überlagerung auf dem Grundton statt als eigener Hex-Wert; dadurch bleibt
+     der Abstand zum Hintergrund erhalten, wenn sich --hdr-bg ändert. */
+  --hdr-bg: #2e2d32;                      /* = bg-dark          (Footer)  */
+  --hdr-red: #ed1b24;                     /* = bg-brand         (Footer)  */
+  --hdr-link: #ed1b24;                    /* = bg-brand / text-brand      */
+  --hdr-field: rgb(255 255 255 / 0.05);   /* Suchfeld, nur im Header      */
+  --hdr-line: rgb(255 255 255 / 0.1);     /* = border-white/10  (Footer)  */
+  --hdr-outline: rgb(255 255 255 / 0.5);  /* = border-white/50  (Footer)  */
+  --hdr-muted: #e5e5e5;                   /* = text-ash         (Footer)  */
+  --hdr-panel: rgb(255 255 255 / 0.04);   /* Untermenü, nur im Header     */
 
   /* Legacy Variables (für Kompatibilität) */
   --background: #ffffff;

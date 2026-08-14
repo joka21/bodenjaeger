@@ -83,7 +83,9 @@ export default function UspBar() {
           aria-hidden="true"
         >
           <CurrentIcon className="h-4 w-4 flex-shrink-0 text-white" strokeWidth={1.75} />
-          <span className="truncate text-xs leading-none text-white">{current.label}</span>
+          {/* leading-5 statt leading-none: `truncate` schneidet mit line-height 1
+              die Unterlängen ab („g", „j", „ä"). */}
+          <span className="truncate text-xs leading-5 text-white">{current.label}</span>
         </div>
 
         <div className="h-[2px] w-full" aria-hidden="true">
