@@ -9,7 +9,7 @@
  * (`content/service.ts`, `content/fachmarkt.ts`) statt neu getippt.
  */
 import { SERVICE_LINKS } from '@/content/service'
-import { MAPS_ROUTE_URL, OEFFNUNGSZEITEN, STANDORT } from '@/content/fachmarkt'
+import { OEFFNUNGSZEITEN, STANDORT } from '@/content/fachmarkt'
 
 // ── Stammdaten ───────────────────────────────────────────────────────────────
 
@@ -83,14 +83,6 @@ export interface FooterBadge {
   mark?: 'bodenjaeger'
 }
 
-// ── Spalte 1: Kontakt (Aktionslinks) ─────────────────────────────────────────
-
-export const FOOTER_KONTAKT_AKTIONEN: FooterLink[] = [
-  { label: 'Anrufen', href: FOOTER_TELEFON.href, icon: 'phone', external: true },
-  { label: 'Route planen', href: MAPS_ROUTE_URL, icon: 'route', external: true },
-  { label: 'Kontaktformular', href: SERVICE_LINKS.kontakt, icon: 'mail' },
-]
-
 // ── Social ───────────────────────────────────────────────────────────────────
 
 export type SocialKey = 'facebook' | 'instagram' | 'tiktok' | 'youtube'
@@ -103,9 +95,12 @@ export interface SocialProfile {
 }
 
 /**
- * Aktive Social-Profile. TikTok und YouTube sind in FooterSocial.tsx bereits
- * als Icon gemappt — sobald die Profil-URLs vorliegen, reicht je ein Objekt
- * hier. Keine Komponentenänderung nötig, keine Platzhalter im Layout.
+ * Aktive Social-Profile — alle vier Kanäle sind freigeschaltet. Die Icons sind
+ * in FooterSocial.tsx gemappt; ein weiterer Kanal bräuchte dort einen Eintrag
+ * und in SocialBrandIcons.tsx die Marken-Glyphe.
+ *
+ * Die YouTube-URL steht prozentkodiert (`%C3%A4` = „ä"), wie YouTube den
+ * Handle selbst ausliefert.
  */
 export const FOOTER_SOCIAL: SocialProfile[] = [
   {
@@ -123,7 +118,11 @@ export const FOOTER_SOCIAL: SocialProfile[] = [
     label: 'Bodenjäger auf TikTok',
     href: 'https://www.tiktok.com/@bodenjaeger_',
   },
-  // { key: 'youtube', label: 'Bodenjäger auf YouTube', href: 'TODO: Profil-URL' },
+  {
+    key: 'youtube',
+    label: 'Bodenjäger auf YouTube',
+    href: 'https://www.youtube.com/@Bodenj%C3%A4ger',
+  },
 ]
 
 // ── Spalten 2–4 ──────────────────────────────────────────────────────────────

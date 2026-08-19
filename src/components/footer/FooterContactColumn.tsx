@@ -1,17 +1,19 @@
 import { Clock3, MapPin, Phone } from 'lucide-react'
-import FooterLinkList, { FOOTER_FOCUS_RING } from './FooterLinkList'
+import { FOOTER_FOCUS_RING } from './FooterLinkList'
 import FooterSocial from './FooterSocial'
 import {
   FIRMIERUNG,
   FOOTER_ADRESSE,
-  FOOTER_KONTAKT_AKTIONEN,
   FOOTER_OEFFNUNGSZEITEN,
   FOOTER_TELEFON,
 } from '@/lib/footer-nav'
 
 /**
- * Spalte 1: Firmierung, Anschrift, Telefon, Öffnungszeiten, Aktionslinks, Social.
+ * Spalte 1: Firmierung, Anschrift, Telefon, Öffnungszeiten, Social.
  * Kein Logo — das steht bereits im Header.
+ *
+ * Bewusst OHNE Aktionslinks („Anrufen", „Route planen", „Kontaktformular"):
+ * Sie doppelten Telefon und Adresse, die direkt darüber schon anklickbar sind.
  *
  * `showHeading={false}` im Mobile-Accordion, dort liefert der Accordion-Button
  * die Überschrift.
@@ -61,10 +63,6 @@ export default function FooterContactColumn({
             </div>
           ))}
         </dl>
-      </div>
-
-      <div className="mt-4">
-        <FooterLinkList links={FOOTER_KONTAKT_AKTIONEN} ariaLabel="Kontaktmöglichkeiten" />
       </div>
 
       <div className="mt-5">

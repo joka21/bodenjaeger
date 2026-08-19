@@ -1,24 +1,27 @@
 import type { ComponentType, SVGProps } from 'react'
-import { Youtube } from 'lucide-react'
 import { FOOTER_SOCIAL, type SocialKey } from '@/lib/footer-nav'
 import { FOOTER_FOCUS_RING } from './FooterLinkList'
-import { FacebookBrandIcon, InstagramBrandIcon, TikTokBrandIcon } from './SocialBrandIcons'
+import {
+  FacebookBrandIcon,
+  InstagramBrandIcon,
+  TikTokBrandIcon,
+  YouTubeBrandIcon,
+} from './SocialBrandIcons'
 
 /**
- * Alle vier Kanäle sind gemappt. Gerendert wird nur, was in FOOTER_SOCIAL
- * steht — TikTok und YouTube aktiviert man dort durch je ein Objekt mit URL,
- * ohne diese Komponente anzufassen.
+ * Alle vier Kanäle sind gemappt und aktiv. Gerendert wird nur, was in
+ * FOOTER_SOCIAL steht — ein Kanal verschwindet bzw. kommt dort durch ein
+ * Objekt mit URL, ohne diese Komponente anzufassen.
  *
- * Facebook, Instagram und TikTok kommen als offizielle Marken-Glyphen aus
- * SocialBrandIcons (Simple Icons). YouTube ist noch nicht freigeschaltet und
- * bleibt vorläufig beim Lucide-Icon — beim Aktivieren bitte ebenfalls auf ein
- * Simple Icon umstellen, damit die Reihe einheitlich bleibt.
+ * Alle Glyphen kommen als offizielle Markenzeichen aus SocialBrandIcons
+ * (Simple Icons) — kein Lucide-Icon in dieser Reihe, damit sie einheitlich
+ * bleibt.
  */
 const SOCIAL_ICONS: Record<SocialKey, ComponentType<SVGProps<SVGSVGElement>>> = {
   facebook: FacebookBrandIcon,
   instagram: InstagramBrandIcon,
   tiktok: TikTokBrandIcon,
-  youtube: Youtube,
+  youtube: YouTubeBrandIcon,
 }
 
 export default function FooterSocial() {
