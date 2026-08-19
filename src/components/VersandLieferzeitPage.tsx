@@ -57,6 +57,9 @@ export default function VersandLieferzeitPage({ page }: VersandLieferzeitPagePro
     clean = clean.replace(/<img[^>]*>/gi, '');
     clean = clean.replace(/<div[^>]*>\s*<\/div>/gi, '');
     clean = clean.replace(/<p>\s*<\/p>/gi, '');
+    // Lagerdauer: 12 Monate (WP-Inhalt nennt noch 6 Monate)
+    clean = clean.replace(/Kostenlose Lagerung bis zu 6 Monate/gi, 'Kostenlose Lagerung bis zu 12 Monate');
+    clean = clean.replace(/bis zu 6 Monate kostenlos/gi, 'bis zu 12 Monate kostenlos');
     return clean;
   }, [page.content.rendered]);
 
