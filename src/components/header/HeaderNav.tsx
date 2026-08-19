@@ -7,7 +7,8 @@ import { FACHMARKT_LINK, MUSTER_LINK, SHOP_NAV } from '@/content/shopNav'
 
 /**
  * Zeile 3 des Shop-Headers (nur ab lg): Kategorienavigation mit Dropdowns,
- * roter Muster-Link und Outline-Button zum Fachmarkt. Höhe fest 86px.
+ * roter Muster-Link und Outline-Button zum Fachmarkt. Höhe fest 64px — knapp
+ * über den 44px-Zielflächen der Links, damit die Zeile nicht aufgeblasen wirkt.
  *
  * Dropdowns öffnen per Hover UND per Klick auf den Chevron. Das Label selbst
  * bleibt ein normaler Link auf die Kategorie — so ist die Kategorieseite mit
@@ -44,7 +45,7 @@ export default function HeaderNav() {
   return (
     <div className="hidden lg:block">
       <div className="content-container">
-        <div ref={navRef} className="flex h-[86px] items-center justify-between gap-6">
+        <div ref={navRef} className="flex h-[64px] items-center justify-between gap-6">
           {/* Kategorien + Muster-Link */}
           <nav aria-label="Hauptnavigation">
             <ul className="flex items-center gap-1">
@@ -132,7 +133,7 @@ export default function HeaderNav() {
           {/* Fachmarkt-Button */}
           <Link
             href={FACHMARKT_LINK.href}
-            className="flex h-[51px] w-[300px] flex-shrink-0 items-center justify-center gap-2.5 rounded-lg border border-hdr-outline text-sm text-white transition-colors hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="flex h-11 w-[300px] flex-shrink-0 items-center justify-center gap-2.5 rounded-lg border border-hdr-outline text-sm text-white transition-colors hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <MapPin className="h-[18px] w-[18px] flex-shrink-0 text-white" strokeWidth={1.75} aria-hidden="true" />
             {FACHMARKT_LINK.label}

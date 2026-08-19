@@ -33,8 +33,8 @@ export interface NavItem {
   children?: NavChild[]
 }
 
-/** Anzeigedauer eines USP im mobilen Ticker. Muss zur Animationsdauer von
- *  `.hdr-usp-progress` in globals.css passen (dort 4s). */
+/** Anzeigedauer eines USP im mobilen Ticker (UspBar.tsx). Seit dem Wegfall des
+ *  Fortschrittsbalkens der einzige Taktgeber — frei änderbar. */
 export const USP_INTERVAL_MS = 4000
 
 export const USP_ITEMS: UspItem[] = [

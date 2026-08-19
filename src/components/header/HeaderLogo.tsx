@@ -1,18 +1,21 @@
 import Link from 'next/link'
 
 /**
- * Original-Logo-Lockup des Shop-Headers: roter Kreis mit weißem „J" + Wortmarke
- * „Bodenjäger" in der Original-Schrift.
+ * Original-Logo-Lockup des Shop-Headers: roter Kreis mit ausgeschnittenem „J" +
+ * Wortmarke „Bodenjäger" in der Original-Schrift.
  *
  * Alle Pfade sind unverändert aus `public/images/logo/logo-bodenjaeger-fff.svg`
  * übernommen (viewBox 311.85 × 60.96), damit die Formen exakt dem Original
- * entsprechen. Zwei Abweichungen zum Asset, beide technisch notwendig:
+ * entsprechen.
  *
- * 1. Der Kreis liegt hier als eigenes `<circle>` vor und das J als weiße Fläche
- *    darüber. Im Asset ist das J eine Aussparung im roten Kreis und würde auf
- *    dem dunklen Header-Hintergrund dunkel erscheinen statt weiß.
- * 2. Inline statt `<Image>`, damit kein zusätzlicher Request nötig ist und die
- *    Marke bei jeder Größe scharf bleibt.
+ * Das J ist wie im Original eine Aussparung: Kreis und J stecken in EINEM
+ * zusammengesetzten Pfad, dessen J-Kontur gegenläufig verläuft und über die
+ * Nonzero-Regel ein Loch erzeugt. Durch dieses Loch scheint der
+ * Header-Hintergrund (`--hdr-bg`). Nicht in `<circle>` + weiße J-Fläche
+ * zerlegen — dann verliert die Marke den Ausschnitt.
+ *
+ * Inline statt `<Image>`: kein zusätzlicher Request, scharf in jeder Größe und
+ * die Markenfarbe kommt aus `fill-brand`.
  */
 export default function HeaderLogo() {
   return (
@@ -23,17 +26,16 @@ export default function HeaderLogo() {
     >
       <svg
         viewBox="0 0 311.85 60.96"
-        className="h-9 w-auto lg:h-[57px]"
+        className="h-8 w-auto lg:h-11"
         aria-hidden="true"
         focusable="false"
       >
-        {/* Bildmarke: roter Kreis mit weißem J. `fill-brand` (#ed1b24) statt des
-            Asset-Werts #ed1c24 — ein Punkt Differenz im Grünkanal, dafür ein
-            einziger Rotton im gesamten Projekt. */}
-        <circle cx="30.48" cy="30.48" r="30.48" className="fill-brand" />
+        {/* Bildmarke: roter Kreis, J als Aussparung — ein Pfad, zwei Konturen.
+            `fill-brand` (#ed1b24) statt des Asset-Werts #ed1c24 — ein Punkt
+            Differenz im Grünkanal, dafür ein einziger Rotton im Projekt. */}
         <path
-          d="m31.22,35.54c0,6.95-2.65,8.87-6.88,8.87-1.99,0-3.77-.33-5.16-.79l-1.13,8.14c1.99.66,5.03,1.06,7.34,1.06,9.79,0,15.88-4.43,15.88-17.14V7.48h-10.06v28.06Z"
-          fill="#fff"
+          d="m60.96,30.48c0,16.83-13.65,30.48-30.48,30.48S0,47.31,0,30.48,13.65,0,30.48,0s30.48,13.65,30.48,30.48Zm-29.74,5.06c0,6.95-2.65,8.87-6.88,8.87-1.99,0-3.77-.33-5.16-.79l-1.13,8.14c1.99.66,5.03,1.06,7.34,1.06,9.79,0,15.88-4.43,15.88-17.14V7.48h-10.06v28.06Z"
+          className="fill-brand"
         />
 
         {/* Wortmarke „Bodenjäger" */}

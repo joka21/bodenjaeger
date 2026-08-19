@@ -15,7 +15,7 @@ interface ShopMobileMenuProps {
  *
  * Layout: Drawer von links über 85% der Breite, rechts daneben und darunter ein
  * abdunkelnder Backdrop. Das Panel beginnt unterhalb der Header-Zeile
- * (`top-16` = 64px, muss zur Höhe der Header-Zeile in Header.tsx passen), damit
+ * (`top-14` = 56px, muss zur Höhe der Header-Zeile in Header.tsx passen), damit
  * Burger, Logo und Icons unverändert sichtbar und bedienbar bleiben.
  *
  * Kein Suchfeld — die Suche steht im geschlossenen Zustand in der eigenen
@@ -44,7 +44,7 @@ export default function ShopMobileMenu({ isOpen, onClose }: ShopMobileMenuProps)
       <div
         onClick={onClose}
         aria-hidden="true"
-        className={`fixed inset-x-0 top-16 bottom-0 z-[1] bg-black/70 transition-opacity duration-300 ${
+        className={`fixed inset-x-0 top-14 bottom-0 z-[1] bg-black/70 transition-opacity duration-300 ${
           isOpen ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
       />
@@ -55,7 +55,7 @@ export default function ShopMobileMenu({ isOpen, onClose }: ShopMobileMenuProps)
         role="dialog"
         aria-modal="true"
         aria-label="Hauptnavigation"
-        className={`fixed top-16 bottom-0 left-0 z-[2] w-[85%] max-w-[420px] overflow-y-auto overscroll-contain bg-hdr-bg transition-transform duration-300 ease-in-out ${
+        className={`fixed top-14 bottom-0 left-0 z-[2] w-[85%] max-w-[420px] overflow-y-auto overscroll-contain bg-hdr-bg transition-transform duration-300 ease-in-out ${
           isOpen ? 'visible translate-x-0' : 'invisible -translate-x-full'
         }`}
       >

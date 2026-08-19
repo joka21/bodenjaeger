@@ -61,7 +61,7 @@ export default function HeaderActions({ variant }: HeaderActionsProps) {
 
   // Gemeinsames Layout für alle drei Aktionen.
   const itemClass = isDesktop
-    ? 'group relative flex h-[60px] min-w-[72px] flex-col items-center justify-center gap-1 rounded-md transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
+    ? 'group relative flex h-[52px] min-w-[72px] flex-col items-center justify-center gap-1 rounded-md transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
     : 'group relative flex h-11 w-11 items-center justify-center rounded-md transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white'
 
   const iconClass = isDesktop ? 'h-6 w-6 text-white' : 'h-[22px] w-[22px] text-white'

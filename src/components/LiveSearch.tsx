@@ -48,7 +48,7 @@ export default function LiveSearch({ size = 'lg', className = '' }: LiveSearchPr
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const heightClass = size === 'lg' ? 'h-[60px]' : 'h-[48px]';
+  const heightClass = size === 'lg' ? 'h-[52px]' : 'h-[48px]';
   const buttonWidthClass = size === 'lg' ? 'w-[65px]' : 'w-[56px]';
   const textClass = size === 'lg' ? 'text-[15px]' : 'text-sm';
 
@@ -147,7 +147,10 @@ export default function LiveSearch({ size = 'lg', className = '' }: LiveSearchPr
           }}
           aria-label="Produktsuche"
           autoComplete="off"
-          className={`min-w-0 flex-1 rounded-l-md bg-hdr-field px-4 text-white placeholder:text-hdr-muted focus:outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-hdr-red ${textClass} [&::-webkit-search-cancel-button]:hidden`}
+          // Fokusring weiß statt Markenrot: Rot auf dem Feld ergibt nur 2,49:1
+          // und verfehlt die 3:1, die ein Fokusindikator braucht. Weiß liegt bei
+          // 10,9:1 — und alle übrigen Header-Bedienelemente ringen ohnehin weiß.
+          className={`min-w-0 flex-1 rounded-l-md bg-hdr-field px-4 text-white placeholder:text-hdr-muted focus:outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-white ${textClass} [&::-webkit-search-cancel-button]:hidden`}
         />
         <button
           type="submit"

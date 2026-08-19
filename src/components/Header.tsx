@@ -14,14 +14,15 @@ import UspBar from './header/UspBar';
 /**
  * Shop-Header.
  *
- * Desktop (ab lg) drei Zeilen: USP-Leiste 68px, Hauptzeile 121px, Navigation
- * 86px. Mobile drei Zeilen: USP-Ticker 40px, Header-Zeile 64px, Suchzeile 60px.
- * Alle Höhen sind fest, damit beim Laden nichts springt.
+ * Desktop (ab lg) drei Zeilen: USP-Leiste 48px, Hauptzeile 96px, Navigation
+ * 64px — zusammen 208px. Mobile drei Zeilen: USP-Ticker 40px, Header-Zeile
+ * 56px, Suchzeile 60px. Alle Höhen sind fest, damit beim Laden nichts springt.
  *
  * Sticky-Verhalten: Die USP-Leiste scrollt weg, Hauptzeile und Navigation
  * bleiben oben stehen. Umgesetzt über einen negativen Sticky-Offset in Höhe der
- * USP-Leiste (mobil -40px, ab lg -68px) — `position: sticky` auf einer inneren
- * Zeile würde am Rand des Headers enden und mit ihm wegscrollen.
+ * USP-Leiste (mobil -40px, ab lg -48px) — `position: sticky` auf einer inneren
+ * Zeile würde am Rand des Headers enden und mit ihm wegscrollen. Der Offset
+ * muss exakt der USP-Höhe in UspBar.tsx entsprechen.
  *
  * Bei offenem Mobile-Menü wechselt der Header auf `fixed top-0`, USP-Leiste und
  * Suchzeile werden ausgeblendet. Die Header-Zeile selbst bleibt unverändert
@@ -117,8 +118,8 @@ export default function Header() {
       ref={headerRef}
       className={`w-full bg-hdr-bg ${
         isMenuOpen
-          ? 'fixed inset-x-0 top-0 z-50 lg:sticky lg:top-[-68px]'
-          : 'sticky top-[-40px] z-50 lg:top-[-68px]'
+          ? 'fixed inset-x-0 top-0 z-50 lg:sticky lg:top-[-48px]'
+          : 'sticky top-[-40px] z-50 lg:top-[-48px]'
       }`}
     >
       <div className="relative z-[3] bg-hdr-bg">
@@ -130,7 +131,7 @@ export default function Header() {
         {/* Zeile 2 — Hauptzeile Desktop: Logo, Suche, Aktionen */}
         <div className="hidden border-b border-hdr-line lg:block">
           <div className="content-container">
-            <div className="flex h-[121px] items-center">
+            <div className="flex h-[96px] items-center">
               <HeaderLogo />
               <div className="flex flex-1 justify-center px-8">
                 <LiveSearch size="lg" className="w-[586px]" />
@@ -142,7 +143,9 @@ export default function Header() {
 
         {/* Zeile 2 — Header-Zeile Mobile: Burger links, Logo, Aktionen rechts */}
         <div className="lg:hidden">
-          <div className="flex h-16 items-center gap-2 px-4">
+          {/* 56px: `top-14` in ShopMobileMenu muss dieser Höhe entsprechen,
+              sonst klafft eine Lücke über dem Menü-Panel. */}
+          <div className="flex h-14 items-center gap-2 px-4">
             <button
               type="button"
               ref={burgerRef}

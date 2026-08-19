@@ -15,24 +15,27 @@ const ICONS: Record<NavIcon, LucideIcon> = {
  * Zeile 1 des Shop-Headers.
  *
  * Desktop (ab lg): alle vier USP statisch, gleichmäßig verteilt, mit vertikalen
- * Trennstrichen. Höhe fest 68px.
+ * Trennstrichen. Höhe fest 48px — der Header schiebt die Leiste ab lg per
+ * `lg:top-[-48px]` aus dem Bild (Header.tsx). Höhe hier ändern heißt Offset
+ * dort mitändern.
  *
  * Mobile: Ticker mit genau einem USP, der automatisch durchrotiert, darunter
- * ein 2px hoher roter Fortschrittsbalken. Höhe fest 40px (38px Zeile + 2px
- * Balken), damit beim Laden nichts springt.
+ * ein ruhender 1px-Trennstrich in `--hdr-line` — derselbe Strich, der die
+ * Zeilen im übrigen Header und im Footer trennt. Kein Fortschrittsbalken: die
+ * mitlaufende Animation zog das Auge in eine Nebenzeile.
  *
- * Bei `prefers-reduced-motion: reduce` bleibt der erste USP stehen und der
- * Balken wird nicht animiert — die Höhe bleibt trotzdem reserviert.
+ * Höhe fest 40px (39px Zeile + 1px Strich). Diese Zahl ist gesetzt — der
+ * Header schiebt die Leiste mobil per `top-[-40px]` aus dem Bild
+ * (Header.tsx). Ändert sich die Höhe hier, muss der Offset dort mitwandern.
+ *
+ * Bei `prefers-reduced-motion: reduce` bleibt der erste USP stehen.
  */
 export default function UspBar() {
   const [index, setIndex] = useState(0)
-  // Startet false, damit Server- und erstes Client-Render identisch sind.
-  const [rotating, setRotating] = useState(false)
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    setRotating(true)
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % USP_ITEMS.length)
     }, USP_INTERVAL_MS)
@@ -47,7 +50,7 @@ export default function UspBar() {
       {/* Desktop: vier Punkte statisch */}
       <div className="hidden border-b border-hdr-line lg:block">
         <div className="content-container">
-          <ul className="flex h-[68px] items-center">
+          <ul className="flex h-[48px] items-center">
             {USP_ITEMS.map((item, i) => {
               const Icon = ICONS[item.icon]
               return (
@@ -58,7 +61,9 @@ export default function UspBar() {
                   }`}
                 >
                   <Icon className="h-5 w-5 flex-shrink-0 text-white" strokeWidth={1.75} />
-                  <span className="text-[13px] leading-tight text-white xl:text-sm">
+                  {/* Bewusst kleiner als die Hauptnavigation: die USP-Zeile ist
+                      Beiwerk und soll die Marke darunter nicht überstimmen. */}
+                  <span className="text-xs leading-tight text-white xl:text-[13px]">
                     {item.label}
                   </span>
                 </li>
@@ -68,8 +73,8 @@ export default function UspBar() {
         </div>
       </div>
 
-      {/* Mobile: rotierender Ticker + Fortschrittsbalken */}
-      <div className="lg:hidden">
+      {/* Mobile: rotierender Ticker, darunter der ruhende Trennstrich */}
+      <div className="border-b border-hdr-line lg:hidden">
         {/* Für Screenreader alle Punkte einmal als Liste – der Ticker selbst
             ist ausgeblendet, damit die Rotation nicht wiederholt vorgelesen wird. */}
         <ul className="sr-only">
@@ -79,19 +84,13 @@ export default function UspBar() {
         </ul>
 
         <div
-          className="flex h-[38px] items-center justify-center gap-2 px-4"
+          className="flex h-[39px] items-center justify-center gap-2 px-4"
           aria-hidden="true"
         >
           <CurrentIcon className="h-4 w-4 flex-shrink-0 text-white" strokeWidth={1.75} />
           {/* leading-5 statt leading-none: `truncate` schneidet mit line-height 1
               die Unterlängen ab („g", „j", „ä"). */}
           <span className="truncate text-xs leading-5 text-white">{current.label}</span>
-        </div>
-
-        <div className="h-[2px] w-full" aria-hidden="true">
-          {rotating && (
-            <div key={index} className="hdr-usp-progress h-full w-full bg-hdr-red" />
-          )}
         </div>
       </div>
     </div>

@@ -54,7 +54,17 @@ input[type="number"] {
      der Abstand zum Hintergrund erhalten, wenn sich --hdr-bg ändert. */
   --hdr-bg: #2e2d32;                      /* = bg-dark          (Footer)  */
   --hdr-red: #ed1b24;                     /* = bg-brand         (Footer)  */
-  --hdr-link: #ed1b24;                    /* = bg-brand / text-brand      */
+
+  /* Rot für TEXT auf dem Header-Grund — aufgehellte Variante des Markenrots:
+     gleicher Farbton und gleiche Sättigung (H 357°, S 85 %), nur heller
+     (L 52 % → 68 %). Das Markenrot selbst erreicht auf #2e2d32 nur 3,11:1 und
+     verfehlt damit WCAG AA für Text; #f3686e liegt bei 4,56:1.
+
+     Bewusst getrennt von --hdr-red: Auf roten FLÄCHEN muss das Markenrot
+     bleiben, sonst rutscht die weiße Schrift bzw. das weiße Icon darauf unter
+     3:1 (weiß auf #f3686e wären nur 2,99:1). Also: rote Fläche = --hdr-red,
+     roter Text = --hdr-link. */
+  --hdr-link: #f3686e;                    /* heller als text-brand         */
   --hdr-field: rgb(255 255 255 / 0.05);   /* Suchfeld, nur im Header      */
   --hdr-line: rgb(255 255 255 / 0.1);     /* = border-white/10  (Footer)  */
   --hdr-outline: rgb(255 255 255 / 0.5);  /* = border-white/50  (Footer)  */
@@ -173,29 +183,6 @@ body.nav-menu-open [data-floating-actions],
 body.nav-menu-open [id^='trustbadge-container-'] {
   opacity: 0 !important;
   pointer-events: none !important;
-}
-
-/* USP-Ticker (Mobile): Fortschrittsbalken läuft während der Anzeigedauer
-   des aktuellen Punktes von 0 % auf 100 %. Dauer = USP_INTERVAL_MS in
-   src/content/shopNav.ts — beide Werte müssen zusammen geändert werden.
-   Neustart pro Punkt erfolgt über den React-`key`. */
-@keyframes hdr-usp-progress {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-.hdr-usp-progress {
-  transform-origin: left center;
-  animation: hdr-usp-progress 4s linear forwards;
-}
-@media (prefers-reduced-motion: reduce) {
-  .hdr-usp-progress {
-    animation: none;
-    transform: scaleX(0);
-  }
 }
 
 /* ===== Artikeleigenschaften Tabelle (Weitere Artikeldetails) ===== */
