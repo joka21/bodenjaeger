@@ -63,7 +63,7 @@ export default function HeaderNav() {
                     <span className="flex items-center">
                       <Link
                         href={item.href}
-                        className="flex h-11 items-center rounded-md px-3 text-[15px] text-white transition-colors hover:text-hdr-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        className="flex h-11 items-center rounded-md px-2.5 text-[15px] text-white transition-colors hover:text-hdr-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                       >
                         {item.label}
                       </Link>
@@ -122,7 +122,7 @@ export default function HeaderNav() {
               <li>
                 <Link
                   href={MUSTER_LINK.href}
-                  className="ml-3 flex h-11 items-center rounded-md px-3 text-[15px] font-[family-name:var(--font-poppins-bold)] text-hdr-link transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  className="ml-3 flex h-11 items-center rounded-md px-3 text-[15px] font-[family-name:var(--font-poppins-bold)] whitespace-nowrap text-white transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {MUSTER_LINK.label}
                 </Link>
@@ -130,13 +130,17 @@ export default function HeaderNav() {
             </ul>
           </nav>
 
-          {/* Fachmarkt-Button */}
+          {/* Fachmarkt-Button. Breite richtet sich nach dem Text statt fester
+              300px, und bis xl steht die Kurzform im Button — sonst passen
+              Kategorien, „Kostenlose Bodenmuster bestellen" und Button
+              zwischen 1024px und 1180px nicht mehr in eine Zeile. */}
           <Link
             href={FACHMARKT_LINK.href}
-            className="flex h-11 w-[300px] flex-shrink-0 items-center justify-center gap-2.5 rounded-lg border border-hdr-outline text-sm text-white transition-colors hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="flex h-11 flex-shrink-0 items-center justify-center gap-2.5 rounded-lg border border-hdr-outline px-5 text-sm whitespace-nowrap text-white transition-colors hover:border-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <MapPin className="h-[18px] w-[18px] flex-shrink-0 text-white" strokeWidth={1.75} aria-hidden="true" />
-            {FACHMARKT_LINK.label}
+            <span className="xl:hidden">{FACHMARKT_LINK.linkLabel}</span>
+            <span className="hidden xl:inline">{FACHMARKT_LINK.label}</span>
           </Link>
         </div>
       </div>

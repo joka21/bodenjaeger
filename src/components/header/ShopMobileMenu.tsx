@@ -24,7 +24,9 @@ interface ShopMobileMenuProps {
  *
  * Tippen auf eine Zeile: Hat die Kategorie Unterpunkte, klappt die gesamte Zeile
  * (Text und Pfeil) das Akkordeon auf; die Kategorieseite selbst liegt darin als
- * „Alle Produkte anzeigen". Ohne Unterpunkte navigiert die Zeile direkt.
+ * erster Eintrag. Dessen Text kommt aus `allLabel` in shopNav.ts und ist pro
+ * Kategorie ausformuliert („Alle Vinylböden anzeigen") — ohne Angabe steht dort
+ * „Alles anzeigen". Ohne Unterpunkte navigiert die Zeile direkt.
  *
  * Bleibt dauerhaft im DOM und wird geschlossen über `invisible` ausgeblendet:
  * das erlaubt die Slide-Animation und nimmt die Inhalte gleichzeitig aus
@@ -96,7 +98,7 @@ export default function ShopMobileMenu({ isOpen, onClose }: ShopMobileMenuProps)
                             onClick={onClose}
                             className="flex min-h-11 items-center px-4 text-sm text-white/90"
                           >
-                            Alle Produkte anzeigen
+                            {item.allLabel ?? 'Alles anzeigen'}
                           </Link>
                         </li>
                         {item.children?.map((child) =>
@@ -141,29 +143,33 @@ export default function ShopMobileMenu({ isOpen, onClose }: ShopMobileMenuProps)
         <Link
           href={MUSTER_LINK.href}
           onClick={onClose}
-          className="mt-6 flex min-h-11 items-center px-4 text-[15px] font-[family-name:var(--font-poppins-bold)] text-hdr-link"
+          className="mt-6 flex min-h-11 items-center px-4 text-[15px] font-[family-name:var(--font-poppins-bold)] text-white"
         >
           {MUSTER_LINK.label}
         </Link>
 
-        {/* Fachmarkt-Block, abgesetzt */}
-        <div className="mt-6 mb-8 border-t border-hdr-line px-4 pt-6">
-          <div className="flex gap-3">
-            <MapPin className="mt-0.5 h-5 w-5 flex-shrink-0 text-hdr-red" strokeWidth={2} aria-hidden="true" />
+        {/* Fachmarkt-Block, abgesetzt. Der gesamte Block ist EIN Link —
+            Überschrift, Zeile darunter und „Zum Fachmarkt" führen alle zum
+            selben Ziel, also gibt es keinen Grund, nur den Schlusssatz
+            anklickbar zu machen. Das „→" bleibt deshalb ein <span>: ein Link im
+            Link ist ungültiges HTML. */}
+        <div className="mt-6 mb-8 border-t border-hdr-line pt-6">
+          <Link
+            href={FACHMARKT_LINK.href}
+            onClick={onClose}
+            className="flex gap-3 px-4 py-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            <MapPin className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" strokeWidth={2} aria-hidden="true" />
             <div>
               <p className="font-[family-name:var(--font-poppins-bold)] text-[15px] text-white">
                 {FACHMARKT_LINK.title}
               </p>
               <p className="mt-1 text-xs text-hdr-muted">{FACHMARKT_LINK.subline}</p>
-              <Link
-                href={FACHMARKT_LINK.href}
-                onClick={onClose}
-                className="mt-3 inline-flex min-h-11 items-center text-sm font-[family-name:var(--font-poppins-bold)] text-hdr-link"
-              >
+              <span className="mt-3 inline-flex items-center text-sm font-[family-name:var(--font-poppins-bold)] text-hdr-link">
                 {FACHMARKT_LINK.linkLabel} <span aria-hidden="true">&nbsp;→</span>
-              </Link>
+              </span>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -31,6 +31,16 @@ export interface NavItem {
   label: string
   href: string
   children?: NavChild[]
+  /**
+   * Beschriftung des ersten Eintrags im mobilen Untermenü, der auf die
+   * Kategorieseite selbst führt (ShopMobileMenu.tsx).
+   *
+   * Wird ausformuliert, weil das kurze Header-Label nicht in jeden Satz passt:
+   * „Alle Vinyl anzeigen" wäre falsches Deutsch, „Alle Vinylböden anzeigen"
+   * richtig. Fehlt das Feld, steht dort „Alles anzeigen" — grammatisch immer
+   * korrekt, nur weniger konkret.
+   */
+  allLabel?: string
 }
 
 /** Anzeigedauer eines USP im mobilen Ticker (UspBar.tsx). Seit dem Wegfall des
@@ -49,6 +59,7 @@ export const SHOP_NAV: NavItem[] = [
     id: 'vinyl',
     label: 'Vinyl',
     href: '/category/vinylboden',
+    allLabel: 'Alle Vinylböden anzeigen',
     children: [
       { id: 'klebe-vinyl', label: 'Klebe-Vinyl', href: '/category/klebe-vinyl' },
       { id: 'rigid-vinyl', label: 'Rigid-Vinyl', href: '/category/rigid-vinyl' },
@@ -66,6 +77,7 @@ export const SHOP_NAV: NavItem[] = [
     id: 'laminat',
     label: 'Laminat',
     href: '/category/laminat',
+    allLabel: 'Alle Laminatböden anzeigen',
     children: [
       { id: 'laminat-marken', label: 'Marken', href: '', isGroupLabel: true },
       { id: 'orca', label: 'O.R.C.A.', href: '/category/o-r-c-a' },
@@ -75,6 +87,8 @@ export const SHOP_NAV: NavItem[] = [
     id: 'zubehoer',
     label: 'Zubehör',
     href: '/category/zubehoer',
+    // „Zubehör" ist unzählbar, deshalb „Alles" statt „Alle".
+    allLabel: 'Alles Zubehör anzeigen',
     children: [
       { id: 'zubehoer-set', label: 'Fürs Set', href: '', isGroupLabel: true },
       { id: 'sockelleisten', label: 'Sockelleisten', href: '/category/sockelleisten' },
@@ -107,9 +121,9 @@ export const SHOP_NAV: NavItem[] = [
   },
 ]
 
-/** Roter Textlink in Nav-Zeile und Mobile-Menü. */
+/** Fetter weißer Textlink in Nav-Zeile und Mobile-Menü (vorher rot). */
 export const MUSTER_LINK = {
-  label: '3 Gratis Muster',
+  label: 'Kostenlose Bodenmuster bestellen',
   href: '/category/musterbox',
 } as const
 
@@ -122,4 +136,4 @@ export const FACHMARKT_LINK = {
   href: '/fachmarkt-hueckelhoven',
 } as const
 
-export const SEARCH_PLACEHOLDER = 'Produkte, Marken oder Kategorien suchen…'
+export const SEARCH_PLACEHOLDER = 'Suche'

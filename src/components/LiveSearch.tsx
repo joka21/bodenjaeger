@@ -150,12 +150,15 @@ export default function LiveSearch({ size = 'lg', className = '' }: LiveSearchPr
           // Fokusring weiß statt Markenrot: Rot auf dem Feld ergibt nur 2,49:1
           // und verfehlt die 3:1, die ein Fokusindikator braucht. Weiß liegt bei
           // 10,9:1 — und alle übrigen Header-Bedienelemente ringen ohnehin weiß.
-          className={`min-w-0 flex-1 rounded-l-md bg-hdr-field px-4 text-white placeholder:text-hdr-muted focus:outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-white ${textClass} [&::-webkit-search-cancel-button]:hidden`}
+          className={`min-w-0 flex-1 rounded-l-md bg-hdr-field px-4 text-white placeholder:text-white focus:outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-white ${textClass} [&::-webkit-search-cancel-button]:hidden`}
         />
+        {/* Lupenfeld trägt denselben Grauton wie das Eingabefeld — Feld und
+            Button bilden zusammen eine durchgehende Fläche. Der Trennstrich
+            links hält die Schaltfläche trotzdem als solche erkennbar. */}
         <button
           type="submit"
           aria-label="Suchen"
-          className={`flex flex-shrink-0 items-center justify-center rounded-r-md bg-hdr-red transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${buttonWidthClass}`}
+          className={`flex flex-shrink-0 items-center justify-center rounded-r-md border-l border-hdr-line bg-hdr-field transition-colors hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${buttonWidthClass}`}
         >
           <Search className="h-5 w-5 text-white" strokeWidth={2} aria-hidden="true" />
         </button>

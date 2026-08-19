@@ -55,17 +55,14 @@ input[type="number"] {
   --hdr-bg: #2e2d32;                      /* = bg-dark          (Footer)  */
   --hdr-red: #ed1b24;                     /* = bg-brand         (Footer)  */
 
-  /* Rot für TEXT auf dem Header-Grund — aufgehellte Variante des Markenrots:
-     gleicher Farbton und gleiche Sättigung (H 357°, S 85 %), nur heller
-     (L 52 % → 68 %). Das Markenrot selbst erreicht auf #2e2d32 nur 3,11:1 und
-     verfehlt damit WCAG AA für Text; #f3686e liegt bei 4,56:1.
-
-     Bewusst getrennt von --hdr-red: Auf roten FLÄCHEN muss das Markenrot
-     bleiben, sonst rutscht die weiße Schrift bzw. das weiße Icon darauf unter
-     3:1 (weiß auf #f3686e wären nur 2,99:1). Also: rote Fläche = --hdr-red,
-     roter Text = --hdr-link. */
-  --hdr-link: #f3686e;                    /* heller als text-brand         */
-  --hdr-field: rgb(255 255 255 / 0.05);   /* Suchfeld, nur im Header      */
+  /* Rot für Text auf dem Header-Grund. Bewusst der unveränderte Markenton:
+     Die aufgehellte Variante (#f3686e, WCAG-AA-konform) wurde vom Kunden
+     verworfen, weil sie neben dem Markenrot rosa wirkte. #ed1b24 auf #2e2d32
+     erreicht nur 3,11:1 und verfehlt AA für Text — bekannt und so entschieden.
+     Getragen wird das dadurch, dass rot nur noch an einer Stelle Text ist
+     („Zum Fachmarkt" im Mobile-Menü); der Muster-Link ist weiß und fett. */
+  --hdr-link: #ed1b24;                    /* = text-brand                  */
+  --hdr-field: rgb(255 255 255 / 0.1);    /* Suchfeld + Lupe, nur im Header */
   --hdr-line: rgb(255 255 255 / 0.1);     /* = border-white/10  (Footer)  */
   --hdr-outline: rgb(255 255 255 / 0.5);  /* = border-white/50  (Footer)  */
   --hdr-muted: #e5e5e5;                   /* = text-ash         (Footer)  */
