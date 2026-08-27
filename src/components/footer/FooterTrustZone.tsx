@@ -1,4 +1,5 @@
-import { CreditCard, MapPin, ShieldCheck, Store, Truck, type LucideIcon } from 'lucide-react'
+import Image from 'next/image'
+import { CreditCard, MapPin, Store, Truck, type LucideIcon } from 'lucide-react'
 import BadgeGrid from './BadgeGrid'
 import { PAYMENT_BADGES, SHIPPING_BADGES, TRUST_ZONE_TEXTE } from '@/lib/footer-nav'
 
@@ -38,7 +39,18 @@ export default function FooterTrustZone() {
           <div className="lg:col-span-2">
             <h3 className={BLOCK_TITLE}>Geprüfter Shop</h3>
             <div className="flex items-start gap-3">
-              <ShieldCheck aria-hidden="true" className="mt-0.5 h-6 w-6 shrink-0 text-white" />
+              {/* Das Trustmark ist ein dunkel umringtes Rundsiegel und würde auf
+                  `bg-dark` seine Außenkante verlieren. Es sitzt deshalb — wie die
+                  Zahlungslogos — auf Weiß, hier als Kreis statt als Kachel. */}
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white">
+                <Image
+                  src="/images/trusted-shops/Trustmark-RGB.png"
+                  alt="Trusted Shops Gütesiegel"
+                  width={1250}
+                  height={1250}
+                  className="h-9 w-9 object-contain"
+                />
+              </span>
               <div>
                 <p className="text-[15px] font-bold leading-6 text-white">
                   {TRUST_ZONE_TEXTE.trustedShops.titel}
