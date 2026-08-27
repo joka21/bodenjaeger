@@ -87,8 +87,7 @@ export const SHOP_NAV: NavItem[] = [
     id: 'zubehoer',
     label: 'Zubehör',
     href: '/category/zubehoer',
-    // „Zubehör" ist unzählbar, deshalb „Alles" statt „Alle".
-    allLabel: 'Alles Zubehör anzeigen',
+    allLabel: 'Alle Zubehöre anzeigen',
     children: [
       { id: 'zubehoer-set', label: 'Fürs Set', href: '', isGroupLabel: true },
       { id: 'sockelleisten', label: 'Sockelleisten', href: '/category/sockelleisten' },
