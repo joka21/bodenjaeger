@@ -13,14 +13,19 @@ interface BadgeGridProps {
 /**
  * Ein Grid für Zahlungs- UND Versand-Badges.
  *
- * Jede Hülle hat dieselbe Höhe (h-9), denselben Radius und dasselbe Padding.
- * Logos werden auf feste Höhe skaliert (`h-[22px] w-auto`) — nie gedehnt,
- * Breite variabel. Ein Badge ohne `src` rendert als Textbadge in exakt
- * derselben Hülle; ein später ergänztes SVG stellt es ohne Codeänderung um.
+ * Jede Hülle hat dieselbe Höhe (h-9), denselben Radius (10px) und dasselbe
+ * Padding. Der Untergrund ist transparent, abgegrenzt wird nur über eine 1px
+ * weiße Border. Die Zahlungs-SVGs sind Monochrom-Varianten ohne eigene
+ * Kartenfläche, ihre viewBox ist auf die Marke zugeschnitten — deshalb
+ * `h-6 w-full object-contain`: jede Marke wird in dieselbe Box eingepasst,
+ * nie gedehnt, breite Wortmarken werden entsprechend flacher. Ein Badge ohne
+ * `src` rendert als Textbadge in exakt derselben Hülle; ein später ergänztes
+ * SVG stellt es ohne Codeänderung um.
  *
- * Kachel- und Logohöhe sind bewusst zurückhaltend (vorher 48px/32px), damit
- * die Block-Überschrift darüber die Zone anführt und nicht von einer Wand
- * weißer Kacheln überstrahlt wird.
+ * `unoptimized` ist Pflicht: Der Next-Image-Optimizer lehnt SVG mit 400 ab,
+ * solange `images.dangerouslyAllowSVG` nicht gesetzt ist — ohne das Flag
+ * blieben alle Zahlungslogos leer. Die Dateien liegen lokal in /public,
+ * Optimierung bringt bei ~1-4 KB SVG ohnehin nichts.
  */
 export default function BadgeGrid({ badges, columnsClassName }: BadgeGridProps) {
   const visible = badges.filter((badge) => badge.enabled)
@@ -29,25 +34,22 @@ export default function BadgeGrid({ badges, columnsClassName }: BadgeGridProps) 
     <ul className={`grid gap-1.5 ${columnsClassName}`}>
       {visible.map((badge) => (
         <li key={badge.label}>
-          <div
-            className={`flex h-9 items-center justify-center rounded-md bg-white px-1.5 ${
-              badge.mark ? 'gap-1' : 'gap-1'
-            }`}
-          >
+          <div className="flex h-9 items-center justify-center gap-1 rounded-[10px] border border-white px-1.5">
             {badge.src ? (
               <Image
                 src={badge.src}
                 alt={badge.label}
                 width={64}
                 height={32}
-                className="h-[22px] w-auto object-contain"
+                unoptimized
+                className="h-6 w-full object-contain"
               />
             ) : (
               <>
                 {badge.mark === 'bodenjaeger' && (
                   <span
                     aria-hidden="true"
-                    className="flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-brand text-[8px] font-bold leading-none text-white"
+                    className="flex h-[13px] w-[13px] shrink-0 items-center justify-center rounded-full bg-brand text-[9px] font-bold leading-none text-white"
                   >
                     J
                   </span>
@@ -55,10 +57,12 @@ export default function BadgeGrid({ badges, columnsClassName }: BadgeGridProps) 
                 {/* „Bodenjäger" ist deutlich länger als „DHL"/„Raben" und trägt
                     zusätzlich die Marke. Kreis und Schrift sind daher eine Stufe
                     kleiner, damit die drei Kacheln nebeneinander gleich schwer
-                    wirken — die Kachelmaße selbst bleiben identisch. */}
+                    wirken — die Kachelmaße selbst bleiben identisch.
+                    Schriftfarbe weiß, weil die Kachel keinen weißen Grund mehr
+                    hat — `text-dark` wäre auf `bg-dark` unlesbar. */}
                 <span
-                  className={`text-center font-bold leading-tight text-dark ${
-                    badge.mark === 'bodenjaeger' ? 'text-[9px]' : 'text-[11px]'
+                  className={`text-center font-bold leading-tight text-white ${
+                    badge.mark === 'bodenjaeger' ? 'text-[10px]' : 'text-[12px]'
                   }`}
                 >
                   {badge.label}
