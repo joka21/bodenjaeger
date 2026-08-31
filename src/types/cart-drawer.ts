@@ -51,6 +51,10 @@ export interface CartDrawerData {
   shipping: number;
   savings: number; // Savings/discount
   total: number;
+  /** Rabatt einer laufenden Paket-Aktion in EUR (0 = keine Aktion/kein Anspruch). */
+  aktionDiscount: number;
+  /** Anzahl der Gratis-Pakete, aus denen sich `aktionDiscount` ergibt. */
+  aktionFreePackages: number;
 }
 
 export interface CartDrawerContextType {

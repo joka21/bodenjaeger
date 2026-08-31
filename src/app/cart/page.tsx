@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useCart } from '@/contexts/CartContext';
 import { track } from '@/lib/analytics/track';
 import { cartItemsToGA4Items, mapCartItemToGA4Item } from '@/lib/analytics/mapItem';
+import { PAKET_AKTION, calculatePaketAktion } from '@/lib/promo';
 
 export default function CartPage() {
   const {
@@ -16,6 +17,11 @@ export default function CartPage() {
     removeFromCart,
     clearCart
   } = useCart();
+
+  // Paket-Aktion („jedes 7. Paket gratis"). Die Seite zeigt bewusst keine
+  // Versandkosten — der Rabatt mindert hier also direkt die Gesamtsumme.
+  const aktion = calculatePaketAktion(cartItems);
+  const totalAfterAktion = Math.max(0, totalPrice - aktion.discount);
 
   // GA4 view_cart — einmal beim Mount der /cart-Seite, sobald Cart hydratisiert ist.
   // Doppel-Trigger zwischen Drawer und /cart ist beabsichtigt (zwei separate Views).
@@ -239,8 +245,18 @@ export default function CartPage() {
                 <div className="text-sm text-gray-600">
                   {itemCount} {itemCount === 1 ? 'Artikel' : 'Artikel'} im Warenkorb
                 </div>
+                {aktion.discount > 0 && (
+                  <div className="text-sm text-brand font-semibold">
+                    {PAKET_AKTION.label}: −{aktion.discount.toFixed(2).replace('.', ',')} €
+                    <span className="text-gray-600 font-normal">
+                      {' '}
+                      ({aktion.freePackages}{' '}
+                      {aktion.freePackages === 1 ? 'Paket' : 'Pakete'} gratis)
+                    </span>
+                  </div>
+                )}
                 <div className="text-2xl font-bold text-gray-900">
-                  Gesamt: €{totalPrice.toFixed(2)}
+                  Gesamt: €{totalAfterAktion.toFixed(2)}
                 </div>
               </div>
               <Link href="/checkout">

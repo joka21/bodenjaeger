@@ -52,6 +52,17 @@ export interface WooCommerceOrderData {
   coupon_lines?: Array<{
     code: string;
   }>;
+  /**
+   * Zusatzposten. Wird für den Rabatt aus zeitgesteuerten Aktionen mit
+   * NEGATIVEM `total` genutzt (z.B. „Jedes 7. Paket gratis"), wenn der Rabatt
+   * nicht direkt in den Line-Item-Totals steckt — aktuell nur im
+   * PayPal-Express-Pfad. Beträge sind wie überall in dieser Datei NETTO.
+   */
+  fee_lines?: Array<{
+    name: string;
+    total: string;
+    tax_status?: 'taxable' | 'none';
+  }>;
   customer_note?: string;
   meta_data?: Array<{
     key: string;

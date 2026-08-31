@@ -341,6 +341,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             shipping={cartData.shipping}
             savings={cartData.savings}
             total={cartData.total}
+            aktionDiscount={cartData.aktionDiscount}
+            aktionFreePackages={cartData.aktionFreePackages}
             onCheckout={handleCheckout}
             customerNote={customerNote}
             onCustomerNoteChange={setCustomerNote}

@@ -5,6 +5,7 @@ import { loadScript } from '@paypal/paypal-js';
 import { useCart } from '@/contexts/CartContext';
 import { cartItemsToOrderItems } from '@/lib/cart-utils';
 import { calculateShippingCost } from '@/lib/shippingConfig';
+import { calculatePaketAktion } from '@/lib/promo';
 
 /**
  * Express Checkout — PayPal Smart Button oben im /checkout-Layout.
@@ -98,8 +99,11 @@ export default function ExpressCheckout() {
               throw new Error(msg);
             }
 
+            // Paket-Aktion: mindert den PayPal-Betrag und — wie im normalen
+            // Checkout — die Basis der Versandstaffel.
+            const aktionDiscount = calculatePaketAktion(cartItemsRef.current).discount;
             const shippingCost = calculateShippingCost(
-              totalPriceRef.current,
+              Math.max(0, totalPriceRef.current - aktionDiscount),
               cartItemsRef.current
             );
 
@@ -110,6 +114,7 @@ export default function ExpressCheckout() {
                 items: billableItems,
                 subtotal: totalPriceRef.current,
                 shipping_cost: shippingCost,
+                ...(aktionDiscount > 0 ? { aktion_discount: aktionDiscount } : {}),
               }),
             });
 
@@ -126,8 +131,9 @@ export default function ExpressCheckout() {
             try {
               // Für WC: ALLE Items (auch Free) — WC braucht die volle Set-Darstellung
               const allItems = cartItemsToOrderItems(cartItemsRef.current);
+              const aktionDiscount = calculatePaketAktion(cartItemsRef.current).discount;
               const shippingCost = calculateShippingCost(
-                totalPriceRef.current,
+                Math.max(0, totalPriceRef.current - aktionDiscount),
                 cartItemsRef.current
               );
 
@@ -146,6 +152,7 @@ export default function ExpressCheckout() {
                   items: allItems,
                   subtotal: totalPriceRef.current,
                   shipping_cost: shippingCost,
+                  ...(aktionDiscount > 0 ? { aktion_discount: aktionDiscount } : {}),
                   customer_note: note,
                 }),
               });

@@ -7,6 +7,13 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
 import { toValidationItems } from '@/lib/cart-utils';
+import {
+  PAKET_AKTION,
+  calculatePaketAktion,
+  getFreePackages,
+  getLineDiscount,
+  isAktionForced,
+} from '@/lib/promo';
 import { track } from '@/lib/analytics/track';
 import { cartItemsToGA4Items } from '@/lib/analytics/mapItem';
 import type { PaymentType, PurchaseTrackingPayload } from '@/lib/analytics/types';
@@ -50,6 +57,15 @@ interface FormData {
 export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, totalPrice, customerNote, deliveryNote } = useCart();
+
+  /**
+   * Vorschau-/Testmodus (NEXT_PUBLIC_AKTION_FORCE=1, nur auf Preview-
+   * Deployments gesetzt). Blendet Stripe, Klarna, PayPal und den
+   * Express-Button aus, damit ein Aktions-Test keine echte Zahlung auslösen
+   * kann. Übrig bleibt Vorkasse — die Bestellung landet als Testbestellung
+   * markiert in WooCommerce (create-order/route.ts).
+   */
+  const isVorschauModus = isAktionForced();
   const { isLoggedIn } = useAuth();
   const attribution = useAttribution();
 
@@ -73,7 +89,9 @@ export default function CheckoutPage() {
     billingPostcode: '',
     billingCountry: 'DE',
     sameAsBilling: true,
-    paymentMethod: 'stripe',
+    // Im Vorschau-Modus startet der Checkout auf Vorkasse — die Live-Gateways
+    // sind dort ausgeblendet (siehe isVorschauModus).
+    paymentMethod: isAktionForced() ? 'bacs' : 'stripe',
     acceptTerms: false,
   });
 
@@ -332,11 +350,26 @@ export default function CheckoutPage() {
           metadata.push({ key: '_is_sample', value: 'true' });
         }
 
+        // Paket-Aktion: `subtotal` bleibt der volle Betrag, `total` sinkt um
+        // den Wert der Gratis-Pakete. WooCommerce weist die Differenz dadurch
+        // als Rabatt an der Position aus, statt den Preis stillschweigend zu
+        // drücken.
+        const aktionDiscount = getLineDiscount(item);
+        const lineTotal = Math.max(0, totalPrice - aktionDiscount);
+
+        if (aktionDiscount > 0) {
+          metadata.push(
+            { key: '_aktion', value: PAKET_AKTION.id },
+            { key: '_aktion_gratis_pakete', value: getFreePackages(item).toString() },
+            { key: '_aktion_rabatt', value: aktionDiscount.toFixed(2) }
+          );
+        }
+
         return {
           product_id: item.product.id,
           quantity: item.quantity,
           subtotal: totalPrice.toFixed(2),
-          total: totalPrice.toFixed(2),
+          total: lineTotal.toFixed(2),
           name: item.product.name,
           meta_data: metadata,
         };
@@ -414,9 +447,12 @@ export default function CheckoutPage() {
       // Subtotal angewendet — sonst würden Coupons den Versand künstlich
       // kostenfrei lassen, obwohl der Cart unter die Schwelle gerutscht ist.
       // free_shipping-Coupons nullt der Server zusätzlich autoritativ.
+      // Der Aktionsrabatt steckt bereits in den Line-Item-Totals; für die
+      // Versandstaffel muss er hier noch einmal explizit abgezogen werden.
+      const aktionDiscount = calculatePaketAktion(cartItems).discount;
       const subtotalAfterDiscount = Math.max(
         0,
-        totalPrice - (appliedCoupon?.discountAmount ?? 0)
+        totalPrice - aktionDiscount - (appliedCoupon?.discountAmount ?? 0)
       );
       const shippingCost =
         shippingMethod === 'pickup'
@@ -468,7 +504,7 @@ export default function CheckoutPage() {
           // tatsächlich gezahlten Versand (0 bei free_shipping, sonst `shippingCost`).
           const trackedValue = result.total
             ? parseFloat(result.total)
-            : totalPrice + shippingCost;
+            : totalPrice - aktionDiscount + shippingCost;
           const trackedShipping = appliedCoupon?.freeShipping ? 0 : shippingCost;
 
           const trackingPayload: PurchaseTrackingPayload = {
@@ -528,7 +564,26 @@ export default function CheckoutPage() {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* LINKE SPALTE (60%) */}
             <div className="w-full lg:w-3/5 order-2 lg:order-1">
-              <ExpressCheckout />
+              {/* Vorschau-Hinweis: macht unübersehbar, dass hier getestet wird
+                  und keine echte Zahlung möglich ist. */}
+              {isVorschauModus && (
+                <div
+                  className="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-4"
+                  role="status"
+                >
+                  <p className="text-sm font-semibold text-amber-900">
+                    Vorschau-Modus — Testbestellung
+                  </p>
+                  <p className="mt-1 text-xs text-amber-900">
+                    Die Aktion &bdquo;{PAKET_AKTION.label}&ldquo; ist hier zum Testen dauerhaft
+                    aktiv. Es ist nur Vorkasse möglich, es wird keine Zahlung
+                    ausgelöst. Die Bestellung wird in WooCommerce als
+                    Testbestellung markiert und muss dort storniert werden.
+                  </p>
+                </div>
+              )}
+
+              {!isVorschauModus && <ExpressCheckout />}
 
               {/* Kontakt */}
               <div className="mb-8">
@@ -692,6 +747,11 @@ export default function CheckoutPage() {
               <div className="mb-8">
                 <h2 className="text-lg font-semibold text-dark mb-4">Zahlungsmethode</h2>
                 <div className="space-y-3">
+                  {/* PayPal, Klarna und Kreditkarte nur außerhalb des
+                      Vorschau-Modus — im Test soll kein echtes Gateway
+                      erreichbar sein. */}
+                  {!isVorschauModus && (
+                  <>
                   {/* PayPal */}
                   <label className={`block p-4 border rounded-lg cursor-pointer transition-colors ${
                     formData.paymentMethod === 'paypal'
@@ -790,6 +850,9 @@ export default function CheckoutPage() {
                       </p>
                     )}
                   </label>
+
+                  </>
+                  )}
 
                   {/* Vorkasse per Banküberweisung */}
                   <label className={`block p-4 border rounded-lg cursor-pointer transition-colors ${

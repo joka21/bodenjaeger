@@ -8,6 +8,7 @@
  *   items: [{ name, quantity, price }]   // Brutto-Einzelpreise in EUR
  *   subtotal: number                      // Brutto-Summe der Items (ohne Versand)
  *   shipping_cost: number                 // geschätzte Versandkosten in EUR
+ *   aktion_discount?: number              // Rabatt der Paket-Aktion, brutto EUR
  * }
  *
  * Response (Erfolg):
@@ -33,6 +34,12 @@ interface ExpressCreateBody {
   }>;
   subtotal: number;
   shipping_cost: number;
+  /**
+   * Rabatt der laufenden Paket-Aktion (brutto, EUR). Mindert den Betrag, den
+   * PayPal einzieht; die `items` bleiben auf ihren vollen Stückpreisen, weil
+   * PayPal sie nur informativ anzeigt.
+   */
+  aktion_discount?: number;
 }
 
 export async function POST(request: NextRequest) {
@@ -73,6 +80,14 @@ export async function POST(request: NextRequest) {
     if (typeof body.shipping_cost !== 'number' || body.shipping_cost < 0) {
       errors.push('Versandkosten ungültig');
     }
+    if (
+      body.aktion_discount !== undefined &&
+      (typeof body.aktion_discount !== 'number' ||
+        body.aktion_discount < 0 ||
+        body.aktion_discount > body.subtotal)
+    ) {
+      errors.push('Aktionsrabatt ungültig');
+    }
 
     if (errors.length > 0) {
       return NextResponse.json(
@@ -90,8 +105,13 @@ export async function POST(request: NextRequest) {
 
     // 4. Gesamtbetrag inkl. (geschätzter) Versandkosten
     //    Folgt dem Pattern aus create-order/route.ts (Standard-PayPal-Flow):
-    //    amount = subtotal + shipping_cost, Versand ist KEIN separates Line-Item.
-    const totalAmount = (body.subtotal + body.shipping_cost).toFixed(2);
+    //    amount = subtotal - Aktionsrabatt + shipping_cost, Versand ist KEIN
+    //    separates Line-Item.
+    const aktionDiscount = body.aktion_discount ?? 0;
+    const totalAmount = Math.max(
+      0,
+      body.subtotal - aktionDiscount + body.shipping_cost
+    ).toFixed(2);
 
     // 5. PayPal Express Order beim Proxy erstellen
     const result = await createPayPalExpressOrder({

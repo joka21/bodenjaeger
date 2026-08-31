@@ -27,6 +27,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { capturePayPalExpressOrder } from '@/lib/paypal';
 import { createWooCommerceOrder, addOrderNote } from '@/lib/woocommerce-checkout';
 import type { WooCommerceOrderData } from '@/lib/woocommerce-checkout';
+import { PAKET_AKTION } from '@/lib/promo';
 
 interface ExpressCaptureBody {
   paypalOrderId: string;
@@ -38,6 +39,13 @@ interface ExpressCaptureBody {
   }>;
   subtotal: number;
   shipping_cost: number;
+  /**
+   * Rabatt der laufenden Paket-Aktion (brutto, EUR). Landet als negative
+   * `fee_line` an der WooCommerce-Order — die Line-Items behalten dadurch ihre
+   * echten Stückpreise und der Rabatt ist im Backoffice als eigene Zeile
+   * sichtbar.
+   */
+  aktion_discount?: number;
   customer_note?: string;
 }
 
@@ -89,6 +97,17 @@ export async function POST(request: NextRequest) {
     if (typeof body.shipping_cost !== 'number' || body.shipping_cost < 0) {
       return NextResponse.json(
         { success: false, error: 'Versandkosten ungültig' },
+        { status: 400 }
+      );
+    }
+    if (
+      body.aktion_discount !== undefined &&
+      (typeof body.aktion_discount !== 'number' ||
+        body.aktion_discount < 0 ||
+        body.aktion_discount > body.subtotal)
+    ) {
+      return NextResponse.json(
+        { success: false, error: 'Aktionsrabatt ungültig' },
         { status: 400 }
       );
     }
@@ -161,6 +180,19 @@ export async function POST(request: NextRequest) {
     const shippingCostNet =
       body.shipping_cost > 0 ? (body.shipping_cost / TAX_RATE).toFixed(2) : '0.00';
 
+    // Aktionsrabatt als negative Gebührenzeile (netto).
+    const aktionDiscount = body.aktion_discount ?? 0;
+    const aktionFeeLines: WooCommerceOrderData['fee_lines'] =
+      aktionDiscount > 0
+        ? [
+            {
+              name: PAKET_AKTION.label,
+              total: (-aktionDiscount / TAX_RATE).toFixed(2),
+              tax_status: 'taxable',
+            },
+          ]
+        : undefined;
+
     // 5. WC-Order anlegen
     const orderData: WooCommerceOrderData = {
       payment_method: 'paypal',
@@ -170,6 +202,7 @@ export async function POST(request: NextRequest) {
       billing,
       shipping,
       line_items: lineItemsNet,
+      ...(aktionFeeLines ? { fee_lines: aktionFeeLines } : {}),
       customer_note: body.customer_note || '',
       shipping_lines:
         body.shipping_cost > 0

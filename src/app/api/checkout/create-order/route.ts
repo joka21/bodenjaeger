@@ -25,6 +25,7 @@ import {
   type AppliedCoupon,
   type CartItemForValidation,
 } from '@/lib/coupon';
+import { isAktionForced } from '@/lib/promo';
 
 // ============================================================================
 // TypeScript Interfaces
@@ -276,6 +277,17 @@ export async function POST(request: NextRequest) {
               ]
             : undefined;
 
+    // Vorschau-Modus (NEXT_PUBLIC_AKTION_FORCE=1) läuft nur auf Test-/
+    // Preview-Deployments. Bestellungen von dort werden markiert, damit sie in
+    // WooCommerce und Billbee nicht mit echten Aufträgen verwechselt werden.
+    const isTestOrder = isAktionForced();
+    const testOrderMetaData = isTestOrder
+      ? [
+          { key: '_testbestellung', value: 'yes' },
+          { key: '_testbestellung_grund', value: 'Vorschau-Deployment (NEXT_PUBLIC_AKTION_FORCE)' },
+        ]
+      : [];
+
     const orderData: WooCommerceOrderData = {
       ...(customerId ? { customer_id: customerId } : {}),
       payment_method: wcPaymentMethod,
@@ -286,7 +298,9 @@ export async function POST(request: NextRequest) {
       shipping,
       line_items: lineItemsNet,
       customer_note,
-      ...(attributionMetaData.length > 0 ? { meta_data: attributionMetaData } : {}),
+      ...(attributionMetaData.length + testOrderMetaData.length > 0
+        ? { meta_data: [...attributionMetaData, ...testOrderMetaData] }
+        : {}),
       ...(shippingLines ? { shipping_lines: shippingLines } : {}),
       ...(appliedCoupon ? { coupon_lines: [{ code: appliedCoupon.code }] } : {}),
     };
@@ -294,6 +308,15 @@ export async function POST(request: NextRequest) {
     const order = await createWooCommerceOrder(orderData);
 
     console.log(`✅ WooCommerce Order created: ${order.id}`);
+
+    // Bestellnotiz zusätzlich zum Meta-Feld: im Backoffice sofort sichtbar,
+    // ohne dass jemand die Custom Fields aufklappen muss.
+    if (isTestOrder) {
+      addOrderNote(
+        order.id,
+        '⚠️ TESTBESTELLUNG aus dem Vorschau-Deployment (Aktions-Test). Nicht ausliefern, nicht abrechnen — bitte stornieren.'
+      ).catch((err) => console.error('[create-order] Test-Notiz fehlgeschlagen:', err));
+    }
 
     // 6. Kundenprofil mit Adressen aktualisieren (im Hintergrund, blockiert nicht)
     if (customerId) {

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { calculateShippingCost } from '@/lib/shippingConfig';
 import { toValidationItems } from '@/lib/cart-utils';
+import { PAKET_AKTION, calculatePaketAktion } from '@/lib/promo';
 import type { AppliedCoupon } from '@/types/checkout';
 import CouponInput from '@/components/checkout/CouponInput';
 
@@ -30,8 +31,14 @@ export default function OrderSummary({
 
   // Pre-Discount Zwischensumme.
   const subtotal = totalPrice;
-  const discountAmount = appliedCoupon?.discountAmount ?? 0;
-  const subtotalAfterDiscount = Math.max(0, subtotal - discountAmount);
+
+  // Paket-Aktion vor dem Gutschein: Der Aktionsrabatt ergibt sich aus den
+  // Paketmengen im Warenkorb, der Gutschein aus dem Warenwert. Beide werden
+  // addiert und gemeinsam gegen 0 geklemmt.
+  const aktion = calculatePaketAktion(cartItems);
+  const couponDiscount = appliedCoupon?.discountAmount ?? 0;
+  const discountAmount = couponDiscount;
+  const subtotalAfterDiscount = Math.max(0, subtotal - aktion.discount - couponDiscount);
 
   // Versandkosten-Schwelle (z.B. Free-Shipping ab 999€) wird auf den
   // diskontierten Subtotal angewendet — d.h. ein Coupon, der den Cart unter
@@ -181,6 +188,21 @@ export default function OrderSummary({
           <span>Zwischensumme · {itemCount} Artikel</span>
           <span>{subtotal.toFixed(2).replace('.', ',')} €</span>
         </div>
+
+        {/* Aktionsrabatt — steht über der Gutscheinzeile, weil er zuerst
+            abgezogen wird. */}
+        {aktion.discount > 0 && (
+          <div className="flex justify-between text-sm text-brand">
+            <span>
+              {PAKET_AKTION.label}
+              <span className="text-mid">
+                {' '}
+                ({aktion.freePackages} {aktion.freePackages === 1 ? 'Paket' : 'Pakete'} gratis)
+              </span>
+            </span>
+            <span>−{aktion.discount.toFixed(2).replace('.', ',')} €</span>
+          </div>
+        )}
 
         {/* Rabattzeile — zwischen Zwischensumme und Versand (F-4=a). */}
         {appliedCoupon && discountAmount > 0 && (

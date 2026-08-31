@@ -3,12 +3,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { formatPrice } from '@/lib/cart-utils';
+import { PAKET_AKTION } from '@/lib/promo';
 
 interface CartFooterProps {
   subtotal: number;
   shipping: number;
   savings: number;
   total: number;
+  /** Rabatt der laufenden Paket-Aktion; 0 = keine Zeile anzeigen. */
+  aktionDiscount?: number;
+  /** Gratis-Pakete hinter dem Rabatt — erscheinen im Zeilentext. */
+  aktionFreePackages?: number;
   onCheckout: () => void;
   customerNote: string;
   onCustomerNoteChange: (note: string) => void;
@@ -23,6 +28,8 @@ export default function CartFooter({
   shipping,
   savings,
   total,
+  aktionDiscount = 0,
+  aktionFreePackages = 0,
   onCheckout,
   customerNote,
   onCustomerNoteChange,
@@ -41,6 +48,23 @@ export default function CartFooter({
           <span className="font-semibold text-dark">{formatPrice(subtotal)} €</span>
         </div>
 
+        {/* Paket-Aktion — zwischen Zwischensumme und Versand, wie die
+            Gutscheinzeile im Checkout. */}
+        {aktionDiscount > 0 && (
+          <div className="flex items-center justify-between text-sm text-brand">
+            <span>
+              {PAKET_AKTION.label}
+              {aktionFreePackages > 0 && (
+                <span className="text-gray-600">
+                  {' '}
+                  ({aktionFreePackages} {aktionFreePackages === 1 ? 'Paket' : 'Pakete'} gratis)
+                </span>
+              )}
+            </span>
+            <span className="font-semibold">−{formatPrice(aktionDiscount)} €</span>
+          </div>
+        )}
+
         {/* Shipping */}
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Versandkosten</span>
@@ -49,10 +73,11 @@ export default function CartFooter({
           </span>
         </div>
 
-        {/* Shipping info */}
-        {shipping > 0 && subtotal < 999 && (
+        {/* Shipping info — Restbetrag bezieht sich auf den Warenwert NACH
+            Aktionsrabatt, weil die Versandstaffel genauso rechnet. */}
+        {shipping > 0 && subtotal - aktionDiscount < 999 && (
           <div className="text-xs text-gray-500">
-            Noch {formatPrice(999 - subtotal)} € bis zum kostenlosen Versand
+            Noch {formatPrice(999 - (subtotal - aktionDiscount))} € bis zum kostenlosen Versand
           </div>
         )}
 

@@ -4,6 +4,7 @@ import { CartDrawerData, CartDrawerItem } from '@/types/cart-drawer';
 import type { CartItem } from '@/contexts/CartContext';
 import type { CartItemForValidation } from '@/lib/coupon';
 import { calculateShippingCost } from '@/lib/shippingConfig';
+import { calculatePaketAktion } from '@/lib/promo';
 
 /**
  * Calculate shipping costs based on subtotal and cart items
@@ -95,9 +96,16 @@ export function getUnitDisplayText(unit: string, unitValue: number): string {
  */
 export function calculateCartData(items: CartDrawerItem[], cartItems?: CartItem[]): CartDrawerData {
   const subtotal = calculateSubtotal(items);
-  const shipping = calculateShipping(subtotal, cartItems);
+
+  // Paket-Aktion („jedes 7. Paket gratis") mindert die Zwischensumme, bevor
+  // die Versandstaffel greift — genauso wie ein Gutschein im Checkout.
+  const aktion = cartItems ? calculatePaketAktion(cartItems) : null;
+  const aktionDiscount = aktion?.discount ?? 0;
+  const subtotalAfterAktion = Math.max(0, subtotal - aktionDiscount);
+
+  const shipping = calculateShipping(subtotalAfterAktion, cartItems);
   const savings = calculateSavings();
-  const total = subtotal + shipping;
+  const total = subtotalAfterAktion + shipping;
 
   return {
     items,
@@ -105,6 +113,8 @@ export function calculateCartData(items: CartDrawerItem[], cartItems?: CartItem[
     shipping,
     savings,
     total,
+    aktionDiscount,
+    aktionFreePackages: aktion?.freePackages ?? 0,
   };
 }
 
