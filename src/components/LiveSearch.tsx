@@ -50,7 +50,10 @@ export default function LiveSearch({ size = 'lg', className = '' }: LiveSearchPr
 
   const heightClass = size === 'lg' ? 'h-[52px]' : 'h-[48px]';
   const buttonWidthClass = size === 'lg' ? 'w-[65px]' : 'w-[56px]';
-  const textClass = size === 'lg' ? 'text-[15px]' : 'text-sm';
+  // Mobil bewusst 16px: iOS Safari zoomt beim Fokus in jedes Eingabefeld mit
+  // kleinerer Schrift hinein. 16px verhindert das ohne `user-scalable=no`,
+  // das das Zoomen auf der ganzen Seite abschalten würde.
+  const textClass = size === 'lg' ? 'text-[15px]' : 'text-base';
 
   // Close dropdown when clicking outside
   useEffect(() => {
