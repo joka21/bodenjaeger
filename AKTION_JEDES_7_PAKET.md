@@ -26,14 +26,20 @@ eingeschaltet, während `bodenjaeger.de` unberührt bleibt.
 
 1. Branch pushen (z.B. `feat/aktion-jedes-7-paket`). Vercel legt automatisch
    eine Preview-URL an.
-2. In Vercel → Project → **Settings → Environment Variables**:
-   - Name: `NEXT_PUBLIC_AKTION_FORCE`
-   - Value: `1`
-   - Environment: **nur „Preview"** anhaken. **Nicht** „Production".
-3. Preview neu deployen (Redeploy), damit die Variable greift — sie wird beim
-   Build in das JavaScript eingebacken.
-4. Preview-URL an den Kunden geben. Dort ist die Aktion sofort aktiv,
+2. **Nichts weiter zu tun.** Der Vorschau-Modus erkennt Vercels eigene
+   Umgebungskennung `VERCEL_ENV === 'preview'` und schaltet sich auf jedem
+   Preview-Deployment selbst ein. Produktion (`production`) bleibt unberührt.
+3. Preview-URL an den Kunden geben. Dort ist die Aktion sofort aktiv,
    unabhängig vom Datum.
+
+Sollte der Vorschau-Modus auf dem Preview ausbleiben, ist in den
+Projekt-Einstellungen „Automatically expose System Environment Variables"
+abgeschaltet. Dann greift der manuelle Weg: Variable
+`NEXT_PUBLIC_AKTION_FORCE` = `1`, Environment **nur „Preview"**, anschließend
+Redeploy.
+
+**Lokal testen:** `NEXT_PUBLIC_AKTION_FORCE=1` in `.env.local` und den
+Dev-Server neu starten.
 
 **Testfälle:**
 
@@ -58,7 +64,8 @@ Zwischensumme und den reduzierten Betrag als Total).
 darum eine echte Bestellung: echte Bestellnummer, Bestellbestätigung per Mail,
 Billbee-Übernahme, Lagerbestand wird reduziert (Storno gibt ihn zurück).
 
-Bei gesetztem `NEXT_PUBLIC_AKTION_FORCE=1` greifen deshalb zwei Schutzmechanismen:
+Im Vorschau-Modus (Preview-Deployment oder gesetztes
+`NEXT_PUBLIC_AKTION_FORCE=1`) greifen deshalb zwei Schutzmechanismen:
 
 1. **Nur Vorkasse.** Stripe, Klarna, PayPal und der PayPal-Express-Button sind
    im Checkout ausgeblendet, die Zahlart startet auf Vorkasse. Ein Test kann
@@ -69,9 +76,16 @@ Bei gesetztem `NEXT_PUBLIC_AKTION_FORCE=1` greifen deshalb zwei Schutzmechanisme
    „⚠️ TESTBESTELLUNG aus dem Vorschau-Deployment … bitte stornieren."
    Damit ist sie in WooCommerce und Billbee sofort erkennbar.
 
-Beides hängt allein an `NEXT_PUBLIC_AKTION_FORCE`. In Produktion ist die
-Variable nicht gesetzt — dort ändert sich nichts, alle Zahlarten bleiben
-verfügbar.
+Beides hängt allein am Vorschau-Modus, also an `isAktionForced()` in
+`promo.ts`. In Produktion ist `VERCEL_ENV === 'production'` und die Variable
+nicht gesetzt — dort ändert sich nichts, alle Zahlarten bleiben verfügbar.
+
+Nebenwirkung, bewusst in Kauf genommen: **jedes** Preview-Deployment zeigt jetzt
+die Aktion und lässt nur Vorkasse zu — auch Previews anderer Branches. Weil
+Previews auf denselben Live-Shop und potenziell auf Live-Zahlungskeys zeigen,
+ist das die sicherere Voreinstellung. Wer auf einem Preview eine echte
+Stripe-Zahlung testen muss, muss diese Sperre in `checkout/page.tsx`
+(`isVorschauModus`) vorübergehend aushängen.
 
 Trotzdem gilt: Testbestellung mit erkennbarem Namen (z.B. „TEST AKTION")
 aufgeben, danach in WooCommerce stornieren und in Billbee prüfen.

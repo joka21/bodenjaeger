@@ -73,9 +73,25 @@ export const AKTION_CATEGORY_SLUGS = [
 // Laufzeit
 // ============================================================================
 
-/** true, wenn das Force-Flag gesetzt ist (Preview-Deployment/Testmodus). */
+/**
+ * Vorschau-/Testmodus — Aktion läuft unabhängig vom Startdatum.
+ *
+ * Zwei Wege, absichtlich in dieser Reihenfolge:
+ *  1. `NEXT_PUBLIC_AKTION_FORCE=1` — manuell, z.B. lokal in `.env.local`.
+ *  2. Vercel-Umgebung `preview` — greift auf JEDEM Preview-Deployment
+ *     automatisch, ohne dass in Vercel eine Variable angelegt werden muss.
+ *     Vercel setzt `VERCEL_ENV` selbst; für den Browser wird sie als
+ *     `NEXT_PUBLIC_VERCEL_ENV` eingebacken (Projekt-Einstellung
+ *     „Automatically expose System Environment Variables", standardmäßig an).
+ *
+ * In Produktion ist `VERCEL_ENV === 'production'` — dort ist der Vorschau-Modus
+ * also nie aktiv, egal was auf den Preview-Deployments passiert.
+ */
 export function isAktionForced(): boolean {
-  return process.env.NEXT_PUBLIC_AKTION_FORCE === '1';
+  if (process.env.NEXT_PUBLIC_AKTION_FORCE === '1') return true;
+
+  const vercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV ?? process.env.VERCEL_ENV;
+  return vercelEnv === 'preview';
 }
 
 /**
