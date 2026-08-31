@@ -87,7 +87,7 @@ export const SHOP_NAV: NavItem[] = [
     id: 'zubehoer',
     label: 'Zubehör',
     href: '/category/zubehoer',
-    allLabel: 'Alle Zubehöre anzeigen',
+    allLabel: 'Alle Zubehörartikel anzeigen',
     children: [
       { id: 'zubehoer-set', label: 'Fürs Set', href: '', isGroupLabel: true },
       { id: 'sockelleisten', label: 'Sockelleisten', href: '/category/sockelleisten' },
