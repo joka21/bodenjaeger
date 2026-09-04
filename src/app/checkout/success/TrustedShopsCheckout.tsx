@@ -12,9 +12,9 @@ import { useEffect } from 'react';
  * verarbeitet. Dieses eine Event deckt Käuferschutz UND Servicebewertung ab.
  *
  * Wichtig:
- * - Das Trustbadge wird NUR bei functional-Consent geladen (Gate in
- *   TrustedShops.tsx). Ohne Consent existiert `window.trustbadge` nie → das
- *   Polling läuft ergebnislos aus, die Trustcard erscheint nicht. So gewollt.
+ * - Das Trustbadge wird global in TrustedShops.tsx geladen — inzwischen ohne
+ *   Consent-Gate, also auf jeder Seite. Das Polling unten findet
+ *   `window.trustbadge` daher normalerweise immer.
  * - Es erfolgt KEIN serverseitiger eTrusted-API-Call — rein clientseitig.
  */
 
@@ -42,7 +42,7 @@ declare global {
 }
 
 const POLL_INTERVAL_MS = 500;
-const MAX_ATTEMPTS = 30; // ~15 s — danach aufgeben (z. B. wenn kein functional-Consent)
+const MAX_ATTEMPTS = 30; // ~15 s — danach aufgeben (z. B. wenn das Trustbadge-Script blockiert wird)
 
 export default function TrustedShopsCheckout({ order }: { order: TrustedShopsOrder }) {
   useEffect(() => {

@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { isFachmarktRoute } from '@/lib/landingRoutes';
 
 const TRUSTBADGE_ID = 'XC194F1E7AC0A4EF1D2945E1A065D9618';
@@ -39,15 +38,18 @@ function computeLeftOffset(viewport: number): number | null {
   return PADDING + EXTRA_LEFT_OFFSET;
 }
 
+/**
+ * Trusted-Shops-Trustbadge
+ *
+ * Wird bewusst OHNE Cookie-Consent geladen — das Badge soll auf jeder Seite
+ * sofort sichtbar sein, auch vor einer Entscheidung im Cookie-Banner.
+ * (Vorher hinter isAllowed('functional') gated.)
+ */
 export default function TrustedShops() {
-  const { isAllowed } = useCookieConsent();
-  const allowed = isAllowed('functional');
   const pathname = usePathname();
   const onFachmarkt = isFachmarktRoute(pathname);
 
   useEffect(() => {
-    if (!allowed) return;
-
     if (!document.getElementById(SCRIPT_ID)) {
       const script = document.createElement('script');
       script.id = SCRIPT_ID;
@@ -106,7 +108,7 @@ export default function TrustedShops() {
       observer?.disconnect();
       window.removeEventListener('resize', applyPosition);
     };
-  }, [allowed, onFachmarkt]);
+  }, [onFachmarkt]);
 
   return null;
 }
