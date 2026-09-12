@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
+import { AKTION_BANNER } from '@/content/aktion-banner';
 
 interface SlideData {
   id: number;
@@ -41,17 +42,16 @@ interface SlideData {
 const slides: SlideData[] = [
   {
     id: 4,
-    // Exakt das Rot der beiden PNGs (#ED1C24 — nicht das Brand-Rot #ed1b24),
-    // damit die Ränder bei `object-contain` nicht als Streifen sichtbar werden.
-    bgColor: '#ed1c24',
+    // Motiv, Rotton und Linkziel aus der gemeinsamen Quelle — die
+    // Fachmarktseite zeigt denselben Banner in ihrem Hero.
+    bgColor: AKTION_BANNER.bgColor,
     fullBleed: true,
-    image: '/images/sliderbilder/Slider Desktop - Jedes 7.png',
-    mobileImage: '/images/sliderbilder/Slider Mobil - Jedes 7.png',
-    mobileAspectRatio: '3138 / 4133',
-    imageAlt:
-      'Jedes 7. Paket gratis — Sockelleiste und Dämmung kostenlos bei jedem Bodenkauf, für Laminat, Vinyl und Parkett. Der Rabatt wird automatisch im Warenkorb abgezogen. Nur bis zum 21.10.2026.',
-    buttonLabel: 'Alle Aktionsböden entdecken',
-    buttonHref: '/sale',
+    image: AKTION_BANNER.imageDesktop,
+    mobileImage: AKTION_BANNER.imageMobile,
+    mobileAspectRatio: AKTION_BANNER.mobileAspectRatio,
+    imageAlt: AKTION_BANNER.alt,
+    buttonLabel: AKTION_BANNER.linkLabel,
+    buttonHref: AKTION_BANNER.href,
   },
   {
     id: 1,
