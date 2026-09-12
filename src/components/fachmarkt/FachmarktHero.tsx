@@ -30,28 +30,20 @@ const AUTOPLAY_MS = 6000
 const MIN_SWIPE_PX = 50
 
 /**
- * Gemeinsame Höhe beider Slides.
+ * Gemeinsame Höhe beider Slides — unverändert die des ursprünglichen
+ * Foto-Heros, damit der Banner-Slide genau dieselbe Fläche einnimmt und der
+ * Hero nicht den ganzen Bildschirm füllt.
  *
- * Der Banner wird nie beschnitten (`object-contain`). Damit er trotzdem die
- * volle Breite des Heros füllt und nicht klein in der Mitte steht, muss die
- * Sektion mindestens so hoch sein wie das Motiv bei voller Breite:
+ * Der Banner wird darin mit `object-contain` eingepasst, nie beschnitten:
+ * Headline, Badges und Button sind ins Motiv eingebrannt. Passt das Motiv
+ * nicht exakt in diese Box, bleiben Ränder stehen — die sind unsichtbar, weil
+ * der Slide-Hintergrund exakt dem Rot des Motivs entspricht.
  *
- *   Desktop  8547×4134 → 4134/8547 = 48,37% der Breite → 48.37vw
- *   Mobil    3138×4133 → 4133/3138 = 131,72% der Breite → 131.72vw
- *
- * `max(...)` hält die ursprüngliche Hero-Höhe (70vh/78vh) als Untergrenze —
- * der Foto-Slide braucht sie für Text und CTAs.
- *
- * Die inneren `min(...)` deckeln nach oben, damit der Hero nicht höher als das
- * Fenster wird: 85vh fängt das Hochformat ab, das im Tablet-Bereich bis 1199px
- * sonst über 1500px hoch würde, 88vh den Ultrawide-Fall (2560×1080 käme sonst
- * auf 1238px bei 1080px Fensterhöhe).
- *
- * Greift eine der Grenzen, bleiben Ränder in der Rotfläche des Motivs stehen —
- * sichtbar beschnitten wird nie etwas.
+ * NICHT die Höhe an das Motiv koppeln (z.B. `48.37vw` für das Querformat).
+ * Der Banner füllt dann zwar die Breite, der Hero wird aber deutlich höher als
+ * vorher — auf 1920×1080 rund 929px statt 842px.
  */
-const HEIGHT =
-  'min-h-[max(70vh,min(131.72vw,85vh))] min-[1200px]:min-h-[max(78vh,min(48.37vw,88vh))]'
+const HEIGHT = 'min-h-[70vh] md:min-h-[78vh]'
 
 export default function FachmarktHero() {
   const [current, setCurrent] = useState(0)
