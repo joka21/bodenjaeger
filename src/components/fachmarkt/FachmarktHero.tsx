@@ -147,36 +147,48 @@ function fadeCls(isActive: boolean) {
  * Slide 1: Aktions-Banner. Bild ist der komplette Slide — Headline, Text,
  * Enddatum, Badges und Button sind eingebrannt, deshalb kein HTML-Text daneben
  * und die ganze Fläche als Link.
+ *
+ * Das Motiv liegt im `.content-container` (max. 1400px), genau wie der Slider
+ * auf der Startseite. Randlos über die Fensterbreite wäre es auf großen
+ * Monitoren deutlich breiter als dort — auf 1920px 1742px statt 1352px.
+ * Die Rotfläche der Sektion läuft weiter bis zum Rand; weil das Motiv denselben
+ * Rotton hat, ist die Kante nicht zu sehen.
  */
 function AktionSlide({ isActive }: { isActive: boolean }) {
   return (
     <div className={`absolute inset-0 ${fadeCls(isActive)}`} inert={!isActive}>
-      <a
-        href={AKTION_BANNER.href}
-        aria-label={AKTION_BANNER.linkLabel}
-        className="relative block h-full w-full"
-      >
-        {/* Querformat ab 1200px, darunter das Hochformat — wie auf der
-            Startseite. `object-contain` hält beide Motive vollständig
-            sichtbar; beschneiden würde links die Headline und rechts die
-            Badges kosten. */}
-        <Image
-          src={AKTION_BANNER.imageDesktop}
-          alt={AKTION_BANNER.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="hidden object-contain min-[1200px]:block"
-        />
-        <Image
-          src={AKTION_BANNER.imageMobile}
-          alt={AKTION_BANNER.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-contain min-[1200px]:hidden"
-        />
-      </a>
+      {/* Der Link liegt IM Container, nicht als Container: bei `fill`
+          positioniert sich das Bild an der Padding-Box, das seitliche Padding
+          von `.content-container` bliebe sonst wirkungslos (1400px statt
+          1352px). */}
+      <div className="content-container h-full">
+        <a
+          href={AKTION_BANNER.href}
+          aria-label={AKTION_BANNER.linkLabel}
+          className="relative block h-full w-full"
+        >
+          {/* Querformat ab 1200px, darunter das Hochformat — wie auf der
+              Startseite. `object-contain` hält beide Motive vollständig
+              sichtbar; beschneiden würde links die Headline und rechts die
+              Badges kosten. */}
+          <Image
+            src={AKTION_BANNER.imageDesktop}
+            alt={AKTION_BANNER.alt}
+            fill
+            priority
+            sizes="(min-width: 1400px) 1352px, 100vw"
+            className="hidden object-contain min-[1200px]:block"
+          />
+          <Image
+            src={AKTION_BANNER.imageMobile}
+            alt={AKTION_BANNER.alt}
+            fill
+            priority
+            sizes="(min-width: 1400px) 1352px, 100vw"
+            className="object-contain min-[1200px]:hidden"
+          />
+        </a>
+      </div>
     </div>
   )
 }
