@@ -14,30 +14,44 @@ interface SlideData {
   objectPosition?: string;
   // Wenn true: kleinere Schriftgrößen für Überschrift/Text/Datum (z. B. SummerSALE).
   smallText?: boolean;
-  heading: string;
+  // Full-Bleed-Slide: Das Bild IST der komplette Slide — Headline, Text, Datum
+  // und Button sind darin eingebrannt. Es wird kein HTML-Text gerendert, sonst
+  // stünde alles doppelt da. Die gesamte Slide-Fläche wird zum Link auf
+  // `buttonHref`, damit der gemalte Button klickbar ist.
+  // Damit die Slider-Höhe zwischen den Slides nicht springt, wird das Bild mit
+  // `object-contain` eingepasst; die entstehenden Ränder verschwinden, weil
+  // `bgColor` exakt dem Rot des Bildes entspricht.
+  fullBleed?: boolean;
+  // Eigenes Hochformat-Bild unterhalb von 1200px (nur bei `fullBleed`).
+  mobileImage?: string;
+  // Seitenverhältnis von `mobileImage` als CSS-`aspect-ratio`, z. B. '3138 / 4133'.
+  // Muss zum Bild passen, sonst wird beschnitten. Inline-Style statt
+  // Tailwind-Klasse, weil der Wert aus den Daten kommt.
+  mobileAspectRatio?: string;
+  heading?: string;
   subline?: string;
   bullets?: string[];
   text?: string;
   dateText?: string;
   buttonLabel: string;
   buttonHref: string;
-  buttonVariant: 'light' | 'dark';
+  buttonVariant?: 'light' | 'dark';
 }
 
 const slides: SlideData[] = [
   {
-    id: 2,
-    bgColor: '#ed1b24',
-    image: '/images/sliderbilder/Slider Bild - SummerSALE 2026.png',
-    imageAlt: 'SummerSALE 2026',
-    objectPosition: 'right 10%',
-    smallText: true,
-    heading: 'SummerSALE',
-    text: 'Spare auf das gesamte Sortiment 10% extra. Auch auf bereits reduzierte Ware! Mit dem Code: SU10',
-    dateText: 'Nur bis zum 12.09.2026',
-    buttonLabel: 'Alle Böden entdecken',
-    buttonHref: '/category/musterbox',
-    buttonVariant: 'light',
+    id: 4,
+    // Exakt das Rot der beiden PNGs (#ED1C24 — nicht das Brand-Rot #ed1b24),
+    // damit die Ränder bei `object-contain` nicht als Streifen sichtbar werden.
+    bgColor: '#ed1c24',
+    fullBleed: true,
+    image: '/images/sliderbilder/Slider Desktop - Jedes 7.png',
+    mobileImage: '/images/sliderbilder/Slider Mobil - Jedes 7.png',
+    mobileAspectRatio: '3138 / 4133',
+    imageAlt:
+      'Jedes 7. Paket gratis — Sockelleiste und Dämmung kostenlos bei jedem Bodenkauf, für Laminat, Vinyl und Parkett. Der Rabatt wird automatisch im Warenkorb abgezogen. Nur bis zum 21.10.2026.',
+    buttonLabel: 'Alle Aktionsböden entdecken',
+    buttonHref: '/sale',
   },
   {
     id: 1,
@@ -182,6 +196,53 @@ export default function HeroSlider() {
               } min-[1200px]:absolute min-[1200px]:inset-0 min-[1200px]:transition-opacity min-[1200px]:duration-500`}
               style={{ backgroundColor: slide.bgColor }}
             >
+              {slide.fullBleed ? (
+                <>
+                  {/* Full-Bleed Desktop: Bild über die ganze Slide-Breite.
+                      `object-contain` hält das Bild vollständig sichtbar — bei
+                      `object-cover` würde der 800px hohe Container die Ränder
+                      des Querformats abschneiden und damit Headline und Badges
+                      anschneiden. */}
+                  <a
+                    href={slide.buttonHref}
+                    aria-label={slide.buttonLabel}
+                    className="hidden min-[1200px]:block relative h-full min-h-[800px]"
+                  >
+                    <Image
+                      src={slide.image}
+                      alt={slide.imageAlt}
+                      fill
+                      className="object-contain"
+                      sizes="(min-width: 1400px) 1400px, 100vw"
+                      priority={index === 0}
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                    />
+                  </a>
+
+                  {/* Full-Bleed Mobile/Tablet: Hochformat-Bild in voller Breite.
+                      `max-h-[85vh]` verhindert, dass das Hochformat im
+                      Tablet-Bereich (bis 1199px) absurd hoch wird; greift die
+                      Begrenzung, letterboxt `object-contain` seitlich in der
+                      gleichen Rotfläche. */}
+                  <a
+                    href={slide.buttonHref}
+                    aria-label={slide.buttonLabel}
+                    className="min-[1200px]:hidden relative block w-full max-h-[85vh]"
+                    style={{ aspectRatio: slide.mobileAspectRatio }}
+                  >
+                    <Image
+                      src={slide.mobileImage ?? slide.image}
+                      alt={slide.imageAlt}
+                      fill
+                      className="object-contain"
+                      sizes="100vw"
+                      priority={index === 0}
+                      loading={index === 0 ? 'eager' : 'lazy'}
+                    />
+                  </a>
+                </>
+              ) : (
+                <>
               {/* Desktop-Layout: links Text, rechts Bild (948px) */}
               <div className="hidden min-[1200px]:flex h-full min-h-[800px]">
                 <div className="flex-1 min-w-0 flex flex-col justify-center px-16 py-12 text-white">
@@ -300,6 +361,8 @@ export default function HeroSlider() {
                   </a>
                 </div>
               </div>
+                </>
+              )}
             </div>
             );
           })}
