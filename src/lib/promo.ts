@@ -48,7 +48,7 @@ export const PAKET_AKTION: PaketAktion = {
   id: 'jedes-7-paket-gratis',
   label: 'Jedes 7. Paket gratis',
   everyNth: 7,
-  startsAt: '2026-09-14T00:00:00+02:00',
+  startsAt: '2026-09-12T00:00:00+02:00',
   // TODO Kunde: Enddatum festlegen, sonst läuft die Aktion unbefristet weiter.
   endsAt: null,
 };

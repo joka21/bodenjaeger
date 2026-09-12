@@ -1,6 +1,7 @@
 # Aktion „Jedes 7. Paket gratis"
 
-Start: **14.09.2026, 00:00 Uhr** (Europe/Berlin) — hinterlegt in `src/lib/promo.ts`.
+Start: **12.09.2026, 00:00 Uhr** (Europe/Berlin) — hinterlegt in `src/lib/promo.ts`.
+Ursprünglich war der 14.09.2026 geplant, auf Kundenwunsch am 12.09. vorgezogen.
 Ende: **offen** (`endsAt: null`) → muss noch festgelegt werden, sonst läuft die
 Aktion unbefristet weiter.
 
