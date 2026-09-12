@@ -9,7 +9,7 @@ export default async function SalePage() {
     <CategoryPageClient
       slug="sale"
       categoryName="Sale - Reduzierte Bodenbeläge"
-      categoryDescription="Entdecken Sie unsere reduzierten Bodenbeläge zu unschlagbaren Preisen. Hochwertige Qualität zum Sonderpreis - Nur solange der Vorrat reicht!"
+      categoryDescription="Entdecke unsere reduzierten Bodenbeläge zu unschlagbaren Preisen. Hochwertige Qualität zum Sonderpreis - Nur solange der Vorrat reicht!"
       categoryImage={null}
     />
   );
